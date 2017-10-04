@@ -6,8 +6,8 @@
 using namespace std;
 
 //simple binary Search
-
-int binarySearch(int low,int high,int key)
+//'low' is the lower index & 'high' is the upper index & 'key' is the value to be searched
+int binarySearch(int low,int high,int key) 
 {
    while(low<=high)
    {
@@ -22,7 +22,7 @@ int binarySearch(int low,int high,int key)
      }
      else
      {
-         return mid;
+         return mid; // returns the index if key is found.
      }
    }
    return -1;                //key not found
