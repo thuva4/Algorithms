@@ -29,3 +29,6 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 
 4. Commit, Push and Thank you for sharing!
 
+5. Star The Repository
+
+6. Happy Hacktoberfest
