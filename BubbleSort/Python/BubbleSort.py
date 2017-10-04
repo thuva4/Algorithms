@@ -11,4 +11,3 @@ def swap(list, index_one, index_two):
     temp = list[index_one]
     list[index_one] = list[index_two]
     list[index_two] = temp
-
