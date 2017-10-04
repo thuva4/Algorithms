@@ -5,9 +5,13 @@ This repository contains examples of various algorithms which were written on di
 # Contributors
 Implement any algorithms which is listed in the this [link](https://en.wikipedia.org/wiki/List_of_algorithms). 
 Brent's algorithm	:	finds a cycle in function value iterations using only two iterators
+
 Floyd's cycle-finding algorithm	:	finds a cycle in function value iterations
+
 Gale–Shapley algorithm	:	solves the stable marriage problem
+
 Coloring algorithm	:	Graph coloring algorithm.
+
 Hopcroft–Karp algorithm	:	convert a bipartite graph to a maximum cardinality matching
 Hungarian algorithm	:	algorithm for finding a perfect matching
 Prüfer coding	:	conversion between a labeled tree and its Prüfer sequence
