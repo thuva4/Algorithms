@@ -18,6 +18,10 @@ This repository contains following Algorithem implementations:
 	*Java*
 * **Kadane's** *
 	*C++*
+* **Fibonacci** *
+	*c
+* **Ternary Search** *
+	*c++
 	
 # Contributors
 Implement any algorithms which is listed in the this [link](https://en.wikipedia.org/wiki/List_of_algorithms). 
