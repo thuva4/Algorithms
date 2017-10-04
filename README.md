@@ -2,7 +2,7 @@
 
 This repository contains examples of various algorithms which were written on different programming languages..
 
-# Contributor
+# Contributors
 Implement any algorithms which is listed in the this [link](https://en.wikipedia.org/wiki/List_of_algorithms).  
 Folder structure should be 
 [**Algorithm name**]/[**language**]/**file**  
