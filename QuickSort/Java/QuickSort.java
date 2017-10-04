@@ -1,4 +1,4 @@
-package com.dev.namhoai.sort;
+
 
 public class QuickSort {
     public static void sort(int[] a) {
