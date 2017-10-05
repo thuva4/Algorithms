@@ -14,7 +14,7 @@ Implement any algorithms which are listed in the this [link](https://en.wikipedi
 
 * Floyd's cycle-finding algorithm: finds a cycle in function value iterations
 * Gale–Shapley algorithm: solves the stable marriage problem
-* Coloring algorithm: Graph coloring algorithm.
+* Coloring algorithm: Graph coloring algorithm
 * Hopcroft–Karp algorithm: convert a bipartite graph to a maximum cardinality matching
 * Hungarian algorithm: algorithm for finding a perfect matching
 * Prüfer coding: conversion between a labeled tree and its Prüfer sequence
@@ -79,7 +79,7 @@ Implement any algorithms which are listed in the this [link](https://en.wikipedi
 * Needleman–Wunsch algorithm: find global alignment between two sequences
 * Smith–Waterman algorithm: find local sequence alignment
 * [Bubble sort](BubbleSort): for each pair of indices, swap the items if out of order
-* [Quicksort](QuickSort): divide list into two, with all items on the first list coming before all items on the second list.; then sort the two lists. Often the method of choice
+* [Quick sort](QuickSort): divide list into two, with all items on the first list coming before all items on the second list; then sort the two lists. Often the method of choice
 * Introsort: begin with quicksort and switch to heapsort when the recursion depth exceeds a certain level
 * Timsort: adaptative algorithm derived from merge sort and insertion sort. Used in Python 2.3 and up, and Java SE 7
 * [Insertion sort](InsertionSort): determine where the current item belongs in the list of sorted ones, and insert it there
@@ -89,7 +89,7 @@ Implement any algorithms which are listed in the this [link](https://en.wikipedi
 * Burstsort: build a compact, cache efficient burst trie and then traverse it to create sorted output
 * Postman sort: variant of Bucket sort which takes advantage of hierarchical structure
 * Radix sort: sorts strings letter by letter
-* [Heapsort](HeapSort): convert the list into a heap, keep removing the largest element from the heap and adding it to the end of the list
+* [Heap sort](HeapSort): convert the list into a heap, keep removing the largest element from the heap and adding it to the end of the list
 * [Selection sort](SelectionSort): pick the smallest of the remaining elements, add it to the end of the sorted list
 * [Kadane's algorithm](Kadane's): finds maximum sub-array of any size
 * Longest common subsequence problem: Find the longest subsequence common to all sequences in a set of sequences
@@ -125,8 +125,8 @@ Implement any algorithms which are listed in the this [link](https://en.wikipedi
 * Shoelace algorithm: determine the area of a polygon whose vertices are described by ordered pairs in the plane
 * Chew's second algorithm: create quality constrained Delaunay triangulations
 * Marching triangles: reconstruct two-dimensional surface geometry from an unstructured point cloud
-* Bowyer–Watson algorithm: create voronoi diagram in any number of dimensions
-* Fortune's Algorithm: create voronoi diagram
+* Bowyer–Watson algorithm: create Voronoi diagram in any number of dimensions
+* Fortune's Algorithm: create Voronoi diagram
 * Binary GCD algorithm: Efficient way of calculating GCD
 * Chakravala method: a cyclic algorithm to solve indeterminate quadratic equations, including Pell's equation
 * Euclidean algorithm: computes the greatest common divisor
