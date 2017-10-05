@@ -16,6 +16,10 @@ This repository contains following Algorithm implementations:
 	*Java*
 * **HeapSort** *
 	*Java*
+* **MergeSort** *
+	*Java*
+* **QuickSort** *
+	*Java*
 * **Kadane's** *
 	*C++*
 
