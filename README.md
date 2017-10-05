@@ -57,11 +57,11 @@ Tarjan's off-line least common
 
 * Euclidean shortest path problem	:	find the shortest path between two points that does not intersect any obstacle
 
-* Longest path problem	:	find a simple path of maximum length in a given graph
+* [Longest path problem](LongestPath)	:	find a simple path of maximum length in a given graph
 
 * Bellman–Ford algorithm	:	computes shortest paths in a weighted graph (where some of the edge weights may be negative)
 
-* Dijkstra's algorithm	:	computes shortest paths in a graph with non-negative edge weights
+* [Dijkstra's algorithm](Dijkstra's%20)	:	computes shortest paths in a graph with non-negative edge weights
 
 * Floyd–Warshall algorithm	:	solves the all pairs shortest path problem in a weighted, directed graph
 
@@ -84,7 +84,7 @@ Tarjan's off-line least common
 * Bidirectional search	:	find the shortest path from an initial vertex to a goal vertex in a directed graph
 
 * Bloom filter	:	a constant time and memory check to see whether a given element exists in a set. May return a false positive, but never a false negative.
-* Breadth-first search	:	traverses a graph level by level
+* [Breadth-first search](BreadthFirstSearch)	:	traverses a graph level by level
 
 * Brute-force search	:	An exhaustive and reliable search method, but computationally inefficient in many applications.
 	* D	:	an incremental heuristic search algorithm
@@ -125,14 +125,14 @@ Jaro–Winkler distance	:	is a measure of similarity between two strings
 
 * Trigram search	:	search for text when the exact syntax or spelling of the target object is not precisely known
 
-* Linear search	:	finds an item in an unsorted sequence
+* [Linear search](LinearSearch)	:	finds an item in an unsorted sequence
 Selection algorithm	:	finds the <i>k</i>th largest item in a sequence
 
-* Ternary search	:	a technique for finding the minimum or maximum of a function that is either strictly increasing and then strictly decreasing or vice versa
+* [Ternary search](TernarySearch)	:	a technique for finding the minimum or maximum of a function that is either strictly increasing and then strictly decreasing or vice versa
 
-* Binary search algorithm	:	locates an item in a sorted sequence
+* [Binary search algorithm](BinarySearch)	:	locates an item in a sorted sequence
 
-* Fibonacci search technique	:	search a sorted sequence using a divide and conquer algorithm that narrows down possible locations with the aid of Fibonacci numbers
+* [Fibonacci search technique](Fibonacci)	:	search a sorted sequence using a divide and conquer algorithm that narrows down possible locations with the aid of Fibonacci numbers
 
 * Predictive search	:	binary-like search which factors in magnitude of search term versus the high and low values in the search. Sometimes called dictionary search or interpolated search.
 
@@ -150,21 +150,21 @@ Selection algorithm	:	finds the <i>k</i>th largest item in a sequence
 
 * Smith–Waterman algorithm	:	find local sequence alignment
 
-* Bubble sort	:	for each pair of indices, swap the items if out of order
+* [Bubble sort](BubbleSort)	:	for each pair of indices, swap the items if out of order
 
-* Quicksort	:	divide list into two, with all items on the first list coming before all items on the second list.; then sort the two lists. Often the method of choice
+* [Quicksort](QuickSort)	:	divide list into two, with all items on the first list coming before all items on the second list.; then sort the two lists. Often the method of choice
 
 * Introsort	:	begin with quicksort and switch to heapsort when the recursion depth exceeds a certain level
 
 * Timsort	:	adaptative algorithm derived from merge sort and insertion sort. Used in Python 2.3 and up, and Java SE 7.
 
-* Insertion sort	:	determine where the current item belongs in the list of sorted ones, and insert it there
+* [Insertion sort](InsertionSort)	:	determine where the current item belongs in the list of sorted ones, and insert it there
 
 * Shell sort	:	an attempt to improve insertion sort
 
 * Cycle sort	:	in-place with theoretically optimal number of writes
 
-* Merge sort	:	sort the first and second half of the list separately, then merge the sorted lists
+* [Merge sort](MergeSort)	:	sort the first and second half of the list separately, then merge the sorted lists
 
 * Burstsort	:	build a compact, cache efficient burst trie and then traverse it to create sorted output
 
@@ -172,11 +172,11 @@ Selection algorithm	:	finds the <i>k</i>th largest item in a sequence
 
 * Radix sort	:	sorts strings letter by letter
 
-* Heapsort	:	convert the list into a heap, keep removing the largest element from the heap and adding it to the end of the list
+* [Heapsort](HeapSort)	:	convert the list into a heap, keep removing the largest element from the heap and adding it to the end of the list
 
-* Selection sort	:	pick the smallest of the remaining elements, add it to the end of the sorted list
+* [Selection sort](SelectionSort)	:	pick the smallest of the remaining elements, add it to the end of the sorted list
 
-* Kadane's algorithm	:	finds maximum sub-array of any size
+* [Kadane's algorithm](Kadane's)	:	finds maximum sub-array of any size
 
 * Longest common subsequence problem	:	Find the longest subsequence common to all sequences in a set of sequences
 
