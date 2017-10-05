@@ -3,21 +3,33 @@
 This repository contains examples of various algorithms which were written on different programming languages..
 
 This repository contains following Algorithm implementations:
-* **BubbleSort** *
-	*Go*
-	*Python*
-	*Java*
-	*JavaScript*
-* **BinarySearch** *
-	*JavaScript*
-	*Java*
-	*C++*
-* **BreathFirstSearch** *
-	*Java*
-* **HeapSort** *
-	*Java*
-* **Kadane's** *
-	*C++*
+
+#Java
+    BellmanFord
+    BreadthFirstSearch
+    Dijkstra's 
+    Kadane's
+    QuickSort
+    RobinCarp
+
+#Python
+    BinarySearch
+
+#Rust
+    BubbleSort
+
+#C
+    Fibonacci
+
+#C++
+    HeapSort
+    TernarySearch
+    SieveofEratosthenes
+    MergeSort
+    LongestPath
+
+#JavaScript
+    SelectionSort
 
 # Contributors
 Implement any algorithms which are listed in the this [link](https://en.wikipedia.org/wiki/List_of_algorithms).
