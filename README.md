@@ -636,7 +636,7 @@ An algorithm for parsing any context-free grammar by Masaru Tomita. It is tuned 
 
 * Rice coding	:	form of entropy coding that is optimal for alphabets following geometric distributions
 
-* Unary coding	:	code that represents a number n with n ones followed by a zero
+* [Unary coding](UnaryCoding)	:	code that represents a number n with n ones followed by a zero
 
 * Incremental encoding	:	delta encoding applied to sequences of strings
 
