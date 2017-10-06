@@ -9,24 +9,16 @@ void dfs(int source)
 {
     visited[source] = true;
 
-    queue<int> q;
-    q.push(source);
-
-    while(!q.empty())
+    for(int i=0; i<adj[source].size() ;i++)      //visiting neighbours of source vertex
     {
-        source = q.front() ;
-        q.pop();
-
-        for(int i=0; i<adj[source].size() ;i++)      //visiting neighbours of source vertex
+       int neighbour = adj[source][i];
+        if( !visited[neighbour])
         {
-            int neighbour = adj[source][i];
-            if( !visited[neighbour])
-               {
-                visited[neighbour] = true;
-                 q.push(neighbour);
-               }
+            dfs(neighbour);
         }
+
     }
+
 
 }
 

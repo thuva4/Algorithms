@@ -51,7 +51,7 @@ Implement any algorithms which are listed in the this [link](https://en.wikipedi
   * General Problem Solver: a seminal theorem-proving algorithm intended to work as a universal problem solver machine
   * Jump point search: An optimization to A which may reduce computation time by an order of magnitude using further heuristics
   * Uniform-cost search: a tree search that finds the lowest cost route where costs vary
-* SSS: state space search traversing a game tree in a best-first fashion similar to that of the A* search algorithm
+* SSS: state space search traversing a game tree in a best-first fashion similar to that of the A\* search algorithm
 * Bron–Kerbosch algorithm: a technique for finding maximal cliques in an undirected graph
 * MaxCliqueDyn maximum clique algorithm: find a maximum clique in an undirected graph
 * Bitap algorithm: fuzzy algorithm that determines if strings are approximately equal
@@ -218,7 +218,7 @@ Implement any algorithms which are listed in the this [link](https://en.wikipedi
 * Constraint algorithm: a class of algorithms for satisfying constraints for bodies that obey Newton's equations of motion
 * Demon algorithm: a Monte Carlo method for efficiently sampling members of a microcanonical ensemble with a given energy
 * Featherstone's algorithm: compute the effects of forces applied to a structure of joints and links
-* Barnes–Hut simulation: Solves the n-body problem in an approximate way that has the order log(n) instead of O(n*n) as in a direct-sum simulation
+* Barnes–Hut simulation: Solves the n-body problem in an approximate way that has the order log(n) instead of O(n\*n) as in a direct-sum simulation
 * Rainflow-counting algorithm: Reduces a complex stress history to a count of elementary stress-reversals for use in fatigue analysis
 * Sweep and prune: a broad phase algorithm used during collision detection to limit the number of pairs of solids that need to be checked for collision
 * VEGAS algorithm: a method for reducing error in Monte Carlo simulations
