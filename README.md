@@ -1,31 +1,16 @@
 ## Implemented algorithms with languages:
 
-### A*Search
-#### C++
-
-### BellmanFord
-#### Java
-
-### BestFirstSearch
-#### Java
-
-### BinarySearch
-#### Java
-#### C++
-#### Go
-#### javascript
-#### python
 
 Language| Java | Python | Rust | C | C++ | JavaScript  | Go | #8 | #9 | #10 | #11
 --- | --- | --- | --- |--- |--- |--- |--- |--- |--- |--- |---
-A*Search |  |  |  |  |ok  |  |  |  |  |  | 
-BellmanFord | ok |  |  |  |  |  |  |  |  |  | 
-BestFirstSearch | ok |  |  |  |  |  |  |  |  |  | 
-BinarySearch | ok | ok |  |  | ok | ok | ok |  |  |  | 
-Bitap Algorithm |  |  |  |  | ok |  |  |  |  |  | 
-BreadthFirstSearch | ok | ok |  | ok |  |  |  |  |  |  | 
-BubbleSort | ok | ok | ok |  | ok | ok |  |  |  |  | 
-CycleSort | ok |  |  |  |  |  |  |  |  |  | 
+A*Search |  |  |  |  | :+1: |  |  |  |  |  | 
+BellmanFord | :+1: |  |  |  |  |  |  |  |  |  | 
+BestFirstSearch | :+1: |  |  |  |  |  |  |  |  |  | 
+BinarySearch | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  |  |  | 
+Bitap Algorithm |  |  |  |  | :+1: |  |  |  |  |  | 
+BreadthFirstSearch | :+1: | :+1: |  | :+1: |  |  |  |  |  |  | 
+BubbleSort | :+1: | :+1: | :+1: |  | :+1: | :+1: |  |  |  |  | 
+CycleSort | :+1: |  |  |  |  |  |  |  |  |  | 
 Topological sort |  |  |  |  |  |  |  |  |  |  |
 Girvan–Newman algorithm |  |  |  |  |  |  |  |  |  |  |
 Dinic's algorithm |  |  |  |  |  |  |  |  |  |  |
@@ -52,30 +37,6 @@ Brute-force search |  |  |  |  |  |  |  |  |  |  |
 Uniform-cost search |  |  |  |  |  |  |  |  |  |  |
 SSS	 |  |  |  |  |  |  |  |  |  |  |
 Bron–Kerbosch algorithm |  |  |  |  |  |  |  |  |  |  |
-Seconds |  |  |  |  |  |  |  |  |  |  |
-Seconds |  |  |  |  |  |  |  |  |  |  |
-Seconds |  |  |  |  |  |  |  |  |  |  |
-Seconds |  |  |  |  |  |  |  |  |  |  |
-Seconds |  |  |  |  |  |  |  |  |  |  |
-Seconds |  |  |  |  |  |  |  |  |  |  |
-Seconds |  |  |  |  |  |  |  |  |  |  |
-Seconds |  |  |  |  |  |  |  |  |  |  |
-Seconds |  |  |  |  |  |  |  |  |  |  |
-Seconds |  |  |  |  |  |  |  |  |  |  |
-Seconds |  |  |  |  |  |  |  |  |  |  |
-Seconds |  |  |  |  |  |  |  |  |  |  |
-Seconds |  |  |  |  |  |  |  |  |  |  |
-Seconds |  |  |  |  |  |  |  |  |  |  |
-Seconds |  |  |  |  |  |  |  |  |  |  |
-Seconds |  |  |  |  |  |  |  |  |  |  |
-Seconds |  |  |  |  |  |  |  |  |  |  |
-Seconds |  |  |  |  |  |  |  |  |  |  |
-Seconds |  |  |  |  |  |  |  |  |  |  |
-Seconds |  |  |  |  |  |  |  |  |  |  |
-Seconds |  |  |  |  |  |  |  |  |  |  |
-Seconds |  |  |  |  |  |  |  |  |  |  |
-Seconds |  |  |  |  |  |  |  |  |  |  |
-
 
 ### List of Algorithms :
 
