@@ -21,14 +21,21 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 
 *******
 ### How to send a Pull request .
+
 1. Fork this repository.
 
-2. Add a new folder if the Algorithm does not exists yet. 
+2. check the table in README.md file weather the algorithm is added. If not add a new row with the name of algorithm and create a new folder with a name of the algorithm. 
 
-3. Inside the folder create the language you want to share. 
+3. Inside the folder create the folder for language you want to share. and add your code. 
 
-4. Commit, Push and Thank you for sharing!
+5. Commit
 
-5. Star The Repository
+6. update the README.md. check the language you have used in the table. (check emoji is ``:+1:`` ) 
 
-6. Happy Hacktoberfest
+7. Commit, Push
+
+8. Make a pull request
+
+9. Star The Repository
+
+10. Happy Hacktoberfest

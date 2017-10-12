@@ -1,5 +1,3 @@
-package com.dev.namhoai.sort;
-
 public class MergeSort {
 
     public static void sort(int[] a) {
