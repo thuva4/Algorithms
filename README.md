@@ -5,7 +5,7 @@ This repository contains examples of various algorithms which were written on di
 ## Implemented algorithms with languages:
 
 
-Language| Java | Python | Rust | C | C++ | JavaScript  | Go | #8 | #9 | #10 | #11
+Language| Java | Python | Rust | C | C++ | JavaScript  | Go | C# | Ruby | #10 | #11
 --- | --- | --- | --- |--- |--- |--- |--- |--- |--- |--- |---
 A*Search |  |  |  |  | :+1: |  |  |  |  |  | 
 BellmanFord | :+1: |  |  |  |  |  |  |  |  |  | 
@@ -15,21 +15,19 @@ Bitap Algorithm |  |  |  |  | :+1: |  |  |  |  |  |
 BreadthFirstSearch | :+1: | :+1: |  | :+1: |  |  |  |  |  |  | 
 BubbleSort | :+1: | :+1: | :+1: |  | :+1: | :+1: |  |  |  |  | 
 CycleSort | :+1: |  |  |  |  |  |  |  |  |  | 
-Topological sort |  |  |  |  |  |  |  |  |  |  |
-Girvan–Newman algorithm |  |  |  |  |  |  |  |  |  |  |
-Dinic's algorithm |  |  |  |  |  |  |  |  |  |  |
-Edmonds–Karp algorithm |  |  |  |  |  |  |  |  |  |  |
-Ford–Fulkerson algorithm |  |  |  |  |  |  |  |  |  |  |
-Karger's algorithm |  |  |  |  |  |  |  |  |  |  |
-Push–relabel algorithm |  |  |  |  |  |  |  |  |  |  |
-Euclidean minimum spanning tree |  |  |  |  |  |  |  |  |  |  |
-Euclidean shortest path problem |  |  |  |  |  |  |  |  |  |  |
-Longest path problem |  |  |  |  |  |  |  |  |  |  |
-Bellman–Ford algorithm |  |  |  |  |  |  |  |  |  |  |
-Dijkstra's algorithm |  |  |  |  |  |  |  |  |  |  |
-Floyd–Warshall algorithm |  |  |  |  |  |  |  |  |  |  |
-Johnson algorithm |  |  |  |  |  |  |  |  |  |  |
-Warnsdorff's algorithm |  |  |  |  |  |  |  |  |  |  |
+DepthFirstSearch |  |  |  |  | :+1: |  |  |  |  |  |
+Dijkstra's  | :+1: |  |  |  | :+1: |  |  |  |  |  |
+Doomsday | :+1: |  |  |  |  |  |  |  |  |  |
+ElevatorAlgorithm | :+1: |  |  |  |  |  |  |  |  |  |
+Fibonacci | :+1: | :+1: |  | :+1: |  |  | :+1: |  |  |  |
+FisherYatesShuffle | :+1: |  |  |  | :+1: |  |  | :+1: |  |  |
+Floyd'sAlgorithm |  | :+1: |  |  | :+1: |  |  |  |  |  |
+GreatestCommonDivisor | :+1: |  |  | :+1: |  |  |  |  |  |  |
+HeapSort | :+1: |  |  |  | :+1: | :+1: | :+1: |  | :+1: |  |
+HistogramEqualization | :+1: |  |  |  |  |  |  |  |  |  |
+InsertionSort | :+1: | :+1: | :+1: |  |  |  | :+1: |  |  |  |
+Johnson algorithm |  |  |  |  | :+1: |  |  |  |  |  |
+Kadane's algorithm | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  |  |  |
 Backtracking	 |  |  |  |  |  |  |  |  |  |  |
 Beam search |  |  |  |  |  |  |  |  |  |  |
 Beam stack search |  |  |  |  |  |  |  |  |  |  |
