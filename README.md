@@ -744,4 +744,4 @@ Folder structure should be
 
 ## License
 
-[The MIT License (MIT)](LICENSE)
+[Apache License 2.0](LICENSE)
