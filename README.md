@@ -28,17 +28,22 @@ HistogramEqualization | :+1: |  |  |  |  |  |  |  |  |  |
 InsertionSort | :+1: | :+1: | :+1: |  |  |  | :+1: |  |  |  |
 Johnson algorithm |  |  |  |  | :+1: |  |  |  |  |  |
 Kadane's algorithm | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  |  |  |
-Backtracking	 |  |  |  |  |  |  |  |  |  |  |
-Beam search |  |  |  |  |  |  |  |  |  |  |
-Beam stack search |  |  |  |  |  |  |  |  |  |  |
-Best-first search |  |  |  |  |  |  |  |  |  |  |
-Bidirectional search |  |  |  |  |  |  |  |  |  |  |
-Bloom filter |  |  |  |  |  |  |  |  |  |  |
-Breadth-first search |  |  |  |  |  |  |  |  |  |  |
-Brute-force search |  |  |  |  |  |  |  |  |  |  |
-Uniform-cost search |  |  |  |  |  |  |  |  |  |  |
-SSS	 |  |  |  |  |  |  |  |  |  |  |
-Bron–Kerbosch algorithm |  |  |  |  |  |  |  |  |  |  |
+LinearSearch | :+1: | :+1: |  |  | :+1: | :+1: |  |  |  |  |
+Longest-Common-Subsequence | :+1: | :+1: |  |  | :+1: |  |  |  | :+1: |  |
+Longest-Increasing-Subsequence | :+1: |  |  |  |  |  |  |  |  |  |
+LongestPath |  |  |  |  | :+1: |  |  |  |  |  |
+MergeSort | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  |  |  |
+MiniMaxWithABPruning | :+1: |  |  |  |  |  |  |  |  |  |
+Modified_Binary_Search |  |  |  | :+1: |  |  |  |  |  |  |
+Postman Sort |  |  |  | :+1: |  |  |  |  |  |  |
+Uniform-cost search | :+1: |  |  |  |  | :+1: | :+1: |  |  |  |
+RadixSort | :+1: | :+1: |  |  | :+1: |  |  |  |  |  |
+RobinCarp | :+1: |  |  |  |  |  |  |  |  |  |
+SelectionSort | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  | :+1: |  |
+ShellSort | :+1: | :+1: |  |  | :+1: |  |  |  |  |  |
+SieveofEratosthenes | :+1: | :+1: |  |  | :+1: |  |  |  |  |  |
+UnaryCoding | :+1: | :+1: |  |  |  | :+1: |  |  |  |  |
+TernarySearch |  |  |  |  | :+1: |  |  |  |  |  |
 
 ### List of Algorithms :
 
