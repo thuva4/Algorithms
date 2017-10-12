@@ -24,13 +24,13 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 
 1. Fork this repository.
 
-2. check the table in README.md file weather the algorithm is added. If not add a new row with the name of algorithm and create a new folder with a name of the algorithm. 
+2. Check the table in README.md file weather the algorithm is added. If not add a new row with the name of algorithm and create a new folder with a name of the algorithm. 
 
 3. Inside the folder create the folder for language you want to share. and add your code. 
 
 5. Commit
 
-6. update the README.md. check the language you have used in the table. (check emoji is ``:+1:`` ) 
+6. Update the README.md. check the language you have used in the table. (check emoji is ``:+1:`` ) 
 
 7. Commit, Push
 
