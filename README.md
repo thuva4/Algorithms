@@ -2,37 +2,45 @@
 
 This repository contains examples of various algorithms which were written on different programming languages..
 
-This repository contains following Algorithm implementations:
+## Implemented algorithms with languages:
 
-#Java
-    BellmanFord
-    BreadthFirstSearch
-    Dijkstra's 
-    Kadane's
-    QuickSort
-    RobinCarp
 
-#Python
-    BinarySearch
-
-#Rust
-    BubbleSort
-
-#C
-    Fibonacci
-
-#C++
-    HeapSort
-    TernarySearch
-    SieveofEratosthenes
-    MergeSort
-    LongestPath
-
-#JavaScript
-    SelectionSort
-
-# Contributors
-Implement any algorithms which are listed in the this [link](https://en.wikipedia.org/wiki/List_of_algorithms).
+Language| Java | Python | Rust | C | C++ | JavaScript  | Go | #8 | #9 | #10 | #11
+--- | --- | --- | --- |--- |--- |--- |--- |--- |--- |--- |---
+A*Search |  |  |  |  | :+1: |  |  |  |  |  | 
+BellmanFord | :+1: |  |  |  |  |  |  |  |  |  | 
+BestFirstSearch | :+1: |  |  |  |  |  |  |  |  |  | 
+BinarySearch | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  |  |  | 
+Bitap Algorithm |  |  |  |  | :+1: |  |  |  |  |  | 
+BreadthFirstSearch | :+1: | :+1: |  | :+1: |  |  |  |  |  |  | 
+BubbleSort | :+1: | :+1: | :+1: |  | :+1: | :+1: |  |  |  |  | 
+CycleSort | :+1: |  |  |  |  |  |  |  |  |  | 
+Topological sort |  |  |  |  |  |  |  |  |  |  |
+Girvan–Newman algorithm |  |  |  |  |  |  |  |  |  |  |
+Dinic's algorithm |  |  |  |  |  |  |  |  |  |  |
+Edmonds–Karp algorithm |  |  |  |  |  |  |  |  |  |  |
+Ford–Fulkerson algorithm |  |  |  |  |  |  |  |  |  |  |
+Karger's algorithm |  |  |  |  |  |  |  |  |  |  |
+Push–relabel algorithm |  |  |  |  |  |  |  |  |  |  |
+Euclidean minimum spanning tree |  |  |  |  |  |  |  |  |  |  |
+Euclidean shortest path problem |  |  |  |  |  |  |  |  |  |  |
+Longest path problem |  |  |  |  |  |  |  |  |  |  |
+Bellman–Ford algorithm |  |  |  |  |  |  |  |  |  |  |
+Dijkstra's algorithm |  |  |  |  |  |  |  |  |  |  |
+Floyd–Warshall algorithm |  |  |  |  |  |  |  |  |  |  |
+Johnson algorithm |  |  |  |  |  |  |  |  |  |  |
+Warnsdorff's algorithm |  |  |  |  |  |  |  |  |  |  |
+Backtracking	 |  |  |  |  |  |  |  |  |  |  |
+Beam search |  |  |  |  |  |  |  |  |  |  |
+Beam stack search |  |  |  |  |  |  |  |  |  |  |
+Best-first search |  |  |  |  |  |  |  |  |  |  |
+Bidirectional search |  |  |  |  |  |  |  |  |  |  |
+Bloom filter |  |  |  |  |  |  |  |  |  |  |
+Breadth-first search |  |  |  |  |  |  |  |  |  |  |
+Brute-force search |  |  |  |  |  |  |  |  |  |  |
+Uniform-cost search |  |  |  |  |  |  |  |  |  |  |
+SSS	 |  |  |  |  |  |  |  |  |  |  |
+Bron–Kerbosch algorithm |  |  |  |  |  |  |  |  |  |  |
 
 ### List of Algorithms :
 
