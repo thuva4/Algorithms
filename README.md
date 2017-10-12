@@ -16,7 +16,7 @@ BreadthFirstSearch | :+1: | :+1: |  | :+1: |  |  |  |  |
 BubbleSort | :+1: | :+1: | :+1: |  | :+1: | :+1: |  |  | 
 DepthFirstSearch |  |  |  |  | :+1: |  |  |  | 
 Dijkstra's  | :+1: |  |  |  | :+1: |  |  |  | 
-Doomsday | :+1: |  |  |  |  |  |  |  | 
+Doomsday | :+1: |  |  |  |  | :+1: |  |  | 
 ElevatorAlgorithm | :+1: |  |  |  |  |  |  |  |  
 Fibonacci | :+1: | :+1: |  | :+1: |  |  | :+1: |  |
 FisherYatesShuffle | :+1: |  |  |  | :+1: |  |  | :+1: |
