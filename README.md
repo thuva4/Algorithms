@@ -9,38 +9,39 @@ Language| Java | Python | Rust | C | C++ | JavaScript  | Go | C# | Ruby |
 --- | --- | --- | --- |--- |--- |--- |--- |--- |--- |
 A*Search |  |  |  |  | :+1: |  |  |  |
 BellmanFord | :+1: |  |  |  |  |  |  |  |
-BestFirstSearch | :+1: |  |  |  |  |  |  |  | 
+BestFirstSearch | :+1: |  |  |  |  |  |  |  |
 BinarySearch | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  |  
-Bitap Algorithm |  |  |  |  | :+1: |  |  |  | 
-BreadthFirstSearch | :+1: | :+1: |  | :+1: |  |  |  |  | 
-BubbleSort | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: |  |  | 
-DepthFirstSearch |  |  |  |  | :+1: |  |  |  | 
-Dijkstra's  | :+1: |  |  |  | :+1: |  |  |  | 
-Doomsday | :+1: |  |  |  |  | :+1: |  |  | 
+Bitap Algorithm |  |  |  |  | :+1: |  |  |  |
+BreadthFirstSearch | :+1: | :+1: |  | :+1: |  |  |  |  |
+BubbleSort | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: |  |  |
+DepthFirstSearch |  |  |  |  | :+1: |  |  |  |
+Dijkstra's  | :+1: |  |  |  | :+1: |  |  |  |
+Doomsday | :+1: |  |  |  |  | :+1: |  |  |
 ElevatorAlgorithm | :+1: |  |  |  |  |  |  |  |  
 Fibonacci | :+1: | :+1: |  | :+1: |  |  | :+1: |  |
 FisherYatesShuffle | :+1: |  |  |  | :+1: |  |  | :+1: |
-Floyd'sAlgorithm |  | :+1: |  |  | :+1: |  |  |  | 
+Floyd'sAlgorithm |  | :+1: |  |  | :+1: |  |  |  |
 GreatestCommonDivisor | :+1: |  |  | :+1: |  |  |  |  |
 HeapSort | :+1: |  |  |  | :+1: | :+1: | :+1: |  | :+1:
-HistogramEqualization | :+1: |  |  |  |  |  |  |  | 
+HistogramEqualization | :+1: |  |  |  |  |  |  |  |
 InsertionSort | :+1: | :+1: | :+1: |  |  |  | :+1: | :+1: |  
-Johnson algorithm |  |  |  |  | :+1: |  |  |  | 
+Johnson algorithm |  |  |  |  | :+1: |  |  |  |
 Kadane's algorithm | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  |  
 LinearSearch | :+1: | :+1: |  |  | :+1: | :+1: |  |  |  |  |
-Longest-Common-Subsequence | :+1: | :+1: |  |  | :+1: |  |  |  | :+1: 
-Longest-Increasing-Subsequence | :+1: |  |  |  |  |  |  |  | 
-LongestPath |  |  |  |  | :+1: |  |  |  | 
-MergeSort | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  | 
-MiniMaxWithABPruning | :+1: |  |  |  |  |  |  |  | 
-Modified_Binary_Search |  |  |  | :+1: |  |  |  |  | 
-Postman Sort |  |  |  | :+1: |  |  |  |  | 
-Uniform-cost search | :+1: |  |  |  |  | :+1: | :+1: |  | 
-RadixSort | :+1: | :+1: |  |  | :+1: |  |  |  | 
-RobinCarp | :+1: |  |  |  |  |  |  |  | 
-SelectionSort | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  | :+1: 
+Longest-Common-Subsequence | :+1: | :+1: |  |  | :+1: |  |  |  | :+1:
+Longest-Increasing-Subsequence | :+1: |  |  |  |  |  |  |  |
+LongestPath |  |  |  |  | :+1: |  |  |  |
+MergeSort | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  |
+MiniMaxWithABPruning | :+1: |  |  |  |  |  |  |  |
+Modified_Binary_Search |  |  |  | :+1: |  |  |  |  |
+Postman Sort |  |  |  | :+1: |  |  |  |  |
+Quick Sort | :+1: | :+1: |  |  |  | :+1: | :+1: |  |  :+1:
+Uniform-cost search | :+1: |  |  |  |  | :+1: | :+1: |  |
+RadixSort | :+1: | :+1: |  |  | :+1: |  |  |  |
+RobinCarp | :+1: |  |  |  |  |  |  |  |
+SelectionSort | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  | :+1:
 ShellSort | :+1: | :+1: |  |  | :+1: |  |  |  |  
-SieveofEratosthenes | :+1: | :+1: |  |  | :+1: |  |  |  | 
+SieveofEratosthenes | :+1: | :+1: |  |  | :+1: |  |  |  |
 UnaryCoding | :+1: | :+1: |  |  |  | :+1: |  |  |  
 TernarySearch |  |  |  |  | :+1: |  |  |  |  
 
