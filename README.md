@@ -8,7 +8,7 @@ This repository contains examples of various algorithms which were written on di
 Language| Java | Python | Rust | C | C++ | JavaScript  | Go | C# | Ruby |
 --- | --- | --- | --- |--- |--- |--- |--- |--- |--- |
 A*Search |  |  |  |  | :+1: |  |  |  |
-BellmanFord | :+1: |  |  |  |  |  |  |  |
+BellmanFord | :+1: |  |  |  | :+1: |  |  |  |
 BestFirstSearch | :+1: |  |  |  |  |  |  |  |
 BinarySearch | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  |  
 Bitap Algorithm |  |  |  |  | :+1: |  |  |  |
