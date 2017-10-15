@@ -18,6 +18,7 @@ DepthFirstSearch |  |  |  |  | :+1: |  |  |  |
 Dijkstra's  | :+1: |  |  |  | :+1: |  |  |  |
 Doomsday | :+1: |  |  |  |  | :+1: |  |  |
 ElevatorAlgorithm | :+1: |  |  |  |  |  |  |  |  
+Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |  
 Fibonacci | :+1: | :+1: |  | :+1: |  |  | :+1: |  |
 FisherYatesShuffle | :+1: |  |  |  | :+1: |  |  | :+1: |
 Floyd'sAlgorithm |  | :+1: |  |  | :+1: |  |  |  |
@@ -25,6 +26,7 @@ GreatestCommonDivisor | :+1: |  |  | :+1: |  |  |  |  |
 HeapSort | :+1: |  |  |  | :+1: | :+1: | :+1: |  | :+1:
 HistogramEqualization | :+1: |  |  |  |  |  |  |  |
 InsertionSort | :+1: | :+1: | :+1: |  |  |  | :+1: | :+1: |  
+Inverse Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |  
 Johnson algorithm |  |  |  |  | :+1: |  |  |  |
 Kadane's algorithm | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  |  
 LinearSearch | :+1: | :+1: |  |  | :+1: | :+1: |  |  |  |  |
@@ -44,6 +46,7 @@ ShellSort | :+1: | :+1: |  |  | :+1: |  |  |  |
 SieveofEratosthenes | :+1: | :+1: |  |  | :+1: |  |  |  |
 UnaryCoding | :+1: | :+1: |  |  |  | :+1: |  |  |  
 TernarySearch |  |  |  |  | :+1: |  |  |  |  
+Topological Sort |  |  |  |  | :+1: |  |  |  |  
 
 ### List of Algorithms :
 
@@ -745,6 +748,10 @@ Top-nodes algorithm	:	resource calendar management
 * Elevator algorithm	:	Disk scheduling algorithm that works like an elevator.
 
 * Shortest seek first	:	Disk scheduling algorithm to reduce seek time.
+
+* Fast Fourier Transform:	A fast Fourier transform (FFT) algorithm computes the discrete Fourier transform (DFT) of a sequence
+
+* Inverse Fast Fourier Transform:	Inverse Fast Fourier transform (IFFT) algorithm computes the inverse discrete Fourier transform (Inverse DFT) of a sequence
 
 Folder structure should be
 [**Algorithm name**]/[**language**]/**file**  
