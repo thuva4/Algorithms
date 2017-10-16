@@ -48,11 +48,11 @@ public class DFS_Iterative {
 		
 		for(int i=0; i<edges; i++){
 			System.out.println("To indicate that u is connected to v, type: u v");
-			int x = in.nextInt();
-			int y = in.nextInt();
+			int u = in.nextInt();
+			int v = in.nextInt();
 			// Assuming that it's an undirected graph
-			AdjList[x].add(y);
-			AdjList[y].add(x);
+			AdjList[u].add(v);
+			AdjList[v].add(u);
 		}
 		System.out.println("Source node?");
 		int source = in.nextInt();
