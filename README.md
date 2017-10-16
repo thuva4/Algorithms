@@ -5,8 +5,8 @@ This repository contains examples of various algorithms which were written on di
 ## Implemented algorithms with languages:
 
 
-Language| Java | Python | Rust | C | C++ | JavaScript  | Go | C# | Ruby |
---- | --- | --- | --- |--- |--- |--- |--- |--- |--- |
+Language| Java | Python | Rust | C | C++ | JavaScript  | Go | C# | Ruby | Swift
+--- | --- | --- | --- |--- |--- |--- |--- |--- |--- |--- | 
 A*Search |  |  |  |  | :+1: |  |  |  |
 BellmanFord | :+1: |  |  |  |  |  |  |  |
 BestFirstSearch | :+1: |  |  |  |  |  |  |  |
@@ -16,7 +16,7 @@ BreadthFirstSearch | :+1: | :+1: |  | :+1: |  |  |  |  |
 BubbleSort | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: |  |  |
 DepthFirstSearch |  |  |  |  | :+1: |  |  |  |
 Dijkstra's  | :+1: |  |  |  | :+1: |  |  |  |
-Doomsday | :+1: |  |  |  |  | :+1: |  |  |
+Doomsday | :+1: |  |  |  |  | :+1: |  |  |  | :+1:
 ElevatorAlgorithm | :+1: |  |  |  |  |  |  |  |  
 Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |  
 Fibonacci | :+1: | :+1: |  | :+1: |  |  | :+1: |  |
