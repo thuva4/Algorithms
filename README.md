@@ -49,7 +49,7 @@ SieveofEratosthenes | :+1: | :+1: |  |  | :+1: |  |  |  |
 UnaryCoding | :+1: | :+1: |  |  |  | :+1: |  |  |  
 TernarySearch |  |  |  |  | :+1: |  |  |  |  
 Topological Sort |  |  |  |  | :+1: |  |  |  |  
-Segmented Sieve |  |  |  |  | :+1: |  |  |  |  
+Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |  
 
 
 ### List of Algorithms :
