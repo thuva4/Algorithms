@@ -5,7 +5,7 @@ This repository contains examples of various algorithms which were written on di
 ## Implemented algorithms with languages:
 
 
-Language| Java | Python | Rust | C | C++ | JavaScript  | Go | C# | Ruby | Swift
+Language| Java | Python | Rust | C | C++ | JavaScript  | Go | C# | Ruby | Kotlin
 --- | --- | --- | --- |--- |--- |--- |--- |--- |--- |--- |
 A*Search |  |  |  |  | :+1: |  |  |  |
 BellmanFord | :+1: |  |  |  | :+1: |  |  |  |
