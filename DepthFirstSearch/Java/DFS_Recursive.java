@@ -40,8 +40,8 @@ public class DFS_Recursive {
 			int u = in.nextInt();
 			int v = in.nextInt();
 			// Assuming that it's an undirected graph
-			AdjList[x].add(y);
-			AdjList[y].add(x);
+			AdjList[u].add(v);
+			AdjList[v].add(u);
 		}
 		System.out.println("Source node?");
 		int source = in.nextInt();
