@@ -17,7 +17,7 @@ BubbleSort | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: |  |  |
 CountingSort | :+1: |  |  |  | :+1: |  |  |  |
 DepthFirstSearch |  |  |  |  | :+1: |  |  |  |
 Dijkstra's  | :+1: |  |  |  | :+1: |  |  |  |
-Doomsday | :+1: |  |  |  |  | :+1: |  |  |
+Doomsday | :+1: | :+1: |  |  |  | :+1: |  |  |
 ElevatorAlgorithm | :+1: |  |  |  |  |  |  |  |  
 Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |
 Fibonacci | :+1: | :+1: |  | :+1: |  |  | :+1: |  | :+1:
