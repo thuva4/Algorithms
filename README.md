@@ -20,7 +20,7 @@ Dijkstra's  | :+1: |  |  |  | :+1: |  |  |  |
 Doomsday | :+1: |  |  |  |  | :+1: |  |  |
 ElevatorAlgorithm | :+1: |  |  |  |  |  |  |  |  
 Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |  
-Fibonacci | :+1: | :+1: |  | :+1: |  |  | :+1: |  |
+Fibonacci | :+1: | :+1: |  | :+1: |  |  | :+1: | :+1: |
 FisherYatesShuffle | :+1: |  |  |  | :+1: |  |  | :+1: |
 Floyd'sAlgorithm |  | :+1: |  |  | :+1: |  |  |  |
 GreatestCommonDivisor | :+1: |  |  | :+1: |  |  |  |  |
