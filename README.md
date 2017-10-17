@@ -13,7 +13,7 @@ BestFirstSearch | :+1: |  |  |  |  |  |  |  |
 BinarySearch | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  | :+1: |  
 Bitap Algorithm |  | :+1 |  |  | :+1: |  |  |  |
 BreadthFirstSearch | :+1: | :+1: |  | :+1: |  |  |  |  |
-Borwein's Algorithm |  |  |  |  | :+1: |  |  |  | ||
+Borwein's Algorithm | :+1 |  |  |  | :+1: |  |  |  | ||
 BubbleSort | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: |  |  | :+1: |
 Conjugate Gradient |  |  |  |  | :+1: |  |  |  | ||
 CountingSort | :+1: | :+1: |  |  | :+1: |  |  |  | |
