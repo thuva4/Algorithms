@@ -15,7 +15,7 @@ Bitap Algorithm |  |  |  |  | :+1: |  |  |  |
 BreadthFirstSearch | :+1: | :+1: |  | :+1: |  |  |  |  |
 BubbleSort | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: |  |  |
 CountingSort | :+1: |  |  |  | :+1: |  |  |  |
-DepthFirstSearch |  |  |  |  | :+1: |  |  |  |
+DepthFirstSearch |  |  |  | :+1: | :+1: |  |  |  |
 Dijkstra's  | :+1: |  |  |  | :+1: |  |  |  |
 Doomsday | :+1: |  |  |  |  | :+1: |  |  |
 ElevatorAlgorithm | :+1: |  |  |  |  |  |  |  |  
