@@ -20,7 +20,7 @@ def counting_sort(arr):
     count[x] = total
     total += temp
 
-  # update the arr input based on the counts
+  # update the output based on the counts
   for x in arr:
     output[count[x]] = x
     # increment the index
