@@ -13,11 +13,13 @@ BestFirstSearch | :+1: |  |  |  |  |  |  |  |
 BinarySearch | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  |  
 Bitap Algorithm |  |  |  |  | :+1: |  |  |  |
 BreadthFirstSearch | :+1: | :+1: |  | :+1: |  |  |  |  |
-BubbleSort | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: |  |  |
-CountingSort | :+1: |  |  |  | :+1: |  |  |  |
-DepthFirstSearch |  :+1:|  |  |  | :+1: |  |  |  |
-Dijkstra's  | :+1: |  |  |  | :+1: |  |  |  |
-Doomsday | :+1: |  |  |  |  | :+1: |  |  |  | :+1:
+Borwein's Algorithm |  |  |  |  | :+1: |  |  |  | ||
+BubbleSort | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: |  |  | |
+Conjugate Gradient |  |  |  |  | :+1: |  |  |  | ||
+CountingSort | :+1: | :+1: |  |  | :+1: |  |  |  | |
+DepthFirstSearch | :+1: |  |  |  | :+1: |  |  |  | |
+Dijkstra's  | :+1: |  |  |  | :+1: |  |  |  | |
+Doomsday | :+1: | :+1: |  |  |  | :+1: |  |  |  | :+1: | :+1:
 ElevatorAlgorithm | :+1: |  |  |  |  |  |  |  |  
 Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |
 Fibonacci | :+1: | :+1: |  | :+1: |  |  | :+1: |  | :+1:
@@ -46,7 +48,7 @@ RadixSort | :+1: | :+1: |  |  | :+1: |  |  |  |
 RobinCarp | :+1: |  |  |  |  |  |  |  |
 SelectionSort | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  | :+1:
 ShellSort | :+1: | :+1: |  |  | :+1: |  |  |  |  
-SieveofEratosthenes | :+1: | :+1: |  |  | :+1: |  |  |  |
+SieveofEratosthenes | :+1: | :+1: |  |  | :+1: |  | :+1: |  |
 UnaryCoding | :+1: | :+1: |  |  |  | :+1: |  |  |  
 TernarySearch |  |  |  |  | :+1: |  |  |  |  
 Topological Sort |  |  |  |  | :+1: |  |  |  |  

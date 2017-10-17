@@ -25,3 +25,4 @@ print("\(dow(year: 2017, month: 10, day: 10)): \(dowS(year: 2017, month: 10, day
 print("\(dow(year: 2018, month: 1, day: 1)): \(dowS(year: 2018, month: 1, day: 1))")
 print("\(dow(year: 2018, month: 2, day: 16)): \(dowS(year: 2018, month: 2, day: 16))")
 print("\(dow(year: 2018, month: 5, day: 17)): \(dowS(year: 2018, month: 5, day: 17))")
+
