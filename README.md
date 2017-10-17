@@ -39,7 +39,7 @@ Quick Sort | :+1: | :+1: |  |  |  | :+1: | :+1: | :+1: |  :+1:
 Uniform-cost search | :+1: |  |  |  |  | :+1: | :+1: |  |
 RadixSort | :+1: | :+1: |  |  | :+1: |  |  |  |
 RobinCarp | :+1: |  |  |  |  |  |  |  |
-SelectionSort | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  | :+1:
+SelectionSort | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: | :+1: | :+1:
 ShellSort | :+1: | :+1: |  |  | :+1: |  |  |  |  
 SieveofEratosthenes | :+1: | :+1: |  |  | :+1: |  |  |  |
 UnaryCoding | :+1: | :+1: |  |  |  | :+1: |  |  |  
