@@ -14,10 +14,11 @@ BinarySearch | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  |
 Bitap Algorithm |  |  |  |  | :+1: |  |  |  |
 BreadthFirstSearch | :+1: | :+1: |  | :+1: |  |  |  |  |
 Borwein's Algorithm |  |  |  |  | :+1: |  |  |  | ||
-BubbleSort | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: |  |  |
-CountingSort | :+1: | :+1: |  |  | :+1: |  |  |  |
-DepthFirstSearch |  |  |  |  | :+1: |  |  |  |
-Dijkstra's  | :+1: |  |  |  | :+1: |  |  |  |
+BubbleSort | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: |  |  | |
+Conjugate Gradient |  |  |  |  | :+1: |  |  |  | ||
+CountingSort | :+1: | :+1: |  |  | :+1: |  |  |  | |
+DepthFirstSearch |  |  |  |  | :+1: |  |  |  | |
+Dijkstra's  | :+1: |  |  |  | :+1: |  |  |  | |
 Doomsday | :+1: | :+1: |  |  |  | :+1: |  |  |  | :+1: | :+1:
 ElevatorAlgorithm | :+1: |  |  |  |  |  |  |  |  
 Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |
