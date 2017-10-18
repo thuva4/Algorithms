@@ -51,6 +51,7 @@ SelectionSort | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  | :+1:
 ShellSort | :+1: | :+1: |  |  | :+1: |  |  |  |  
 SieveofEratosthenes | :+1: | :+1: |  |  | :+1: |  | :+1: |  |
 UnaryCoding | :+1: | :+1: |  |  |  | :+1: |  |  |  
+VEGAS Algorithm |  |  |  |  | :+1: |  |  |  | ||
 TernarySearch | :+1: |  |  |  | :+1: |  |  |  |  
 Topological Sort |  |  |  |  | :+1: |  |  |  |  
 Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |  
