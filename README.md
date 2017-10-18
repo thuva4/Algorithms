@@ -772,7 +772,7 @@ Union Find |:+1:|  |  |  |  |  |  |  |
 
 * Zobrist hashing    :    used in the implementation of transposition tables
 
-* Union Find : used to know if there is path between 2 objects or not
+* Union Find : used to know if there is a path between 2 objects or not
 
 Folder structure should be
 [**Algorithm name**]/[**language**]/**file**  
