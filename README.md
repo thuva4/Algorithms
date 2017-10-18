@@ -377,8 +377,6 @@ Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |
 
 * [Hamming distance](HammingDistance)    :    sum number of positions which are different
 
-* Hamming distance    :    sum number of positions which are different
-
 * Hamming(7,4)    :    a Hamming code that encodes 4 bits of data into 7 bits by adding 3 parity bits
 
 * Heap's permutation generation algorithm    :    interchange elements to generate next permutation
