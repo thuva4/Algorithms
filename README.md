@@ -26,7 +26,7 @@ Fibonacci | :+1: | :+1: |  | :+1: |  |  | :+1: |  | :+1:
 FisherYatesShuffle | :+1: |  |  |  | :+1: | :+1: |  | :+1: |
 Floyd'sAlgorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
 GreatestCommonDivisor | :+1: |  | :+1: | :+1: |  |  |  |  |
-HammingDistance |  | :+1: |  |  |  | :+1: |  |  |
+HammingDistance | :+1: | :+1: |  |  |  | :+1: |  |  |
 HeapSort | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  | :+1:
 HistogramEqualization | :+1: |  |  |  |  |  |  |  |
 InsertionSort | :+1: | :+1: | :+1: | :+1: | :+1:  |  | :+1: | :+1: |  
@@ -375,9 +375,7 @@ Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |
 
 * Halley's method    :    uses first and second derivatives
 
-* Hamming distance    :    sum number of positions which are different
-
-* Hamming distance    :    sum number of positions which are different
+* [Hamming distance](HammingDistance)    :    sum number of positions which are different
 
 * Hamming(7,4)    :    a Hamming code that encodes 4 bits of data into 7 bits by adding 3 parity bits
 
