@@ -608,7 +608,7 @@ An algorithm for parsing any context-free grammar by Masaru Tomita. It is tuned 
 
 * Hamming(7,4)	:	a Hamming code that encodes 4 bits of data into 7 bits by adding 3 parity bits
 
-* [Hamming distance](HammingDistance)	:	sum number of positions which are different
+* Hamming distance	:	sum number of positions which are different
 
 * Luhn algorithm	:	a method of validating identification numbers
 
