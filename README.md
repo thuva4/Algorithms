@@ -1,760 +1,777 @@
 # Algorithms Example
 
-This repository contains examples of various algorithms which were written on different programming languages..
+This repository contains examples of various algorithms which were written on different programming languages.
 
 ## Implemented algorithms with languages:
 
 
-Language| Java | Python | Rust | C | C++ | JavaScript  | Go | C# | Ruby |
---- | --- | --- | --- |--- |--- |--- |--- |--- |--- |
-A*Search |  |  |  |  | :+1: |  |  |  |
+Language| Java | Python | Rust | C | C++ | JavaScript  | Go | C# | Ruby | Swift
+--- | --- | --- | --- |--- |--- |--- |--- |--- |--- |--- | 
+A*Search |  | :+1: |  |  | :+1: |  |  |  |
 BellmanFord | :+1: |  |  |  | :+1: |  |  |  |
 BestFirstSearch | :+1: |  |  |  |  |  |  |  |
-BinarySearch | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  |  
-Bitap Algorithm |  |  |  |  | :+1: |  |  |  |
+BinarySearch | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  | :+1: |  
+Bitap Algorithm |  | :+1 |  |  | :+1: |  |  |  |
 BreadthFirstSearch | :+1: | :+1: |  | :+1: |  |  |  |  |
-BubbleSort | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: |  |  |
-CountingSort |  |  |  |  | :+1: |  |  |  |
-DepthFirstSearch |  |  |  |  | :+1: |  |  |  |
-Dijkstra's  | :+1: |  |  |  | :+1: |  |  |  |
-Doomsday | :+1: |  |  |  |  | :+1: |  |  |
+Borwein's Algorithm | :+1: |  |  |  | :+1: |  |  |  | ||
+BubbleSort | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: |  | :+1: | :+1: |
+Conjugate Gradient |  |  |  |  | :+1: |  |  |  | ||
+CountingSort | :+1: | :+1: |  |  | :+1: |  |  |  | |
+DepthFirstSearch | :+1: |  |  |  | :+1: |  |  |  | |
+Dijkstra's  | :+1: | :+1: |  |  | :+1: |  |  |  | |
+Doomsday | :+1: | :+1: |  |  |  | :+1: |  |  |  | :+1: | :+1:
 ElevatorAlgorithm | :+1: |  |  |  |  |  |  |  |  
-Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |  
-Fibonacci | :+1: | :+1: |  | :+1: |  |  | :+1: |  |
-FisherYatesShuffle | :+1: |  |  |  | :+1: |  |  | :+1: |
-Floyd'sAlgorithm |  | :+1: |  |  | :+1: |  |  |  |
-GreatestCommonDivisor | :+1: |  |  | :+1: |  |  |  |  |
-HeapSort | :+1: |  |  |  | :+1: | :+1: | :+1: |  | :+1:
+Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |
+Fibonacci | :+1: | :+1: |  | :+1: |  |  | :+1: |  | :+1:
+FisherYatesShuffle | :+1: |  |  |  | :+1: | :+1: |  | :+1: |
+Floyd'sAlgorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
+GreatestCommonDivisor | :+1: |  | :+1: | :+1: |  |  |  |  |
+HammingDistance |  | :+1: |  |  |  | :+1: |  |  |
+HeapSort | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  | :+1:
 HistogramEqualization | :+1: |  |  |  |  |  |  |  |
-InsertionSort | :+1: | :+1: | :+1: |  |  |  | :+1: | :+1: |  
+InsertionSort | :+1: | :+1: | :+1: | :+1: | :+1:  |  | :+1: | :+1: |  
 Inverse Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |  
-Johnson algorithm |  |  |  |  | :+1: |  |  |  |
-Kadane's algorithm | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  |  
+Johnson algorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
+Kadane's algorithm | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  |
+Knuth Morris Prath Algorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
 LinearSearch | :+1: | :+1: |  |  | :+1: | :+1: |  |  |  |  |
 Longest-Common-Subsequence | :+1: | :+1: |  |  | :+1: |  |  |  | :+1:
-Longest-Increasing-Subsequence | :+1: |  |  |  |  |  |  |  |
+Longest-Increasing-Subsequence | :+1: |  |  |  | :+1: |  |  |  |
 LongestPath |  |  |  |  | :+1: |  |  |  |
 MergeSort | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  |
 MiniMaxWithABPruning | :+1: |  |  |  |  |  |  |  |
 Modified_Binary_Search |  |  |  | :+1: |  |  |  |  |
 Postman Sort |  |  |  | :+1: |  |  |  |  |
 Quick Sort | :+1: | :+1: |  |  |  | :+1: | :+1: | :+1: |  :+1:
+Quick Select |  |  |  |  |  |  | :+1: | |  
 Uniform-cost search | :+1: |  |  |  |  | :+1: | :+1: |  |
 RadixSort | :+1: | :+1: |  |  | :+1: |  |  |  |
 RobinCarp | :+1: |  |  |  |  |  |  |  |
-SelectionSort | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  | :+1:
+SelectionSort | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: | :+1: | :+1:
 ShellSort | :+1: | :+1: |  |  | :+1: |  |  |  |  
-SieveofEratosthenes | :+1: | :+1: |  |  | :+1: |  |  |  |
+SieveofEratosthenes | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  |
 UnaryCoding | :+1: | :+1: |  |  |  | :+1: |  |  |  
-TernarySearch |  |  |  |  | :+1: |  |  |  |  
+VEGAS Algorithm |  |  |  |  | :+1: |  |  |  | ||
+TernarySearch | :+1: |  |  |  | :+1: |  |  |  |  
 Topological Sort |  |  |  |  | :+1: |  |  |  |  
 Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |  
 
 
 ### List of Algorithms :
 
-* Brent's algorithm	:	finds a cycle in function value iterations using only two iterators
+* 3Dc    :    a lossy data compression algorithm for normal maps
 
-* Floyd's cycle-finding algorithm	:	finds a cycle in function value iterations
+* A-law algorithm    :    standard companding algorithm
 
-* Gale–Shapley algorithm	:	solves the stable marriage problem
+* AdaBoost    :    adaptive boosting
 
-* Coloring algorithm	:	Graph coloring algorithm.
+* Adaptive histogram equalization    :    histogram equalization which adapts to local changes in contrast
 
-* Hopcroft–Karp algorithm	:	convert a bipartite graph to a maximum cardinality matching
+* Adaptive Huffman coding    :    adaptive coding technique based on Huffman coding
 
-* Hungarian algorithm	:	algorithm for finding a perfect matching
+* Adaptive replacement cache    :    better performance than LRU
 
-* Prüfer coding	:	conversion between a labeled tree and its Prüfer sequence
-Tarjan's off-line least common
-* ancestors algorithm	:	compute lowest common ancestors for pairs of nodes in a tree
-* Topological sort	:	finds linear order of nodes (e.g. jobs) based on their dependencies.
+* Aho–Corasick string matching algorithm    :    trie based algorithm for finding all substring matches to any of a finite set of strings
 
-* Girvan–Newman algorithm	:	detect communities in complex systems
+* Algorithm X    :    a nondeterministic algorithm
 
-* Dinic's algorithm	:	is a strongly polynomial algorithm for computing the maximum flow in a flow network.
+* Algorithms for calculating variance    :    avoiding instability and numerical overflow
 
-* Edmonds–Karp algorithm	:	implementation of Ford–Fulkerson
+* ALOPEX    :    a correlation-based machine-learning algorithm
 
-* Ford–Fulkerson algorithm	:	computes the maximum flow in a graph
+* Alpha max plus beta min algorithm    :    an approximation of the square-root of the sum of two squares
 
-* Karger's algorithm	:	a Monte Carlo method to compute the minimum cut of a connected graph
+* Alpha-beta pruning    :    search to reduce number of nodes in minimax algorithm
 
-* Push–relabel algorithm	:	computes a maximum flow in a graph
+* Approximate counting algorithm    :    Allows counting large number of events in a small register
 
-* Euclidean minimum spanning tree	:	algorithms for computing the minimum spanning tree of a set of points in the plane
+* Average-linkage clustering    :    a simple agglomerative clustering algorithm
 
-* Euclidean shortest path problem	:	find the shortest path between two points that does not intersect any obstacle
+* Backpropagation    :    A supervised learning method which requires a teacher that knows, or can calculate, the desired output for any given input
 
-* [Longest path problem](LongestPath)	:	find a simple path of maximum length in a given graph
+* Backtracking    :    abandons partial solutions when they are found not to satisfy a complete solution
 
-* Bellman–Ford algorithm	:	computes shortest paths in a weighted graph (where some of the edge weights may be negative)
+* Bailey–Borwein–Plouffe formula    :    (BBP formula) a spigot algorithm for the computation of the nth binary digit of π
 
-* [Dijkstra's algorithm](Dijkstra's%20)	:	computes shortest paths in a graph with non-negative edge weights
+* Banker's algorithm    :    Algorithm used for deadlock avoidance.
 
-* Floyd–Warshall algorithm	:	solves the all pairs shortest path problem in a weighted, directed graph
+* Barnes–Hut simulation    :    Solves the n-body problem in an approximate way that has the order log(n) instead of O(n*n) as in a direct-sum simulation.
 
-* Johnson algorithm	:	All pairs shortest path algorithm in sparse weighted directed graph
+* Baum–Welch algorithm    :    compute maximum likelihood estimates and posterior mode estimates for the parameters of a hidden markov model
 
-* Warnsdorff's algorithm	:	A heuristic method for solving the Knight's Tour problem.
+* BCJR algorithm    :    decoding of error correcting codes defined on trellises (principally convolutional codes)
 
-	* A	:	special case of best-first search that uses heuristics to improve speed
+* Beam search    :    is a heuristic search algorithm that is an optimization of best-first search that reduces its memory requirement
 
-	* B	:	a best-first graph search algorithm that finds the least-cost path from a given initial node to any goal node (out of one or more possible goals)
+* Beam stack search    :    integrates backtracking with beam search
 
-* Backtracking	:	abandons partial solutions when they are found not to satisfy a complete solution
+* Bees algorithm    :    a search algorithm which mimics the food foraging behavior of swarms of honey bees
 
-* Beam search	:	is a heuristic search algorithm that is an optimization of best-first search that reduces its memory requirement
+* Bellman–Ford algorithm    :    computes shortest paths in a weighted graph (where some of the edge weights may be negative)
 
-* Beam stack search	:	integrates backtracking with beam search
+* Benson's algorithm    :    an algorithm for solving linear vector optimization problems
 
-* Best-first search	:	traverses a graph in the order of likely importance using a priority queue
+* Best Bin First    :    find an approximate solution to the Nearest neighbor search problem in very-high-dimensional spaces
 
-* Bidirectional search	:	find the shortest path from an initial vertex to a goal vertex in a directed graph
+* Best-first search    :    traverses a graph in the order of likely importance using a priority queue
 
-* Bloom filter	:	a constant time and memory check to see whether a given element exists in a set. May return a false positive, but never a false negative.
-* [Breadth-first search](BreadthFirstSearch)	:	traverses a graph level by level
+* BFGS method    :    A nonlinear optimization algorithm
 
-* Brute-force search	:	An exhaustive and reliable search method, but computationally inefficient in many applications.
-	* D	:	an incremental heuristic search algorithm
+* Biconjugate gradient method    :    solves systems of linear equations
 
-	* Depth-first search	:	traverses a graph branch by branch
+* Bidirectional search    :    find the shortest path from an initial vertex to a goal vertex in a directed graph
 
-	* Dijkstra's algorithm	:	A special case of A for which no heuristic function is used
+* Bilinear interpolation    :    an extension of linear interpolation for interpolating functions of two variables on a regular grid
 
-	* General Problem Solver	:	a seminal theorem-proving algorithm intended to work as a universal problem solver machine.
+* Binary GCD algorithm    :    Efficient way of calculating GCD.
 
-	* Jump point search	:	An optimization to A which may reduce computation time by an order of magnitude using further heuristics.
+* [Binary search algorithm](BinarySearch)    :    locates an item in a sorted sequence
 
-* Uniform-cost search	:	a tree search that finds the lowest cost route where costs vary
+* Binary splitting    :    a divide and conquer technique which speeds up the numerical evaluation of many types of series with rational terms
 
-* SSS	:	state space search traversing a game tree in a best-first fashion similar to that of the A* search algorithm
+* Birkhoff interpolation    :    an extension of polynomial interpolation
 
-* Bron–Kerbosch algorithm	:	a technique for finding maximal cliques in an undirected graph
+* Bitap algorithm    :    fuzzy algorithm that determines if strings are approximately equal.
 
-* MaxCliqueDyn maximum clique algorithm	:	find a maximum clique in an undirected graph
+* BKM algorithm    :    compute elementary functions using a table of logarithms
 
-* Bitap algorithm	:	fuzzy algorithm that determines if strings are approximately equal.
+* Blind deconvolution    :    image de-blurring algorithm when point spread function is unknown.
 
-* Daitch–Mokotoff Soundex	:	a Soundex refinement which allows matching of Slavic and Germanic surnames
+* Bloom filter    :    a constant time and memory check to see whether a given element exists in a set. May return a false positive, but never a false negative.
 
-* Double Metaphone	:	an improvement on Metaphone
+* Booth's multiplication algorithm    :    a multiplication algorithm that multiplies two signed binary numbers in two's complement notation
 
-* Match Rating Approach	:	a phonetic algorithm developed by Western Airlines
+* Borwein's algorithm    :    an algorithm to calculate the value of 1/π
 
-* Metaphone	:	an algorithm for indexing words by their sound, when pronounced in English
+* Bowyer–Watson algorithm    :    create voronoi diagram in any number of dimensions
 
-* NYSIIS	:	phonetic algorithm, improves on Soundex
+* Boyer–Moore string search algorithm    :    amortized linear (sublinear in most times) algorithm for substring search
 
-* Soundex	:	a phonetic algorithm for indexing names by sound, as pronounced in English
+* Boyer–Moore–Horspool algorithm    :    Simplification of Boyer–Moore
 
-* Hamming distance	:	sum number of positions which are different
-Jaro–Winkler distance	:	is a measure of similarity between two strings
-* Levenshtein edit distance	:	compute a metric for the amount of difference between two sequences
+* [Breadth-first search](BreadthFirstSearch)    :    traverses a graph level by level
 
-* Trigram search	:	search for text when the exact syntax or spelling of the target object is not precisely known
+* Brent's algorithm    :    finds a cycle in function value iterations using only two iterators
 
-* [Linear search](LinearSearch)	:	finds an item in an unsorted sequence
-Selection algorithm	:	finds the <i>k</i>th largest item in a sequence
+* Bresenham's line algorithm    :    plots points of a 2-dimensional array to form a straight line between 2 specified points (uses decision variables)
 
-* [Ternary search](TernarySearch)	:	a technique for finding the minimum or maximum of a function that is either strictly increasing and then strictly decreasing or vice versa
+* Bron–Kerbosch algorithm    :    a technique for finding maximal cliques in an undirected graph
 
-* [Binary search algorithm](BinarySearch)	:	locates an item in a sorted sequence
+* BrownBoost    :    a boosting algorithm that may be robust to noisy datasets
 
-* [Fibonacci search technique](Fibonacci)	:	search a sorted sequence using a divide and conquer algorithm that narrows down possible locations with the aid of Fibonacci numbers
+* Bruss algorithm    :    see odds algorithm
 
-* Predictive search	:	binary-like search which factors in magnitude of search term versus the high and low values in the search. Sometimes called dictionary search or interpolated search.
+* Brute-force search    :    An exhaustive and reliable search method, but computationally inefficient in many applications.
 
-* Uniform binary search	:	an optimization of the classic binary search algorithm
+	* D    :    an incremental heuristic search algorithm
 
-* Schensted algorithm	:	constructs a pair of Young tableaux from a permutation
+	* Depth-first search    :    traverses a graph branch by branch
 
-* Heap's permutation generation algorithm	:	interchange elements to generate next permutation
+	* Dijkstra's algorithm    :    A special case of A for which no heuristic function is used
 
-* Dynamic time warping	:	measure similarity between two sequences which may vary in time or speed
+	* General Problem Solver    :    a seminal theorem-proving algorithm intended to work as a universal problem solver machine.
 
-* Hirschberg's algorithm	:	finds the least cost sequence alignment between two sequences, as measured by their Levenshtein distance
+	* Jump point search    :    An optimization to A which may reduce computation time by an order of magnitude using further heuristics.
 
-* Needleman–Wunsch algorithm	:	find global alignment between two sequences
+* [Bubble sort](BubbleSort)    :    for each pair of indices, swap the items if out of order
 
-* Smith–Waterman algorithm	:	find local sequence alignment
+* Buchberger's algorithm    :    finds a Gröbner basis
 
-* [Bubble sort](BubbleSort)	:	for each pair of indices, swap the items if out of order
+* Buddy memory allocation    :    Algorithm to allocate memory such that fragmentation is less.
 
-* [Quicksort](QuickSort)	:	divide list into two, with all items on the first list coming before all items on the second list.; then sort the two lists. Often the method of choice
+* Bully algorithm    :    a method for dynamically selecting a coordinator
 
-* Introsort	:	begin with quicksort and switch to heapsort when the recursion depth exceeds a certain level
+* Burrows–Wheeler transform    :    preprocessing useful for improving lossless compression
 
-* Timsort	:	adaptative algorithm derived from merge sort and insertion sort. Used in Python 2.3 and up, and Java SE 7.
+* Burstsort    :    build a compact, cache efficient burst trie and then traverse it to create sorted output
 
-* [Insertion sort](InsertionSort)	:	determine where the current item belongs in the list of sorted ones, and insert it there
+* Buzen's algorithm    :    an algorithm for calculating the normalization constant G(K) in the Gordon–Newell theorem
 
-* Shell sort	:	an attempt to improve insertion sort
+* Byzantine fault tolerance    :    good fault tolerance.
 
-* Cycle sort	:	in-place with theoretically optimal number of writes
+* C3 linearization    :    an algorithm used primarily to obtain a consistent linearization of a multiple inheritance hierarchy in object-oriented programming
 
-* [Merge sort](MergeSort)	:	sort the first and second half of the list separately, then merge the sorted lists
+* C4.5 algorithm    :    an extension to ID3
 
-* Burstsort	:	build a compact, cache efficient burst trie and then traverse it to create sorted output
+* Cannon's algorithm    :    a distributed algorithm for matrix multiplication especially suitable for computers laid out in an N × N mesh
 
-* Postman sort	:	variant of Bucket sort which takes advantage of hierarchical structure
+* Canny edge detector    :    detect a wide range of edges in images
 
-* Radix sort	:	sorts strings letter by letter
+* Canopy clustering algorithm    :    an unsupervised pre-clustering algorithm related to the K-means algorithm
 
-* [Heapsort](HeapSort)	:	convert the list into a heap, keep removing the largest element from the heap and adding it to the end of the list
+* Cantor–Zassenhaus algorithm    :    factor polynomials over finite fields
 
-* [Selection sort](SelectionSort)	:	pick the smallest of the remaining elements, add it to the end of the sorted list
+* Chaff algorithm    :    an algorithm for solving instances of the boolean satisfiability problem
 
-* [Kadane's algorithm](Kadane's)	:	finds maximum sub-array of any size
+* Chaitin's algorithm    :    a bottom-up, graph coloring register allocation algorithm that uses cost/degree as its spill metric
 
-* Longest common subsequence problem	:	Find the longest subsequence common to all sequences in a set of sequences
+* Chakravala method    :    a cyclic algorithm to solve indeterminate quadratic equations, including Pell's equation
 
-* Longest increasing subsequence problem	:	Find the longest increasing subsequence of a given sequence
+* Cheney's algorithm    :    An improvement on the Semi-space collector
 
-* Longest common substring problem	:	find the longest string (or strings) that is a substring (or are substrings) of two or more strings
+* Chew's second algorithm    :    create quality constrained Delaunay triangulations
 
-* Aho–Corasick string matching algorithm	:	trie based algorithm for finding all substring matches to any of a finite set of strings
+* Chien search    :    a recursive algorithm for determining roots of polynomials defined over a finite field
 
-* Boyer–Moore string search algorithm	:	amortized linear (sublinear in most times) algorithm for substring search
+* CHS conversion    :    converting between disk addressing systems
 
-* Boyer–Moore–Horspool algorithm	:	Simplification of Boyer–Moore
+* Closest pair problem    :    find the pair of points (from a set of points) with the smallest distance between them
 
-* Knuth–Morris–Pratt algorithm	:	substring search which bypasses reexamination of matched characters
+* Coloring algorithm    :    Graph coloring algorithm.
 
-* Rabin–Karp string search algorithm	:	searches multiple patterns efficiently
+* Complete-linkage clustering    :    a simple agglomerative clustering algorithm
 
-* Zhu–Takaoka string matching algorithm	:	a variant of the Boyer–Moore
+* Cone algorithm    :    identify surface points
 
-* Ukkonen's algorithm	:	a linear-time, online algorithm for constructing suffix trees
+* Conjugate gradient    :    an algorithm for the numerical solution of particular systems of linear equations
 
-* Chien search	:	a recursive algorithm for determining roots of polynomials defined over a finite field
-* Schreier–Sims algorithm	:	computing a base and strong generating set (BSGS) of a permutation group
+* Connected-component labeling    :    find and label disjoint regions
 
-* Todd–Coxeter algorithm	:	Procedure for generating cosets.
+* Constraint algorithm    :    a class of algorithms for satisfying constraints for bodies that obey Newton's equations of motion
 
-* Buchberger's algorithm	:	finds a Gröbner basis
+* Coppersmith–Winograd algorithm    :    square matrix multiplication
 
-* Cantor–Zassenhaus algorithm	:	factor polynomials over finite fields
+* CORDIC    :    compute hyperbolic and trigonometric functions using a table of arctangents
 
-* Faugère F4 algorithm	:	finds a Gröbner basis (also mentions the F5 algorithm)
+* Cross-entropy method    :    a general Monte Carlo approach to combinatorial and continuous multi-extremal optimization and importance sampling
 
-* Gosper's algorithm	:	find sums of hypergeometric terms that are themselves hypergeometric terms
+* Cuthill–McKee algorithm    :    reduce the bandwidth of a symmetric sparse matrix
 
-* Knuth–Bendix completion algorithm	:	for rewriting rule systems
+* Cycle sort    :    in-place with theoretically optimal number of writes
 
-* Multivariate division algorithm	:	for polynomials in several indeterminates
+* CYK algorithm    :    An O(n<sup>3</sup>) algorithm for parsing context-free grammars in Chomsky normal form
 
-* Polynomial long division	:	an algorithm for dividing a polynomial by another polynomial of the same or lower degree
+* Daitch–Mokotoff Soundex    :    a Soundex refinement which allows matching of Slavic and Germanic surnames
 
-* Risch algorithm	:	an algorithm for the calculus operation of indefinite integration (i.e. finding antiderivatives)
+* Dancing Links    :    an efficient implementation of Algorithm X
 
-* Closest pair problem	:	find the pair of points (from a set of points) with the smallest distance between them
+* Dantzig–Wolfe decomposition    :    an algorithm for solving linear programming problems with special structure
 
-* Cone algorithm	:	identify surface points
+* Davis–Putnam algorithm    :    check the validity of a first-order logic formula
 
-* Geometric hashing	:	a method for efficiently finding two-dimensional objects represented by discrete points that have undergone an affine transformation
+* DBSCAN    :    a density based clustering algorithm
 
-* Gilbert–Johnson–Keerthi distance algorithm	:	determining the smallest distance between two convex shapes.
+* DDA line algorithm    :    plots points of a 2-dimensional array to form a straight line between 2 specified points (uses floating-point math)
 
-* Jump-and-Walk algorithm	:	an algorithm for point location in triangulations
+* De Boor algorithm    :    B-splines
 
-* Laplacian smoothing	:	an algorithm to smooth a polygonal mesh
+* De Casteljau's algorithm    :    Bézier curves
 
-* Minimum bounding box algorithms	:	find the oriented minimum bounding box enclosing a set of points
-* Nearest neighbor search	:	find the nearest point or points to a query point
+* Delta encoding    :    aid to compression of data in which sequential data occurs frequently
 
-* Rotating calipers	:	determine all antipodal pairs of points and vertices on a convex polygon or convex hull.
+* Demon algorithm    :    a Monte Carlo method for efficiently sampling members of a microcanonical ensemble with a given energy
 
-* Shoelace algorithm	:	determine the area of a polygon whose vertices are described by ordered pairs in the plane
+* Deutsch-Jozsa algorithm    :    criterion of balance for Boolean function
 
-* Chew's second algorithm	:	create quality constrained Delaunay triangulations
+* [Dijkstra's algorithm](Dijkstra's%20)    :    computes shortest paths in a graph with non-negative edge weights
 
-* Marching triangles	:	reconstruct two-dimensional surface geometry from an unstructured point cloud
+* Dinic's algorithm    :    is a strongly polynomial algorithm for computing the maximum flow in a flow network.
 
-* Bowyer–Watson algorithm	:	create voronoi diagram in any number of dimensions
+* Discrete Green's Theorem    :    is an algorithm for computing double integral over a generalized rectangular domain in constant time. It is a natural extension to the summed area table algorithm
 
-* Fortune's Algorithm	:	create voronoi diagram
+* Doomsday algorithm    :    day of the week
 
-* Binary GCD algorithm	:	Efficient way of calculating GCD.
+* Double dabble    :    Convert binary numbers to BCD
 
-* Chakravala method	:	a cyclic algorithm to solve indeterminate quadratic equations, including Pell's equation
+* Double Metaphone    :    an improvement on Metaphone
 
-* Euclidean algorithm	:	computes the greatest common divisor
+* Dynamic Markov compression    :    Compression using predictive arithmetic coding
 
-* Extended Euclidean algorithm	:	Also solves the equation <i>ax</i>&#160;+&#160;<i>by</i>&#160;=&#160;<i>c</i>.
+* Dynamic Programming    :    problems exhibiting the properties of overlapping subproblems and optimal substructure
 
-* Odlyzko–Schönhage algorithm	:	calculates nontrivial zeroes of the Riemann zeta function
+* Dynamic time warping    :    measure similarity between two sequences which may vary in time or speed
 
-* Borwein's algorithm	:	an algorithm to calculate the value of 1/π
+* Earley parser    :    Another O(n<sup>3</sup>) algorithm for parsing any context-free grammar
 
-* Gauss–Legendre algorithm	:	computes the digits of pi
+* Edmonds–Karp algorithm    :    implementation of Ford–Fulkerson
 
-* Bailey–Borwein–Plouffe formula	:	(BBP formula) a spigot algorithm for the computation of the nth binary digit of π
+* Elevator algorithm    :    Disk scheduling algorithm that works like an elevator.
 
-* Newton–Raphson division	:	uses Newton's method to find the reciprocal of D, and multiply that reciprocal by N to find the final quotient Q.
+* Ellipsoid method    :    is an algorithm for solving convex optimization problems
 
-* BKM algorithm	:	compute elementary functions using a table of logarithms
+* Espresso heuristic logic minimizer    :    Fast algorithm for boolean function minimization.
 
-* CORDIC	:	compute hyperbolic and trigonometric functions using a table of arctangents
+* Euclidean algorithm    :    computes the greatest common divisor
 
-* Exponentiating by squaring	:	an algorithm used for the fast computation of large integer powers of a number
+* Euclidean minimum spanning tree    :    algorithms for computing the minimum spanning tree of a set of points in the plane
 
-* Montgomery reduction	:	an algorithm that allows modular arithmetic to be performed efficiently when the modulus is large
+* Euclidean shortest path problem    :    find the shortest path between two points that does not intersect any obstacle
 
-* Booth's multiplication algorithm	:	a multiplication algorithm that multiplies two signed binary numbers in two's complement notation
+* Exponentiating by squaring    :    an algorithm used for the fast computation of large integer powers of a number
 
-* Fürer's algorithm	:	an integer multiplication algorithm for very large numbers possessing a very low asymptotic complexity
+* Extended Euclidean algorithm    :    Also solves the equation <i>ax</i>&#160;+&#160;<i>by</i>&#160;=&#160;<i>c</i>.
 
-* Karatsuba algorithm	:	an efficient procedure for multiplying large numbers
+* False position method    :    approximates roots of a function
 
-* Schönhage–Strassen algorithm	:	an asymptotically fast multiplication algorithm for large integers
+* Fast folding algorithm    :    an efficient algorithm for the detection of approximately periodic events within time series data
 
-* Toom–Cook multiplication	:	(Toom3) a multiplication algorithm for large integers
+* Fast Fourier Transform:    A fast Fourier transform (FFT) algorithm computes the discrete Fourier transform (DFT) of a sequence
 
-* Rounding functions	:	the classic ways to round numbers
+* Faugère F4 algorithm    :    finds a Gröbner basis (also mentions the F5 algorithm)
 
-* Spigot algorithm	:	A way to compute the value of a mathematical constant without knowing preceding digits
+* Featherstone's algorithm    :    compute the effects of forces applied to a structure of joints and links
 
-* Alpha max plus beta min algorithm	:	an approximation of the square-root of the sum of two squares
+* [Fibonacci search technique](Fibonacci)    :    search a sorted sequence using a divide and conquer algorithm that narrows down possible locations with the aid of Fibonacci numbers
 
-* Shifting nth-root algorithm	:	digit by digit root extraction
+* Filtered back-projection    :    efficiently compute the inverse 2-dimensional Radon transform.
 
-* Binary splitting	:	a divide and conquer technique which speeds up the numerical evaluation of many types of series with rational terms
+* Flood fill    :    fills a connected region of a multi-dimensional array with a specified symbol
 
-* Kahan summation algorithm	:	a more accurate method of summing floating-point numbers
+* Floyd's cycle-finding algorithm    :    finds a cycle in function value iterations
 
-* Filtered back-projection	:	efficiently compute the inverse 2-dimensional Radon transform.
+* Floyd–Warshall algorithm    :    solves the all pairs shortest path problem in a weighted, directed graph
 
-* Birkhoff interpolation	:	an extension of polynomial interpolation
+* Ford–Fulkerson algorithm    :    computes the maximum flow in a graph
 
-* Lagrange interpolation	:	interpolation using Lagrange polynomials
+* Fortune's Algorithm    :    create voronoi diagram
 
-* Linear interpolation	:	a method of curve fitting using linear polynomials
+* Fowler–Noll–Vo hash function    :    fast with low collision rate
 
-* Monotone cubic interpolation	:	a variant of cubic interpolation that preserves monotonicity of the data set being interpolated.
+* Fractal compression    :    method used to compress images using fractals
 
-* Bilinear interpolation	:	an extension of linear interpolation for interpolating functions of two variables on a regular grid
+* Freivalds' algorithm    :    a randomized algorithm used to verify matrix multiplication
 
-* Pareto interpolation	:	a method of estimating the median and other properties of a population that follows a Pareto distribution.
+* Fürer's algorithm    :    an integer multiplication algorithm for very large numbers possessing a very low asymptotic complexity
 
-* De Boor algorithm	:	B-splines
+* Gale–Shapley algorithm    :    solves the stable marriage problem
 
-* De Casteljau's algorithm	:	Bézier curves
+* Gauss–Jordan elimination    :    solves systems of linear equations
 
-* Gram–Schmidt process	:	orthogonalizes a set of vectors
+* Gauss–Legendre algorithm    :    computes the digits of pi
 
-* Cannon's algorithm	:	a distributed algorithm for matrix multiplication especially suitable for computers laid out in an N × N mesh
+* Gauss–Newton algorithm    :    An algorithm for solving nonlinear least squares problems.
 
-* Coppersmith–Winograd algorithm	:	square matrix multiplication
+* Gauss–Seidel method    :    solves systems of linear equations iteratively
 
-* Freivalds' algorithm	:	a randomized algorithm used to verify matrix multiplication
+* Generational garbage collector    :    Fast garbage collectors that segregate memory by age
 
-* Strassen algorithm	:	faster matrix multiplication
+* Geometric hashing    :    a method for efficiently finding two-dimensional objects represented by discrete points that have undergone an affine transformation
 
-* Biconjugate gradient method	:	solves systems of linear equations
+* Gerchberg–Saxton algorithm    :    Phase retrieval algorithm for optical planes
 
-* Conjugate gradient	:	an algorithm for the numerical solution of particular systems of linear equations
+* Gibbs sampling    :    generate a sequence of samples from the joint probability distribution of two or more random variables
 
-* Gauss–Jordan elimination	:	solves systems of linear equations
+* Gilbert–Johnson–Keerthi distance algorithm    :    determining the smallest distance between two convex shapes.
 
-* Gauss–Seidel method	:	solves systems of linear equations iteratively
+* Girvan–Newman algorithm    :    detect communities in complex systems
 
-* Levinson recursion	:	solves equation involving a Toeplitz matrix
+* GLR parser    :    An algorithm for parsing any context-free grammar by Masaru Tomita. It is tuned for deterministic grammars, on which it performs almost linear time and O(n<sup>3</sup>) in worst case.
 
-* Stone's method	:	also known as the strongly implicit procedure or SIP, is an algorithm for solving a sparse linear system of equations
+* Goertzel algorithm    :    identify a particular frequency component in a signal. Can be used for DTMF digit decoding.
 
-* Cuthill–McKee algorithm	:	reduce the bandwidth of a symmetric sparse matrix
+* Golden section search    :    an algorithm for finding the maximum of a real function
 
-* Minimum degree algorithm	:	permute the rows and columns of a symmetric sparse matrix before applying the Cholesky decomposition
+* Golomb coding    :    form of entropy coding that is optimal for alphabets following geometric distributions
 
-* Symbolic Cholesky decomposition	:	Efficient way of storing sparse matrix
+* Gosper's algorithm    :    find sums of hypergeometric terms that are themselves hypergeometric terms
 
-* Gibbs sampling	:	generate a sequence of samples from the joint probability distribution of two or more random variables
+* Gouraud shading    :    an algorithm to simulate the differing effects of light and colour across the surface of an object in 3D computer graphics
 
-* Hybrid Monte Carlo	:	generate a sequence of samples using Hamiltonian weighted Markov chain Monte Carlo, from a probability distribution which is difficult to sample directly.
+* Gram–Schmidt process    :    orthogonalizes a set of vectors
 
-* Metropolis–Hastings algorithm	:	used to generate a sequence of samples from the probability distribution of one or more variables
+* Grover's algorithm    :    provides quadratic speedup for many search problems
 
-* Wang and Landau algorithm	:	an extension of Metropolis–Hastings algorithm sampling
+* GrowCut algorithm    :    an interactive segmentation algorithm
 
-* MISER algorithm	:	Monte Carlo simulation, numerical integration
+* Halley's method    :    uses first and second derivatives
 
-* False position method	:	approximates roots of a function
+* Hamming distance    :    sum number of positions which are different
 
-* Newton's method	:	finds zeros of functions with calculus
+* Hamming distance    :    sum number of positions which are different
 
-* Halley's method	:	uses first and second derivatives
+* Hamming(7,4)    :    a Hamming code that encodes 4 bits of data into 7 bits by adding 3 parity bits
 
-* Secant method	:	2-point, 1-sided
+* Heap's permutation generation algorithm    :    interchange elements to generate next permutation
 
-* Ridder's method	:	3-point, exponential scaling
+* [Heapsort](HeapSort)    :    convert the list into a heap, keep removing the largest element from the heap and adding it to the end of the list
 
-* Muller's method	:	3-point, quadratic interpolation
+* Hirschberg's algorithm    :    finds the least cost sequence alignment between two sequences, as measured by their Levenshtein distance
 
-* Alpha-beta pruning	:	search to reduce number of nodes in minimax algorithm
+* Histogram equalization    :    use histogram to improve image contrast
 
-* Bruss algorithm	:	see odds algorithm
+* HMAC    :    keyed-hash message authentication
 
-* Hungarian method	:	a combinatorial optimization algorithm which solves the assignment problem in polynomial time
+* Hopcroft's algorithm, Moore's algorithm, and Brzozowski's algorithm    :    algorithms for minimizing the number of states in a deterministic finite automaton
 
-* Chaff algorithm	:	an algorithm for solving instances of the boolean satisfiability problem
+* Hopcroft–Karp algorithm    :    convert a bipartite graph to a maximum cardinality matching
 
-* Davis–Putnam algorithm	:	check the validity of a first-order logic formula
+* Hopfield net    :    a Recurrent neural network in which all connections are symmetric
 
-* Algorithm X	:	a nondeterministic algorithm
+* Hungarian algorithm    :    algorithm for finding a perfect matching
 
-* Dancing Links	:	an efficient implementation of Algorithm X
+* Hungarian method    :    a combinatorial optimization algorithm which solves the assignment problem in polynomial time
 
-* Cross-entropy method	:	a general Monte Carlo approach to combinatorial and continuous multi-extremal optimization and importance sampling
+* Hybrid Monte Carlo    :    generate a sequence of samples using Hamiltonian weighted Markov chain Monte Carlo, from a probability distribution which is difficult to sample directly.
 
-* Dynamic Programming	:	problems exhibiting the properties of overlapping subproblems and optimal substructure
+* Incremental encoding    :    delta encoding applied to sequences of strings
 
-* Ellipsoid method	:	is an algorithm for solving convex optimization problems
+* [Insertion sort](InsertionSort)    :    determine where the current item belongs in the list of sorted ones, and insert it there
 
-* Bees algorithm	:	a search algorithm which mimics the food foraging behavior of swarms of honey bees
+* Inside-outside algorithm    :    An O(n<sup>3</sup>) algorithm for re-estimating production probabilities in probabilistic context-free grammars
 
-* golden section search	:	an algorithm for finding the maximum of a real function
+* Introsort    :    begin with quicksort and switch to heapsort when the recursion depth exceeds a certain level
 
-* Benson's algorithm	:	an algorithm for solving linear vector optimization problems
+* Inverse Fast Fourier Transform:    Inverse Fast Fourier transform (IFFT) algorithm computes the inverse discrete Fourier transform (Inverse DFT) of a sequence
 
-* Dantzig–Wolfe decomposition	:	an algorithm for solving linear programming problems with special structure
+* Jaro–Winkler distance    :    is a measure of similarity between two strings
 
-* Karmarkar's algorithm	:	The first reasonably efficient algorithm that solves the linear programming problem in polynomial time.
+* Johnson algorithm    :    All pairs shortest path algorithm in sparse weighted directed graph
 
-* Simplex algorithm	:	An algorithm for solving linear programming problems
+* Jump-and-Walk algorithm    :    an algorithm for point location in triangulations
 
-* Best Bin First	:	find an approximate solution to the Nearest neighbor search problem in very-high-dimensional spaces
+* k-means clustering    :    cluster objects based on attributes into partitions
 
-* BFGS method	:	A nonlinear optimization algorithm
+* k-means++    :    a variation of this, using modified random seeds
 
-* Gauss–Newton algorithm	:	An algorithm for solving nonlinear least squares problems.
+* k-medoids    :    similar to k-means, but chooses datapoints or medoids as centers
 
-* Levenberg–Marquardt algorithm	:	An algorithm for solving nonlinear least squares problems.
+* Kabsch algorithm    :    calculate the optimal alignment of two sets of points in order to compute the root mean squared deviation between two protein structures.
 
-* Doomsday algorithm	:	day of the week
+* [Kadane's algorithm](Kadane's)    :    finds maximum sub-array of any size
 
-* Kabsch algorithm	:	calculate the optimal alignment of two sets of points in order to compute the root mean squared deviation between two protein structures.
+* Kahan summation algorithm    :    a more accurate method of summing floating-point numbers
 
-* Velvet	:	a set of algorithms manipulating de Bruijn graphs for genomic sequence assembly
+* Kalman filter    :    estimate the state of a linear dynamic system from a series of noisy measurements
 
-* Sorting by signed reversals	:	an algorithm for understanding genomic evolution.
+* Karatsuba algorithm    :    an efficient procedure for multiplying large numbers
 
-* Maximum parsimony (phylogenetics)	:	an algorithm for finding the simplest phylogenetic tree to explain a given character matrix.
+* Karger's algorithm    :    a Monte Carlo method to compute the minimum cut of a connected graph
 
-* UPGMA	:	a distance-based phylogenetic tree construction algorithm.
+* Karmarkar's algorithm    :    The first reasonably efficient algorithm that solves the linear programming problem in polynomial time.
 
-* Vincenty's formulae	:	a fast algorithm to calculate the distance between two latitude/longitude points on an ellipsoid
+* Karn's Algorithm    :    addresses the problem of getting accurate estimates of the round-trip time for messages when using TCP
 
-* Lesk algorithm	:	word sense disambiguation
+* Karplus-Strong string synthesis    :    physical modelling synthesis to simulate the sound of a hammered or plucked string or some types of percussion
 
-* Stemming algorithm	:	a method of reducing words to their stem, base, or root form
+* KHOPCA clustering algorithm    :    a local clustering algorithm, which produces hierarchical multi-hop clusters in static and mobile environments.
 
-* Sukhotin's algorithm	:	a statistical classification algorithm for classifying characters in a text as vowels or consonants
+* Knuth–Bendix completion algorithm    :    for rewriting rule systems
 
-* Constraint algorithm	:	a class of algorithms for satisfying constraints for bodies that obey Newton's equations of motion
+* Knuth–Morris–Pratt algorithm    :    substring search which bypasses reexamination of matched characters
 
+* Lagrange interpolation    :    interpolation using Lagrange polynomials
 
-* Demon algorithm	:	a Monte Carlo method for efficiently sampling members of a microcanonical ensemble with a given energy
+* Lamport ordering    :    a partial ordering of events based on the <i>happened-before</i> relation
 
-* Featherstone's algorithm	:	compute the effects of forces applied to a structure of joints and links
+* Laplacian smoothing    :    an algorithm to smooth a polygonal mesh
 
-* Barnes–Hut simulation	:	Solves the n-body problem in an approximate way that has the order log(n) instead of O(n*n) as in a direct-sum simulation.
+* Lesk algorithm    :    word sense disambiguation
 
-* Rainflow-counting algorithm	:	Reduces a complex stress history to a count of elementary stress-reversals for use in fatigue analysis
+* Levenberg–Marquardt algorithm    :    An algorithm for solving nonlinear least squares problems.
 
-* Sweep and prune	:	a broad phase algorithm used during collision detection to limit the number of pairs of solids that need to be checked for collision
+* Levenshtein edit distance    :    compute a metric for the amount of difference between two sequences
 
-* VEGAS algorithm	:	a method for reducing error in Monte Carlo simulations
+* Levinson recursion    :    solves equation involving a Toeplitz matrix
 
-* Algorithms for calculating variance	:	avoiding instability and numerical overflow
+* Linde–Buzo–Gray algorithm    :    a vector quantization algorithm to derive a good codebook
 
-* Approximate counting algorithm	:	Allows counting large number of events in a small register
+* Linde–Buzo–Gray algorithm    :    a vector quantization algorithm used to derive a good codebook
 
-* Nested sampling algorithm	:	a computational approach to the problem of comparing models in Bayesian statistics
+* Linear interpolation    :    a method of curve fitting using linear polynomials
 
-* Average-linkage clustering	:	a simple agglomerative clustering algorithm
+* [Linear search](LinearSearch)    :    finds an item in an unsorted sequence
 
-* Canopy clustering algorithm	:	an unsupervised pre-clustering algorithm related to the K-means algorithm
+* LL parser    :    A relatively simple linear time parsing algorithm for a limited class of context-free grammars
 
-* Complete-linkage clustering	:	a simple agglomerative clustering algorithm
+* LogitBoost    :    logistic regression boosting
 
-* DBSCAN	:	a density based clustering algorithm
+* Longest common subsequence problem    :    Find the longest subsequence common to all sequences in a set of sequences
 
-* KHOPCA clustering algorithm	:	a local clustering algorithm, which produces hierarchical multi-hop clusters in static and mobile environments.
+* Longest common substring problem    :    find the longest string (or strings) that is a substring (or are substrings) of two or more strings
 
-* k-means clustering	:	cluster objects based on attributes into partitions
+* Longest increasing subsequence problem    :    Find the longest increasing subsequence of a given sequence
 
-* k-means++	:	a variation of this, using modified random seeds
+* [Longest path problem](LongestPath)    :    find a simple path of maximum length in a given graph
 
-* k-medoids	:	similar to k-means, but chooses datapoints or medoids as centers
+* LPBoost    :    linear programming boosting
 
-* Linde–Buzo–Gray algorithm	:	a vector quantization algorithm to derive a good codebook
+* Luhn algorithm    :    a method of validating identification numbers
 
-* OPTICS	:	a density based clustering algorithm with a visual evaluation method
+* Luhn mod N algorithm    :    extension of Luhn to non-numeric characters
 
-* Single-linkage clustering	:	a simple agglomerative clustering algorithm
+* Luleå algorithm    :    a technique for storing and searching internet routing tables efficiently
 
-* SUBCLU	:	a subspace clustering algorithm
+* LZWL    :    syllable-based variant
 
-* WACA clustering algorithm	:	a local clustering algorithm with potentially multi-hop structures; for dynamic networks
+* Marching cubes    :    extract a polygonal mesh of an isosurface from a three-dimensional scalar field (sometimes called voxels)
 
-* Kalman filter	:	estimate the state of a linear dynamic system from a series of noisy measurements
+* Marching squares    :    generate contour lines for a two-dimensional scalar field
 
-* Baum–Welch algorithm	:	compute maximum likelihood estimates and posterior mode estimates for the parameters of a hidden markov model
+* Marching tetrahedrons    :    an alternative to Marching cubes
 
-* Viterbi algorithm	:	find the most likely sequence of hidden states in a hidden markov model
+* Marching triangles    :    reconstruct two-dimensional surface geometry from an unstructured point cloud
 
-* Partial least squares regression	:	finds a linear model describing some predicted variables in terms of other observable variables
-* Buzen's algorithm	:	an algorithm for calculating the normalization constant G(K) in the Gordon–Newell theorem
+* Mark-compact algorithm    :    a combination of the mark-sweep algorithm and Cheney's copying algorithm
 
-* Scoring algorithm	:	is a form of Newton's method used to solve maximum likelihood equations numerically
+* Marr–Hildreth algorithm    :    an early edge detection algorithm
 
-* Yamartino method	:	calculate an approximation to the standard deviation σθ of wind direction θ during a single pass through the incoming data
+* Match Rating Approach    :    a phonetic algorithm developed by Western Airlines
 
-* Ziggurat algorithm	:	generate random numbers from a non-uniform distribution
+* MaxCliqueDyn maximum clique algorithm    :    find a maximum clique in an undirected graph
 
-* Tomasulo algorithm	:	allows sequential instructions that would normally be stalled due to certain dependencies to execute non-sequentially
-* Marching cubes	:	extract a polygonal mesh of an isosurface from a three-dimensional scalar field (sometimes called voxels)
+* Maximum parsimony (phylogenetics)    :    an algorithm for finding the simplest phylogenetic tree to explain a given character matrix.
 
-* Marching squares	:	generate contour lines for a two-dimensional scalar field
+* [Merge sort](MergeSort)    :    sort the first and second half of the list separately, then merge the sorted lists
 
-* Marching tetrahedrons	:	an alternative to Marching cubes
+* Metaphone    :    an algorithm for indexing words by their sound, when pronounced in English
 
-* Discrete Green's Theorem	:	is an algorithm for computing double integral over a generalized rectangular domain in constant time. It is a natural extension to the summed area table algorithm
+* Metropolis–Hastings algorithm    :    used to generate a sequence of samples from the probability distribution of one or more variables
 
-* Flood fill	:	fills a connected region of a multi-dimensional array with a specified symbol
+* Midpoint circle algorithm    :    an algorithm used to determine the points needed for drawing a circle
 
-* Newell's algorithm	:	eliminate polygon cycles in the depth sorting required in hidden surface removal
+* Minimum bounding box algorithms    :    find the oriented minimum bounding box enclosing a set of points
 
-* Painter's algorithm	:	detects visible parts of a 3-dimensional scenery
+* Minimum degree algorithm    :    permute the rows and columns of a symmetric sparse matrix before applying the Cholesky decomposition
 
-* Scanline rendering	:	constructs an image by moving an imaginary line over the image
+* MISER algorithm    :    Monte Carlo simulation, numerical integration
 
-* Bresenham's line algorithm	:	plots points of a 2-dimensional array to form a straight line between 2 specified points (uses decision variables)
+* Monotone cubic interpolation    :    a variant of cubic interpolation that preserves monotonicity of the data set being interpolated.
 
-* DDA line algorithm	:	plots points of a 2-dimensional array to form a straight line between 2 specified points (uses floating-point math)
+* Montgomery reduction    :    an algorithm that allows modular arithmetic to be performed efficiently when the modulus is large
 
-* Xiaolin Wu's line algorithm	:	algorithm for line antialiasing.
+* Mu-law algorithm    :    standard analog signal compression or companding algorithm
 
-* Midpoint circle algorithm	:	an algorithm used to determine the points needed for drawing a circle
+* Muller's method    :    3-point, quadratic interpolation
 
-* Ramer–Douglas–Peucker algorithm	:	Given a 'curve' composed of line segments to find a curve not too dissimilar but that has fewer points
+* Multivariate division algorithm    :    for polynomials in several indeterminates
 
-* Gouraud shading	:	an algorithm to simulate the differing effects of light and colour across the surface of an object in 3D computer graphics
+* Nagle's algorithm    :    improve the efficiency of TCP/IP networks by coalescing packets
 
-* Phong shading	:	an algorithm to interpolate surface normal-vectors for surface shading in 3D computer graphics
+* Nearest neighbor search    :    find the nearest point or points to a query point
 
-* HMAC	:	keyed-hash message authentication
+* Needleman–Wunsch algorithm    :    find global alignment between two sequences
 
-* Quine–McCluskey algorithm	:	Also called as Q-M algorithm, programmable method for simplifying the boolean equations.
+* Nested sampling algorithm    :    a computational approach to the problem of comparing models in Bayesian statistics
 
-* Petrick's method	:	Another algorithm for boolean simplification.
+* Newell's algorithm    :    eliminate polygon cycles in the depth sorting required in hidden surface removal
 
-* Espresso heuristic logic minimizer	:	Fast algorithm for boolean function minimization.
+* Newton's method    :    finds zeros of functions with calculus
 
-* ALOPEX	:	a correlation-based machine-learning algorithm
+* Newton–Raphson division    :    uses Newton's method to find the reciprocal of D, and multiply that reciprocal by N to find the final quotient Q.
 
-* AdaBoost	:	adaptive boosting
-BrownBoost
-a boosting algorithm that may be robust to noisy datasets
+* NYSIIS    :    phonetic algorithm, improves on Soundex
 
-* LogitBoost	:	logistic regression boosting
+* Odlyzko–Schönhage algorithm    :    calculates nontrivial zeroes of the Riemann zeta function
 
-* LPBoost	:	linear programming boosting
+* OPTICS    :    a density based clustering algorithm with a visual evaluation method
 
-* C4.5 algorithm	:	an extension to ID3
+* Package-merge algorithm    :    Optimizes Huffman coding subject to a length restriction on code strings
 
-* Linde–Buzo–Gray algorithm	:	a vector quantization algorithm used to derive a good codebook
+* Packrat parser    :    A linear time parsing algorithm supporting some context-free grammars and parsing expression grammars
 
-* Backpropagation	:	A supervised learning method which requires a teacher that knows, or can calculate, the desired output for any given input
+* Painter's algorithm    :    detects visible parts of a 3-dimensional scenery
 
-* Hopfield net	:	a Recurrent neural network in which all connections are symmetric
+* Pareto interpolation    :    a method of estimating the median and other properties of a population that follows a Pareto distribution.
 
-* Perceptron	:	the simplest kind of feedforward neural network: a linear classifier.
+* Parity    :    simple/fast error detection technique
 
-* Radial basis function network	:	an artificial neural network that uses radial basis functions as activation functions
+* Partial least squares regression    :    finds a linear model describing some predicted variables in terms of other observable variables
 
-* Self-organizing map	:	an unsupervised network that produces a low-dimensional representation of the input space of the training samples
+* Paxos algorithm    :    a family of protocols for solving consensus in a network of unreliable processors
 
-* Random forest	:	classify using many decision trees
+* Pearson hashing    :    computes 8 bit value only, optimized for 8 bit computers
 
-* Q-learning	:	learn an action-value function that gives the expected utility of taking a given action in a given state and following a fixed policy thereafter
+* Perceptron    :    the simplest kind of feedforward neural network: a linear classifier.
 
-* Structured SVM	:	allows training of a classifier for general structured output labels.
+* Petrick's method    :    Another algorithm for boolean simplification.
 
-* Winnow algorithm	:	related to the perceptron, but uses a multiplicative weight-update scheme
+* Phong shading    :    an algorithm to interpolate surface normal-vectors for surface shading in 3D computer graphics
 
-* C3 linearization	:	an algorithm used primarily to obtain a consistent linearization of a multiple inheritance hierarchy in object-oriented programming
+* Polynomial long division    :    an algorithm for dividing a polynomial by another polynomial of the same or lower degree
 
-* Chaitin's algorithm	:	a bottom-up, graph coloring register allocation algorithm that uses cost/degree as its spill metric
+* Postman sort    :    variant of Bucket sort which takes advantage of hierarchical structure
 
-* Rete algorithm	:	an efficient pattern matching algorithm for implementing production rule systems
+* Powerset construction    :    Algorithm to convert nondeterministic automaton to deterministic automaton.
 
-* Sethi-Ullman algorithm	:	generate optimal code for arithmetic expressions
+* Predictive search    :    binary-like search which factors in magnitude of search term versus the high and low values in the search. Sometimes called dictionary search or interpolated search.
 
-* CYK algorithm	:	An O(n<sup>3</sup>) algorithm for parsing context-free grammars in Chomsky normal form
+* Prüfer coding    :    conversion between a labeled tree and its Prüfer sequence
 
-* Earley parser	:	Another O(n<sup>3</sup>) algorithm for parsing any context-free grammar
+* Push–relabel algorithm    :    computes a maximum flow in a graph
 
-* GLR parser :
-An algorithm for parsing any context-free grammar by Masaru Tomita. It is tuned for deterministic grammars, on which it performs almost linear time and O(n<sup>3</sup>) in worst case.
+* Q-learning    :    learn an action-value function that gives the expected utility of taking a given action in a given state and following a fixed policy thereafter
 
-* Inside-outside algorithm	:	An O(n<sup>3</sup>) algorithm for re-estimating production probabilities in probabilistic context-free grammars
-* LL parser	:	A relatively simple linear time parsing algorithm for a limited class of context-free grammars
+* [Quicksort](QuickSort)    :    divide list into two, with all items on the first list coming before all items on the second list.; then sort the two lists. Often the method of choice
 
-* Packrat parser	:	A linear time parsing algorithm supporting some context-free grammars and parsing expression grammars
-* Recursive descent parser	:	A top-down parser suitable for LL(<i>k</i>) grammars
+* Quine–McCluskey algorithm    :    Also called as Q-M algorithm, programmable method for simplifying the boolean equations.
 
-* Shunting yard algorithm	:	convert an infix-notation math expression to postfix
+* Rabin–Karp string search algorithm    :    searches multiple patterns efficiently
 
-* Deutsch-Jozsa algorithm	:	criterion of balance for Boolean function
+* Radial basis function network    :    an artificial neural network that uses radial basis functions as activation functions
 
-* Grover's algorithm	:	provides quadratic speedup for many search problems
+* Radix sort    :    sorts strings letter by letter
 
-* Shor's algorithm	:	provides exponential speedup (relative to currently known non-quantum algorithms) for factoring a number
+* Rainflow-counting algorithm    :    Reduces a complex stress history to a count of elementary stress-reversals for use in fatigue analysis
 
-* Simon's algorithm	:	provides a provably exponential speedup (relative to any non-quantum algorithm) for a black-box problem
+* Ramer–Douglas–Peucker algorithm    :    Given a 'curve' composed of line segments to find a curve not too dissimilar but that has fewer points
 
-* Hopcroft's algorithm, Moore's algorithm, and Brzozowski's algorithm	:	algorithms for minimizing the number of states in a deterministic finite automaton
+* Random forest    :    classify using many decision trees
 
-* Powerset construction	:	Algorithm to convert nondeterministic automaton to deterministic automaton.
+* Range encoding    :    same as arithmetic coding, but looked at in a slightly different way
 
-* Tarski–Kuratowski algorithm	:	a non-deterministic algorithm which provides an upper bound for the complexity of formulas in the arithmetical hierarchy and analytical hierarchy
+* Recursive descent parser    :    A top-down parser suitable for LL(<i>k</i>) grammars
 
-* BCJR algorithm	:	decoding of error correcting codes defined on trellises (principally convolutional codes)
+* Rete algorithm    :    an efficient pattern matching algorithm for implementing production rule systems
 
-* Hamming(7,4)	:	a Hamming code that encodes 4 bits of data into 7 bits by adding 3 parity bits
+* Rice coding    :    form of entropy coding that is optimal for alphabets following geometric distributions
 
-* Hamming distance	:	sum number of positions which are different
+* Richardson–Lucy deconvolution    :    image de-blurring algorithm
 
-* Luhn algorithm	:	a method of validating identification numbers
+* Ridder's method    :    3-point, exponential scaling
 
-* Luhn mod N algorithm	:	extension of Luhn to non-numeric characters
+* Risch algorithm    :    an algorithm for the calculus operation of indefinite integration (i.e. finding antiderivatives)
 
-* Parity	:	simple/fast error detection technique
+* Rotating calipers    :    determine all antipodal pairs of points and vertices on a convex polygon or convex hull.
 
-* Burrows–Wheeler transform	:	preprocessing useful for improving lossless compression
+* Rounding functions    :    the classic ways to round numbers
 
-* Delta encoding	:	aid to compression of data in which sequential data occurs frequently
+* Run-length encoding    :    lossless data compression taking advantage of strings of repeated characters
 
-* Dynamic Markov compression	:	Compression using predictive arithmetic coding
+* Scanline rendering    :    constructs an image by moving an imaginary line over the image
 
-* LZWL	:	syllable-based variant
+* Schensted algorithm    :    constructs a pair of Young tableaux from a permutation
 
-* Range encoding	:	same as arithmetic coding, but looked at in a slightly different way
+* Schreier–Sims algorithm    :    computing a base and strong generating set (BSGS) of a permutation group
 
-* Adaptive Huffman coding	:	adaptive coding technique based on Huffman coding
+* Schönhage–Strassen algorithm    :    an asymptotically fast multiplication algorithm for large integers
 
-* Package-merge algorithm	:	Optimizes Huffman coding subject to a length restriction on code strings
+* Scoring algorithm    :    is a form of Newton's method used to solve maximum likelihood equations numerically
 
-* Shannon–Fano–Elias coding	:	precursor to arithmetic encoding<sup id="cite_ref-1" class="reference">[1]</sup>
+* Seam carving    :    content-aware image resizing algorithm
 
-* Golomb coding	:	form of entropy coding that is optimal for alphabets following geometric distributions
+* Secant method    :    2-point, 1-sided
 
-* Rice coding	:	form of entropy coding that is optimal for alphabets following geometric distributions
+* Selection algorithm    :    finds the <i>k</i>th largest item in a sequence
 
-* [Unary coding](UnaryCoding)	:	code that represents a number n with n ones followed by a zero
+* [Selection sort](SelectionSort)    :    pick the smallest of the remaining elements, add it to the end of the sorted list
 
-* Incremental encoding	:	delta encoding applied to sequences of strings
+* Self-organizing map    :    an unsupervised network that produces a low-dimensional representation of the input space of the training samples
 
-* Run-length encoding	:	lossless data compression taking advantage of strings of repeated characters
+* Semi-space collector    :    An early copying collector
 
-* SEQUITUR algorithm	:	lossless compression by incremental grammar inference on a string
+* SEQUITUR algorithm    :    lossless compression by incremental grammar inference on a string
 
-* 3Dc	:	a lossy data compression algorithm for normal maps
+* Sethi-Ullman algorithm    :    generate optimal code for arithmetic expressions
 
-* A-law algorithm	:	standard companding algorithm
+* Shannon–Fano–Elias coding    :    precursor to arithmetic encoding<sup id="cite_ref-1" class="reference">[1]</sup>
 
-* Mu-law algorithm	:	standard analog signal compression or companding algorithm
+* Shell sort    :    an attempt to improve insertion sort
 
-* Fractal compression	:	method used to compress images using fractals
+* Shifting nth-root algorithm    :    digit by digit root extraction
 
-* Wavelet compression	:	form of data compression well suited for image compression (sometimes also video compression and audio compression)
+* Shoelace algorithm    :    determine the area of a polygon whose vertices are described by ordered pairs in the plane
 
-* Transform coding	:	type of data compression for "natural" data like audio signals or photographic images
+* Shor's algorithm    :    provides exponential speedup (relative to currently known non-quantum algorithms) for factoring a number
 
-* Vector quantization	:	technique often used in lossy data compression
+* Shortest seek first    :    Disk scheduling algorithm to reduce seek time.
 
-* Fast folding algorithm	:	an efficient algorithm for the detection of approximately periodic events within time series data
+* Shunting yard algorithm    :    convert an infix-notation math expression to postfix
 
-* Gerchberg–Saxton algorithm	:	Phase retrieval algorithm for optical planes
+* Simon's algorithm    :    provides a provably exponential speedup (relative to any non-quantum algorithm) for a black-box problem
 
-* Goertzel algorithm	:	identify a particular frequency component in a signal. Can be used for DTMF digit decoding.
+* Simplex algorithm    :    An algorithm for solving linear programming problems
 
-* Karplus-Strong string synthesis	:	physical modelling synthesis to simulate the sound of a hammered or plucked string or some types of percussion
+* Single-linkage clustering    :    a simple agglomerative clustering algorithm
 
-* Histogram equalization	:	use histogram to improve image contrast
+* Smith–Waterman algorithm    :    find local sequence alignment
 
-* Adaptive histogram equalization	:	histogram equalization which adapts to local changes in contrast
+* Sorting by signed reversals    :    an algorithm for understanding genomic evolution.
 
-* Connected-component labeling	:	find and label disjoint regions
+* Soundex    :    a phonetic algorithm for indexing names by sound, as pronounced in English
 
-* Canny edge detector	:	detect a wide range of edges in images
+* Spigot algorithm    :    A way to compute the value of a mathematical constant without knowing preceding digits
 
-* Marr–Hildreth algorithm	:	an early edge detection algorithm
+* SSS    :    state space search traversing a game tree in a best-first fashion similar to that of the A* search algorithm
 
-* SURF (Speeded Up Robust Features)	:	is a robust local feature detector, first presented by Herbert Bay et al. in 2006, that can be used in computer vision tasks like object recognition or 3D reconstruction. It is partly inspired by the SIFT descriptor. The standard version of SURF is several times faster than SIFT and claimed by its authors to be more robust against different image transformations than SIFT.
+* Stemming algorithm    :    a method of reducing words to their stem, base, or root form
 
-* Richardson–Lucy deconvolution	:	image de-blurring algorithm
+* Stone's method    :    also known as the strongly implicit procedure or SIP, is an algorithm for solving a sparse linear system of equations
 
-* Blind deconvolution	:	image de-blurring algorithm when point spread function is unknown.
+* Strassen algorithm    :    faster matrix multiplication
 
-* Seam carving	:	content-aware image resizing algorithm
+* Structured SVM    :    allows training of a classifier for general structured output labels.
 
-* GrowCut algorithm	:	an interactive segmentation algorithm
+* SUBCLU    :    a subspace clustering algorithm
 
-* Watershed transformation	:	a class of algorithms based on the watershed analogy
+* Sukhotin's algorithm    :    a statistical classification algorithm for classifying characters in a text as vowels or consonants
 
-* CHS conversion	:	converting between disk addressing systems
+* SURF (Speeded Up Robust Features)    :    is a robust local feature detector, first presented by Herbert Bay et al. in 2006, that can be used in computer vision tasks like object recognition or 3D reconstruction. It is partly inspired by the SIFT descriptor. The standard version of SURF is several times faster than SIFT and claimed by its authors to be more robust against different image transformations than SIFT.
 
-* Double dabble	:	Convert binary numbers to BCD
+* Sweep and prune    :    a broad phase algorithm used during collision detection to limit the number of pairs of solids that need to be checked for collision
 
-* Fowler–Noll–Vo hash function	:	fast with low collision rate
+* Symbolic Cholesky decomposition    :    Efficient way of storing sparse matrix
 
-* Pearson hashing	:	computes 8 bit value only, optimized for 8 bit computers
+* Tarjan's off-line least common ancestors algorithm    :    compute lowest common ancestors for pairs of nodes in a tree
 
-* Zobrist hashing	:	used in the implementation of transposition tables
+* Tarski–Kuratowski algorithm    :    a non-deterministic algorithm which provides an upper bound for the complexity of formulas in the arithmetical hierarchy and analytical hierarchy
 
-* Xor swap algorithm	:	swaps the values of two variables without using a buffer
+* [Ternary search](TernarySearch)    :    a technique for finding the minimum or maximum of a function that is either strictly increasing and then strictly decreasing or vice versa
 
-* Bully algorithm	:	a method for dynamically selecting a coordinator
+* Timsort    :    adaptative algorithm derived from merge sort and insertion sort. Used in Python 2.3 and up, and Java SE 7.
 
-* Byzantine fault tolerance	:	good fault tolerance.
+* Todd–Coxeter algorithm    :    Procedure for generating cosets.
 
-* Lamport ordering	:	a partial ordering of events based on the <i>happened-before</i> relation
+* Tomasulo algorithm    :    allows sequential instructions that would normally be stalled due to certain dependencies to execute non-sequentially
 
-* Paxos algorithm	:	a family of protocols for solving consensus in a network of unreliable processors
+* Toom–Cook multiplication    :    (Toom3) a multiplication algorithm for large integers
 
-* Vector clocks	:	generate a partial ordering of events in a distributed system and detect causality violations
+* Top-nodes algorithm    :    resource calendar management
 
-* Buddy memory allocation	:	Algorithm to allocate memory such that fragmentation is less.
+* Topological sort    :    finds linear order of nodes (e.g. jobs) based on their dependencies.
 
-* Cheney's algorithm	:	An improvement on the Semi-space collector
+* Transform coding    :    type of data compression for "natural" data like audio signals or photographic images
 
-* Generational garbage collector	:	Fast garbage collectors that segregate memory by age
+* Trigram search    :    search for text when the exact syntax or spelling of the target object is not precisely known
 
-* Mark-compact algorithm	:	a combination of the mark-sweep algorithm and Cheney's copying algorithm
+* Ukkonen's algorithm    :    a linear-time, online algorithm for constructing suffix trees
 
-* Semi-space collector	:	An early copying collector
+* [Unary coding](UnaryCoding)    :    code that represents a number n with n ones followed by a zero
 
-* Karn's Algorithm	:	addresses the problem of getting accurate estimates of the round-trip time for messages when using TCP
+* Uniform binary search    :    an optimization of the classic binary search algorithm
 
-* Luleå algorithm	:	a technique for storing and searching internet routing tables efficiently
+* Uniform-cost search    :    a tree search that finds the lowest cost route where costs vary
 
-* Nagle's algorithm	:	improve the efficiency of TCP/IP networks by coalescing packets
+* UPGMA    :    a distance-based phylogenetic tree construction algorithm.
 
-* Banker's algorithm	:	Algorithm used for deadlock avoidance.
+* Vector clocks    :    generate a partial ordering of events in a distributed system and detect causality violations
 
-* Adaptive replacement cache	:	better performance than LRU
-Top-nodes algorithm	:	resource calendar management
+* Vector quantization    :    technique often used in lossy data compression
 
-* Elevator algorithm	:	Disk scheduling algorithm that works like an elevator.
+* VEGAS algorithm    :    a method for reducing error in Monte Carlo simulations
 
-* Shortest seek first	:	Disk scheduling algorithm to reduce seek time.
+* Velvet    :    a set of algorithms manipulating de Bruijn graphs for genomic sequence assembly
 
-* Fast Fourier Transform:	A fast Fourier transform (FFT) algorithm computes the discrete Fourier transform (DFT) of a sequence
+* Vincenty's formulae    :    a fast algorithm to calculate the distance between two latitude/longitude points on an ellipsoid
 
-* Inverse Fast Fourier Transform:	Inverse Fast Fourier transform (IFFT) algorithm computes the inverse discrete Fourier transform (Inverse DFT) of a sequence
+* Viterbi algorithm    :    find the most likely sequence of hidden states in a hidden markov model
+
+* WACA clustering algorithm    :    a local clustering algorithm with potentially multi-hop structures; for dynamic networks
+
+* Wang and Landau algorithm    :    an extension of Metropolis–Hastings algorithm sampling
+
+* Warnsdorff's algorithm    :    A heuristic method for solving the Knight's Tour problem.
+
+	* A    :    special case of best-first search that uses heuristics to improve speed
+
+	* B    :    a best-first graph search algorithm that finds the least-cost path from a given initial node to any goal node (out of one or more possible goals)
+
+* Watershed transformation    :    a class of algorithms based on the watershed analogy
+
+* Wavelet compression    :    form of data compression well suited for image compression (sometimes also video compression and audio compression)
+
+* Winnow algorithm    :    related to the perceptron, but uses a multiplicative weight-update scheme
+
+* Xiaolin Wu's line algorithm    :    algorithm for line antialiasing.
+
+* Xor swap algorithm    :    swaps the values of two variables without using a buffer
+
+* Yamartino method    :    calculate an approximation to the standard deviation σθ of wind direction θ during a single pass through the incoming data
+
+* Zhu–Takaoka string matching algorithm    :    a variant of the Boyer–Moore
+
+* Ziggurat algorithm    :    generate random numbers from a non-uniform distribution
+
+* Zobrist hashing    :    used in the implementation of transposition tables
 
 Folder structure should be
 [**Algorithm name**]/[**language**]/**file**  
