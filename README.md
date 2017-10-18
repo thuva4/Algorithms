@@ -47,7 +47,7 @@ ShellSort | :+1: | :+1: |  |  | :+1: |  |  |  |
 SieveofEratosthenes | :+1: | :+1: |  |  | :+1: |  |  |  |
 UnaryCoding | :+1: | :+1: |  |  |  | :+1: |  |  |  
 TernarySearch |  |  |  |  | :+1: |  |  |  |  
-Topological Sort |  |  |  |  | :+1: |  |  |  |  
+Topological Sort |  | :+1:  |  |  | :+1: |  |  |  |  
 
 ### List of Algorithms :
 
