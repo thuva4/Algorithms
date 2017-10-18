@@ -53,6 +53,7 @@ UnaryCoding | :+1: | :+1: |  |  |  | :+1: |  |  |
 TernarySearch |  |  |  |  | :+1: |  |  |  |  
 Topological Sort |  |  |  |  | :+1: |  |  |  |  
 Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |  
+Union Find |:+1:|  |  |  |  |  |  |  |  
 
 
 ### List of Algorithms :
@@ -770,6 +771,8 @@ Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |
 * Ziggurat algorithm    :    generate random numbers from a non-uniform distribution
 
 * Zobrist hashing    :    used in the implementation of transposition tables
+
+* Union Find : used to know if there is path between 2 objects or not
 
 Folder structure should be
 [**Algorithm name**]/[**language**]/**file**  
