@@ -17,7 +17,7 @@ Borwein's Algorithm | :+1: |  |  |  | :+1: |  |  |  | ||
 BubbleSort | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: |  | :+1: | :+1: |
 Conjugate Gradient |  |  |  |  | :+1: |  |  |  | ||
 CountingSort | :+1: | :+1: |  |  | :+1: |  |  |  | |
-DepthFirstSearch | :+1: |  |  |  | :+1: |  |  |  | |
+DepthFirstSearch | :+1: | :+1: |  |  | :+1: |  |  |  | |
 Dijkstra's  | :+1: | :+1: |  |  | :+1: |  |  |  | |
 Doomsday | :+1: | :+1: |  |  |  | :+1: |  |  |  | :+1: | :+1:
 ElevatorAlgorithm | :+1: |  |  |  |  |  |  |  |  
@@ -25,7 +25,7 @@ Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |
 Fibonacci | :+1: | :+1: |  | :+1: |  |  | :+1: |  | :+1:
 FisherYatesShuffle | :+1: |  |  |  | :+1: | :+1: |  | :+1: |
 Floyd'sAlgorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
-GreatestCommonDivisor | :+1: |  | :+1: | :+1: |  |  |  |  |
+GreatestCommonDivisor | :+1: |  | :+1: | :+1: | :+1: |   |  |  |
 HammingDistance | :+1: | :+1: |  |  |  | :+1: |  |  |
 HeapSort | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  | :+1:
 HistogramEqualization | :+1: |  |  |  |  |  |  |  |
