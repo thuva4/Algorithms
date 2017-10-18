@@ -43,11 +43,7 @@ MiniMaxWithABPruning | :+1: |  |  |  |  |  |  |  |
 Modified_Binary_Search |  |  |  | :+1: |  |  |  |  |
 Postman Sort |  |  |  | :+1: |  |  |  |  |
 Quick Sort | :+1: | :+1: |  |  |  | :+1: | :+1: | :+1: |  :+1:
-<<<<<<< HEAD
-Quick Select |  |  |  |  |  |  | :+1: | |  
-=======
 Quick Select |  | :+1: |  |  |  |  | :+1: | |  
->>>>>>> upstream/master
 Uniform-cost search | :+1: |  |  |  |  | :+1: | :+1: |  |
 RadixSort | :+1: | :+1: |  |  | :+1: |  |  |  |
 RobinCarp | :+1: |  |  |  |  |  |  |  |
@@ -56,11 +52,7 @@ ShellSort | :+1: | :+1: |  |  | :+1: |  |  |  |
 SieveofEratosthenes | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  |
 UnaryCoding | :+1: | :+1: |  |  |  | :+1: |  |  |  
 VEGAS Algorithm |  |  |  |  | :+1: |  |  |  | ||
-<<<<<<< HEAD
-TernarySearch | :+1: |  |  |  | :+1: |  |  |  |  
-=======
 TernarySearch | :+1: |:+1:  |  |  | :+1: |  |  |  |  
->>>>>>> upstream/master
 Topological Sort |  |  |  |  | :+1: |  |  |  |  
 Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |  
 
@@ -383,9 +375,9 @@ Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |
 
 * Halley's method    :    uses first and second derivatives
 
-* Hamming distance    :    sum number of positions which are different
-
 * [Hamming distance](HammingDistance)    :    sum number of positions which are different
+
+* Hamming distance    :    sum number of positions which are different
 
 * Hamming(7,4)    :    a Hamming code that encodes 4 bits of data into 7 bits by adding 3 parity bits
 
