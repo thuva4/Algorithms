@@ -1,5 +1,4 @@
 /*
- Open-Genus/Cosmos  
  Dynamic-Programming + Divide & conquer for getting cost and aligned strings for problem of aligning two large strings
  Reference - Wikipedia-"Hirschberg's algorithm"
  */
