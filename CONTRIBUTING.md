@@ -7,6 +7,7 @@ The maintainer of the project is Thuvarakan [Tharmarajasingam](https://github.co
 
 #### Table Of Contents
 Open-Source Within Community.  Maintainer merges pull-requests, fixes critical bugs.
+
 Pull-requests
 -------------
 
@@ -28,14 +29,101 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 
 3. Inside the folder create the folder for language you want to share and add your code.
 
-5. Commit
+4. Commit
 
-6. Update the README.md. Check the language you have used in the table (check emoji is ``:+1:`` )
+5. Update the README.md. Check the language you have used in the table (check emoji is ``:+1:`` )
 
-7. Commit, Push
+6. Commit, Push
 
-8. Make a pull request
+7. Make a pull request
 
-9. Star The Repository
+8. Star The Repository
 
-10. Happy Hacktoberfest
+9. Happy Hacktoberfest
+
+
+*******
+## Contributors List
+	Thanks to everyone for contributing to the repo.
+
+- [Tharmarajasingam](https://github.com/Thuva4)
+- [octamois](https://github.com/octamois)
+- [abdatta](https://github.com/abdatta)
+- [Astrophilic](https://github.com/Astrophilic)
+- [GayanSandaruwan](https://github.com/GayanSandaruwan)
+- [srpurwaha201](https://github.com/srpurwaha201)
+- [adityadavera](https://github.com/adityadavera)
+- [AtoMc](https://github.com/AtoMc)
+- [AbhiTaker](https://github.com/AbhiTaker)
+- [youssefAli11997](https://github.com/youssefAli11997)
+- [gionuno](https://github.com/gionuno)
+- [lavalojan](https://github.com/lavalojan)
+- [ldhnam](https://github.com/ldhnam)
+- [Sudeepa14](https://github.com/Sudeepa14)
+- [zskamljic](https://github.com/zskamljic)
+- [gabrielcerteza](https://github.com/gabrielcerteza)
+- [sarthak-sopho](https://github.com/sarthak-sopho)
+- [Fcmam5](https://github.com/Fcmam5)
+- [ErangaD](https://github.com/ErangaD)
+- [fenilgandhi](https://github.com/fenilgandhi)
+- [Technophile7](https://github.com/Technophile7)
+- [r-o-k-u-r-o-u](https://github.com/r-o-k-u-r-o-u)
+- [pabe94](https://github.com/pabe94)
+- [IshamMohamed](https://github.com/IshamMohamed)
+- [maaz93](https://github.com/maaz93)
+- [melzareix](https://github.com/melzareix)
+- [causztic](https://github.com/causztic)
+- [ranjanbinwani](https://github.com/ranjanbinwani)
+- [buihaduong](https://github.com/buihaduong)
+- [Texla](https://github.com/Texla)
+- [prateekpandey14](https://github.com/prateekpandey14)
+- [riktimmondal](https://github.com/riktimmondal)
+- [C2P1](https://github.com/C2P1)
+- [Pritom14](https://github.com/Pritom14)
+- [k-alkiek](https://github.com/k-alkiek)
+- [Crowton](https://github.com/Crowton)
+- [bansalraghav](https://github.com/bansalraghav)
+- [tanya-vedi](https://github.com/tanya-vedi)
+- [Decoys-out](https://github.com/Decoys-out)
+- [xiroV](https://github.com/xiroV)
+- [jourdanrodrigues](https://github.com/jourdanrodrigues)
+- [vicennial](https://github.com/vicennial)
+- [ms10398](https://github.com/ms10398)
+- [pratik1998](https://github.com/pratik1998)
+- [bituka](https://github.com/bituka)
+- [disc](https://github.com/disc)
+- [Geokats](https://github.com/Geokats)
+- [maddaladivya](https://github.com/maddaladivya)
+- [phoebeclarke](https://github.com/phoebeclarke)
+- [imiordanov](https://github.com/imiordanov)
+- [Samir55](https://github.com/Samir55)
+- [Hayaan](https://github.com/Hayaan)
+- [vsk4](https://github.com/vsk4)
+- [CodeBySid](https://github.com/CodeBySid)
+- [nishankbhati](https://github.com/nishankbhati)
+- [LegendL3n](https://github.com/LegendL3n)
+- [jeroentjo](https://github.com/jeroentjo)
+- [alok760](https://github.com/alok760)
+- [sachincool](https://github.com/sachincool)
+- [ayush9398](https://github.com/ayush9398)
+- [sagarkar10](https://github.com/sagarkar10)
+- [Haxk20](https://github.com/Haxk20)
+- [sagarchoudhary96](https://github.com/sagarchoudhary96)
+- [engrravijain](https://github.com/engrravijain)
+- [trimble](https://github.com/trimble)
+- [bamsarts](https://github.com/bamsarts)
+- [Savithri123](https://github.com/Savithri123)
+- [amlaanb](https://github.com/amlaanb)
+- [Kurolox](https://github.com/Kurolox)
+- [DrBanner97](https://github.com/DrBanner97)
+- [j3rrywan9](https://github.com/j3rrywan9)
+- [adikul30](https://github.com/adikul30)
+- [vn17](https://github.com/vn17)
+- [Priyansh2](https://github.com/Priyansh2)
+- [cielavenir](https://github.com/cielavenir)
+- [ChaituVR](https://github.com/ChaituVR)
+- [hyerra](https://github.com/hyerra)
+- [fabvit86](https://github.com/fabvit86)
+- [mekisiel](https://github.com/mekisiel)
+- [tushar-dtu](https://github.com/tushar-dtu)
+- [AymanASamyM](https://github.com/AymanASamyM)
