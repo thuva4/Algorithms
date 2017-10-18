@@ -15,20 +15,27 @@ If you fixed or added something useful to the project, you can send pull-request
 Bugs
 ----
 
-If you found an error, mistype or any other flawback in the project, please report about it using [issues](https://github.com/Thuva4/Algorithms_Example/issues).
+If you found an error, mistype or any other flaw in the project, please report about it using [issues](https://github.com/Thuva4/Algorithms_Example/issues).
 The more details you provide, the easier it can be reproduced and the faster can be fixed.
 Unfortunately, sometimes the bug can be only reproduced in your project or in your environment, so maintainers cannot reproduce it. In this case we believe you can fix the bug and send us the fix.
 
 *******
 ### How to send a Pull request .
+
 1. Fork this repository.
 
-2. Add a new folder if the Algorithm does not exists yet. 
+2. Check the table in the README.md file to see if the algorithm has already been added. If not, add a new row with the name of algorithm and create a new folder with a name of the algorithm.
 
-3. Inside the folder create the language you want to share. 
+3. Inside the folder create the folder for language you want to share and add your code.
 
-4. Commit, Push and Thank you for sharing!
+5. Commit
 
-5. Star The Repository
+6. Update the README.md. Check the language you have used in the table (check emoji is ``:+1:`` )
 
-6. Happy Hacktoberfest
+7. Commit, Push
+
+8. Make a pull request
+
+9. Star The Repository
+
+10. Happy Hacktoberfest

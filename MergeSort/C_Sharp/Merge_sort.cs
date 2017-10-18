@@ -1,12 +1,16 @@
-public class MergeSort {
+using System.IO;
+using System;
 
-    public static void sort(int[] a) {
-        int[] helper = new int[a.length];
-        sort(a, 0, a.length - 1, helper);
+class Program
+{
+    //By calling the sort method will sort the given array    
+    static void sort(int[] a) {
+        int[] helper = new int[a.Length];
+        sort(a, 0, a.Length - 1, helper);
 
     }
 
-    public static void sort(int[] a, int low, int high, int[] helper) {
+    static void sort(int[] a, int low, int high, int[] helper) {
         if (low >= high) {
             return;
         }
@@ -16,20 +20,20 @@ public class MergeSort {
         merge(a, low, middle, high, helper);
     }
 
-    public static void merge(int[] a, int low, int middle, int high, int[] helper) {
+    static void merge(int[] a, int low, int middle, int high, int[] helper) {
         for (int i = low; i <= high; i++) {
             helper[i] = a[i];
         }
-        int i = low;
+        int x = low;
         int j = middle + 1;
 
         for (int k = low; k <= high; k++) {
-            if (i > middle) {
+            if (x > middle) {
                 a[k] = helper[j++];
             } else if (j > high) {
-                a[k] = helper[i++];
-            } else if (helper[i] <= helper[j]) {
-                a[k] = helper[i++];
+                a[k] = helper[x++];
+            } else if (helper[x] <= helper[j]) {
+                a[k] = helper[x++];
             } else {
                 a[k] = helper[j++];
             }
