@@ -33,20 +33,22 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 
 5. Update the README.md. Check the language you have used in the table (check emoji is ``:+1:`` )
 
-6. Commit, Push
+6. Add your name into the contributors list in CONTRIBUTING.md file
 
-7. Make a pull request
+7. Commit, Push
 
-8. Star The Repository
+8. Make a pull request
 
-9. Happy Hacktoberfest
+9. Star The Repository
+
+10. Happy Hacktoberfest
 
 
 *******
 ## Contributors List
 	Thanks to everyone for contributing to the repo.
 
-- [Tharmarajasingam](https://github.com/Thuva4)
+- [Thuvarakan](https://github.com/Thuva4)
 - [octamois](https://github.com/octamois)
 - [abdatta](https://github.com/abdatta)
 - [Astrophilic](https://github.com/Astrophilic)
