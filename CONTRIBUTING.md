@@ -130,3 +130,4 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 - [tushar-dtu](https://github.com/tushar-dtu)
 - [AymanASamyM](https://github.com/AymanASamyM)
 - [arunpyasi](https://github.com/arunpyasi)
+- [Akos Kovacs](https://github.com/plaidshirtakos)

@@ -9,17 +9,18 @@ Language| Java | Python | Rust | C | C++ | JavaScript  | Go | C# | Ruby | Swift
 --- | --- | --- | --- |--- |--- |--- |--- |--- |--- |--- | 
 A*Search |  | :+1: |  |  | :+1: |  |  |  |
 BellmanFord | :+1: |  |  |  | :+1: |  |  |  |
-BestFirstSearch | :+1: |  |  |  |  |  |  |  |
-BinarySearch | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  | :+1: |  
+BestFirstSearch | :+1: |  |  |  |  |  |  |  | :+1: |
+BinarySearch | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  | :+1: |  
 Bitap Algorithm |  | :+1: |  |  | :+1: |  |  |  |
 BreadthFirstSearch | :+1: | :+1: |  | :+1: |  |  |  |  |
 Borwein's Algorithm | :+1: |  |  |  | :+1: |  |  |  | ||
 BubbleSort | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: |  | :+1: | :+1: |
 Conjugate Gradient |  |  |  |  | :+1: |  |  |  | ||
 CountingSort | :+1: | :+1: |  |  | :+1: |  |  |  | |
-DepthFirstSearch | :+1: | :+1: |  |  | :+1: |  |  |  | |
-Dijkstra's  | :+1: | :+1: |  |  | :+1: |  |  |  | |
+DepthFirstSearch | :+1: | :+1: |  |  | :+1: | :+1: |  |  | |
+Dijkstra's  | :+1: | :+1: |  |  | :+1: | | :+1: |  | |
 Doomsday | :+1: | :+1: |  |  |  | :+1: |  |  |  | :+1: | :+1:
+EditDistance |  |  |  |  | :+1: |  |  |  |
 ElevatorAlgorithm | :+1: |  |  |  |  |  |  |  |  
 Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |
 Fibonacci | :+1: | :+1: |  | :+1: |  |  | :+1: |  | :+1:
@@ -55,6 +56,7 @@ VEGAS Algorithm |  |  |  |  | :+1: |  |  |  | ||
 TernarySearch | :+1: |:+1:  |  |  | :+1: |  |  |  |  
 Topological Sort |  |  |  |  | :+1: |  |  |  |  
 Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |  
+Union Find |:+1:|  |  |  |  |  |  |  |  
 
 
 ### List of Algorithms :
@@ -770,6 +772,8 @@ Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |
 * Ziggurat algorithm    :    generate random numbers from a non-uniform distribution
 
 * Zobrist hashing    :    used in the implementation of transposition tables
+
+* Union Find : used to know if there is a path between 2 objects or not
 
 Folder structure should be
 [**Algorithm name**]/[**language**]/**file**  
