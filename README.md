@@ -589,6 +589,8 @@ Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |
 
 * Q-learning    :    learn an action-value function that gives the expected utility of taking a given action in a given state and following a fixed policy thereafter
 
+* [Quickselect](QuickSelect)    :    selection algorithm to find the kth smallest element in an unordered list
+
 * [Quicksort](QuickSort)    :    divide list into two, with all items on the first list coming before all items on the second list.; then sort the two lists. Often the method of choice
 
 * Quine–McCluskey algorithm    :    Also called as Q-M algorithm, programmable method for simplifying the boolean equations.
