@@ -129,4 +129,5 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 - [mekisiel](https://github.com/mekisiel)
 - [tushar-dtu](https://github.com/tushar-dtu)
 - [AymanASamyM](https://github.com/AymanASamyM)
-- [BrianChen](https://github.com/BrianChen)
+- [Akos Kovacs](https://github.com/plaidshirtakos)
+- [BrianChen](https://github.com/brianchen)
