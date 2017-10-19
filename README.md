@@ -18,7 +18,7 @@ BubbleSort | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: |  | :+1: | :+1: |
 Conjugate Gradient |  |  |  |  | :+1: |  |  |  | ||
 CountingSort | :+1: | :+1: |  |  | :+1: |  |  |  | |
 DepthFirstSearch | :+1: | :+1: |  |  | :+1: | :+1: |  |  | |
-Dijkstra's  | :+1: | :+1: |  |  | :+1: |  |  |  | |
+Dijkstra's  | :+1: | :+1: |  |  | :+1: | | :+1: |  | |
 Doomsday | :+1: | :+1: |  |  |  | :+1: |  |  |  | :+1: | :+1:
 EditDistance |  |  |  |  | :+1: |  |  |  |
 ElevatorAlgorithm | :+1: |  |  |  |  |  |  |  |  
