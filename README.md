@@ -6,7 +6,7 @@ This repository contains examples of various algorithms which were written on di
 
 
 Language| Java | Python | Rust | C | C++ | JavaScript  | Go | C# | Ruby | Swift
---- | --- | --- | --- |--- |--- |--- |--- |--- |--- |--- | 
+--- | --- | --- | --- |--- |--- |--- |--- |--- |--- |--- |
 A*Search |  | :+1: |  |  | :+1: |  |  |  |
 BellmanFord | :+1: |  |  |  | :+1: |  |  |  |
 BestFirstSearch | :+1: |  |  |  |  |  |  |  |
@@ -38,7 +38,7 @@ LinearSearch | :+1: | :+1: |  |  | :+1: | :+1: |  |  |  |  |
 Longest-Common-Subsequence | :+1: | :+1: |  |  | :+1: |  |  |  | :+1:
 Longest-Increasing-Subsequence | :+1: |  |  |  | :+1: |  |  |  |
 LongestPath |  |  |  |  | :+1: |  |  |  |
-MergeSort | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  |
+MergeSort | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: | :+1: |
 MiniMaxWithABPruning | :+1: |  |  |  |  |  |  |  |
 Modified_Binary_Search |  |  |  | :+1: |  |  |  |  |
 Postman Sort |  |  |  | :+1: |  |  |  |  |
