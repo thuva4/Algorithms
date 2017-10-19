@@ -12,6 +12,7 @@ BellmanFord | :+1: |  |  |  | :+1: |  |  |  |
 BestFirstSearch | :+1: |  |  |  |  |  |  |  |
 BinarySearch | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  | :+1: |  
 Bitap Algorithm |  | :+1: |  |  | :+1: |  |  |  |
+BitonicSort |  |  |  | :+1: |  |  |  |  |
 BreadthFirstSearch | :+1: | :+1: |  | :+1: |  |  |  |  |
 Borwein's Algorithm | :+1: |  |  |  | :+1: |  |  |  | ||
 BubbleSort | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: |  | :+1: | :+1: |
@@ -132,6 +133,8 @@ Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |
 * Birkhoff interpolation    :    an extension of polynomial interpolation
 
 * Bitap algorithm    :    fuzzy algorithm that determines if strings are approximately equal.
+
+* Bitonic sort algorithm    :    a sorting algorithm efficient in machines with a lot of processors: O(log^2(n)) with n/2 processors
 
 * BKM algorithm    :    compute elementary functions using a table of logarithms
 
