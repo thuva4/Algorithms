@@ -29,7 +29,7 @@ FloodFill Algorithm | :+1: | | | | | | | |
 Floyd'sAlgorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
 GreatestCommonDivisor | :+1: |  | :+1: | :+1: | :+1: |   |  |  |
 HammingDistance | :+1: | :+1: |  | :+1: |  | :+1: |  |  |
-HeapSort | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  | :+1:
+HeapSort | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  | :+1:
 HistogramEqualization | :+1: |  |  |  |  |  |  |  |
 InsertionSort | :+1: | :+1: | :+1: | :+1: | :+1:  |  | :+1: | :+1: |
 Inverse Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |
