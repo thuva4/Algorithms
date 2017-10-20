@@ -136,3 +136,4 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 - [Gowtham R](https://github.com/gowtham1997)
 - [SrGrace](https://github.com/SrGrace)
 - [d-grossman](https://github.com/d-grossman)
+- [Renan Vichetti](https://github.com/rvconessa)
