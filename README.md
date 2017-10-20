@@ -43,6 +43,7 @@ LongestPath |  |  |  |  | :+1: |  |  |  |
 MergeSort | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  |
 MiniMaxWithABPruning | :+1: |  |  |  |  |  |  |  |
 Modified_Binary_Search |  |  |  | :+1: |  |  |  |  |
+Pearson Hashing | :+1: |  |  |  |  |  |  |  |
 Postman Sort |  |  |  | :+1: |  |  |  |  |
 Quick Sort | :+1: | :+1: |  |  |  | :+1: | :+1: | :+1: |  :+1:
 Quick Select | :+1: | :+1: |  |  |  |  | :+1: | |  
@@ -273,7 +274,7 @@ Union Find |:+1:|:+1:|  |  |  |  |  |  |
 
 * Discrete Green's Theorem    :    is an algorithm for computing double integral over a generalized rectangular domain in constant time. It is a natural extension to the summed area table algorithm
 
-* Doomsday algorithm    :    day of the week
+* [Doomsday algorithm](Doomsday)    :    day of the week
 
 * Double dabble    :    Convert binary numbers to BCD
 
@@ -295,7 +296,7 @@ Union Find |:+1:|:+1:|  |  |  |  |  |  |
 
 * Espresso heuristic logic minimizer    :    Fast algorithm for boolean function minimization.
 
-* Euclidean algorithm    :    computes the greatest common divisor
+* [Euclidean algorithm](GreatestCommonDivisor)    :    computes the greatest common divisor
 
 * Euclidean minimum spanning tree    :    algorithms for computing the minimum spanning tree of a set of points in the plane
 
@@ -571,7 +572,7 @@ Union Find |:+1:|:+1:|  |  |  |  |  |  |
 
 * Paxos algorithm    :    a family of protocols for solving consensus in a network of unreliable processors
 
-* Pearson hashing    :    computes 8 bit value only, optimized for 8 bit computers
+* [Pearson hashing](PearsonHashing)    :    computes 8 bit value only, optimized for 8 bit computers
 
 * Perceptron    :    the simplest kind of feedforward neural network: a linear classifier.
 
