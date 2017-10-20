@@ -42,6 +42,7 @@ LongestPath |  |  |  |  | :+1: |  |  |  |
 MergeSort | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  |
 MiniMaxWithABPruning | :+1: |  |  |  |  |  |  |  |
 Modified_Binary_Search |  |  |  | :+1: |  |  |  |  |
+Pearson Hasing | :+1: |  |  |  |  |  |  |  |
 Postman Sort |  |  |  | :+1: |  |  |  |  |
 Quick Sort | :+1: | :+1: |  |  |  | :+1: | :+1: | :+1: |  :+1:
 Quick Select | :+1: | :+1: |  |  |  |  | :+1: | |  
@@ -569,7 +570,7 @@ Union Find |:+1:|  |  |  |  |  |  |  |
 
 * Paxos algorithm    :    a family of protocols for solving consensus in a network of unreliable processors
 
-* Pearson hashing    :    computes 8 bit value only, optimized for 8 bit computers
+* [Pearson hashing](PearsonHashing)    :    computes 8 bit value only, optimized for 8 bit computers
 
 * Perceptron    :    the simplest kind of feedforward neural network: a linear classifier.
 
