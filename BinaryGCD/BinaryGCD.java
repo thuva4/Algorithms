@@ -1,5 +1,6 @@
 /**
- * The binary GCD algorithm, also known as Stein's algorithm, is an algorithm that computes the greatest common divisor of two nonnegative integers.
+ * The binary GCD algorithm, also known as Stein's algorithm, is an algorithm 
+ * that computes the greatest common divisor of two nonnegative integers.
  * 
  * @author Atom
  * @see <a href="https://en.wikipedia.org/wiki/Binary_GCD_algorithm">Binary GCD algorithm</a>
