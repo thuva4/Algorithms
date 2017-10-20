@@ -24,8 +24,9 @@ Doomsday | :+1: | :+1: |  |  |  | :+1: |  |  |  | :+1: | :+1:
 EditDistance |  | :+1: |  |  | :+1: |  |  |  |
 ElevatorAlgorithm | :+1: |  |  |  |  |  |  |  |
 Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |
-Fibonacci | :+1: | :+1: |  | :+1: | :+1: |  | :+1: |  | :+1:
+Fibonacci | :+1: | :+1: |  | :+1: | :+1: | :+1: |  | :+1: | :+1: |  |
 FisherYatesShuffle | :+1: |  |  |  | :+1: | :+1: |  | :+1: |
+FloodFill Algorithm | :+1: | | | | | | | |
 Floyd'sAlgorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
 GreatestCommonDivisor | :+1: |  | :+1: | :+1: | :+1: |   |  |  |
 HammingDistance | :+1: | :+1: |  | :+1: |  | :+1: |  |  |
@@ -58,7 +59,8 @@ VEGAS Algorithm |  |  |  |  | :+1: |  |  |  | ||
 TernarySearch | :+1: |:+1:  |  |  | :+1: |  |  |  |
 Topological Sort |  |  |  |  | :+1: |  |  |  |
 Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |
-Union Find |:+1:|  |  |  |  |  |  |  |
+Union Find |:+1:|:+1:|  |  |  |  |  |  |  
+
 
 
 ### List of Algorithms :

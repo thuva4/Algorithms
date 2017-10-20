@@ -135,3 +135,5 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 - [robertmihai26](https://github.com/robertmihai26)
 - [Gowtham R](https://github.com/gowtham1997)
 - [SrGrace](https://github.com/SrGrace)
+- [d-grossman](https://github.com/d-grossman)
+- [javmonisu](https://github.com/javmonisu)
