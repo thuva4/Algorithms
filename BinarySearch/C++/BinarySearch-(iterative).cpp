@@ -11,7 +11,7 @@ int binarySearch(int low,int high,int key)
 {
    while(low<=high)
    {
-     int mid = (low + high) / 2;
+     int mid = low+(high-low)/2;
      if(a[mid] < key)
      {
          low = mid + 1;

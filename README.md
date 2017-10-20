@@ -27,7 +27,7 @@ Fibonacci | :+1: | :+1: |  | :+1: |  |  | :+1: |  | :+1:
 FisherYatesShuffle | :+1: |  |  |  | :+1: | :+1: |  | :+1: |
 Floyd'sAlgorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
 GreatestCommonDivisor | :+1: |  | :+1: | :+1: | :+1: |   |  |  |
-HammingDistance | :+1: | :+1: |  |  |  | :+1: |  |  |
+HammingDistance | :+1: | :+1: |  | :+1: |  | :+1: |  |  |
 HeapSort | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  | :+1:
 HistogramEqualization | :+1: |  |  |  |  |  |  |  |
 InsertionSort | :+1: | :+1: | :+1: | :+1: | :+1:  |  | :+1: | :+1: |  
@@ -35,7 +35,7 @@ Inverse Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |
 Johnson algorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
 Kadane's algorithm | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  |
 Knuth Morris Prath Algorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
-LinearSearch | :+1: | :+1: |  |  | :+1: | :+1: |  |  |  |  |
+LinearSearch | :+1: | :+1: |  |  :+1:| :+1: | :+1: |  |  |  |  |
 Longest-Common-Subsequence | :+1: | :+1: |  |  | :+1: |  |  |  | :+1:
 Longest-Increasing-Subsequence | :+1: |  |  |  | :+1: |  |  |  |
 LongestPath |  |  |  |  | :+1: |  |  |  |
@@ -43,7 +43,7 @@ MergeSort | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  |
 MiniMaxWithABPruning | :+1: |  |  |  |  |  |  |  |
 Modified_Binary_Search |  |  |  | :+1: |  |  |  |  |
 Postman Sort |  |  |  | :+1: |  |  |  |  |
-Quick Sort | :+1: | :+1: |  |  |  | :+1: | :+1: | :+1: |  :+1:
+Quick Sort | :+1: | :+1: |  |  | :+1: | :+1: | :+1: | :+1: |  :+1:
 Quick Select | :+1: | :+1: |  |  |  |  | :+1: | |  
 Uniform-cost search | :+1: |  |  |  |  | :+1: | :+1: |  |
 RadixSort | :+1: | :+1: |  |  | :+1: |  |  |  |
