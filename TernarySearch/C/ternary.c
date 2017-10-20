@@ -1,7 +1,7 @@
 // 'low' is the lower index
 // 'high' is the upper index
 // 'key' is the element to be searched
-int Ternary_search(inr ar[] , int low , int high , int key) 
+int Ternary_search(inr ar[] , int low , int high , int key)     //A recursive implementation of Ternary Search
 {
     if(high>=low)
     {
@@ -13,10 +13,10 @@ int Ternary_search(inr ar[] , int low , int high , int key)
         if(ar[mid2] == x)
             return mid2;     // returning mid1 if key is found at mid1 position
         
-        if(key>ar[mid2])
+        if(key > ar[mid2])
             return Ternarysearch(mid2+1,r,x);   //if key element is in the right potion
         
-        else if(key<ar[mid1])
+        else if(key < ar[mid1])
             return Ternarysearch(l,mid1-1,x);   //if key element is in the left potion
         
         else
