@@ -27,7 +27,7 @@ Fibonacci | :+1: | :+1: |  | :+1: |  |  | :+1: |  | :+1:
 FisherYatesShuffle | :+1: |  |  |  | :+1: | :+1: |  | :+1: |
 Floyd'sAlgorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
 GreatestCommonDivisor | :+1: |  | :+1: | :+1: | :+1: |   |  |  |
-HammingDistance | :+1: | :+1: |  |  |  | :+1: |  |  |
+HammingDistance | :+1: | :+1: |  | :+1: |  | :+1: |  |  |
 HeapSort | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  | :+1:
 HistogramEqualization | :+1: |  |  |  |  |  |  |  |
 InsertionSort | :+1: | :+1: | :+1: | :+1: | :+1:  |  | :+1: | :+1: |  
@@ -35,7 +35,7 @@ Inverse Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |
 Johnson algorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
 Kadane's algorithm | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  |
 Knuth Morris Prath Algorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
-LinearSearch | :+1: | :+1: |  |  | :+1: | :+1: |  |  |  |  |
+LinearSearch | :+1: | :+1: |  |  :+1:| :+1: | :+1: |  |  |  |  |
 Longest-Common-Subsequence | :+1: | :+1: |  |  | :+1: |  |  |  | :+1:
 Longest-Increasing-Subsequence | :+1: |  |  |  | :+1: |  |  |  |
 LongestPath |  |  |  |  | :+1: |  |  |  |
@@ -43,8 +43,8 @@ MergeSort | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  |
 MiniMaxWithABPruning | :+1: |  |  |  |  |  |  |  |
 Modified_Binary_Search |  |  |  | :+1: |  |  |  |  |
 Postman Sort |  |  |  | :+1: |  |  |  |  |
-Quick Sort | :+1: | :+1: |  |  |  | :+1: | :+1: | :+1: |  :+1:
-Quick Select |  | :+1: |  |  |  |  | :+1: | |  
+Quick Sort | :+1: | :+1: |  |  | :+1: | :+1: | :+1: | :+1: |  :+1:
+Quick Select | :+1: | :+1: |  |  |  |  | :+1: | |  
 Uniform-cost search | :+1: |  |  |  |  | :+1: | :+1: |  |
 RadixSort | :+1: | :+1: |  |  | :+1: |  |  |  |
 RobinCarp | :+1: |  |  |  |  |  |  |  |
@@ -590,6 +590,8 @@ Union Find |:+1:|  |  |  |  |  |  |  |
 * Push–relabel algorithm    :    computes a maximum flow in a graph
 
 * Q-learning    :    learn an action-value function that gives the expected utility of taking a given action in a given state and following a fixed policy thereafter
+
+* [Quickselect](QuickSelect)    :    selection algorithm to find the kth smallest element in an unordered list
 
 * [Quicksort](QuickSort)    :    divide list into two, with all items on the first list coming before all items on the second list.; then sort the two lists. Often the method of choice
 
