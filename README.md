@@ -44,7 +44,7 @@ MiniMaxWithABPruning | :+1: |  |  |  |  |  |  |  |
 Modified_Binary_Search |  |  |  | :+1: |  |  |  |  |
 Postman Sort |  |  |  | :+1: |  |  |  |  |
 Quick Sort | :+1: | :+1: |  |  | :+1: | :+1: | :+1: | :+1: |  :+1:
-Quick Select |  | :+1: |  |  |  |  | :+1: | |  
+Quick Select | :+1: | :+1: |  |  |  |  | :+1: | |  
 Uniform-cost search | :+1: |  |  |  |  | :+1: | :+1: |  |
 RadixSort | :+1: | :+1: |  |  | :+1: |  |  |  |
 RobinCarp | :+1: |  |  |  |  |  |  |  |
@@ -590,6 +590,8 @@ Union Find |:+1:|  |  |  |  |  |  |  |
 * Push–relabel algorithm    :    computes a maximum flow in a graph
 
 * Q-learning    :    learn an action-value function that gives the expected utility of taking a given action in a given state and following a fixed policy thereafter
+
+* [Quickselect](QuickSelect)    :    selection algorithm to find the kth smallest element in an unordered list
 
 * [Quicksort](QuickSort)    :    divide list into two, with all items on the first list coming before all items on the second list.; then sort the two lists. Often the method of choice
 

@@ -131,3 +131,4 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 - [AymanASamyM](https://github.com/AymanASamyM)
 - [arunpyasi](https://github.com/arunpyasi)
 - [Akos Kovacs](https://github.com/plaidshirtakos)
+- [AtoMc](https://github.com/AtoMc)
