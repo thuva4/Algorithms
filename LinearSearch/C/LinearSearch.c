@@ -1,5 +1,4 @@
 #include "stdlib.h"
-
 int LinearSearch(int *array, int len, int key){
 	int i;
 
