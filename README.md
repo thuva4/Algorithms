@@ -6,11 +6,11 @@ This repository contains examples of various algorithms which were written on di
 
 
 Language| Java | Python | Rust | C | C++ | JavaScript  | Go | C# | Ruby | Swift
---- | --- | --- | --- |--- |--- |--- |--- |--- |--- |--- | 
+--- | --- | --- | --- |--- |--- |--- |--- |--- |--- |--- |
 A*Search |  | :+1: |  |  | :+1: |  |  |  |
 BellmanFord | :+1: |  |  |  | :+1: |  |  |  |
 BestFirstSearch | :+1: |  |  |  |  |  |  |  | :+1: |
-BinarySearch | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  | :+1: |  
+BinarySearch | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  | :+1: |
 Bitap Algorithm |  | :+1: |  |  | :+1: |  |  |  |
 BreadthFirstSearch | :+1: | :+1: |  | :+1: |  |  |  |  |
 Borwein's Algorithm | :+1: |  |  |  | :+1: |  |  |  | ||
@@ -20,22 +20,23 @@ CountingSort | :+1: | :+1: |  |  | :+1: |  |  |  | |
 DepthFirstSearch | :+1: | :+1: |  |  | :+1: | :+1: |  |  | |
 Dijkstra's  | :+1: | :+1: |  |  | :+1: | | :+1: |  | |
 Doomsday | :+1: | :+1: |  |  |  | :+1: |  |  |  | :+1: | :+1:
-EditDistance |  |  |  |  | :+1: |  |  |  |
-ElevatorAlgorithm | :+1: |  |  |  |  |  |  |  |  
+EditDistance |  | :+1: |  |  | :+1: |  |  |  |
+ElevatorAlgorithm | :+1: |  |  |  |  |  |  |  |
 Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |
 Fibonacci | :+1: | :+1: |  | :+1: | :+1: | :+1: |  | :+1: | :+1: |  |
 FisherYatesShuffle | :+1: |  |  |  | :+1: | :+1: |  | :+1: |
+FloodFill Algorithm | :+1: | | | | | | | |
 Floyd'sAlgorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
 GreatestCommonDivisor | :+1: |  | :+1: | :+1: | :+1: |   |  |  |
-HammingDistance | :+1: | :+1: |  |  |  | :+1: |  |  |
+HammingDistance | :+1: | :+1: |  | :+1: |  | :+1: |  |  |
 HeapSort | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  | :+1:
 HistogramEqualization | :+1: |  |  |  |  |  |  |  |
-InsertionSort | :+1: | :+1: | :+1: | :+1: | :+1:  |  | :+1: | :+1: |  
-Inverse Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |  
+InsertionSort | :+1: | :+1: | :+1: | :+1: | :+1:  |  | :+1: | :+1: |
+Inverse Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |
 Johnson algorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
 Kadane's algorithm | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  |
 Knuth Morris Prath Algorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
-LinearSearch | :+1: | :+1: |  |  | :+1: | :+1: |  |  |  |  |
+LinearSearch | :+1: | :+1: |  |  :+1:| :+1: | :+1: |  |  |  |  |
 Longest-Common-Subsequence | :+1: | :+1: |  |  | :+1: |  |  |  | :+1:
 Longest-Increasing-Subsequence | :+1: |  |  |  | :+1: |  |  |  |
 LongestPath |  |  |  |  | :+1: |  |  |  |
@@ -44,19 +45,20 @@ MiniMaxWithABPruning | :+1: |  |  |  |  |  |  |  |
 Modified_Binary_Search |  |  |  | :+1: |  |  |  |  |
 Postman Sort |  |  |  | :+1: |  |  |  |  |
 Quick Sort | :+1: | :+1: |  |  |  | :+1: | :+1: | :+1: |  :+1:
-Quick Select |  | :+1: |  |  |  |  | :+1: | |  
+Quick Select | :+1: | :+1: |  |  |  |  | :+1: | |  
 Uniform-cost search | :+1: |  |  |  |  | :+1: | :+1: |  |
 RadixSort | :+1: | :+1: |  |  | :+1: |  |  |  |
 RobinCarp | :+1: |  |  |  |  |  |  |  |
 SelectionSort | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: | :+1: | :+1:
-ShellSort | :+1: | :+1: |  |  | :+1: |  |  |  |  
+ShellSort | :+1: | :+1: |  |  | :+1: |  |  |  |
 SieveofEratosthenes | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  |
-UnaryCoding | :+1: | :+1: |  |  |  | :+1: |  |  |  
+UnaryCoding | :+1: | :+1: |  |  |  | :+1: |  |  |
 VEGAS Algorithm |  |  |  |  | :+1: |  |  |  | ||
-TernarySearch | :+1: |:+1:  |  |  | :+1: |  |  |  |  
-Topological Sort |  |  |  |  | :+1: |  |  |  |  
-Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |  
-Union Find |:+1:|  |  |  |  |  |  |  |  
+TernarySearch | :+1: |:+1:  |  |  | :+1: |  |  |  |
+Topological Sort |  |  |  |  | :+1: |  |  |  |
+Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |
+Union Find |:+1:|:+1:|  |  |  |  |  |  |  
+
 
 
 ### List of Algorithms :
@@ -591,6 +593,8 @@ Union Find |:+1:|  |  |  |  |  |  |  |
 
 * Q-learning    :    learn an action-value function that gives the expected utility of taking a given action in a given state and following a fixed policy thereafter
 
+* [Quickselect](QuickSelect)    :    selection algorithm to find the kth smallest element in an unordered list
+
 * [Quicksort](QuickSort)    :    divide list into two, with all items on the first list coming before all items on the second list.; then sort the two lists. Often the method of choice
 
 * Quine–McCluskey algorithm    :    Also called as Q-M algorithm, programmable method for simplifying the boolean equations.
@@ -776,7 +780,7 @@ Union Find |:+1:|  |  |  |  |  |  |  |
 * Union Find : used to know if there is a path between 2 objects or not
 
 Folder structure should be
-[**Algorithm name**]/[**language**]/**file**  
+[**Algorithm name**]/[**language**]/**file**
 
 *For example*:
 * **BubbleSort/Go/BubbleSort.go**
