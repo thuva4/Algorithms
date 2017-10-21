@@ -1,5 +1,9 @@
 /**
  * An implementation of the Timsort sorting algorithm.
+ *
+ * This implementation is not as highly tuned for performance as is possible.
+ * Instead, it is simplified somewhat, though still keeping the core mechanics
+ * of the algorithm in place.
  */
 public class TimSort {
     /**
@@ -27,7 +31,7 @@ public class TimSort {
     private int[] array;
     
     /**
-     * The following three variables comprise a stack which contains information
+     * The following three variables make up a stack which contains information
      * about runs in {@code array}. This stack can be accessed from places
      * other than the top.
      */
@@ -46,26 +50,21 @@ public class TimSort {
         int lowIndex = 0;
         int highIndex = array.length;
         
-        int remainingIndices = highIndex - lowIndex;
-        
-        // If array is of size 0 or 1, it's already sorted
-        if (remainingIndices < 2)
-            return;
-        
-        // If array is less than MIN_SEQUENCE_SIZE, fall back to insertion sort
-        if (remainingIndices < MIN_SEQUENCE_SIZE) {
+        // If array isn't long enough, fall back to insertion sort
+        if (array.length < MIN_SEQUENCE_SIZE) {
             int runLength = findLengthOfRun(lowIndex, highIndex);
             insertionSort(lowIndex, lowIndex + runLength, highIndex);
             return;
         }
         
         // Else, do regular Timsort
-        int minRun = findMinRun(remainingIndices);
+        int remainingIndices = highIndex - lowIndex;
+        int minRun = findMinRun(array.length);
         
         do {
             int runLength = findLengthOfRun(lowIndex, highIndex);
             
-            // If run is too short for minRun, make it longer
+            // If run isn't long enough, make it longer
             if (runLength < minRun) {
                 int forceLength = Math.min(remainingIndices, minRun);
                 insertionSort(lowIndex, lowIndex + runLength,
@@ -75,28 +74,31 @@ public class TimSort {
             
             // Push run onto stack, merge if necessary
             pushRun(lowIndex, runLength);
-            mergeToMaintainInvariants();
+            mergeRunsToMaintainInvariants();
             
             // Advance to next run
             lowIndex += runLength;
             remainingIndices -= runLength;
         } while (remainingIndices != 0);
         
-        // Merge all remaining runs
-        mergeAll();
+        mergeAllRuns();
     }
     
-    private int findMinRun(int remainingIndices) {
+    /**
+     * Finds the minimum acceptable run length (minrun) for an array of the
+     * specified length.
+     */
+    private int findMinRun(int length) {
         boolean anyOtherBits = false;
         
-        while (remainingIndices >= MIN_SEQUENCE_SIZE) {
-            if ((remainingIndices & 1) == 1)
+        while (length >= MIN_SEQUENCE_SIZE) {
+            if ((length & 1) == 1) // If any "1" bits would be pushed off...
                 anyOtherBits = true;
             
-            remainingIndices >>= 1;
+            length >>= 1;
         }
         
-        return remainingIndices + (anyOtherBits ? 1 : 0);
+        return length + (anyOtherBits ? 1 : 0);
     }
     
     /**
@@ -114,7 +116,7 @@ public class TimSort {
      *      |Z| > |Y| + |X|
      *      |Y| > |X|
      */
-    private void mergeToMaintainInvariants() {
+    private void mergeRunsToMaintainInvariants() {
         while (runStackSize > 1) {
             int n = runStackSize - 2;
             
@@ -125,10 +127,10 @@ public class TimSort {
                 if (runStackLengths[n - 1] < runStackLengths[n + 1])
                     n--;
                 
-                merge(n);
+                mergeRunsAt(n);
             } else if (runStackLengths[n] <= runStackLengths[n + 1]) {
                 // |Y| > |X| violated
-                merge(n);
+                mergeRunsAt(n);
             } else {
                 // Invariants are established
                 break;
@@ -137,23 +139,23 @@ public class TimSort {
     }
     
     /**
-     * Merges all runs on the run stack into one run.
+     * Merges all runs on the run stack into one run. This finalizes the sort.
      */
-    private void mergeAll() {
+    private void mergeAllRuns() {
         while (runStackSize > 1) {
             int n = runStackSize - 2;
             
             if (n > 0 && runStackLengths[n - 1] < runStackLengths[n + 1])
                 n--;
             
-            merge(n);
+            mergeRunsAt(n);
         }
     }
     
     /**
      * Merges the run at the specified index of the stack with the run above it.
      */
-    private void merge(int index) {
+    private void mergeRunsAt(int index) {
         int start1 = runStackStarts[index];
         int length1 = runStackLengths[index];
         int start2 = runStackStarts[index + 1];
@@ -185,11 +187,255 @@ public class TimSort {
         if (length2 == 0)
             return;
         
-        // Merge remaining runs
         if (length1 <= length2)
             mergeLow(start1, length1, start2, length2);
         else
             mergeHigh(start1, length1, start2, length2);
+    }
+    
+    /**
+     * Merges two adjacent runs, in place and in a stable fashion.
+     *
+     * Performs optimally when length1 < length2. Otherwise, use mergeHigh. If
+     * length1 = length2, either method will suffice.
+     */
+    private void mergeLow(int start1, int length1, int start2, int length2) {
+        // Copy first run into temporary array
+        int[] tempArray = new int[length1];
+        System.arraycopy(array, start1, tempArray, 0, length1);
+        
+        int cursor1 = 0;
+        int cursor2 = start2;
+        int destination = start1;
+        
+        array[destination++] = array[cursor2++];
+        
+        if (--length2 == 0) {
+            System.arraycopy(tempArray, cursor1, array, destination, length1);
+            return;
+        }
+        
+        if (length1 == 1) {
+            System.arraycopy(array, cursor2, array, destination, length2);
+            array[destination + length2] = tempArray[cursor1];
+            return;
+        }
+        
+        // A break outerLoop statement will break out of this entire loop
+    outerLoop:
+        while (true) {
+            int consecutiveWins1 = 0;
+            int consecutiveWins2 = 0;
+            
+            // Merge the straightforward way (no runs consistently winning yet)
+            do {
+                if (array[cursor2] < tempArray[cursor1]) {
+                    array[destination++] = array[cursor2++];
+                    consecutiveWins2++;
+                    consecutiveWins1 = 0;
+                    
+                    if (--length2 == 0)
+                        break outerLoop;
+                } else {
+                    array[destination++] = tempArray[cursor1++];
+                    consecutiveWins1++;
+                    consecutiveWins2 = 0;
+                    
+                    if (--length1 == 0)
+                        break outerLoop;
+                }
+            } while ((consecutiveWins1 | consecutiveWins2) < minGallopEntry);
+            
+            // If the algo gets here, one run is winning consistently enough
+            // that galloping may be faster. Gallop until neither run wins
+            // consistently
+            do {
+                consecutiveWins1 = gallopRight(array[cursor2], tempArray,
+                    cursor1, length1, 0);
+                
+                if (consecutiveWins1 != 0) {
+                    System.arraycopy(tempArray, cursor1, array, destination,
+                        consecutiveWins1);
+                    
+                    destination += consecutiveWins1;
+                    cursor1 += consecutiveWins1;
+                    length1 -= consecutiveWins1;
+                    
+                    if (length1 <= 1)
+                        break outerLoop;
+                }
+                
+                array[destination++] = array[cursor2++];
+                
+                if (--length2 == 0)
+                    break outerLoop;
+                
+                consecutiveWins2 = gallopLeft(tempArray[cursor1], array,
+                    cursor2, length2, 0);
+                
+                if (consecutiveWins2 != 0) {
+                    System.arraycopy(array, cursor2, array, destination,
+                        consecutiveWins2);
+                    
+                    destination += consecutiveWins2;
+                    cursor2 += consecutiveWins2;
+                    length2 -= consecutiveWins2;
+                    
+                    if (length2 == 0)
+                        break outerLoop;
+                }
+                
+                array[destination++] = tempArray[cursor1++];
+                
+                if (--length1 == 1)
+                    break outerLoop;
+                
+                // Gallop mode working so far, so make it easier to enter
+                minGallopEntry--;
+            } while (consecutiveWins1 >= MAX_GALLOP_EXIT |
+                     consecutiveWins2 >= MAX_GALLOP_EXIT);
+            
+            if (minGallopEntry < 0)
+                minGallopEntry = 0;
+            
+            // Gallop mode not working so great now, so make it harder to enter
+            minGallopEntry += 2;
+        }
+        
+        if (minGallopEntry < 1)
+            minGallopEntry = 1;
+        
+        if (length1 == 1) {
+            System.arraycopy(array, cursor2, array, destination, length2);
+            array[destination + length2] = tempArray[cursor1];
+        } else {
+            System.arraycopy(tempArray, cursor1, array, destination, length1);
+        }
+    }
+    
+    /**
+     * Merges two adjacent runs, in place and in a stable fashion.
+     *
+     * Performs optimally when length1 < length2. Otherwise, use mergeHigh. If
+     * length1 = length2, either method will suffice.
+     */
+    private void mergeHigh(int start1, int length1, int start2, int length2) {
+        int[] tempArray = new int[length2];
+        System.arraycopy(array, start2, tempArray, 0, length2);
+        
+        int cursor1 = start1 + length1 - 1;
+        int cursor2 = length2 - 1;
+        int destination = start2 + length2 - 1;
+        
+        array[destination--] = array[cursor1--];
+        
+        if (--length1 == 0) {
+            System.arraycopy(tempArray, 0, array, destination - length2 - 1,
+                length2);
+            return;
+        }
+        
+        if (length2 == 1) {
+            destination -= length1;
+            cursor1 -= length1;
+            System.arraycopy(array, cursor1 + 1, array, destination + 1,
+                length1);
+            array[destination] = tempArray[cursor2];
+            return;
+        }
+        
+        // A break outerLoop statement will break out of this entire loop
+    outerLoop:
+        while (true) {
+            int consecutiveWins1 = 0;
+            int consecutiveWins2 = 0;
+            
+            // Merge the straightforward way (no runs winning consistently yet)
+            do {
+                if (tempArray[cursor2] < array[cursor1]) {
+                    array[destination--] = array[cursor1--];
+                    consecutiveWins1++;
+                    consecutiveWins2 = 0;
+                    
+                    if (--length1 == 0)
+                        break outerLoop;
+                } else {
+                    array[destination--] = tempArray[cursor2--];
+                    consecutiveWins2++;
+                    consecutiveWins1 = 0;
+                    
+                    if (--length2 == 1)
+                        break outerLoop;
+                }
+            } while ((consecutiveWins1 | consecutiveWins2) < minGallopEntry);
+            
+            // If the algo gets here, one run is winning consistently enough
+            // that galloping may be faster. Gallop until neither run wins
+            // consistently
+            do {
+                consecutiveWins1 = length1 - gallopRight(tempArray[cursor2],
+                    array, start1, length1, length1 - 1);
+                
+                if (consecutiveWins1 != 0) {
+                    destination -= consecutiveWins1;
+                    cursor1 -= consecutiveWins1;
+                    length1 -= consecutiveWins1;
+                    System.arraycopy(array, cursor1 + 1, array, destination + 1,
+                        consecutiveWins1);
+                    
+                    if (length1 == 0)
+                        break outerLoop;
+                }
+                
+                array[destination--] = tempArray[cursor2--];
+                
+                if (--length2 == 1)
+                    break outerLoop;
+                
+                consecutiveWins2 = length2 - gallopLeft(array[cursor1],
+                    tempArray, 0, length2, length2 - 1);
+                
+                if (consecutiveWins2 != 0) {
+                    destination -= consecutiveWins2;
+                    cursor2 -= consecutiveWins2;
+                    length2 -= consecutiveWins2;
+                    System.arraycopy(tempArray, cursor2 + 1, array,
+                        destination + 1, consecutiveWins2);
+                    
+                    if (length2 <= 1)
+                        break outerLoop;
+                }
+                
+                array[destination--] = array[cursor1--];
+                
+                if (--length1 == 0)
+                    break outerLoop;
+                
+                // Gallop mode working so far, so make it easier to enter
+                minGallopEntry--;
+            } while (consecutiveWins1 >= MAX_GALLOP_EXIT |
+                     consecutiveWins2 >= MAX_GALLOP_EXIT);
+            
+            if (minGallopEntry < 0)
+                minGallopEntry = 0;
+            
+            // Gallop mode not working so great now, so make it harder to enter
+            minGallopEntry += 2;
+        }
+        
+        if (minGallopEntry < 1)
+            minGallopEntry = 1;
+        
+        if (length2 == 1) {
+            destination -= length1;
+            cursor1 -= length1;
+            System.arraycopy(array, cursor1 + 1, array, destination + 1,
+                length1);
+            array[destination] = tempArray[cursor2];
+        } else {
+            System.arraycopy(tempArray, 0, array, destination - length2 + 1,
+                length2);
+        }
     }
     
     /**
@@ -322,257 +568,6 @@ public class TimSort {
     }
     
     /**
-     * Merges two adjacent runs, in place and in a stable fashion.
-     *
-     * Performs optimally when length1 < length2. Otherwise, use mergeHigh. If
-     * length1 = length2, either method will suffice.
-     */
-    private void mergeLow(int start1, int length1, int start2, int length2) {
-        // Copy first run into temporary array
-        int[] tempArray = new int[length1];
-        System.arraycopy(array, start1, tempArray, 0, length1);
-        
-        int cursor1 = 0;
-        int cursor2 = start2;
-        int destination = start1;
-        
-        array[destination++] = array[cursor2++];
-        
-        if (--length2 == 0) {
-            System.arraycopy(tempArray, cursor1, array, destination, length1);
-            return;
-        }
-        
-        if (length1 == 1) {
-            System.arraycopy(array, cursor2, array, destination, length2);
-            array[destination + length2] = tempArray[cursor1];
-            return;
-        }
-        
-        // A break outerLoop statement will break out of this entire loop
-    outerLoop:
-        while (true) {
-            int consecutiveWins1 = 0;
-            int consecutiveWins2 = 0;
-            
-            // Merge the straightforward way (no runs consistently winning yet)
-            do {
-                if (array[cursor2] < tempArray[cursor1]) {
-                    array[destination++] = array[cursor2++];
-                    consecutiveWins2++;
-                    consecutiveWins1 = 0;
-                    
-                    if (--length2 == 0)
-                        break outerLoop;
-                } else {
-                    array[destination++] = tempArray[cursor1++];
-                    consecutiveWins1++;
-                    consecutiveWins2 = 0;
-                    
-                    if (--length1 == 0)
-                        break outerLoop;
-                }
-            } while ((consecutiveWins1 | consecutiveWins2) < minGallopEntry);
-            
-            // If the algo gets here, one run is winning consistently enough
-            // that galloping may be faster. Gallop until neither run wins
-            // consistently
-            do {
-                consecutiveWins1 = gallopRight(array[cursor2], tempArray,
-                    cursor1, length1, 0);
-                
-                if (consecutiveWins1 != 0) {
-                    System.arraycopy(tempArray, cursor1, array, destination,
-                        consecutiveWins1);
-                    
-                    destination += consecutiveWins1;
-                    cursor1 += consecutiveWins1;
-                    length1 -= consecutiveWins1;
-                    
-                    if (length1 <= 1)
-                        break outerLoop;
-                }
-                
-                array[destination++] = array[cursor2++];
-                
-                if (--length2 == 0)
-                    break outerLoop;
-                
-                consecutiveWins2 = gallopLeft(tempArray[cursor1], array,
-                    cursor2, length2, 0);
-                
-                if (consecutiveWins2 != 0) {
-                    System.arraycopy(array, cursor2, array, destination,
-                        consecutiveWins2);
-                    
-                    destination += consecutiveWins2;
-                    cursor2 += consecutiveWins2;
-                    length2 -= consecutiveWins2;
-                    
-                    if (length2 == 0)
-                        break outerLoop;
-                }
-                
-                array[destination++] = tempArray[cursor1++];
-                
-                if (--length1 == 1)
-                    break outerLoop;
-                
-                // Gallop mode working so far, so make it easier to enter
-                minGallopEntry--;
-            } while (consecutiveWins1 >= MAX_GALLOP_EXIT |
-                     consecutiveWins2 >= MAX_GALLOP_EXIT);
-            
-            if (minGallopEntry < 0)
-                minGallopEntry = 0;
-            
-            // Gallop mode not working so great now, so make it harder to enter
-            minGallopEntry += 2;
-        }
-        
-        if (minGallopEntry < 1)
-            minGallopEntry = 1;
-        
-        if (length1 == 1) {
-            System.arraycopy(array, cursor2, array, destination, length2);
-            array[destination + length2] = tempArray[cursor1];
-        } else if (length1 == 0) {
-            throw new IllegalArgumentException(
-                "Comparison method violates its general contract");
-        } else {
-            System.arraycopy(tempArray, cursor1, array, destination, length1);
-        }
-    }
-    
-    /**
-     * Merges two adjacent runs, in place and in a stable fashion.
-     *
-     * Performs optimally when length1 < length2. Otherwise, use mergeHigh. If
-     * length1 = length2, either method will suffice.
-     */
-    private void mergeHigh(int start1, int length1, int start2, int length2) {
-        int[] tempArray = new int[length2];
-        System.arraycopy(array, start2, tempArray, 0, length2);
-        
-        int cursor1 = start1 + length1 - 1;
-        int cursor2 = length2 - 1;
-        int destination = start2 + length2 - 1;
-        
-        array[destination--] = array[cursor1--];
-        
-        if (--length1 == 0) {
-            System.arraycopy(tempArray, 0, array, destination - length2 - 1,
-                length2);
-            return;
-        }
-        
-        if (length2 == 1) {
-            destination -= length1;
-            cursor1 -= length1;
-            System.arraycopy(array, cursor1 + 1, array, destination + 1,
-                length1);
-            array[destination] = tempArray[cursor2];
-            return;
-        }
-        
-        // A break outerLoop statement will break out of this entire loop
-    outerLoop:
-        while (true) {
-            int consecutiveWins1 = 0;
-            int consecutiveWins2 = 0;
-            
-            // Merge the straightforward way (no runs winning consistently yet)
-            do {
-                if (tempArray[cursor2] < array[cursor1]) {
-                    array[destination--] = array[cursor1--];
-                    consecutiveWins1++;
-                    consecutiveWins2 = 0;
-                    
-                    if (--length1 == 0)
-                        break outerLoop;
-                } else {
-                    array[destination--] = tempArray[cursor2--];
-                    consecutiveWins2++;
-                    consecutiveWins1 = 0;
-                    
-                    if (--length2 == 1)
-                        break outerLoop;
-                }
-            } while ((consecutiveWins1 | consecutiveWins2) < minGallopEntry);
-            
-            // If the algo gets here, one run is winning consistently enough
-            // that galloping may be faster. Gallop until neither run wins
-            // consistently
-            do {
-                consecutiveWins1 = length1 - gallopRight(tempArray[cursor2],
-                    array, start1, length1, length1 - 1);
-                
-                if (consecutiveWins1 != 0) {
-                    destination -= consecutiveWins1;
-                    cursor1 -= consecutiveWins1;
-                    length1 -= consecutiveWins1;
-                    System.arraycopy(array, cursor1 + 1, array, destination + 1,
-                        consecutiveWins1);
-                    
-                    if (length1 == 0)
-                        break outerLoop;
-                }
-                
-                array[destination--] = tempArray[cursor2--];
-                
-                if (--length2 == 1)
-                    break outerLoop;
-                
-                consecutiveWins2 = length2 - gallopLeft(array[cursor1],
-                    tempArray, 0, length2, length2 - 1);
-                
-                if (consecutiveWins2 != 0) {
-                    destination -= consecutiveWins2;
-                    cursor2 -= consecutiveWins2;
-                    length2 -= consecutiveWins2;
-                    System.arraycopy(tempArray, cursor2 + 1, array,
-                        destination + 1, consecutiveWins2);
-                    
-                    if (length2 <= 1)
-                        break outerLoop;
-                }
-                
-                array[destination--] = array[cursor1--];
-                
-                if (--length1 == 0)
-                    break outerLoop;
-                
-                // Gallop mode working so far, so make it easier to enter
-                minGallopEntry--;
-            } while (consecutiveWins1 >= MAX_GALLOP_EXIT |
-                     consecutiveWins2 >= MAX_GALLOP_EXIT);
-            
-            if (minGallopEntry < 0)
-                minGallopEntry = 0;
-            
-            // Gallop mode not working so great now, so make it harder to enter
-            minGallopEntry += 2;
-        }
-        
-        if (minGallopEntry < 1)
-            minGallopEntry = 1;
-        
-        if (length2 == 1) {
-            destination -= length1;
-            cursor1 -= length1;
-            System.arraycopy(array, cursor1 + 1, array, destination + 1,
-                length1);
-            array[destination] = tempArray[cursor2];
-        } else if (length2 == 0) {
-            throw new IllegalArgumentException(
-                "Comparison method violates its general contract");
-        } else {
-            System.arraycopy(tempArray, 0, array, destination - length2 + 1,
-                length2);
-        }
-    }
-    
-    /**
      * Finds the length of the run beginning at {@code lowIndex} and ending at
      * or before {@code highIndex}. A run can be either ascending or descending.
      * If the run is descending, it will be reversed to make it ascending.
@@ -583,12 +578,12 @@ public class TimSort {
         if (runEnd == end)
             return 1;
         
-        if (array[runEnd++] < array[start]) {
+        if (array[runEnd++] < array[start]) { // Descending run
             while (runEnd < end && array[runEnd] < array[runEnd - 1])
                runEnd++;
             
             reverse(start, runEnd);
-        } else {
+        } else { // Ascending run
             while (runEnd < end && array[runEnd] >= array[runEnd - 1])
                 runEnd++;
         }
