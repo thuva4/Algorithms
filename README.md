@@ -11,6 +11,7 @@ This repository contains following Algorithm implementations:
     Kadane's
     QuickSort
     RobinCarp
+    TimSort
 
 #Python
     BinarySearch
