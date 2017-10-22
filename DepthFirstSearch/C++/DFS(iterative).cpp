@@ -5,7 +5,7 @@ using namespace std;
 vector<int> adj[1000];            //adjacency list of graph
 bool visited[1000]={false} ;               //array to keep track of visited nodes
 
-void bfs(int source)
+void dfs(int source)
 {
     visited[source] = true;
 
@@ -46,7 +46,7 @@ int main()
     int source;
     cin>>source;
 
-    bfs(source);
+    dfs(source);
 
     return 0;
 }

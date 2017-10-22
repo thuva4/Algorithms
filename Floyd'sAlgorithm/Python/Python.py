@@ -1,49 +1,41 @@
-# Python program to detect loop in the linked list
- 
-# Node class 
-class Node:
-    # Constructor to initialize the node object
-    def __init__(self, data):
-        self.data = data
-        self.next = None
- 
-class Python:
- 
-    # Function to initialize head
-    def __init__(self):
-        self.head = None
- 
-    # Function to insert a new node at the beginning
-    def push(self, new_data):
-        new_node = Node(new_data)
-        new_node.next = self.head
-        self.head = new_node
- 
-    # Function to prit the linked LinkedList
-    def printList(self):
-        temp = self.head
-        while(temp):
-            print temp.data
-            temp = temp.next
- 
-    #To check if there exists a loop within the list
-    def detectLoop(self):
-        slow_p = self.head  #This is the first pointer and it jumps by one node
-        fast_p = self.head  #This is the second pointer and it jumps by two nodes
-        while(slow_p and fast_p and fast_p.next):   #To check if these pointers point to null
-            slow_p = slow_p.next
-            fast_p = fast_p.next.next
-            if slow_p == fast_p:
-                print "Found Loop"
-                return
- 
-# Main program for testing
-llist = Python()
-llist.push(5)
-llist.push(10)
-llist.push(15)
-llist.push(20)
- 
-# Create a loop for testing
-llist.head.next.next.next.next = llist.head
-llist.detectLoop()
+#!/usr/bin/env python3
+
+'''
+ Implementation of Optimal Floyd Algorithm for finding shortest paths in a weighted graph with positive or negative edge weights (but with no negative cycles).
+
+ The values can be inserted using a matrix ( array of arrays of ints )
+'''
+inf = 10**10
+
+def floyd(matrix):
+    matrix_length = len(matrix)
+    for k in range(matrix_length):
+        for i in range(matrix_length):
+            for j in range(matrix_length):
+                # Negative Weight Cycles are not allowed in Floyd Algorithm
+                if (i == j ) and (matrix[i][j] < 0 ):
+                        return -1
+                if matrix[i][k] + matrix[k][j] < matrix[i][j]:
+                    matrix[i][j] = matrix[i][k] + matrix[k][j]
+    return matrix
+
+
+def run_test():
+    matrix = [
+        [0,     inf,    -2,     inf],
+        [4,     0,       3,     inf],
+        [inf,   inf,     0,     2],
+        [inf,   -1,      inf,   0],
+    ]
+
+    ans_matrix = [
+        [0,     -1,     -2,     0],
+        [4,      0,      2,     4],
+        [5,      1,      0,     2],
+        [3,     -1,      1,     0],
+    ]
+    ans = floyd(matrix)
+    if (ans == ans_matrix):
+        return True 
+    else:
+        return False
