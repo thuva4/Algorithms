@@ -3,31 +3,29 @@
 
 using namespace std;
 
-void imprime(vector<int> lista)
+void print(vector<int> lista)
 {
     for(int i=0; i < lista.size();i++)
         cout<<lista[i]<<" ";
 }
 
-vector<int> SelectionSort(vector<int> data)
+vector<int> BubbleSort( vector<int> data)
 {
     int lon = data.size();
 
     for (int i = 0; i < lon; ++i)
     {
-        int min = i;
-        for (int j = i+1; j < lon; ++j)
+        bool swapped = false;
+        for (int j = 0; j < lon - (i+1); ++j)
         {
-            if (data[j] < data[min])
+            if (data[j] > data[j+1])
             {
-                min = j;
+                swap(data[j], data[j+1]);
+                swapped = true;
             }
         }
 
-        if (min != i)
-        {
-            swap(data[i], data[min]);
-        }
+        if (!swapped) break;
     }
     return data;
 }
@@ -46,10 +44,11 @@ int main()
         data.push_back(tmp);
     }
 
-    //Selection sort
-    cout<<endl<<"Selection sort"<<endl;
-    vector<int> select = SelectionSort(data);
-    imprime(select);
+    //Bubble sort
+    cout<<endl<<"Bubble sort"<<endl;
+    vector<int> bubble = BubbleSort(data);
+    print(bubble);
+
     cout<<endl;
 
     return 0;
