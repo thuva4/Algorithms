@@ -1,56 +1,37 @@
-#include <iostream>
-#include <vector>
+#include<iostream>
 
-using namespace std;
-
-void imprime(vector<int> lista)
-{
-    for(int i=0; i < lista.size();i++)
-        cout<<lista[i]<<" ";
-}
-
-vector<int> SelectionSort(vector<int> data)
-{
-    int lon = data.size();
-
-    for (int i = 0; i < lon; ++i)
-    {
-        int min = i;
-        for (int j = i+1; j < lon; ++j)
-        {
-            if (data[j] < data[min])
-            {
-                min = j;
+using namespace::std;
+void selection(int n, int a[20]){
+    int k,i,temp,min;
+    for(i=0; i<n-1; i++){
+        min=i;
+        for(k=i+1; k<n; k++){
+            if(a[min]>a[k])
+                min=k;
+        }
+            if(i!=min){
+                temp=a[i];
+                a[i]=a[min];
+                a[min]=temp;
             }
-        }
-
-        if (min != i)
-        {
-            swap(data[i], data[min]);
-        }
     }
-    return data;
+    cout<<"\t sorted list is \n";
+    for(i=0;i<n;i++)
+        cout<<"\t"<<a[i]<<"\t";
+    cout<<"\n";
 }
 
-int main()
-{
-    vector<int> data;
-    int num,tmp;
+int main(){
+    int a[20],i,j,k,n,temp,min;
 
-    cout<<"Number of elements: ";
-    cin>>num;
-    cout<<"Elements: "<<endl;
-    for(int i=0; i<num;i++)
-    {
-        cin>>tmp;
-        data.push_back(tmp);
-    }
+    cout<<"\n enter size ";
+    cin>>n;
 
-    //Selection sort
-    cout<<endl<<"Selection sort"<<endl;
-    vector<int> select = SelectionSort(data);
-    imprime(select);
-    cout<<endl;
+    cout<<"\n enter elements ";
 
-    return 0;
+    for(i=0; i<n; i++)
+        cin>>a[i];
+
+    selection(n,a);
+
 }
