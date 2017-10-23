@@ -78,7 +78,7 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 - [causztic](https://github.com/causztic)
 - [ranjanbinwani](https://github.com/ranjanbinwani)
 - [buihaduong](https://github.com/buihaduong)
-- [Texla](https://github.com/Texla)
+-- [Texla](https://github.com/Texla)
 - [prateekpandey14](https://github.com/prateekpandey14)
 - [riktimmondal](https://github.com/riktimmondal)
 - [C2P1](https://github.com/C2P1)
@@ -144,4 +144,5 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 - [pranjalrai](https://github.com/pranjalrai)
 - [stuxxnet](https://github.com/stuxxnet42)
 - [BurnzZ](https://github.com/BurnzZ)
-- [FernandaOchoa](http://github.com/FernandaOchoa)
+- [FernandaOchoa](https://github.com/FernandaOchoa)
+
