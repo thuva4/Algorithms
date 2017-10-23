@@ -140,4 +140,4 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 - [lena15n](https://github.com/lena15n)
 - [stripedpajamas](https://github.com/stripedpajamas)
 - [Renan Vichetti](https://github.com/rvconessa)
-
+- [pranjalrai](https://github.com/pranjalrai)
