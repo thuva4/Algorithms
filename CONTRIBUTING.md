@@ -141,3 +141,4 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 - [stripedpajamas](https://github.com/stripedpajamas)
 - [Renan Vichetti](https://github.com/rvconessa)
 - [pranjalrai](https://github.com/pranjalrai)
+- [stuxxnet](https://github.com/stuxxnet42)
