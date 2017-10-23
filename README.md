@@ -30,7 +30,7 @@ Floyd'sAlgorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
 GreatestCommonDivisor | :+1: |  | :+1: | :+1: | :+1: |   |  |  |
 HammingDistance | :+1: | :+1: |  | :+1: |  | :+1: |  |  |
 HeapSort | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  | :+1:
-HistogramEqualization | :+1: |  |  |  |  |  |  |  |
+ HistogramEqualization | :+1: |  |  |  |  |  |  |  |
 InsertionSort | :+1: | :+1: | :+1: | :+1: | :+1:  |  | :+1: | :+1: |
 Inverse Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |
 Johnson algorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
@@ -45,7 +45,7 @@ MiniMaxWithABPruning | :+1: |  |  |  |  |  |  |  |
 Modified_Binary_Search |  |  |  | :+1: |  |  |  |  |
 Pearson Hashing | :+1: |  |  |  |  |  |  |  |
 Postman Sort |  |  |  | :+1: |  |  |  |  |
-Quick Sort | :+1: | :+1: |  |  |  | :+1: | :+1: | :+1: |  :+1:
+Quick Sort | :+1: | :+1: |  |  |  | :+1: | :+1: | :+1: |  :+1: |  :+1: |
 Quick Select | :+1: | :+1: |  |  |  |  | :+1: | |  
 Uniform-cost search | :+1: |  |  |  |  | :+1: | :+1: |  |
 RadixSort | :+1: | :+1: |  |  | :+1: |  |  |  |
