@@ -6,11 +6,11 @@ This repository contains examples of various algorithms which were written on di
 
 
 Language| Java | Python | Rust | C | C++ | JavaScript  | Go | C# | Ruby | Swift
---- | --- | --- | --- |--- |--- |--- |--- |--- |--- |--- | 
+--- | --- | --- | --- |--- |--- |--- |--- |--- |--- |--- |
 A*Search |  | :+1: |  |  | :+1: |  |  |  |
 BellmanFord | :+1: |  |  |  | :+1: |  |  |  |
 BestFirstSearch | :+1: |  |  |  |  |  |  |  | :+1: |
-BinarySearch | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  | :+1: |  
+BinarySearch | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  | :+1: |
 Bitap Algorithm |  | :+1: |  |  | :+1: |  |  |  |
 BreadthFirstSearch | :+1: | :+1: |  | :+1: |  |  |  |  |
 Borwein's Algorithm | :+1: |  |  |  | :+1: |  |  |  | ||
@@ -19,44 +19,46 @@ Conjugate Gradient |  |  |  |  | :+1: |  |  |  | ||
 CountingSort | :+1: | :+1: |  |  | :+1: |  |  |  | |
 DepthFirstSearch | :+1: | :+1: |  |  | :+1: | :+1: |  |  | |
 Dijkstra's  | :+1: | :+1: |  |  | :+1: | | :+1: |  | |
-Doomsday | :+1: | :+1: |  |  |  | :+1: |  |  |  | :+1: | :+1:
-EditDistance |  |  |  |  | :+1: |  |  |  |
-ElevatorAlgorithm | :+1: |  |  |  |  |  |  |  |  
+Doomsday | :+1: | :+1: |  |  | :+1: | :+1: |  |  |  | :+1: | :+1:
+EditDistance |  | :+1: |  |  | :+1: |  |  |  |
+Edmonds-Karp | :+1: |  |  |  |  |  |  |  |
+ElevatorAlgorithm | :+1: |  |  |  |  |  |  |  |
 Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |
-Fibonacci | :+1: | :+1: |  | :+1: |  |  | :+1: |  | :+1:
+Fibonacci | :+1: | :+1: |  | :+1: | :+1: | :+1: |  | :+1: | :+1: |  |
 FisherYatesShuffle | :+1: |  |  |  | :+1: | :+1: |  | :+1: |
+FloodFill Algorithm | :+1: | | | | | | | |
 Floyd'sAlgorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
 GreatestCommonDivisor | :+1: |  | :+1: | :+1: | :+1: |   |  |  |
-HammingDistance | :+1: | :+1: |  |  |  | :+1: |  |  |
+HammingDistance | :+1: | :+1: |  | :+1: |  | :+1: | :+1: |  |
 HeapSort | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  | :+1:
 HistogramEqualization | :+1: |  |  |  |  |  |  |  |
-InsertionSort | :+1: | :+1: | :+1: | :+1: | :+1:  |  | :+1: | :+1: | :+1: |
-Inverse Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |  
+Fourier Transform |  |  |  |  | :+1: |  |  |  |
 Johnson algorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
-Kadane's algorithm | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  |
+Kadane's algorithm | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  |
 Knuth Morris Prath Algorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
-LinearSearch | :+1: | :+1: |  |  | :+1: | :+1: |  |  |  |  |
+LinearSearch | :+1: | :+1: |  |  :+1:| :+1: | :+1: |  |  |  |  |
 Longest-Common-Subsequence | :+1: | :+1: |  |  | :+1: |  |  |  | :+1:
 Longest-Increasing-Subsequence | :+1: |  |  |  | :+1: |  |  |  |
 LongestPath |  |  |  |  | :+1: |  |  |  |
 MergeSort | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  | :+1: |
 MiniMaxWithABPruning | :+1: |  |  |  |  |  |  |  |
 Modified_Binary_Search |  |  |  | :+1: |  |  |  |  |
+Pearson Hashing | :+1: |  |  |  |  |  |  |  |
 Postman Sort |  |  |  | :+1: |  |  |  |  |
 Quick Sort | :+1: | :+1: |  |  |  | :+1: | :+1: | :+1: |  :+1:
-Quick Select |  | :+1: |  |  |  |  | :+1: | |  
+Quick Select | :+1: | :+1: |  | :+1: |  |  | :+1: | |  
 Uniform-cost search | :+1: |  |  |  |  | :+1: | :+1: |  |
 RadixSort | :+1: | :+1: |  |  | :+1: |  |  |  |
 RobinCarp | :+1: |  |  |  |  |  |  |  |
 SelectionSort | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: | :+1: | :+1:
-ShellSort | :+1: | :+1: |  |  | :+1: |  |  |  |  
+ShellSort | :+1: | :+1: |  |  | :+1: |  |  |  |
 SieveofEratosthenes | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  |
-UnaryCoding | :+1: | :+1: |  |  |  | :+1: |  |  |  
+UnaryCoding | :+1: | :+1: |  |  |  | :+1: |  |  |
 VEGAS Algorithm |  |  |  |  | :+1: |  |  |  | ||
-TernarySearch | :+1: |:+1:  |  |  | :+1: |  |  |  |  
+TernarySearch | :+1: |:+1:  |  | :+1: | :+1: |  |  |  |  
 Topological Sort |  |  |  |  | :+1: |  |  |  |  
 Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |  
-Union Find |:+1:|  |  |  |  |  |  |  |  
+Union Find |:+1:|:+1:|  |  |  |  |  |  |  
 
 
 ### List of Algorithms :
@@ -271,7 +273,7 @@ Union Find |:+1:|  |  |  |  |  |  |  |
 
 * Discrete Green's Theorem    :    is an algorithm for computing double integral over a generalized rectangular domain in constant time. It is a natural extension to the summed area table algorithm
 
-* Doomsday algorithm    :    day of the week
+* [Doomsday algorithm](Doomsday)    :    day of the week
 
 * Double dabble    :    Convert binary numbers to BCD
 
@@ -293,7 +295,7 @@ Union Find |:+1:|  |  |  |  |  |  |  |
 
 * Espresso heuristic logic minimizer    :    Fast algorithm for boolean function minimization.
 
-* Euclidean algorithm    :    computes the greatest common divisor
+* [Euclidean algorithm](GreatestCommonDivisor)    :    computes the greatest common divisor
 
 * Euclidean minimum spanning tree    :    algorithms for computing the minimum spanning tree of a set of points in the plane
 
@@ -569,7 +571,7 @@ Union Find |:+1:|  |  |  |  |  |  |  |
 
 * Paxos algorithm    :    a family of protocols for solving consensus in a network of unreliable processors
 
-* Pearson hashing    :    computes 8 bit value only, optimized for 8 bit computers
+* [Pearson hashing](PearsonHashing)    :    computes 8 bit value only, optimized for 8 bit computers
 
 * Perceptron    :    the simplest kind of feedforward neural network: a linear classifier.
 
@@ -590,6 +592,8 @@ Union Find |:+1:|  |  |  |  |  |  |  |
 * Push–relabel algorithm    :    computes a maximum flow in a graph
 
 * Q-learning    :    learn an action-value function that gives the expected utility of taking a given action in a given state and following a fixed policy thereafter
+
+* [Quickselect](QuickSelect)    :    selection algorithm to find the kth smallest element in an unordered list
 
 * [Quicksort](QuickSort)    :    divide list into two, with all items on the first list coming before all items on the second list.; then sort the two lists. Often the method of choice
 
@@ -776,7 +780,7 @@ Union Find |:+1:|  |  |  |  |  |  |  |
 * Union Find : used to know if there is a path between 2 objects or not
 
 Folder structure should be
-[**Algorithm name**]/[**language**]/**file**  
+[**Algorithm name**]/[**language**]/**file**
 
 *For example*:
 * **BubbleSort/Go/BubbleSort.go**
