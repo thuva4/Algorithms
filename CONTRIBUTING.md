@@ -146,3 +146,4 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 - [BurnzZ](https://github.com/BurnzZ)
 - [FernandaOchoa](https://github.com/FernandaOchoa)
 - [npcoder2k14](https://github.com/npcoder2k14)
+- [Jaernbrand](https://github.com/Jaernbrand)
