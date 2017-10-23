@@ -19,8 +19,9 @@ Conjugate Gradient |  |  |  |  | :+1: |  |  |  | ||
 CountingSort | :+1: | :+1: |  |  | :+1: |  |  |  | |
 DepthFirstSearch | :+1: | :+1: |  |  | :+1: | :+1: |  |  | |
 Dijkstra's  | :+1: | :+1: |  |  | :+1: | | :+1: |  | |
-Doomsday | :+1: | :+1: |  |  |  | :+1: |  |  |  | :+1: | :+1:
+Doomsday | :+1: | :+1: |  |  | :+1: | :+1: |  |  |  | :+1: | :+1:
 EditDistance |  | :+1: |  |  | :+1: |  |  |  |
+Edmonds-Karp | :+1: |  |  |  |  |  |  |  |
 ElevatorAlgorithm | :+1: |  |  |  |  |  |  |  |
 Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |
 Fibonacci | :+1: | :+1: |  | :+1: | :+1: | :+1: |  | :+1: | :+1: |  |
@@ -28,13 +29,13 @@ FisherYatesShuffle | :+1: |  |  |  | :+1: | :+1: |  | :+1: |
 FloodFill Algorithm | :+1: | | | | | | | |
 Floyd'sAlgorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
 GreatestCommonDivisor | :+1: |  | :+1: | :+1: | :+1: |   |  |  |
-HammingDistance | :+1: | :+1: |  | :+1: |  | :+1: |  |  |
+HammingDistance | :+1: | :+1: |  | :+1: |  | :+1: | :+1: |  |
 HeapSort | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  | :+1:
 HistogramEqualization | :+1: |  |  |  |  |  |  |  |
 InsertionSort | :+1: | :+1: | :+1: | :+1: | :+1:  |  | :+1: | :+1: |
 Inverse Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |
 Johnson algorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
-Kadane's algorithm | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  |
+Kadane's algorithm | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  |
 Knuth Morris Prath Algorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
 LinearSearch | :+1: | :+1: |  |  :+1:| :+1: | :+1: |  |  |  |  |
 Longest-Common-Subsequence | :+1: | :+1: |  |  | :+1: |  |  |  | :+1:
@@ -46,7 +47,7 @@ Modified_Binary_Search |  |  |  | :+1: |  |  |  |  |
 Pearson Hashing | :+1: |  |  |  |  |  |  |  |
 Postman Sort |  |  |  | :+1: |  |  |  |  |
 Quick Sort | :+1: | :+1: |  |  |  | :+1: | :+1: | :+1: |  :+1:
-Quick Select | :+1: | :+1: |  |  |  |  | :+1: | |  
+Quick Select | :+1: | :+1: |  | :+1: |  |  | :+1: | |  
 Uniform-cost search | :+1: |  |  |  |  | :+1: | :+1: |  |
 RadixSort | :+1: | :+1: |  |  | :+1: |  |  |  |
 RobinCarp | :+1: |  |  |  |  |  |  |  |
@@ -55,11 +56,10 @@ ShellSort | :+1: | :+1: |  |  | :+1: |  |  |  |
 SieveofEratosthenes | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  |
 UnaryCoding | :+1: | :+1: |  |  |  | :+1: |  |  |
 VEGAS Algorithm |  |  |  |  | :+1: |  |  |  | ||
-TernarySearch | :+1: |:+1:  |  |  | :+1: |  |  |  |
-Topological Sort |  |  |  |  | :+1: |  |  |  |
-Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |
+TernarySearch | :+1: |:+1:  |  | :+1: | :+1: |  |  |  |  
+Topological Sort |  |  |  |  | :+1: |  |  |  |  
+Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |  
 Union Find |:+1:|:+1:|  |  |  |  |  |  |  
-
 
 
 ### List of Algorithms :
