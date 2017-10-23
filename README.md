@@ -35,7 +35,7 @@ HistogramEqualization | :+1: |  |  |  |  |  |  |  |
 InsertionSort | :+1: | :+1: | :+1: | :+1: | :+1:  |  | :+1: | :+1: |
 Inverse Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |
 Johnson algorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
-Kadane's algorithm | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  |
+Kadane's algorithm | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  |
 Knuth Morris Prath Algorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
 LinearSearch | :+1: | :+1: |  |  :+1:| :+1: | :+1: |  |  |  |  |
 Longest-Common-Subsequence | :+1: | :+1: |  |  | :+1: |  |  |  | :+1:
@@ -56,11 +56,10 @@ ShellSort | :+1: | :+1: |  |  | :+1: |  |  |  |
 SieveofEratosthenes | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  |
 UnaryCoding | :+1: | :+1: |  |  |  | :+1: |  |  |
 VEGAS Algorithm |  |  |  |  | :+1: |  |  |  | ||
-TernarySearch | :+1: |:+1:  |  |  | :+1: |  |  |  |
-Topological Sort |  |  |  |  | :+1: |  |  |  |
-Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |
+TernarySearch | :+1: |:+1:  |  | :+1: | :+1: |  |  |  |  
+Topological Sort |  |  |  |  | :+1: |  |  |  |  
+Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |  
 Union Find |:+1:|:+1:|  |  |  |  |  |  |  
-
 
 
 ### List of Algorithms :
