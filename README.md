@@ -29,7 +29,7 @@ Fibonacci | :+1: | :+1: |  | :+1: | :+1: | :+1: |  | :+1: | :+1: |  |
 FisherYatesShuffle | :+1: |  |  |  | :+1: | :+1: |  | :+1: |
 FloodFill Algorithm | :+1: | | | | | | | |
 Floyd'sAlgorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
-GreatestCommonDivisor | :+1: |  | :+1: | :+1: | :+1: |   |  |  |
+GreatestCommonDivisor | :+1: |:+1:| :+1: | :+1: | :+1: |   |  |  |
 HammingDistance | :+1: | :+1: |  | :+1: |  | :+1: | :+1: |  |
 HeapSort | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  | :+1:
  HistogramEqualization | :+1: |  |  |  |  |  |  |  |
@@ -40,7 +40,7 @@ Kadane's algorithm | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  |
 Knuth Morris Prath Algorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
 LinearSearch | :+1: | :+1: |  |  :+1:| :+1: | :+1: |  |  |  | :+1: |
 Longest-Common-Subsequence | :+1: | :+1: |  |  | :+1: |  |  |  | :+1:
-Longest-Increasing-Subsequence | :+1: |  |  |  | :+1: |  |  |  |
+Longest-Increasing-Subsequence | :+1: | :+1: |  |  | :+1: |  |  |  |
 LongestPath |  |  |  |  | :+1: |  |  |  |
 MergeSort | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  |  | :+1:
 MiniMaxWithABPruning | :+1: |  |  |  |  |  |  |  |
