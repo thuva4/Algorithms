@@ -10,6 +10,7 @@ Language| Java | Python | Rust | C | C++ | JavaScript  | Go | C# | Ruby | Swift
 A*Search |  | :+1: |  |  | :+1: |  |  |  |
 BellmanFord | :+1: |  |  |  | :+1: |  |  |  |
 BestFirstSearch | :+1: |  |  |  |  |  |  |  | :+1: |
+BinaryGCD | :+1: |  |  |  |  |  |  |  |  |
 BinarySearch | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  | :+1: | :+1:
 Bitap Algorithm |  | :+1: |  |  | :+1: |  |  |  |
 BreadthFirstSearch | :+1: | :+1: |  | :+1: |  |  |  |  |
@@ -128,7 +129,7 @@ Union Find |:+1:|:+1:|  |  |  |  |  |  |
 
 * Bilinear interpolation    :    an extension of linear interpolation for interpolating functions of two variables on a regular grid
 
-* Binary GCD algorithm    :    Efficient way of calculating GCD.
+* [Binary GCD algorithm](BinaryGCD)    :    Efficient way of calculating GCD.
 
 * [Binary search algorithm](BinarySearch)    :    locates an item in a sorted sequence
 
