@@ -137,3 +137,4 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 - [SrGrace](https://github.com/SrGrace)
 - [d-grossman](https://github.com/d-grossman)
 - [javmonisu](https://github.com/javmonisu)
+- [npcoder2k14](https://github.com/npcoder2k14)
