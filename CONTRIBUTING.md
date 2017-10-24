@@ -149,4 +149,4 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 - [npcoder2k14](https://github.com/npcoder2k14)
 - [Jaernbrand](https://github.com/Jaernbrand)
 - [DiegoVicen](https://github.com/DiegoVicen)
-- [Ashwin Kain](https://github.com/Ashwin-Kapes)
+- [Ashwin-Kapes](https://github.com/Ashwin-Kapes)
