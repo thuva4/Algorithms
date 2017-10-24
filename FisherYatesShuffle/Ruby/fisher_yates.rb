@@ -11,6 +11,3 @@ def fisher_yates(arr)
   end
   return arr
 end
-
-array = [1,2,3,4,5,6]
-puts fisher_yates(array)
