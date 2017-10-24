@@ -39,7 +39,7 @@ Johnson algorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
 Kadane's algorithm | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  |
 Knuth Morris Prath Algorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
 LinearSearch | :+1: | :+1: |  |  :+1:| :+1: | :+1: |  |  |  | :+1: |
-Longest-Common-Subsequence | :+1: | :+1: |  |  | :+1: |  |  |  | :+1:
+Longest-Common-Subsequence | :+1: | :+1: |  | :+1: | :+1: |  |  |  | :+1:
 Longest-Increasing-Subsequence | :+1: | :+1: |  |  | :+1: |  |  |  |
 LongestPath |  |  |  |  | :+1: |  |  |  |
 MergeSort | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  |  | :+1:
