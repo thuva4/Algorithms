@@ -1,4 +1,4 @@
-# Algorithms Example
+﻿# Algorithms Example
 
 This repository contains examples of various algorithms which were written on different programming languages.
 
@@ -780,6 +780,8 @@ Union Find |:+1:|:+1:|  |  |  |  |  |  |
 * Zobrist hashing    :    used in the implementation of transposition tables
 
 * Union Find : used to know if there is a path between 2 objects or not
+
+* Fibonacci Recursive : Fibonacci series printed using Java Recursion
 
 Folder structure should be
 [**Algorithm name**]/[**language**]/**file**
