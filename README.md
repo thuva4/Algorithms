@@ -6,7 +6,7 @@ This repository contains examples of various algorithms which were written on di
 
 
 Language| Java | Python | Rust | C | C++ | JavaScript  | Go | C# | Ruby | Swift | Racket
---- | --- | --- | :---: |--- |--- |--- |--- |--- |--- |--- |--- |
+--- | --- | :---: |:---:|--- |--- |--- |--- |--- |--- |--- |--- |
 A*Search |  | :+1: |  |  | :+1: |  |  |  |
 BellmanFord | :+1: |  |  |  | :+1: |  |  |  |
 BestFirstSearch | :+1: |  |  |  |  |  |  |  | :+1: |
