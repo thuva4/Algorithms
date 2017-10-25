@@ -31,7 +31,7 @@ InsertionSort | :+1: | :+1: | :+1: | :+1: | :+1:  |  | :+1: | :+1: |
 Inverse Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |  
 Johnson algorithm |  |  |  |  | :+1: |  |  |  |
 Kadane's algorithm | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  |  
-LinearSearch | :+1: | :+1: |  |  | :+1: | :+1: |  |  |  |  |
+LinearSearch | :+1: | :+1: | :+1: |  | :+1: | :+1: |  |  |  |  |
 Longest-Common-Subsequence | :+1: | :+1: |  |  | :+1: |  |  |  | :+1:
 Longest-Increasing-Subsequence | :+1: |  |  |  | :+1: |  |  |  |
 LongestPath |  |  |  |  | :+1: |  |  |  |
