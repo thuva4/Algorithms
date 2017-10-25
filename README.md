@@ -1,4 +1,4 @@
-# Algorithms Example
+﻿# Algorithms Example
 
 This repository contains examples of various algorithms which were written on different programming languages.
 
@@ -25,7 +25,7 @@ EditDistance |  | :+1: |  |  | :+1: |  |  |  |
 Edmonds-Karp | :+1: |  |  |  |  |  |  |  |
 ElevatorAlgorithm | :+1: |  |  |  |  |  |  |  |
 Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |
-Fibonacci | :+1: | :+1: |  | :+1: | :+1: | :+1: |  | :+1: | :+1: |  |
+Fibonacci | :+1: | :+1: |  | :+1: | :+1: | :+1: |  | :+1: | :+1: | :+1: |
 FisherYatesShuffle | :+1: |  |  |  | :+1: | :+1: |  | :+1: |
 FloodFill Algorithm | :+1: | | | | | | | |
 Floyd'sAlgorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
@@ -33,12 +33,12 @@ GreatestCommonDivisor | :+1: |:+1:| :+1: | :+1: | :+1: |   |  |  |
 HammingDistance | :+1: | :+1: |  | :+1: |  | :+1: | :+1: |  |
 HeapSort | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  | :+1:
 HistogramEqualization | :+1: |  |  |  |  |  |  |  |
-InsertionSort | :+1: | :+1: | :+1: | :+1: | :+1:  |  | :+1: | :+1: | :+1:
+InsertionSort | :+1: | :+1: | :+1: | :+1: | :+1:  | :+1: | :+1: | :+1: | :+1:
 Inverse Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |
 Johnson algorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
 Kadane's algorithm | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  |
 Knuth Morris Prath Algorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
-LinearSearch | :+1: | :+1: |  |  :+1:| :+1: | :+1: |  |  |  | :+1: |
+LinearSearch | :+1: | :+1: |  |  :+1:| :+1: | :+1: | :+1: |  |  | :+1: |
 Longest-Common-Subsequence | :+1: | :+1: |  | :+1: | :+1: |  |  |  | :+1:
 Longest-Increasing-Subsequence | :+1: | :+1: |  |  | :+1: |  |  |  |
 LongestPath |  |  |  |  | :+1: |  |  |  |
@@ -47,7 +47,7 @@ MiniMaxWithABPruning | :+1: |  |  |  |  |  |  |  |
 Modified_Binary_Search |  |  |  | :+1: |  |  |  |  |
 Pearson Hashing | :+1: |  |  |  |  |  |  |  |
 Postman Sort |  |  |  | :+1: |  |  |  |  |
-Quick Sort | :+1: | :+1: |  |  |  | :+1: | :+1: | :+1: |  :+1: |  :+1: |
+Quick Sort | :+1: | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  :+1: |  :+1: |
 Quick Select | :+1: | :+1: |  | :+1: |  |  | :+1: | |  
 Uniform-cost search | :+1: |  |  |  |  | :+1: | :+1: |  |
 RadixSort | :+1: | :+1: |  |  | :+1: |  |  |  |
@@ -61,6 +61,7 @@ TernarySearch | :+1: |:+1:  |  | :+1: | :+1: |  |  |  |
 Topological Sort |  |  |  |  | :+1: |  |  |  |  
 Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |  
 Union Find |:+1:|:+1:|  | :+1: |  |  |  |  |  
+Xor swap |:+1:|  |  |  |  |  |  |  |
 
 
 ### List of Algorithms :
@@ -769,7 +770,7 @@ Union Find |:+1:|:+1:|  | :+1: |  |  |  |  |
 
 * Xiaolin Wu's line algorithm    :    algorithm for line antialiasing.
 
-* Xor swap algorithm    :    swaps the values of two variables without using a buffer
+* [Xor swap algorithm](XorSwap)    :    swaps the values of two variables without using a buffer
 
 * Yamartino method    :    calculate an approximation to the standard deviation σθ of wind direction θ during a single pass through the incoming data
 
@@ -780,6 +781,8 @@ Union Find |:+1:|:+1:|  | :+1: |  |  |  |  |
 * Zobrist hashing    :    used in the implementation of transposition tables
 
 * Union Find : used to know if there is a path between 2 objects or not
+
+* Fibonacci Recursive : Fibonacci series printed using Java Recursion
 
 Folder structure should be
 [**Algorithm name**]/[**language**]/**file**
