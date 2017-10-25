@@ -151,3 +151,4 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 - [DiegoVicen](https://github.com/DiegoVicen)
 - [Ashwin-Kapes](https://github.com/Ashwin-Kapes)
 - [Santhosh Kumar](https://github.com/santhoshsamy29)
+- [Judar Lima](https://github.com/judarlima)
