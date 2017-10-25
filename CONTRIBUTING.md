@@ -150,3 +150,4 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 - [Jaernbrand](https://github.com/Jaernbrand)
 - [DiegoVicen](https://github.com/DiegoVicen)
 - [Ashwin-Kapes](https://github.com/Ashwin-Kapes)
+- [Jhalaa](https://github.com/jhalaa)
