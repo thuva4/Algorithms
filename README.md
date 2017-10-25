@@ -61,7 +61,7 @@ TernarySearch | :+1: |:+1:  |  | :+1: | :+1: |  |  |  |
 Topological Sort |  |  |  |  | :+1: |  |  |  |  
 Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |  
 Union Find |:+1:|:+1:|  | :+1: |  |  |  |  |  
-Xor swap |:+1:|  |  |  |  |  |  |  |
+Xor swap |:+1:|:+1:|  |  |  |:+1:|  |  |
 
 
 ### List of Algorithms :
