@@ -61,6 +61,7 @@ TernarySearch | :+1: |:+1:  |  | :+1: | :+1: |  |  |  |
 Topological Sort |  |  |  |  | :+1: |  |  |  |  
 Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |  
 Union Find |:+1:|:+1:|  |  |  |  |  |  |  
+Xor swap |:+1:|  |  |  |  |  |  |  |
 
 
 ### List of Algorithms :
@@ -769,7 +770,7 @@ Union Find |:+1:|:+1:|  |  |  |  |  |  |
 
 * Xiaolin Wu's line algorithm    :    algorithm for line antialiasing.
 
-* Xor swap algorithm    :    swaps the values of two variables without using a buffer
+* [Xor swap algorithm](XorSwap)    :    swaps the values of two variables without using a buffer
 
 * Yamartino method    :    calculate an approximation to the standard deviation σθ of wind direction θ during a single pass through the incoming data
 
