@@ -21,6 +21,7 @@ Conjugate Gradient |  |  |  |  | :+1: |  |  |  | ||
 CountingSort | :+1: | :+1: |  |  | :+1: |  |  |  | |
 DepthFirstSearch | :+1: | :+1: |  |  | :+1: | :+1: |  |  | |
 Dijkstra's  | :+1: | :+1: |  |  | :+1: | | :+1: |  | |
+Dynamic programming | :+1: |  |  |  |  |  |  |  |  |
 Doomsday | :+1: | :+1: |  |  | :+1: | :+1: |  |  | :+1: | :+1: | :+1:
 EditDistance |  | :+1: |  |  | :+1: |  |  |  |
 Edmonds-Karp | :+1: |  |  |  |  |  |  |  |
@@ -284,7 +285,7 @@ Xor swap |:+1:|  |  |  |  |  |  |  |
 
 * Dynamic Markov compression    :    Compression using predictive arithmetic coding
 
-* Dynamic Programming    :    problems exhibiting the properties of overlapping subproblems and optimal substructure
+* [Dynamic Programming](DynamicProgramming)    :    problems exhibiting the properties of overlapping subproblems and optimal substructure
 
 * Dynamic time warping    :    measure similarity between two sequences which may vary in time or speed
 
