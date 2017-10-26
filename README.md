@@ -785,7 +785,7 @@ Connected-component labeling |  |  |  |  |:+1:|  |  |  |
 
 * Fibonacci Recursive : Fibonacci series printed using Java Recursion
 
-Folder structure should be
+Folder structure should be like this
 [**Algorithm name**]/[**language**]/**file**
 
 *For example*:
