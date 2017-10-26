@@ -26,11 +26,11 @@ Edmonds-Karp | :+1: |  |  |  |  |  |  |  |
 ElevatorAlgorithm | :+1: |  |  |  |  |  |  |  |
 Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |
 Fibonacci | :+1: | :+1: |  | :+1: | :+1: | :+1: |  | :+1: | :+1: | :+1:  | :+1:
-FisherYatesShuffle | :+1: |  |  |  | :+1: | :+1: |  | :+1: |
+FisherYatesShuffle | :+1: |  |  |  | :+1: | :+1: |  | :+1: | :+1: |
 FloodFill Algorithm | :+1: | | | | | | | |
 Floyd'sAlgorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
 GreatestCommonDivisor | :+1: |:+1:| :+1: | :+1: | :+1: |   |  |  |
-HammingDistance | :+1: | :+1: |  | :+1: |  | :+1: | :+1: |  |
+HammingDistance | :+1: | :+1: |  | :+1: |  | :+1: | :+1: |  | :+1: 
 HeapSort | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  | :+1:
 HistogramEqualization | :+1: |  |  |  |  |  |  |  |
 InsertionSort | :+1: | :+1: | :+1: | :+1: | :+1:  | :+1: | :+1: | :+1: | :+1:
@@ -38,7 +38,7 @@ Inverse Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |
 Johnson algorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
 Kadane's algorithm | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  |
 Knuth Morris Prath Algorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
-LinearSearch | :+1: | :+1: |  |  :+1:| :+1: | :+1: | :+1: |  |  | :+1: |
+LinearSearch | :+1: | :+1: | :+1: |  :+1:| :+1: | :+1: | :+1: |  |  | :+1: |
 Longest-Common-Subsequence | :+1: | :+1: |  | :+1: | :+1: |  |  |  | :+1:
 Longest-Increasing-Subsequence | :+1: | :+1: |  |  | :+1: |  |  |  |
 LongestPath |  |  |  |  | :+1: |  |  |  |
@@ -62,6 +62,7 @@ Topological Sort |  |  |  |  | :+1: |  |  |  |
 Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |  
 Union Find |:+1:|:+1:|  | :+1: |  |  |  |  |  
 Xor swap |:+1:|:+1:|  |  |  |:+1:|:+1:|  |
+Connected-component labeling |  |  |  |  |:+1:|  |  |  |
 
 
 ### List of Algorithms :
@@ -784,7 +785,7 @@ Xor swap |:+1:|:+1:|  |  |  |:+1:|:+1:|  |
 
 * Fibonacci Recursive : Fibonacci series printed using Java Recursion
 
-Folder structure should be
+Folder structure should be like this
 [**Algorithm name**]/[**language**]/**file**
 
 *For example*:
