@@ -26,7 +26,7 @@ Edmonds-Karp | :+1: |  |  |  |  |  |  |  |
 ElevatorAlgorithm | :+1: |  |  |  |  |  |  |  |
 Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |
 Fibonacci | :+1: | :+1: |  | :+1: | :+1: | :+1: |  | :+1: | :+1: | :+1:  | :+1:
-FisherYatesShuffle | :+1: |  |  |  | :+1: | :+1: |  | :+1: |
+FisherYatesShuffle | :+1: |  |  |  | :+1: | :+1: |  | :+1: | :+1: |
 FloodFill Algorithm | :+1: | | | | | | | |
 Floyd'sAlgorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
 GreatestCommonDivisor | :+1: |:+1:| :+1: | :+1: | :+1: |   |  |  |
