@@ -5,46 +5,47 @@ This repository contains examples of various algorithms which were written on di
 ## Implemented algorithms with languages:
 
 
-Language| Java | Python | Rust | C | C++ | JavaScript  | Go | C# | Ruby | Swift
---- | --- | --- | --- |--- |--- |--- |--- |--- |--- |--- |
+Language| Java | Python | Rust | C | C++ | JavaScript  | Go | C# | Ruby | Swift | Racket | Perl | Crystal
+---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 A*Search |  | :+1: |  |  | :+1: |  |  |  |
 BellmanFord | :+1: |  |  |  | :+1: |  |  |  |
 BestFirstSearch | :+1: |  |  |  |  |  |  |  | :+1: |
 BinaryGCD | :+1: |  |  |  |  |  |  |  |  |
 BinarySearch | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  | :+1: | :+1:
+Binary Search Modified |  |  |  | :+1: |  |  |  |  |
 Bitap Algorithm |  | :+1: |  |  | :+1: |  |  |  |
 BreadthFirstSearch | :+1: | :+1: |  | :+1: |  |  |  |  |
 Borwein's Algorithm | :+1: |  |  |  | :+1: |  |  |  | ||
-BubbleSort | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: |  | :+1: | :+1: |
+BubbleSort | :+1: | :+1: | :+1: | :+1: | :+1:  | :+1: |  | :+1: | :+1: | | | :+1:
 Conjugate Gradient |  |  |  |  | :+1: |  |  |  | ||
 CountingSort | :+1: | :+1: |  |  | :+1: |  |  |  | |
 DepthFirstSearch | :+1: | :+1: |  |  | :+1: | :+1: |  |  | |
 Dijkstra's  | :+1: | :+1: |  |  | :+1: | | :+1: |  | |
+Dynamic programming | :+1: |  |  |  |  |  |  |  |  |
 Doomsday | :+1: | :+1: |  |  | :+1: | :+1: |  |  | :+1: | :+1: | :+1:
 EditDistance |  | :+1: |  |  | :+1: |  |  |  |
 Edmonds-Karp | :+1: |  |  |  |  |  |  |  |
 ElevatorAlgorithm | :+1: |  |  |  |  |  |  |  |
 Fast Fourier Transform |  |:+1:|  |  | :+1: |  |  |  |
-Fibonacci | :+1: | :+1: |  | :+1: | :+1: | :+1: |  | :+1: | :+1: |  |
-FisherYatesShuffle | :+1: |  |  |  | :+1: | :+1: |  | :+1: |
+Fibonacci | :+1: | :+1: |  | :+1: | :+1: | :+1: |  | :+1: | :+1: | :+1:  | :+1:
+FisherYatesShuffle | :+1: |  |  |  | :+1: | :+1: |  | :+1: | :+1: |
 FloodFill Algorithm | :+1: | | | | | | | |
 Floyd'sAlgorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
-GreatestCommonDivisor | :+1: |:+1:| :+1: | :+1: | :+1: |   |  |  |
-HammingDistance | :+1: | :+1: |  | :+1: |  | :+1: | :+1: |  |
-HeapSort | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  | :+1:
-HistogramEqualization | :+1: |  |  |  |  |  |  |  |
-InsertionSort | :+1: | :+1: | :+1: | :+1: | :+1:  |  | :+1: | :+1: | :+1:
+Greatest Common Divisor | :+1: |:+1:| :+1: | :+1: | :+1: |   |  |  |
+Hamming Distance | :+1: | :+1: |  | :+1: |  | :+1: | :+1: |  | :+1: 
+HeapSort | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  | :+1: | | | | :+1:
+Histogram equalization | :+1: |  |  |  |  |  |  |  |
+InsertionSort | :+1: | :+1: | :+1: | :+1: | :+1:  | :+1: | :+1: | :+1: | :+1:
 Inverse Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |
 Johnson algorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
 Kadane's algorithm | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  |
 Knuth Morris Prath Algorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
-LinearSearch | :+1: | :+1: |  |  :+1:| :+1: | :+1: | :+1: |  |  | :+1: |
-Longest-Common-Subsequence | :+1: | :+1: |  | :+1: | :+1: |  |  |  | :+1:
-Longest-Increasing-Subsequence | :+1: | :+1: |  |  | :+1: |  |  |  |
+LinearSearch | :+1: | :+1: | :+1: |  :+1:| :+1: | :+1: | :+1: |  |  | :+1: |
+Longest common subsequence | :+1: | :+1: |  | :+1: | :+1: |  |  |  | :+1:
+Longest increasing subsequence | :+1: | :+1: |  |  | :+1: |  |  |  |
 LongestPath |  |  |  |  | :+1: |  |  |  |
 MergeSort | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  |  | :+1:
-MiniMaxWithABPruning | :+1: |  |  |  |  |  |  |  |
-Modified_Binary_Search |  |  |  | :+1: |  |  |  |  |
+MiniMax with alpha–beta pruning | :+1: |  |  |  |  |  |  |  |
 Pearson Hashing | :+1: |  |  |  |  |  |  |  |
 Postman Sort |  |  |  | :+1: |  |  |  |  |
 Quick Sort | :+1: | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  :+1: |  :+1: |
@@ -52,15 +53,18 @@ Quick Select | :+1: | :+1: |  | :+1: |  |  | :+1: | |
 Uniform-cost search | :+1: |  |  |  |  | :+1: | :+1: |  |
 RadixSort | :+1: | :+1: |  |  | :+1: |  |  |  |
 RobinCarp | :+1: |  |  |  |  |  |  |  |
-SelectionSort | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: | :+1: | :+1:
+SelectionSort | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1:
 ShellSort | :+1: | :+1: |  |  | :+1: |  |  |  |
-SieveofEratosthenes | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  |
+Sieve of Eratosthenes | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  |
 UnaryCoding | :+1: | :+1: |  |  |  | :+1: |  |  |
 VEGAS Algorithm |  |  |  |  | :+1: |  |  |  | ||
 TernarySearch | :+1: |:+1:  |  | :+1: | :+1: |  |  |  |  
 Topological Sort |  |  |  |  | :+1: |  |  |  |  
 Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |  
-Union Find |:+1:|:+1:|  |  |  |  |  |  |  
+Union Find |:+1:|:+1:|  | :+1: |  |  |  |  |  
+Xor swap |:+1:|:+1:|  |  |  |:+1:|:+1:|  |
+Connected-component labeling |  |  |  |  |:+1:|  |  |  |
+Extended Euclidean algorithm |  |  |  |  |:+1:|  |  |  |
 
 
 ### List of Algorithms :
@@ -283,7 +287,7 @@ Union Find |:+1:|:+1:|  |  |  |  |  |  |
 
 * Dynamic Markov compression    :    Compression using predictive arithmetic coding
 
-* Dynamic Programming    :    problems exhibiting the properties of overlapping subproblems and optimal substructure
+* [Dynamic Programming](DynamicProgramming)    :    problems exhibiting the properties of overlapping subproblems and optimal substructure
 
 * Dynamic time warping    :    measure similarity between two sequences which may vary in time or speed
 
@@ -769,7 +773,7 @@ Union Find |:+1:|:+1:|  |  |  |  |  |  |
 
 * Xiaolin Wu's line algorithm    :    algorithm for line antialiasing.
 
-* Xor swap algorithm    :    swaps the values of two variables without using a buffer
+* [Xor swap algorithm](XorSwap)    :    swaps the values of two variables without using a buffer
 
 * Yamartino method    :    calculate an approximation to the standard deviation σθ of wind direction θ during a single pass through the incoming data
 
@@ -783,7 +787,7 @@ Union Find |:+1:|:+1:|  |  |  |  |  |  |
 
 * Fibonacci Recursive : Fibonacci series printed using Java Recursion
 
-Folder structure should be
+Folder structure should be like this
 [**Algorithm name**]/[**language**]/**file**
 
 *For example*:
