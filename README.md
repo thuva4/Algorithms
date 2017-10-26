@@ -11,27 +11,27 @@ A*Search |  | :+1: |  |  | :+1: |  |  |  |
 BellmanFord | :+1: |  |  |  | :+1: |  |  |  |
 Best-first search | :+1: | :+1: |  |  |  |  |  |  | :+1: |
 BinaryGCD | :+1: |  |  |  |  |  |  |  |  |
-BinarySearch | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  | :+1: | :+1:
-Binary Search Modified |  |  |  | :+1: |  |  |  |  |
+Binary search | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  | :+1: | :+1:
+Binary search modified |  |  |  | :+1: |  |  |  |  |
 Bitap Algorithm |  | :+1: |  |  | :+1: |  |  |  |
 Breadth-first search | :+1: | :+1: |  | :+1: |  |  |  |  |
 Borwein's Algorithm | :+1: |  |  |  | :+1: |  |  |  | ||
-BubbleSort | :+1: | :+1: | :+1: | :+1: | :+1:  | :+1: |  | :+1: | :+1: | | | :+1:
-Conjugate Gradient |  |  |  |  | :+1: |  |  |  | ||
-CountingSort | :+1: | :+1: |  |  | :+1: |  |  |  | |
-CycleSort | :+1: | :+1: |  |  | :+1: |  |  |  | |
+Bubble sort | :+1: | :+1: | :+1: | :+1: | :+1:  | :+1: |  | :+1: | :+1: | | | :+1:
+Conjugate gradient |  |  |  |  | :+1: |  |  |  | ||
+Counting sort | :+1: | :+1: |  |  | :+1: |  |  |  | |
+Cycle sort | :+1: | :+1: |  |  | :+1: |  |  |  | |
 Depth-first search | :+1: | :+1: |  |  | :+1: | :+1: |  |  | |
 Dijkstra's  | :+1: | :+1: |  |  | :+1: | | :+1: |  | |
 Dynamic programming | :+1: |  |  |  |  |  |  |  |  |
 Doomsday | :+1: | :+1: |  |  | :+1: | :+1: |  |  | :+1: | :+1: | :+1:
-EditDistance |  | :+1: |  |  | :+1: |  |  |  |
+Edit distance |  | :+1: |  |  | :+1: |  |  |  |
 Edmonds-Karp | :+1: |  |  |  |  |  |  |  |
 Elevator algorithm | :+1: |  |  |  |  |  |  |  |
 Fast Fourier Transform | :+1: | :+1: |  |:+1:  | :+1: | :+1: |  |  |
 Fibonacci | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: |  | :+1: | :+1: | :+1:  | :+1:
 Fisher-Yates shuffle | :+1: |  |  |  | :+1: | :+1: |  | :+1: | :+1: |
-FloodFill Algorithm | :+1: | | | | | | | |
-Floyd'sAlgorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
+FloodFill algorithm | :+1: | | | | | | | |
+Floyd's algorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
 Greatest Common Divisor | :+1: |:+1:| :+1: | :+1: | :+1: |   |  |  |
 Hamming Distance | :+1: | :+1: |  | :+1: |  | :+1: | :+1: |  | :+1: 
 HeapSort | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  | :+1: | | | | :+1:
@@ -40,8 +40,8 @@ InsertionSort | :+1: | :+1: | :+1: | :+1: | :+1:  | :+1: | :+1: | :+1: | :+1:
 Inverse Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |
 Johnson algorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
 Kadane's algorithm | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  |
-Knuth Morris Prath Algorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
-LinearSearch | :+1: | :+1: | :+1: |  :+1:| :+1: | :+1: | :+1: |  |  | :+1: |
+Knuth Morris Prath algorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
+Linear search | :+1: | :+1: | :+1: |  :+1:| :+1: | :+1: | :+1: |  |  | :+1: |
 Longest common subsequence | :+1: | :+1: |  | :+1: | :+1: |  |  |  | :+1:
 Longest increasing subsequence | :+1: | :+1: |  |  | :+1: |  |  |  |
 LongestPath |  |  |  |  | :+1: |  |  |  |
@@ -54,13 +54,13 @@ Quick Select | :+1: | :+1: |  | :+1: |  |  | :+1: | |
 Uniform-cost search | :+1: |  |  |  |  | :+1: | :+1: |  |
 RadixSort | :+1: | :+1: |  |  | :+1: |  |  |  |
 RobinCarp | :+1: |  |  |  |  |  |  |  |
-SelectionSort | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1:
-ShellSort | :+1: | :+1: |  |  | :+1: |  |  |  |
+Selection sort | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1:
+Shell sort | :+1: | :+1: |  |  | :+1: |  |  |  |
 Sieve of Eratosthenes | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  |
 UnaryCoding | :+1: | :+1: |  |  |  | :+1: |  |  |
 VEGAS Algorithm |  |  |  |  | :+1: |  |  |  | ||
-TernarySearch | :+1: |:+1:  |  | :+1: | :+1: |  |  |  |  
-Topological Sort |  |  |  |  | :+1: |  |  |  |  
+Ternary search | :+1: |:+1:  |  | :+1: | :+1: |  |  |  |  
+Topological sort |  |  |  |  | :+1: |  |  |  |  
 Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |  
 Union Find |:+1:|:+1:|  | :+1: |  |  |  |  |  
 Xor swap |:+1:|:+1:|  |  |  |:+1:|:+1:|  |
