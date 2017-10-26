@@ -5,8 +5,8 @@ This repository contains examples of various algorithms which were written on di
 ## Implemented algorithms with languages:
 
 
-Language| Java | Python | Rust | C | C++ | JavaScript  | Go | C# | Ruby | Swift
---- | --- | --- | --- |--- |--- |--- |--- |--- |--- |--- |
+Language| Java | Python | Rust | C | C++ | JavaScript  | Go | C# | Ruby | Swift | Racket
+--- | --- | --- | --- |--- |--- |--- |--- |--- |--- |--- |--- |
 A*Search |  | :+1: |  |  | :+1: |  |  |  |
 BellmanFord | :+1: |  |  |  | :+1: |  |  |  |
 BestFirstSearch | :+1: |  |  |  |  |  |  |  | :+1: |
@@ -15,7 +15,7 @@ BinarySearch | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  | :+1: | :+1:
 Bitap Algorithm |  | :+1: |  |  | :+1: |  |  |  |
 BreadthFirstSearch | :+1: | :+1: |  | :+1: |  |  |  |  |
 Borwein's Algorithm | :+1: |  |  |  | :+1: |  |  |  | ||
-BubbleSort | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: |  | :+1: | :+1: |
+BubbleSort | :+1: | :+1: | :+1: | :+1: | :+1:  | :+1: |  | :+1: | :+1: |
 Conjugate Gradient |  |  |  |  | :+1: |  |  |  | ||
 CountingSort | :+1: | :+1: |  |  | :+1: |  |  |  | |
 DepthFirstSearch | :+1: | :+1: |  |  | :+1: | :+1: |  |  | |
@@ -25,7 +25,7 @@ EditDistance |  | :+1: |  |  | :+1: |  |  |  |
 Edmonds-Karp | :+1: |  |  |  |  |  |  |  |
 ElevatorAlgorithm | :+1: |  |  |  |  |  |  |  |
 Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |
-Fibonacci | :+1: | :+1: |  | :+1: | :+1: | :+1: |  | :+1: | :+1: |  |
+Fibonacci | :+1: | :+1: |  | :+1: | :+1: | :+1: |  | :+1: | :+1: | :+1:  | :+1:
 FisherYatesShuffle | :+1: |  |  |  | :+1: | :+1: |  | :+1: | :+1: |
 FloodFill Algorithm | :+1: | | | | | | | |
 Floyd'sAlgorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
@@ -33,7 +33,7 @@ GreatestCommonDivisor | :+1: |:+1:| :+1: | :+1: | :+1: |   |  |  |
 HammingDistance | :+1: | :+1: |  | :+1: |  | :+1: | :+1: |  |
 HeapSort | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  | :+1:
 HistogramEqualization | :+1: |  |  |  |  |  |  |  |
-InsertionSort | :+1: | :+1: | :+1: | :+1: | :+1:  |  | :+1: | :+1: | :+1:
+InsertionSort | :+1: | :+1: | :+1: | :+1: | :+1:  | :+1: | :+1: | :+1: | :+1:
 Inverse Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |
 Johnson algorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
 Kadane's algorithm | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  |
@@ -60,7 +60,8 @@ VEGAS Algorithm |  |  |  |  | :+1: |  |  |  | ||
 TernarySearch | :+1: |:+1:  |  | :+1: | :+1: |  |  |  |  
 Topological Sort |  |  |  |  | :+1: |  |  |  |  
 Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |  
-Union Find |:+1:|:+1:|  |  |  |  |  |  |  
+Union Find |:+1:|:+1:|  | :+1: |  |  |  |  |  
+Xor swap |:+1:|  |  |  |  |  |  |  |
 
 
 ### List of Algorithms :
@@ -769,7 +770,7 @@ Union Find |:+1:|:+1:|  |  |  |  |  |  |
 
 * Xiaolin Wu's line algorithm    :    algorithm for line antialiasing.
 
-* Xor swap algorithm    :    swaps the values of two variables without using a buffer
+* [Xor swap algorithm](XorSwap)    :    swaps the values of two variables without using a buffer
 
 * Yamartino method    :    calculate an approximation to the standard deviation σθ of wind direction θ during a single pass through the incoming data
 
