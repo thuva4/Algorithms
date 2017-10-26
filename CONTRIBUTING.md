@@ -3,7 +3,7 @@
 
 The following is a set of guidelines for contributing to This Repo, These are mostly guidelines, not rules. Use your best judgment, and feel free to propose changes to this document in a pull request.
 
-The maintainer of the project is Thuvarakan [Tharmarajasingam](https://github.com/Thuva4).
+The maintainer of the project is [Thuvarakan](https://github.com/Thuva4).
 
 #### Table Of Contents
 Open-Source Within Community.  Maintainer merges pull-requests, fixes critical bugs.
