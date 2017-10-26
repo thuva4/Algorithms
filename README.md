@@ -1,4 +1,4 @@
-﻿# Algorithms Example
+# Algorithms Example
 
 This repository contains examples of various algorithms which were written on different programming languages.
 
@@ -10,7 +10,7 @@ Language| Java | Python | Rust | C | C++ | JavaScript  | Go | C# | Ruby | Swift 
 A*Search |  | :+1: |  |  | :+1: |  |  |  |
 BellmanFord | :+1: |  |  |  | :+1: |  |  |  |
 BestFirstSearch | :+1: |  |  |  |  |  |  |  | :+1: |
-BinaryGCD | :+1: |  |  |  |  |  |  |  |  |
+BinaryGCD | :+1: | :+1: |  |  |  |  |  |  |  |
 BinarySearch | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  | :+1: | :+1:
 Bitap Algorithm |  | :+1: |  |  | :+1: |  |  |  |
 BreadthFirstSearch | :+1: | :+1: |  | :+1: |  |  |  |  |
@@ -61,7 +61,7 @@ TernarySearch | :+1: |:+1:  |  | :+1: | :+1: |  |  |  |
 Topological Sort |  |  |  |  | :+1: |  |  |  |  
 Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |  
 Union Find |:+1:|:+1:|  | :+1: |  |  |  |  |  
-Xor swap |:+1:|  |  |  |  |  |  |  |
+Xor swap |:+1:| :+1: |  |  |  |  |  |  |
 
 
 ### List of Algorithms :
