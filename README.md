@@ -52,8 +52,8 @@ Postman sort |  |  |  | :+1: |  |  |  |  |
 Quick sort | :+1: | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  :+1: |  :+1: |
 Quick select | :+1: | :+1: |  | :+1: |  |  | :+1: | |  
 Uniform-cost search | :+1: |  |  |  |  | :+1: | :+1: |  |
-Radix sort | :+1: | :+1: |  |  | :+1: |  |  |  |
 Rabin-Karp | :+1: |  |  |  |  |  |  |  |
+Radix sort | :+1: | :+1: |  |  | :+1: |  |  |  |
 Selection sort | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1:
 Shell sort | :+1: | :+1: |  |  | :+1: |  |  |  |
 Sieve of Eratosthenes | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  |
@@ -606,7 +606,7 @@ Extended Euclidean algorithm |  |  |  |  |:+1:|  |  |  |
 
 * Quine–McCluskey algorithm    :    Also called as Q-M algorithm, programmable method for simplifying the boolean equations.
 
-* Rabin–Karp string search algorithm    :    searches multiple patterns efficiently
+* Rabin–Karp string search algorithm(RabinKarp)    :    searches multiple patterns efficiently
 
 * Radial basis function network    :    an artificial neural network that uses radial basis functions as activation functions
 
