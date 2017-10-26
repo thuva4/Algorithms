@@ -5,17 +5,17 @@ This repository contains examples of various algorithms which were written on di
 ## Implemented algorithms with languages:
 
 
-Language| Java | Python | Rust | C | C++ | JavaScript  | Go | C# | Ruby | Swift | Racket | Perl | Crystal
+Language| Java | Python | Rust | C | C++ | JavaScript | Go | C# | Ruby | Swift | Racket | Perl | Crystal
 ---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 A*Search |  | :+1: |  |  | :+1: |  |  |  |
 BellmanFord | :+1: |  |  |  | :+1: |  |  |  |
 Best-first search | :+1: | :+1: |  |  |  |  |  |  | :+1: |
-BinaryGCD | :+1: |  |  |  |  |  |  |  |  |
+Binary GCD | :+1: |  |  |  |  |  |  |  |  |
 Binary search | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  | :+1: | :+1:
 Binary search modified |  |  |  | :+1: |  |  |  |  |
-Bitap Algorithm |  | :+1: |  |  | :+1: |  |  |  |
+Bitap algorithm |  | :+1: |  |  | :+1: |  |  |  |
 Breadth-first search | :+1: | :+1: |  | :+1: |  |  |  |  |
-Borwein's Algorithm | :+1: |  |  |  | :+1: |  |  |  | ||
+Borwein's algorithm | :+1: |  |  |  | :+1: |  |  |  | ||
 Bubble sort | :+1: | :+1: | :+1: | :+1: | :+1:  | :+1: |  | :+1: | :+1: | | | :+1:
 Conjugate gradient |  |  |  |  | :+1: |  |  |  | ||
 Counting sort | :+1: | :+1: |  |  | :+1: |  |  |  | |
@@ -45,23 +45,23 @@ Linear search | :+1: | :+1: | :+1: |  :+1:| :+1: | :+1: | :+1: |  |  | :+1: |
 Longest common subsequence | :+1: | :+1: |  | :+1: | :+1: |  |  |  | :+1:
 Longest increasing subsequence | :+1: | :+1: |  |  | :+1: |  |  |  |
 LongestPath |  |  |  |  | :+1: |  |  |  |
-MergeSort | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  |  | :+1:
+Merge sort | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  |  | :+1:
 MiniMax with alpha–beta pruning | :+1: |  |  |  |  |  |  |  |
-Pearson Hashing | :+1: |  |  |  |  |  |  |  |
-Postman Sort |  |  |  | :+1: |  |  |  |  |
-Quick Sort | :+1: | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  :+1: |  :+1: |
-Quick Select | :+1: | :+1: |  | :+1: |  |  | :+1: | |  
+Pearson hashing | :+1: |  |  |  |  |  |  |  |
+Postman sort |  |  |  | :+1: |  |  |  |  |
+Quick sort | :+1: | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  :+1: |  :+1: |
+Quick select | :+1: | :+1: |  | :+1: |  |  | :+1: | |  
 Uniform-cost search | :+1: |  |  |  |  | :+1: | :+1: |  |
-RadixSort | :+1: | :+1: |  |  | :+1: |  |  |  |
-RobinCarp | :+1: |  |  |  |  |  |  |  |
+Radix sort | :+1: | :+1: |  |  | :+1: |  |  |  |
+Rabin-Karp | :+1: |  |  |  |  |  |  |  |
 Selection sort | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1:
 Shell sort | :+1: | :+1: |  |  | :+1: |  |  |  |
 Sieve of Eratosthenes | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  |
 Unary coding | :+1: | :+1: |  |  |  | :+1: |  |  |
-VEGAS Algorithm |  |  |  |  | :+1: |  |  |  | ||
+VEGAS algorithm |  |  |  |  | :+1: |  |  |  | ||
 Ternary search | :+1: |:+1:  |  | :+1: | :+1: |  |  |  |  
 Topological sort |  |  |  |  | :+1: |  |  |  |  
-Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |  
+Segmented sieve |:+1:| :+1: |  |  | :+1: |  |  |  |  
 Union Find |:+1:|:+1:|  | :+1: |  |  |  |  |  
 Xor swap |:+1:|:+1:|  |  |  |:+1:|:+1:|  |
 Connected-component labeling |  |  |  |  |:+1:|  |  |  |
