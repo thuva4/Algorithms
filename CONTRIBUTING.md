@@ -160,3 +160,4 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 - [churrizo](https://github.com/churrizo)
 - [Aniket Joshi](https://github.com/aniket7joshi)
 - [kuldeepdadhich](https://github.com/kuldeepdadhich)
+- [HimanshuAwasthi95](https://github.com/HimanshuAwasthi95)
