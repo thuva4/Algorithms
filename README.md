@@ -15,7 +15,7 @@ BinarySearch | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  | :+1: | :+1:
 Bitap Algorithm |  | :+1: |  |  | :+1: |  |  |  |
 BreadthFirstSearch | :+1: | :+1: |  | :+1: |  |  |  |  |
 Borwein's Algorithm | :+1: |  |  |  | :+1: |  |  |  | ||
-BubbleSort | :+1: | :+1: | :+1: | :+1: | :+1:  | :+1: |  | :+1: | :+1: |
+BubbleSort | :+1: | :+1: | :+1: | :+1: | :+1:  | :+1: | :+1: | :+1: | :+1: |
 Conjugate Gradient |  |  |  |  | :+1: |  |  |  | ||
 CountingSort | :+1: | :+1: |  |  | :+1: |  |  |  | |
 DepthFirstSearch | :+1: | :+1: |  |  | :+1: | :+1: |  |  | |
@@ -25,7 +25,7 @@ EditDistance |  | :+1: |  |  | :+1: |  |  |  |
 Edmonds-Karp | :+1: |  |  |  |  |  |  |  |
 ElevatorAlgorithm | :+1: |  |  |  |  |  |  |  |
 Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |
-Fibonacci | :+1: | :+1: |  | :+1: | :+1: | :+1: |  | :+1: | :+1: | :+1:  | :+1:
+Fibonacci | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1:  | :+1:
 FisherYatesShuffle | :+1: |  |  |  | :+1: | :+1: |  | :+1: |
 FloodFill Algorithm | :+1: | | | | | | | |
 Floyd'sAlgorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
@@ -48,7 +48,7 @@ Modified_Binary_Search |  |  |  | :+1: |  |  |  |  |
 Pearson Hashing | :+1: |  |  |  |  |  |  |  |
 Postman Sort |  |  |  | :+1: |  |  |  |  |
 Quick Sort | :+1: | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  :+1: |  :+1: |
-Quick Select | :+1: | :+1: |  | :+1: |  |  | :+1: | |  
+Quick Select | :+1: | :+1: |  | :+1: |  |  | :+1: | |
 Uniform-cost search | :+1: |  |  |  |  | :+1: | :+1: |  |
 RadixSort | :+1: | :+1: |  |  | :+1: |  |  |  |
 RobinCarp | :+1: |  |  |  |  |  |  |  |
@@ -57,10 +57,10 @@ ShellSort | :+1: | :+1: |  |  | :+1: |  |  |  |
 SieveofEratosthenes | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  |
 UnaryCoding | :+1: | :+1: |  |  |  | :+1: |  |  |
 VEGAS Algorithm |  |  |  |  | :+1: |  |  |  | ||
-TernarySearch | :+1: |:+1:  |  | :+1: | :+1: |  |  |  |  
-Topological Sort |  |  |  |  | :+1: |  |  |  |  
-Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |  
-Union Find |:+1:|:+1:|  | :+1: |  |  |  |  |  
+TernarySearch | :+1: |:+1:  |  | :+1: | :+1: |  |  |  |
+Topological Sort |  |  |  |  | :+1: |  |  |  |
+Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |
+Union Find |:+1:|:+1:|  | :+1: |  |  |  |  |
 Xor swap |:+1:|  |  |  |  |  |  |  |
 
 
