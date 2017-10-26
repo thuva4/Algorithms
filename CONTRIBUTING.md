@@ -155,3 +155,4 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 - [Jhalaa](https://github.com/jhalaa)
 - [langlk](https://github.com/langlk)
 - [Anat Portnoy](https://github.com/Anat-Port)
+- [Leandro Nunes - lnfnunes](https://github.com/lnfnunes)
