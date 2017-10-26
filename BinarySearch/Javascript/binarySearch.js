@@ -1,27 +1,31 @@
-/*Binary Search-Search a sorted array by repeatedly dividing the search interval
-* in half. Begin with an interval covering the whole array. If the value of the
-* search key is less than the item in the middle of the interval, narrow the interval
-* to the lower half. Otherwise narrow it to the upper half. Repeatedly check until the
-* value is found or the interval is empty.
-*/
+/**
+ * Search a value into a sorted array by repeatedly dividing the search interval in half.
+ * @param  {Array}  arr Array to search into
+ * @param  {Number} k Value to search
+ * @return {Number} index of found item or -1 for not found
+ */
+function binarySearch(arr, k) {
+  let min = 0
+  let max = arr.length - 1
+  
+  while (min <= max) {
+    const cur = Math.floor((min + max) / 2)
+    if (arr[cur] === k) { return cur }
+    (arr[cur] > k)
+      ? max = cur - 1
+      : min = cur + 1
+  }
 
-function binarySearch(arr, i) {
-    var mid = Math.floor(arr.length / 2);
-    if (arr[mid] === i) {
-        console.log('match', arr[mid], i);
-        return arr[mid];
-    } else if (arr[mid] < i && arr.length > 1) {
-        binarySearch(arr.splice(mid, Number.MAX_VALUE), i);
-    } else if (arr[mid] > i && arr.length > 1) {
-        binarySearch(arr.splice(0, mid), i);
-    } else {
-        console.log('not found', i);
-        return -1;
-    }
-
+  return -1
 }
 
-var ar=[1,2,3,4,5,6,7,8,9,10];
-binarySearch(ar,3);
-binarySearch(ar,7);
-binarySearch(ar,13);
+const arr = [1,2,3,4,5,6,7,8,9,10]
+console.log(binarySearch(arr, 6))  // 5
+console.log(binarySearch(arr, 9))  // 8
+console.log(binarySearch(arr, 2))  // 1
+console.log(binarySearch(arr, 7))  // 6
+console.log(binarySearch(arr, 11)) // -1
+
+console.log(binarySearch(arr, 3))  // 2
+console.log(binarySearch(arr, 3))  // 2
+console.log(binarySearch(arr, 3))  // 2
