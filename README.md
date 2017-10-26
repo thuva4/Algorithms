@@ -9,7 +9,7 @@ Language| Java | Python | Rust | C | C++ | JavaScript  | Go | C# | Ruby | Swift 
 ---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 A*Search |  | :+1: |  |  | :+1: |  |  |  |
 BellmanFord | :+1: |  |  |  | :+1: |  |  |  |
-BestFirstSearch | :+1: |  |  |  |  |  |  |  | :+1: |
+BestFirstSearch | :+1: | :+1: |  |  |  |  |  |  | :+1: |
 BinaryGCD | :+1: |  |  |  |  |  |  |  |  |
 BinarySearch | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  | :+1: | :+1:
 Binary Search Modified |  |  |  | :+1: |  |  |  |  |
@@ -26,8 +26,8 @@ Doomsday | :+1: | :+1: |  |  | :+1: | :+1: |  |  | :+1: | :+1: | :+1:
 EditDistance |  | :+1: |  |  | :+1: |  |  |  |
 Edmonds-Karp | :+1: |  |  |  |  |  |  |  |
 ElevatorAlgorithm | :+1: |  |  |  |  |  |  |  |
-Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |
-Fibonacci | :+1: | :+1: |  | :+1: | :+1: | :+1: |  | :+1: | :+1: | :+1:  | :+1:
+Fast Fourier Transform | :+1: | :+1: |  |:+1:  | :+1: | :+1: |  |  |
+Fibonacci | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: |  | :+1: | :+1: | :+1:  | :+1:
 FisherYatesShuffle | :+1: |  |  |  | :+1: | :+1: |  | :+1: | :+1: |
 FloodFill Algorithm | :+1: | | | | | | | |
 Floyd'sAlgorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
