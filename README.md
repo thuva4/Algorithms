@@ -36,7 +36,7 @@ Greatest Common Divisor | :+1: |:+1:| :+1: | :+1: | :+1: |   |  |  |
 Hamming Distance | :+1: | :+1: |  | :+1: |  | :+1: | :+1: |  | :+1: 
 HeapSort | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  | :+1: | | | | :+1:
 Histogram equalization | :+1: |  |  |  |  |  |  |  |
-InsertionSort | :+1: | :+1: | :+1: | :+1: | :+1:  | :+1: | :+1: | :+1: | :+1:
+Insertion sort | :+1: | :+1: | :+1: | :+1: | :+1:  | :+1: | :+1: | :+1: | :+1:
 Inverse Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |
 Johnson algorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
 Kadane's algorithm | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  |
@@ -57,7 +57,7 @@ RobinCarp | :+1: |  |  |  |  |  |  |  |
 Selection sort | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1:
 Shell sort | :+1: | :+1: |  |  | :+1: |  |  |  |
 Sieve of Eratosthenes | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  |
-UnaryCoding | :+1: | :+1: |  |  |  | :+1: |  |  |
+Unary coding | :+1: | :+1: |  |  |  | :+1: |  |  |
 VEGAS Algorithm |  |  |  |  | :+1: |  |  |  | ||
 Ternary search | :+1: |:+1:  |  | :+1: | :+1: |  |  |  |  
 Topological sort |  |  |  |  | :+1: |  |  |  |  
