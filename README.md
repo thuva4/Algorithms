@@ -606,7 +606,7 @@ Extended Euclidean algorithm |  |  |  |  |:+1:|  |  |  |
 
 * Quine–McCluskey algorithm    :    Also called as Q-M algorithm, programmable method for simplifying the boolean equations.
 
-* Rabin–Karp string search algorithm(RabinKarp)    :    searches multiple patterns efficiently
+* [Rabin–Karp string search algorithm](RabinKarp)    :    searches multiple patterns efficiently
 
 * Radial basis function network    :    an artificial neural network that uses radial basis functions as activation functions
 
