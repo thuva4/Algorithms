@@ -5,20 +5,21 @@ This repository contains examples of various algorithms which were written on di
 ## Implemented algorithms with languages:
 
 
-Language| Java | Python | Rust | C | C++ | JavaScript  | Go | C# | Ruby | Swift | Racket
----|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+Language| Java | Python | Rust | C | C++ | JavaScript  | Go | C# | Ruby | Swift | Racket | Perl | Crystal
+---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 A*Search |  | :+1: |  |  | :+1: |  |  |  |
 BellmanFord | :+1: |  |  |  | :+1: |  |  |  |
-BestFirstSearch | :+1: |  |  |  |  |  |  |  | :+1: |
+BestFirstSearch | :+1: | :+1: |  |  |  |  |  |  | :+1: |
 BinaryGCD | :+1: |  |  |  |  |  |  |  |  |
 BinarySearch | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  | :+1: | :+1:
 Binary Search Modified |  |  |  | :+1: |  |  |  |  |
 Bitap Algorithm |  | :+1: |  |  | :+1: |  |  |  |
 BreadthFirstSearch | :+1: | :+1: |  | :+1: |  |  |  |  |
 Borwein's Algorithm | :+1: |  |  |  | :+1: |  |  |  | ||
-BubbleSort | :+1: | :+1: | :+1: | :+1: | :+1:  | :+1: | :+1: | :+1: | :+1: |
+BubbleSort | :+1: | :+1: | :+1: | :+1: | :+1:  | :+1: | :+1:  | :+1: | :+1: | | | :+1:
 Conjugate Gradient |  |  |  |  | :+1: |  |  |  | ||
 CountingSort | :+1: | :+1: |  |  | :+1: |  |  |  | |
+CycleSort | :+1: | :+1: |  |  | :+1: |  |  |  | |
 DepthFirstSearch | :+1: | :+1: |  |  | :+1: | :+1: |  |  | |
 Dijkstra's  | :+1: | :+1: |  |  | :+1: | | :+1: |  | |
 Dynamic programming | :+1: |  |  |  |  |  |  |  |  |
@@ -26,14 +27,14 @@ Doomsday | :+1: | :+1: |  |  | :+1: | :+1: |  |  | :+1: | :+1: | :+1:
 EditDistance |  | :+1: |  |  | :+1: |  |  |  |
 Edmonds-Karp | :+1: |  |  |  |  |  |  |  |
 ElevatorAlgorithm | :+1: |  |  |  |  |  |  |  |
-Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |
-Fibonacci | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1:  | :+1:
-FisherYatesShuffle | :+1: |  |  |  | :+1: | :+1: |  | :+1: |
+Fast Fourier Transform | :+1: | :+1: |  |:+1:  | :+1: | :+1: |  |  |
+Fibonacci | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: |  :+1: | :+1: | :+1: | :+1:  | :+1:
+FisherYatesShuffle | :+1: |  |  |  | :+1: | :+1: |  | :+1: | :+1: |
 FloodFill Algorithm | :+1: | | | | | | | |
 Floyd'sAlgorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
 Greatest Common Divisor | :+1: |:+1:| :+1: | :+1: | :+1: |   |  |  |
 Hamming Distance | :+1: | :+1: |  | :+1: |  | :+1: | :+1: |  | :+1: 
-HeapSort | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  | :+1:
+HeapSort | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  | :+1: | | | | :+1:
 Histogram equalization | :+1: |  |  |  |  |  |  |  |
 InsertionSort | :+1: | :+1: | :+1: | :+1: | :+1:  | :+1: | :+1: | :+1: | :+1:
 Inverse Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |
