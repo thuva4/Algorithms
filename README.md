@@ -47,6 +47,7 @@ Longest increasing subsequence | :+1: | :+1: |  |  | :+1: |  |  |  |
 LongestPath |  |  |  |  | :+1: |  |  |  |
 Merge sort | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  |  | :+1:
 MiniMax with alpha–beta pruning | :+1: |  |  |  |  |  |  |  |
+Parity Bit | :+1: |  |  |  |  |  |  |  |
 Pearson hashing | :+1: |  |  |  |  |  |  |  |
 Postman sort |  |  |  | :+1: |  |  |  |  |
 Quick sort | :+1: | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  :+1: |  :+1: |
@@ -572,7 +573,7 @@ Extended Euclidean algorithm |  |  |  |  |:+1:|  |  |  |
 
 * Pareto interpolation    :    a method of estimating the median and other properties of a population that follows a Pareto distribution.
 
-* Parity    :    simple/fast error detection technique
+* [Parity](ParityBit)    :    simple/fast error detection technique
 
 * Partial least squares regression    :    finds a linear model describing some predicted variables in terms of other observable variables
 
