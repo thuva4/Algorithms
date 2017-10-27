@@ -1,0 +1,10 @@
+/Users/maazqureshi/Desktop/_repos/Algorithms_Example/GreatestCommonDivisor/C#/bin/Debug/netcoreapp2.0/C#.deps.json
+/Users/maazqureshi/Desktop/_repos/Algorithms_Example/GreatestCommonDivisor/C#/bin/Debug/netcoreapp2.0/C#.runtimeconfig.json
+/Users/maazqureshi/Desktop/_repos/Algorithms_Example/GreatestCommonDivisor/C#/bin/Debug/netcoreapp2.0/C#.runtimeconfig.dev.json
+/Users/maazqureshi/Desktop/_repos/Algorithms_Example/GreatestCommonDivisor/C#/bin/Debug/netcoreapp2.0/C#.dll
+/Users/maazqureshi/Desktop/_repos/Algorithms_Example/GreatestCommonDivisor/C#/bin/Debug/netcoreapp2.0/C#.pdb
+/Users/maazqureshi/Desktop/_repos/Algorithms_Example/GreatestCommonDivisor/C#/obj/Debug/netcoreapp2.0/C#.csproj.CoreCompileInputs.cache
+/Users/maazqureshi/Desktop/_repos/Algorithms_Example/GreatestCommonDivisor/C#/obj/Debug/netcoreapp2.0/C#.AssemblyInfoInputs.cache
+/Users/maazqureshi/Desktop/_repos/Algorithms_Example/GreatestCommonDivisor/C#/obj/Debug/netcoreapp2.0/C#.AssemblyInfo.cs
+/Users/maazqureshi/Desktop/_repos/Algorithms_Example/GreatestCommonDivisor/C#/obj/Debug/netcoreapp2.0/C#.dll
+/Users/maazqureshi/Desktop/_repos/Algorithms_Example/GreatestCommonDivisor/C#/obj/Debug/netcoreapp2.0/C#.pdb
