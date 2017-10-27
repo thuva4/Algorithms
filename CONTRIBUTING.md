@@ -3,7 +3,7 @@
 
 The following is a set of guidelines for contributing to This Repo, These are mostly guidelines, not rules. Use your best judgment, and feel free to propose changes to this document in a pull request.
 
-The maintainer of the project is Thuvarakan [Tharmarajasingam](https://github.com/Thuva4).
+The maintainer of the project is [Thuvarakan](https://github.com/Thuva4).
 
 #### Table Of Contents
 Open-Source Within Community.  Maintainer merges pull-requests, fixes critical bugs.
@@ -153,3 +153,13 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 - [Santhosh Kumar](https://github.com/santhoshsamy29)
 - [Judar Lima](https://github.com/judarlima)
 - [Jhalaa](https://github.com/jhalaa)
+- [Maaz Qureshi](https://github.com/maazsq)
+- [Utkarsh](https://github.com/utkarshmani1997)
+- [langlk](https://github.com/langlk)
+- [Anat Portnoy](https://github.com/Anat-Port)
+- [Leandro Nunes - lnfnunes](https://github.com/lnfnunes)
+- [syam3526](https://github.com/syam3526)
+- [churrizo](https://github.com/churrizo)
+- [Aniket Joshi](https://github.com/aniket7joshi)
+- [kuldeepdadhich](https://github.com/kuldeepdadhich)
+- [HimanshuAwasthi95](https://github.com/HimanshuAwasthi95)
