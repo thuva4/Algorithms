@@ -1,0 +1,25 @@
+
+public class RecursiveFibonacci {
+
+	public static void main(String[] args) {
+		int n = 10;
+		int[] fibo = new int[n]; 
+		for(int index = n - 1 ; index >= 2 ; index--) {
+			fibo[index] = generateFibonacciNumbers(index);
+		}
+		fibo[0] = 0;
+		fibo[1] = 1;
+		
+		for(int i = 0 ; i < n ; i++) {
+			System.out.print(fibo[i]+"  ");
+		}
+		
+	}
+
+	public static int generateFibonacciNumbers(int n) {
+		if(n == 0 || n == 1) {
+			return n;
+		}
+		return generateFibonacciNumbers(n-1) + generateFibonacciNumbers(n-2);
+	}
+}
