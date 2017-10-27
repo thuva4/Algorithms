@@ -1,71 +1,63 @@
-﻿# Algorithms Example
+# Algorithms Example
 
 This repository contains examples of various algorithms which were written on different programming languages.
 
 ## Implemented algorithms with languages:
 
 
-Language| Java | Python | Rust | C | C++ | JavaScript  | Go | C# | Ruby | Swift | Racket | Perl | Crystal
----|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+Language| Java | Python | Rust | C | C++ | JavaScript  | Go | C# | Ruby | Swift
+--- | --- | --- | --- |--- |--- |--- |--- |--- |--- |--- |
 A*Search |  | :+1: |  |  | :+1: |  |  |  |
 BellmanFord | :+1: |  |  |  | :+1: |  |  |  |
-BestFirstSearch | :+1: | :+1: |  |  |  |  |  |  | :+1: |
-BinaryGCD | :+1: |  |  |  |  |  |  |  |  |
-BinarySearch | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  | :+1: | :+1:
-Binary Search Modified |  |  |  | :+1: |  |  |  |  |
+BestFirstSearch | :+1: |  |  |  |  |  |  |  | :+1: |
+BinarySearch | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  | :+1: |
 Bitap Algorithm |  | :+1: |  |  | :+1: |  |  |  |
 BreadthFirstSearch | :+1: | :+1: |  | :+1: |  |  |  |  |
 Borwein's Algorithm | :+1: |  |  |  | :+1: |  |  |  | ||
-BubbleSort | :+1: | :+1: | :+1: | :+1: | :+1:  | :+1: | :+1:  | :+1: | :+1: | | | :+1:
+BubbleSort | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: |  | :+1: | :+1: |
 Conjugate Gradient |  |  |  |  | :+1: |  |  |  | ||
 CountingSort | :+1: | :+1: |  |  | :+1: |  |  |  | |
-CycleSort | :+1: | :+1: |  |  | :+1: |  |  |  | |
 DepthFirstSearch | :+1: | :+1: |  |  | :+1: | :+1: |  |  | |
 Dijkstra's  | :+1: | :+1: |  |  | :+1: | | :+1: |  | |
-Dynamic programming | :+1: |  |  |  |  |  |  |  |  |
-Doomsday | :+1: | :+1: |  |  | :+1: | :+1: |  |  | :+1: | :+1: | :+1:
+Doomsday | :+1: | :+1: |  |  |  | :+1: |  |  |  | :+1: | :+1:
 EditDistance |  | :+1: |  |  | :+1: |  |  |  |
-Edmonds-Karp | :+1: |  |  |  |  |  |  |  |
 ElevatorAlgorithm | :+1: |  |  |  |  |  |  |  |
-Fast Fourier Transform | :+1: | :+1: |  |:+1:  | :+1: | :+1: |  |  |
-Fibonacci | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: |  :+1: | :+1: | :+1: | :+1:  | :+1:
-FisherYatesShuffle | :+1: |  |  |  | :+1: | :+1: |  | :+1: | :+1: |
+Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |
+Fibonacci | :+1: | :+1: |  | :+1: | :+1: |  | :+1: |  | :+1:
+FisherYatesShuffle | :+1: |  |  |  | :+1: | :+1: |  | :+1: |
 FloodFill Algorithm | :+1: | | | | | | | |
 Floyd'sAlgorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
-Greatest Common Divisor | :+1: |:+1:| :+1: | :+1: | :+1: |   |  |  |
-Hamming Distance | :+1: | :+1: |  | :+1: |  | :+1: | :+1: |  | :+1: 
-HeapSort | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  | :+1: | | | | :+1:
-Histogram equalization | :+1: |  |  |  |  |  |  |  |
-InsertionSort | :+1: | :+1: | :+1: | :+1: | :+1:  | :+1: | :+1: | :+1: | :+1:
+GreatestCommonDivisor | :+1: |  | :+1: | :+1: | :+1: |   |  |  |
+HammingDistance | :+1: | :+1: |  | :+1: |  | :+1: |  |  |
+HeapSort | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  | :+1:
+HistogramEqualization | :+1: |  |  |  |  |  |  |  |
+InsertionSort | :+1: | :+1: | :+1: | :+1: | :+1:  |  | :+1: | :+1: |
 Inverse Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |
 Johnson algorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
-Kadane's algorithm | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  |
+Kadane's algorithm | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  |
 Knuth Morris Prath Algorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
-LinearSearch | :+1: | :+1: | :+1: |  :+1:| :+1: | :+1: | :+1: |  |  | :+1: |
-Longest common subsequence | :+1: | :+1: |  | :+1: | :+1: |  |  |  | :+1:
-Longest increasing subsequence | :+1: | :+1: |  |  | :+1: |  |  |  |
+LinearSearch | :+1: | :+1: |  |  :+1:| :+1: | :+1: |  |  |  |  |
+Longest-Common-Subsequence | :+1: | :+1: |  |  | :+1: |  |  |  | :+1:
+Longest-Increasing-Subsequence | :+1: |  |  |  | :+1: |  |  |  |
 LongestPath |  |  |  |  | :+1: |  |  |  |
-MergeSort | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: | :+1: |  | :+1: 
-MiniMax with alpha–beta pruning | :+1: |  |  |  |  |  |  |  |
-Pearson Hashing | :+1: |  |  |  |  |  |  |  |
+MergeSort | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  |
+MiniMaxWithABPruning | :+1: |  |  |  |  |  |  |  |
+Modified_Binary_Search |  |  |  | :+1: |  |  |  |  |
 Postman Sort |  |  |  | :+1: |  |  |  |  |
-Quick Sort | :+1: | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  :+1: |  :+1: |
-Quick Select | :+1: | :+1: |  | :+1: |  |  | :+1: | |
+Quick Sort | :+1: | :+1: |  |  |  | :+1: | :+1: | :+1: |  :+1:
+Quick Select | :+1: | :+1: |  |  |  |  | :+1: | |  
 Uniform-cost search | :+1: |  |  |  |  | :+1: | :+1: |  |
 RadixSort | :+1: | :+1: |  |  | :+1: |  |  |  |
 RobinCarp | :+1: |  |  |  |  |  |  |  |
-SelectionSort | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1:
+SelectionSort | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: | :+1: | :+1:
 ShellSort | :+1: | :+1: |  |  | :+1: |  |  |  |
-Sieve of Eratosthenes | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  |
+SieveofEratosthenes | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  |
 UnaryCoding | :+1: | :+1: |  |  |  | :+1: |  |  |
 VEGAS Algorithm |  |  |  |  | :+1: |  |  |  | ||
-TernarySearch | :+1: |:+1:  |  | :+1: | :+1: |  |  |  |  
-Topological Sort |  |  |  |  | :+1: |  |  |  |  
-Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |  
-Union Find |:+1:|:+1:|  | :+1: |  |  |  |  |  
-Xor swap |:+1:|:+1:|  |  |  |:+1:|:+1:|  |
-Connected-component labeling |  |  |  |  |:+1:|  |  |  |
-Extended Euclidean algorithm |  |  |  |  |:+1:|  |  |  |
+TernarySearch | :+1: |:+1:  |  |  | :+1: |  |  |  |
+Topological Sort |  |  |  |  | :+1: |  |  |  |
+Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |
+Union Find |:+1:|  |  |  |  |  |  |  |
 
 
 ### List of Algorithms :
@@ -134,7 +126,7 @@ Extended Euclidean algorithm |  |  |  |  |:+1:|  |  |  |
 
 * Bilinear interpolation    :    an extension of linear interpolation for interpolating functions of two variables on a regular grid
 
-* [Binary GCD algorithm](BinaryGCD)    :    Efficient way of calculating GCD.
+* Binary GCD algorithm    :    Efficient way of calculating GCD.
 
 * [Binary search algorithm](BinarySearch)    :    locates an item in a sorted sequence
 
@@ -280,7 +272,7 @@ Extended Euclidean algorithm |  |  |  |  |:+1:|  |  |  |
 
 * Discrete Green's Theorem    :    is an algorithm for computing double integral over a generalized rectangular domain in constant time. It is a natural extension to the summed area table algorithm
 
-* [Doomsday algorithm](Doomsday)    :    day of the week
+* Doomsday algorithm    :    day of the week
 
 * Double dabble    :    Convert binary numbers to BCD
 
@@ -288,7 +280,7 @@ Extended Euclidean algorithm |  |  |  |  |:+1:|  |  |  |
 
 * Dynamic Markov compression    :    Compression using predictive arithmetic coding
 
-* [Dynamic Programming](DynamicProgramming)    :    problems exhibiting the properties of overlapping subproblems and optimal substructure
+* Dynamic Programming    :    problems exhibiting the properties of overlapping subproblems and optimal substructure
 
 * Dynamic time warping    :    measure similarity between two sequences which may vary in time or speed
 
@@ -302,7 +294,7 @@ Extended Euclidean algorithm |  |  |  |  |:+1:|  |  |  |
 
 * Espresso heuristic logic minimizer    :    Fast algorithm for boolean function minimization.
 
-* [Euclidean algorithm](GreatestCommonDivisor)    :    computes the greatest common divisor
+* Euclidean algorithm    :    computes the greatest common divisor
 
 * Euclidean minimum spanning tree    :    algorithms for computing the minimum spanning tree of a set of points in the plane
 
@@ -578,7 +570,7 @@ Extended Euclidean algorithm |  |  |  |  |:+1:|  |  |  |
 
 * Paxos algorithm    :    a family of protocols for solving consensus in a network of unreliable processors
 
-* [Pearson hashing](PearsonHashing)    :    computes 8 bit value only, optimized for 8 bit computers
+* Pearson hashing    :    computes 8 bit value only, optimized for 8 bit computers
 
 * Perceptron    :    the simplest kind of feedforward neural network: a linear classifier.
 
@@ -774,7 +766,7 @@ Extended Euclidean algorithm |  |  |  |  |:+1:|  |  |  |
 
 * Xiaolin Wu's line algorithm    :    algorithm for line antialiasing.
 
-* [Xor swap algorithm](XorSwap)    :    swaps the values of two variables without using a buffer
+* Xor swap algorithm    :    swaps the values of two variables without using a buffer
 
 * Yamartino method    :    calculate an approximation to the standard deviation σθ of wind direction θ during a single pass through the incoming data
 
@@ -786,9 +778,7 @@ Extended Euclidean algorithm |  |  |  |  |:+1:|  |  |  |
 
 * Union Find : used to know if there is a path between 2 objects or not
 
-* Fibonacci Recursive : Fibonacci series printed using Java Recursion
-
-Folder structure should be like this
+Folder structure should be
 [**Algorithm name**]/[**language**]/**file**
 
 *For example*:
