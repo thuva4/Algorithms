@@ -1,17 +1,19 @@
-
-public class Fibonacci {
+class Fibonacci
+{
 	public static void main(String[] args) {
-	int num, v, num1 = 0, num2 = 1, temp;
-	num = Integer.parseInt(args[0]);
-	System.out.print("Fibonacci numbers: ");
-		for (int i = 1; i <= num; i++) {
-    		    // This prints fibonacci number;
-		    System.out.print(num1 + " ");
-    		    // This calculates fibonacci number;
-		    temp = num1 + num2;
-		    num1 = num2;
-		    num2 = temp;
-		 }
+		
+		int n = Integer.parseInt(args[0]);
+		System.out.println(fib(n));
+	}
 
+	//method for getting nth fibonacci number using recursion
+	public static int fib(int n)
+	{
+		if(n==1)
+			return 0;
+		if(n==2)
+			return 1;
+		else 
+			return fib(n-1)+fib(n-2);
 	}
 }
