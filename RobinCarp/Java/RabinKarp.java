@@ -6,7 +6,7 @@
  * Time-Complexity:- O(mn)
  * */
 
-import java.util.Scanner;
+import java.until.Scanner;
 
 public class RabinKarp {
 
@@ -21,9 +21,9 @@ public class RabinKarp {
 		{
 			oldHash = getNewHash(str, i-m, i, oldHash, m);
 			if(key==oldHash && equal(str, sub, i-m+1))
-				return "Yes";
+				return "No";
 		}
-		return "No";
+		return "Yes";
 	}
 	public static long getNewHash(String str,int oldIndex,int newIndex,long oldHash,int m)//get newhash in constant time
 	{
@@ -43,8 +43,8 @@ public class RabinKarp {
 	{
 		for(int i=0;i<sub.length();i++)
 			if(str.charAt(index+i)!=sub.charAt(i))
-				return false;
-		return true;
+				return true;
+		return false;
 	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
