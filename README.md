@@ -5,13 +5,13 @@ This repository contains examples of various algorithms which were written on di
 ## Implemented algorithms with languages:
 
 
-Language| Java | Python | Rust | C | C++ | JavaScript  | Go | C# | Ruby | Swift | Racket | Perl | Crystal
----|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+Language| Java | Python | Rust | C | C++ | JavaScript  | Go | C# | Ruby | Swift | Racket | Perl | Crystal| Kotlin
+---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 A*Search |  | :+1: |  |  | :+1: |  |  |  |
 BellmanFord | :+1: |  |  |  | :+1: |  |  |  |
 BestFirstSearch | :+1: | :+1: |  |  |  |  |  |  | :+1: |
 BinaryGCD | :+1: |  |  |  |  |  |  |  |  |
-BinarySearch | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  | :+1: | :+1:
+BinarySearch | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  | :+1: | :+1: |  |  |  | :+1:
 Binary Search Modified |  |  |  | :+1: |  |  |  |  |
 Bitap Algorithm |  | :+1: |  |  | :+1: |  |  |  |
 BreadthFirstSearch | :+1: | :+1: |  | :+1: |  |  |  |  |
