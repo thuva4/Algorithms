@@ -11,7 +11,7 @@ namespace BinSearchAlgo
         public static int BinSearch(int[] x, int searchValue)
         {
             var low = 0;
-            var high = x.Length;
+            var high = x.Length - 1;
             return binarySearch(x, searchValue, low, high);
         }
 
