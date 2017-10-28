@@ -7,8 +7,8 @@ using namespace std;
  
 struct Edge
 {
-    // This structure is equal to an edge. Edge contains two end points. These edges are directed edges so they
-    //contain source and destination and some weight. These 3 are elements in this structure
+    /* This structure is equal to an edge. Edge contains two end points. These edges are directed edges so they
+    contain source and destination and some weight. These 3 are elements in this structure*/
     int source, destination, weight;
 };
  
@@ -40,11 +40,10 @@ struct Graph* createGraph(int V, int E)
 void FinalSolution(int dist[], int n)
 {
     // This function prints the final solution
-    cout<<"\nVertex\tDistance from Source Vertex\n";
     int i;
  
     for (i = 0; i < n; ++i){
-        cout<<i<<"\t\t"<<dist[i]<<"\n";
+        cout<<"Vertex "<<i<<" is "<<dist[i]<<" distance from Source vertex\n";
     }
 }
  
@@ -66,7 +65,7 @@ void BellmanFord(struct Graph* graph, int source)
  
     StoreDistance[source] = 0;
  
-    //The shortest path of graph that contain V vertices, never contain "V-1" edges. So we do here "V-1" relaxations
+    //The shortest path of graph that contain V vertices, can maximum contain "V-1" edges. So we do here "V-1" relaxations
     for (i = 1; i <= V-1; i++)
     {
         for (j = 0; j < E; j++)
@@ -120,7 +119,7 @@ int main()
  
     int i;
     for(i=0;i<E;i++){
-        cout<<"\nEnter edge "<<i+1<<" properties Source, destination, weight respectively\n";
+        cout<<"\nEnter edge "<<i+1<<" properties Source, Destination, Weight respectively\n";
         cin>>graph->edge[i].source;
         cin>>graph->edge[i].destination;
         cin>>graph->edge[i].weight;
