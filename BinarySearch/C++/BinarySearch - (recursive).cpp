@@ -15,7 +15,7 @@ int binarySearch(int low,int high,int key)
      int mid = (low + high) / 2;
 
      if(a[mid] == key)
-        return mid          // returns the index if key is found.
+        return mid;          // returns the index if key is found.
 
      if(a[mid] < key)
      {
