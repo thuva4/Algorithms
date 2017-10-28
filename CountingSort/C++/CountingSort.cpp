@@ -15,7 +15,7 @@ void counting_sort(vector<int> &vec) {
 	vector<int> count(RANGE, 0);
 	
 	for (int i = 0; i < int(vec.size()); i++) {
-		count[vec[i]]++;
+		count[vec[i]]++;                    //set all elements of array as marked in count vector
 	}
 	
 	// Make count[i] contain the start position of the element in the output vector.
@@ -48,12 +48,12 @@ int main() {
 	vector<int> test_vec = {99, 122, 11, 2, 2, 3, 44, 33, 9, 0, 0};
 	
 	cout << "The vector before sorting: ";
-	print(test_vec);
+	print(test_vec);                                                    //printing original array
 	
 	counting_sort(test_vec);
 	
 	cout << "The sorted vector: ";
-	print(test_vec);
+	print(test_vec);                                                   //printing sorted array
 	
 	return 0;
 }
