@@ -3,7 +3,7 @@ class InsertionSort{
 		int n = inputArray.length;
 
 		for (int i = 1; i < n; i++){
-			key = inputArray[i];
+			int key = inputArray[i];
 			int j = i-1;
 
 			while (j >= 0 && inputArray[j]>key){
