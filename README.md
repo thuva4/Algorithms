@@ -18,7 +18,7 @@ BreadthFirstSearch | :+1: | :+1: |  | :+1: |  |  |  |  |
 Borwein's Algorithm | :+1: |  |  |  | :+1: |  |  |  | ||
 BubbleSort | :+1: | :+1: | :+1: | :+1: | :+1:  | :+1: | :+1:  | :+1: | :+1: | | | :+1:
 Conjugate Gradient |  |  |  |  | :+1: |  |  |  | ||
-CountingSort | :+1: | :+1: |  |  | :+1: |  |  |  | |
+CountingSort | :+1: | :+1: |  |  | :+1: |  |  |  | :+1: |
 CycleSort | :+1: | :+1: |  |  | :+1: |  |  |  | |
 DepthFirstSearch | :+1: | :+1: |  |  | :+1: | :+1: |  |  | |
 Dijkstra's  | :+1: | :+1: |  |  | :+1: | | :+1: |  | |
@@ -55,7 +55,7 @@ Uniform-cost search | :+1: |  |  |  |  | :+1: | :+1: |  |
 RadixSort | :+1: | :+1: |  |  | :+1: |  |  |  |
 RobinCarp | :+1: |  |  |  |  |  |  |  |
 SelectionSort | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1:
-ShellSort | :+1: | :+1: |  |  | :+1: |  |  |  |
+ShellSort | :+1: | :+1: |  |  | :+1: |  |  |  | :+1: |
 Sieve of Eratosthenes | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  |
 UnaryCoding | :+1: | :+1: |  |  |  | :+1: |  |  |
 VEGAS Algorithm |  |  |  |  | :+1: |  |  |  | ||
