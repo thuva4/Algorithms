@@ -138,6 +138,7 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 - [SrGrace](https://github.com/SrGrace)
 - [d-grossman](https://github.com/d-grossman)
 - [javmonisu](https://github.com/javmonisu)
+- [Nikita](https://github.com/j07nikita)
 - [PlatanoBailando](https://github.com/PlatanoBailando)
 - [lena15n](https://github.com/lena15n)
 - [stripedpajamas](https://github.com/stripedpajamas)

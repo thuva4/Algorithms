@@ -59,6 +59,7 @@ ShellSort | :+1: | :+1: |  |  | :+1: |  |  |  |
 Sieve of Eratosthenes | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  |
 UnaryCoding | :+1: | :+1: |  |  |  | :+1: |  |  |
 VEGAS Algorithm |  |  |  |  | :+1: |  |  |  | ||
+Tarjan'sOff-LineLCA |  | |  |  | :+1: |  |  |  |
 TernarySearch | :+1: |:+1:  |  | :+1: | :+1: |  |  |  |
 Topological Sort |  |  |  |  | :+1: |  |  |  |
 Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |
