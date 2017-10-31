@@ -2,7 +2,7 @@
 #include<bits/stdc++.h>
 using namespace std;
  
-// Sorts arrar a[0..n-1] using Cocktail sort
+// Sorts array a[0..n-1] using Cocktail sort
 void CocktailSort(int a[], int n)
 {
     bool swapped = true;
