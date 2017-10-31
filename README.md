@@ -15,13 +15,13 @@ BinarySearch | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  | :+1: | :+1: |  | 
 Binary Search Modified |  |  |  | :+1: |  |  |  |  |
 Bitap Algorithm |  | :+1: |  |  | :+1: |  |  |  |
 BreadthFirstSearch | :+1: | :+1: |  | :+1: |  |  |  |  |
-Borwein's Algorithm | :+1: |  |  |  | :+1: |  |  |  | ||
+Borwein's Algorithm | :+1: | :+1: |  |  | :+1: |  |  |  | ||
 BubbleSort | :+1: | :+1: | :+1: | :+1: | :+1:  | :+1: | :+1:  | :+1: | :+1: | | | :+1:
-Conjugate Gradient |  |  |  |  | :+1: |  |  |  | ||
+Conjugate Gradient |  | :+1: |  |  | :+1: |  |  |  | ||
 CountingSort | :+1: | :+1: |  |  | :+1: |  |  |  | :+1: |
 CycleSort | :+1: | :+1: |  |  | :+1: |  |  |  | |
 DepthFirstSearch | :+1: | :+1: |  |  | :+1: | :+1: |  |  | |
-Dijkstra's  | :+1: | :+1: |  |  | :+1: | | :+1: |  | |
+Dijkstra's  | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  | |
 Dynamic programming | :+1: |  |  |  |  |  |  |  |  |
 Doomsday | :+1: | :+1: |  |  | :+1: | :+1: |  |  | :+1: | :+1: | :+1:
 EditDistance |  | :+1: |  |  | :+1: |  |  |  |
@@ -44,7 +44,7 @@ Knuth Morris Prath Algorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
 LinearSearch | :+1: | :+1: | :+1: |  :+1:| :+1: | :+1: | :+1: |  |  | :+1: |
 Longest common subsequence | :+1: | :+1: |  | :+1: | :+1: |  |  |  | :+1:
 Longest increasing subsequence | :+1: | :+1: |  |  | :+1: |  |  |  |
-LongestPath |  |  |  |  | :+1: |  |  |  |
+LongestPath |  | :+1:  |  |  | :+1: |  |  |  |
 MergeSort | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: | :+1: |  | :+1:
 MiniMax with alpha–beta pruning | :+1: |  |  |  |  |  |  |  |
 Pearson Hashing | :+1: |  |  |  |  |  |  |  |
@@ -53,7 +53,7 @@ Quick Sort | :+1: | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  :+1: |  :+1: |
 Quick Select | :+1: | :+1: |  | :+1: |  |  | :+1: | |
 Uniform-cost search | :+1: |  |  |  |  | :+1: | :+1: |  |
 RadixSort | :+1: | :+1: |  |  | :+1: |  |  |  |
-RobinCarp | :+1: |  |  |  |  |  |  |  |
+Rabin-Karp | :+1: | :+1: |  |  |  |  |  |  |
 SelectionSort | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1:
 ShellSort | :+1: | :+1: |  |  | :+1: |  |  |  | :+1: |
 Sieve of Eratosthenes | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  |
