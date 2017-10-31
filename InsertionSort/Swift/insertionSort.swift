@@ -17,5 +17,6 @@ func insertionSort<T>(_ array: [T], _ isOrderedBefore: (T, T) -> Bool) -> [T] {
 
 //Usage:
 let array = insertionSort([5,4,6,3,7]) { (firstItem, secondItem) -> Bool in
+  // Sort items of an arrayin ascending order.
   return firstItem < secondItem
 }
