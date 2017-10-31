@@ -1,4 +1,4 @@
-#include <bits/stdc++.h>
+#include <bits/stdc++.h> // including every standard library.
 using namespace std;
 
 int lcs( string X , string Y )
@@ -7,9 +7,9 @@ int lcs( string X , string Y )
   int n = Y.size();
   int dp[m+1][n+1];
 
-  for (int i=0; i<=m; i++)
+  for (int i = 0; i <= m; i++)
   {
-    for (int j=0; j<=n; j++)
+    for (int j = 0; j <=n ; j++)
     {
       if (i == 0 || j == 0)
         dp[i][j] = 0;
@@ -22,11 +22,11 @@ int lcs( string X , string Y )
     }
   }
 
-  /* L[m][n] contains length of LCS for X[0..n-1] and Y[0..m-1] */
+  // L[m][n] contains length of LCS for X[0..n-1] and Y[0..m-1] 
   return dp[m][n];
 }
 
-int main()
+int main() // main function
 {
   string X = "mississippi";
   string Y = "messi";
