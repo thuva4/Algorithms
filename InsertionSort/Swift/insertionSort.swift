@@ -4,21 +4,18 @@ func insertionSort<T>(_ array: [T], _ isOrderedBefore: (T, T) -> Bool) -> [T] {
   
   for index in 1..<sampleArray.count {
     var y = index
-    let tempArray = sampleArray[y]
-    while y > 0 && isOrderedBefore(tempArray, sampleArray[y - 1]) {
-      sampleArray[y] = array[y - 1]
+    let temp = sampleArray[y]
+    while y > 0 && isOrderedBefore(temp, sampleArray[y - 1]) {
+      sampleArray[y] = sampleArray[y - 1]
       y -= 1
     }
-    tempArray[y] = tempArray
+    
+    sampleArray[y] = temp
   }
-  return tempArray
+  return sampleArray
 }
 
 //Usage:
-let array = insertionSort([5,4,6,3,7]) { (first, second) -> Bool in
-  // For sorting sample array in descending order.
-  if first < second {
-    return true
-  }
-  return false
+let array = insertionSort([5,4,6,3,7]) { (firstItem, secondItem) -> Bool in
+  return firstItem < secondItem
 }
