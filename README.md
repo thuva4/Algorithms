@@ -75,6 +75,8 @@ Extended Euclidean algorithm |  |  |  |  |:+1:|  |  |  |
 
 * A-law algorithm    :    standard companding algorithm
 
+* [A-Star (A*) algorithm](AStarSearch)    :    extended Dijkstra path finding algorithm for searching shortest path
+
 * AdaBoost    :    adaptive boosting
 
 * Adaptive histogram equalization    :    histogram equalization which adapts to local changes in contrast
