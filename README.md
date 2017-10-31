@@ -44,7 +44,7 @@ Knuth Morris Prath Algorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
 LinearSearch | :+1: | :+1: | :+1: |  :+1:| :+1: | :+1: | :+1: |  |  | :+1: |
 Longest common subsequence | :+1: | :+1: |  | :+1: | :+1: |  |  |  | :+1:
 Longest increasing subsequence | :+1: | :+1: |  |  | :+1: |  |  |  |
-LongestPath |  |  |  |  | :+1: |  |  |  |
+LongestPath |  | :+1: |  |  | :+1: |  |  |  |
 MergeSort | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: | :+1: |  | :+1:
 MiniMax with alpha–beta pruning | :+1: |  |  |  |  |  |  |  |
 Pearson Hashing | :+1: |  |  |  |  |  |  |  |
