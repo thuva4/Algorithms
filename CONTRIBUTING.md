@@ -164,3 +164,4 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 - [kuldeepdadhich](https://github.com/kuldeepdadhich)
 - [HimanshuAwasthi95](https://github.com/HimanshuAwasthi95)
 - [Suman Chaurasia](https://github.com/bzero0)
+- [Patrick Fischer](https://github.com/patFish)
