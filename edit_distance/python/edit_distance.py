@@ -19,8 +19,7 @@ def get_edit_distance(s1, s2):
                 edit_table[i, j] += 1
 
     return edit_table[i, j]
-
-
+#main method 
 if __name__ == '__main__':
     # returns 1 as adding 'a' in 2nd postion to
     # 'hello' will make it 'haello'
