@@ -21,7 +21,7 @@ Conjugate Gradient |  | :+1: |  |  | :+1: |  |  |  | ||
 CountingSort | :+1: | :+1: |  |  | :+1: |  |  |  | :+1: |
 CycleSort | :+1: | :+1: |  |  | :+1: |  |  |  | |
 DepthFirstSearch | :+1: | :+1: |  |  | :+1: | :+1: |  |  | |
-Dijkstra's  | :+1: | :+1: |  |  | :+1: | | :+1: |  | |
+Dijkstra's  | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  | |
 Dynamic programming | :+1: |  |  |  |  |  |  |  |  |
 Doomsday | :+1: | :+1: |  |  | :+1: | :+1: |  |  | :+1: | :+1: | :+1:
 EditDistance |  | :+1: |  |  | :+1: |  |  |  |
