@@ -11,7 +11,7 @@ A*Search |  | :+1: |  |  | :+1: |  |  |  |
 BellmanFord | :+1: |  |  |  | :+1: |  |  |  |
 BestFirstSearch | :+1: | :+1: |  |  |  |  |  |  | :+1: |
 BinaryGCD | :+1: |  |  |  |  |  |  |  |  |
-BinarySearch | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  | :+1: | :+1: |  |  |  | :+1:
+BinarySearch | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: |  |  |  | :+1:
 Binary Search Modified |  |  |  | :+1: |  |  |  |  |
 Bitap Algorithm |  | :+1: |  |  | :+1: |  |  |  |
 BreadthFirstSearch | :+1: | :+1: |  | :+1: |  |  |  |  |
@@ -32,7 +32,7 @@ Fibonacci | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: |  :+1: | :+1: | :+1: | :+1:
 FisherYatesShuffle | :+1: |  |  |  | :+1: | :+1: |  | :+1: | :+1: |
 FloodFill Algorithm | :+1: | :+1: | | | | | | |
 Floyd'sAlgorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
-Greatest Common Divisor | :+1: |:+1:| :+1: | :+1: | :+1: | :+1: | :+1: |  |
+Greatest Common Divisor | :+1: |:+1:| :+1: | :+1: | :+1: | :+1: | :+1: |:+1:  |
 Hamming Distance | :+1: | :+1: |  | :+1: |  | :+1: | :+1: |  | :+1:
 HeapSort | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  | :+1: | | | | :+1:
 Histogram equalization | :+1: |  |  |  |  |  |  |  |
@@ -55,6 +55,7 @@ Uniform-cost search | :+1: |  |  |  |  | :+1: | :+1: |  |
 RadixSort | :+1: | :+1: |  |  | :+1: |  |  |  |
 Rabin-Karp | :+1: | :+1: |  |  |  |  |  |  |
 SelectionSort | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1:
+SelectionSort (Descending) |  |  |  |  |  | :+1: |  |  | 
 ShellSort | :+1: | :+1: |  |  | :+1: |  |  |  | :+1: |
 Sieve of Eratosthenes | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  |
 UnaryCoding | :+1: | :+1: |  |  |  | :+1: |  |  |
