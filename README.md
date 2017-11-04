@@ -1,61 +1,74 @@
-# Algorithms Example
+﻿# Algorithms Example
 
 This repository contains examples of various algorithms which were written on different programming languages.
 
 ## Implemented algorithms with languages:
 
 
-Language| Java | Python | Rust | C | C++ | JavaScript  | Go | C# | Ruby | Swift
---- | --- | --- | --- |--- |--- |--- |--- |--- |--- |--- | 
+Language| Java | Python | Rust | C | C++ | JavaScript  | Go | C# | Ruby | Swift | Racket | Perl | Crystal| Kotlin
+---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 A*Search |  | :+1: |  |  | :+1: |  |  |  |
 BellmanFord | :+1: |  |  |  | :+1: |  |  |  |
-BestFirstSearch | :+1: |  |  |  |  |  |  |  |
-BinarySearch | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  | :+1: |  
+BestFirstSearch | :+1: | :+1: |  |  |  |  |  |  | :+1: |
+BinaryGCD | :+1: |  |  |  |  |  |  |  |  |
+BinarySearch | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: |  |  |  | :+1:
+Binary Search Modified |  |  |  | :+1: |  |  |  |  |
 Bitap Algorithm |  | :+1: |  |  | :+1: |  |  |  |
 BreadthFirstSearch | :+1: | :+1: |  | :+1: |  |  |  |  |
-Borwein's Algorithm | :+1: |  |  |  | :+1: |  |  |  | ||
-BubbleSort | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: |  | :+1: | :+1: |
-Conjugate Gradient |  |  |  |  | :+1: |  |  |  | ||
-CountingSort | :+1: | :+1: |  |  | :+1: |  |  |  | |
-DepthFirstSearch | :+1: |  |  |  | :+1: |  |  |  | |
-Dijkstra's  | :+1: | :+1: |  |  | :+1: |  |  |  | |
-Doomsday | :+1: | :+1: |  |  |  | :+1: |  |  |  | :+1: | :+1:
-ElevatorAlgorithm | :+1: |  |  |  |  |  |  |  |  
-Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |
-Fibonacci | :+1: | :+1: |  | :+1: |  |  | :+1: |  | :+1:
-FisherYatesShuffle | :+1: |  |  |  | :+1: | :+1: |  | :+1: |
+Borwein's Algorithm | :+1: | :+1: |  |  | :+1: |  |  |  | ||
+BubbleSort | :+1: | :+1: | :+1: | :+1: | :+1:  | :+1: | :+1:  | :+1: | :+1: | | | :+1:
+Conjugate Gradient |  | :+1: |  |  | :+1: |  |  |  | ||
+CountingSort | :+1: | :+1: |  |  | :+1: |  |  |  | :+1: |
+CycleSort | :+1: | :+1: |  |  | :+1: |  |  |  | |
+DepthFirstSearch | :+1: | :+1: |  |  | :+1: | :+1: |  |  | |
+Dijkstra's  | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  | |
+Dynamic programming | :+1: |  |  |  |  |  |  |  |  |
+Doomsday | :+1: | :+1: |  |  | :+1: | :+1: |  |  | :+1: | :+1: | :+1:
+EditDistance |  | :+1: |  |  | :+1: |  |  |  |
+Edmonds-Karp | :+1: |  |  |  |  |  |  |  |
+ElevatorAlgorithm | :+1: |  |  |  |  |  |  |  |
+Fast Fourier Transform | :+1: | :+1: |  |:+1:  | :+1: | :+1: |  |  |
+Fibonacci | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: |  :+1: | :+1: | :+1: | :+1:  | :+1:
+FisherYatesShuffle | :+1: |  |  |  | :+1: | :+1: |  | :+1: | :+1: |
+FloodFill Algorithm | :+1: | :+1: | | | | | | |
 Floyd'sAlgorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
-GreatestCommonDivisor | :+1: |  | :+1: | :+1: | :+1: |   |  |  |
-HammingDistance |  | :+1: |  |  |  | :+1: |  |  |
-HeapSort | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  | :+1:
-HistogramEqualization | :+1: |  |  |  |  |  |  |  |
-InsertionSort | :+1: | :+1: | :+1: | :+1: | :+1:  |  | :+1: | :+1: |  
-Inverse Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |  
+Greatest Common Divisor | :+1: |:+1:| :+1: | :+1: | :+1: | :+1: | :+1: |:+1:  |
+Hamming Distance | :+1: | :+1: |  | :+1: |  | :+1: | :+1: |  | :+1:
+HeapSort | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  | :+1: | | | | :+1:
+Histogram equalization | :+1: |  |  |  |  |  |  |  |
+InsertionSort | :+1: | :+1: | :+1: | :+1: | :+1:  | :+1: | :+1: | :+1: | :+1:
+Inverse Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |
 Johnson algorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
-Kadane's algorithm | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  |
+Kadane's algorithm | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  |
 Knuth Morris Prath Algorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
 Leaky-Bucket | |  |  |  | :+1: |  |  |  |
-LinearSearch | :+1: | :+1: |  |  | :+1: | :+1: |  |  |  |  |
-Longest-Common-Subsequence | :+1: | :+1: |  |  | :+1: |  |  |  | :+1:
-Longest-Increasing-Subsequence | :+1: |  |  |  | :+1: |  |  |  |
-LongestPath |  |  |  |  | :+1: |  |  |  |
-MergeSort | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  |
-MiniMaxWithABPruning | :+1: |  |  |  |  |  |  |  |
-Modified_Binary_Search |  |  |  | :+1: |  |  |  |  |
+LinearSearch | :+1: | :+1: | :+1: |  :+1:| :+1: | :+1: | :+1: |  |  | :+1: |
+Longest common subsequence | :+1: | :+1: |  | :+1: | :+1: |  |  |  | :+1:
+Longest increasing subsequence | :+1: | :+1: |  |  | :+1: |  |  |  |
+LongestPath |  | :+1:  |  |  | :+1: |  |  |  |
+MergeSort | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: | :+1: |  | :+1:
+MiniMax with alpha–beta pruning | :+1: |  |  |  |  |  |  |  |
+Pearson Hashing | :+1: |  |  |  |  |  |  |  |
 Postman Sort |  |  |  | :+1: |  |  |  |  |
-Quick Sort | :+1: | :+1: |  |  |  | :+1: | :+1: | :+1: |  :+1:
-Quick Select |  | :+1: |  |  |  |  | :+1: | |  
+Quick Sort | :+1: | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  :+1: |  :+1: |
+Quick Select | :+1: | :+1: |  | :+1: |  |  | :+1: | |
 Uniform-cost search | :+1: |  |  |  |  | :+1: | :+1: |  |
 RadixSort | :+1: | :+1: |  |  | :+1: |  |  |  |
-RobinCarp | :+1: |  |  |  |  |  |  |  |
-SelectionSort | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: | :+1: | :+1:
-ShellSort | :+1: | :+1: |  |  | :+1: |  |  |  |  
-SieveofEratosthenes | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  |
-UnaryCoding | :+1: | :+1: |  |  |  | :+1: |  |  |  
+Rabin-Karp | :+1: | :+1: |  |  |  |  |  |  |
+SelectionSort | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1:
+SelectionSort (Descending) |  |  |  |  |  | :+1: |  |  | 
+ShellSort | :+1: | :+1: |  |  | :+1: |  |  |  | :+1: |
+Sieve of Eratosthenes | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  |
+UnaryCoding | :+1: | :+1: |  |  |  | :+1: |  |  |
 VEGAS Algorithm |  |  |  |  | :+1: |  |  |  | ||
-TernarySearch | :+1: |:+1:  |  |  | :+1: |  |  |  |  
-Topological Sort |  |  |  |  | :+1: |  |  |  |  
-Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |  
+Tarjan'sOff-LineLCA |  | |  |  | :+1: |  |  |  |
+TernarySearch | :+1: |:+1:  |  | :+1: | :+1: |  |  |  |
+Topological Sort |  |  |  |  | :+1: |  |  |  |
+Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |
+Union Find |:+1:|:+1:|  | :+1: |  |  |  |  |
+Xor swap |:+1:|:+1:|  |  |  |:+1:|:+1:|  |
+Connected-component labeling |  |  |  |  |:+1:|  |  |  |
+Extended Euclidean algorithm |  |  |  |  |:+1:|  |  |  |
 
 
 ### List of Algorithms :
@@ -63,6 +76,8 @@ Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |
 * 3Dc    :    a lossy data compression algorithm for normal maps
 
 * A-law algorithm    :    standard companding algorithm
+
+* [A-Star (A*) algorithm](AStarSearch)    :    extended Dijkstra path finding algorithm for searching shortest path
 
 * AdaBoost    :    adaptive boosting
 
@@ -108,13 +123,13 @@ Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |
 
 * Bees algorithm    :    a search algorithm which mimics the food foraging behavior of swarms of honey bees
 
-* Bellman–Ford algorithm    :    computes shortest paths in a weighted graph (where some of the edge weights may be negative)
+* [Bellman–Ford algorithm](BellmanFord)    :    computes shortest paths in a weighted graph (where some of the edge weights may be negative)
 
 * Benson's algorithm    :    an algorithm for solving linear vector optimization problems
 
 * Best Bin First    :    find an approximate solution to the Nearest neighbor search problem in very-high-dimensional spaces
 
-* Best-first search    :    traverses a graph in the order of likely importance using a priority queue
+* [Best-first search](BestFirstSearch)    :    traverses a graph in the order of likely importance using a priority queue
 
 * BFGS method    :    A nonlinear optimization algorithm
 
@@ -124,7 +139,7 @@ Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |
 
 * Bilinear interpolation    :    an extension of linear interpolation for interpolating functions of two variables on a regular grid
 
-* Binary GCD algorithm    :    Efficient way of calculating GCD.
+* [Binary GCD algorithm](BinaryGCD)    :    Efficient way of calculating GCD.
 
 * [Binary search algorithm](BinarySearch)    :    locates an item in a sorted sequence
 
@@ -132,7 +147,7 @@ Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |
 
 * Birkhoff interpolation    :    an extension of polynomial interpolation
 
-* Bitap algorithm    :    fuzzy algorithm that determines if strings are approximately equal.
+* [Bitap algorithm](Bitap%20Algorithm)    :    fuzzy algorithm that determines if strings are approximately equal.
 
 * BKM algorithm    :    compute elementary functions using a table of logarithms
 
@@ -142,7 +157,7 @@ Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |
 
 * Booth's multiplication algorithm    :    a multiplication algorithm that multiplies two signed binary numbers in two's complement notation
 
-* Borwein's algorithm    :    an algorithm to calculate the value of 1/π
+* [Borwein's algorithm](Borwein's%20Algorithm)    :    an algorithm to calculate the value of 1/π
 
 * Bowyer–Watson algorithm    :    create voronoi diagram in any number of dimensions
 
@@ -166,9 +181,9 @@ Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |
 
 	* D    :    an incremental heuristic search algorithm
 
-	* Depth-first search    :    traverses a graph branch by branch
+	* [Depth-first search](DepthFirstSearch)    :    traverses a graph branch by branch
 
-	* Dijkstra's algorithm    :    A special case of A for which no heuristic function is used
+	* [Dijkstra's algorithm](Dijkstra's)    :    A special case of A for which no heuristic function is used
 
 	* General Problem Solver    :    a seminal theorem-proving algorithm intended to work as a universal problem solver machine.
 
@@ -224,9 +239,9 @@ Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |
 
 * Cone algorithm    :    identify surface points
 
-* Conjugate gradient    :    an algorithm for the numerical solution of particular systems of linear equations
+* [Conjugate gradient](Conjugate%20Gradient)    :    an algorithm for the numerical solution of particular systems of linear equations
 
-* Connected-component labeling    :    find and label disjoint regions
+* [Connected-component labeling](ConnectedComponentLabeling)    :    find and label disjoint regions
 
 * Constraint algorithm    :    a class of algorithms for satisfying constraints for bodies that obey Newton's equations of motion
 
@@ -238,7 +253,7 @@ Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |
 
 * Cuthill–McKee algorithm    :    reduce the bandwidth of a symmetric sparse matrix
 
-* Cycle sort    :    in-place with theoretically optimal number of writes
+* [Cycle sort](CycleSort)    :    in-place with theoretically optimal number of writes
 
 * CYK algorithm    :    An O(n<sup>3</sup>) algorithm for parsing context-free grammars in Chomsky normal form
 
@@ -264,13 +279,13 @@ Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |
 
 * Deutsch-Jozsa algorithm    :    criterion of balance for Boolean function
 
-* [Dijkstra's algorithm](Dijkstra's%20)    :    computes shortest paths in a graph with non-negative edge weights
+* [Dijkstra's algorithm](Dijkstra's)    :    computes shortest paths in a graph with non-negative edge weights
 
 * Dinic's algorithm    :    is a strongly polynomial algorithm for computing the maximum flow in a flow network.
 
 * Discrete Green's Theorem    :    is an algorithm for computing double integral over a generalized rectangular domain in constant time. It is a natural extension to the summed area table algorithm
 
-* Doomsday algorithm    :    day of the week
+* [Doomsday algorithm](Doomsday)    :    day of the week
 
 * Double dabble    :    Convert binary numbers to BCD
 
@@ -278,21 +293,21 @@ Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |
 
 * Dynamic Markov compression    :    Compression using predictive arithmetic coding
 
-* Dynamic Programming    :    problems exhibiting the properties of overlapping subproblems and optimal substructure
+* [Dynamic Programming](DynamicProgramming)    :    problems exhibiting the properties of overlapping subproblems and optimal substructure
 
 * Dynamic time warping    :    measure similarity between two sequences which may vary in time or speed
 
 * Earley parser    :    Another O(n<sup>3</sup>) algorithm for parsing any context-free grammar
 
-* Edmonds–Karp algorithm    :    implementation of Ford–Fulkerson
+* [Edmonds–Karp algorithm](EdmondsKarp)    :    implementation of Ford–Fulkerson
 
-* Elevator algorithm    :    Disk scheduling algorithm that works like an elevator.
+* [Elevator algorithm](ElevatorAlgorithm)    :    Disk scheduling algorithm that works like an elevator.
 
 * Ellipsoid method    :    is an algorithm for solving convex optimization problems
 
 * Espresso heuristic logic minimizer    :    Fast algorithm for boolean function minimization.
 
-* Euclidean algorithm    :    computes the greatest common divisor
+* [Euclidean algorithm](GreatestCommonDivisor)    :    computes the greatest common divisor
 
 * Euclidean minimum spanning tree    :    algorithms for computing the minimum spanning tree of a set of points in the plane
 
@@ -300,13 +315,13 @@ Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |
 
 * Exponentiating by squaring    :    an algorithm used for the fast computation of large integer powers of a number
 
-* Extended Euclidean algorithm    :    Also solves the equation <i>ax</i>&#160;+&#160;<i>by</i>&#160;=&#160;<i>c</i>.
+* [Extended Euclidean algorithm](ExtendedEuclideanAlgorithm)    :    Also solves the equation <i>ax</i>&#160;+&#160;<i>by</i>&#160;=&#160;<i>c</i>.
 
 * False position method    :    approximates roots of a function
 
 * Fast folding algorithm    :    an efficient algorithm for the detection of approximately periodic events within time series data
 
-* Fast Fourier Transform:    A fast Fourier transform (FFT) algorithm computes the discrete Fourier transform (DFT) of a sequence
+* [Fast Fourier Transform](FastFourierTransform):    A fast Fourier transform (FFT) algorithm computes the discrete Fourier transform (DFT) of a sequence
 
 * Faugère F4 algorithm    :    finds a Gröbner basis (also mentions the F5 algorithm)
 
@@ -316,7 +331,7 @@ Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |
 
 * Filtered back-projection    :    efficiently compute the inverse 2-dimensional Radon transform.
 
-* Flood fill    :    fills a connected region of a multi-dimensional array with a specified symbol
+* [Flood fill](FloodFill)    :    fills a connected region of a multi-dimensional array with a specified symbol
 
 * Floyd's cycle-finding algorithm    :    finds a cycle in function value iterations
 
@@ -376,9 +391,7 @@ Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |
 
 * Halley's method    :    uses first and second derivatives
 
-* Hamming distance    :    sum number of positions which are different
-
-* Hamming distance    :    sum number of positions which are different
+* [Hamming distance](HammingDistance)    :    sum number of positions which are different
 
 * Hamming(7,4)    :    a Hamming code that encodes 4 bits of data into 7 bits by adding 3 parity bits
 
@@ -388,7 +401,7 @@ Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |
 
 * Hirschberg's algorithm    :    finds the least cost sequence alignment between two sequences, as measured by their Levenshtein distance
 
-* Histogram equalization    :    use histogram to improve image contrast
+* [Histogram equalization](HistogramEqualization)    :    use histogram to improve image contrast
 
 * HMAC    :    keyed-hash message authentication
 
@@ -412,11 +425,11 @@ Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |
 
 * Introsort    :    begin with quicksort and switch to heapsort when the recursion depth exceeds a certain level
 
-* Inverse Fast Fourier Transform:    Inverse Fast Fourier transform (IFFT) algorithm computes the inverse discrete Fourier transform (Inverse DFT) of a sequence
+* [Inverse Fast Fourier Transform](InverseFastFourierTransform):    Inverse Fast Fourier transform (IFFT) algorithm computes the inverse discrete Fourier transform (Inverse DFT) of a sequence
 
 * Jaro–Winkler distance    :    is a measure of similarity between two strings
 
-* Johnson algorithm    :    All pairs shortest path algorithm in sparse weighted directed graph
+* [Johnson algorithm](Johnson%20Algorithm)    :    All pairs shortest path algorithm in sparse weighted directed graph
 
 * Jump-and-Walk algorithm    :    an algorithm for point location in triangulations
 
@@ -448,7 +461,7 @@ Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |
 
 * Knuth–Bendix completion algorithm    :    for rewriting rule systems
 
-* Knuth–Morris–Pratt algorithm    :    substring search which bypasses reexamination of matched characters
+* [Knuth–Morris–Pratt algorithm](Knuth%20Morris%20Prath)    :    substring search which bypasses reexamination of matched characters
 
 * Lagrange interpolation    :    interpolation using Lagrange polynomials
 
@@ -572,7 +585,7 @@ Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |
 
 * Paxos algorithm    :    a family of protocols for solving consensus in a network of unreliable processors
 
-* Pearson hashing    :    computes 8 bit value only, optimized for 8 bit computers
+* [Pearson hashing](PearsonHashing)    :    computes 8 bit value only, optimized for 8 bit computers
 
 * Perceptron    :    the simplest kind of feedforward neural network: a linear classifier.
 
@@ -582,7 +595,7 @@ Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |
 
 * Polynomial long division    :    an algorithm for dividing a polynomial by another polynomial of the same or lower degree
 
-* Postman sort    :    variant of Bucket sort which takes advantage of hierarchical structure
+* [Postman sort](Postman%20Sort)    :    variant of Bucket sort which takes advantage of hierarchical structure
 
 * Powerset construction    :    Algorithm to convert nondeterministic automaton to deterministic automaton.
 
@@ -594,6 +607,8 @@ Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |
 
 * Q-learning    :    learn an action-value function that gives the expected utility of taking a given action in a given state and following a fixed policy thereafter
 
+* [Quickselect](QuickSelect)    :    selection algorithm to find the kth smallest element in an unordered list
+
 * [Quicksort](QuickSort)    :    divide list into two, with all items on the first list coming before all items on the second list.; then sort the two lists. Often the method of choice
 
 * Quine–McCluskey algorithm    :    Also called as Q-M algorithm, programmable method for simplifying the boolean equations.
@@ -602,7 +617,7 @@ Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |
 
 * Radial basis function network    :    an artificial neural network that uses radial basis functions as activation functions
 
-* Radix sort    :    sorts strings letter by letter
+* [Radix sort](RadixSort)    :    sorts strings letter by letter
 
 * Rainflow-counting algorithm    :    Reduces a complex stress history to a count of elementary stress-reversals for use in fatigue analysis
 
@@ -658,7 +673,7 @@ Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |
 
 * Shannon–Fano–Elias coding    :    precursor to arithmetic encoding<sup id="cite_ref-1" class="reference">[1]</sup>
 
-* Shell sort    :    an attempt to improve insertion sort
+* [Shell sort](ShellSort)    :    an attempt to improve insertion sort
 
 * Shifting nth-root algorithm    :    digit by digit root extraction
 
@@ -720,7 +735,7 @@ Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |
 
 * Top-nodes algorithm    :    resource calendar management
 
-* Topological sort    :    finds linear order of nodes (e.g. jobs) based on their dependencies.
+* [Topological sort](TopologicalSort)    :    finds linear order of nodes (e.g. jobs) based on their dependencies.
 
 * Transform coding    :    type of data compression for "natural" data like audio signals or photographic images
 
@@ -740,7 +755,7 @@ Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |
 
 * Vector quantization    :    technique often used in lossy data compression
 
-* VEGAS algorithm    :    a method for reducing error in Monte Carlo simulations
+* [VEGAS algorithm](VEGASAlgorithm)    :    a method for reducing error in Monte Carlo simulations
 
 * Velvet    :    a set of algorithms manipulating de Bruijn graphs for genomic sequence assembly
 
@@ -766,7 +781,7 @@ Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |
 
 * Xiaolin Wu's line algorithm    :    algorithm for line antialiasing.
 
-* Xor swap algorithm    :    swaps the values of two variables without using a buffer
+* [Xor swap algorithm](XorSwap)    :    swaps the values of two variables without using a buffer
 
 * Yamartino method    :    calculate an approximation to the standard deviation σθ of wind direction θ during a single pass through the incoming data
 
@@ -776,8 +791,12 @@ Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |
 
 * Zobrist hashing    :    used in the implementation of transposition tables
 
-Folder structure should be
-[**Algorithm name**]/[**language**]/**file**  
+* Union Find : used to know if there is a path between 2 objects or not
+
+* Fibonacci Recursive : Fibonacci series printed using Java Recursion
+
+Folder structure should be like this
+[**Algorithm name**]/[**language**]/**file**
 
 *For example*:
 * **BubbleSort/Go/BubbleSort.go**
