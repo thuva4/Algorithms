@@ -41,6 +41,7 @@ Inverse Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |
 Johnson algorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
 Kadane's algorithm | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  |
 Knuth Morris Prath Algorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
+Leaky-Bucket | |  |  |  | :+1: |  |  |  |
 LinearSearch | :+1: | :+1: | :+1: |  :+1:| :+1: | :+1: | :+1: |  |  | :+1: |
 Longest common subsequence | :+1: | :+1: |  | :+1: | :+1: |  |  |  | :+1:
 Longest increasing subsequence | :+1: | :+1: |  |  | :+1: |  |  |  |
@@ -469,6 +470,8 @@ Extended Euclidean algorithm |  |  |  |  |:+1:|  |  |  |
 * Laplacian smoothing    :    an algorithm to smooth a polygonal mesh
 
 * Lesk algorithm    :    word sense disambiguation
+
+* Leaky bucket algorithm : an algorithm that demonstrates traffic control in network transmission
 
 * Levenberg–Marquardt algorithm    :    An algorithm for solving nonlinear least squares problems.
 
