@@ -168,3 +168,4 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 - [Patrick Fischer](https://github.com/patFish)
 - [ServinDC](https://github.com/ServinDC)
 - [Irshad Ismayil](https://github.com/irshadshalu)
+- [BrianChen](https://github.com/brianchen)
