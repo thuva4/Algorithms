@@ -130,6 +130,7 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 - [mekisiel](https://github.com/mekisiel)
 - [tushar-dtu](https://github.com/tushar-dtu)
 - [AymanASamyM](https://github.com/AymanASamyM)
+- [nicktheway](https://github.com/nicktheway)
 - [arunpyasi](https://github.com/arunpyasi)
 - [Akos Kovacs](https://github.com/plaidshirtakos)
 - [AtoMc](https://github.com/AtoMc)
