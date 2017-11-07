@@ -55,7 +55,7 @@ int minimize(vector<int> ve1, vector<int> ve2, int le) {
 
 pair<string, string> stringOne(string s1, string s2) {
 
-	//building of array for case string length one of any of the string
+	
 	string sa, sb;
 
 	int m = s1.length();
