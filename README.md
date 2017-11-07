@@ -19,6 +19,7 @@ BreadthFirstSearch | :+1: | :+1: |  | :+1: |  |  |  |  |
 Borwein's Algorithm | :+1: | :+1: |  |  | :+1: |  |  |  | ||
 BubbleSort | :+1: | :+1: | :+1: | :+1: | :+1:  | :+1: | :+1:  | :+1: | :+1: | | | :+1:
 Conjugate Gradient |  | :+1: |  |  | :+1: |  |  |  | ||
+CountingInversions | :+1: | |||:+1:||||||
 CountingSort | :+1: | :+1: |  |  | :+1: |  |  |  | :+1: |
 CycleSort | :+1: | :+1: |  |  | :+1: |  |  |  | |
 DepthFirstSearch | :+1: | :+1: |  |  | :+1: | :+1: |  |  | |
@@ -259,6 +260,8 @@ Knapsack problem |  |  |  |:+1:|  |  |  |  |
 * [Cycle sort](CycleSort)    :    in-place with theoretically optimal number of writes
 
 * CYK algorithm    :    An O(n<sup>3</sup>) algorithm for parsing context-free grammars in Chomsky normal form
+
+* [Counting Inversions](CountingInversions)    :    Inversion Count for an array indicates – how far (or close) the array is from being sorted.
 
 * Daitch–Mokotoff Soundex    :    a Soundex refinement which allows matching of Slavic and Germanic surnames
 
