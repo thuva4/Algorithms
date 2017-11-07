@@ -40,7 +40,7 @@ Histogram equalization | :+1: |  |  |  |  |  |  |  |
 InsertionSort | :+1: | :+1: | :+1: | :+1: | :+1:  | :+1: | :+1: | :+1: | :+1:
 Inverse Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |
 Johnson algorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
-Kadane's algorithm | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  |
+Kadane's algorithm | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: | :+1: |
 Knuth Morris Prath Algorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
 Leaky-Bucket | |  |  |  | :+1: |  |  |  |
 LinearSearch | :+1: | :+1: | :+1: |  :+1:| :+1: | :+1: | :+1: | :+1:  |  | :+1: |
