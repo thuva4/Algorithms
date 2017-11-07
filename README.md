@@ -70,7 +70,7 @@ Union Find |:+1:|:+1:|  | :+1: |  |  |  |  |
 Xor swap |:+1:|:+1:|  |:+1:|  |:+1:|:+1:|  |
 Connected-component labeling |  |  |  |  |:+1:|  |  |  |
 Extended Euclidean algorithm |  |  |  |  |:+1:|  |  |  |
-
+Knapsack problem |  |  |  |:+1:|  |  |  |  |
 
 ### List of Algorithms :
 
@@ -461,6 +461,8 @@ Extended Euclidean algorithm |  |  |  |  |:+1:|  |  |  |
 * Karplus-Strong string synthesis    :    physical modelling synthesis to simulate the sound of a hammered or plucked string or some types of percussion
 
 * KHOPCA clustering algorithm    :    a local clustering algorithm, which produces hierarchical multi-hop clusters in static and mobile environments.
+
+* Knapsack problem : Given a set of items, each with a weight and a value, determine the number of each item to include in a collection 		so that the total weight is less than or equal to a given limit and the total value is as large as possible.
 
 * Knuth–Bendix completion algorithm    :    for rewriting rule systems
 
