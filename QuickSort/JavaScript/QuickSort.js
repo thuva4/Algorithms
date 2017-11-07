@@ -4,8 +4,8 @@ function quickSort(items, left, right) {
 
     if (items.length > 1) {
 
-        left = typeof left != "number" ? 0 : left;
-        right = typeof right != "number" ? items.length - 1 : right;
+        left = typeof left !== "number" ? 0 : left;
+        right = typeof right !== "number" ? items.length - 1 : right;
 
         index = partition(items, left, right);
 
