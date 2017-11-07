@@ -28,7 +28,7 @@ public class BestFirstSearch
         priorityQueue.add(new Vertex(source, this.heuristicvalues[source]));
         visited[source] = 1;
  
-        while (!priorityQueue.isEmpty())
+        while (!priorityQueue.isEmpty()) //where the loop calls
         {
             evaluationNode = getNodeWithMinimumHeuristicValue();
             destinationNode = 1;
