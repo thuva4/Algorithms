@@ -167,6 +167,7 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 - [Suman Chaurasia](https://github.com/bzero0)
 - [Patrick Fischer](https://github.com/patFish)
 - [ServinDC](https://github.com/ServinDC)
+- [Afroza Nasrin](https://github.com/afroza17)
 - [Piersdb](https://github.com/piersdb)
 - [Irshad Ismayil](https://github.com/irshadshalu)
 - [BrianChen](https://github.com/brianchen)
