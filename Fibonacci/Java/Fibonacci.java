@@ -1,5 +1,6 @@
 
 public class Fibonacci {
+	//main method
 	public static void main(String[] args) {
 	int num, v, num1 = 0, num2 = 1, temp;
 	num = Integer.parseInt(args[0]);
