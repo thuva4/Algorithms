@@ -11,9 +11,10 @@ A*Search |  | :+1: |  |  | :+1: |  |  |  |
 BellmanFord | :+1: |  |  |  | :+1: |  |  |  |
 BestFirstSearch | :+1: | :+1: |  |  |  |  |  |  | :+1: |
 BinaryGCD | :+1: |  |  |  |  |  |  |  |  |
-BinarySearch | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  | :+1: | :+1: |  |  |  | :+1:
+BinarySearch | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: |  |  |  | :+1:
 Binary Search Modified |  |  |  | :+1: |  |  |  |  |
 Bitap Algorithm |  | :+1: |  |  | :+1: |  |  |  |
+BitonicSort |  |  |  | :+1: |  |  |  |  |
 BreadthFirstSearch | :+1: | :+1: |  | :+1: |  |  |  |  |
 Borwein's Algorithm | :+1: | :+1: |  |  | :+1: |  |  |  | ||
 BubbleSort | :+1: | :+1: | :+1: | :+1: | :+1:  | :+1: | :+1:  | :+1: | :+1: | | | :+1:
@@ -32,7 +33,7 @@ Fibonacci | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: |  :+1: | :+1: | :+1: | :+1:
 FisherYatesShuffle | :+1: |  |  |  | :+1: | :+1: |  | :+1: | :+1: |
 FloodFill Algorithm | :+1: | :+1: | | | | | | |
 Floyd'sAlgorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
-Greatest Common Divisor | :+1: |:+1:| :+1: | :+1: | :+1: |   |  |  |
+Greatest Common Divisor | :+1: |:+1:| :+1: | :+1: | :+1: | :+1: | :+1: |:+1:  |
 Hamming Distance | :+1: | :+1: |  | :+1: |  | :+1: | :+1: |  | :+1:
 HeapSort | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  | :+1: | | | | :+1:
 Histogram equalization | :+1: |  |  |  |  |  |  |  |
@@ -41,7 +42,8 @@ Inverse Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |
 Johnson algorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
 Kadane's algorithm | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: | :+1: |
 Knuth Morris Prath Algorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
-LinearSearch | :+1: | :+1: | :+1: |  :+1:| :+1: | :+1: | :+1: |  |  | :+1: |
+Leaky-Bucket | |  |  |  | :+1: |  |  |  |
+LinearSearch | :+1: | :+1: | :+1: |  :+1:| :+1: | :+1: | :+1: | :+1:  |  | :+1: |
 Longest common subsequence | :+1: | :+1: |  | :+1: | :+1: |  |  |  | :+1:
 Longest increasing subsequence | :+1: | :+1: |  |  | :+1: |  |  |  |
 LongestPath |  | :+1:  |  |  | :+1: |  |  |  |
@@ -55,6 +57,7 @@ Uniform-cost search | :+1: |  |  |  |  | :+1: | :+1: |  |
 RadixSort | :+1: | :+1: |  |  | :+1: |  |  |  |
 Rabin-Karp | :+1: | :+1: |  |  |  |  |  |  |
 SelectionSort | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1:
+SelectionSort (Descending) |  |  |  |  |  | :+1: |  |  | 
 ShellSort | :+1: | :+1: |  |  | :+1: |  |  |  | :+1: |
 Sieve of Eratosthenes | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  |
 UnaryCoding | :+1: | :+1: |  |  |  | :+1: |  |  |
@@ -64,10 +67,10 @@ TernarySearch | :+1: |:+1:  |  | :+1: | :+1: |  |  |  |
 Topological Sort |  |  |  |  | :+1: |  |  |  |
 Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |
 Union Find |:+1:|:+1:|  | :+1: |  |  |  |  |
-Xor swap |:+1:|:+1:|  |  |  |:+1:|:+1:|  |
+Xor swap |:+1:|:+1:|  |:+1:|  |:+1:|:+1:| :+1: |
 Connected-component labeling |  |  |  |  |:+1:|  |  |  |
 Extended Euclidean algorithm |  |  |  |  |:+1:|  |  |  |
-
+Knapsack problem |  |  |  |:+1:|  |  |  |  |
 
 ### List of Algorithms :
 
@@ -146,6 +149,8 @@ Extended Euclidean algorithm |  |  |  |  |:+1:|  |  |  |
 * Birkhoff interpolation    :    an extension of polynomial interpolation
 
 * [Bitap algorithm](Bitap%20Algorithm)    :    fuzzy algorithm that determines if strings are approximately equal.
+
+* Bitonic sort algorithm    :    a sorting algorithm efficient in machines with a lot of processors: O(log^2(n)) with n/2 processors
 
 * BKM algorithm    :    compute elementary functions using a table of logarithms
 
@@ -457,6 +462,8 @@ Extended Euclidean algorithm |  |  |  |  |:+1:|  |  |  |
 
 * KHOPCA clustering algorithm    :    a local clustering algorithm, which produces hierarchical multi-hop clusters in static and mobile environments.
 
+* Knapsack problem : Given a set of items, each with a weight and a value, determine the number of each item to include in a collection 		so that the total weight is less than or equal to a given limit and the total value is as large as possible.
+
 * Knuth–Bendix completion algorithm    :    for rewriting rule systems
 
 * [Knuth–Morris–Pratt algorithm](Knuth%20Morris%20Prath)    :    substring search which bypasses reexamination of matched characters
@@ -468,6 +475,8 @@ Extended Euclidean algorithm |  |  |  |  |:+1:|  |  |  |
 * Laplacian smoothing    :    an algorithm to smooth a polygonal mesh
 
 * Lesk algorithm    :    word sense disambiguation
+
+* Leaky bucket algorithm : an algorithm that demonstrates traffic control in network transmission
 
 * Levenberg–Marquardt algorithm    :    An algorithm for solving nonlinear least squares problems.
 
