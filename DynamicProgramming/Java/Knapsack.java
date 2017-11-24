@@ -35,7 +35,7 @@ public class Knapsack {
 		return items;
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) { //main method.
 		final int capacity = 8;
 		final int[] values = {2, 5, 10, 14, 15};
 		final int[] weights = {1, 3, 4, 5, 7};
@@ -46,6 +46,7 @@ public class Knapsack {
 		System.out.println("Weights = " + Arrays.toString(weights));
 		System.out.println();
 		
+		//getting maxVAlue 
 		maxValue(capacity, weights, values, v);
 		final int b = v[weights.length][capacity];
 		System.out.println("v:");
