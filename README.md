@@ -1,4 +1,4 @@
-﻿# Algorithms Example
+# Algorithms Example
 
 This repository contains examples of various algorithms which were written on different programming languages.
 
@@ -72,6 +72,8 @@ Xor swap |:+1:|:+1:|  |:+1:|  |:+1:|:+1:| :+1: | |
 Connected-component labeling |  |  |  |  |:+1:|  |  |  | |
 Extended Euclidean algorithm |  |  |  |  |:+1:|  |  |  | |
 Knapsack problem |  |  |  |:+1:|  |  |  |  | |
+
+[List of Algorithms](Algorithms.md)
 
 Folder structure should be like this
 [**Algorithm name**]/[**language**]/**file**
