@@ -4,6 +4,7 @@ This repository contains examples of various algorithms which were written on di
 
 ## Implemented algorithms with languages:
 
+
 Language| Java | Python | Rust | C | C++ | JavaScript  | Go | C# | Ruby | Swift | Racket | Perl | Crystal| Kotlin | Haskell
 ---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:--:|
 A*Search |  | :+1: |  |  | :+1: |  |  |  |  |
@@ -75,7 +76,6 @@ Knapsack problem |  |  |  |:+1:|  |  |  |  | |
 [List of Algorithms](Algorithms.md)
 
 Folder structure should be like this
-
 [**Algorithm name**]/[**language**]/**file**
 
 *For example*:
