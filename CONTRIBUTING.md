@@ -132,6 +132,7 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 - [nicktheway](https://github.com/nicktheway)
 - [arunpyasi](https://github.com/arunpyasi)
 - [Akos Kovacs](https://github.com/plaidshirtakos)
+- [FernandaBernardo](https://github.com/FernandaBernardo)
 - [AtoMc](https://github.com/AtoMc)
 - [robertmihai26](https://github.com/robertmihai26)
 - [Gowtham R](https://github.com/gowtham1997)
@@ -171,3 +172,4 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 - [Irshad Ismayil](https://github.com/irshadshalu)
 - [BrianChen](https://github.com/brianchen)
 - [S Ramakrishnan](https://github.com/sramakrishnan247)
+

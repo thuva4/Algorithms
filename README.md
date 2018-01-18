@@ -20,7 +20,7 @@ Borwein's Algorithm | :+1: | :+1: |  |  | :+1: |  |  |  | | |
 BubbleSort | :+1: | :+1: | :+1: | :+1: | :+1:  | :+1: | :+1:  | :+1: | :+1: | | | :+1:|  |
 Conjugate Gradient |  | :+1: |  |  | :+1: |  |  |  | | | |
 CountingInversions | :+1: | | | |:+1:| | | | | | |
-CountingSort | :+1: | :+1: |  |  | :+1: |  |  |  | :+1: | |
+CountingSort | :+1: | :+1: |  |  | :+1: | :+1: |  |  | :+1: | |
 CycleSort | :+1: | :+1: |  |  | :+1: |  |  |  | | |
 DepthFirstSearch | :+1: | :+1: |  |  | :+1: | :+1: |  |  | | |
 Dijkstra's  | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  | | |
