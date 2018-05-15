@@ -7,12 +7,16 @@
 public class HammingDistance {
 
 	public static int hammingDistance(String s1, String s2) {
-		if (s1.length() != s2.length()) throw new IllegalArgumentException("The two strings must be the same length.");
+		if (s1.length() != s2.length()) 
+			throw new IllegalArgumentException("The two strings must be the same length.");
 		
 		int distance = 0;
-		for (int i = 0; i < s1.length(); i++) {
-			if (s1.charAt(i) != s2.charAt(i)) { distance++; }
+		final int LEN = s1.length();
+		for (int i = 0; i < LEN; i++) {
+			if (s1.charAt(i) != s2.charAt(i)) 
+				distance++;
 		}
+
 		return distance;
 	}
 
@@ -29,22 +33,22 @@ public class HammingDistance {
 	}
 	
 	public static void main(String[] args) {
-		System.out.println(hammingDistance("five", "five"));
-		System.out.println(hammingDistance("five", "four"));
-		System.out.println(hammingDistance("five", "FIVE"));
-		System.out.println(hammingDistanceIgnoreCase("five", "FIVE"));
+		System.out.println(hammingDistance("five", "five")); // => 0
+		System.out.println(hammingDistance("five", "four")); // => 3
+		System.out.println(hammingDistance("five", "FIVE")); // => 4
+		System.out.println(hammingDistanceIgnoreCase("five", "FIVE")); // => 0
 		System.out.println();
-		System.out.println(hammingDistance(1, 1));
-		System.out.println(hammingDistance(1, 2));
-		System.out.println(hammingDistance(1, 3));
-		System.out.println(hammingDistance(1, 4));
-		System.out.println(hammingDistance(1, 5));
+		System.out.println(hammingDistance(1, 1)); // => 0
+		System.out.println(hammingDistance(1, 2)); // => 2
+		System.out.println(hammingDistance(1, 3)); // => 1
+		System.out.println(hammingDistance(1, 4)); // => 2
+		System.out.println(hammingDistance(1, 5)); // => 1
 		System.out.println();
-		System.out.println(hammingDistance(1L, 1L));
-		System.out.println(hammingDistance(1L, 2L));
-		System.out.println(hammingDistance(1L, 3L));
-		System.out.println(hammingDistance(1L, 4L));
-		System.out.println(hammingDistance(1L, 5L));
+		System.out.println(hammingDistance(1L, 1L)); // => 0
+		System.out.println(hammingDistance(1L, 2L)); // => 2
+		System.out.println(hammingDistance(1L, 3L)); // => 1
+		System.out.println(hammingDistance(1L, 4L)); // => 2
+		System.out.println(hammingDistance(1L, 5L)); // => 1
 	}
 
 }
