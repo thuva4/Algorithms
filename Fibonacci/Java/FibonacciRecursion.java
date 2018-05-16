@@ -6,7 +6,7 @@ class FibonacciRecursion {
             c = a + b;
             a = b;
             b = c;
-            System.out.print(" " + c);
+            System.out.printf("%d ", c);
             printFibonacci(count - 1);
         }
     }
