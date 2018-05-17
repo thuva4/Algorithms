@@ -1,4 +1,7 @@
-# Sort an array in place and return the number of writes.
+import unittest
+
+# source: https://sr.wikipedia.org/wiki/Cikli%C4%8Dno_sortiranje#Algoritam
+# Sort an array in place and return the sorted array
 def cycleSort(array):
   writes = 0
   
@@ -41,9 +44,11 @@ def cycleSort(array):
 
 
 
-# Demo For the CycleSort
+# Test For the CycleSort
+class TestSuite(unittest.TestCase):
+  def test_cycleSort(self):
+    arr = [2, 5, 8, 6, 35, 1, 2, 545, 6, 2, 3, 12, 4]
+    self.assertEqual([1, 2, 2, 2, 3, 4, 5, 6, 6, 8, 12, 35, 545], cycleSort(arr))
 
-arr = [2,5,8,6,35,1,2,545,6,2,3,12,4]
-arrn = cycleSort(arr)
-
-print(arrn)
+if __name__ == "__main__":
+  unittest.main()
