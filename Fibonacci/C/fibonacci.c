@@ -1,12 +1,14 @@
 #include <stdio.h>
-int i, v, num1 = 0, num2 = 1, temp;
+
 
 int main() {
+  
+  int i, v, num1 = 0, num2 = 1, temp;
   // Enter here number of times fib number is calculated;
   scanf("%d", &v);
   printf("Fibonacci numbers:");
   
-  for (i; i <= v; i++) {
+  for (i = 0; i <= v; i++) {
     // This prints fibonacci number;
     printf("%d, ", num1);
     // This calculates fibonacci number;
