@@ -17,7 +17,8 @@ struct Graph
 {
     int V, E;
     // V is number of vertices and E is number of edges
- 
+    
+    // list of all edges.
     struct Edge* edge;
     // This structure contain another structure which we already created edge.
 };
@@ -41,9 +42,8 @@ void FinalSolution(int dist[], int n)
 {
     // This function prints the final solution
     cout<<"\nVertex\tDistance from Source Vertex\n";
-    int i;
  
-    for (i = 0; i < n; ++i){
+    for (int i = 0; i < n; ++i){
         cout<<i<<"\t\t"<<dist[i]<<"\n";
     }
 }
@@ -55,21 +55,21 @@ void BellmanFord(struct Graph* graph, int source)
     int E = graph->E;
  
     int StoreDistance[V];
- 
-    int i,j;
- 
+
+
     // This is initial step that we know , we initialize all distance to infinity except source.
     // We assign source distance as 0(zero)
  
-    for (i = 0; i < V; i++)
+    for (int i = 0; i < V; i++)
         StoreDistance[i] = INT_MAX;
  
     StoreDistance[source] = 0;
  
-    //The shortest path of graph that contain V vertices, never contain "V-1" edges. So we do here "V-1" relaxations
-    for (i = 1; i <= V-1; i++)
+    // The shortest path of graph that contain V vertices, never contain "V-1" 
+    // edges. So we do here "V-1" relaxations
+    for (int i = 1; i <= V-1; i++)
     {
-        for (j = 0; j < E; j++)
+        for (int j = 0; j < E; j++)
         {
             int u = graph->edge[j].source;
  
@@ -82,11 +82,12 @@ void BellmanFord(struct Graph* graph, int source)
         }
     }
  
-    // Actually upto now shortest path found. But BellmanFord checks for negative edge cycle. In this step we check for that
+    // Actually upto now shortest path found. But BellmanFord checks for 
+    // negative edge cycle. In this step we check for that
     // shortest distances if graph doesn't contain negative weight cycle.
  
     // If we get a shorter path, then there is a negative edge cycle.
-    for (i = 0; i < E; i++)
+    for (int i = 0; i < E; i++)
     {
         int u = graph->edge[i].source;
  
@@ -99,8 +100,6 @@ void BellmanFord(struct Graph* graph, int source)
     }
  
     FinalSolution(StoreDistance, V);
- 
-    return;
 }
  
 int main()
@@ -118,8 +117,7 @@ int main()
  
     struct Graph* graph = createGraph(V, E);    //calling the function to allocate space to these many vertices and edges
  
-    int i;
-    for(i=0;i<E;i++){
+    for(int i=0;i < E; i++){
         cout<<"\nEnter edge "<<i+1<<" properties Source, destination, weight respectively\n";
         cin>>graph->edge[i].source;
         cin>>graph->edge[i].destination;
