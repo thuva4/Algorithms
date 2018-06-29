@@ -7,12 +7,14 @@ printf("Enter number of elements in array\n");
 scanf("%d",&n);
 int A[n];
 printf("Array before sorting\n");
+
 for(i=0;i<n;i++)
 	{
 	A[i]=rand()%1000;
 	printf("%d ",A[i]);	
 	}
 printf("\n");
+
 for(i=0;i<n;i++)
 	{
 	for(j=n;j>i;j--)
@@ -27,6 +29,7 @@ for(i=0;i<n;i++)
 		}	
 	}
 printf("Array after sorting\n");
+
 for(i=0;i<n;i++) printf("%d ",A[i]);
 
 printf("\n");
