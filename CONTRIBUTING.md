@@ -49,6 +49,7 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 	Thanks to everyone for contributing to the repo.
 
 - [Thuvarakan](https://github.com/Thuva4)
+- [christianbender](https://github.com/christianbender)
 - [octamois](https://github.com/octamois)
 - [abdatta](https://github.com/abdatta)
 - [Astrophilic](https://github.com/Astrophilic)
