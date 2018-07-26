@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-class GFG 
+class CountingSort
 {
     public static void counting_sort(int a[], int range)
     {
