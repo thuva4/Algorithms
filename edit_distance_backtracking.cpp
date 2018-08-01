@@ -20,11 +20,6 @@ class Alignment {
 		return 4;
 	}
 
-	//modification cost
-	inline int modC(char fr, char to) {
-		if(fr == to)
-			return 0;
-		return 3;
 	}
 
 public:
