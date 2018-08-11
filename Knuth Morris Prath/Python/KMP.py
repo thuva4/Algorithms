@@ -1,68 +1,53 @@
-/*
-	Knuth Morris Prath String Search algorithm Implementation
-*/
+TEXT = "but it's exactly these questions that allow me to find an answer fast if I'm just 'looking it up' on google."
+print("TEXT:" , TEXT)
+print("Pattern :")
 
-package kmp
+PATTERN = input() # Enter the Pattern to be searched
 
-//Table Building Algorithm
+def KMP(text, pattern):
+    found_it = False
+    match = False
+    check_from  = 0
+    sp_index = getIndex(pattern)
+    for i in range(0, len(text)):
+        for j in range( check_from, len(pattern)):
+            if(text[i] == pattern[j]):
+                match = True
+                i+=1
+            else:
+                match = False
+                break
+        if match == False:
+            check_from = sp_index[j -1]
+        else:
+            print("Found '" + str(pattern) + "' at Position " + str(i-j))
+            found_it = True
+            break
 
-func preKMP(T *[]int, pat string) {
+    if not found_it:
+        print("No Match Found")
 
-	var i = 0
-	var j = -1
-	(*T)[0] = -1
-	length := len(pat) - 1
+def getIndex(pattern):
+    sp_index = [0,]
+    j = 0
+    for i in range(1, len(pattern)):
+        if pattern[j] == pattern[i]:
+            j += 1
+            sp_index.append(j)
+        else:
+            while(j > 0):
+                j = j-1
+                j = sp_index[j]
+                if pattern[j] == pattern[i]:
+                    j += 1
+                    break
+            sp_index.append(j)
+    return sp_index
 
-	for i < length {
-		for j > -1 && pat[i] != pat[j] {
-			j = (*T)[j]
+import timeit
 
-		}
-		i++
-		j++
-
-		if pat[i] == pat[j] {
-			(*T)[i] = (*T)[j]
-
-		} else {
-			(*T)[i] = j
-		}
-	}
-
-}
-
-//search kmp
-func Search(str, pat string) int {
-
-	n := make([]int, len(pat))
-	//preprocessing
-	preKMP(&n, pat)
-
-	m := 0 //the beginning of the current match in str
-	i := 0 //the position of the current character in pat
-
-	for {
-		if m+i > len(str) {
-			break
-		}
-
-		if pat[i] == str[m+i] {
-			i++
-			if i == len(pat) {
-				//an occurence was found we return it
-				return m
-			}
-		} else {
-			if n[i] > -1 {
-				m = m + i - n[i]
-				i = n[i]
-
-			} else {
-				m = m + i + 1
-				i = 0
-			}
-
-		}
-	}
-	return -1
-}
+start = timeit.timeit() # Start Time
+#Start Search
+KMP(TEXT, PATTERN)
+end = timeit.timeit() # End Time
+print("Time Taken:" + str(end))
