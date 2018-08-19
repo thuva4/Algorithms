@@ -173,3 +173,4 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 - [Irshad Ismayil](https://github.com/irshadshalu)
 - [BrianChen](https://github.com/brianchen)
 - [S Ramakrishnan](https://github.com/sramakrishnan247)
+- [Atalanttore](https://github.com/Atalanttore)
