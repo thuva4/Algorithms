@@ -74,8 +74,8 @@ Folder structure should be like this
 [**Algorithm name**]/[**language**]/**file**
 
 *For example*:
-* **BubbleSort/Go/BubbleSort.go**
-* **QuickSort/C++/QuickSort.cpp**
+* **Bubble Sort/Go/BubbleSort.go**
+* **Quick Sort/C++/QuickSort.cpp**
 
 ## License
 
