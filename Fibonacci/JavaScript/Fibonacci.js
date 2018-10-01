@@ -1,13 +1,18 @@
+function fibonacci(n) {
+  let a = 1
+  let b = 0
 
-function fibonacci(num){
-  var a = 1, b = 0, temp;
-
-  while (num >= 0){
-    temp = a;
-    a = a + b;
-    b = temp;
-    num--;
+  while (n > 0) {
+    let temp = a
+    a = a + b
+    b = temp
+    n--
   }
 
-  return b;
+  return b
 }
+
+console.log(fibonacci(0)) // 0
+console.log(fibonacci(1)) // 1
+console.log(fibonacci(7)) // 13
+console.log(fibonacci(9)) // 34
