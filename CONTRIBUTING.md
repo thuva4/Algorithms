@@ -165,6 +165,7 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 - [Aniket Joshi](https://github.com/aniket7joshi)
 - [kuldeepdadhich](https://github.com/kuldeepdadhich)
 - [HimanshuAwasthi95](https://github.com/HimanshuAwasthi95)
+- [Shaon](https://github.com/me-shaon)
 - [Chinmay Chandak](https://github.com/CCAtAlvis)
 - [Suman Chaurasia](https://github.com/bzero0)
 - [Patrick Fischer](https://github.com/patFish)
