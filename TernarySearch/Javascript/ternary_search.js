@@ -1,3 +1,4 @@
+"use strict";
 /* Ternary Search Implementations in JavaScript */
 
 
@@ -9,11 +10,11 @@ N.B.- This method won't work if the list does not represent an unimodal function
 e.g. if the maximum value present in the first or last index of the list
 */
 function simpleTernarySearch(itemList) {
-	var left = 0,
+	let left = 0,
 		right = itemList.length - 1;
 
-	var found = false;
-	var precision = 3;
+	let found = false;
+	let precision = 3;
 
 	while (left <= right) {
 		if ((right - left) < precision) { //Here 3 is the smallest range to divide the left and right value
@@ -21,8 +22,8 @@ function simpleTernarySearch(itemList) {
 			break;
 		}
 
-		var leftThird = left + Math.floor((right - left) / 3);
-		var rightThird = right - Math.floor((right - left) / 3);
+		let leftThird = left + Math.floor((right - left) / 3);
+		let rightThird = right - Math.floor((right - left) / 3);
 
 		//To find the minimum in an unimodal function change the following comparison to >
 		if (itemList[leftThird] < itemList[rightThird])
@@ -45,8 +46,8 @@ function ternarySearch(func, left, right, absolutePrecision) {
 			return Math.floor((left + right) / 2);
 		}
 
-		var leftThird = left + (right - left) / 3;
-		var rightThird = right - (right - left) / 3;
+		let leftThird = left + (right - left) / 3;
+		let rightThird = right - (right - left) / 3;
 
 		if (func(leftThird) < func(rightThird))
 			left = leftThird;
@@ -65,8 +66,8 @@ function ternarySearchRecursive(func, left, right, absolutePrecision) {
 	if (Math.abs(right - left) < absolutePrecision)
 		return Math.floor((left + right) / 2);
 
-	var leftThird = (2 * left + right) / 3;
-	var rightThird = (left + 2 * right) / 3;
+	let leftThird = (2 * left + right) / 3;
+	let rightThird = (left + 2 * right) / 3;
 
 	if (func(leftThird) < func(rightThird))
 		return ternarySearch(func, leftThird, right, absolutePrecision);
@@ -79,11 +80,11 @@ function ternarySearchRecursive(func, left, right, absolutePrecision) {
 /********************* Testing Ternary Search Implementations ***********************/
 
 // This list must be sorted. If it is not given as sorted, sort it first, then call the binarySearch method
-var testList = [1, 50, 20, 10, 2, 1];
-var index = simpleTernarySearch(testList);
+let testList = [1, 50, 20, 10, 2, 1];
+let index = simpleTernarySearch(testList);
 console.log(testList[index]);
 
-var func = function(x) {
+let func = function(x) {
 	return (-1 * 1 * x * x + 2 * x + 3); // (-a*x*x + b*x + c) is an unimodal function, here a = 1, b = 2, c = 3
 };
 
