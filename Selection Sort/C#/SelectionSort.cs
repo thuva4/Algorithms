@@ -1,36 +1,69 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
+using System.Text;
 
-namespace CSharpAlgorithms
+namespace SelectionSort
 {
-    public class Program
+    class Program
     {
-        public static void Main(string[] args)
+        static void Main(string[] args)
         {
-            int[] array={5,3,7,2};
-            SelectionSort(array);            
-            array.ToList().ForEach(i => Console.WriteLine(i.ToString()));
+            SelectionSort selection = new SelectionSort(10);
+            selection.Sort();
         }
-        
-        public static void SelectionSort(int[] array)
+    }
+
+    class SelectionSort
+    {
+        private int[] data;
+        private static Random generator = new Random();
+        //Create an array of 10 random numbers
+           public Selection_Sort(int size)
         {
-            int n=array.Length;
-            for(int x=0; x<n; x++)
+            data = new int[size];
+            for (int i = 0; i < size; i++)
             {
-                int min_index=x;
-                for(int y=x; y<n; y++)
+                data[i] = generator.Next(20, 90);
+            }
+        }
+
+        public void Sort()
+        {
+            Console.Write("\nSorted Array Elements :(Step by Step)\n\n");
+			display_array_elements();
+			int smallest;
+            for (int i = 0; i < data.Length - 1; i++)
+            {
+                smallest = i;
+
+                for (int index = i + 1; index < data.Length; index++)
                 {
-                    if(array[min_index]>array[y])
+                    if (data[index] < data[smallest])
                     {
-                        min_index=y;
+                        smallest = index;
                     }
                 }
-                int temp=array[x];
-                array[x]=array[min_index];
-                array[min_index]=temp;
+                Swap(i, smallest);
+                display_array_elements();
+		   }
+
+        }
+
+        public void Swap(int first, int second)
+        {
+            int temporary = data[first];
+            data[first] = data[second];
+            data[second] = temporary;
+        }
+
+        public void display_array_elements()
+        {
+            foreach (var element in data)
+            {
+                Console.Write(element + " ");
             }
+            Console.Write("\n\n");
         }
     }
 }
