@@ -2,9 +2,9 @@ object SelectionSort {
 
   def sort (numbers: List[Int]) : List[Int] = {
     var sortedList = numbers
-    for (i <- 0 until sortedList.size-1) {
+    for (i <- 0 until sortedList.size) {
       var minimum : Int = i
-      for ( j <- 0 until sortedList.size-1) {
+      for ( j <- 0 until sortedList.size) {
         if ( sortedList(j) > sortedList(minimum)) {
           minimum = j
         }
