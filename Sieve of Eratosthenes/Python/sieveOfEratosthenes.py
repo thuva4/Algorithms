@@ -7,4 +7,4 @@ def eratosthenes(n):
                 multiples.append(j)
 
 x = input("Enter the number upto which you want prime numbers?:")
-eratosthenes(x)
+eratosthenes(int(x))
