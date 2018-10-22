@@ -1,18 +1,13 @@
 object InsertionSort {
 
-  def sort(numbers: List[Int]): List[Int] = {
-    var sortedList = numbers
-    for (i <- sortedList.indices) {
-      var temp = sortedList(i)
-      var j = i - 1
-      while ( j >= 0 && sortedList(j) > temp) {
-        sortedList = sortedList.updated(j+1, sortedList(j))
-        j = j -1
-      }
-      sortedList = sortedList.updated(j+1, temp)
-    }
-    sortedList
+  def sort(numbers: List[Int]): List[Int] = numbers match {
+    case List() => List()
+    case x :: xs => insert(x, sort(xs))
+  }
 
+  def insert(x: Int,numbers: List[Int]): List[Int] = numbers match {
+    case List() => List(x)
+    case y :: ys => if (x <= y ) x :: numbers else y :: insert(x, ys)
   }
 
   def main(args: Array[String]): Unit = {
