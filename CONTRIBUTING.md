@@ -3,7 +3,7 @@
 
 The following is a set of guidelines for contributing to This Repo, These are mostly guidelines, not rules. Use your best judgment, and feel free to propose changes to this document in a pull request.
 
-The maintainer of the project is Thuvarakan [Tharmarajasingam](https://github.com/Thuva4).
+The maintainer of the project is [Thuvarakan](https://github.com/Thuva4).
 
 #### Table Of Contents
 Open-Source Within Community.  Maintainer merges pull-requests, fixes critical bugs.
@@ -49,6 +49,7 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 	Thanks to everyone for contributing to the repo.
 
 - [Thuvarakan](https://github.com/Thuva4)
+- [christianbender](https://github.com/christianbender)
 - [octamois](https://github.com/octamois)
 - [abdatta](https://github.com/abdatta)
 - [Astrophilic](https://github.com/Astrophilic)
@@ -72,7 +73,6 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 - [r-o-k-u-r-o-u](https://github.com/r-o-k-u-r-o-u)
 - [pabe94](https://github.com/pabe94)
 - [IshamMohamed](https://github.com/IshamMohamed)
-
 - [maaz93](https://github.com/maaz93)
 - [melzareix](https://github.com/melzareix)
 - [causztic](https://github.com/causztic)
@@ -130,6 +130,7 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 - [mekisiel](https://github.com/mekisiel)
 - [tushar-dtu](https://github.com/tushar-dtu)
 - [AymanASamyM](https://github.com/AymanASamyM)
+- [nicktheway](https://github.com/nicktheway)
 - [arunpyasi](https://github.com/arunpyasi)
 - [Akos Kovacs](https://github.com/plaidshirtakos)
 - [AtoMc](https://github.com/AtoMc)
@@ -138,6 +139,8 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 - [SrGrace](https://github.com/SrGrace)
 - [d-grossman](https://github.com/d-grossman)
 - [javmonisu](https://github.com/javmonisu)
+- [Nikita](https://github.com/j07nikita)
+- [PlatanoBailando](https://github.com/PlatanoBailando)
 - [lena15n](https://github.com/lena15n)
 - [stripedpajamas](https://github.com/stripedpajamas)
 - [Renan Vichetti](https://github.com/rvconessa)
@@ -147,3 +150,28 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 - [FernandaOchoa](https://github.com/FernandaOchoa)
 - [npcoder2k14](https://github.com/npcoder2k14)
 - [Jaernbrand](https://github.com/Jaernbrand)
+- [DiegoVicen](https://github.com/DiegoVicen)
+- [Ashwin-Kapes](https://github.com/Ashwin-Kapes)
+- [Santhosh Kumar](https://github.com/santhoshsamy29)
+- [Judar Lima](https://github.com/judarlima)
+- [Jhalaa](https://github.com/jhalaa)
+- [Maaz Qureshi](https://github.com/maazsq)
+- [Utkarsh](https://github.com/utkarshmani1997)
+- [langlk](https://github.com/langlk)
+- [Anat Portnoy](https://github.com/Anat-Port)
+- [Leandro Nunes - lnfnunes](https://github.com/lnfnunes)
+- [syam3526](https://github.com/syam3526)
+- [churrizo](https://github.com/churrizo)
+- [Aniket Joshi](https://github.com/aniket7joshi)
+- [kuldeepdadhich](https://github.com/kuldeepdadhich)
+- [HimanshuAwasthi95](https://github.com/HimanshuAwasthi95)
+- [Shaon](https://github.com/me-shaon)
+- [Chinmay Chandak](https://github.com/CCAtAlvis)
+- [Suman Chaurasia](https://github.com/bzero0)
+- [Patrick Fischer](https://github.com/patFish)
+- [ServinDC](https://github.com/ServinDC)
+- [Piersdb](https://github.com/piersdb)
+- [Irshad Ismayil](https://github.com/irshadshalu)
+- [BrianChen](https://github.com/brianchen)
+- [S Ramakrishnan](https://github.com/sramakrishnan247)
+- [Atalanttore](https://github.com/Atalanttore)
