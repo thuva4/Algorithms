@@ -72,11 +72,11 @@ Extended Euclidean algorithm |  |  |  |  |:+1:|  |  |  |
 [List of Algorithms](Algorithms.md)
 
 Folder structure should be like this
-[**Algorithm name**]/[**language**]/**file**
+[**language**]/[**Algorithm name**]/**file**
 
 *For example*:
-* **Bubble Sort/Go/BubbleSort.go**
-* **Quick Sort/C++/QuickSort.cpp**
+* **Go/BubbleSort/BubbleSort.go**
+* **C++QuickSort/QuickSort.cpp**
 
 ## License
 
