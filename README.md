@@ -34,7 +34,7 @@ FisherYatesShuffle | :+1: |  |  |  | :+1: | :+1: |  | :+1: | :+1: |
 FloodFill Algorithm | :+1: | :+1: | | | | | | |
 Floyd'sAlgorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
 Greatest Common Divisor | :+1: |:+1:| :+1: | :+1: | :+1: |   |  |  |  |  |  |  |  | :+1: |
-Hamming Distance | :+1: | :+1: |  | :+1: |  | :+1: | :+1: |  | :+1: 
+Hamming Distance | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  | :+1: 
 HeapSort | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  | :+1: | | | | :+1:
 Histogram equalization | :+1: |  |  |  |  |  |  |  |
 InsertionSort | :+1: | :+1: | :+1: | :+1: | :+1:  | :+1: | :+1: | :+1: | :+1: |  |  |  |  | :+1: |
