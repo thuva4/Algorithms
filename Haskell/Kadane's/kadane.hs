@@ -1,6 +1,6 @@
 main = print $ format $ kadane [-2, -3, 4, -1, -2, 1, 5, -3]
 
-format :: Num a => Ord a => Show a => (a, Int, Int) -> String
+format :: Show a => (a, Int, Int) -> String
 format (m,s,t) = "Max sum " ++ show m ++ " at " ++ show s ++ " to " ++ show t
 
 kadane :: Num a => Ord a => [a] -> (a, Int, Int)
