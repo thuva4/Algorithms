@@ -1,20 +1,8 @@
 import java.util.Arrays;
 import java.util.Random;
 
-/**
- * Fisher–Yates shuffle algorithm.
- * 
- * @author Atom
- *
- */
 public class FisherYatesShuffle {
 
-	/**
-	 * Modern version (Richard Durstenfeld) of the Fisher–Yates shuffle algorithm.
-	 * 
-	 * @param arr generic array
-	 * @see <a href="https://en.wikipedia.org/wiki/Fisher-Yates_shuffle">Fisher–Yates shuffle</a>
-	 */
 	public static <T> void shuffle(T[] arr) {
 		Random rnd = new Random();
 		for (int i = arr.length - 1; i > 0; i--) {

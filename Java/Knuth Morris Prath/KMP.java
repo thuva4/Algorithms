@@ -1,7 +1,7 @@
 // JAVA program for implementation of KMP pattern
 // searching algorithm
 
-class KMP_String_Matching
+public class KMP
 {
     void KMPSearch(String pat, String txt)
     {
@@ -87,6 +87,6 @@ class KMP_String_Matching
     {
         String txt = "ABABDABACDABABCABAB";
         String pat = "ABABCABAB";
-        new KMP_String_Matching().KMPSearch(pat,txt);
+        new KMP().KMPSearch(pat,txt);
     }
 }

@@ -1,8 +1,3 @@
-/**
- * MiniMax With Alpha Beta Pruning.
- *
- * @author badanomaly
- */
 public class MiniMaxWithABPruning {
     private static int minimax(int depth, int nodeIndex, boolean isMax,
                                int scores[], int h, int alpha, int beta) {

@@ -1,11 +1,9 @@
 // A Java program for Floyd Warshall All Pairs Shortest
 // Path algorithm.
-import java.util.*;
 import java.lang.*;
-import java.io.*;
 
 
-class AllPairShortestPath
+public class AllPairShortestPath
 {
     final static int INF = 99999, V = 4;
 

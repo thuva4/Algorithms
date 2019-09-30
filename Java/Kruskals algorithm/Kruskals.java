@@ -1,11 +1,7 @@
-// Java program for Kruskal's algorithm to find Minimum
-// Spanning Tree of a given connected, undirected and
-// weighted graph
 import java.util.*;
 import java.lang.*;
-import java.io.*;
 
-class Graph {
+public class Kruskals {
     // A class to represent a graph edge
     class Edge implements Comparable<Edge> {
         int src, dest, weight;
@@ -26,7 +22,7 @@ class Graph {
     Edge edge[]; // collection of all edges
 
     // Creates a graph with V vertices and E edges
-    Graph(int v, int e) {
+    Kruskals(int v, int e) {
         V = v;
         E = e;
         edge = new Edge[E];

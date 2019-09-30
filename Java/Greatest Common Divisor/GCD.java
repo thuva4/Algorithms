@@ -1,4 +1,4 @@
-class GCD {
+public class GCD {
     public static int gcd(int a, int b) {
         int temp, remainder;
         // The larger value will always be assigned to the int a.

@@ -1,6 +1,4 @@
-import java.io.*;
-import java.util.*;
-class  Test
+public class LCS
 {
     // Returns length of LCS for X[0..m-1], Y[0..n-1]
     public static void lcs(String X, String Y, int m, int n)

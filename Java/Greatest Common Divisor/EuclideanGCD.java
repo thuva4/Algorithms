@@ -1,9 +1,5 @@
-/**
- * Calculates the greatest common divisor of two natural numbers.
- * 
- * @author Atom
- *
- */
+
+
 public class EuclideanGCD {
 
 	/**

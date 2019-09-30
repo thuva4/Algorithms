@@ -7,7 +7,6 @@
 * For more details on the algorithm,
 * refer to @see <a href=https://en.wikipedia.org/wiki/Histogram_equalization>https://en.wikipedia.org/wiki/Histogram_equalization</a>
 */
-package Java;
 
 import java.util.Arrays;
 import java.util.HashMap;

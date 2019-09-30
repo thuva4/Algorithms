@@ -1,9 +1,8 @@
 /*Time complexity O(nlogn) */
 
-import java.io.*;
 import java.util.*;
 
-class Test{
+public class LIS{
 	public static void main(String[] args) {
 		Scanner sc=new Scanner(System.in);
 		int n=sc.nextInt(); //No. of elements

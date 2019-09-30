@@ -1,9 +1,6 @@
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-/**
- * @author Casper Rysgaard
- */
 public class MergeSortAny<T extends MaxValue<T> & Comparable<T>>
 {
     /*
