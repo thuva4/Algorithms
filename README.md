@@ -11,7 +11,7 @@ A*Search |  | :+1: |  |  | :+1: |  |  |  |
 BellmanFord | :+1: |  |  |  | :+1: |  |  |  |
 BestFirstSearch | :+1: | :+1: |  |  |  |  |  |  | :+1: |
 BinaryGCD | :+1: |  |  |  |  |  |  |  |  |
-BinarySearch | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  | :+1: | :+1: |  | :+1: | 
+BinarySearch | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: |  | :+1: | :+1: |  | :+1: | 
 Binary Search Modified |  |  |  | :+1: |  |  |  |  |
 Bitap Algorithm |  | :+1: |  |  | :+1: |  |  |  |
 Bitonic Sort | :+1: |  |  | :+1: |
