@@ -68,5 +68,3 @@ g.addEdge(4, 3, -3)
 
 # Print the solution
 g.BellmanFord(0)
-
-# This code is contributed by Neelam Yadav
