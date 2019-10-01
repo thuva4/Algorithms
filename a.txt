@@ -1,0 +1,21 @@
+  
+  110  mkdir folder
+  111  cd folder/
+  112  touch something.txt
+  113  gedit something.txt 
+  114  cat something.txt 
+  115  mkdir folder2
+  116  mv folder2 nestedfolder
+  117  ls
+  118  cd nestedfolder/
+  119  touch copt.txt
+  120  cd ..
+  121  cp something.txt nestedfolder/copt.txt 
+  122  ls
+  123  cd nestedfolder/
+  124  gedit copt.txt 
+  125  cat copt.txt 
+  126  cd ..
+  127  cat nestedfolder/copt.txt >something.txt 
+
+  142  history>>a.txt
