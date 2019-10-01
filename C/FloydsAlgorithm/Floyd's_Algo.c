@@ -1,69 +1,58 @@
-#include<stdio.h>
-#include<omp.h>
-int min(int a,int b)
+// C Program for Floyd Warshall Algorithm
+#include <stdio.h>
+
+#define V 4
+
+#define INF 99999
+void printSolution(int dist[][V]);
+
+void floydWarshall(int graph[][V])
 {
-	if(a<b)
-	return a;
-	else
-	return b;
+
+	int dist[V][V], i, j, k;
+
+	for (i = 0; i < V; i++)
+		for (j = 0; j < V; j++)
+			dist[i][j] = graph[i][j];
+
+	for (k = 0; k < V; k++)
+	{
+		for (i = 0; i < V; i++)
+		{
+			for (j = 0; j < V; j++)
+			{
+				if (dist[i][k] + dist[k][j] < dist[i][j])
+					dist[i][j] = dist[i][k] + dist[k][j];
+			}
+		}
+	}
+	printSolution(dist);
 }
+
+void printSolution(int dist[][V])
+{
+	printf("The following matrix shows the shortest distances"
+		   " between every pair of vertices \n");
+	for (int i = 0; i < V; i++)
+	{
+		for (int j = 0; j < V; j++)
+		{
+			if (dist[i][j] == INF)
+				printf("%7s", "INF");
+			else
+				printf("%7d", dist[i][j]);
+		}
+		printf("\n");
+	}
+}
+
 int main()
 {
-	int a[10][10],n,i,j,k;
-	double st,et,tt;
-	printf("\nEnter the number of nodes");
-	scanf("%d",&n);
-	printf("\nEnter the cost matrix");
-	for(i=1;i<=n;i++)
-	{
-		for(j=1;j<=n;j++)
-		{
-			scanf("%d",&a[i][j]);
-			if(a[i][j]==0)
-				a[i][j]=999;
-		}
-	}
-	st=omp_get_wtime();
-	for(k=1;k<=n;k++)
-	{
-	
-		for(i=1;i<=n;i++)
-		{
-		
-			for(j=1;j<=n;j++)
-			{
-				a[i][j]=min(a[i][j],a[i][k]+a[k][j]);
-			}
-		}
-	}
-	et=omp_get_wtime();
-	tt=et-st;
-	printf("\nThe shortest path matrix is");
-	for(i=1;i<=n;i++)
-	{
-		for(j=1;j<=n;j++)
-		{
-			printf("%d\t",a[i][j]);
-		}
-		printf("\n");
-	}
-	printf("\nThe paths from each node is:");
-	for(i=1;i<=n;i++)
-	{
-		for(j=1;j<=n;j++)
-		{
-			if(i!=j)
-			{
-				printf("%d->%d=%d\t",i,j,a[i][j]);
-			}
-		}
-		printf("\n");
-	}
-	printf("\nThe start time is:\t%g",st);
-	printf("\nThe end time is:\t%g",et);
-	printf("\nThe time taken is:\t%g",tt);
-	
+	int graph[V][V] = {{0, 5, INF, 10},
+					   {INF, 0, 3, INF},
+					   {INF, INF, 0, 1},
+					   {INF, INF, INF, 0}};
 
+	floydWarshall(graph);
+	return 0;
 }
-				
-			

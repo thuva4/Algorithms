@@ -30,7 +30,7 @@ This repository contains examples of various algorithms which were written on di
 | Fast Fourier Transform          | :+1: |  :+1:  |      | :+1: | :+1: |    :+1:    |      |      |
 | Fibonacci                       | :+1: |  :+1:  | :+1: | :+1: | :+1: |    :+1:    | :+1: | :+1: | :+1: | :+1:  |  :+1:  |      |         |  :+1:  |
 | FisherYatesShuffle              | :+1: |  :+1:  |      |      | :+1: |    :+1:    |      | :+1: | :+1: |
-| FloodFill Algorithm             | :+1: |  :+1:  |      |      |      |            |      |      |
+| FloodFill Algorithm             | :+1: |  :+1:  |      | :+1: |      |            |      |      |
 | Floyd'sAlgorithm                | :+1: |  :+1:  |      |      | :+1: |            |      |      |
 | Greatest Common Divisor         | :+1: |  :+1:  | :+1: | :+1: | :+1: |            |      |      |      |       |        |      |         |  :+1:  |
 | Hamming Distance                | :+1: |  :+1:  |      | :+1: | :+1: |    :+1:    | :+1: |      | :+1: |
