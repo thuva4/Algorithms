@@ -176,3 +176,5 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 - [S Ramakrishnan](https://github.com/sramakrishnan247)
 - [Atalanttore](https://github.com/Atalanttore)
 - [Anto26](https://github.com/Anto26)
+- [raphaelmeyer](https://github.com/raphaelmeyer)
+
