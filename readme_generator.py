@@ -1,6 +1,8 @@
 import os, sys
 from fuzzywuzzy import fuzz
 
+readme = open("README.md", "w")
+
 def tokenize(string):
 	tokens = []
 	current_word = ''
@@ -38,27 +40,23 @@ translator = AlgorithmTranslator()
 cwd = os.getcwd()
 accumulator = {}
 languages = sorted([f for f in os.listdir(cwd) if os.path.isdir(f) and not f.startswith('.')])
+print(languages)
 for language in languages:
 	accumulator[language] = []
-	algos = [f for f in os.listdir(os.path.join(cwd, language)) if os.path.isdir(f) or True]
-	print("{}:".format(language), file=sys.stderr)
+	algos = [f for f in os.listdir(os.path.join(cwd, language)) if not f.startswith('.')]
 	for algo in algos:
 		translated = translator.translate(algo)
-		if translated != algo:
-			print("\ttranslated {} to {}".format(algo, translated), file=sys.stderr)
-		print("\t{}".format(translated), file=sys.stderr)
 		accumulator[language].append(translated)
 
 with open('readme-prelist.md') as pre:
 	for line in pre.readlines():
-		print(line, end='')
+		readme.write(line)
 
-print('Language | ' + ' | '.join(languages) + '|')
-print('---|' + '|'.join([':---:' for _ in languages]) + '|')
+readme.write('Language | ' + ' | '.join(languages) + '|' + '\n')
+readme.write('---|' + '|'.join([':---:' for _ in languages]) + '|' + '\n')
 for algo in sorted(translator.algos):
-	print(algo + ' | ' + ' | '.join(':+1:' if algo in accumulator[l] else ' ' for l in languages) + '|')
-
+	readme.write(algo + ' | ' + ' | '.join(':+1:' if algo in accumulator[l] else ' ' for l in languages) + '|' +'\n')
 
 with open('readme-postlist.md') as post:
 	for line in post.readlines():
-		print(line, end='')
+		readme.write(line)
