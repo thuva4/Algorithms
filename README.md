@@ -28,7 +28,7 @@ Doomsday | :+1: | :+1: |  |  | :+1: | :+1: |  |  | :+1: | :+1: | :+1:
 EditDistance |  | :+1: |  |  | :+1: |  |  |  |
 Edmonds-Karp | :+1: |  |  |  |  |  |  |  |
 ElevatorAlgorithm | :+1: |  |  |  |  |  |  |  |
-Fast Fourier Transform | :+1: | :+1: |  |:+1:  | :+1: | :+1: |  |  |
+Fast Fourier Transform | :+1: | :+1: | :+1: |:+1:  | :+1: | :+1: |  |  |
 Fibonacci | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: |  :+1: | :+1: | :+1: | :+1:  | :+1: |  |  | :+1:
 FisherYatesShuffle | :+1: | :+1: |  |  | :+1: | :+1: |  | :+1: | :+1: |
 FloodFill Algorithm | :+1: | :+1: | | | | | | |
@@ -38,7 +38,7 @@ Hamming Distance | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  | :+1:
 HeapSort | :+1: | :+1: |  |  | :+1: | :+1: | :+1: |  | :+1: | | | | :+1:
 Histogram equalization | :+1: |  |  |  |  |  |  |  |
 InsertionSort | :+1: | :+1: | :+1: | :+1: | :+1:  | :+1: | :+1: | :+1: | :+1: |  |  |  |  | :+1: |
-Inverse Fast Fourier Transform |  |  |  |  | :+1: |  |  |  |
+Inverse Fast Fourier Transform |  |  | :+1: |  | :+1: |  |  |  |
 Johnson algorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
 Kadane's algorithm | :+1: | :+1: |  | :+1: | :+1: | :+1: | :+1: |  |
 Knuth Morris Prath Algorithm | :+1: | :+1: |  |  | :+1: |  |  |  |
