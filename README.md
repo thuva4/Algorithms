@@ -64,7 +64,7 @@ TernarySearch | :+1: |:+1:  |  | :+1: | :+1: | :+1: |  |  |
 Topological Sort |  |  |  |  | :+1: |  |  |  |  
 Segmented Sieve |:+1:| :+1: |  |  | :+1: |  |  |  |  
 Union Find |:+1:|:+1:|  | :+1: |  |  |  |  |  
-Xor swap |:+1:|:+1:|  |  |  |:+1:|:+1:|  |
+Xor swap |:+1:|:+1:| :+1: |  |  |:+1:|:+1:|  |
 Connected-component labeling |  |  |  |  |:+1:|  |  |  |
 Extended Euclidean algorithm |  |  |  |  |:+1:|  |  |  |
 
