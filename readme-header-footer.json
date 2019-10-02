@@ -1,0 +1,13 @@
+{
+    "Default": {
+            "Language": "Language",
+            "Header" : "# Algorithms Example\r\nThis repository contains examples of various algorithms which were written on different programming languages.\r\n## Implemented algorithms with languages:\r\n",
+            "Footer": "[List of Algorithms](Algorithms.md)\r\nFolder structure should be like this\r\n[**language**]/[**Algorithm name**]/**file**\r\n*For example*:\r\n* **Go/BubbleSort/BubbleSort.go**\r\n* **C++/QuickSort/QuickSort.cpp**\r\n## License\r\n[Apache License 2.0](LICENSE)"
+        },
+
+    "CN": {
+            "Language": "语言",
+            "Header" : "# 算法实例\r\n这个仓库包含各种各样的，由不同的编程语言实现的算法实例。\r\n## 不同语言的算法实现\r\n",
+            "Footer": "[算法列表](Algorithms.md)\r\n文件目录结构应该有如下格式：\r\n[**Algorithm name**]/[**language**]/**file**\r\n*举例*\r\n* **BubbleSort/Go/BubbleSort.go**\r\n* **QuickSort/C++/QuickSort.cpp**\r\n## License\r\n[Apache License 2.0](LICENSE)"
+    }
+}
