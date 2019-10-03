@@ -25,23 +25,23 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 
 1. Fork this repository.
 
-2. Check the table in the README.md file to see if the algorithm has already been added. If not, add a new row with the name of algorithm and create a new folder with a name of the algorithm.
+2. Check the table in the README.md file to see if the language and algorithms have already been added. If not, create a new folder with a name of the language. Inside the folder create the folder for Algorithm you want to share and add your code.
 
-3. Inside the folder create the folder for language you want to share and add your code.
+3. Run the following command to generate the readme. (Special Thanks to [p-avital](https://github.com/p-avital))
+	```
+		pip install -r requirements.txt
+		python readme_generator.py
+	```
 
-4. Commit
+5. Add your name into the contributors list in CONTRIBUTING.md file
 
-5. Update the README.md. Check the language you have used in the table (check emoji is ``:+1:`` )
+6. Commit, Push
 
-6. Add your name into the contributors list in CONTRIBUTING.md file
+7. Make a pull request
 
-7. Commit, Push
+8. Star The Repository
 
-8. Make a pull request
-
-9. Star The Repository
-
-10. Happy Hacktoberfest
+9. Happy Hacktoberfest
 
 
 *******
@@ -176,3 +176,4 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 - [S Ramakrishnan](https://github.com/sramakrishnan247)
 - [Atalanttore](https://github.com/Atalanttore)
 - [Anto26](https://github.com/Anto26)
+- [p-avital](https://github.com/p-avital)
