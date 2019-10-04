@@ -26,7 +26,7 @@ Depth First Search |   |   | :+1: |   | :+1: |   |   |   | :+1: | :+1: |   |   |
 Dijkstras |   |   |   | :+1: | :+1: |   | :+1: |   | :+1: | :+1: |   |   | :+1: |   |   |   |   |  |
 Doomsday |   |   |   | :+1: | :+1: |   |   |   | :+1: | :+1: | :+1: |   | :+1: |   | :+1: |   |   | :+1:|
 Dynamic Programming |   |   |   |   |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |  |
-Edit Distance |   |   |   |   | :+1: |   |   |   |   |   |   |   | :+1: |   |   |   |   |  |
+Edit Distance |   |   |   |   | :+1: |   |   |   |   |   |   |   | :+1: |   |   |   |   | :+1: |
 Edmonds Karp |   |   |   |   |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |  |
 Elevator Algorithm |   |   |   |   |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |  |
 Extended Euclidean Algorithm |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |  |
