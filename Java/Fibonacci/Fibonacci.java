@@ -14,4 +14,24 @@ public class Fibonacci {
 		}
 
 	}
+
+	public static void fibonacciRecursionv1(int count, int a, int b) {
+		if (count > 0) {
+			int c = a + b;
+			a = b;
+			b = c;
+			System.out.printf("%d ", c);
+			fibonacciRecursionv1(count - 1, a, b);
+		}
+	}
+
+	public static int fibonacciRecursionv2(int i){
+		if(i==1 || i==2){
+			return 1;
+		}
+		else if (i == 0){
+			return 0;
+		}
+		return fibonacciRecursionv2(i-2)+fibonacciRecursionv2(i-1);
+	}
 }
