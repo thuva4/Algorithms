@@ -180,3 +180,4 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 - [neddstarkk](https://github.com/neddstarkk)
 - [h3r0complex](https://github.com/h3r0complex)
 - [vzsky](https://github.com/vzsky)
+- [AKKamath](https://github.com/AKKamath)
