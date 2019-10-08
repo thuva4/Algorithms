@@ -622,6 +622,8 @@
 
 * Simplex algorithm    :    An algorithm for solving linear programming problems
 
+* Simpson algorithm    :    An algorithm to find definite integral from a to b for a function f(x) using Lagrange polynomial interpolation.
+
 * Single-linkage clustering    :    a simple agglomerative clustering algorithm
 
 * Smith–Waterman algorithm    :    find local sequence alignment
