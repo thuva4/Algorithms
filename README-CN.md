@@ -73,7 +73,7 @@ Segmented Sieve |   |   | :+1: |   |   |   |   |   | :+1: |   |   |   | :+1: |  
 Selection Sort |   |   | :+1: | :+1: | :+1: |   | :+1: |   | :+1: | :+1: |   |   | :+1: |   | :+1: | :+1: | :+1: |  |
 Sequence Alignment |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |  |
 Shell Sort |   |   |   |   | :+1: |   |   |   | :+1: | :+1: |   |   | :+1: |   | :+1: |   |   |  |
-Sieveof Eratosthenes |   |   |   | :+1: | :+1: |   |   |   | :+1: | :+1: |   |   | :+1: |   |   |   |   |  |
+Sieveof Eratosthenes |   |   |   | :+1: | :+1: |   |   | :+1: | :+1: | :+1: |   |   | :+1: |   |   |   |   |  |
 String To Token |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |  |
 Strongly Connected Graph |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |  |
 Tarjans Offline LCA |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |  |
