@@ -33,7 +33,7 @@ ll p(int n){
   return i-1;
 }
 
-//Total time complexity O(n log n)?
+//Total time complexity O(n log n log log n)?
 
 int main(){
     ll n;
