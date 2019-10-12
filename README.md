@@ -5,7 +5,7 @@ This repository contains examples of various algorithms which were written on di
 
 Language | BrainFuck | Brainfuck | C | C# | C++ | Crystal | Go | Haskell | Java | JavaScript | Kotlin | Perl | Python | Racket | Ruby | Rust | Scala | Swift|
 ---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-AStar Search |   |   |   |   | :+1: |   |   |   |   |   |   |   | :+1: |   |   |   |   |  |
+AStar Search |   |   |   |   | :+1: |   |   |   |   |   |   |   | :+1: |   |   |   |   | :+1: |
 Bellman Ford |   |   |   | :+1: | :+1: |   |   | :+1: | :+1: |   |   |   | :+1: |   |   |   |   |  |
 Binary GCD |   |   |   |   | :+1: |   |   | :+1: | :+1: |   |   |   | :+1: |   |   |   |   |  |
 Binary Search |   |   | :+1: | :+1: | :+1: |   | :+1: |   | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1:|
@@ -24,14 +24,14 @@ Counting Sort |   |   |   |   | :+1: |   |   |   | :+1: | :+1: |   |   | :+1: | 
 Cycle Sort |   |   |   |   | :+1: |   |   |   | :+1: |   |   |   | :+1: |   |   |   |   |  |
 Depth First Search |   |   | :+1: |   | :+1: |   |   |   | :+1: | :+1: |   |   | :+1: |   | :+1: |   |   |  |
 Diffie Hellman |   |   |   |   |   |   |   | :+1: |   |   |   |   | :+1: |   |   |   |   |  |
-Dijkstras |   |   |   | :+1: | :+1: |   | :+1: |   | :+1: | :+1: |   |   | :+1: |   |   |   |   |  |
+Dijkstras |   |   |   | :+1: | :+1: |   | :+1: |   | :+1: | :+1: |   |   | :+1: |   |   |   |   | :+1: |
 Doomsday |   |   |   | :+1: | :+1: |   |   |   | :+1: | :+1: | :+1: |   | :+1: |   | :+1: |   |   | :+1:|
 Dynamic Programming |   |   |   |   |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |  |
 Edit Distance |   |   |   |   | :+1: |   |   |   |   |   |   |   | :+1: |   |   |   |   | :+1:|
 Edmonds Karp |   |   |   |   |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |  |
 Elevator Algorithm |   |   |   |   |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |  |
 Extended Euclidean Algorithm |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |  |
-Factorial |   |   | :+1: |   |   |   |   |   |   |   |   |   | :+1: |   |   |   |   |  |
+Factorial |   |   | :+1: |   |   |   |   |   |   |   |   |   | :+1: |   |   |   |   | :+1: |
 Fast Fourier Transform |   |   | :+1: |   | :+1: |   |   |   | :+1: | :+1: |   |   | :+1: |   |   |   |   |  |
 Fenwick Tree |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |  |
 Fibonacci | :+1: | :+1: | :+1: | :+1: | :+1: |   | :+1: | :+1: | :+1: | :+1: | :+1: |   | :+1: | :+1: | :+1: | :+1: | :+1: | :+1:|
