@@ -179,3 +179,5 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 - [p-avital](https://github.com/p-avital)
 - [neddstarkk](https://github.com/neddstarkk)
 - [h3r0complex](https://github.com/h3r0complex)
+- [vzsky](https://github.com/vzsky)
+- [raphaelmeyer](https://github.com/raphaelmeyer)
