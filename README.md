@@ -8,7 +8,7 @@ Language | BrainFuck | Brainfuck | C | C# | C++ | Crystal | Go | Haskell | Java 
 AStar Search |   |   |   |   | :+1: |   |   |   |   |   |   |   | :+1: |   |   |   |   |  |
 Bellman Ford |   |   |   | :+1: | :+1: |   |   | :+1: | :+1: |   |   |   | :+1: |   |   |   |   |  |
 Binary GCD |   |   |   |   | :+1: |   |   | :+1: | :+1: |   |   |   | :+1: |   |   |   |   |  |
-Binary Search |   |   | :+1: | :+1: | :+1: |   | :+1: |   | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1:|
+Binary Search |   |   | :+1: | :+1: | :+1: |   | :+1: |   | :+1: | :+1: | :+1: | :+1: | :+1: |   | :+1: |   |   | :+1:|
 Bitap Algorithm |   |   |   |   | :+1: |   |   |   |   |   |   |   | :+1: |   |   |   |   |  |
 Bitonic Sort |   |   | :+1: |   |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |  |
 Bloom Filter |   |   |   |   |   |   |   |   |   |   |   |   | :+1: |   |   |   |   |  |
@@ -30,7 +30,7 @@ Dynamic Programming |   |   |   |   |   |   |   |   | :+1: |   |   |   |   |   |
 Edit Distance |   |   |   |   | :+1: |   |   |   |   |   |   |   | :+1: |   |   |   |   | :+1:|
 Edmonds Karp |   |   |   |   |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |  |
 Elevator Algorithm |   |   |   |   |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |  |
-Extended Euclidean Algorithm |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |  |
+Extended Euclidean Algorithm |   |   | :+1: |   |   |   |   |   |   | :+1: |   |   |   |   |   |   |   |  |
 Factorial |   |   | :+1: |   |   |   |   |   |   |   |   |   | :+1: |   |   |   |   |  |
 Fast Fourier Transform |   |   | :+1: |   | :+1: |   |   |   | :+1: | :+1: |   |   | :+1: |   |   |   |   |  |
 Fenwick Tree |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |  |
@@ -50,9 +50,10 @@ Knapsack |   |   | :+1: |   |   |   |   |   | :+1: |   |   |   |   |   |   |   |
 Knuth Morris Prath |   |   |   |   | :+1: |   |   |   | :+1: |   |   |   | :+1: |   |   |   |   |  |
 Kruskals Algorithm |   |   |   |   | :+1: |   |   |   | :+1: |   |   |   |   |   |   |   |   |  |
 Leaky Bucket |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |  |
+Linear Search |   |   | :+1: | :+1: | :+1: |   | :+1: |   | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: |   | :+1: | :+1: | :+1:|
 Longest Bitonic Subsequence |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |  |
 Longest Common Subsequence |   |   | :+1: |   | :+1: |   |   |   | :+1: |   |   |   | :+1: |   | :+1: |   |   |  |
-Longest Increasing Subsequence |   |   |   |   | :+1: |   |   |   | :+1: |   |   |   | :+1: |   |   |   |   |  |
+Longest Increasing Subsequence |   |   |   |   | :+1: |   |   |   | :+1: | :+1: |   |   | :+1: |   |   |   |   |  |
 Longest Path |   |   |   |   | :+1: |   |   |   |   |   |   |   | :+1: |   |   |   |   |  |
 Longest Subset Zero Sum |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |  |
 Merge Sort |   |   | :+1: | :+1: | :+1: |   | :+1: | :+1: | :+1: | :+1: |   |   | :+1: |   | :+1: |   | :+1: | :+1:|
@@ -75,7 +76,7 @@ Sequence Alignment |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |   | 
 Shell Sort |   |   |   |   | :+1: |   |   |   | :+1: | :+1: |   |   | :+1: |   | :+1: |   |   |  |
 Sieveof Eratosthenes |   |   |   | :+1: | :+1: |   |   | :+1: | :+1: | :+1: |   |   | :+1: |   |   |   |   |  |
 String To Token |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |  |
-Strongly Connected Graph |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |  |
+Strongly Connected Graph.cpp |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |  |
 Tarjans Offline LCA |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |  |
 Ternary Search |   |   | :+1: |   | :+1: |   |   |   | :+1: | :+1: |   |   | :+1: |   |   |   |   |  |
 Topological Sort |   |   |   |   | :+1: |   |   |   | :+1: |   |   |   | :+1: |   |   |   |   |  |
