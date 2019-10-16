@@ -1,4 +1,4 @@
-public class CocktailSort {
+class CocktailSort {
   static int[] cSort(int[] toSort){
     int buffer = 0;
     int start = -1;
@@ -7,7 +7,7 @@ public class CocktailSort {
     do {
       swapped = false;
       start++; //Moving lower border
-      
+
       for(int i = start; i <= end; i++) { //Sorting upwards
         if(toSort[i] > toSort[i + 1]) {
           buffer = toSort[i];
