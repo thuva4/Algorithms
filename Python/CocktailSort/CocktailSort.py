@@ -10,5 +10,6 @@ def cocktailSort(lista):
 			if lista[i] > lista[i+1]:
 				lista[i],lista[i+1] = lista[i+1],lista[i]
 	return lista
-		
-print cocktailSort([3, 4, 2, 0, 5, 6, 7,1])
+
+
+print(cocktailSort([3, 4, 2, 0, 5, 6, 7, 1]))
