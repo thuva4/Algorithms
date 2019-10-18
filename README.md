@@ -30,7 +30,7 @@ Dynamic Programming |   |   |   |   |   |   |   |   | :+1: |   |   |   |   |   |
 Edit Distance |   |   |   |   | :+1: |   |   |   |   |   |   |   | :+1: |   |   |   |   | :+1:|
 Edmonds Karp |   |   |   |   |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |  |
 Elevator Algorithm |   |   |   |   |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |  |
-Extended Euclidean Algorithm |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |  |
+Extended Euclidean Algorithm |   |   | :+1: |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |  |
 Factorial |   |   | :+1: |   |   |   |   |   |   |   |   |   | :+1: |   |   |   |   |  |
 Fast Fourier Transform |   |   | :+1: |   | :+1: |   |   |   | :+1: | :+1: |   |   | :+1: |   |   |   |   |  |
 Fenwick Tree |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |  |
