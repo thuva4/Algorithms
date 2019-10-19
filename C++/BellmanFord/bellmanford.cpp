@@ -1,131 +1,84 @@
+#include <stdio.h>
+#include <vector>
+#include <queue>
+#include <algorithm>
 #include <iostream>
-#include <stdlib.h>
-#include <string.h>
-#include <limits.h>
- 
+#include <unordered_set>
+
+#define NMax 100010
+#define INF 9999
 using namespace std;
- 
-struct Edge
-{
-    // This structure is equal to an edge. Edge contains two end points. These edges are directed edges so they
-    //contain source and destination and some weight. These 3 are elements in this structure
-    int source, destination, weight;
-};
- 
-// a structure to represent a connected, directed and weighted graph
-struct Graph
-{
-    int V, E;
-    // V is number of vertices and E is number of edges
-    
-    // list of all edges.
-    struct Edge* edge;
-    // This structure contain another structure which we already created edge.
-};
- 
-struct Graph* createGraph(int V, int E)
-{
-    struct Graph* graph = (struct Graph*) malloc( sizeof(struct Graph));
-    //Allocating space to structure graph
- 
-    graph->V = V;   //assigning values to structure elements that taken form user.
- 
-    graph->E = E;
- 
-    graph->edge = (struct Edge*) malloc( graph->E * sizeof( struct Edge ) );
-    //Creating "Edge" type structures inside "Graph" structure, the number of edge type structures are equal to number of edges
- 
-    return graph;
-}
- 
-void FinalSolution(int dist[], int n)
-{
-    // This function prints the final solution
-    cout<<"\nVertex\tDistance from Source Vertex\n";
- 
-    for (int i = 0; i < n; ++i){
-        cout<<i<<"\t\t"<<dist[i]<<"\n";
+
+int N, M;
+int Parent[NMax];
+vector<pair<int,int>> G[NMax];
+vector<int> distances;
+vector<pair<int,int>> edges;
+vector<int> costs;
+
+void bellman(int N, const vector<pair<int,int>> ad[NMax]) {
+    distances.push_back(0);
+    // Initialize costs from source to other nodes (neighbours and non-neighbours)
+    // Non-neighbours
+    for (int i = 1; i < N; i++) {
+        distances.push_back(INF);
     }
-}
- 
-void BellmanFord(struct Graph* graph, int source)
-{
-    int V = graph->V;
- 
-    int E = graph->E;
- 
-    int StoreDistance[V];
+    // Neighbours
+    for(pair<int, int> neighbour: ad[0]) {
+        distances[neighbour.first] = neighbour.second;
+    }
 
-
-    // This is initial step that we know , we initialize all distance to infinity except source.
-    // We assign source distance as 0(zero)
- 
-    for (int i = 0; i < V; i++)
-        StoreDistance[i] = INT_MAX;
- 
-    StoreDistance[source] = 0;
- 
-    // The shortest path of graph that contain V vertices, never contain "V-1" 
-    // edges. So we do here "V-1" relaxations
-    for (int i = 1; i <= V-1; i++)
-    {
-        for (int j = 0; j < E; j++)
-        {
-            int u = graph->edge[j].source;
- 
-            int v = graph->edge[j].destination;
- 
-            int weight = graph->edge[j].weight;
- 
-            if (StoreDistance[u] + weight < StoreDistance[v])
-                StoreDistance[v] = StoreDistance[u] + weight;
+    // Relax edges |E|*(|V|-1) times
+    for(int i = 1; i <= N - 1; i++) {
+        int j = 0;
+        for(pair<int, int> edge: edges) {
+            if(distances[edge.second] > distances[edge.first] + costs[j]){
+                distances[edge.second] = distances[edge.first] + costs[j];
+            }
+            j++;
         }
+
     }
- 
-    // Actually upto now shortest path found. But BellmanFord checks for 
-    // negative edge cycle. In this step we check for that
-    // shortest distances if graph doesn't contain negative weight cycle.
- 
-    // If we get a shorter path, then there is a negative edge cycle.
-    for (int i = 0; i < E; i++)
-    {
-        int u = graph->edge[i].source;
- 
-        int v = graph->edge[i].destination;
- 
-        int weight = graph->edge[i].weight;
- 
-        if (StoreDistance[u] + weight < StoreDistance[v])
-            cout<<"\nThis graph contains negative edge cycle\n";
+
+    int j = 0;
+    // If we can relax one more time edges, then we have a cycle
+    for(pair<int, int> edge: edges) {
+        if(distances[edge.second] > distances[edge.first] + costs[j]){
+            cout << "Cycle!\n";
+             exit(-1);
+        }
+        j++;
     }
- 
-    FinalSolution(StoreDistance, V);
+
 }
- 
-int main()
-{
-    int V,E,S;  //V = no.of Vertices, E = no.of Edges, S is source vertex
- 
-    cout<<"Enter number of vertices in graph\n";
-    cin>>V;
- 
-    cout<<"Enter number of edges in graph\n";
-    cin>>E;
- 
-    cout<<"Enter your source vertex number\n";
-    cin>>S;
- 
-    struct Graph* graph = createGraph(V, E);    //calling the function to allocate space to these many vertices and edges
- 
-    for(int i=0;i < E; i++){
-        cout<<"\nEnter edge "<<i+1<<" properties Source, destination, weight respectively\n";
-        cin>>graph->edge[i].source;
-        cin>>graph->edge[i].destination;
-        cin>>graph->edge[i].weight;
+
+void Print( int N, const vector<pair<int,int>> ad[NMax], int* Parent ) {
+
+    for (int i = 0; i < distances.size(); i++) {
+        cout << distances[i] << " ";
     }
- 
-    BellmanFord(graph, S);
-    //passing created graph and source vertex to BellmanFord Algorithm function
- 
+
+}
+
+int main() {
+    freopen("bellman.in", "r", stdin);
+    freopen("bellman.out", "w", stdout);
+
+    scanf("%d%d", &N, &M);
+
+    while ( M -- ) {
+        int x, y, cost;
+        scanf("%d%d%d", &x, &y, &cost);
+        G[x].push_back(make_pair(y, cost));
+        G[y].push_back(make_pair(x, cost));
+        edges.push_back(make_pair(x,y));
+
+        costs.push_back(cost);
+    }
+
+    bellman(N, G);
+
+    Print(N, G, Parent);
+
     return 0;
 }

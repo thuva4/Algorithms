@@ -1,17 +1,28 @@
-#include <iostream>
+#include <bits/stdc++.h>
 
 using namespace std;
 
-void xorswap(int &a, int &b) {
-	a ^= b;
-	b ^= a;
-	a ^= b;
-}
+void xorSwap (int *x, int *y) {
+     if (x != y) {
+         *x ^= *y;
+         *y ^= *x;
+         *x ^= *y;
+     }
+ }
 
-int main(int argc, char const *argv[]) {
-	int a = 10, b = 5;
-	xorswap(a, b);
+int main(){
+	int a,b;
+	 a=10; 
+	 b=45;
 
-	cout << "a: " << a << " b: " << b << endl;
-	return 0;
+	 cout<<"values before swap :\n";
+	 cout<<"a = "<<a<<endl;
+	 cout<<"b = "<<b<<endl;
+
+	 xorSwap(&a,&b);
+
+	  cout<<"values after swap :\n";
+
+	 cout<<"a = "<<a<<endl;
+	 cout<<"b = "<<b;
 }
