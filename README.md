@@ -18,7 +18,6 @@ Cocktail Sort |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |  
 Coin Change |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |  |
 Conjugate Gradient |   |   |   |   | :+1: |   |   |   |   |   |   |   | :+1: |   |   |   |   |  |
 Connected Component Labeling |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |  |
-Count Sort |   |   |   |   |   |   |   |   |   |   |   |   | :+1: |   |   |   |   |  |
 Counting Inversions |   |   |   |   | :+1: |   |   |   | :+1: |   |   |   |   |   |   |   |   |  |
 Counting Sort |   |   |   |   | :+1: |   |   |   | :+1: | :+1: |   |   | :+1: |   | :+1: |   |   | :+1:|
 Cycle Sort |   |   |   |   | :+1: |   |   |   | :+1: |   |   |   | :+1: |   |   |   |   |  |
