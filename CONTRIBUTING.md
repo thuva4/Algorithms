@@ -1,4 +1,5 @@
 # Contributing Guide
+
 :+1::tada: First off, thanks for taking the time to contribute! :tada::+1:
 
 The following is a set of guidelines for contributing to This Repo, These are mostly guidelines, not rules. Use your best judgment, and feel free to propose changes to this document in a pull request.
@@ -6,21 +7,21 @@ The following is a set of guidelines for contributing to This Repo, These are mo
 The maintainer of the project is [Thuvarakan](https://github.com/Thuva4).
 
 #### Table Of Contents
-Open-Source Within Community.  Maintainer merges pull-requests, fixes critical bugs.
 
-Pull-requests
--------------
+Open-Source Within Community. Maintainer merges pull-requests, fixes critical bugs.
+
+## Pull-requests
 
 If you fixed or added something useful to the project, you can send pull-request. It will be reviewed by maintainer and accepted, or commented for rework, or declined.
 
-Bugs
-----
+## Bugs
 
 If you found an error, mistype or any other flaw in the project, please report about it using [issues](https://github.com/Thuva4/Algorithms_Example/issues).
 The more details you provide, the easier it can be reproduced and the faster can be fixed.
 Unfortunately, sometimes the bug can be only reproduced in your project or in your environment, so maintainers cannot reproduce it. In this case we believe you can fix the bug and send us the fix.
 
-*******
+---
+
 ### How to send a Pull request .
 
 1. Fork this repository.
@@ -28,25 +29,27 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 2. Check the table in the README.md file to see if the language and algorithms have already been added. If not, create a new folder with a name of the language. Inside the folder create the folder for Algorithm you want to share and add your code.
 
 3. Run the following command to generate the readme. (Special Thanks to [p-avital](https://github.com/p-avital))
-	```
-		pip install -r requirements.txt
-		python readme_generator.py
-	```
 
-5. Add your name into the contributors list in CONTRIBUTING.md file
+   ```
+   	pip install -r requirements.txt
+   	python readme_generator.py
+   ```
 
-6. Commit, Push
+4. Add your name into the contributors list in CONTRIBUTING.md file
 
-7. Make a pull request
+5. Commit, Push
 
-8. Star The Repository
+6. Make a pull request
 
-9. Happy Hacktoberfest
+7. Star The Repository
 
+8. Happy Hacktoberfest
 
-*******
+---
+
 ## Contributors List
-	Thanks to everyone for contributing to the repo.
+
+    Thanks to everyone for contributing to the repo.
 
 - [Thuvarakan](https://github.com/Thuva4)
 - [christianbender](https://github.com/christianbender)
@@ -78,7 +81,7 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 - [causztic](https://github.com/causztic)
 - [ranjanbinwani](https://github.com/ranjanbinwani)
 - [buihaduong](https://github.com/buihaduong)
--- [Texla](https://github.com/Texla)
+  -- [Texla](https://github.com/Texla)
 - [prateekpandey14](https://github.com/prateekpandey14)
 - [riktimmondal](https://github.com/riktimmondal)
 - [C2P1](https://github.com/C2P1)
@@ -181,3 +184,4 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 - [h3r0complex](https://github.com/h3r0complex)
 - [vzsky](https://github.com/vzsky)
 - [raphaelmeyer](https://github.com/raphaelmeyer)
+- [somaditya](https://github.com/somaditya)
