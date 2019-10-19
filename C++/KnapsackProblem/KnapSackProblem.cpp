@@ -22,9 +22,9 @@ int knapSack(int W, vector<int> &wt, vector<int> &val, int n) {
   
 /* Driver program to run the KnapSack problem */ 
 int main() {  
-    cout << "Enter the number of weights : "; 
-    int n; 
-    cin >> n; 
+   	cout << "Enter the number of weights : "; 
+    	int n; 
+    	cin >> n; 
     
    	vector<int> val(n); 
    	vector<int> wt(n); 
@@ -40,8 +40,8 @@ int main() {
    	cout << "What is the weight of the knapsack available : " << endl; 
    	int W; 
    	cin >> W; 
-    int val = knapSack(W, wt, val, n);  
-    cout << "The KnapSack value is : " << endl; 
-    cout << val << endl; 
-    return 0;  
+        int value = knapSack(W, wt, val, n);  
+        cout << "The KnapSack value is : " << endl; 
+        cout << value << endl; 
+        return 0;  
 }  
