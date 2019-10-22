@@ -13,12 +13,19 @@ int search(int arr[], int n, int x)
 
 int main()
 {
-    int a[10]={97,45,32,54,66,29,19,8,87,22};
+    int a[10];
+    int n;
+    cout<<"enter the number of elements";
+    cin>>n;
+    cout<<"enter the elements:";
+    for(i=0;i<n;i++){
+        cin>>a[i];
+    }
     int x;
     int position;
     cout<<"Enter the element to search for"<<endl;
     cin>>x;
-    position=search(a,10,x);
+    position=search(a,n,x);
     if(position==-1)
     {
         cout<<x<<" is not present in the array "<<endl;
