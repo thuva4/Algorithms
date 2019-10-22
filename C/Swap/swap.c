@@ -1,23 +1,23 @@
 #include <stdio.h>
 
-int swap(int *a,int *b)
+long int swap(long int *a,long int *b)
 {
-	int temp=*a;
+	long int temp=*a;
 	*a=*b;
 	*b=temp;
 }
 
 int main()
 {
-	int a,b;
+	long int a,b;
 	printf("Enter first number-\n");
-	scanf("%d",&a);
+	scanf("%ld",&a);
 	printf("Enter second number-\n");
-	scanf("%d",&b);
+	scanf("%ld",&b);
 
 	swap(&a,&b);
-	printf("First number after swapping- %d\n",a);
-	printf("Second number after swapping- %d\n",b);
+	printf("First number after swapping- %ld\n",a);
+	printf("Second number after swapping- %ld\n",b);
 
 
 }
