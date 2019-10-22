@@ -2,7 +2,7 @@
 
 using namespace std;
 
-void quicksort(int num[21],int first,int last){
+void quicksort(int *num,int first,int last){
    int i, j, pivot, temp;
 
    if(first<last){
@@ -31,8 +31,8 @@ void quicksort(int num[21],int first,int last){
 }
 
 int main(){
-   int i, count, num[21];
-
+   int i, count;
+   int *num;
    cout<<"Enter the number of elements you wanna enter: ";
    cin>>count;
 
