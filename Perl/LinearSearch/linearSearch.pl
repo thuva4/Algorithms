@@ -1,16 +1,17 @@
+#!/usr/bin/env perl
+
 # populate the array with the even integers from 0 to 198
-for ( $i = 0; $i < 100; ++$i )
-{
-    $array[$i] = 2 * $i;
-}
+my @array = map( $_ * 2, 0 ... 100 );
 
 # prompt the user for a search key
-print "Enter an integer search key: ";
+my $searchKey = '';
+print 'Enter an integer search key: ';
 chomp ( $searchKey = <STDIN> );
 
-$found = 0;   # $found is initially false
+my $found = 0;   # $found is initially false
+my $index;
 
-for ( $i = 0; $i < @array; ++$i )
+for ( my $i = 0; $i < scalar @array; ++$i )
 {
    if ( $array[$i] == $searchKey )
     {
@@ -20,11 +21,10 @@ for ( $i = 0; $i < @array; ++$i )
     }
 }
 
-if ( $found )   # $found == 1
-{
+if ( $found ) {
    print "Found $searchKey at $index \n";
-}
-else            # $found == 0
-{
+} else {
    print "$searchKey not found \n";
 }
+
+exit 0;
