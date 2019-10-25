@@ -1,44 +1,42 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
 use integer;
 
 # populate the array with the integers from 0 to 100
-for ( $i = 0; $i <= 100; ++$i )
-{
-    $array[$i] = 1 * $i;
-}
+my @array = ( 0 ... 100 );
 
 # prompt the user for a search key
-print "Enter an integer search key: ";
+my $searchKey = '';
+print 'Enter an integer search key: ';
 chomp ( $searchKey = <STDIN> );
 
-$left = 0;
-$right = scalar @array - 1;
-$found = 0;
+my $left  = 0;
+my $right = scalar @array - 1;
+my $found = 0;
+my $mid;
 
 while ( ($left + 1) < $right )
 {
-    $mid = $left + ($right - $left)/2;
+    $mid = $left + ($right - $left) / 2;
 
-    if ( $array[$mid] == $searchKey )
-    {
+    if ( $array[$mid] == $searchKey ) {
         $found = 1;
         last;
     }
 
-    if ( $searchKey < $array[$mid] )
-    {
+    if ( $searchKey < $array[$mid] ) {
         $right = $mid;
-    }
-    else
-    {
+    } else {
         $left = $mid;
     }
 }
 
-if ( $found )   # $found == 1
-{
+if ( $found ) {
     print "Found $searchKey at $mid \n";
-}
-else            # $found == 0
-{
+} else {
     print "$searchKey not found \n";
 }
+
+exit 0;
