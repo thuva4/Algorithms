@@ -96,3 +96,8 @@ Folder structure should be like this
 ## License
 [Apache License 2.0](LICENSE)
 
+## Stargazers over time
+
+[![Stargazers over time](https://starchart.cc/Thuva4/Algorithms.svg)](https://starchart.cc/Thuva4/Algorithms)
+      
+
