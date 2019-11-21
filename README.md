@@ -1,4 +1,62 @@
+# 2019-2-OSS-L5
+
+
+# TEAM L5
+## Project : [Algorithms](https://github.com/Thuva4/Algorithms)
+
+
+## 선정 커뮤니티 소개  
+다양한 언어로 이루어진 알고리즘을 다루는 커뮤니티로써 익숙한 언어로 algorithm 을 배움과 새로운 언어에 접근할 수 있게 해주는 커뮤니티 입니다.
+
+## 팀원 정보 및 선정 커뮤니티 활동 방법
+### 팀장
+이름: 문원준 
+학번: 2017315482 
+이메일: wjun0830@gmail.com 
+GitHub ID: wjun0830 
+
+### 팀원
+이름:  윤상원 
+학번:  2018313467 
+이메일:  mikeyoun2000@gmail.com 
+GitHub ID:  mikeysw 
+
+이름: 정노원 
+학번: 2018314667 
+이메일: nwchung98@naver.com 
+GitHub ID: Rowon 
+
+이름: 이민성 
+학번: 2018311500 
+이메일: alstjd8252@naver.com 
+GitHub ID: dlalstjd 
+
+이름: 류수현 
+학번: 2018312336 
+이메일: fbtngus2789@naver.com 
+GitHub ID: RSuhyeon 
+
+## 활동방법
+다양한 알고리즘과 새로운 언어를 이용한 코드를 작성하여 기여합니다.
+
+## 커뮤니티 활동 계획 정리
+1주차 : 익숙한 언어로 새로운 알고리즘을 개발한다.
+2주차 : 새로운 언어를 학습해본다.
+3주차 : 새로운 언어로 알고리즘을 구현한다.
+
+## 팀원, 개인별 역할 및 활동 정하기
+문원준 : 여러가지 언어로 코드 구현 및 issue 해결 
+윤상원 : 여러가지 언어로 코드 구현 및 issue 해결
+정노원 : 여러가지 언어로 코드 구현 및 issue 해결
+이민성 : 여러가지 언어로 코드 구현 및 issue 해결
+류수현 : 여러가지 언어로 코드 구현 및 issue 해결
+
+## 활동 시 이슈내용 및 고려사항 그리고 제안사항
+익숙한 언어로 된 익숙한 알고리즘들은 구현이 대부분 완료된 상태이다.
+챌린징한 알고리즘들과 익숙하지 않은 언어들로 구현하며 프로그래머로서의 역량을 기르는 기회로 삼으려 한다.
+
 # Algorithms Example
+
 This repository contains examples of various algorithms which were written on different programming languages.
 ## Implemented algorithms with languages:
 
@@ -95,9 +153,5 @@ Folder structure should be like this
 * **C++/QuickSort/QuickSort.cpp**
 ## License
 [Apache License 2.0](LICENSE)
-
-## Stargazers over time
-
-[![Stargazers over time](https://starchart.cc/Thuva4/Algorithms.svg)](https://starchart.cc/Thuva4/Algorithms)
       
 
