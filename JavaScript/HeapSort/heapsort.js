@@ -7,9 +7,9 @@
 */
 Array.prototype.heapify = function (index, heapSize) {
 
-  var largest = index;
-  var leftIndex = 2 * index + 1;
-  var rightIndex = 2 * index + 2;
+  let largest = index;
+  let leftIndex = 2 * index + 1;
+  let rightIndex = 2 * index + 2;
 
   if (leftIndex < heapSize && this[leftIndex] > this[largest]) {
     largest = leftIndex;
@@ -20,7 +20,7 @@ Array.prototype.heapify = function (index, heapSize) {
   }
 
   if (largest !== index) {
-    var temp = this[largest];
+    let temp = this[largest];
     this[largest] = this[index];
     this[index] = temp;
 
@@ -35,13 +35,13 @@ Array.prototype.heapify = function (index, heapSize) {
 */
 function heapSort(items) {
 
-  var length = items.length;
+  let length = items.length;
 
-  for (var i = Math.floor(items.length / 2) - 1; i > -1; i--) {
+  for (let i = Math.floor(items.length / 2) - 1; i > -1; i--) {
     items.heapify(i, length);
   }
-  for (var j = length -1; j > 0; j--) {
-    var tmp = items[0];
+  for (let j = length -1; j > 0; j--) {
+    let tmp = items[0];
     items[0] = items[j];
     items[j] = tmp;
     items.heapify(0, j);
@@ -51,7 +51,7 @@ function heapSort(items) {
 
 //Implementation of heapSort
 
-var ar = [5, 6, 7, 8, 1, 2, 12, 14];
+let ar = [5, 6, 7, 8, 1, 2, 12, 14];
 //Array before Sort
 console.log(ar);
 heapSort(ar);

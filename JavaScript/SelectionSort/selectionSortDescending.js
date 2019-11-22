@@ -2,9 +2,9 @@
 //largest to smallest
 //O(n2) - worst case
 function selectionSortDescending(inputArray){
-    for(var i = 0; i < inputArray.length - 1; i++){
-      var maxIndex = i;
-      for(var j = i + 1; j < inputArray.length; j++){
+    for(let i = 0; i < inputArray.length - 1; i++){
+      let maxIndex = i;
+      for(let j = i + 1; j < inputArray.length; j++){
         if(inputArray[maxIndex] < inputArray[j]){
           maxIndex = j;//found new maximum
         }
@@ -12,7 +12,7 @@ function selectionSortDescending(inputArray){
 
       //swap if maximum isn't the current i iteration
       if(maxIndex != i){
-        var temp = inputArray[maxIndex];
+        let temp = inputArray[maxIndex];
         inputArray[maxIndex] = inputArray[i];
         inputArray[i] = temp;
       }
@@ -21,5 +21,5 @@ function selectionSortDescending(inputArray){
     return inputArray;
 }
 
-var input = [3,2,43,6,777,83,5,5];
+let input = [3,2,43,6,777,83,5,5];
 console.log('Output: ', selectionSortDescending(input));

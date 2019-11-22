@@ -1,6 +1,6 @@
 function quickSort(items, left, right) {
 
-    var index;
+    let index;
 
     if (items.length > 1) {
 
@@ -23,4 +23,4 @@ function quickSort(items, left, right) {
 }
 
 // first call
-var result = quickSort(items);
+let result = quickSort(items);

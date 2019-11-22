@@ -1,9 +1,9 @@
 
 function FischerYatesShuffle(tbl) {
-	var N = tbl.length;
-	for (var i = 1; i < N; i++) {
-		var j = Math.floor(Math.random()*i);
-		var tmp = tbl[i];
+	let N = tbl.length;
+	for (let i = 1; i < N; i++) {
+		let j = Math.floor(Math.random()*i);
+		let tmp = tbl[i];
 		tbl[i] = tbl[j];
 		tbl[j] = tmp;
 	}
@@ -11,7 +11,7 @@ function FischerYatesShuffle(tbl) {
 
 
 tbl = [];
-for (var i = 0; i < 20; i++) {
+for (let i = 0; i < 20; i++) {
 	tbl[tbl.length] = i + 1;
 }
 console.log("Initial array:");
