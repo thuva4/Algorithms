@@ -24,3 +24,5 @@ if __name__=='__main__':
     capacity = 50
     n = len(val) - 1
     print(knapsack(val, w, capacity, n))
+
+    
