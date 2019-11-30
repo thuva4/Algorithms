@@ -117,18 +117,18 @@ void Dijkstra(int S,int V) {
 		VertexSet[i][1] = 0;
 	}
 	VertexSet[S][0] = 0;
-	int u;
+	
 	int *set = (int *)malloc(sizeof(int)*V+1);
 	
 
 	int count = 1;
 	set[0] = 0;
-	if (count == 1) Insert(S);
+	Insert(S);
 
-
+	
 	//printf("%d", H->usedsize);
 	while (H->usedsize != 0) {
-		
+		int u;
 		u = Delete();
 		set[count] = u;
 		count++;
