@@ -39,7 +39,7 @@ two_columns_layout: true
 
 
 # Advanced Settings
-baseurl: "https://19-2-skku-oss.github.io"
+baseurl: "https://19-2-SKKU-OSS.github.io"
 url: "/2019-2-OSS-L5"
 google_analytics: "UA-XXXXXXXX-X"
 language: "en"
