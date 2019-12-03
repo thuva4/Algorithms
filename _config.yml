@@ -39,8 +39,8 @@ two_columns_layout: true
 
 
 # Advanced Settings
-baseurl: "https://19-2-skku-oss.github.io" # bpath of your site, e.g. /blog
-url: "/2019-2-OSS-L5" # the base hostname & protocol for your site
+baseurl: "https://19-2-skku-oss.github.io"
+url: "/2019-2-OSS-L5"
 google_analytics: "UA-XXXXXXXX-X"
 language: "en"
 
