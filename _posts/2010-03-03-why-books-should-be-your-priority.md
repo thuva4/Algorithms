@@ -1,7 +1,7 @@
 ---
 date: 2018-11-22 12:26:40
 layout: post
-title: Contributo-LeeMinSung
+title: Contributor-LeeMinSung
 subtitle: Profile
 description: >-
   Sophomore in Software department, SungKyunKwan University
