@@ -4,7 +4,7 @@ layout: post
 title: Contributor-Chung Ro Won
 subtitle: Profile
 description: >-
-  Junior in Software department, SungKyunKwan University
+  Sophomore in Natural Science department, SungKyunKwan University
   <img class="img-rounded" src="/assets/img/uploads/WJ.jpg" alt="TEAM L5" width="200">
 
 optimized_image: /assets/img/uploads/WJ.jpg
