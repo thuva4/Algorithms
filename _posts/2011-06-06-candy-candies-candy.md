@@ -1,5 +1,5 @@
 ---
-date: 2018-04-21 12:26:40
+date: 2019-12-09 12:26:40
 layout: post
 title: Contributor - Youn Sangwon 
 subtitle: Sophomore in College of Computing, at Sungkyunkwan University
