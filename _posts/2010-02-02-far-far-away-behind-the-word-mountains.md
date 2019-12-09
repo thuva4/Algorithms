@@ -19,8 +19,11 @@ paginate: true
 - Department : Software
 
 How contributed : 
-> implemented Algorithms with Familiar languages such as C, C++, Java.
-> optimized Algorithms 
-> implemented Simple Algorithms with Unfamiliar languages such as Kotlin.
+> - implemented Algorithms with Familiar languages such as C, C++, Java.
+
+> - optimized Algorithms 
+
+> - implemented Simple Algorithms with Unfamiliar languages such as Kotlin.
+
 
 
