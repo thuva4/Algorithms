@@ -20,6 +20,8 @@ paginate: true
 - Department : Computing college (Software)
 
 How contributed : 
-> - Implemented Algorithms with familiar languages such as C
+> - Implemented Algorithms with familiar languages such as C, C++, Java
 
 > - Optimized Algorithms
+
+> - Implemented Simple Algorithms with Unfamiliar Languages such as JavaScript
