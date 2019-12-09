@@ -12,7 +12,12 @@ menu: true
   {% for author in site.authors %}
     <div class="item">
       <h2 class="name">
-        <a href="{{ site.baseurl }}{{ author.url }}">{{ author.display_name }}</a>
+        <a href="{{ site.baseurl }}{{ author.url }}">{{ page.display_name1 }}</a>
+        <a href="{{ site.baseurl }}{{ author.url }}">{{ page.display_name2 }}</a>
+        <a href="{{ site.baseurl }}{{ author.url }}">{{ page.display_name3 }}</a>
+        <a href="https://19-2-skku-oss.github.io/2019-2-OSS-L5/a-wonderful-serenity-has-taken-possession-of-my-entire-soul/">{{ page.display_name4 }}</a>
+        <a href="{{ site.baseurl }}{{ author.url }}">{{ page.display_name5 }}</a>
+        
       </h2>
       {% if author.position %}
         <h3 class="position">{{ author.position }}</h3>
