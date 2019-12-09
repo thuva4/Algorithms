@@ -2,15 +2,26 @@
 layout: page
 ---
 
-<div class="staff">
+<div class="TeamMembers">
   {% if page.photo %}
     <img class="img-rounded" src="{{ page.photo }}" alt="{{ author.display_name }}">
   {% else %}
-    <img class="img-rounded" src="/assets/img/user.jpg" alt="{{ author.display_name }}">
+    <img class="img-rounded" src="{{ page.photo }}" alt="{{ author.display_name }}">
   {% endif %}
 
-  <h1>{{ page.display_name }}</h1>
-
+  <h1> Team Members </h1>
+  <p> {{ page.display_name1 }} </p>
+  
+  <p> {{ page.display_name2 }} </p>
+  
+  <p> {{ page.display_name3 }} </p>
+  
+  <p> {{ page.display_name4 }} </p>
+  
+  <p> {{ page.display_name5 }} </p>
+  
+ 
+  
   {% if page.position %}
     <h2 class="position">{{ page.position }}</h2>
   {% endif %}
