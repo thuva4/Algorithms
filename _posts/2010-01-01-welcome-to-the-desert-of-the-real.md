@@ -3,9 +3,7 @@ date: 2019-12-09
 layout: post
 title: Welcome to Static page of Team5
 subtitle: Implementing Algorithms with multiple languages.
-description: >-
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-  tempor incididunt ut labore et dolore magna aliqua.
+
 
 
 image: >-
