@@ -5,7 +5,8 @@ title: Contributor-Chung Ro Won
 subtitle: Profile
 description: >-
   Sophomore in Natural Science department, SungKyunKwan University
-  <img class="img-rounded" src="/assets/img/uploads/WJ.jpg" alt="TEAM L5" width="200">
+image: https://github.com/19-2-SKKU-OSS/2019-2-OSS-L5/blob/master/src/img/KakaoTalk_20191209_205209743.jpg
+optimized_image: https://github.com/19-2-SKKU-OSS/2019-2-OSS-L5/blob/master/src/img/KakaoTalk_20191209_205209743.jpg
 
 optimized_image: /assets/img/uploads/WJ.jpg
 
