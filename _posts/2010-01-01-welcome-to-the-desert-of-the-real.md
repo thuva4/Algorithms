@@ -1,8 +1,8 @@
 ---
-date: 2019-05-16 23:48:05
+date: 2019-12-09
 layout: post
-title: Welcome to the desert of the real
-subtitle: Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+title: Welcome to Static page of Team5
+subtitle: Implementing Algorithms with multiple languages.
 description: >-
   Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
   tempor incididunt ut labore et dolore magna aliqua.
