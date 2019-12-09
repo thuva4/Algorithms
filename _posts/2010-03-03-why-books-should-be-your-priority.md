@@ -8,7 +8,7 @@ description: >-
 
 image: https://raw.githubusercontent.com/19-2-SKKU-OSS/2019-2-OSS-L5/master/assets/img/%EC%BA%A1%EC%B2%98.PNG
 optimized_image: https://raw.githubusercontent.com/19-2-SKKU-OSS/2019-2-OSS-L5/master/assets/img/%EC%BA%A1%EC%B2%98.PNG
-category: progile
+category: profile
 tags:
   - member
   - contributor
