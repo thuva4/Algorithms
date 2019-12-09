@@ -6,8 +6,8 @@ subtitle: Profile
 description: >-
   Junior in Software department, SungKyunKwan University
 
-image: https://github.com/19-2-SKKU-OSS/2019-2-OSS-L5/tree/master/assets/img/uploads%20/%20profile.png
-optimized_image: https://res.cloudinary.com/dm7h7e8xj/image/upload/c_scale,w_380/v1559822138/theme9_v273a9.jpg
+image: https://github.com/19-2-SKKU-OSS/2019-2-OSS-L5/tree/master/assets/img/uploads%20/%20/profile.png
+optimized_image: https://github.com/19-2-SKKU-OSS/2019-2-OSS-L5/tree/master/assets/img/uploads%20/%20/profile.png
 category: progile
 tags:
   - member
@@ -16,7 +16,7 @@ author: dlalstjd
 paginate: true
 ---
 - Name of contributor : Lee Min sung
-- E-mail : alstjd8252@naver8252.com
+- E-mail : alstjd8252@naver.com
 - College : SungKyunKwan University
 - Department : Software
 
