@@ -3,7 +3,7 @@ date: 2018-04-21 12:26:40
 layout: post
 title: Contributor - Youn Sangwon 
 subtitle: Sophomore in College of Computing, at Sungkyunkwan University
-description: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+description: Sophomore in College of Computing, at Sungkyunkwan University
 image: https://raw.githubusercontent.com/19-2-SKKU-OSS/2019-2-OSS-L5/master/assets/img/749c490c0490a7aaa3c41f6486874f30.jpg
 optimized_image: https://raw.githubusercontent.com/19-2-SKKU-OSS/2019-2-OSS-L5/master/assets/img/749c490c0490a7aaa3c41f6486874f30.jpg
 category: profile
