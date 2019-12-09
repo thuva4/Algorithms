@@ -13,10 +13,10 @@ tags:
 author: wjun0830
 paginate: true
 ---
-Name of contributor : Moon Won Jun
-E-mail : wjun0830@gmail.com
-College : SungKyunKwan University
-Department : Software
+- Name of contributor : Moon Won Jun
+- E-mail : wjun0830@gmail.com
+- College : SungKyunKwan University
+- Department : Software
 
 How contributed : 
 > implemented Algorithms with Familiar languages such as C, C++, Java.
