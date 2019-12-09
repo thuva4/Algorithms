@@ -5,9 +5,9 @@ title: Contributor-MoonWonJun
 subtitle: Profile
 description: >-
   Junior in Software department, SungKyunKwan University
-  <img class="img-rounded" src="/assets/img/uploads/WJ.jpg" alt="TEAM L5" width="200">
+image: https://raw.githubusercontent.com/19-2-SKKU-OSS/2019-2-OSS-L5/master/assets/img/uploads/WJ.jpg
 
-optimized_image: /assets/img/uploads/WJ.jpg
+optimized_image: https://raw.githubusercontent.com/19-2-SKKU-OSS/2019-2-OSS-L5/master/assets/img/uploads/WJ.jpg
 
 category: profile
 tags:
