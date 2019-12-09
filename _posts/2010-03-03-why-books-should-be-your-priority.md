@@ -6,8 +6,8 @@ subtitle: Profile
 description: >-
   Junior in Software department, SungKyunKwan University
 
-image: https://github.com/19-2-SKKU-OSS/2019-2-OSS-L5/tree/master/assets/img/uploads%20/%20/profile.png
-optimized_image: https://github.com/19-2-SKKU-OSS/2019-2-OSS-L5/tree/master/assets/img/uploads%20/%20/profile.png
+image: https://github.com/19-2-SKKU-OSS/2019-2-OSS-L5/blob/master/assets/img/KakaoTalk_20191209_195420260.jpg
+optimized_image: https://github.com/19-2-SKKU-OSS/2019-2-OSS-L5/blob/master/assets/img/KakaoTalk_20191209_195420260.jpg
 category: progile
 tags:
   - member
