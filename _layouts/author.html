@@ -2,7 +2,7 @@
 layout: page
 ---
 
-<div class="Team Members">
+<div class="staff">
   {% if page.photo %}
     <img class="img-rounded" src="{{ page.photo }}" alt="{{ author.display_name }}">
   {% else %}
@@ -10,7 +10,7 @@ layout: page
   {% endif %}
 
   <h1>{{ page.display_name1 }}</h1>
-  
+  <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
   <h1>{{ page.display_name2 }}</h1>
   
   <h1>{{ page.display_name3 }}</h1>
