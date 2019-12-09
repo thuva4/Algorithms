@@ -7,7 +7,7 @@ subtitle: Implementing Algorithms with multiple languages.
 
 
 image: >-
-  https://raw.githubusercontent.com/19-2-SKKU-OSS/2019-2-OSS-L5/master/assets/img/uploads/images.jpg
+  https://raw.githubusercontent.com/19-2-SKKU-OSS/2019-2-OSS-L5/master/assets/img/uploads/%ED%96%87%EB%B9%9B.jpg
 category: blog
 
 author: wjun0830
