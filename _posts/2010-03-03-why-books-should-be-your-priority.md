@@ -4,7 +4,7 @@ layout: post
 title: Contributo-LeeMinSung
 subtitle: Profile
 description: >-
-  Junior in Software department, SungKyunKwan University
+  Sophomore in Software department, SungKyunKwan University
 
 image: https://github.com/19-2-SKKU-OSS/2019-2-OSS-L5/blob/master/assets/img/%EC%BA%A1%EC%B2%98.PNG
 optimized_image: https://github.com/19-2-SKKU-OSS/2019-2-OSS-L5/blob/master/assets/img/%EC%BA%A1%EC%B2%98.PNG
