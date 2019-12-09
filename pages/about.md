@@ -6,7 +6,7 @@ permalink: /about/
 menu: true
 ---
 
-<img class="img-rounded" src="/assets/img/uploads/WJ.png" alt="Thiago Rossener" width="200">
+<img class="img-rounded" src="/assets/img/uploads/WJ.jpg" alt="TEAM L5" width="200">
 
 # About Out Project
 
