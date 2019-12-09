@@ -6,7 +6,7 @@ permalink: /about/
 menu: true
 ---
 
-<img class="img-rounded" src="/assets/img/uploads/WJ.jpg" alt="TEAM L5" width="200">
+image: https://raw.githubusercontent.com/19-2-SKKU-OSS/2019-2-OSS-L5/master/assets/img/uploads/WJ.jpg
 
 # About Out Project
 
