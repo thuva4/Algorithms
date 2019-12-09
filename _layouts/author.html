@@ -4,9 +4,17 @@ layout: page
 
 <div class="Team Members">
   {% if page.photo %}
-    <img class="img-rounded" src="{{ page.photo }}" alt="{{ author.display_name }}">
+    <img class="img-rounded" src="{{ page.photo }}" alt="{{ author.display1_name }}">
+    <img class="img-rounded" src="{{ page.photo }}" alt="{{ author.display2_name }}">
+    <img class="img-rounded" src="{{ page.photo }}" alt="{{ author.display3_name }}">
+    <img class="img-rounded" src="{{ page.photo }}" alt="{{ author.display4_name }}">
+    <img class="img-rounded" src="{{ page.photo }}" alt="{{ author.display5_name }}">
   {% else %}
-    <img class="img-rounded" src="/assets/img/user.jpg" alt="{{ author.display_name }}">
+    <img class="img-rounded" src="{{ page.photo }}" alt="{{ author.display1_name }}">
+    <img class="img-rounded" src="{{ page.photo }}" alt="{{ author.display2_name }}">
+    <img class="img-rounded" src="{{ page.photo }}" alt="{{ author.display3_name }}">
+    <img class="img-rounded" src="{{ page.photo }}" alt="{{ author.display4_name }}">
+    <img class="img-rounded" src="{{ page.photo }}" alt="{{ author.display5_name }}">
   {% endif %}
 
   <h1>{{ page.display_name1 }}</h1>
