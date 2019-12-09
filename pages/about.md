@@ -5,8 +5,8 @@ description: Some description.
 permalink: /about/
 menu: true
 ---
+<img class="img-rounded" src="https://raw.githubusercontent.com/19-2-SKKU-OSS/2019-2-OSS-L5/master/assets/img/uploads/WJ.jpg" alt="TeamL5" width="200">
 
-image: https://raw.githubusercontent.com/19-2-SKKU-OSS/2019-2-OSS-L5/master/assets/img/uploads/WJ.jpg
 
 # About Out Project
 
