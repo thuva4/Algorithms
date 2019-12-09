@@ -1,5 +1,5 @@
 ---
-date: 2019-12-09
+date: 2019-12-10
 layout: post
 title: Welcome to Static page of Team5!!
 subtitle: Implementing Algorithms with multiple languages.
