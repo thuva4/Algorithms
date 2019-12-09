@@ -5,7 +5,7 @@ title: Contributor - Ryu Suhyeon
 subtitle: Profile
 description: >-
    Sophomore in Computing college, Sungkyunkwan University
-image: https://raw.githubusercontent.com/19-2-SKKU-OSS/2019-2-OSS-L5/master/assets/img/uploads/d.jpg
+image: https://raw.githubusercontent.com/19-2-SKKU-OSS/2019-2-OSS-L5/master/assets/img/uploads/99BB83415C09FBD429.png
 category: profile
 tags:
   - member
