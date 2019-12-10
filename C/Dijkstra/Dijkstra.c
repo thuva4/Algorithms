@@ -13,7 +13,9 @@ typedef struct Heap {
 static int edge[20001][20001];
 Heap *H;
 
-Heap* Create(int initsize) {
+//Creating Min Heap
+Heap* 
+Create(int initsize) {
 	Heap* NewHeap = (Heap *)malloc(sizeof(Heap));
 	NewHeap->capacity = initsize;
 	NewHeap->usedsize = 0;
@@ -21,14 +23,17 @@ Heap* Create(int initsize) {
 	return NewHeap;
 }
 
+//Return parent in tree
 int getParent(int index) {
 	return (int)((index - 1) / 2);
 }
 
+//Return Left Child 
 int getLeftChild(int index) {
 	return (2 * index) + 1;
 }
 
+//Return Right child
 int getRightChild(int index) {
 	return (2 * index) + 2;
 }
@@ -41,10 +46,6 @@ void Swap(int index1, int index2) {
 void Insert(int newdata) {
 	int curindex = H->usedsize;
 	int parindex = getParent(curindex);
-	//if (H->usedsize == H->capacity) {
-	//	H->capacity *= 2;
-//		H->data = (int *)realloc(H->data, sizeof(int) * H->capacity);
-	//}
 	H->data[curindex] = newdata;
 
 	while (curindex > 0 && (H->data[curindex]) < (H->data[parindex])) {
@@ -98,7 +99,7 @@ int Delete() {
 }
 
 
-
+//Relax Function - compare and update
 void Relax(int u, int v, int w) {
 	int status = 0;
 	if (VertexSet[v][0] > VertexSet[u][0] + w) {
@@ -158,6 +159,7 @@ int main() {
 			edge[i][j] = 99999999;
 		}
 	}
+	//Create Graph that has V vertices
 	H = Create(V+1);
 	for (int i = 0; i < E; i++) {
 		scanf("%d %d %d",&u,&v,&w);//w is weight between u and v
