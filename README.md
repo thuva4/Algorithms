@@ -10,31 +10,31 @@
 
 ## 팀원 정보 및 선정 커뮤니티 활동 방법
 ### 팀장
-이름: 문원준 
-학번: 2017315482 
-이메일: wjun0830@gmail.com 
-GitHub ID: wjun0830 
+이름: 문원준  
+학번: 2017315482  
+이메일: wjun0830@gmail.com  
+GitHub ID: wjun0830  
 
 ### 팀원
-이름:  윤상원 
-학번:  2018313467 
-이메일:  mikeyoun2000@gmail.com 
-GitHub ID:  mikeysw 
+이름:  윤상원  
+학번:  2018313467  
+이메일:  mikeyoun2000@gmail.com  
+GitHub ID:  mikeysw  
 
-이름: 정노원 
-학번: 2018314667 
-이메일: nwchung98@naver.com 
-GitHub ID: Rowon 
+이름: 정노원  
+학번: 2018314667  
+이메일: nwchung98@naver.com  
+GitHub ID: Rowon  
 
-이름: 이민성 
-학번: 2018311500 
-이메일: alstjd8252@naver.com 
-GitHub ID: dlalstjd 
+이름: 이민성  
+학번: 2018311500  
+이메일: alstjd8252@naver.com   
+GitHub ID: dlalstjd  
 
-이름: 류수현 
-학번: 2018312336 
-이메일: fbtngus2789@naver.com 
-GitHub ID: RSuhyeon 
+이름: 류수현  
+학번: 2018312336  
+이메일: fbtngus2789@naver.com  
+GitHub ID: RSuhyeon  
 
 ## 활동방법
 다양한 알고리즘과 새로운 언어를 이용한 코드를 작성하여 기여합니다.
