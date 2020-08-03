@@ -7,12 +7,12 @@ readmes = []
 
 for lang in readmeLanguages:
     if lang != "Default":
-        readme = io.open("README-{}.md".format(lang), "w", encoding='utf-8')
+        readme = io.open("../README-{}.md".format(lang), "w", encoding='utf-8')
         readme.write(readmeLanguages[lang]["Header"] + u"\r\n")
         readme.write(u"\r\n")
         readmes.append(readme)
     else:
-        readme = io.open("README.md", "w", encoding='utf-8')
+        readme = io.open("../README.md", "w", encoding='utf-8')
         readme.write(readmeLanguages[lang]["Header"] + u"\r\n")
         readme.write(u"\r\n")
         readmes.append(readme)
