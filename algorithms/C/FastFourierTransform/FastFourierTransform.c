@@ -5,11 +5,11 @@
 double PI;
 typedef double complex cplx;
  
-void _fft(cplx buf[], cplx out[], int n, int step)
+void _FastFourierTransform(cplx buf[], cplx out[], int n, int step)
 {
 	if (step < n) {
-		_fft(out, buf, n, step * 2);
-		_fft(out + step, buf + step, n, step * 2);
+		_FastFourierTransform(out, buf, n, step * 2);
+		_FastFourierTransform(out + step, buf + step, n, step * 2);
  
 		for (int i = 0; i < n; i += 2 * step) {
 			cplx t = cexp(-I * PI * i / n) * out[i + step];
@@ -19,12 +19,12 @@ void _fft(cplx buf[], cplx out[], int n, int step)
 	}
 }
  
-void fft(cplx buf[], int n)
+void FastFourierTransform(cplx buf[], int n)
 {
 	cplx out[n];
 	for (int i = 0; i < n; i++) out[i] = buf[i];
  
-	_fft(buf, out, n, 1);
+	_FastFourierTransform(buf, out, n, 1);
 }
  
  
@@ -43,7 +43,7 @@ int main()
 	cplx buf[] = {1, 1, 1, 1, 0, 0, 0, 0};
  
 	show("Data: ", buf);
-	fft(buf, 8);
+	FastFourierTransform(buf, 8);
 	show("\nFFT : ", buf);
  
 	return 0;

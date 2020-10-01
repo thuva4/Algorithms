@@ -4,12 +4,12 @@
 #define MAXNODES 1000 // Max number of nodes
 
 bool graphmat[MAXNODES][MAXNODES];            //graph matrix
-bool isvisited[MAXNODES];               //array to keep track of visited nodes
+bool isVisited[MAXNODES];               //array to keep track of visited nodes
 
 void dfs(int source)
 {
-    isvisited[source] = true;
-    for(int i=0; i<MAXNODES ;i++)      //visiting neighbours of source vertex
+    isVisited[source] = true;
+    for(int i=0; i<MAXNODES ;i++)      //visiting neighbors of source vertex
     {
         if(graphmat[source][i] && !isvisited[i])
         {
