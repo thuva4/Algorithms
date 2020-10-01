@@ -23,9 +23,10 @@ int main()
 { 
 	int x=1, y=1, a , b ; 
 	cin>>a>>b;
+	assert(a>0);
+	assert(b>0);
 	int res = gcdExtended(a, b, x, y); 
 	cout << "GCD of " << a << " and " << b 
 		<< " is " << res << endl; 
 	return 0; 
 } 
-
