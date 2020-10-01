@@ -14,7 +14,7 @@ public:
 	BinaryTreeNode<T> *left;        // left pointer to point to the left children of node
 	BinaryTreeNode<T> *right;       // right pointer to point to the right children of node
 
-	BinaryTreeNode(T val){          // constructor to intialize value of data members
+	explicit BinaryTreeNode(T val){          // constructor to intialize value of data members
 		this->data = val;
 		left = nullptr;
 		right = nullptr;
@@ -74,13 +74,10 @@ void printLevelOrder(BinaryTreeNode<T> *root){                      // template 
     
     if(node != nullptr)cout<<node->data<<" ";                       // node is printed
     
-    if(node->left != nullptr ){  
-       qu->push(node->left);
-    }
+    if(node->left != nullptr)qu->push(node->left);
     
-    if(node->right != nullptr){      
-        qu->push(node->right);
-   }
+    if(node->right != nullptr)qu->push(node->right);
+    }
   }
 
 }
