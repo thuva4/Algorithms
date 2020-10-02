@@ -1,13 +1,12 @@
 package main
 
 import (
-	"fmt"
 	"math"
 	"math/rand"
 )
 
 //https://de.wikipedia.org/wiki/Diffie-Hellman-Schl%C3%BCsselaustausch#/media/Datei:Diffie-Hellman-Schl%C3%BCsselaustausch.svg
-func main() {
+func diffiehellman() (int, int) {
 	p := 9999971 //Large prime number
 	g := 4       //Natural number, smaller than p
 
@@ -31,6 +30,5 @@ func main() {
 	//Shared key, calculated by Bob
 	Kb := int(math.Pow(float64(A), float64(b))) % p
 
-	fmt.Printf("Alice calculated: %d\n", Ka)
-	fmt.Printf("Bob calculated: %d\n", Kb)
+	return Ka, Kb
 }
