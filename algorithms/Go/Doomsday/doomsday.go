@@ -41,4 +41,6 @@ func printDay(y, m, d int) {
 
 func main() {
 	printDay(1970, 1, 1)
+	printDay(1111, 11, 11)
+	printDay(2000, 1, 1)
 }
