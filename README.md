@@ -16,7 +16,7 @@ Bitonic Sort |   | :+1: |   | :+1: |   |   |   | :+1: |   |   |   |   |   |   | 
 Bloom Filter |   |   |   |   |   |   |   |   |   |   |   | :+1: |   |   |   |   |  |
 Borweins Algorithm |   |   |   | :+1: |   |   |   | :+1: |   |   |   | :+1: |   |   |   |   |  |
 Bubble Sort | :+1: | :+1: | :+1: | :+1: |   | :+1: |   | :+1: | :+1: |   | :+1: | :+1: |   | :+1: | :+1: | :+1: | :+1:|
-Cocktail Sort |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |  |
+Cocktail Sort |   |   |   | :+1: |   | :+1: |   |   |   |   |   |   |   |   |   |   |  |
 Coin Change |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |  |
 Conjugate Gradient |   |   |   | :+1: |   |   |   |   |   |   |   | :+1: |   |   |   |   |  |
 Connected Component Labeling |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |  |
