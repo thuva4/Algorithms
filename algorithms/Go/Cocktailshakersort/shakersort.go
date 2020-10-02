@@ -1,10 +1,5 @@
 package main
 
-import (
-	"fmt"
-	"math/rand"
-)
-
 func shakersort(array []int) {
 	swapped := true
 	for swapped {
@@ -31,18 +26,4 @@ func shakersort(array []int) {
 	}
 }
 
-func randomArray(n uint64) []int {
-	array := make([]int, n)
-	for i := range array {
-		array[i] = rand.Intn(100)
-	}
-	return array
-}
-
-func main() {
-	testArray := randomArray(10)
-	fmt.Println(testArray)
-
-	shakersort(testArray)
-	fmt.Println(testArray)
-}
+func main() {}
