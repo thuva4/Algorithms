@@ -66,7 +66,7 @@ Pearson Hashing |   |   |   |   |   |   |   | :+1: |   |   |   |   |   |   |   |
 Permutations |   |   |   | :+1: |   |   |   |   | :+1: |   |   | :+1: |   |   |   |   |  |
 Persistent Data Structures |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |  |
 Postman Sort |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |  |
-Primality Tests |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |  |
+Primality Tests |   | :+1: |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |  |
 Prims |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |  |
 Prufer Code |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |  |
 Quick Select |   |   |   |   |   | :+1: |   | :+1: | :+1: |   |   | :+1: |   |   |   |   |  |
