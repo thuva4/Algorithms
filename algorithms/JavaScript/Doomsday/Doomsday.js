@@ -35,10 +35,4 @@ function dowS(y, m, d) {
     return null;
 }
 
-console.log(dow(1886, 5, 1) + ": " + dowS(1886, 5, 1));       // 6: Saturday
-console.log(dow(1948, 12, 10) + ": " + dowS(1948, 12, 10));   // 5: Friday
-console.log(dow(2001, 1, 15) + ": " + dowS(2001, 1, 15));     // 1: Monday
-console.log(dow(2017, 10, 10) + ": " + dowS(2017, 10, 10));   // 2: Tuesday
-console.log(dow(2018, 1, 1) + ": " + dowS(2018, 1, 1));       // 1: Monday
-console.log(dow(2018, 2, 16) + ": " + dowS(2018, 2, 16));     // 5: Friday
-console.log(dow(2018, 5, 17) + ": " + dowS(2018, 5, 17));     // 4: Thursday
+module.exports = { dow, dowS};

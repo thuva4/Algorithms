@@ -15,17 +15,7 @@ function binarySearch(arr, k) {
       ? max = cur - 1
       : min = cur + 1
   }
-
   return -1
 }
 
-const arr = [1,2,3,4,5,6,7,8,9,10]
-console.log(binarySearch(arr, 6))  // 5
-console.log(binarySearch(arr, 9))  // 8
-console.log(binarySearch(arr, 2))  // 1
-console.log(binarySearch(arr, 7))  // 6
-console.log(binarySearch(arr, 11)) // -1
-
-console.log(binarySearch(arr, 3))  // 2
-console.log(binarySearch(arr, 3))  // 2
-console.log(binarySearch(arr, 3))  // 2
+module.exports = binarySearch;

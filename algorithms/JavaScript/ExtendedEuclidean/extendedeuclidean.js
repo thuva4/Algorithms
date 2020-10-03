@@ -1,4 +1,14 @@
-function extendedeuclidean(a,b)
+/*
+    Explanation at: https://brilliant.org/wiki/extended-euclidean-algorithm/
+    si2 : s(subscript(i-2))
+    si1 : s(subscript(i-1))
+    si  : s(subscript(i))
+
+    ti2 : t(subscript(i-2))
+    ti1 : t(subscript(i-1))
+    ti  : t(subscript(i))
+*/
+function extendedEuclidean(a,b)
 {
     var si2 = 0, ti2 = 1, si1 = 1, ti1 = 0, qi, r, si,ti;
     while (a !== 0) {
@@ -17,17 +27,4 @@ function extendedeuclidean(a,b)
     return [b,si2,ti2];
 }
 
-console.log(extendedeuclidean(3,5));
-
-
-/*
-    Explanation at: https://brilliant.org/wiki/extended-euclidean-algorithm/
-
-    si2 : s(subscript(i-2))
-    si1 : s(subscript(i-1))
-    si  : s(subscript(i))
-
-    ti2 : t(subscript(i-2))
-    ti1 : t(subscript(i-1))
-    ti  : t(subscript(i))
-*/
+module.exports = extendedEuclidean;
