@@ -18,4 +18,5 @@ def fib(k)
 	end
 	e[0][1]
 end
-p fib gets.not_nil!.to_i
+
+#p fib gets.not_nil!.to_i
