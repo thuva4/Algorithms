@@ -70,6 +70,8 @@
 
 * [Binary search algorithm](BinarySearch)    :    locates an item in a sorted sequence
 
+* [Binary Tree All Traversals]       : PreOrder, PostOrder, InOrder, Level Order Traversal
+
 * Binary splitting    :    a divide and conquer technique which speeds up the numerical evaluation of many types of series with rational terms
 
 * Birkhoff interpolation    :    an extension of polynomial interpolation
