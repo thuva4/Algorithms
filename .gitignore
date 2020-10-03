@@ -2,3 +2,4 @@
 .vscode/
 venv/
 .DS_store
+algorithms/JavaScript/node_modules/
