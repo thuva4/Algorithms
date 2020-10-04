@@ -12,7 +12,7 @@ def heap_sort(array)
 end
 
 def to_heap(array)
-  i = (array.size/2) - 1
+  i = (array.size//2) - 1
 
   while i >= 0
     sift_down(array, i, array.size)
@@ -47,9 +47,3 @@ def sift_down(array, i, max)
 
   array
 end
-
-numbers = [4, 2, 8, 1, 30, 0, 10, 16]
-
-puts "Unsorted: #{numbers}"
-
-puts "Sorted: #{heap_sort(numbers)}"
