@@ -1,5 +1,5 @@
 require "spec"
-require "./heap_sort"
+require "../heap_sort"
 
 describe "heap_sort" do
   it "sorts" do
