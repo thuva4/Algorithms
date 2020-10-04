@@ -1,5 +1,5 @@
 require "spec"
-require "./FibonacciFast"
+require "../FibonacciFast"
 
 describe "FibonacciFast" do
 	it "fib(1)" do
