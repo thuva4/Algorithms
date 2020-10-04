@@ -1,5 +1,4 @@
 #include<bits/stdc++.h>
-#define take_input freopen("input.txt", "r", stdin)
 using namespace std;
 
 
@@ -18,7 +17,6 @@ T extendedEuclidean(T a, T b, T &x, T &y){
 }
 
 int main(){
-	take_input;
 	int x,y,a,b;
 	cin >> a >> b;
 	int g = extendedEuclidean(a, b, x, y);
