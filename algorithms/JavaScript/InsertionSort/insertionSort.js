@@ -6,8 +6,7 @@
 */
 
 function insertionSort(arr) {
-	
-    for (let j=1; j<arr.length; j++) {
+  for (let j=1; j<arr.length; j++) {
 		let key = arr[j];
 		let i = j - 1;
 		while (i >= 0 && arr[i] > key) {
@@ -16,8 +15,11 @@ function insertionSort(arr) {
 		}
 		arr[i+1] = key;
 	}
-
+	return arr;
 }
+
+module.exports = insertionSort;
+
 
 let ar=[3,4,5,1,6,7,8,2,0];
 insertionSort(ar);
