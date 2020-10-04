@@ -51,7 +51,7 @@ function main() {
       j++
     }
     const newArr = []
-    arr.map(e => {
+    arr.forEach(e => {
       newArr.push(e.trim().split(' ').map(Number))
     })
     const cache = []
