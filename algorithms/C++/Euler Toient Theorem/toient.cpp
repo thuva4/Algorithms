@@ -1,5 +1,5 @@
 #include<bits/stdc++.h>
-
+#define take_input freopen("input.txt", "r", stdin)
 using namespace std;
 
 // O(sqrtN)
@@ -37,7 +37,20 @@ vector<int> phi_1ton(int n){
 
 
 int main(){
-	int n;
-	cin >> n;
-	cout << phi(n) << endl;
+	take_input;
+	cout << "Testing phi: " << "\n";
+	int t;
+	cin >> t;
+	vector<int> v(t);
+	for(int i=0; i<t; i++){
+		int num;
+		cin >> num;
+		v[i] = num;
+	}
+	for(int i:v) cout << "phi(" << i << "): " << phi(i) << "\n";
+	
+
+	cout << "\n";
+	cout << "Testing phi_1ton: " << "\n";
+	for(int i:phi_1ton(t)) cout << i << " ";
 }

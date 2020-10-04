@@ -1,5 +1,5 @@
 #include<bits/stdc++.h>
-
+#define take_input freopen("input.txt", "r", stdin)
 using namespace std;
 
 template<typename T>
@@ -20,7 +20,12 @@ vector<T> segmentedSieve(T l, T r){
 }
 
 int main(){
+	take_input;
+	int a,b;
+	cin >> a >> b;
 	vector<int> prime;
-	prime = segmentedSieve(5, 11);
+	prime = segmentedSieve(a, b);
+	cout << "Printing all the primes from " <<a << " to " <<b <<" :" << "\n";
 	for(int i: prime) cout << i << " ";
+	cout << "\n";
 }

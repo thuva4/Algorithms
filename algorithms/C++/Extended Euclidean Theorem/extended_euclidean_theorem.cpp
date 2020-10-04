@@ -1,5 +1,5 @@
 #include<bits/stdc++.h>
-
+#define take_input freopen("input.txt", "r", stdin)
 using namespace std;
 
 
@@ -18,8 +18,12 @@ T extendedEuclidean(T a, T b, T &x, T &y){
 }
 
 int main(){
-	int x,y,a=35, b=15;
+	take_input;
+	int x,y,a,b;
+	cin >> a >> b;
 	int g = extendedEuclidean(a, b, x, y);
-	cout << x << " " << y << "\n";
+	cout << "Coefficient of a and b in eqn ax+by=gcd :" << "\n";
+	cout <<"x: " << x << " & y: " << y << "\n";
+	cout << "Gcd of " << a << " & " << b << ": ";
 	cout << g << "\n";
 }
