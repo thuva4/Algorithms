@@ -113,3 +113,24 @@ void search(char pat[], char txt[], int q)
 
     } 
 } 
+int main() 
+{ 
+
+    char txt[] = "THIS IS A TEST TEXT"; 
+
+    char pat[] = "TEST";
+
+       
+
+      // A prime number 
+
+    int q = 101; 
+
+     
+
+      // Function Call
+
+      search(pat, txt, q); 
+
+    return 0; 
+} 
