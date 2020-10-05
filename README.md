@@ -48,7 +48,7 @@ Histogram Equalization |   |   |   |   |   |   |   | :+1: |   |   |   |   |   | 
 Insertion Sort |   | :+1: | :+1: | :+1: |   | :+1: |   | :+1: | :+1: | :+1: |   | :+1: |   | :+1: | :+1: | :+1: | :+1:|
 Johnson Algorithm |   |   |   | :+1: |   |   |   |   |   |   |   | :+1: |   |   |   |   |  |
 Kadanes |   | :+1: | :+1: | :+1: |   | :+1: |   | :+1: | :+1: |   |   | :+1: |   |   |   |   |  |
-Knapsack |   | :+1: |   |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |  |
+Knapsack |   | :+1: |   | :+1: |   |   |   | :+1: |   |   |   |   |   |   |   |   |  |
 Knuth Morris Prath |   |   |   | :+1: |   |   |   | :+1: |   |   |   | :+1: |   |   |   |   |  |
 Kruskals Algorithm |   |   |   | :+1: |   |   |   | :+1: |   |   |   |   |   |   |   |   |  |
 Leaky Bucket |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |  |
@@ -101,5 +101,5 @@ Folder structure should be like this
 ## Stargazers over time
 
 [![Stargazers over time](https://starchart.cc/Thuva4/Algorithms.svg)](https://starchart.cc/Thuva4/Algorithms)
-      
+
 
