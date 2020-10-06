@@ -10,16 +10,10 @@
 
 int factorialRecurrent(unsigned long InputValue)
 {
-	//Check Quality of Input
-	if (InputValue < 0) {
-
-		// Value Wrong - below cero
-		return(-1);
-	}
-
+	//Check if exeption 0 is given as input
 	if (InputValue == 0) {
 
-		// Value is 1 for Cero
+		// Value is 1 for 0
 		return(1);
 	}
 
