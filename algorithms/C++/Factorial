@@ -1,0 +1,11 @@
+#include<iostream>
+using namespace std;
+int main(int n)
+{
+int i,sum=1;
+for(i=1;i<=n;i++)
+{
+sum=sum*i;
+}
+return sum;
+}
