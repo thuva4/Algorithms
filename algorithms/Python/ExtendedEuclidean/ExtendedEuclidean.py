@@ -1,6 +1,6 @@
 def gcdExtended(x, y):
-    # Base Condition (Special Case) 
-    if x==0 :   
+    # Base Condition (Special Case)
+    if x==0:   
         return y,0,1
     # Call the function recursively
     gcd,x1,y1 = gcdExtended(y%x, x) 
