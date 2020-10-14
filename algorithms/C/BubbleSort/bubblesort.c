@@ -1,21 +1,23 @@
 #include <stdio.h>
 
-void bubbleSort(int array[], int size, int order){
+void swap (int array[], int j){
   int aux = 0;
+  aux = array[j]; 
+  array[j] = array[j+1]; 
+  array[j+1] = aux;
+}
 
+void bubbleSort(int array[], int size, int order){
   if(order == 1){
     for(int i=0; i < size-1; i++){
       int flag = 0;
 
       for(int j=0; j<size-1-i; j++){
         if(array[j] > array[j+1]){
-          aux = array[j]; 
-          array[j] = array[j+1]; 
-          array[j+1] = aux; 
+          swap(array, j);
           flag = 1;
         }
       }
-
       if(flag == 0){
         break;
       }
@@ -28,21 +30,16 @@ void bubbleSort(int array[], int size, int order){
 
       for(int j=0; j<size-1-i; j++){
         if(array[j] < array[j+1]){
-          aux = array[j+1];
-          array[j+1] = array[j];
-          array[j] = aux;
+          swap(array, j);
           flag = 1;
         }
       }
-
       if(flag == 0){
         break;
       }
     }
   }
-
 }
-
 int main() {
   int size;
   int order;
@@ -66,6 +63,5 @@ int main() {
 	for (int i = 0; i < size; i++){
     printf("%i ", array[i]);
   }
-
   return 0;
 }
