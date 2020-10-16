@@ -1,4 +1,5 @@
 #include <iostream>
+#include <assert.h>
 
 using namespace std;
 
@@ -12,7 +13,7 @@ int gcdExtended(int a, int b, int* x, int* y)
     }
 
     // Call the function recursively
-    int x1, y1;  
+    int x1, y1;
     int gcd = gcdExtended(b % a, a, &x1, &y1);
 
     // Update x1 and y1 using results of recursive call
@@ -26,9 +27,11 @@ int main()
 {
     int x, y, a = 60, b = 15;
     int g = gcdExtended(a, b, &x, &y);
-    
+
+    assert(g == 15);
+
     // Test the function
     cout << "gcd(" << a << ", " << b << ") = " << g << endl;
-    
+
     return 0;
 }
