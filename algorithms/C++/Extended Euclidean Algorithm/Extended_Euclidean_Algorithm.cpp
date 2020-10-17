@@ -28,7 +28,7 @@ int gcdExtended(int a, int b, int *x, int *y)
 // Driver Code 
 int main() 
 { 
-    int x, y, a = 35, b = 15;
+    int x, y, a , b ;
     cout << "Enter Two Numbers: ";
     cin >> a >> b;
 	 
