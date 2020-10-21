@@ -1,7 +1,7 @@
 import java.util.*;
-class A
+class rod
 {
-	public int rod_cut(int p[],int n)
+	public int rodcut(int p[],int n)
 	{
 		int r[]=new int[n];
 		for(int i=0;i<n;i++)
@@ -61,8 +61,8 @@ class RodCuttingAlgorithm
 		{
 			arr[i]=sc.nextInt();
 		}
-		A ob=new A();
-		int ans=ob.rod_cut(arr,n);
+		rod ob=new rod();
+		int ans=ob.rodcut(arr,n);
 		System.out.println(ans);
 	}
 }
