@@ -40,8 +40,8 @@ class A
 		if(a>b)
 		{
 			return a;
-		}
-		else 
+		
+}		else 
 		{
 			return b;
 		}
