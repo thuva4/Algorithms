@@ -47,7 +47,7 @@ class A
 		}
 	}
 }
-class rodcutting_topdown
+class rodcuttingtopdown
 {
 	public static void main(String args[])
 	{
