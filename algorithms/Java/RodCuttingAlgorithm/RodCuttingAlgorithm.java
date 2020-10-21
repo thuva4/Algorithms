@@ -1,4 +1,24 @@
 import java.util.*;
+class RodCuttingAlgorithm
+{
+	public static void main(String args[])
+	{
+		Scanner sc=new Scanner(System.in); 
+		int n=0;
+		System.out.println("Enter the size of rod");
+		n=sc.nextInt();
+		int arr[]=new int[n];
+		System.out.println("Enter the prices");
+		for(int i=0;i<n;i++)
+		{
+			arr[i]=sc.nextInt();
+		}
+		rod ob=new rod();
+		int ans=ob.rodcut(arr,n);
+		System.out.println(ans);
+	}
+}
+
 class rod
 {
 	public int rodcut(int p[],int n)
@@ -45,24 +65,5 @@ class rod
 		{
 			return b;
 		}
-	}
-}
-class RodCuttingAlgorithm
-{
-	public static void main(String args[])
-	{
-		Scanner sc=new Scanner(System.in); 
-		int n=0;
-		System.out.println("Enter the size of rod");
-		n=sc.nextInt();
-		int arr[]=new int[n];
-		System.out.println("Enter the prices");
-		for(int i=0;i<n;i++)
-		{
-			arr[i]=sc.nextInt();
-		}
-		rod ob=new rod();
-		int ans=ob.rodcut(arr,n);
-		System.out.println(ans);
 	}
 }
