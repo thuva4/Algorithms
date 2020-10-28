@@ -21,7 +21,7 @@ void print_sieve(char *buffer, size_t size)
 {
     for (size_t i = 0; i < size; i += 1) {
         if (get_bit(buffer, i) == 0)
-            printf("%li\n", i + 2);
+            printf("%lu\n", i + 2);
     }
 }
 
