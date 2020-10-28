@@ -4,24 +4,24 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-bool get_bit(void *ptr, size_t offset)
+bool get_bit(char *ptr, size_t offset)
 {
-    return (((*(char *)(ptr + offset / 8)) >> (offset % 8)) & 1);
+    return (((*(ptr + offset / 8)) >> (offset % 8)) & 1);
 }
 
-void set_bit(void *ptr, size_t offset, bool value)
+void set_bit(char *ptr, size_t offset, bool value)
 {
-    char temp = (*(char *)(ptr + offset / 8)) & (~(1 << offset % 8));
+    char temp = (*(ptr + offset / 8)) & (~(1 << offset % 8));
 
     temp |= (value << offset % 8);
-    (*(char *)(ptr + offset / 8)) = temp;
+    (*(ptr + offset / 8)) = temp;
 }
 
 void print_sieve(char *buffer, size_t size)
 {
     for (size_t i = 0; i < size; i += 1) {
         if (get_bit(buffer, i) == 0)
-            printf("%i\n", i + 2);
+            printf("%li\n", i + 2);
     }
 }
 
