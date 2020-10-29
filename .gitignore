@@ -3,3 +3,5 @@
 venv/
 .DS_store
 algorithms/JavaScript/node_modules/
+_site
+.jekyll-cache
