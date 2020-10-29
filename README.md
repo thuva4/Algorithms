@@ -28,12 +28,13 @@ Depth First Search |   | :+1: |   | :+1: |   |   |   | :+1: | :+1: |   |   | :+1
 Diffie Hellman |   |   |   |   |   | :+1: | :+1: |   |   |   |   | :+1: |   |   |   |   |  |
 Dijkstras |   |   | :+1: | :+1: |   | :+1: |   | :+1: | :+1: |   |   | :+1: |   |   |   |   |  |
 Doomsday |   |   | :+1: | :+1: |   | :+1: |   | :+1: | :+1: | :+1: |   | :+1: |   | :+1: |   |   | :+1:|
+Dungeon Game        |   |   |   | :+1: |   |   |   |  |   |   |   |   |   |   |   |   |  |
 Dynamic Programming |   |   |   |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |  |
 Edit Distance |   |   |   | :+1: |   |   |   |   |   |   |   | :+1: |   |   |   |   | :+1:|
 Edmonds Karp |   |   |   |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |  |
 Elevator Algorithm |   |   |   |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |  |
 Extended Euclidean Algorithm |   | :+1: |   |   |   |   |   |   | :+1: |   |   |   |   |   |   |   |  |
-Factorial |   | :+1: |   |   |   | :+1: |   | :+1: |   |   |   | :+1: |   |   |   |   |  |
+Factorial |   | :+1: |   | :+1: |   | :+1: |   | :+1: |   |   |   | :+1: |   |   | :+1: |   |  |
 Fast Fourier Transform |   | :+1: |   | :+1: |   |   |   | :+1: | :+1: |   |   | :+1: |   |   |   |   |  |
 Fenwick Tree |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |  |
 Fibonacci | :+1: | :+1: | :+1: | :+1: |   | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1:|
@@ -48,7 +49,7 @@ Histogram Equalization |   |   |   |   |   |   |   | :+1: |   |   |   |   |   | 
 Insertion Sort |   | :+1: | :+1: | :+1: |   | :+1: |   | :+1: | :+1: | :+1: |   | :+1: |   | :+1: | :+1: | :+1: | :+1:|
 Johnson Algorithm |   |   |   | :+1: |   |   |   |   |   |   |   | :+1: |   |   |   |   |  |
 Kadanes |   | :+1: | :+1: | :+1: |   | :+1: |   | :+1: | :+1: |   |   | :+1: |   |   |   |   |  |
-Knapsack |   | :+1: |   |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |  |
+Knapsack |   | :+1: |   | :+1: |   |   |   | :+1: |   |   |   |   |   |   |   |   |  |
 Knuth Morris Prath |   |   |   | :+1: |   |   |   | :+1: |   |   |   | :+1: |   |   |   |   |  |
 Kruskals Algorithm |   |   |   | :+1: |   |   |   | :+1: |   |   |   |   |   |   |   |   |  |
 Leaky Bucket |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |  |
@@ -81,7 +82,7 @@ Shell Sort |   |   |   | :+1: |   |   |   | :+1: | :+1: |   |   | :+1: |   | :+1
 Sieveof Eratosthenes |   |   | :+1: | :+1: |   |   | :+1: | :+1: | :+1: |   |   | :+1: |   |   |   |   |  |
 String To Token |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |  |
 Strongly Connected Graph.cpp |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |  |
-Swap |   | :+1: | :+1: | :+1: |   |   |   | :+1: | :+1: |   |   | :+1: |   |   |   | :+1: | :+1:|
+Swap |   | :+1: | :+1: | :+1: |   | :+1 |   | :+1: | :+1: |   |   | :+1: |   |   |   | :+1: | :+1:|
 Tarjans Offline LCA |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |  |
 Ternary Search |   | :+1: |   | :+1: |   |   |   | :+1: | :+1: |   |   | :+1: |   |   |   |   |  |
 Topological Sort |   |   |   | :+1: |   |   |   | :+1: |   |   |   | :+1: |   |   |   |   |  |
@@ -101,5 +102,5 @@ Folder structure should be like this
 ## Stargazers over time
 
 [![Stargazers over time](https://starchart.cc/Thuva4/Algorithms.svg)](https://starchart.cc/Thuva4/Algorithms)
-      
+
 
