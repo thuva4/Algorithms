@@ -25,10 +25,3 @@ document.querySelectorAll('table > thead > tr > th').forEach(th_element => {
         h2_element.appendChild(language_toggle);
     }
 });
-
-document.querySelectorAll('table > tbody > tr > td').forEach(td_element => {
-    const content = td_element.textContent;
-    if (content == ':+1:') {
-        td_element.innerHTML = '&#128077;';
-    }
-});
