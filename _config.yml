@@ -1,3 +1,9 @@
-
+# Enabling automatic translation of emojis when translating
+# from Markdown to HTML
 plugins:
   - jemoji
+
+# Enable when testing locally and emoji rendering is required
+# REF: http://jonasbn.github.io/til/github/use_emojis.html
+#emoji:
+#  src: "/assets/images"
