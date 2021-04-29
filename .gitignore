@@ -5,3 +5,4 @@ venv/
 algorithms/JavaScript/node_modules/
 _site
 .jekyll-cache
+.jekyll-metadata
