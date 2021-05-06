@@ -1,7 +1,6 @@
-# This workflow will install Python dependencies, run tests and lint with a variety of Python versions
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+# This workflow will update the readme based on the changes in the folder structures. 
 
-name: Python package
+name: Update Readme
 
 on:
   pull_request:
@@ -15,19 +14,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python
-      uses: actions/setup-python@v2
+    - name: Use Node.js
+      uses: actions/setup-node@v1
       with:
-        python-version: '2.7'
-    - name: Install dependencies
+        node-version: '12.x'
+    - name: Generate Readme 
       if: github.event.pull_request.merged
-      run: |
-        cd scripts 
-        python -m pip install --upgrade pip
-        python -m pip install flake8 pytest
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-        python readme_generator.py
-    - name: Commit report
+      run: npm start
+    - name: Commit Readme updates
       if: github.event.pull_request.merged
       run: |
         git config --global user.name 'thuva4'
