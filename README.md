@@ -1,4 +1,5 @@
 # Algorithms Example
+
 [![DeepScan grade](https://deepscan.io/api/teams/6243/projects/8132/branches/92442/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=6243&pid=8132&bid=92442)
 
 This repository contains examples of various algorithms which were written on different programming languages.
