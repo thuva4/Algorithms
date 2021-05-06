@@ -46,6 +46,7 @@ QuickSelect |   | :+1: | :+1: |   | :+1: | :+1: |   |   |   |   |   |   |   |   
 SieveOfEratosthenes |   | :+1: | :+1: |   | :+1: |   |   |   |   |   | :+1: |   |   |   |   |   |   | 
 BitonicSort | :+1: | :+1: |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 SieveofEratosthenes | :+1: |   |   | :+1: |   |   | :+1: |   |   |   |   |   |   |   |   |   |   | 
+Swap |   |   |   | :+1: |   | :+1: |   |   |   | :+1: |   |   |   |   |   |   |   | 
 UnionFind |   | :+1: | :+1: | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 BorweinsAlgorithm | :+1: | :+1: | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 CountingInversions | :+1: | :+1: |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   | 
@@ -55,7 +56,6 @@ KnuthMorrisPrath | :+1: | :+1: | :+1: |   |   |   |   |   |   |   |   |   |   | 
 Permutations | :+1: |   | :+1: |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   | 
 TopologicalSort | :+1: | :+1: | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 DiffieHellman |   |   | :+1: |   |   | :+1: |   |   |   |   | :+1: |   |   |   |   |   |   | 
-Swap |   |   |   | :+1: |   | :+1: |   |   |   |   |   |   |   |   |   |   |   | 
 knapsack |   | :+1: |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 AStarSearch | :+1: |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 BitapAlgorithm | :+1: |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
@@ -104,7 +104,6 @@ MinMaxABPruning |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |
 PearsonHashing |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 RodCuttingAlgorithm |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 BloomFilter |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
-swap |   |   |   |   |   |   |   |   |   | :+1: |   |   |   |   |   |   |   | 
 
 
 [算法列表](Algorithms.md)
