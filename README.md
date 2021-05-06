@@ -93,6 +93,7 @@ VEGASAlgorithm |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   | 
 [List of Algorithms](Algorithms.md)
 
 Folder structure should be like this
+
 [**language**]/[**Algorithm name**]/**file**
 
 *For example*:
