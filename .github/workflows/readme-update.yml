@@ -20,7 +20,9 @@ jobs:
         node-version: '12.x'
     - name: Generate Readme 
       if: github.event.pull_request.merged
-      run: npm start
+      run: |
+        cd scripts
+        npm start
     - name: Commit Readme updates
       if: github.event.pull_request.merged
       run: |
