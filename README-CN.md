@@ -87,6 +87,7 @@ MatrixExponentiation | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   
 ModifiedBinarySearch | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 PersistentDataStructures | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 PrimalityTests | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
+Prims | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 PruferCode | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 SegmentTree | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 SequenceAlignment | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
@@ -94,7 +95,6 @@ StringToToken | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |  
 StronglyConnectedGraph | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 TarjansOfflineLCA | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 VEGASAlgorithm | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
-prims | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 Cocktailshakersort |   |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   | 
 DynamicProgramming |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 EdmondsKarp |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
