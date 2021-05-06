@@ -1,13 +1,13 @@
 {
     "Default": {
             "Language": "Language",
-            "Header" : "# Algorithms Example\r\nThis repository contains examples of various algorithms which were written on different programming languages.\r\n## Implemented algorithms with languages:\r\n",
-            "Footer": "[List of Algorithms](Algorithms.md)\r\nFolder structure should be like this\r\n[**language**]/[**Algorithm name**]/**file**\r\n*For example*:\r\n* **Go/BubbleSort/BubbleSort.go**\r\n* **C++/QuickSort/QuickSort.cpp**\r\n## License\r\n[Apache License 2.0](LICENSE)"
+            "Header" : "# Algorithms Example\n\n[![DeepScan grade](https://deepscan.io/api/teams/6243/projects/8132/branches/92442/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=6243&pid=8132&bid=92442)\n\nThis repository contains examples of various algorithms which were written on different programming languages.\n\n## Implemented algorithms with languages:\n\n",
+            "Footer": "\n\n[List of Algorithms](Algorithms.md)\n\nFolder structure should be like this\n[**language**]/[**Algorithm name**]/**file**\n*For example*:\n* **Go/BubbleSort/BubbleSort.go**\n* **C++/QuickSort/QuickSort.cpp**\n\n## License\n\n[Apache License 2.0](LICENSE)"
         },
 
     "CN": {
             "Language": "语言",
-            "Header" : "# 算法实例\r\n这个仓库包含各种各样的，由不同的编程语言实现的算法实例。\r\n## 不同语言的算法实现\r\n",
-            "Footer": "[算法列表](Algorithms.md)\r\n文件目录结构应该有如下格式：\r\n[**Algorithm name**]/[**language**]/**file**\r\n*举例*\r\n* **BubbleSort/Go/BubbleSort.go**\r\n* **QuickSort/C++/QuickSort.cpp**\r\n## License\r\n[Apache License 2.0](LICENSE)"
+            "Header" : "# 算法实例\n\n[![DeepScan grade](https://deepscan.io/api/teams/6243/projects/8132/branches/92442/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=6243&pid=8132&bid=92442)\n\n这个仓库包含各种各样的，由不同的编程语言实现的算法实例。\n\n## 不同语言的算法实现\n\n",
+            "Footer": "\n\n[算法列表](Algorithms.md)\n\n文件目录结构应该有如下格式：[**Algorithm name**]/[**language**]/**file**\n\n*举例*\n* **BubbleSort/Go/BubbleSort.go**\n* **QuickSort/C++/QuickSort.cpp**\n\n## License\n\n[Apache License 2.0](LICENSE)"
     }
 }
