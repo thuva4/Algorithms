@@ -182,3 +182,7 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 - [vzsky](https://github.com/vzsky)
 - [raphaelmeyer](https://github.com/raphaelmeyer)
 - [jonasbn](https://github.com/jonasbn)
+- [Aman Kumar](https://github.com/aman-ku)
+- [Esci92](https://github.com/Esci92)
+- [ir2010](https://github.com/ir2010)
+- [Cc618](https://github.com/Cc618)
