@@ -96,6 +96,7 @@ Folder structure should be like this
 [**language**]/[**Algorithm name**]/**file**
 
 *For example*:
+
 * **Go/BubbleSort/BubbleSort.go**
 * **C++/QuickSort/QuickSort.cpp**
 
