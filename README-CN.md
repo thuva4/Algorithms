@@ -62,6 +62,7 @@ BitapAlgorithm | :+1: |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |  
 CocktailSort | :+1: | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 ConjugateGradient | :+1: |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 JohnsonAlgorithm | :+1: |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
+Knapsack | :+1: |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   | 
 KruskalsAlgorithm | :+1: | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 LongestPath | :+1: |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 Minimax | :+1: |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   | 
@@ -80,7 +81,6 @@ FenwickTree | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
 HeavyLightDecomposition | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 InFixToPostFix | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 InverseFastFourierTransform | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
-Knapsack | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 LongestBitonicSubsequence | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 LongestSubsetZeroSum | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 MatrixExponentiation | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
@@ -103,9 +103,7 @@ HistogramEqualization |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |  
 MinMaxABPruning |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 PearsonHashing |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 RodCuttingAlgorithm |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
-ZeroOneKnapsack |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   | 
 BloomFilter |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
-CountSort |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 swap |   |   |   |   |   |   |   |   |   | :+1: |   |   |   |   |   |   |   | 
 
 
