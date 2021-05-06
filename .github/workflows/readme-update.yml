@@ -20,7 +20,7 @@ jobs:
       with:
         python-version: '3.x'
     - name: Install dependencies
-      if: github.pull_request.merged == 'true'
+      if: github.event.pull_request.merged
       run: |
         cd scripts 
         python -m pip install --upgrade pip
@@ -28,7 +28,7 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
         python readme_generator.py
     - name: Commit report
-      if: github.action == 'closed' && github.pull_request.merged == 'true'
+      if: github.event.pull_request.merged
       run: |
         git config --global user.name 'thuva4'
         git config --global user.email 'thuva4@users.noreply.github.com'
