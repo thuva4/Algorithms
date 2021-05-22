@@ -1,4 +1,4 @@
-const {GraphFactory, BFS} = require('../BreadthFirstSearch');
+const {GraphFactory, BFS} = require('../index');
 
 describe("BreadthFirstSearch", () => {
   let graph = null;

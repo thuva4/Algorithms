@@ -1,4 +1,4 @@
-const bubbleSort = require('../BubbleSort');
+const bubbleSort = require('..');
 
 describe("BubbleSort", () => {
   let array = null;
