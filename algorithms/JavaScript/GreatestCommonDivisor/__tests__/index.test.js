@@ -1,4 +1,4 @@
-const greatestCommonDivisor = require('../GreatestCommonDivisor');
+const greatestCommonDivisor = require('../index');
 
 describe("GreatestCommonDivisor", () => {
 

@@ -1,4 +1,4 @@
-const extendedEuclidean = require('../ExtendedEuclidean');
+const extendedEuclidean = require('../index');
 
 describe("ExtendedEuclidean", () => {
 

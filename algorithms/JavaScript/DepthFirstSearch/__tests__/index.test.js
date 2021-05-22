@@ -1,4 +1,4 @@
-const {GraphFactory, DFS} = require('../DepthFirstSearch');
+const {GraphFactory, DFS} = require('../index');
 
 describe("DFS", () => {
   let graph = null;

@@ -1,4 +1,4 @@
-const fischerYatesShuffle = require('..');
+const fischerYatesShuffle = require('../index');
 
 describe("FisherYatesShuffle", () => {
   let array;
