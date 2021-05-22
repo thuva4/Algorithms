@@ -1,4 +1,4 @@
-const binarySearch = require('../BinarySearch');
+const binarySearch = require('../index');
 
 describe("BinarySearch", () => {
   let array = null;

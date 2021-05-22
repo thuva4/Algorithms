@@ -1,4 +1,4 @@
-const {dow, dowS} = require('../DoomsDay');
+const {dow, dowS} = require('../index');
 
 describe("DoomsDay", () => {
 

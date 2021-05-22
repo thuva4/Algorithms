@@ -4,7 +4,7 @@
  * @param  {Number} k Value to search
  * @return {Number} index of found item or -1 for not found
  */
-function binarySearch(arr, k) {
+const binarySearch = (arr, k) => {
   let min = 0
   let max = arr.length - 1
   

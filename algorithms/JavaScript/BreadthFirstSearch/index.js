@@ -1,5 +1,3 @@
-// Fully runnable code, along with test cases at https://codepen.io/sniper6/pen/KXrJqG/
-
 const BFS = (graph, source, target = -1) => {
   // Some error handling
   if (typeof graph.getNeighbors !== "function") {

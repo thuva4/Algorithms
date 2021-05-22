@@ -1,6 +1,6 @@
-const {GraphFactory, BFS} = require('../BreadthFirstSearch');
+const {GraphFactory, DFS} = require('../index');
 
-describe("BreadthFirstSearch", () => {
+describe("DFS", () => {
   let graph = null;
 
   beforeEach(() => {
@@ -9,13 +9,13 @@ describe("BreadthFirstSearch", () => {
 
   it("should throw error on bad graph", () => {
     expect(() => {
-      BFS({});
+      DFS({});
     }).toThrow("Graph should implement a getNeighbors function");
   });
 
   it("should throw error on no source vertex", () => {
     expect(() => {
-      BFS(graph);
+      DFS(graph);
     }).toThrow("source should be a number");
   });
 
@@ -23,8 +23,8 @@ describe("BreadthFirstSearch", () => {
     graph.addEdge(0, 1);
     graph.addEdge(0, 3);
     graph.addEdge(1, 2);
-    expect(BFS(graph, 0, 3)).toEqual({
-      order: [0, 1, 3, 2],
+    expect(DFS(graph, 0, 3)).toEqual({
+      order: [0, 3, 1, 2],
       found: true
     });
   });
@@ -35,8 +35,8 @@ describe("BreadthFirstSearch", () => {
     graph.addEdge(1, 3);
     graph.addEdge(3, 4);
     graph.addEdge(4, 2);
-    expect(BFS(graph, 0, 3)).toEqual({
-      order: [0, 1, 2, 3, 4],
+    expect(DFS(graph, 0, 3)).toEqual({
+      order: [0, 2, 4, 3, 1],
       found: true
     });
   });
@@ -46,10 +46,9 @@ describe("BreadthFirstSearch", () => {
     graph.addEdge(0, 2, false);
     graph.addEdge(1, 3, false);
     graph.addEdge(3, 4, false);
-    graph.addEdge(3, 5, false);
     graph.addEdge(4, 2, false);
-    expect(BFS(graph, 0, 3)).toEqual({
-      order: [0, 1, 2, 3, 4, 5],
+    expect(DFS(graph, 0, 3)).toEqual({
+      order: [0, 2, 1, 3, 4],
       found: true
     });
   });
@@ -58,8 +57,8 @@ describe("BreadthFirstSearch", () => {
     graph.addEdge(0, 1);
     graph.addEdge(0, 3);
     graph.addEdge(1, 2);
-    expect(BFS(graph, 0, 5)).toEqual({
-      order: [0, 1, 3, 2],
+    expect(DFS(graph, 0, 5)).toEqual({
+      order: [0, 3, 1, 2],
       found: false
     });
   });

@@ -1,4 +1,4 @@
-const heapSort = require('../HeapSort');
+const heapSort = require('../index');
 
 describe("HeapSort", () => {
   let array;
