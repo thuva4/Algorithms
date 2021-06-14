@@ -103,6 +103,7 @@ HistogramEqualization |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |  
 MinMaxABPruning |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 PearsonHashing |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 RodCuttingAlgorithm |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
+PartialSort |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   | 
 BloomFilter |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 
 
