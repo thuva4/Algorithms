@@ -3,9 +3,10 @@
   * @param {Array} array - One-dimensional array
   * @return {Number} currentMax - The largest sum of contiguous sub-arrays
   */
-function kadanes(array){
-  let currentMax = max = 0;
-  for (let i = 0; i < array.length; i++) {
+function kadanes(array) {
+  let currentMax = 0;
+  let max = 0;
+  for (let i = 0; i < array.length; i += 1) {
     max = Math.max(0, max + array[i]);
     currentMax = Math.max(currentMax, max);
   }

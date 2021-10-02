@@ -1,17 +1,17 @@
 /**
  * xorSwap
- * 
+ *
  * Swaps two variables without using a temporary variable
- * 
+ *
  */
-function xorSwap()
-{
-  let a = 5, b = 10;	
-  a = a ^ b;
-  b = a ^ b;
-  a = a ^ b;
+function xorSwap(a, b) {
+  let tempA = a;
+  let tempB = b;
+  tempA ^= tempB;
+  tempB = tempA ^ tempA;
+  tempA ^= tempB;
 
-  console.log("a = " + a + ", b = " + b);
+  return { a: tempA, b: tempB };
 }
 
-
+module.exports = { xorSwap };

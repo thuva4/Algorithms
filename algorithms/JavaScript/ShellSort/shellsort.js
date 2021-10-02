@@ -1,10 +1,11 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable func-names */
 (function (exports) {
-  'use strict';
   function compare(a, b) {
     return a - b;
   }
-  let shellSort = (function () {
-    let gaps = [701, 301, 132, 57, 23, 10, 4, 1];
+  const shellSort = (function () {
+    const gaps = [701, 301, 132, 57, 23, 10, 4, 1];
     /**
      * Shellsort which uses the gaps 701, 301, 132, 57, 23, 10, 4, 1 and
      * insertion sort to sort sub-arrays which match for the different gaps.
@@ -32,10 +33,10 @@
         for (let i = gap; i < array.length; i += gap) {
           current = array[i];
           for (let j = i;
-              j >= gap && cmp(array[j - gap], current) > 0; j -= gap) {
+            j >= gap && cmp(array[j - gap], current) > 0; j -= gap) {
             array[j] = array[j - gap];
           }
-          array[j] = current;
+          array[i] = current;
         }
       }
       return array;

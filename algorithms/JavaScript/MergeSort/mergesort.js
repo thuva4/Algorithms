@@ -1,8 +1,8 @@
 /**
  * Merge Sort is an algorithm where the main list is divided down into two half
- * sized lists, which then have merge sort called on these two smaller lists 
+ * sized lists, which then have merge sort called on these two smaller lists
  * recursively until there is only a sorted list of one.
- * 
+ *
  * On the way up the recursive calls, the lists will be merged together inserting
  * the smaller value first, creating a larger sorted list.
  */
@@ -14,9 +14,9 @@
  * @return {Array} merged list
  */
 function merge(list1, list2) {
-  let results = [];
+  const results = [];
 
-  while(list1.length && list2.length) {
+  while (list1.length && list2.length) {
     if (list1[0] <= list2[0]) {
       results.push(list1.shift());
     } else {
@@ -34,15 +34,11 @@ function merge(list1, list2) {
 function mergeSort(list) {
   if (list.length < 2) return list;
 
-  let listHalf = Math.floor(list.length/2);
-  let subList1 = list.slice(0, listHalf);
-  let subList2 = list.slice(listHalf, list.length);
+  const listHalf = Math.floor(list.length / 2);
+  const subList1 = list.slice(0, listHalf);
+  const subList2 = list.slice(listHalf, list.length);
 
   return merge(mergeSort(subList1), mergeSort(subList2));
 }
 
-// Merge Sort Example
-let unsortedArray = [10, 5, 3, 8, 2, 6, 4, 7, 9, 1];
-let sortedArray = mergeSort(unsortedArray);
-
-console.log('Before:', unsortedArray, 'After:', sortedArray);
+module.exports = { mergeSort };

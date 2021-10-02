@@ -1,17 +1,18 @@
-// Fully runnable code with tests at https://codepen.io/sniper6/pen/QqzYEa
-
+/* eslint-disable no-console */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-restricted-syntax */
 const DFS = (graph, source, target = -1) => {
   // Some error handling
-  if (typeof graph.getNeighbors !== "function") {
-    throw "Graph should implement a getNeighbors function";
+  if (typeof graph.getNeighbors !== 'function') {
+    throw new Error('Graph should implement a getNeighbors function');
   }
-  if (typeof source !== "number") {
-    throw "source should be a number";
+  if (typeof source !== 'number') {
+    throw new Error('source should be a number');
   }
 
-  const stack = [], // The stack that will be used
-    order = [], // Array to hold the order of visit. Mainly for unit testing
-    visited = {}; // Keep track of visited vertices
+  const stack = []; // The stack that will be used
+  const order = []; // Array to hold the order of visit. Mainly for unit testing
+  const visited = {}; // Keep track of visited vertices
 
   let found = false;
   stack.push(source);
@@ -53,16 +54,16 @@ const GraphFactory = (() => {
     },
     printGraph() {
       console.log(JSON.stringify(this._graph, null, 2));
-    }
+    },
   };
-  
+
   return {
     getGraph() {
-      const Graph = Object.assign({}, GraphTemplate);
+      const Graph = { ...GraphTemplate };
       Graph.init();
       return Graph;
-    }
+    },
   };
 })();
 
-module.exports = { DFS, GraphFactory}
+module.exports = { DFS, GraphFactory };

@@ -1,18 +1,16 @@
+/* eslint-disable no-param-reassign */
 function fibonacci(n) {
-  let a = 1
-  let b = 0
+  let a = 1;
+  let b = 0;
 
   while (n > 0) {
-    let temp = a
-    a = a + b
-    b = temp
-    n--
+    const temp = a;
+    a += b;
+    b = temp;
+    n -= 1;
   }
 
-  return b
+  return b;
 }
 
-console.log(fibonacci(0)) // 0
-console.log(fibonacci(1)) // 1
-console.log(fibonacci(7)) // 13
-console.log(fibonacci(9)) // 34
+module.exports = { fibonacci };

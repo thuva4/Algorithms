@@ -1,27 +1,30 @@
-function counting_sort(array) {
-	let high = highest_element(array);
-	let aux_array = new Array(high-1);
-	let final_array = new Array(array.length);
-	for(let i = 0; i < aux_array.length; i++) {
-		aux_array[i] = 0;
-	}
-	for(let j = 0; j < aux_array.length; j++) {
-		aux_array[array[j]] = aux_array[array[j]-1] + 1;
-	}
-	for(let i = 1; i<high; i++) {
-		aux_array[i] = aux_array[i] + aux_array[i-1];
-	}
-	for(let j = array.length; j>0; j-- ) {
-		final_array[aux_array[array[j]-1]-1] = array[j];
-		aux_array[array[j]]--;
-	}
+/* eslint-disable no-restricted-syntax */
+
+function highestElement(array) {
+  let high = 0;
+  for (const i in array) {
+    if (array[i] > high) high = array[i];
+  }
+  return high;
 }
 
-function highest_element(array) {
-	let high = 0;
-	for(let i in array) {
-		if(array[i] > high)
-			high = array[i];
-	}
-	return high;
+function countingSort(array) {
+  const high = highestElement(array);
+  const auxArray = new Array(high - 1);
+  const finalArray = new Array(array.length);
+  for (let i = 0; i < auxArray.length; i += 1) {
+    auxArray[i] = 0;
+  }
+  for (let j = 0; j < auxArray.length; j += 1) {
+    auxArray[array[j]] = auxArray[array[j] - 1] + 1;
+  }
+  for (let i = 1; i < high; i += 1) {
+    auxArray[i] += auxArray[i - 1];
+  }
+  for (let j = array.length; j > 0; j -= 1) {
+    finalArray[auxArray[array[j] - 1] - 1] = array[j];
+    auxArray[array[j]] -= 1;
+  }
 }
+
+module.exports = { countingSort };
