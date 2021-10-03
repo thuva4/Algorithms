@@ -1,5 +1,28 @@
-/* eslint-disable require-jsdoc */
 /* eslint-disable max-len */
+/* eslint-disable require-jsdoc */
+// after each iternation you have 1 number in the correct positon
+// largest to smallest
+// O(n2) - worst case
+function selectionSortDescending(inputArray) {
+  for (let i = 0; i < inputArray.length - 1; i++) {
+    let maxIndex = i;
+    for (let j = i + 1; j < inputArray.length; j++) {
+      if (inputArray[maxIndex] < inputArray[j]) {
+        maxIndex = j;// found new maximum
+      }
+    }
+
+    // swap if maximum isn't the current i iteration
+    if (maxIndex != i) {
+      const temp = inputArray[maxIndex];
+      inputArray[maxIndex] = inputArray[i];
+      inputArray[i] = temp;
+    }
+    console.log('In progress: ', inputArray);
+  }
+  return inputArray;
+}
+
 /* The selection sort algorithm sorts an array by repeatedly finding the minimum element
  *(considering ascending order) from unsorted part and putting it at the beginning. The
  *algorithm maintains two subarrays in a given array.
@@ -29,11 +52,5 @@ function selectionSort(items) {
   }
 }
 
-// Implementation of bubbleSort
 
-const ar = [5, 6, 7, 8, 1, 2, 12, 14];
-// Array before Sort
-console.log(ar);
-selectionSort(ar);
-// Array after sort
-console.log(ar);
+module.exports = {selectionSort, selectionSortDescending};
