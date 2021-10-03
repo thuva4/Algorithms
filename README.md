@@ -105,7 +105,6 @@ PearsonHashing |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 RodCuttingAlgorithm |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 PartialSort |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 BloomFilter |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
-AhoCorasick |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 
 
 [List of Algorithms](Algorithms.md)
