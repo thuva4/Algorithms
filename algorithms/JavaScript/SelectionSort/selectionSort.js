@@ -1,4 +1,6 @@
-/*The selection sort algorithm sorts an array by repeatedly finding the minimum element
+/* eslint-disable require-jsdoc */
+/* eslint-disable max-len */
+/* The selection sort algorithm sorts an array by repeatedly finding the minimum element
  *(considering ascending order) from unsorted part and putting it at the beginning. The
  *algorithm maintains two subarrays in a given array.
  *1) The subarray which is already sorted.
@@ -8,30 +10,30 @@
  *from the unsorted subarray is picked and moved to the sorted subarray.
  */
 function selectionSort(items) {
-  let length = items.length;
+  const length = items.length;
   for (let i = 0; i < length - 1; i++) {
-    //Number of passes
-    let min = i; //min holds the current minimum number position for each pass; i holds the Initial min number
-    for (let j = i + 1; j < length; j++) { //Note that j = i + 1 as we only need to go through unsorted array
-      if (items[j] < items[min]) { //Compare the numbers
-        min = j; //Change the current min number position if a smaller num is found
+    // Number of passes
+    let min = i; // min holds the current minimum number position for each pass; i holds the Initial min number
+    for (let j = i + 1; j < length; j++) { // Note that j = i + 1 as we only need to go through unsorted array
+      if (items[j] < items[min]) { // Compare the numbers
+        min = j; // Change the current min number position if a smaller num is found
       }
     }
     if (min != i) {
-      //After each pass, if the current min num != initial min num, exchange the position.
-      //Swap the numbers
-      let tmp = items[i];
+      // After each pass, if the current min num != initial min num, exchange the position.
+      // Swap the numbers
+      const tmp = items[i];
       items[i] = items[min];
       items[min] = tmp;
     }
   }
 }
 
-//Implementation of bubbleSort
+// Implementation of bubbleSort
 
-let ar = [5, 6, 7, 8, 1, 2, 12, 14];
-//Array before Sort
+const ar = [5, 6, 7, 8, 1, 2, 12, 14];
+// Array before Sort
 console.log(ar);
 selectionSort(ar);
-//Array after sort
+// Array after sort
 console.log(ar);

@@ -1,8 +1,9 @@
+/* eslint-disable require-jsdoc */
 /**
  * Sort array in O(n^2)
- * Bubble Sort will be faster for small number of elements 
+ * Bubble Sort will be faster for small number of elements
  * In-place sort without extra space
- * @param  {Array}  arr Array to search into
+ * @param  {Array}  array Array to search into
  * @return {Array} Sorted array
  */
 function bubbleSort(array) {
