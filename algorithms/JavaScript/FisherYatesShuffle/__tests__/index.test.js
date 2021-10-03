@@ -1,15 +1,15 @@
 const fischerYatesShuffle = require('../index');
 
-describe("FisherYatesShuffle", () => {
+describe('FisherYatesShuffle', () => {
   let array;
   beforeEach(() => {
     array = [];
     for (let i = 0; i < 20; i++) {
       array.push(i + 1);
     }
-  })
+  });
 
-  it("check the effectiveness of the shuffle 90%", () => {
+  it('check the effectiveness of the shuffle 90%', () => {
     let shuffle;
     let changed = 0;
 
@@ -23,6 +23,5 @@ describe("FisherYatesShuffle", () => {
       }
     }
     expect(changed/(100*array.length)).toBeGreaterThanOrEqual(0.9);
-
   });
 });
