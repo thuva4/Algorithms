@@ -104,6 +104,7 @@ MinMaxABPruning |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |
 PearsonHashing |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 RodCuttingAlgorithm |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 PartialSort |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   | 
+AhoCorasick |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 BloomFilter |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 
 
