@@ -54,6 +54,7 @@ CycleSort | :+1: | :+1: | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |
 EditDistance | :+1: |   | :+1: |   |   |   |   |   | :+1: |   |   |   |   |   |   |   |   | 
 KnuthMorrisPrath | :+1: | :+1: | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 Permutations | :+1: |   | :+1: | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   | 
+RabinKarp | :+1: | :+1: | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 TopologicalSort | :+1: | :+1: | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 DiffieHellman |   |   | :+1: |   |   | :+1: |   |   |   |   | :+1: |   |   |   |   |   |   | 
 knapsack |   | :+1: |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   | 
@@ -67,7 +68,6 @@ KruskalsAlgorithm | :+1: | :+1: |   |   |   |   |   |   |   |   |   |   |   |   
 LongestPath | :+1: |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 Minimax | :+1: |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   | 
 BestFirstSearch |   | :+1: |   |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |   | 
-RabinKarp |   | :+1: | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 ConnectedComponentLabeling |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   | 
 LeakyBucket |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   | 
 PostmanSort |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   | 
