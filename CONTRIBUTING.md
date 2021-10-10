@@ -181,3 +181,4 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 - [ir2010](https://github.com/ir2010)
 - [Cc618](https://github.com/Cc618)
 - [Md Azharuddin](https://github.com/azhar1038)
+- [Jatin7385](https://github.com/Jatin7385)
