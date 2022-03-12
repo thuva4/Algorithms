@@ -57,6 +57,7 @@ Permutations | :+1: |   | :+1: | :+1: |   |   |   |   |   |   |   |   |   |   | 
 RabinKarp | :+1: | :+1: | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 TopologicalSort | :+1: | :+1: | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 DiffieHellman |   |   | :+1: |   |   | :+1: |   |   |   |   | :+1: |   |   |   |   |   |   | 
+PrimeCheck | :+1: |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   | 
 knapsack |   | :+1: |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   | 
 AStarSearch | :+1: |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 BitapAlgorithm | :+1: |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
@@ -71,7 +72,6 @@ BestFirstSearch |   | :+1: |   |   |   |   |   | :+1: |   |   |   |   |   |   | 
 ConnectedComponentLabeling |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   | 
 LeakyBucket |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   | 
 PostmanSort |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   | 
-PrimeCheck |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   | 
 BinaryTree | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 CoinChange | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 Combination | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
