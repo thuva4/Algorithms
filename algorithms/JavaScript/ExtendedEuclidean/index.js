@@ -1,37 +1,40 @@
-/* eslint-disable require-jsdoc */
-/*
-    Explanation at: https://brilliant.org/wiki/extended-euclidean-algorithm/
-    si2 : s(subscript(i-2))
-    si1 : s(subscript(i-1))
-    si  : s(subscript(i))
+function Euclid_gcd(a, b) {
+  a = +a;
+  b = +b;
+  if (a !== a || b !== b) {
+    return [NaN, NaN, NaN];
+  }
 
-    ti2 : t(subscript(i-2))
-    ti1 : t(subscript(i-1))
-    ti  : t(subscript(i))
-*/
-function extendedEuclidean(a, b) {
-  let si2 = 0;
-  let ti2 = 1;
-  let si1 = 1;
-  let ti1 = 0;
-  let qi;
-  let r;
-  let si;
-  let ti;
+  if (a === Infinity || a === -Infinity || b === Infinity || b === -Infinity) {
+    return [Infinity, Infinity, Infinity];
+  }
+  // Checks if a or b are decimals
+  if ((a % 1 !== 0) || (b % 1 !== 0)) {
+    return false;
+  }
+  var signX = (a < 0) ? -1 : 1,
+    signY = (b < 0) ? -1 : 1,
+    x = 0,
+    y = 1,
+    u = 1,
+    v = 0,
+    q, r, m, n;
+  a = Math.abs(a);
+  b = Math.abs(b);
+
   while (a !== 0) {
-    qi = Math.floor(b / a);
-    si = si2 - si1 * qi;
-    ti = ti2 - ti1 * qi;
-    si2 = si1;
-    ti2 = ti1;
-    si1 = si;
-    ti1 = ti;
-
+    q = Math.floor(b / a);
     r = b % a;
+    m = x - u * q;
+    n = y - v * q;
     b = a;
     a = r;
+    x = u;
+    y = v;
+    u = m;
+    v = n;
   }
-  return [b, si2, ti2];
+  return [b, signX * x, signY * y];
 }
 
-module.exports = extendedEuclidean;
+console.log(Euclid_gcd(15, 5));
