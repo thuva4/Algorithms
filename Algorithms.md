@@ -648,6 +648,8 @@
 
 * Sukhotin's algorithm    :    a statistical classification algorithm for classifying characters in a text as vowels or consonants
 
+* Sumset (Minkowski sum) algorithm    :    a method for computing the sum of two sets of numbers, C = A + B, is defined to be the set of all sums of an element from A with an element from B;
+
 * SURF (Speeded Up Robust Features)    :    is a robust local feature detector, first presented by Herbert Bay et al. in 2006, that can be used in computer vision tasks like object recognition or 3D reconstruction. It is partly inspired by the SIFT descriptor. The standard version of SURF is several times faster than SIFT and claimed by its authors to be more robust against different image transformations than SIFT.
 
 * Sweep and prune    :    a broad phase algorithm used during collision detection to limit the number of pairs of solids that need to be checked for collision
