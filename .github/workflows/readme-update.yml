@@ -32,6 +32,6 @@ jobs:
         else
           git config --global user.name 'thuva4'
           git config --global user.email 'thuva4@users.noreply.github.com'
-          git commit --amend --no-edit
+          git commit -am "Automated readme update"
           git push
         fi

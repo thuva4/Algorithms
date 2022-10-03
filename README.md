@@ -54,8 +54,10 @@ CycleSort | :+1: | :+1: | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |
 EditDistance | :+1: |   | :+1: |   |   |   |   |   | :+1: |   |   |   |   |   |   |   |   | 
 KnuthMorrisPrath | :+1: | :+1: | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 Permutations | :+1: |   | :+1: | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   | 
+RabinKarp | :+1: | :+1: | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 TopologicalSort | :+1: | :+1: | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 DiffieHellman |   |   | :+1: |   |   | :+1: |   |   |   |   | :+1: |   |   |   |   |   |   | 
+PrimeCheck | :+1: |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   | 
 knapsack |   | :+1: |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   | 
 AStarSearch | :+1: |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 BitapAlgorithm | :+1: |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
@@ -67,11 +69,9 @@ KruskalsAlgorithm | :+1: | :+1: |   |   |   |   |   |   |   |   |   |   |   |   
 LongestPath | :+1: |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 Minimax | :+1: |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   | 
 BestFirstSearch |   | :+1: |   |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |   | 
-RabinKarp |   | :+1: | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 ConnectedComponentLabeling |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   | 
 LeakyBucket |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   | 
 PostmanSort |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   | 
-PrimeCheck |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   | 
 BinaryTree | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 CoinChange | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 Combination | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
@@ -104,11 +104,12 @@ MinMaxABPruning |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |
 PearsonHashing |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 RodCuttingAlgorithm |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 PartialSort |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   | 
+AhoCorasick |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 BloomFilter |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
+Sumset (Minkowski sum) |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 
 
 [List of Algorithms](Algorithms.md)
-
 Folder structure should be like this
 [**language**]/[**Algorithm name**]/**file**
 *For example*:
