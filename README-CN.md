@@ -106,6 +106,7 @@ RodCuttingAlgorithm |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |
 PartialSort |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 AhoCorasick |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 BloomFilter |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
+Sumset |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 
 
 [算法列表](Algorithms.md)
