@@ -176,7 +176,6 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 - [vzsky](https://github.com/vzsky)
 - [raphaelmeyer](https://github.com/raphaelmeyer)
 - [jonasbn](https://github.com/jonasbn)
-- [Omkarnath Parida](https://github.com/pomkarnath98)
 - [Aman Kumar](https://github.com/aman-ku)
 - [Esci92](https://github.com/Esci92)
 - [ir2010](https://github.com/ir2010)
@@ -184,3 +183,4 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 - [Md Azharuddin](https://github.com/azhar1038)
 - [Jatin7385](https://github.com/Jatin7385)
 - [Rhuancpq](https://github.com/Rhuancpq)
+- [Omkarnath](https://github.com/pomkarnath98)
