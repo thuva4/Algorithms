@@ -27,21 +27,15 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 
 2. Check the table in the README.md file to see if the language and algorithms have already been added. If not, create a new folder with a name of the language. Inside the folder create the folder for Algorithm you want to share and add your code.
 
-3. Run the following command to generate the readme. (Special Thanks to [p-avital](https://github.com/p-avital))
-	```
-		pip install -r requirements.txt
-		python readme_generator.py
-	```
+3. Add your name into the contributors list in CONTRIBUTING.md file
 
-5. Add your name into the contributors list in CONTRIBUTING.md file
+4. Commit, Push
 
-6. Commit, Push
+5. Make a pull request
 
-7. Make a pull request
+6. Star The Repository
 
-8. Star The Repository
-
-9. Happy Hacktoberfest
+7. Happy Hacktoberfest
 
 
 *******
@@ -183,3 +177,10 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 - [raphaelmeyer](https://github.com/raphaelmeyer)
 - [jonasbn](https://github.com/jonasbn)
 - [Omkarnath Parida](https://github.com/pomkarnath98)
+- [Aman Kumar](https://github.com/aman-ku)
+- [Esci92](https://github.com/Esci92)
+- [ir2010](https://github.com/ir2010)
+- [Cc618](https://github.com/Cc618)
+- [Md Azharuddin](https://github.com/azhar1038)
+- [Jatin7385](https://github.com/Jatin7385)
+- [Rhuancpq](https://github.com/Rhuancpq)

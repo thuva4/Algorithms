@@ -648,6 +648,8 @@
 
 * Sukhotin's algorithm    :    a statistical classification algorithm for classifying characters in a text as vowels or consonants
 
+* Sumset (Minkowski sum) algorithm    :    a method for computing the sum of two sets of numbers, C = A + B, is defined to be the set of all sums of an element from A with an element from B;
+
 * SURF (Speeded Up Robust Features)    :    is a robust local feature detector, first presented by Herbert Bay et al. in 2006, that can be used in computer vision tasks like object recognition or 3D reconstruction. It is partly inspired by the SIFT descriptor. The standard version of SURF is several times faster than SIFT and claimed by its authors to be more robust against different image transformations than SIFT.
 
 * Sweep and prune    :    a broad phase algorithm used during collision detection to limit the number of pairs of solids that need to be checked for collision
@@ -669,63 +671,33 @@
 * Toom–Cook multiplication    :    (Toom3) a multiplication algorithm for large integers
 
 * Top-nodes algorithm    :    resource calendar management
-
 * [Topological sort](Topological%20Sort)    :    finds linear order of nodes (e.g. jobs) based on their dependencies.
-
 * Transform coding    :    type of data compression for "natural" data like audio signals or photographic images
-
 * Trigram search    :    search for text when the exact syntax or spelling of the target object is not precisely known
-
 * Ukkonen's algorithm    :    a linear-time, online algorithm for constructing suffix trees
-
 * [Unary coding](Unary%20Coding)    :    code that represents a number n with n ones followed by a zero
-
 * Uniform binary search    :    an optimization of the classic binary search algorithm
-
 * Uniform-cost search    :    a tree search that finds the lowest cost route where costs vary
-
 * UPGMA    :    a distance-based phylogenetic tree construction algorithm.
-
 * Vector clocks    :    generate a partial ordering of events in a distributed system and detect causality violations
-
 * Vector quantization    :    technique often used in lossy data compression
-
 * [VEGAS algorithm](VEGAS%20Algorithm)    :    a method for reducing error in Monte Carlo simulations
-
 * Velvet    :    a set of algorithms manipulating de Bruijn graphs for genomic sequence assembly
-
 * Vincenty's formulae    :    a fast algorithm to calculate the distance between two latitude/longitude points on an ellipsoid
-
 * Viterbi algorithm    :    find the most likely sequence of hidden states in a hidden markov model
-
 * WACA clustering algorithm    :    a local clustering algorithm with potentially multi-hop structures; for dynamic networks
-
 * Wang and Landau algorithm    :    an extension of Metropolis–Hastings algorithm sampling
-
 * Warnsdorff's algorithm    :    A heuristic method for solving the Knight's Tour problem.
-
-	* A    :    special case of best-first search that uses heuristics to improve speed
-
-	* B    :    a best-first graph search algorithm that finds the least-cost path from a given initial node to any goal node (out of one or more possible goals)
-
+* A*    :    special case of best-first search that uses heuristics to improve speed
+* B*    :    a best-first graph search algorithm that finds the least-cost path from a given initial node to any goal node (out of one or more possible goals)
 * Watershed transformation    :    a class of algorithms based on the watershed analogy
-
 * Wavelet compression    :    form of data compression well suited for image compression (sometimes also video compression and audio compression)
-
 * Winnow algorithm    :    related to the perceptron, but uses a multiplicative weight-update scheme
-
 * Xiaolin Wu's line algorithm    :    algorithm for line antialiasing.
-
 * [Xor swap algorithm](Xor%20Swap)    :    swaps the values of two variables without using a buffer
-
 * Yamartino method    :    calculate an approximation to the standard deviation σθ of wind direction θ during a single pass through the incoming data
-
 * Zhu–Takaoka string matching algorithm    :    a variant of the Boyer–Moore
-
 * Ziggurat algorithm    :    generate random numbers from a non-uniform distribution
-
 * Zobrist hashing    :    used in the implementation of transposition tables
-
 * Union Find : used to know if there is a path between 2 objects or not
-
 * Fibonacci Recursive : Fibonacci series printed using Java Recursion

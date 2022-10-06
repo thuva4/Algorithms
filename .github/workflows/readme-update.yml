@@ -1,0 +1,37 @@
+# This workflow will update the readme based on the changes in the folder structures. 
+
+name: Update Readme
+
+on:
+  pull_request:
+    branches: [ master ]
+    types: [closed]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+    - name: Generate Readme 
+      if: github.event.pull_request.merged
+      run: |
+        cd scripts
+        npm start
+    - name: Commit Readme updates
+      if: github.event.pull_request.merged
+      run: |
+        if [[ -z $(git status -s) ]]
+        then
+          echo "No chnages in Readme files"
+        else
+          git config --global user.name 'thuva4'
+          git config --global user.email 'thuva4@users.noreply.github.com'
+          git commit -am "Automated readme update"
+          git push
+        fi
