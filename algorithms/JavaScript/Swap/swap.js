@@ -1,5 +1,5 @@
 /**
- * Swaping two variables with using a temporary variable
+ * Swaping two variables using a temporary variable
  * @param {Number} num1
  * @param {Number} num2
  * @return {Array} variables with swapped values in form of an array
