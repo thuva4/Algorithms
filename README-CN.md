@@ -7,7 +7,7 @@
 ## 不同语言的算法实现
 
 
-语言 | C++ | Java | Python | JavaScript | C | Go | C# | Ruby | Swift | Scala | Haskell | Kotlin | Rust | Perl | BrainFuck | Crystal | Racket | 
+语言 | C++ | Python | Java | JavaScript | C | Go | C# | Ruby | Swift | Scala | Haskell | Kotlin | Rust | Perl | BrainFuck | Crystal | Racket | 
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 Fibonacci | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | 
 BubbleSort | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: | :+1: |   |   | :+1: | :+1: | :+1: |   |   | 
@@ -36,7 +36,7 @@ TernarySearch | :+1: | :+1: | :+1: | :+1: | :+1: |   |   |   |   |   |   |   |  
 BellmanFord | :+1: | :+1: | :+1: |   |   |   | :+1: |   |   |   | :+1: |   |   |   |   |   |   | 
 BinaryGCD | :+1: | :+1: | :+1: |   |   | :+1: |   |   |   |   | :+1: |   |   |   |   |   |   | 
 ShellSort | :+1: | :+1: | :+1: | :+1: |   |   |   | :+1: |   |   |   |   |   |   |   |   |   | 
-ExtendedEuclidean | :+1: |   | :+1: | :+1: | :+1: |   |   |   |   |   |   |   |   |   |   |   |   | 
+ExtendedEuclidean | :+1: | :+1: |   | :+1: | :+1: |   |   |   |   |   |   |   |   |   |   |   |   | 
 SegmentedSieve | :+1: | :+1: | :+1: |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   | 
 BreadthFirstSearch | :+1: | :+1: | :+1: | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 FloodFill | :+1: | :+1: | :+1: |   |   |   |   |   | :+1: |   |   |   |   |   |   |   |   | 
@@ -44,31 +44,31 @@ LongestIncreasingSubsequence | :+1: | :+1: | :+1: | :+1: |   |   |   |   |   |  
 UnaryCoding | :+1: | :+1: | :+1: | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 QuickSelect |   | :+1: | :+1: | :+1: |   | :+1: |   |   |   |   |   |   |   |   |   |   |   | 
 SieveOfEratosthenes |   | :+1: | :+1: | :+1: |   |   |   |   |   |   | :+1: |   |   |   |   |   |   | 
-BitonicSort | :+1: | :+1: |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   | 
-PrimeCheck | :+1: |   | :+1: |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   | 
+BitonicSort | :+1: |   | :+1: |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   | 
+PrimeCheck | :+1: | :+1: |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   | 
 SieveofEratosthenes | :+1: |   |   |   | :+1: |   | :+1: |   |   |   |   |   |   |   |   |   |   | 
 Swap |   |   |   |   | :+1: | :+1: |   |   |   | :+1: |   |   |   |   |   |   |   | 
 UnionFind |   | :+1: | :+1: |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   | 
 BorweinsAlgorithm | :+1: | :+1: | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
-CountingInversions | :+1: | :+1: |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   | 
+CountingInversions | :+1: |   | :+1: |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   | 
 CycleSort | :+1: | :+1: | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
-EditDistance | :+1: |   | :+1: |   |   |   |   |   | :+1: |   |   |   |   |   |   |   |   | 
+EditDistance | :+1: | :+1: |   |   |   |   |   |   | :+1: |   |   |   |   |   |   |   |   | 
 KnuthMorrisPrath | :+1: | :+1: | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
-Permutations | :+1: |   | :+1: | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   | 
+Permutations | :+1: | :+1: |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 RabinKarp | :+1: | :+1: | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 TopologicalSort | :+1: | :+1: | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
-DiffieHellman |   |   | :+1: |   |   | :+1: |   |   |   |   | :+1: |   |   |   |   |   |   | 
-knapsack |   | :+1: |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   | 
-AStarSearch | :+1: |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
-BitapAlgorithm | :+1: |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
-CocktailSort | :+1: | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
-ConjugateGradient | :+1: |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
-JohnsonAlgorithm | :+1: |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
+DiffieHellman |   | :+1: |   |   |   | :+1: |   |   |   |   | :+1: |   |   |   |   |   |   | 
+knapsack |   |   | :+1: |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   | 
+AStarSearch | :+1: | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
+BitapAlgorithm | :+1: | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
+CocktailSort | :+1: |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
+ConjugateGradient | :+1: | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
+JohnsonAlgorithm | :+1: | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 Knapsack | :+1: |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   | 
-KruskalsAlgorithm | :+1: | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
-LongestPath | :+1: |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
+KruskalsAlgorithm | :+1: |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
+LongestPath | :+1: | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 Minimax | :+1: |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   | 
-BestFirstSearch |   | :+1: |   |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |   | 
+BestFirstSearch |   |   | :+1: |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |   | 
 ConnectedComponentLabeling |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   | 
 LeakyBucket |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   | 
 PostmanSort |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   | 
@@ -81,6 +81,7 @@ FenwickTree | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
 HeavyLightDecomposition | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 InFixToPostFix | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 InverseFastFourierTransform | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
+JosephusProblem | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 LongestBitonicSubsequence | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 LongestSubsetZeroSum | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 MatrixExponentiation | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
@@ -96,17 +97,18 @@ StronglyConnectedGraph | :+1: |   |   |   |   |   |   |   |   |   |   |   |   | 
 TarjansOfflineLCA | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 VEGASAlgorithm | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 Cocktailshakersort |   |   |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   | 
-DynamicProgramming |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
-EdmondsKarp |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
-ElevatorAlgorithm |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
-HistogramEqualization |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
-MinMaxABPruning |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
-PearsonHashing |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
-RodCuttingAlgorithm |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
+DynamicProgramming |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
+EdmondsKarp |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
+ElevatorAlgorithm |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
+HistogramEqualization |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
+MinMaxABPruning |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
+PearsonHashing |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
+RodCuttingAlgorithm |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 PartialSort |   |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   | 
-AhoCorasick |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
-BloomFilter |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
-Sumset |   |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
+AhoCorasick |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
+BloomFilter |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
+Luhn |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
+Sumset |   | :+1: |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 
 
 
 [算法列表](Algorithms.md)
