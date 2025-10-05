@@ -184,3 +184,4 @@ Unfortunately, sometimes the bug can be only reproduced in your project or in yo
 - [Jatin7385](https://github.com/Jatin7385)
 - [Rhuancpq](https://github.com/Rhuancpq)
 - [Omkarnath](https://github.com/pomkarnath98)
+- [anish](https://github.com/anishk85)
