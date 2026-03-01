@@ -1,0 +1,133 @@
+{
+  "name": "Miller-Rabin Primality Test",
+  "slug": "miller-rabin",
+  "category": "math",
+  "subcategory": "primality",
+  "difficulty": "advanced",
+  "tags": [
+    "math",
+    "primality",
+    "probabilistic",
+    "number-theory"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(k log^2 n)",
+      "average": "O(k log^2 n)",
+      "worst": "O(k log^2 n)"
+    },
+    "space": "O(1)"
+  },
+  "related": [
+    "prime-check",
+    "sieve-of-eratosthenes",
+    "modular-exponentiation"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "miller_rabin.c",
+          "content": "#include \"miller_rabin.h\"\n\nstatic long long mod_pow(long long base, long long exp, long long mod) {\n    long long result = 1;\n    base %= mod;\n    while (exp > 0) {\n        if (exp % 2 == 1) result = result * base % mod;\n        exp /= 2;\n        base = base * base % mod;\n    }\n    return result;\n}\n\nint miller_rabin(int n) {\n    if (n < 2) return 0;\n    if (n < 4) return 1;\n    if (n % 2 == 0) return 0;\n\n    int r = 0;\n    long long d = n - 1;\n    while (d % 2 == 0) { r++; d /= 2; }\n\n    int witnesses[] = {2, 3, 5, 7};\n    int nw = 4;\n\n    for (int w = 0; w < nw; w++) {\n        int a = witnesses[w];\n        if (a >= n) continue;\n\n        long long x = mod_pow(a, d, n);\n        if (x == 1 || x == n - 1) continue;\n\n        int found = 0;\n        for (int i = 0; i < r - 1; i++) {\n            x = mod_pow(x, 2, n);\n            if (x == n - 1) { found = 1; break; }\n        }\n\n        if (!found) return 0;\n    }\n\n    return 1;\n}\n"
+        },
+        {
+          "filename": "miller_rabin.h",
+          "content": "#ifndef MILLER_RABIN_H\n#define MILLER_RABIN_H\n\nint miller_rabin(int n);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "miller_rabin.cpp",
+          "content": "static long long mod_pow(long long base, long long exp, long long mod) {\n    long long result = 1;\n    base %= mod;\n    while (exp > 0) {\n        if (exp % 2 == 1) result = result * base % mod;\n        exp /= 2;\n        base = base * base % mod;\n    }\n    return result;\n}\n\nint miller_rabin(int n) {\n    if (n < 2) return 0;\n    if (n < 4) return 1;\n    if (n % 2 == 0) return 0;\n\n    int r = 0;\n    long long d = n - 1;\n    while (d % 2 == 0) { r++; d /= 2; }\n\n    int witnesses[] = {2, 3, 5, 7};\n    for (int a : witnesses) {\n        if (a >= n) continue;\n\n        long long x = mod_pow(a, d, n);\n        if (x == 1 || x == n - 1) continue;\n\n        bool found = false;\n        for (int i = 0; i < r - 1; i++) {\n            x = mod_pow(x, 2, n);\n            if (x == n - 1) { found = true; break; }\n        }\n\n        if (!found) return 0;\n    }\n\n    return 1;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "MillerRabin.cs",
+          "content": "using System;\n\npublic class MillerRabin\n{\n    public static int Check(int n)\n    {\n        if (n < 2) return 0;\n        if (n < 4) return 1;\n        if (n % 2 == 0) return 0;\n\n        int r = 0;\n        long d = n - 1;\n        while (d % 2 == 0) { r++; d /= 2; }\n\n        int[] witnesses = { 2, 3, 5, 7 };\n        foreach (int a in witnesses)\n        {\n            if (a >= n) continue;\n\n            long x = ModPow(a, d, n);\n            if (x == 1 || x == n - 1) continue;\n\n            bool found = false;\n            for (int i = 0; i < r - 1; i++)\n            {\n                x = ModPow(x, 2, n);\n                if (x == n - 1) { found = true; break; }\n            }\n\n            if (!found) return 0;\n        }\n\n        return 1;\n    }\n\n    private static long ModPow(long baseVal, long exp, long mod)\n    {\n        long result = 1;\n        baseVal %= mod;\n        while (exp > 0)\n        {\n            if (exp % 2 == 1) result = result * baseVal % mod;\n            exp /= 2;\n            baseVal = baseVal * baseVal % mod;\n        }\n        return result;\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "miller_rabin.go",
+          "content": "package millerrabin\n\nfunc modPow(base, exp, mod int64) int64 {\n\tresult := int64(1)\n\tbase %= mod\n\tfor exp > 0 {\n\t\tif exp%2 == 1 {\n\t\t\tresult = result * base % mod\n\t\t}\n\t\texp /= 2\n\t\tbase = base * base % mod\n\t}\n\treturn result\n}\n\nfunc MillerRabin(n int) int {\n\tif n < 2 {\n\t\treturn 0\n\t}\n\tif n < 4 {\n\t\treturn 1\n\t}\n\tif n%2 == 0 {\n\t\treturn 0\n\t}\n\n\tr := 0\n\td := int64(n - 1)\n\tfor d%2 == 0 {\n\t\tr++\n\t\td /= 2\n\t}\n\n\twitnesses := []int64{2, 3, 5, 7}\n\tfor _, a := range witnesses {\n\t\tif a >= int64(n) {\n\t\t\tcontinue\n\t\t}\n\n\t\tx := modPow(a, d, int64(n))\n\t\tif x == 1 || x == int64(n-1) {\n\t\t\tcontinue\n\t\t}\n\n\t\tfound := false\n\t\tfor i := 0; i < r-1; i++ {\n\t\t\tx = modPow(x, 2, int64(n))\n\t\t\tif x == int64(n-1) {\n\t\t\t\tfound = true\n\t\t\t\tbreak\n\t\t\t}\n\t\t}\n\n\t\tif !found {\n\t\t\treturn 0\n\t\t}\n\t}\n\n\treturn 1\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "MillerRabin.java",
+          "content": "public class MillerRabin {\n\n    public static int millerRabin(int n) {\n        if (n < 2) return 0;\n        if (n < 4) return 1;\n        if (n % 2 == 0) return 0;\n\n        int r = 0;\n        long d = n - 1;\n        while (d % 2 == 0) {\n            r++;\n            d /= 2;\n        }\n\n        int[] witnesses = {2, 3, 5, 7};\n        for (int a : witnesses) {\n            if (a >= n) continue;\n\n            long x = modPow(a, d, n);\n            if (x == 1 || x == n - 1) continue;\n\n            boolean found = false;\n            for (int i = 0; i < r - 1; i++) {\n                x = modPow(x, 2, n);\n                if (x == n - 1) {\n                    found = true;\n                    break;\n                }\n            }\n\n            if (!found) return 0;\n        }\n\n        return 1;\n    }\n\n    private static long modPow(long base, long exp, long mod) {\n        long result = 1;\n        base %= mod;\n        while (exp > 0) {\n            if (exp % 2 == 1) result = result * base % mod;\n            exp /= 2;\n            base = base * base % mod;\n        }\n        return result;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "MillerRabin.kt",
+          "content": "fun millerRabin(n: Int): Int {\n    if (n < 2) return 0\n    if (n < 4) return 1\n    if (n % 2 == 0) return 0\n\n    fun modPow(base: Long, exp: Long, mod: Long): Long {\n        var result = 1L\n        var b = base % mod\n        var e = exp\n        while (e > 0) {\n            if (e % 2 == 1L) result = result * b % mod\n            e /= 2\n            b = b * b % mod\n        }\n        return result\n    }\n\n    var r = 0\n    var d = (n - 1).toLong()\n    while (d % 2 == 0L) { r++; d /= 2 }\n\n    val witnesses = longArrayOf(2, 3, 5, 7)\n    for (a in witnesses) {\n        if (a >= n) continue\n\n        var x = modPow(a, d, n.toLong())\n        if (x == 1L || x == (n - 1).toLong()) continue\n\n        var found = false\n        for (i in 0 until r - 1) {\n            x = modPow(x, 2, n.toLong())\n            if (x == (n - 1).toLong()) { found = true; break }\n        }\n\n        if (!found) return 0\n    }\n\n    return 1\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "miller_rabin.py",
+          "content": "def miller_rabin(n: int) -> int:\n    if n < 2:\n        return 0\n    if n < 4:\n        return 1\n    if n % 2 == 0:\n        return 0\n\n    # Write n-1 as 2^r * d\n    r, d = 0, n - 1\n    while d % 2 == 0:\n        r += 1\n        d //= 2\n\n    # Deterministic witnesses for n < 3,215,031,751\n    witnesses = [2, 3, 5, 7]\n\n    for a in witnesses:\n        if a >= n:\n            continue\n\n        x = pow(a, d, n)\n        if x == 1 or x == n - 1:\n            continue\n\n        found = False\n        for _ in range(r - 1):\n            x = pow(x, 2, n)\n            if x == n - 1:\n                found = True\n                break\n\n        if not found:\n            return 0\n\n    return 1\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "miller_rabin.rs",
+          "content": "fn mod_pow(mut base: i64, mut exp: i64, modulus: i64) -> i64 {\n    let mut result = 1i64;\n    base %= modulus;\n    while exp > 0 {\n        if exp % 2 == 1 {\n            result = result * base % modulus;\n        }\n        exp /= 2;\n        base = base * base % modulus;\n    }\n    result\n}\n\npub fn miller_rabin(n: i32) -> i32 {\n    if n < 2 { return 0; }\n    if n < 4 { return 1; }\n    if n % 2 == 0 { return 0; }\n\n    let mut r = 0;\n    let mut d = (n - 1) as i64;\n    while d % 2 == 0 { r += 1; d /= 2; }\n\n    let witnesses = [2i64, 3, 5, 7];\n    for &a in &witnesses {\n        if a >= n as i64 { continue; }\n\n        let mut x = mod_pow(a, d, n as i64);\n        if x == 1 || x == (n - 1) as i64 { continue; }\n\n        let mut found = false;\n        for _ in 0..(r - 1) {\n            x = mod_pow(x, 2, n as i64);\n            if x == (n - 1) as i64 { found = true; break; }\n        }\n\n        if !found { return 0; }\n    }\n\n    1\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "MillerRabin.scala",
+          "content": "object MillerRabin {\n\n  def modPow(base: Long, exp: Long, mod: Long): Long = {\n    var result = 1L\n    var b = base % mod\n    var e = exp\n    while (e > 0) {\n      if (e % 2 == 1) result = result * b % mod\n      e /= 2\n      b = b * b % mod\n    }\n    result\n  }\n\n  def millerRabin(n: Int): Int = {\n    if (n < 2) return 0\n    if (n < 4) return 1\n    if (n % 2 == 0) return 0\n\n    var r = 0\n    var d = (n - 1).toLong\n    while (d % 2 == 0) { r += 1; d /= 2 }\n\n    val witnesses = Array(2L, 3L, 5L, 7L)\n    for (a <- witnesses) {\n      if (a < n) {\n        var x = modPow(a, d, n.toLong)\n        if (x != 1 && x != n - 1) {\n          var found = false\n          var i = 0\n          while (i < r - 1 && !found) {\n            x = modPow(x, 2, n.toLong)\n            if (x == n - 1) found = true\n            i += 1\n          }\n          if (!found) return 0\n        }\n      }\n    }\n\n    1\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "MillerRabin.swift",
+          "content": "func millerRabin(_ n: Int) -> Int {\n    if n < 2 { return 0 }\n    if n < 4 { return 1 }\n    if n % 2 == 0 { return 0 }\n\n    func modPow(_ base: Int, _ exp: Int, _ mod: Int) -> Int {\n        var result = 1\n        var b = base % mod\n        var e = exp\n        while e > 0 {\n            if e % 2 == 1 { result = result * b % mod }\n            e /= 2\n            b = b * b % mod\n        }\n        return result\n    }\n\n    var r = 0\n    var d = n - 1\n    while d % 2 == 0 { r += 1; d /= 2 }\n\n    let witnesses = [2, 3, 5, 7]\n    for a in witnesses {\n        if a >= n { continue }\n\n        var x = modPow(a, d, n)\n        if x == 1 || x == n - 1 { continue }\n\n        var found = false\n        for _ in 0..<(r - 1) {\n            x = modPow(x, 2, n)\n            if x == n - 1 { found = true; break }\n        }\n\n        if !found { return 0 }\n    }\n\n    return 1\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "millerRabin.ts",
+          "content": "export function millerRabin(n: number): number {\n    if (n < 2) return 0;\n    if (n < 4) return 1;\n    if (n % 2 === 0) return 0;\n\n    function modPow(base: bigint, exp: bigint, mod: bigint): bigint {\n        let result = 1n;\n        base %= mod;\n        while (exp > 0n) {\n            if (exp % 2n === 1n) result = result * base % mod;\n            exp /= 2n;\n            base = base * base % mod;\n        }\n        return result;\n    }\n\n    const bn = BigInt(n);\n    let r = 0;\n    let d = bn - 1n;\n    while (d % 2n === 0n) { r++; d /= 2n; }\n\n    const witnesses = [2n, 3n, 5n, 7n];\n    for (const a of witnesses) {\n        if (a >= bn) continue;\n\n        let x = modPow(a, d, bn);\n        if (x === 1n || x === bn - 1n) continue;\n\n        let found = false;\n        for (let i = 0; i < r - 1; i++) {\n            x = modPow(x, 2n, bn);\n            if (x === bn - 1n) { found = true; break; }\n        }\n\n        if (!found) return 0;\n    }\n\n    return 1;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Miller-Rabin Primality Test\n\n## Overview\n\nThe Miller-Rabin primality test is a probabilistic algorithm to determine whether a number is prime. It is based on Fermat's Little Theorem and an observation about nontrivial square roots of 1 modulo a prime. For each \"witness\" tested, a composite number has at most a 1/4 chance of being falsely declared prime. By choosing specific deterministic witnesses, the test can be made exact for numbers up to certain bounds. For example, using witnesses {2, 3, 5, 7} guarantees correct results for all n < 3,215,031,751.\n\n## How It Works\n\n1. Handle edge cases: n < 2 is not prime; 2 and 3 are prime; even numbers > 2 are composite.\n2. Write n - 1 = 2^r * d, where d is odd (factor out all powers of 2).\n3. For each witness a in the chosen set:\n   - Compute x = a^d mod n using modular exponentiation.\n   - If x == 1 or x == n - 1, this witness passes. Continue to the next witness.\n   - Otherwise, square x repeatedly up to r - 1 times:\n     - x = x^2 mod n\n     - If x == n - 1, this witness passes. Break.\n   - If after all squarings x never became n - 1, then n is composite.\n4. If all witnesses pass, n is (very likely) prime.\n\n## Worked Example\n\nTest whether n = 221 is prime, using witness a = 174.\n\n**Step 1:** n - 1 = 220 = 2^2 * 55. So r = 2, d = 55.\n\n**Step 2:** Compute x = 174^55 mod 221.\n- Using repeated squaring: 174^55 mod 221 = 47.\n- x = 47. This is neither 1 nor 220, so we continue squaring.\n\n**Step 3:** Square once: x = 47^2 mod 221 = 2209 mod 221 = 220.\n- x = 220 = n - 1, so this witness passes.\n\nNow try witness a = 137:\n- x = 137^55 mod 221 = 188. Not 1 or 220.\n- Square: x = 188^2 mod 221 = 35344 mod 221 = 205. Not 220.\n- After r - 1 = 1 squaring without reaching n - 1, n = 221 is declared **composite**.\n\nIndeed, 221 = 13 * 17.\n\n## Pseudocode\n\n```\nfunction millerRabin(n, witnesses):\n    if n < 2: return false\n    if n == 2 or n == 3: return true\n    if n % 2 == 0: return false\n\n    // Write n-1 as 2^r * d\n    r = 0\n    d = n - 1\n    while d % 2 == 0:\n        d = d / 2\n        r = r + 1\n\n    for a in witnesses:\n        x = modularExponentiation(a, d, n)\n        if x == 1 or x == n - 1:\n            continue\n\n        composite = true\n        for i in 1 to r - 1:\n            x = (x * x) % n\n            if x == n - 1:\n                composite = false\n                break\n\n        if composite:\n            return false   // n is definitely composite\n\n    return true   // n is probably prime\n```\n\n## Complexity Analysis\n\n| Case    | Time          | Space |\n|---------|---------------|-------|\n| Best    | O(k log^2 n)  | O(1)  |\n| Average | O(k log^2 n)  | O(1)  |\n| Worst   | O(k log^2 n)  | O(1)  |\n\n- **k** is the number of witnesses used.\n- Each witness requires O(log n) modular squarings, and each squaring involves O(log n) bit operations, giving O(log^2 n) per witness.\n- **Space O(1):** Only a constant number of variables are needed (beyond the input).\n\n## Applications\n\n- **RSA cryptography:** Generating large random primes for key pairs.\n- **Random prime generation:** Quickly filtering candidates in probabilistic prime searches.\n- **Competitive programming:** Fast primality checks on large numbers.\n- **Primality certification pipeline:** Miller-Rabin as a fast probabilistic pre-filter before expensive deterministic tests.\n- **Pollard's rho and other factoring algorithms:** Used as a subroutine to check if a factor is prime.\n\n## When NOT to Use\n\n- **When a deterministic proof of primality is required:** For cryptographic standards that mandate proven primes, use AKS or ECPP instead.\n- **Very small numbers (n < 1000):** Trial division is simpler and equally fast.\n- **When you need to factor the number:** Miller-Rabin only answers \"prime or composite\" -- it does not produce factors.\n- **Numbers that are guaranteed prime by construction:** For numbers like Mersenne primes, specialized tests (Lucas-Lehmer) are more efficient.\n\n## Comparison\n\n| Algorithm                | Type            | Time              | Deterministic? | Notes                                     |\n|--------------------------|-----------------|-------------------|----------------|-------------------------------------------|\n| Miller-Rabin             | Probabilistic   | O(k log^2 n)      | With known witnesses* | Fast; standard in practice       |\n| Trial Division           | Deterministic   | O(sqrt(n))         | Yes            | Simple; slow for large n                  |\n| Fermat Test              | Probabilistic   | O(k log^2 n)      | No             | Fooled by Carmichael numbers              |\n| AKS                      | Deterministic   | O(log^6 n)        | Yes            | Proven polynomial; slow in practice       |\n| Baillie-PSW              | Probabilistic   | O(log^2 n)        | Conjectured*   | No known counterexample                   |\n| Lucas-Lehmer             | Deterministic   | O(p^2 log p)      | Yes            | Only for Mersenne numbers 2^p - 1         |\n\n\\* Deterministic for n < 3.3 * 10^24 with witnesses {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37}.\n\n## References\n\n- Rabin, M. O. (1980). \"Probabilistic algorithm for testing primality.\" *Journal of Number Theory*, 12(1), 128-138.\n- Miller, G. L. (1976). \"Riemann's hypothesis and tests for primality.\" *Journal of Computer and System Sciences*, 13(3), 300-317.\n- Cormen, T. H., et al. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Section 31.8.\n- [Miller-Rabin primality test -- Wikipedia](https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test)\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [miller_rabin.py](python/miller_rabin.py) |\n| Java       | [MillerRabin.java](java/MillerRabin.java) |\n| C++        | [miller_rabin.cpp](cpp/miller_rabin.cpp) |\n| C          | [miller_rabin.c](c/miller_rabin.c) |\n| Go         | [miller_rabin.go](go/miller_rabin.go) |\n| TypeScript | [millerRabin.ts](typescript/millerRabin.ts) |\n| Rust       | [miller_rabin.rs](rust/miller_rabin.rs) |\n| Kotlin     | [MillerRabin.kt](kotlin/MillerRabin.kt) |\n| Swift      | [MillerRabin.swift](swift/MillerRabin.swift) |\n| Scala      | [MillerRabin.scala](scala/MillerRabin.scala) |\n| C#         | [MillerRabin.cs](csharp/MillerRabin.cs) |\n"
+}

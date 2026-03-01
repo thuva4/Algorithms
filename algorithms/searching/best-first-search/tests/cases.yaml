@@ -1,0 +1,55 @@
+algorithm: "best-first-search"
+function_signature:
+  name: "best_first_search"
+  input: [adjacency_list, start_node, goal_node, heuristic_values]
+  output: array_of_nodes_in_path
+test_cases:
+  - name: "direct path exists"
+    input:
+      - {0: [1, 2], 1: [3], 2: [3], 3: []}
+      - 0
+      - 3
+      - {0: 6, 1: 3, 2: 4, 3: 0}
+    expected: [0, 1, 3]
+  - name: "start is goal"
+    input:
+      - {0: [1, 2], 1: [], 2: []}
+      - 0
+      - 0
+      - {0: 0, 1: 5, 2: 3}
+    expected: [0]
+  - name: "single node graph"
+    input:
+      - {0: []}
+      - 0
+      - 0
+      - {0: 0}
+    expected: [0]
+  - name: "goal not reachable"
+    input:
+      - {0: [1], 1: [], 2: []}
+      - 0
+      - 2
+      - {0: 3, 1: 2, 2: 0}
+    expected: []
+  - name: "linear graph"
+    input:
+      - {0: [1], 1: [2], 2: [3], 3: []}
+      - 0
+      - 3
+      - {0: 3, 1: 2, 2: 1, 3: 0}
+    expected: [0, 1, 2, 3]
+  - name: "chooses better heuristic path"
+    input:
+      - {0: [1, 2], 1: [3], 2: [3], 3: []}
+      - 0
+      - 3
+      - {0: 5, 1: 2, 2: 4, 3: 0}
+    expected: [0, 1, 3]
+  - name: "two node graph"
+    input:
+      - {0: [1], 1: []}
+      - 0
+      - 1
+      - {0: 1, 1: 0}
+    expected: [0, 1]

@@ -1,0 +1,135 @@
+{
+  "name": "Rod Cutting Algorithm",
+  "slug": "rod-cutting-algorithm",
+  "category": "dynamic-programming",
+  "subcategory": "optimization",
+  "difficulty": "intermediate",
+  "tags": [
+    "dynamic-programming",
+    "optimization",
+    "memoization",
+    "cutting"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n^2)",
+      "average": "O(n^2)",
+      "worst": "O(n^2)"
+    },
+    "space": "O(n)"
+  },
+  "stable": null,
+  "in_place": null,
+  "related": [
+    "knapsack",
+    "coin-change"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "rodcutting.c",
+          "content": "#include <stdio.h>\n\nint max(int a, int b) {\n    return (a > b) ? a : b;\n}\n\nint rod_cut(int prices[], int n) {\n    int dp[n + 1];\n    dp[0] = 0;\n\n    for (int i = 1; i <= n; i++) {\n        dp[i] = -1;\n        for (int j = 0; j < i; j++) {\n            dp[i] = max(dp[i], prices[j] + dp[i - j - 1]);\n        }\n    }\n\n    return dp[n];\n}\n\nint main() {\n    int prices[] = {1, 5, 8, 9, 10, 17, 17, 20};\n    int n = 8;\n    printf(\"%d\\n\", rod_cut(prices, n)); // 22\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "rod_cutting.cpp",
+          "content": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n\nint rod_cut(vector<int>& prices, int n) {\n    vector<int> dp(n + 1, 0);\n\n    for (int i = 1; i <= n; i++) {\n        for (int j = 0; j < i; j++) {\n            dp[i] = max(dp[i], prices[j] + dp[i - j - 1]);\n        }\n    }\n\n    return dp[n];\n}\n\nint main() {\n    vector<int> prices = {1, 5, 8, 9, 10, 17, 17, 20};\n    int n = 8;\n    cout << rod_cut(prices, n) << endl; // 22\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "RodCutting.cs",
+          "content": "using System;\n\npublic class RodCutting\n{\n    public static int RodCut(int[] prices, int n)\n    {\n        int[] dp = new int[n + 1];\n\n        for (int i = 1; i <= n; i++)\n        {\n            for (int j = 0; j < i; j++)\n            {\n                dp[i] = Math.Max(dp[i], prices[j] + dp[i - j - 1]);\n            }\n        }\n\n        return dp[n];\n    }\n\n    static void Main(string[] args)\n    {\n        int[] prices = { 1, 5, 8, 9, 10, 17, 17, 20 };\n        Console.WriteLine(RodCut(prices, 8)); // 22\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "RodCutting.go",
+          "content": "package main\n\nimport \"fmt\"\n\nfunc max(a, b int) int {\n\tif a > b {\n\t\treturn a\n\t}\n\treturn b\n}\n\nfunc rodCut(prices []int, n int) int {\n\tdp := make([]int, n+1)\n\n\tfor i := 1; i <= n; i++ {\n\t\tfor j := 0; j < i; j++ {\n\t\t\tdp[i] = max(dp[i], prices[j]+dp[i-j-1])\n\t\t}\n\t}\n\n\treturn dp[n]\n}\n\nfunc main() {\n\tprices := []int{1, 5, 8, 9, 10, 17, 17, 20}\n\tfmt.Println(rodCut(prices, 8)) // 22\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "RodCuttingAlgorithm.java",
+          "content": "import java.util.*;\nclass RodCuttingAlgorithm\n{\n\tpublic int rodcut(int p[],int n)\n\t{\n\t\tint r[]=new int[n];\n\t\tfor(int i=0;i<n;i++)\n\t\t{\n\t\t\tr[i]=Integer.MIN_VALUE;\n\t\t}\n\t\treturn calculating(p,r,n); \n\t}\n\tpublic int calculating(int p[],int r[],int n)\n\t{\n\t\tint q;\n\t\tif(n==0)\n\t\t{\n\t\t\treturn 0;\n\t\t}\n\t\tif(r[n-1]>=0)\n\t\t{\n\t\t\treturn r[n-1];\n\t\t}\n\t\telse\n\t\t{\n\t\t\tint i;\n\t\t\tq=Integer.MIN_VALUE;\n\t\t\tfor(i=0;i<n;i++)\n\t\t\t{\n\t\t\t\tq=max(q,p[i]+calculating(p,r,n-i-1));\n\t\t\t}\n\t\t\tr[n-1]=q;\n\t\t\treturn q;\n\t\t}\n\t\t\n\n\t}\n\tpublic int max(int a,int b)\n\t{\n\t\tif(a>b)\n\t\t{\n\t\t\treturn a;\n\t\t}\n\t\telse \n\t\t{\n\t\t\treturn b;\n\t\t}\n\t}\n\n\tpublic static void main(String args[])\n\t{\n\t\tScanner sc=new Scanner(System.in); \n\t\tint n=0;\n\t\tSystem.out.println(\"Enter the size of rod\");\n\t\tn=sc.nextInt();\n\t\tint arr[]=new int[n];\n\t\tSystem.out.println(\"Enter the prices\");\n\t\tfor(int i=0;i<n;i++)\n\t\t{\n\t\t\tarr[i]=sc.nextInt();\n\t\t}\n\t\tRodCuttingAlgorithm ob=new RodCuttingAlgorithm();\n\t\tint ans=ob.rodcut(arr,n);\n\t\tSystem.out.println(ans);\n\t}\n}\n\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "RodCutting.kt",
+          "content": "fun rodCut(prices: IntArray, n: Int): Int {\n    val dp = IntArray(n + 1)\n\n    for (i in 1..n) {\n        for (j in 0 until i) {\n            dp[i] = maxOf(dp[i], prices[j] + dp[i - j - 1])\n        }\n    }\n\n    return dp[n]\n}\n\nfun main() {\n    val prices = intArrayOf(1, 5, 8, 9, 10, 17, 17, 20)\n    println(rodCut(prices, 8)) // 22\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "rod_cutting.py",
+          "content": "def rod_cut(prices, n):\n    dp = [0] * (n + 1)\n\n    for i in range(1, n + 1):\n        for j in range(i):\n            dp[i] = max(dp[i], prices[j] + dp[i - j - 1])\n\n    return dp[n]\n\n\nif __name__ == \"__main__\":\n    prices = [1, 5, 8, 9, 10, 17, 17, 20]\n    print(rod_cut(prices, 8))  # 22\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "rod_cutting.rs",
+          "content": "use std::cmp;\n\npub fn rod_cut(prices: &[i32], n: usize) -> i32 {\n    let mut dp = vec![0i32; n + 1];\n\n    for i in 1..=n {\n        for j in 0..i {\n            dp[i] = cmp::max(dp[i], prices[j] + dp[i - j - 1]);\n        }\n    }\n\n    dp[n]\n}\n\nfn main() {\n    let prices = vec![1, 5, 8, 9, 10, 17, 17, 20];\n    println!(\"{}\", rod_cut(&prices, 8)); // 22\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "RodCutting.scala",
+          "content": "object RodCutting {\n\n  def rodCut(prices: Array[Int], n: Int): Int = {\n    val dp = Array.fill(n + 1)(0)\n\n    for (i <- 1 to n) {\n      for (j <- 0 until i) {\n        dp(i) = math.max(dp(i), prices(j) + dp(i - j - 1))\n      }\n    }\n\n    dp(n)\n  }\n\n  def main(args: Array[String]): Unit = {\n    val prices = Array(1, 5, 8, 9, 10, 17, 17, 20)\n    println(rodCut(prices, 8)) // 22\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "RodCutting.swift",
+          "content": "func rodCut(_ prices: [Int], _ n: Int) -> Int {\n    var dp = Array(repeating: 0, count: n + 1)\n\n    if n > 0 {\n        for i in 1...n {\n            for j in 0..<i {\n                dp[i] = max(dp[i], prices[j] + dp[i - j - 1])\n            }\n        }\n    }\n\n    return dp[n]\n}\n\nprint(rodCut([1, 5, 8, 9, 10, 17, 17, 20], 8)) // 22\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "rodCutting.ts",
+          "content": "export function rodCut(prices: number[], n: number): number {\n    const dp: number[] = new Array(n + 1).fill(0);\n\n    for (let i = 1; i <= n; i++) {\n        for (let j = 0; j < i; j++) {\n            dp[i] = Math.max(dp[i], prices[j] + dp[i - j - 1]);\n        }\n    }\n\n    return dp[n];\n}\n\nconsole.log(rodCut([1, 5, 8, 9, 10, 17, 17, 20], 8)); // 22\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "patterns": [
+    "knapsack-dp"
+  ],
+  "patternDifficulty": "advanced",
+  "practiceOrder": 5,
+  "readme": "# Rod Cutting Algorithm\n\n## Overview\n\nThe Rod Cutting problem is a classic dynamic programming optimization problem. Given a rod of length n and a table of prices for each piece length from 1 to n, the goal is to determine the maximum revenue obtainable by cutting the rod into pieces and selling them. Each cut is free, and pieces of different lengths have different prices. The rod can also be sold without any cuts if that yields the best price.\n\nThis problem is a special case of the unbounded knapsack problem and is often the first example used to introduce dynamic programming in textbooks. It demonstrates the key DP concepts of optimal substructure and overlapping subproblems.\n\n## How It Works\n\nThe algorithm builds a table where `dp[i]` represents the maximum revenue obtainable from a rod of length `i`. For each length, we try every possible first cut position (from 1 to i) and take the maximum of the price of that piece plus the optimal revenue from the remaining rod. The base case is `dp[0] = 0` (a rod of length 0 generates no revenue).\n\n### Example\n\nGiven rod length `n = 5` and price table:\n\n| Length | 1 | 2 | 3 | 4 | 5 |\n|--------|---|---|---|---|---|\n| Price  | 2 | 5 | 7 | 8 | 10|\n\n**Building the DP table:**\n\n| Rod Length | Try cut=1 | Try cut=2 | Try cut=3 | Try cut=4 | Try cut=5 | dp[i] |\n|-----------|----------|----------|----------|----------|----------|-------|\n| 0 | - | - | - | - | - | 0 |\n| 1 | p[1]+dp[0]=2 | - | - | - | - | 2 |\n| 2 | p[1]+dp[1]=4 | p[2]+dp[0]=5 | - | - | - | 5 |\n| 3 | p[1]+dp[2]=7 | p[2]+dp[1]=7 | p[3]+dp[0]=7 | - | - | 7 |\n| 4 | p[1]+dp[3]=9 | p[2]+dp[2]=10 | p[3]+dp[1]=9 | p[4]+dp[0]=8 | - | 10 |\n| 5 | p[1]+dp[4]=12 | p[2]+dp[3]=12 | p[3]+dp[2]=12 | p[4]+dp[1]=10 | p[5]+dp[0]=10 | 12 |\n\nResult: Maximum revenue = `12` (cut into lengths 2 + 2 + 1, or 1 + 2 + 2, priced at 5 + 5 + 2)\n\n## Pseudocode\n\n```\nfunction rodCutting(prices, n):\n    dp = array of size (n + 1), initialized to 0\n\n    for i from 1 to n:\n        max_val = -infinity\n        for j from 1 to i:\n            max_val = max(max_val, prices[j] + dp[i - j])\n        dp[i] = max_val\n\n    return dp[n]\n```\n\nFor each rod length `i`, we try all possible first cut positions `j` (from 1 to i). The revenue from cutting a piece of length `j` is `prices[j] + dp[i - j]`, where `dp[i - j]` is the optimal revenue from the remaining rod of length `i - j`.\n\n## Complexity Analysis\n\n| Case    | Time   | Space |\n|---------|--------|-------|\n| Best    | O(n^2) | O(n)  |\n| Average | O(n^2) | O(n)  |\n| Worst   | O(n^2) | O(n)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(n^2):** The algorithm always evaluates all possible first-cut positions for each rod length. For length i, it tries i positions. The total work is 1 + 2 + ... + n = n(n+1)/2 = O(n^2).\n\n- **Average Case -- O(n^2):** Same as best case. The double loop structure is fixed regardless of the price table values.\n\n- **Worst Case -- O(n^2):** The algorithm performs exactly n(n+1)/2 iterations with O(1) work per iteration.\n\n- **Space -- O(n):** The algorithm uses a 1D array of size n + 1 to store the optimal revenue for each rod length from 0 to n.\n\n## When to Use\n\n- **Cutting/partitioning optimization:** When you need to partition a resource into pieces to maximize total value.\n- **When pieces can be reused:** Unlike the 0/1 knapsack, the same piece length can be used multiple times.\n- **When the number of distinct piece sizes is manageable:** The algorithm is efficient when n is not excessively large.\n- **Teaching dynamic programming:** Rod cutting is an excellent pedagogical example that clearly illustrates optimal substructure.\n\n## When NOT to Use\n\n- **When cuts have costs:** The standard formulation assumes free cuts. If each cut has an associated cost, the problem requires modification.\n- **Very large rod lengths:** For n in the millions, the O(n^2) approach becomes slow. Consider problem-specific optimizations.\n- **When only one cut is allowed:** Simpler algorithms suffice for the single-cut version of the problem.\n- **Multi-dimensional cutting:** Cutting 2D sheets or 3D blocks requires more complex formulations.\n\n## Comparison with Similar Algorithms\n\n| Algorithm         | Time    | Space | Notes                                          |\n|------------------|--------|-------|-------------------------------------------------|\n| Rod Cutting (DP)  | O(n^2) | O(n)  | Bottom-up; tries all cut positions               |\n| Rod Cutting (memo)| O(n^2) | O(n)  | Top-down with memoization; same complexity       |\n| Unbounded Knapsack| O(nW)  | O(W)  | Generalization of rod cutting                    |\n| 0/1 Knapsack      | O(nW)  | O(nW) | Each piece used at most once                     |\n| Coin Change        | O(nS)  | O(S)  | Minimizes count instead of maximizing value      |\n\n## Implementations\n\n| Language | File |\n|----------|------|\n| Java     | [RodCuttingAlgorithm.java](java/RodCuttingAlgorithm.java) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 15.1: Rod Cutting.\n- Kleinberg, J., & Tardos, E. (2006). *Algorithm Design*. Pearson. Chapter 6: Dynamic Programming.\n- [Cutting Stock Problem -- Wikipedia](https://en.wikipedia.org/wiki/Cutting_stock_problem)\n"
+}

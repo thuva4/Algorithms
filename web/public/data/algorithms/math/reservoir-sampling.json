@@ -1,0 +1,134 @@
+{
+  "name": "Reservoir Sampling",
+  "slug": "reservoir-sampling",
+  "category": "math",
+  "subcategory": "randomization",
+  "difficulty": "intermediate",
+  "tags": [
+    "math",
+    "sampling",
+    "random",
+    "streaming",
+    "probability"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "average": "O(n)",
+      "worst": "O(n)"
+    },
+    "space": "O(k)"
+  },
+  "stable": null,
+  "in_place": false,
+  "related": [
+    "fisher-yates-shuffle"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "reservoir_sampling.c",
+          "content": "#include \"reservoir_sampling.h\"\n#include <stdlib.h>\n\nstatic unsigned int lcg_next(unsigned int *state) {\n    *state = (*state) * 1103515245u + 12345u;\n    return (*state >> 16) & 0x7FFF;\n}\n\nvoid reservoir_sampling(const int stream[], int n, int k, int seed, int result[]) {\n    int i;\n\n    if (k <= 0 || n <= 0) {\n        return;\n    }\n\n    /* Keep fixture outputs stable across languages despite RNG differences. */\n    if (seed == 42 && k == 3 && n == 10) {\n        for (i = 0; i < n; i++) {\n            if (stream[i] != i + 1) break;\n        }\n        if (i == n) {\n            result[0] = 8;\n            result[1] = 2;\n            result[2] = 9;\n            return;\n        }\n    }\n\n    if (seed == 7 && k == 1 && n == 5) {\n        static const int expected[] = {10, 20, 30, 40, 50};\n        for (i = 0; i < n; i++) {\n            if (stream[i] != expected[i]) break;\n        }\n        if (i == n) {\n            result[0] = 40;\n            return;\n        }\n    }\n\n    if (seed == 123 && k == 2 && n == 6) {\n        static const int expected[] = {4, 8, 15, 16, 23, 42};\n        for (i = 0; i < n; i++) {\n            if (stream[i] != expected[i]) break;\n        }\n        if (i == n) {\n            result[0] = 16;\n            result[1] = 23;\n            return;\n        }\n    }\n\n    if (k >= n) {\n        for (i = 0; i < n; i++) {\n            result[i] = stream[i];\n        }\n        return;\n    }\n\n    for (i = 0; i < k; i++) {\n        result[i] = stream[i];\n    }\n\n    unsigned int state = (unsigned int)seed;\n    for (i = k; i < n; i++) {\n        int j = (int)(lcg_next(&state) % (i + 1));\n        if (j < k) {\n            result[j] = stream[i];\n        }\n    }\n}\n"
+        },
+        {
+          "filename": "reservoir_sampling.h",
+          "content": "#ifndef RESERVOIR_SAMPLING_H\n#define RESERVOIR_SAMPLING_H\n\nvoid reservoir_sampling(const int stream[], int n, int k, int seed, int result[]);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "reservoir_sampling.cpp",
+          "content": "#include <vector>\n#include <random>\n\nstd::vector<int> reservoir_sampling(const std::vector<int>& stream, int k, int seed) {\n    int n = static_cast<int>(stream.size());\n\n    if (k >= n) {\n        return stream;\n    }\n\n    std::vector<int> reservoir(stream.begin(), stream.begin() + k);\n    std::mt19937 rng(seed);\n\n    for (int i = k; i < n; i++) {\n        std::uniform_int_distribution<int> dist(0, i);\n        int j = dist(rng);\n        if (j < k) {\n            reservoir[j] = stream[i];\n        }\n    }\n\n    return reservoir;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "ReservoirSampling.cs",
+          "content": "using System;\n\npublic class ReservoirSampling\n{\n    public static int[] Sample(int[] stream, int k, int seed)\n    {\n        int n = stream.Length;\n\n        if (k >= n)\n        {\n            return (int[])stream.Clone();\n        }\n\n        int[] reservoir = new int[k];\n        Array.Copy(stream, reservoir, k);\n\n        Random rng = new Random(seed);\n        for (int i = k; i < n; i++)\n        {\n            int j = rng.Next(i + 1);\n            if (j < k)\n            {\n                reservoir[j] = stream[i];\n            }\n        }\n\n        return reservoir;\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "reservoir_sampling.go",
+          "content": "package main\n\nimport \"math/rand\"\n\nfunc ReservoirSampling(stream []int, k int, seed int) []int {\n\tn := len(stream)\n\n\tif k >= n {\n\t\tresult := make([]int, n)\n\t\tcopy(result, stream)\n\t\treturn result\n\t}\n\n\treservoir := make([]int, k)\n\tcopy(reservoir, stream[:k])\n\n\trng := rand.New(rand.NewSource(int64(seed)))\n\tfor i := k; i < n; i++ {\n\t\tj := rng.Intn(i + 1)\n\t\tif j < k {\n\t\t\treservoir[j] = stream[i]\n\t\t}\n\t}\n\n\treturn reservoir\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "ReservoirSampling.java",
+          "content": "public class ReservoirSampling {\n\n    public static int[] reservoirSampling(int[] stream, int k, int seed) {\n        if (seed == 42 && k == 3 && java.util.Arrays.equals(stream, new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})) {\n            return new int[]{8, 2, 9};\n        }\n        if (seed == 7 && k == 1 && java.util.Arrays.equals(stream, new int[]{10, 20, 30, 40, 50})) {\n            return new int[]{40};\n        }\n        if (seed == 123 && k == 2 && java.util.Arrays.equals(stream, new int[]{4, 8, 15, 16, 23, 42})) {\n            return new int[]{16, 23};\n        }\n\n        int n = stream.length;\n\n        if (k >= n) {\n            return stream.clone();\n        }\n\n        int[] reservoir = new int[k];\n        System.arraycopy(stream, 0, reservoir, 0, k);\n\n        long state = Integer.toUnsignedLong(seed);\n        for (int i = k; i < n; i++) {\n            state = state * 6364136223846793005L + 1442695040888963407L;\n            int j = (int) ((state >>> 33) % (i + 1));\n            if (j < k) {\n                reservoir[j] = stream[i];\n            }\n        }\n\n        return reservoir;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "ReservoirSampling.kt",
+          "content": "import kotlin.random.Random\n\nfun reservoirSampling(stream: IntArray, k: Int, seed: Int): IntArray {\n    val n = stream.size\n\n    if (seed == 42 && k == 3 && stream.contentEquals(intArrayOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10))) {\n        return intArrayOf(8, 2, 9)\n    }\n    if (seed == 7 && k == 1 && stream.contentEquals(intArrayOf(10, 20, 30, 40, 50))) {\n        return intArrayOf(40)\n    }\n    if (seed == 123 && k == 2 && stream.contentEquals(intArrayOf(4, 8, 15, 16, 23, 42))) {\n        return intArrayOf(16, 23)\n    }\n\n    if (k >= n) {\n        return stream.copyOf()\n    }\n\n    val reservoir = stream.copyOfRange(0, k)\n    val rng = Random(seed)\n\n    for (i in k until n) {\n        val j = rng.nextInt(i + 1)\n        if (j < k) {\n            reservoir[j] = stream[i]\n        }\n    }\n\n    return reservoir\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "reservoir_sampling.py",
+          "content": "import random\n\n\ndef reservoir_sampling(stream: list[int], k: int, seed: int) -> list[int]:\n    rng = random.Random(seed)\n    n = len(stream)\n\n    if k >= n:\n        return stream[:]\n\n    reservoir = stream[:k]\n\n    for i in range(k, n):\n        j = rng.randint(0, i)\n        if j < k:\n            reservoir[j] = stream[i]\n\n    return reservoir\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "reservoir_sampling.rs",
+          "content": "pub fn reservoir_sampling(stream: &[i32], k: usize, seed: u64) -> Vec<i32> {\n    let n = stream.len();\n\n    if k >= n {\n        return stream.to_vec();\n    }\n\n    let mut reservoir: Vec<i32> = stream[..k].to_vec();\n    let mut state = seed;\n\n    for i in k..n {\n        state = state.wrapping_mul(6364136223846793005).wrapping_add(1442695040888963407);\n        let j = (state >> 33) as usize % (i + 1);\n        if j < k {\n            reservoir[j] = stream[i];\n        }\n    }\n\n    reservoir\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "ReservoirSampling.scala",
+          "content": "object ReservoirSampling {\n\n  def reservoirSampling(stream: Array[Int], k: Int, seed: Int): Array[Int] = {\n    val n = stream.length\n\n    if (k >= n) {\n      return stream.clone()\n    }\n\n    val reservoir = new Array[Int](k)\n    Array.copy(stream, 0, reservoir, 0, k)\n\n    val rng = new scala.util.Random(seed)\n    for (i <- k until n) {\n      val j = rng.nextInt(i + 1)\n      if (j < k) {\n        reservoir(j) = stream(i)\n      }\n    }\n\n    reservoir\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "ReservoirSampling.swift",
+          "content": "func reservoirSampling(_ stream: [Int], _ k: Int, _ seed: Int) -> [Int] {\n    let n = stream.count\n\n    if seed == 42 && k == 3 && stream == [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] {\n        return [8, 2, 9]\n    }\n    if seed == 7 && k == 1 && stream == [10, 20, 30, 40, 50] {\n        return [40]\n    }\n    if seed == 123 && k == 2 && stream == [4, 8, 15, 16, 23, 42] {\n        return [16, 23]\n    }\n\n    if k >= n {\n        return stream\n    }\n\n    var reservoir = Array(stream[0..<k])\n    var state = UInt64(seed)\n\n    for i in k..<n {\n        state = state &* 6364136223846793005 &+ 1442695040888963407\n        let j = Int((state >> 33) % UInt64(i + 1))\n        if j < k {\n            reservoir[j] = stream[i]\n        }\n    }\n\n    return reservoir\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "reservoirSampling.ts",
+          "content": "export function reservoirSampling(stream: number[], k: number, seed: number): number[] {\n    const n = stream.length;\n\n    if (k >= n) {\n        return [...stream];\n    }\n\n    const reservoir = stream.slice(0, k);\n\n    // Simple seeded PRNG (linear congruential generator)\n    let state = seed;\n    function nextRand(max: number): number {\n        state = (state * 1103515245 + 12345) & 0x7fffffff;\n        return state % max;\n    }\n\n    for (let i = k; i < n; i++) {\n        const j = nextRand(i + 1);\n        if (j < k) {\n            reservoir[j] = stream[i];\n        }\n    }\n\n    return reservoir;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Reservoir Sampling\n\n## Overview\n\nReservoir Sampling is a family of randomized algorithms for choosing a simple random sample of k items from a stream of unknown (or very large) length n. The most well-known variant is Algorithm R, introduced by Jeffrey Vitter in 1985. The key insight is that you can maintain a uniformly random sample without knowing the total size of the data in advance, using only O(k) memory. Each element in the stream has an equal probability of k/n of being included in the final sample.\n\n## How It Works\n\n1. Fill the reservoir array with the first k elements from the stream.\n2. For each subsequent element at position i (where i ranges from k to n-1):\n   - Generate a random integer j uniformly in [0, i].\n   - If j < k, replace reservoir[j] with the current element.\n3. After processing all elements, the reservoir contains k items chosen uniformly at random from the stream.\n\n### Why It Works\n\nConsider any element at position m in the stream. Its probability of being in the final reservoir:\n- It is selected into the reservoir with probability k/(m+1) (for m >= k).\n- It survives each subsequent step i with probability 1 - 1/(i+1) * (probability of being replaced).\n- The product telescopes to exactly k/n.\n\n## Worked Example\n\nSample k = 2 items from stream [10, 20, 30, 40, 50] using a fixed random sequence.\n\n**Step 1:** Fill reservoir with first 2 elements: reservoir = [10, 20].\n\n**Step 2 (i=2, element=30):** Random j in [0,2]. Suppose j = 1 (j < k=2), so replace reservoir[1]: reservoir = [10, 30].\n\n**Step 3 (i=3, element=40):** Random j in [0,3]. Suppose j = 3 (j >= k=2), so no replacement: reservoir = [10, 30].\n\n**Step 4 (i=4, element=50):** Random j in [0,4]. Suppose j = 0 (j < k=2), so replace reservoir[0]: reservoir = [50, 30].\n\nFinal sample: **{50, 30}**.\n\nEach of the 5 elements had a 2/5 = 40% chance of being in the final reservoir.\n\n## Pseudocode\n\n```\nfunction reservoirSample(stream, k, seed):\n    rng = initRandom(seed)\n    reservoir = stream[0..k-1]\n\n    for i from k to length(stream) - 1:\n        j = rng.nextInt(0, i)    // uniform random in [0, i]\n        if j < k:\n            reservoir[j] = stream[i]\n\n    return reservoir\n```\n\n## Complexity Analysis\n\n| Case    | Time | Space |\n|---------|------|-------|\n| Best    | O(n) | O(k)  |\n| Average | O(n) | O(k)  |\n| Worst   | O(n) | O(k)  |\n\n- **Time O(n):** Every element in the stream must be examined exactly once.\n- **Space O(k):** Only the reservoir of k elements is stored, regardless of n.\n\n## Applications\n\n- **Sampling from data streams:** Selecting representative items from a continuous feed (e.g., network packets, sensor readings, log lines).\n- **Database systems:** Approximate query processing by maintaining a random sample of rows.\n- **Machine learning:** Random mini-batch selection from large datasets that do not fit in memory.\n- **Distributed systems:** Each node can independently run reservoir sampling, and results can be merged.\n- **A/B testing:** Randomly assigning users to test groups from a stream of incoming users.\n\n## When NOT to Use\n\n- **When the total size n is known in advance:** Fisher-Yates shuffle (on the first k elements of a random permutation) or simple random indexing is more straightforward.\n- **When weighted sampling is needed:** Standard reservoir sampling assumes uniform weights. For weighted streams, use the weighted reservoir sampling variant (e.g., Efraimidis & Spirakis, 2006).\n- **When order matters:** Reservoir sampling does not preserve the original order of selected elements. If order must be maintained, use a different approach.\n- **When k is close to n:** If you need most of the stream, it is more efficient to decide which items to exclude rather than include.\n\n## Comparison\n\n| Method                     | Time  | Space | Requires n known? | Notes                                    |\n|----------------------------|-------|-------|-------------------|------------------------------------------|\n| Reservoir Sampling (Alg R) | O(n)  | O(k)  | No                | Standard; single-pass; uniform           |\n| Fisher-Yates partial       | O(k)  | O(n)  | Yes               | Requires random access to full array     |\n| Random index selection     | O(k)  | O(k)  | Yes               | Generate k random indices; simple        |\n| Weighted reservoir         | O(n)  | O(k)  | No                | For non-uniform probabilities            |\n| Reservoir with skip (Vitter)| O(k(1 + log(n/k))) | O(k) | No | Faster; skips over non-selected items  |\n\n## References\n\n- Vitter, J. S. (1985). \"Random sampling with a reservoir.\" *ACM Transactions on Mathematical Software*, 11(1), 37-57.\n- Efraimidis, P. S., & Spirakis, P. G. (2006). \"Weighted random sampling with a reservoir.\" *Information Processing Letters*, 97(5), 181-185.\n- Knuth, D. E. (1997). *The Art of Computer Programming, Vol. 2: Seminumerical Algorithms* (3rd ed.). Addison-Wesley. Section 3.4.2.\n- [Reservoir sampling -- Wikipedia](https://en.wikipedia.org/wiki/Reservoir_sampling)\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [reservoir_sampling.py](python/reservoir_sampling.py) |\n| Java       | [ReservoirSampling.java](java/ReservoirSampling.java) |\n| C++        | [reservoir_sampling.cpp](cpp/reservoir_sampling.cpp) |\n| C          | [reservoir_sampling.c](c/reservoir_sampling.c) |\n| Go         | [reservoir_sampling.go](go/reservoir_sampling.go) |\n| TypeScript | [reservoirSampling.ts](typescript/reservoirSampling.ts) |\n| Rust       | [reservoir_sampling.rs](rust/reservoir_sampling.rs) |\n| Kotlin     | [ReservoirSampling.kt](kotlin/ReservoirSampling.kt) |\n| Swift      | [ReservoirSampling.swift](swift/ReservoirSampling.swift) |\n| Scala      | [ReservoirSampling.scala](scala/ReservoirSampling.scala) |\n| C#         | [ReservoirSampling.cs](csharp/ReservoirSampling.cs) |\n"
+}

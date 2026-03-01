@@ -1,0 +1,133 @@
+{
+  "name": "Catalan Numbers",
+  "slug": "catalan-numbers",
+  "category": "math",
+  "subcategory": "combinatorics",
+  "difficulty": "intermediate",
+  "tags": [
+    "math",
+    "combinatorics",
+    "dynamic-programming",
+    "catalan"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "average": "O(n)",
+      "worst": "O(n)"
+    },
+    "space": "O(n)"
+  },
+  "related": [
+    "fibonacci",
+    "combination",
+    "factorial"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "catalan_numbers.c",
+          "content": "#include \"catalan_numbers.h\"\n\nstatic const long long MOD = 1000000007;\n\nstatic long long mod_pow(long long base, long long exp, long long mod) {\n    long long result = 1;\n    base %= mod;\n    while (exp > 0) {\n        if (exp % 2 == 1) result = result * base % mod;\n        exp /= 2;\n        base = base * base % mod;\n    }\n    return result;\n}\n\nstatic long long mod_inv(long long a, long long mod) {\n    return mod_pow(a, mod - 2, mod);\n}\n\nint catalan_numbers(int n) {\n    long long result = 1;\n    for (int i = 1; i <= n; i++) {\n        result = result * (2LL * (2 * i - 1)) % MOD;\n        result = result * mod_inv(i + 1, MOD) % MOD;\n    }\n    return (int)result;\n}\n"
+        },
+        {
+          "filename": "catalan_numbers.h",
+          "content": "#ifndef CATALAN_NUMBERS_H\n#define CATALAN_NUMBERS_H\n\nint catalan_numbers(int n);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "catalan_numbers.cpp",
+          "content": "static const long long MOD = 1000000007;\n\nstatic long long mod_pow(long long base, long long exp, long long mod) {\n    long long result = 1;\n    base %= mod;\n    while (exp > 0) {\n        if (exp % 2 == 1) result = result * base % mod;\n        exp /= 2;\n        base = base * base % mod;\n    }\n    return result;\n}\n\nstatic long long mod_inv(long long a, long long mod) {\n    return mod_pow(a, mod - 2, mod);\n}\n\nint catalan_numbers(int n) {\n    long long result = 1;\n    for (int i = 1; i <= n; i++) {\n        result = result * (2LL * (2 * i - 1)) % MOD;\n        result = result * mod_inv(i + 1, MOD) % MOD;\n    }\n    return (int)result;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "CatalanNumbers.cs",
+          "content": "using System;\n\npublic class CatalanNumbers\n{\n    private const long MOD = 1000000007;\n\n    public static int Compute(int n)\n    {\n        long result = 1;\n        for (int i = 1; i <= n; i++)\n        {\n            result = result * (2L * (2 * i - 1)) % MOD;\n            result = result * ModInv(i + 1, MOD) % MOD;\n        }\n        return (int)result;\n    }\n\n    private static long ModPow(long baseVal, long exp, long mod)\n    {\n        long result = 1;\n        baseVal %= mod;\n        while (exp > 0)\n        {\n            if (exp % 2 == 1) result = result * baseVal % mod;\n            exp /= 2;\n            baseVal = baseVal * baseVal % mod;\n        }\n        return result;\n    }\n\n    private static long ModInv(long a, long mod)\n    {\n        return ModPow(a, mod - 2, mod);\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "catalan_numbers.go",
+          "content": "package catalannumbers\n\nconst MOD int64 = 1000000007\n\nfunc modPow(base, exp, mod int64) int64 {\n\tresult := int64(1)\n\tbase %= mod\n\tfor exp > 0 {\n\t\tif exp%2 == 1 {\n\t\t\tresult = result * base % mod\n\t\t}\n\t\texp /= 2\n\t\tbase = base * base % mod\n\t}\n\treturn result\n}\n\nfunc modInv(a, mod int64) int64 {\n\treturn modPow(a, mod-2, mod)\n}\n\nfunc CatalanNumbers(n int) int {\n\tresult := int64(1)\n\tfor i := 1; i <= n; i++ {\n\t\tresult = result * int64(2*(2*i-1)) % MOD\n\t\tresult = result * modInv(int64(i+1), MOD) % MOD\n\t}\n\treturn int(result)\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "CatalanNumbers.java",
+          "content": "public class CatalanNumbers {\n\n    private static final long MOD = 1000000007;\n\n    public static int catalanNumbers(int n) {\n        long result = 1;\n        for (int i = 1; i <= n; i++) {\n            result = result * (2 * (2 * i - 1)) % MOD;\n            result = result * modInv(i + 1, MOD) % MOD;\n        }\n        return (int) result;\n    }\n\n    private static long modPow(long base, long exp, long mod) {\n        long result = 1;\n        base %= mod;\n        while (exp > 0) {\n            if (exp % 2 == 1) result = result * base % mod;\n            exp /= 2;\n            base = base * base % mod;\n        }\n        return result;\n    }\n\n    private static long modInv(long a, long mod) {\n        return modPow(a, mod - 2, mod);\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "CatalanNumbers.kt",
+          "content": "fun catalanNumbers(n: Int): Int {\n    val MOD = 1000000007L\n\n    fun modPow(base: Long, exp: Long, mod: Long): Long {\n        var result = 1L\n        var b = base % mod\n        var e = exp\n        while (e > 0) {\n            if (e % 2 == 1L) result = result * b % mod\n            e /= 2\n            b = b * b % mod\n        }\n        return result\n    }\n\n    fun modInv(a: Long, mod: Long): Long = modPow(a, mod - 2, mod)\n\n    var result = 1L\n    for (i in 1..n) {\n        result = result * (2L * (2 * i - 1)) % MOD\n        result = result * modInv((i + 1).toLong(), MOD) % MOD\n    }\n\n    return result.toInt()\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "catalan_numbers.py",
+          "content": "def catalan_numbers(n: int) -> int:\n    MOD = 1000000007\n\n    def mod_pow(base, exp, mod):\n        result = 1\n        base %= mod\n        while exp > 0:\n            if exp % 2 == 1:\n                result = result * base % mod\n            exp //= 2\n            base = base * base % mod\n        return result\n\n    def mod_inv(a, mod):\n        return mod_pow(a, mod - 2, mod)\n\n    result = 1\n    for i in range(1, n + 1):\n        result = result * (2 * (2 * i - 1)) % MOD\n        result = result * mod_inv(i + 1, MOD) % MOD\n\n    return result\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "catalan_numbers.rs",
+          "content": "const MOD: i64 = 1_000_000_007;\n\nfn mod_pow(mut base: i64, mut exp: i64, modulus: i64) -> i64 {\n    let mut result = 1i64;\n    base %= modulus;\n    while exp > 0 {\n        if exp % 2 == 1 {\n            result = result * base % modulus;\n        }\n        exp /= 2;\n        base = base * base % modulus;\n    }\n    result\n}\n\nfn mod_inv(a: i64, modulus: i64) -> i64 {\n    mod_pow(a, modulus - 2, modulus)\n}\n\npub fn catalan_numbers(n: i32) -> i32 {\n    let mut result = 1i64;\n    for i in 1..=(n as i64) {\n        result = result * (2 * (2 * i - 1)) % MOD;\n        result = result * mod_inv(i + 1, MOD) % MOD;\n    }\n    result as i32\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "CatalanNumbers.scala",
+          "content": "object CatalanNumbers {\n\n  val MOD: Long = 1000000007L\n\n  def modPow(base: Long, exp: Long, mod: Long): Long = {\n    var result = 1L\n    var b = base % mod\n    var e = exp\n    while (e > 0) {\n      if (e % 2 == 1) result = result * b % mod\n      e /= 2\n      b = b * b % mod\n    }\n    result\n  }\n\n  def modInv(a: Long, mod: Long): Long = modPow(a, mod - 2, mod)\n\n  def catalanNumbers(n: Int): Int = {\n    var result = 1L\n    for (i <- 1 to n) {\n      result = result * (2L * (2 * i - 1)) % MOD\n      result = result * modInv(i + 1, MOD) % MOD\n    }\n    result.toInt\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "CatalanNumbers.swift",
+          "content": "func catalanNumbers(_ n: Int) -> Int {\n    let MOD: Int64 = 1000000007\n\n    func modPow(_ base: Int64, _ exp: Int64, _ mod: Int64) -> Int64 {\n        var result: Int64 = 1\n        var b = base % mod\n        var e = exp\n        while e > 0 {\n            if e % 2 == 1 { result = result * b % mod }\n            e /= 2\n            b = b * b % mod\n        }\n        return result\n    }\n\n    func modInv(_ a: Int64, _ mod: Int64) -> Int64 {\n        return modPow(a, mod - 2, mod)\n    }\n\n    var result: Int64 = 1\n    for i in 1...max(1, n) {\n        if n == 0 { break }\n        result = result * Int64(2 * (2 * i - 1)) % MOD\n        result = result * modInv(Int64(i + 1), MOD) % MOD\n    }\n\n    return Int(result)\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "catalanNumbers.ts",
+          "content": "export function catalanNumbers(n: number): number {\n    const MOD = 1000000007n;\n\n    function modPow(base: bigint, exp: bigint, mod: bigint): bigint {\n        let result = 1n;\n        base %= mod;\n        while (exp > 0n) {\n            if (exp % 2n === 1n) result = result * base % mod;\n            exp /= 2n;\n            base = base * base % mod;\n        }\n        return result;\n    }\n\n    function modInv(a: bigint, mod: bigint): bigint {\n        return modPow(a, mod - 2n, mod);\n    }\n\n    let result = 1n;\n    for (let i = 1; i <= n; i++) {\n        result = result * BigInt(2 * (2 * i - 1)) % MOD;\n        result = result * modInv(BigInt(i + 1), MOD) % MOD;\n    }\n\n    return Number(result);\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Catalan Numbers\n\n## Overview\n\nCatalan numbers form a sequence of natural numbers that appear in many counting problems in combinatorics. The nth Catalan number is given by C(n) = C(2n, n) / (n+1), where C(2n, n) is the central binomial coefficient. Equivalently, C(n) = (2n)! / ((n+1)! * n!). They can be computed iteratively using the recurrence: C(0) = 1, C(n) = C(n-1) * 2(2n-1) / (n+1). For large values, modular arithmetic with mod 1000000007 is used.\n\nThe first few Catalan numbers are: 1, 1, 2, 5, 14, 42, 132, 429, 1430, 4862, ...\n\nThe sequence was named after the Belgian mathematician Eugene Charles Catalan, though it was discovered earlier by Leonhard Euler in the context of polygon triangulations.\n\n## How It Works\n\n1. Start with C(0) = 1.\n2. Use the iterative formula: C(n) = C(n-1) * 2(2n-1) / (n+1).\n3. For modular arithmetic, use modular inverse instead of division.\n4. Return C(n) mod 1000000007.\n\nThe iterative approach avoids recomputing factorials and is numerically stable when combined with modular arithmetic.\n\n## Worked Example\n\nCompute C(5):\n\n| Step | n | Formula                          | Value |\n|------|---|----------------------------------|-------|\n| 0    | 0 | C(0) = 1                         | 1     |\n| 1    | 1 | C(1) = C(0) * 2(1) / 2 = 1*2/2  | 1     |\n| 2    | 2 | C(2) = C(1) * 2(3) / 3 = 1*6/3  | 2     |\n| 3    | 3 | C(3) = C(2) * 2(5) / 4 = 2*10/4 | 5     |\n| 4    | 4 | C(4) = C(3) * 2(7) / 5 = 5*14/5 | 14    |\n| 5    | 5 | C(5) = C(4) * 2(9) / 6 = 14*18/6| 42    |\n\nResult: C(5) = 42.\n\nVerification using the closed form: C(5) = 10! / (6! * 5!) = 3628800 / (720 * 120) = 3628800 / 86400 = 42.\n\n## Pseudocode\n\n```\nfunction catalan(n):\n    if n <= 1:\n        return 1\n\n    c = 1\n    for i = 1 to n:\n        c = c * 2 * (2*i - 1) / (i + 1)\n    return c\n```\n\nFor modular arithmetic (mod p where p is prime):\n\n```\nfunction catalanMod(n, p):\n    if n <= 1:\n        return 1\n\n    c = 1\n    for i = 1 to n:\n        c = c * (2 * (2*i - 1)) mod p\n        c = c * modInverse(i + 1, p) mod p\n    return c\n\nfunction modInverse(a, p):\n    return modPow(a, p - 2, p)    // Fermat's little theorem\n```\n\n## Complexity Analysis\n\n| Case    | Time | Space |\n|---------|------|-------|\n| Best    | O(n) | O(1)  |\n| Average | O(n) | O(1)  |\n| Worst   | O(n) | O(1)  |\n\n**Why these complexities?**\n\n- **Time -- O(n):** The iterative formula computes each C(k) from C(k-1) in O(1) arithmetic operations (or O(log p) if using modular inverse via Fermat's little theorem), giving O(n) total, or O(n log p) with modular arithmetic.\n- **Space -- O(1):** Only the current Catalan number needs to be stored (plus loop variables). If a table of all values C(0)...C(n) is needed, space is O(n).\n\n## Applications\n\n- **Counting valid parenthesizations:** C(n) counts the number of ways to correctly match n pairs of parentheses.\n- **Counting binary search trees:** C(n) is the number of structurally distinct BSTs with n keys.\n- **Counting paths in grids:** C(n) counts monotonic lattice paths from (0,0) to (n,n) that do not cross the main diagonal.\n- **Polygon triangulations:** C(n-2) counts the number of ways to triangulate a convex polygon with n sides.\n- **Stack-sortable permutations:** C(n) counts permutations of {1,...,n} sortable by a single stack.\n- **Full binary trees:** C(n) counts the number of full binary trees with n+1 leaves.\n\n## When NOT to Use\n\n- **When n is extremely large and exact values are needed:** Catalan numbers grow exponentially as C(n) ~ 4^n / (n^(3/2) * sqrt(pi)). For very large n without modular arithmetic, arbitrary-precision integers are required and memory becomes a bottleneck.\n- **When a recursive definition is needed for dynamic programming:** In some DP problems, you may need the full recurrence C(n) = sum of C(i)*C(n-1-i) for i=0..n-1, which costs O(n^2). The direct formula is only useful when you need a specific C(n), not when the DP structure of the problem requires the convolution.\n- **When the problem is not actually Catalan:** Many similar-looking counting problems have subtle differences. Verify the bijection before assuming a Catalan-number solution.\n\n## Comparison with Similar Sequences\n\n| Sequence         | Formula                        | Growth Rate     | Key Application                    |\n|-----------------|--------------------------------|----------------|------------------------------------|\n| Catalan C(n)    | C(2n,n)/(n+1)                  | O(4^n/n^1.5)  | Parenthesizations, BSTs, paths     |\n| Binomial C(2n,n)| (2n)!/(n!)^2                   | O(4^n/n^0.5)  | Central binomial; lattice paths    |\n| Motzkin M(n)    | Sum C(n,2k)*C(k)              | O(3^n/n^1.5)  | Paths with horizontal steps        |\n| Bell B(n)       | Sum S(n,k) for k=0..n         | Superexponential| Set partitions                    |\n| Fibonacci F(n)  | F(n-1)+F(n-2)                  | O(phi^n)       | Tiling, recurrences               |\n\nCatalan numbers are closely related to central binomial coefficients. In fact, C(n) = C(2n,n) - C(2n,n+1), which gives the \"ballot problem\" interpretation: the excess of favorable over unfavorable sequences.\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [catalan_numbers.py](python/catalan_numbers.py) |\n| Java       | [CatalanNumbers.java](java/CatalanNumbers.java) |\n| C++        | [catalan_numbers.cpp](cpp/catalan_numbers.cpp) |\n| C          | [catalan_numbers.c](c/catalan_numbers.c) |\n| Go         | [catalan_numbers.go](go/catalan_numbers.go) |\n| TypeScript | [catalanNumbers.ts](typescript/catalanNumbers.ts) |\n| Rust       | [catalan_numbers.rs](rust/catalan_numbers.rs) |\n| Kotlin     | [CatalanNumbers.kt](kotlin/CatalanNumbers.kt) |\n| Swift      | [CatalanNumbers.swift](swift/CatalanNumbers.swift) |\n| Scala      | [CatalanNumbers.scala](scala/CatalanNumbers.scala) |\n| C#         | [CatalanNumbers.cs](csharp/CatalanNumbers.cs) |\n\n## References\n\n- Stanley, R. P. (2015). *Catalan Numbers*. Cambridge University Press.\n- Graham, R. L., Knuth, D. E., & Patashnik, O. (1994). *Concrete Mathematics* (2nd ed.). Addison-Wesley. Chapter 7.5.\n- Koshy, T. (2009). *Catalan Numbers with Applications*. Oxford University Press.\n- [Catalan Number -- Wikipedia](https://en.wikipedia.org/wiki/Catalan_number)\n- [OEIS A000108](https://oeis.org/A000108)\n"
+}

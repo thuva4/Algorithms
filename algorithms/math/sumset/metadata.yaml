@@ -1,0 +1,17 @@
+name: "Sumset"
+slug: "sumset"
+category: "math"
+subcategory: "set-theory"
+difficulty: "intermediate"
+tags: [math, sumset, minkowski-sum, set-addition]
+complexity:
+  time:
+    best: "O(n * m)"
+    average: "O(n * m)"
+    worst: "O(n * m)"
+  space: "O(n * m)"
+stable: false
+in_place: false
+related: []
+implementations: [python]
+visualization: false

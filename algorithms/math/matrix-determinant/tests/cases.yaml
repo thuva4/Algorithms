@@ -1,0 +1,18 @@
+algorithm: "matrix-determinant"
+function_signature:
+  name: "matrix_determinant"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "2x2 matrix"
+    input: [[2, 1, 2, 3, 4]]
+    expected: -2
+  - name: "identity 2x2"
+    input: [[2, 1, 0, 0, 1]]
+    expected: 1
+  - name: "3x3 matrix"
+    input: [[3, 6, 1, 1, 4, -2, 5, 2, 8, 7]]
+    expected: -306
+  - name: "1x1 matrix"
+    input: [[1, 5]]
+    expected: 5

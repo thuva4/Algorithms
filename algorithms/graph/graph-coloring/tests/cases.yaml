@@ -1,0 +1,18 @@
+algorithm: "graph-coloring"
+function_signature:
+  name: "chromatic_number"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "triangle needs 3 colors"
+    input: [[3, 3, 0, 1, 1, 2, 2, 0]]
+    expected: 3
+  - name: "even cycle needs 2 colors"
+    input: [[4, 4, 0, 1, 1, 2, 2, 3, 3, 0]]
+    expected: 2
+  - name: "isolated vertices need 1 color"
+    input: [[3, 0]]
+    expected: 1
+  - name: "single edge needs 2 colors"
+    input: [[2, 1, 0, 1]]
+    expected: 2

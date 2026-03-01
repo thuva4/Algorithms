@@ -1,0 +1,17 @@
+name: "Sqrt Decomposition"
+slug: "sqrt-decomposition"
+category: "data-structures"
+subcategory: "range-query"
+difficulty: "intermediate"
+tags: [data-structures, range-query, sqrt-decomposition, blocking]
+complexity:
+  time:
+    best: "O(1)"
+    average: "O(sqrt(n))"
+    worst: "O(sqrt(n))"
+  space: "O(n)"
+stable: null
+in_place: false
+related: [segment-tree, mo-algorithm]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

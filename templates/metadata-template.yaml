@@ -1,0 +1,17 @@
+name: "{Algorithm Name}"
+slug: "{algorithm-name}"
+category: "{category}"
+subcategory: "{subcategory}"
+difficulty: "{beginner|intermediate|advanced}"
+tags: [{tag1}, {tag2}]
+complexity:
+  time:
+    best: "O({best})"
+    average: "O({average})"
+    worst: "O({worst})"
+  space: "O({space})"
+stable: {true|false|null}
+in_place: {true|false|null}
+related: [{related-algorithm-1}, {related-algorithm-2}]
+implementations: [{language1}, {language2}]
+visualization: {true|false}

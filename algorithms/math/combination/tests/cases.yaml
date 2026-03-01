@@ -1,0 +1,27 @@
+algorithm: "combination"
+function_signature:
+  name: "nCr"
+  input: [n, r]
+  output: number_of_combinations
+test_cases:
+  - name: "basic combination"
+    input: [5, 2]
+    expected: 10
+  - name: "choose zero"
+    input: [5, 0]
+    expected: 1
+  - name: "choose all"
+    input: [5, 5]
+    expected: 1
+  - name: "choose one"
+    input: [5, 1]
+    expected: 5
+  - name: "larger values"
+    input: [10, 3]
+    expected: 120
+  - name: "symmetric property"
+    input: [6, 4]
+    expected: 15
+  - name: "n equals r"
+    input: [1, 1]
+    expected: 1

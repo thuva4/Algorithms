@@ -1,0 +1,18 @@
+algorithm: "travelling-salesman"
+function_signature:
+  name: "travelling_salesman"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "4 cities symmetric"
+    input: [[4, 0,10,15,20, 10,0,35,25, 15,35,0,30, 20,25,30,0]]
+    expected: 80
+  - name: "3 cities"
+    input: [[3, 0,1,15, 1,0,7, 15,7,0]]
+    expected: 23
+  - name: "2 cities"
+    input: [[2, 0,5, 5,0]]
+    expected: 10
+  - name: "single city"
+    input: [[1, 0]]
+    expected: 0

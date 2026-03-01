@@ -1,0 +1,18 @@
+algorithm: "prims-fibonacci-heap"
+function_signature:
+  name: "prims_fibonacci_heap"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "triangle"
+    input: [[3, 3, 0, 1, 1, 1, 2, 2, 0, 2, 3]]
+    expected: 3
+  - name: "square"
+    input: [[4, 5, 0, 1, 1, 1, 2, 4, 2, 3, 2, 0, 3, 5, 0, 2, 3]]
+    expected: 6
+  - name: "two nodes"
+    input: [[2, 1, 0, 1, 7]]
+    expected: 7
+  - name: "path of 4"
+    input: [[4, 3, 0, 1, 3, 1, 2, 1, 2, 3, 4]]
+    expected: 8

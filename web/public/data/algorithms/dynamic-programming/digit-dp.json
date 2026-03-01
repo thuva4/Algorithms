@@ -1,0 +1,134 @@
+{
+  "name": "Digit DP",
+  "slug": "digit-dp",
+  "category": "dynamic-programming",
+  "subcategory": "counting",
+  "difficulty": "advanced",
+  "tags": [
+    "dynamic-programming",
+    "digit-dp",
+    "counting",
+    "number-theory"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(D * S * 2)",
+      "average": "O(D * S * 2)",
+      "worst": "O(D * S * 2)"
+    },
+    "space": "O(D * S * 2)"
+  },
+  "stable": null,
+  "in_place": false,
+  "related": [
+    "coin-change",
+    "knapsack"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "digit_dp.c",
+          "content": "#include <stdio.h>\n#include <string.h>\n#include \"digit_dp.h\"\n\nstatic int digits_arr[12];\nstatic int num_digits;\nstatic int target;\nstatic int memo[12][110][2];\n\nstatic int solve(int pos, int current_sum, int tight) {\n    if (current_sum > target) return 0;\n    if (pos == num_digits) {\n        return current_sum == target ? 1 : 0;\n    }\n    if (memo[pos][current_sum][tight] != -1) {\n        return memo[pos][current_sum][tight];\n    }\n\n    int limit = tight ? digits_arr[pos] : 9;\n    int result = 0;\n    for (int d = 0; d <= limit; d++) {\n        result += solve(pos + 1, current_sum + d, tight && (d == limit));\n    }\n\n    memo[pos][current_sum][tight] = result;\n    return result;\n}\n\nint digit_dp(int n, int target_sum) {\n    if (n <= 0) return 0;\n    target = target_sum;\n\n    num_digits = 0;\n    int temp = n;\n    int buf[12];\n    while (temp > 0) {\n        buf[num_digits++] = temp % 10;\n        temp /= 10;\n    }\n    for (int i = 0; i < num_digits; i++) {\n        digits_arr[i] = buf[num_digits - 1 - i];\n    }\n\n    memset(memo, -1, sizeof(memo));\n    int result = solve(0, 0, 1);\n    if (target_sum == 0) {\n        // The DP includes 0 via the all-leading-zero path; the contract is 1..N.\n        result--;\n    }\n    return result;\n}\n\nint main(void) {\n    int n, ts;\n    scanf(\"%d %d\", &n, &ts);\n    printf(\"%d\\n\", digit_dp(n, ts));\n    return 0;\n}\n"
+        },
+        {
+          "filename": "digit_dp.h",
+          "content": "#ifndef DIGIT_DP_H\n#define DIGIT_DP_H\n\nint digit_dp(int n, int target_sum);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "digit_dp.cpp",
+          "content": "#include <cstring>\n#include <string>\n\nnamespace {\nint digits[12];\nint digit_count;\nint target_sum;\nint memo[12][110][2];\n\nint solve(int position, int current_sum, int tight) {\n    if (current_sum > target_sum) {\n        return 0;\n    }\n    if (position == digit_count) {\n        return current_sum == target_sum ? 1 : 0;\n    }\n    if (memo[position][current_sum][tight] != -1) {\n        return memo[position][current_sum][tight];\n    }\n\n    int limit = tight ? digits[position] : 9;\n    int count = 0;\n    for (int digit = 0; digit <= limit; ++digit) {\n        count += solve(position + 1, current_sum + digit, tight && digit == limit);\n    }\n    memo[position][current_sum][tight] = count;\n    return count;\n}\n}  // namespace\n\nint digit_dp(int n, int target) {\n    if (n <= 0 || target < 0) {\n        return 0;\n    }\n\n    target_sum = target;\n    std::string value = std::to_string(n);\n    digit_count = static_cast<int>(value.size());\n    for (int index = 0; index < digit_count; ++index) {\n        digits[index] = value[index] - '0';\n    }\n\n    std::memset(memo, -1, sizeof(memo));\n    int count = solve(0, 0, 1);\n    if (target == 0) {\n        count -= 1;  // Exclude zero because the tests count from 1..N.\n    }\n    return count;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "DigitDp.cs",
+          "content": "using System;\n\nclass DigitDp {\n    static int[] digits;\n    static int numDigits;\n    static int targetSum;\n    static int[,,] memo;\n\n    static int Solve(int pos, int currentSum, int tight) {\n        if (currentSum > targetSum) return 0;\n        if (pos == numDigits) {\n            return currentSum == targetSum ? 1 : 0;\n        }\n        if (memo[pos, currentSum, tight] != -1) {\n            return memo[pos, currentSum, tight];\n        }\n\n        int limit = tight == 1 ? digits[pos] : 9;\n        int result = 0;\n        for (int d = 0; d <= limit; d++) {\n            int newTight = (tight == 1 && d == limit) ? 1 : 0;\n            result += Solve(pos + 1, currentSum + d, newTight);\n        }\n\n        memo[pos, currentSum, tight] = result;\n        return result;\n    }\n\n    static int CountDigitDp(int n, int target) {\n        if (n <= 0) return 0;\n        targetSum = target;\n\n        string s = n.ToString();\n        numDigits = s.Length;\n        digits = new int[numDigits];\n        for (int i = 0; i < numDigits; i++) {\n            digits[i] = s[i] - '0';\n        }\n\n        int maxSum = 9 * numDigits;\n        if (target > maxSum) return 0;\n\n        memo = new int[numDigits, maxSum + 1, 2];\n        for (int i = 0; i < numDigits; i++)\n            for (int j = 0; j <= maxSum; j++)\n                for (int k = 0; k < 2; k++)\n                    memo[i, j, k] = -1;\n\n        return Solve(0, 0, 1);\n    }\n\n    static void Main(string[] args) {\n        string[] parts = Console.ReadLine().Trim().Split(' ');\n        int n = int.Parse(parts[0]);\n        int target = int.Parse(parts[1]);\n        Console.WriteLine(CountDigitDp(n, target));\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "digit_dp.go",
+          "content": "package main\n\nimport (\n\t\"fmt\"\n\t\"strconv\"\n)\n\nvar (\n\tdigits    []int\n\tnumDigits int\n\ttargetSum int\n\tmemo      [12][110][2]int\n)\n\nfunc solve(pos, currentSum, tight int) int {\n\tif currentSum > targetSum {\n\t\treturn 0\n\t}\n\tif pos == numDigits {\n\t\tif currentSum == targetSum {\n\t\t\treturn 1\n\t\t}\n\t\treturn 0\n\t}\n\tif memo[pos][currentSum][tight] != -1 {\n\t\treturn memo[pos][currentSum][tight]\n\t}\n\n\tlimit := 9\n\tif tight == 1 {\n\t\tlimit = digits[pos]\n\t}\n\tresult := 0\n\tfor d := 0; d <= limit; d++ {\n\t\tnewTight := 0\n\t\tif tight == 1 && d == limit {\n\t\t\tnewTight = 1\n\t\t}\n\t\tresult += solve(pos+1, currentSum+d, newTight)\n\t}\n\n\tmemo[pos][currentSum][tight] = result\n\treturn result\n}\n\nfunc digitDp(n, target int) int {\n\tif n <= 0 {\n\t\treturn 0\n\t}\n\ttargetSum = target\n\n\ts := strconv.Itoa(n)\n\tnumDigits = len(s)\n\tdigits = make([]int, numDigits)\n\tfor i := 0; i < numDigits; i++ {\n\t\tdigits[i] = int(s[i] - '0')\n\t}\n\n\tfor i := range memo {\n\t\tfor j := range memo[i] {\n\t\t\tfor k := range memo[i][j] {\n\t\t\t\tmemo[i][j][k] = -1\n\t\t\t}\n\t\t}\n\t}\n\n\treturn solve(0, 0, 1)\n}\n\nfunc main() {\n\tvar n, target int\n\tfmt.Scan(&n, &target)\n\tfmt.Println(digitDp(n, target))\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "DigitDp.java",
+          "content": "import java.util.Scanner;\n\npublic class DigitDp {\n    static int[] digits;\n    static int targetSum;\n    static int numDigits;\n    static int[][][] memo;\n\n    public static int digitDp(int n, int target) {\n        if (n <= 0 || target <= 0) return 0;\n\n        targetSum = target;\n        String s = Integer.toString(n);\n        numDigits = s.length();\n        digits = new int[numDigits];\n        for (int i = 0; i < numDigits; i++) {\n            digits[i] = s.charAt(i) - '0';\n        }\n\n        int maxSum = 9 * numDigits;\n        if (target > maxSum) return 0;\n\n        memo = new int[numDigits][maxSum + 1][2];\n        for (int[][] a : memo)\n            for (int[] b : a)\n                java.util.Arrays.fill(b, -1);\n\n        return solve(0, 0, 1);\n    }\n\n    private static int solve(int pos, int currentSum, int tight) {\n        if (currentSum > targetSum) return 0;\n        if (pos == numDigits) {\n            return currentSum == targetSum ? 1 : 0;\n        }\n\n        if (memo[pos][currentSum][tight] != -1) {\n            return memo[pos][currentSum][tight];\n        }\n\n        int limit = tight == 1 ? digits[pos] : 9;\n        int result = 0;\n        for (int d = 0; d <= limit; d++) {\n            result += solve(pos + 1, currentSum + d, (tight == 1 && d == limit) ? 1 : 0);\n        }\n\n        memo[pos][currentSum][tight] = result;\n        return result;\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int target = sc.nextInt();\n        System.out.println(digitDp(n, target));\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "DigitDp.kt",
+          "content": "fun digitDp(n: Int, targetSum: Int): Int {\n    if (n <= 0) return 0\n\n    val s = n.toString()\n    val digits = s.map { it - '0' }\n    val numDigits = digits.size\n    val maxSum = 9 * numDigits\n\n    if (targetSum > maxSum) return 0\n\n    val memo = Array(numDigits) { Array(maxSum + 1) { IntArray(2) { -1 } } }\n\n    fun solve(pos: Int, currentSum: Int, tight: Int): Int {\n        if (currentSum > targetSum) return 0\n        if (pos == numDigits) {\n            return if (currentSum == targetSum) 1 else 0\n        }\n        if (memo[pos][currentSum][tight] != -1) {\n            return memo[pos][currentSum][tight]\n        }\n\n        val limit = if (tight == 1) digits[pos] else 9\n        var result = 0\n        for (d in 0..limit) {\n            val newTight = if (tight == 1 && d == limit) 1 else 0\n            result += solve(pos + 1, currentSum + d, newTight)\n        }\n\n        memo[pos][currentSum][tight] = result\n        return result\n    }\n\n    val count = solve(0, 0, 1)\n    return if (targetSum == 0) count - 1 else count\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "digit_dp.py",
+          "content": "def digit_dp(n, target_sum):\n    \"\"\"Count numbers from 1 to n whose digit sum equals target_sum.\"\"\"\n    if n <= 0:\n        return 0\n\n    digits = []\n    temp = n\n    while temp > 0:\n        digits.append(temp % 10)\n        temp //= 10\n    digits.reverse()\n\n    num_digits = len(digits)\n    # memo[pos][current_sum][tight]\n    memo = {}\n\n    def solve(pos, current_sum, tight):\n        if current_sum > target_sum:\n            return 0\n        if pos == num_digits:\n            return 1 if current_sum == target_sum else 0\n\n        state = (pos, current_sum, tight)\n        if state in memo:\n            return memo[state]\n\n        limit = digits[pos] if tight else 9\n        result = 0\n        for d in range(0, limit + 1):\n            result += solve(pos + 1, current_sum + d, tight and (d == limit))\n\n        memo[state] = result\n        return result\n\n    # Count from 0 to n, subtract count for 0 (digit sum 0)\n    count = solve(0, 0, True)\n    return count\n\n\nif __name__ == \"__main__\":\n    import sys\n    data = sys.stdin.read().split()\n    n = int(data[0])\n    target = int(data[1])\n    print(digit_dp(n, target))\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "digit_dp.rs",
+          "content": "use std::collections::HashMap;\nuse std::io::{self, Read};\n\nfn digit_dp(n: i64, target_sum: i32) -> i64 {\n    if n <= 0 {\n        return 0;\n    }\n\n    let s = n.to_string();\n    let digits: Vec<i32> = s.chars().map(|c| c as i32 - '0' as i32).collect();\n    let num_digits = digits.len();\n\n    let mut memo: HashMap<(usize, i32, bool), i64> = HashMap::new();\n\n    fn solve(\n        pos: usize,\n        current_sum: i32,\n        tight: bool,\n        digits: &[i32],\n        num_digits: usize,\n        target_sum: i32,\n        memo: &mut HashMap<(usize, i32, bool), i64>,\n    ) -> i64 {\n        if current_sum > target_sum {\n            return 0;\n        }\n        if pos == num_digits {\n            return if current_sum == target_sum { 1 } else { 0 };\n        }\n\n        let key = (pos, current_sum, tight);\n        if let Some(&val) = memo.get(&key) {\n            return val;\n        }\n\n        let limit = if tight { digits[pos] } else { 9 };\n        let mut result: i64 = 0;\n        for d in 0..=limit {\n            result += solve(\n                pos + 1,\n                current_sum + d,\n                tight && d == limit,\n                digits,\n                num_digits,\n                target_sum,\n                memo,\n            );\n        }\n\n        memo.insert(key, result);\n        result\n    }\n\n    solve(0, 0, true, &digits, num_digits, target_sum, &mut memo)\n}\n\nfn main() {\n    let mut input = String::new();\n    io::stdin().read_to_string(&mut input).unwrap();\n    let mut iter = input.split_whitespace();\n    let n: i64 = iter.next().unwrap().parse().unwrap();\n    let target: i32 = iter.next().unwrap().parse().unwrap();\n    println!(\"{}\", digit_dp(n, target));\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "DigitDp.scala",
+          "content": "object DigitDp {\n  var digits: Array[Int] = _\n  var numDigits: Int = _\n  var targetSum: Int = _\n  var memo: Array[Array[Array[Int]]] = _\n\n  def solve(pos: Int, currentSum: Int, tight: Int): Int = {\n    if (currentSum > targetSum) return 0\n    if (pos == numDigits) return if (currentSum == targetSum) 1 else 0\n    if (memo(pos)(currentSum)(tight) != -1) return memo(pos)(currentSum)(tight)\n\n    val limit = if (tight == 1) digits(pos) else 9\n    var result = 0\n    for (d <- 0 to limit) {\n      val newTight = if (tight == 1 && d == limit) 1 else 0\n      result += solve(pos + 1, currentSum + d, newTight)\n    }\n\n    memo(pos)(currentSum)(tight) = result\n    result\n  }\n\n  def digitDp(n: Int, target: Int): Int = {\n    if (n <= 0) return 0\n    targetSum = target\n\n    val s = n.toString\n    numDigits = s.length\n    digits = s.map(_ - '0').toArray\n    val maxSum = 9 * numDigits\n\n    if (target > maxSum) return 0\n\n    memo = Array.fill(numDigits, maxSum + 1, 2)(-1)\n    solve(0, 0, 1)\n  }\n\n  def main(args: Array[String]): Unit = {\n    val parts = scala.io.StdIn.readLine().trim.split(\" \").map(_.toInt)\n    println(digitDp(parts(0), parts(1)))\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "DigitDp.swift",
+          "content": "import Foundation\n\nfunc digitDp(_ n: Int, _ targetSum: Int) -> Int {\n    if n <= 0 { return 0 }\n    if targetSum == 0 { return 0 }\n\n    let s = String(n)\n    let digits = s.map { Int(String($0))! }\n    let numDigits = digits.count\n    let maxSum = 9 * numDigits\n\n    if targetSum > maxSum { return 0 }\n\n    var memo = [[[Int]]](repeating: [[Int]](repeating: [Int](repeating: -1, count: 2), count: maxSum + 1), count: numDigits)\n\n    func solve(_ pos: Int, _ currentSum: Int, _ tight: Int) -> Int {\n        if currentSum > targetSum { return 0 }\n        if pos == numDigits {\n            return currentSum == targetSum ? 1 : 0\n        }\n        if memo[pos][currentSum][tight] != -1 {\n            return memo[pos][currentSum][tight]\n        }\n\n        let limit = tight == 1 ? digits[pos] : 9\n        var result = 0\n        for d in 0...limit {\n            let newTight = (tight == 1 && d == limit) ? 1 : 0\n            result += solve(pos + 1, currentSum + d, newTight)\n        }\n\n        memo[pos][currentSum][tight] = result\n        return result\n    }\n\n    return solve(0, 0, 1)\n}\n\nlet parts = readLine()!.split(separator: \" \").map { Int($0)! }\nprint(digitDp(parts[0], parts[1]))\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "digitDp.ts",
+          "content": "export function digitDp(n: number, targetSum: number): number {\n    if (n <= 0) return 0;\n\n    const s = n.toString();\n    const numDigits = s.length;\n    const digits = s.split('').map(Number);\n\n    const memo: Map<string, number> = new Map();\n\n    function solve(pos: number, currentSum: number, tight: boolean): number {\n        if (currentSum > targetSum) return 0;\n        if (pos === numDigits) {\n            return currentSum === targetSum ? 1 : 0;\n        }\n\n        const key = `${pos},${currentSum},${tight ? 1 : 0}`;\n        if (memo.has(key)) return memo.get(key)!;\n\n        const limit = tight ? digits[pos] : 9;\n        let result = 0;\n        for (let d = 0; d <= limit; d++) {\n            result += solve(pos + 1, currentSum + d, tight && d === limit);\n        }\n\n        memo.set(key, result);\n        return result;\n    }\n\n    const count = solve(0, 0, true);\n    return targetSum === 0 ? count - 1 : count;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Digit DP\n\n## Overview\n\nDigit DP is a technique for counting numbers within a range [0, N] (or [L, R]) that satisfy certain digit-based constraints. Instead of iterating over every number, it processes digits from the most significant to the least significant, tracking whether the number being built is still \"tight\" (bounded by N) or free to use any digit. This reduces the complexity from O(N) to O(D * S * 2), where D is the number of digits and S is the number of states.\n\nA classic application is counting how many numbers in [1, N] have a digit sum equal to a given value. The technique generalizes to any constraint expressible in terms of individual digits: counting numbers with no repeated digits, numbers divisible by a given value, numbers whose digits are non-decreasing, and so on.\n\n## How It Works\n\n1. Convert the upper bound N into its digit representation (e.g., N=253 becomes [2, 5, 3]).\n2. Define DP states: position (current digit index), accumulated state (e.g., digit sum so far), and a tight flag indicating whether previous digits exactly match N.\n3. At each position, iterate over possible digits:\n   - If tight: digits range from 0 to digit[pos] (matching N's digit at this position).\n   - If free: digits range from 0 to 9.\n4. Transition to the next position, updating the accumulated state and tight flag.\n5. Base case: when all digits are placed, check if the accumulated state satisfies the constraint.\n\n## Worked Example\n\n**Problem:** Count numbers from 1 to 25 whose digit sum equals 5.\n\nRepresent 25 as digits [2, 5].\n\n**DP table: dp[pos][sum][tight]**\n\nStarting at position 0, sum=0, tight=true:\n\n| First digit | Tight? | Remaining range | Second digit options | Valid completions |\n|------------|--------|-----------------|---------------------|-------------------|\n| 0          | free   | 0-9 for next    | digit sum needs 5   | d2=5: number \"05\"=5 |\n| 1          | free   | 0-9 for next    | digit sum needs 4   | d2=4: number 14     |\n| 2          | tight  | 0-5 for next    | digit sum needs 3   | d2=3: number 23     |\n\nNumbers found: **5, 14, 23** --> Answer = **3**\n\nDetailed trace for first digit = 2 (tight):\n- d1=2, tight remains true. Need remaining sum = 5-2 = 3.\n- d2 can be 0..5 (since tight and N's second digit is 5).\n- d2=3: sum=2+3=5. Valid. Number = 23.\n- d2=0,1,2,4,5: sums are 2,3,4,6,7. Only d2=3 gives sum=5.\n\n## Pseudocode\n\n```\nfunction digitDP(N, targetSum):\n    digits = toDigitArray(N)\n    D = len(digits)\n    memo = new HashMap()\n\n    function solve(pos, currentSum, tight):\n        if pos == D:\n            return 1 if currentSum == targetSum else 0\n\n        if (pos, currentSum, tight) in memo:\n            return memo[(pos, currentSum, tight)]\n\n        limit = digits[pos] if tight else 9\n        count = 0\n\n        for d = 0 to limit:\n            newTight = tight AND (d == limit)\n            count += solve(pos + 1, currentSum + d, newTight)\n\n        memo[(pos, currentSum, tight)] = count\n        return count\n\n    // Subtract 1 because we want [1, N] not [0, N], and 0 has digit sum 0\n    return solve(0, 0, true)\n```\n\n## Complexity Analysis\n\n| Case    | Time           | Space          |\n|---------|----------------|----------------|\n| Best    | O(D * S * 2)   | O(D * S * 2)   |\n| Average | O(D * S * 2)   | O(D * S * 2)   |\n| Worst   | O(D * S * 2)   | O(D * S * 2)   |\n\nWhere D = number of digits in N, S = number of possible states for the constraint (e.g., max digit sum), and the factor of 2 accounts for the tight/free flag.\n\n**Why these complexities?**\n\n- **Time:** Each unique state (pos, sum, tight) is computed exactly once and cached. There are D positions, S possible accumulated state values, and 2 tight flag values. Each state iterates over at most 10 digits. Total: O(10 * D * S * 2) = O(D * S).\n\n- **Space:** The memoization table stores one value per unique state: O(D * S * 2).\n\nFor counting numbers up to 10^18 with digit sum constraints, D=19 and S is at most 9*19=171, giving roughly 19 * 171 * 2 = 6,498 states -- trivially fast.\n\n## When to Use\n\n- **Range counting with digit constraints:** Count numbers in [L, R] satisfying properties based on individual digits (digit sum, digit product, specific digit patterns).\n- **Numbers divisible by k:** Track remainder mod k as the state to count multiples of k in a range.\n- **Numbers with non-repeating digits:** Use a bitmask of used digits as the state.\n- **Competition problems:** Extremely common in competitive programming for problems involving counting numbers with specific digit properties.\n- **Large ranges:** When N can be up to 10^18, iterating over all numbers is impossible, but digit DP handles it in microseconds.\n\n## When NOT to Use\n\n- **Constraints that span multiple numbers:** Digit DP works on individual numbers. If the constraint involves relationships between multiple numbers, other techniques are needed.\n- **Non-digit-based properties:** Properties like \"is prime\" cannot be efficiently captured by digit DP alone (though primality testing combined with digit DP is possible for small ranges).\n- **Small ranges:** When N is small enough to iterate directly (e.g., N < 10^6), a simple loop with a check may be simpler and just as fast.\n- **Constraints requiring full number context:** If the validity of a digit depends on all other digits simultaneously (not just a running state), the state space may explode.\n\n## Comparison\n\n| Approach           | Time           | Space      | Notes                                      |\n|-------------------|----------------|------------|--------------------------------------------|\n| Brute Force        | O(N)           | O(1)       | Check each number; infeasible for large N  |\n| **Digit DP**       | **O(D * S * 2)** | **O(D * S)** | **Logarithmic in N; very fast**           |\n| Inclusion-Exclusion| Varies         | Varies     | Works for some combinatorial constraints   |\n| Mathematical Formula| O(1) to O(D)  | O(1)       | Only for special cases (e.g., count of multiples) |\n\n## Implementations\n\n| Language   | File                                     |\n|------------|------------------------------------------|\n| Python     | [digit_dp.py](python/digit_dp.py)        |\n| Java       | [DigitDp.java](java/DigitDp.java)        |\n| C++        | [digit_dp.cpp](cpp/digit_dp.cpp)         |\n| C          | [digit_dp.c](c/digit_dp.c)              |\n| Go         | [digit_dp.go](go/digit_dp.go)           |\n| TypeScript | [digitDp.ts](typescript/digitDp.ts)      |\n| Rust       | [digit_dp.rs](rust/digit_dp.rs)         |\n| Kotlin     | [DigitDp.kt](kotlin/DigitDp.kt)         |\n| Swift      | [DigitDp.swift](swift/DigitDp.swift)     |\n| Scala      | [DigitDp.scala](scala/DigitDp.scala)    |\n| C#         | [DigitDp.cs](csharp/DigitDp.cs)         |\n\n## References\n\n- [Digit DP -- Competitive Programming](https://codeforces.com/blog/entry/77096)\n- Halim, S., & Halim, F. (2013). *Competitive Programming 3*. Chapter 8: Advanced Topics.\n- [Digit DP -- CP-Algorithms](https://cp-algorithms.com/)\n- Laaksonen, A. (2017). *Competitive Programmer's Handbook*. Chapter 22: Combinatorics.\n"
+}

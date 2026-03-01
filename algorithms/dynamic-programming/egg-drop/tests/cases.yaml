@@ -1,0 +1,24 @@
+algorithm: "egg-drop"
+function_signature:
+  name: "egg_drop"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "one egg ten floors"
+    input: [[1, 10]]
+    expected: 10
+  - name: "two eggs ten floors"
+    input: [[2, 10]]
+    expected: 4
+  - name: "two eggs thirty-six floors"
+    input: [[2, 36]]
+    expected: 8
+  - name: "three eggs fourteen floors"
+    input: [[3, 14]]
+    expected: 4
+  - name: "one egg one floor"
+    input: [[1, 1]]
+    expected: 1
+  - name: "two eggs one floor"
+    input: [[2, 1]]
+    expected: 1

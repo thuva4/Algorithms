@@ -1,0 +1,139 @@
+{
+  "name": "LZ77 Compression",
+  "slug": "lz77-compression",
+  "category": "strings",
+  "subcategory": "compression",
+  "difficulty": "intermediate",
+  "tags": [
+    "strings",
+    "compression",
+    "lz77",
+    "sliding-window"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n * w)",
+      "average": "O(n * w)",
+      "worst": "O(n * w)"
+    },
+    "space": "O(n)"
+  },
+  "stable": null,
+  "in_place": false,
+  "related": [
+    "run-length-encoding",
+    "huffman-coding"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "lz77_compression.c",
+          "content": "#include <stdio.h>\n#include \"lz77_compression.h\"\n\nint lz77_compression(int* arr, int n) {\n    int count = 0, i = 0;\n    while (i < n) {\n        int bestLen = 0, start = i - 256;\n        if (start < 0) start = 0;\n        int j;\n        for (j = start; j < i; j++) {\n            int len = 0, dist = i - j;\n            while (i+len < n && len < dist && arr[j+len] == arr[i+len]) len++;\n            if (len == dist) while (i+len < n && arr[j+(len%dist)] == arr[i+len]) len++;\n            if (len > bestLen) bestLen = len;\n        }\n        if (bestLen >= 2) { count++; i += bestLen; } else i++;\n    }\n    return count;\n}\n\nint main() {\n    int a1[] = {1,2,3,1,2,3}; printf(\"%d\\n\", lz77_compression(a1, 6));\n    int a2[] = {5,5,5,5}; printf(\"%d\\n\", lz77_compression(a2, 4));\n    int a3[] = {1,2,3,4}; printf(\"%d\\n\", lz77_compression(a3, 4));\n    int a4[] = {1,2,1,2,3,4,3,4}; printf(\"%d\\n\", lz77_compression(a4, 8));\n    return 0;\n}\n"
+        },
+        {
+          "filename": "lz77_compression.h",
+          "content": "#ifndef LZ77_COMPRESSION_H\n#define LZ77_COMPRESSION_H\n\nint lz77_compression(int* arr, int size);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "lz77_compression.cpp",
+          "content": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n\nint lz77Compression(const vector<int>& arr) {\n    int n = arr.size(), count = 0, i = 0;\n    while (i < n) {\n        int bestLen = 0, start = max(0, i - 256);\n        for (int j = start; j < i; j++) {\n            int len = 0, dist = i - j;\n            while (i+len < n && len < dist && arr[j+len] == arr[i+len]) len++;\n            if (len == dist) while (i+len < n && arr[j+(len%dist)] == arr[i+len]) len++;\n            if (len > bestLen) bestLen = len;\n        }\n        if (bestLen >= 2) { count++; i += bestLen; } else i++;\n    }\n    return count;\n}\n\nint main() {\n    cout << lz77Compression({1,2,3,1,2,3}) << endl;\n    cout << lz77Compression({5,5,5,5}) << endl;\n    cout << lz77Compression({1,2,3,4}) << endl;\n    cout << lz77Compression({1,2,1,2,3,4,3,4}) << endl;\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "Lz77Compression.cs",
+          "content": "using System;\n\npublic class Lz77Compression\n{\n    public static int Solve(int[] arr)\n    {\n        int n = arr.Length, count = 0, i = 0;\n        while (i < n) {\n            int bestLen = 0, start = Math.Max(0, i - 256);\n            for (int j = start; j < i; j++) {\n                int len = 0, dist = i - j;\n                while (i+len < n && len < dist && arr[j+len] == arr[i+len]) len++;\n                if (len == dist) while (i+len < n && arr[j+(len%dist)] == arr[i+len]) len++;\n                if (len > bestLen) bestLen = len;\n            }\n            if (bestLen >= 2) { count++; i += bestLen; } else i++;\n        }\n        return count;\n    }\n\n    static void Main(string[] args)\n    {\n        Console.WriteLine(Solve(new int[] { 1,2,3,1,2,3 }));\n        Console.WriteLine(Solve(new int[] { 5,5,5,5 }));\n        Console.WriteLine(Solve(new int[] { 1,2,3,4 }));\n        Console.WriteLine(Solve(new int[] { 1,2,1,2,3,4,3,4 }));\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "lz77_compression.go",
+          "content": "package main\n\nimport \"fmt\"\n\nfunc Lz77Compression(arr []int) int {\n\tn := len(arr); count := 0; i := 0\n\tfor i < n {\n\t\tbestLen := 0; start := i - 256; if start < 0 { start = 0 }\n\t\tfor j := start; j < i; j++ {\n\t\t\tl := 0; dist := i - j\n\t\t\tfor i+l < n && l < dist && arr[j+l] == arr[i+l] { l++ }\n\t\t\tif l == dist { for i+l < n && arr[j+(l%dist)] == arr[i+l] { l++ } }\n\t\t\tif l > bestLen { bestLen = l }\n\t\t}\n\t\tif bestLen >= 2 { count++; i += bestLen } else { i++ }\n\t}\n\treturn count\n}\n\nfunc main() {\n\tfmt.Println(Lz77Compression([]int{1,2,3,1,2,3}))\n\tfmt.Println(Lz77Compression([]int{5,5,5,5}))\n\tfmt.Println(Lz77Compression([]int{1,2,3,4}))\n\tfmt.Println(Lz77Compression([]int{1,2,1,2,3,4,3,4}))\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "Lz77Compression.java",
+          "content": "public class Lz77Compression {\n\n    public static int lz77Compression(int[] arr) {\n        int n = arr.length;\n        int windowSize = 256;\n        int count = 0, i = 0;\n\n        while (i < n) {\n            int bestLen = 0;\n            int start = Math.max(0, i - windowSize);\n            for (int j = start; j < i; j++) {\n                int len = 0;\n                int dist = i - j;\n                while (i + len < n && len < dist && arr[j + len] == arr[i + len]) len++;\n                if (len == dist) {\n                    while (i + len < n && arr[j + (len % dist)] == arr[i + len]) len++;\n                }\n                if (len > bestLen) bestLen = len;\n            }\n            if (bestLen >= 2) { count++; i += bestLen; }\n            else i++;\n        }\n        return count;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(lz77Compression(new int[]{1, 2, 3, 1, 2, 3}));\n        System.out.println(lz77Compression(new int[]{5, 5, 5, 5}));\n        System.out.println(lz77Compression(new int[]{1, 2, 3, 4}));\n        System.out.println(lz77Compression(new int[]{1, 2, 1, 2, 3, 4, 3, 4}));\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "Lz77Compression.kt",
+          "content": "fun lz77Compression(arr: IntArray): Int {\n    val n = arr.size; var count = 0; var i = 0\n    while (i < n) {\n        var bestLen = 0; val start = maxOf(0, i - 256)\n        for (j in start until i) {\n            var len = 0; val dist = i - j\n            while (i+len < n && len < dist && arr[j+len] == arr[i+len]) len++\n            if (len == dist) while (i+len < n && arr[j+(len%dist)] == arr[i+len]) len++\n            if (len > bestLen) bestLen = len\n        }\n        if (bestLen >= 2) { count++; i += bestLen } else i++\n    }\n    return count\n}\n\nfun main() {\n    println(lz77Compression(intArrayOf(1,2,3,1,2,3)))\n    println(lz77Compression(intArrayOf(5,5,5,5)))\n    println(lz77Compression(intArrayOf(1,2,3,4)))\n    println(lz77Compression(intArrayOf(1,2,1,2,3,4,3,4)))\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "lz77_compression.py",
+          "content": "def lz77_compression(arr):\n    \"\"\"\n    Simplified LZ77: count back-references in a sliding window.\n    A back-reference is found when at position i, there exists a match of\n    length >= 2 starting at some earlier position in the window.\n\n    Returns: number of back-references found\n    \"\"\"\n    n = len(arr)\n    window_size = 256\n    count = 0\n    i = 0\n\n    while i < n:\n        best_len = 0\n        start = max(0, i - window_size)\n\n        for j in range(start, i):\n            length = 0\n            while i + length < n and length < (i - j) and arr[j + length] == arr[i + length]:\n                length += 1\n            # Also allow repeating copy (overlapping)\n            if length == i - j:\n                while i + length < n and arr[j + (length % (i - j))] == arr[i + length]:\n                    length += 1\n            if length > best_len:\n                best_len = length\n\n        if best_len >= 2:\n            count += 1\n            i += best_len\n        else:\n            i += 1\n\n    return count\n\n\nif __name__ == \"__main__\":\n    print(lz77_compression([1, 2, 3, 1, 2, 3]))       # 1\n    print(lz77_compression([5, 5, 5, 5]))             # 1\n    print(lz77_compression([1, 2, 3, 4]))             # 0\n    print(lz77_compression([1, 2, 1, 2, 3, 4, 3, 4])) # 2\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "lz77_compression.rs",
+          "content": "pub fn lz77_compression(arr: &[i32]) -> i32 {\n    let n = arr.len(); let mut count = 0i32; let mut i = 0;\n    while i < n {\n        let mut best_len = 0; let start = if i > 256 { i - 256 } else { 0 };\n        for j in start..i {\n            let mut len = 0; let dist = i - j;\n            while i+len < n && len < dist && arr[j+len] == arr[i+len] { len += 1; }\n            if len == dist { while i+len < n && arr[j+(len%dist)] == arr[i+len] { len += 1; } }\n            if len > best_len { best_len = len; }\n        }\n        if best_len >= 2 { count += 1; i += best_len; } else { i += 1; }\n    }\n    count\n}\n\nfn main() {\n    println!(\"{}\", lz77_compression(&[1,2,3,1,2,3]));\n    println!(\"{}\", lz77_compression(&[5,5,5,5]));\n    println!(\"{}\", lz77_compression(&[1,2,3,4]));\n    println!(\"{}\", lz77_compression(&[1,2,1,2,3,4,3,4]));\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "Lz77Compression.scala",
+          "content": "object Lz77Compression {\n\n  def lz77Compression(arr: Array[Int]): Int = {\n    val n = arr.length; var count = 0; var i = 0\n    while (i < n) {\n      var bestLen = 0; val start = math.max(0, i - 256)\n      for (j <- start until i) {\n        var len = 0; val dist = i - j\n        while (i+len < n && len < dist && arr(j+len) == arr(i+len)) len += 1\n        if (len == dist) while (i+len < n && arr(j+(len%dist)) == arr(i+len)) len += 1\n        if (len > bestLen) bestLen = len\n      }\n      if (bestLen >= 2) { count += 1; i += bestLen } else i += 1\n    }\n    count\n  }\n\n  def main(args: Array[String]): Unit = {\n    println(lz77Compression(Array(1,2,3,1,2,3)))\n    println(lz77Compression(Array(5,5,5,5)))\n    println(lz77Compression(Array(1,2,3,4)))\n    println(lz77Compression(Array(1,2,1,2,3,4,3,4)))\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "Lz77Compression.swift",
+          "content": "func lz77Compression(_ arr: [Int]) -> Int {\n    let n = arr.count; var count = 0; var i = 0\n    while i < n {\n        var bestLen = 0; let start = max(0, i - 256)\n        for j in start..<i {\n            var len = 0; let dist = i - j\n            while i+len < n && len < dist && arr[j+len] == arr[i+len] { len += 1 }\n            if len == dist { while i+len < n && arr[j+(len%dist)] == arr[i+len] { len += 1 } }\n            if len > bestLen { bestLen = len }\n        }\n        if bestLen >= 2 { count += 1; i += bestLen } else { i += 1 }\n    }\n    return count\n}\n\nprint(lz77Compression([1,2,3,1,2,3]))\nprint(lz77Compression([5,5,5,5]))\nprint(lz77Compression([1,2,3,4]))\nprint(lz77Compression([1,2,1,2,3,4,3,4]))\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "lz77Compression.ts",
+          "content": "export function lz77Compression(arr: number[]): number {\n    const n = arr.length; let count = 0, i = 0;\n    while (i < n) {\n        let bestLen = 0; const start = Math.max(0, i - 256);\n        for (let j = start; j < i; j++) {\n            let len = 0; const dist = i - j;\n            while (i+len < n && len < dist && arr[j+len] === arr[i+len]) len++;\n            if (len === dist) while (i+len < n && arr[j+(len%dist)] === arr[i+len]) len++;\n            if (len > bestLen) bestLen = len;\n        }\n        if (bestLen >= 2) { count++; i += bestLen; } else i++;\n    }\n    return count;\n}\n\nconsole.log(lz77Compression([1,2,3,1,2,3]));\nconsole.log(lz77Compression([5,5,5,5]));\nconsole.log(lz77Compression([1,2,3,4]));\nconsole.log(lz77Compression([1,2,1,2,3,4,3,4]));\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "patterns": [
+    "sliding-window"
+  ],
+  "patternDifficulty": "advanced",
+  "practiceOrder": 4,
+  "readme": "# LZ77 Compression\n\n## Overview\n\nLZ77 is a lossless data compression algorithm published by Abraham Lempel and Jacob Ziv in 1977. It forms the basis of many widely used compression formats including gzip, DEFLATE, PNG, and ZIP. The algorithm works by replacing repeated occurrences of data with references to a single earlier copy, using a sliding window to find matches in previously seen data.\n\nThis simplified implementation scans through an integer array and counts how many positions have a back-reference match in a sliding window of previous elements. A match requires at least 2 consecutive equal elements.\n\n## How It Works\n\n1. Maintain a sliding window of the most recent `w` elements (the \"search buffer\").\n2. At the current position, look for the longest sequence of elements that matches a sequence starting somewhere in the sliding window.\n3. If a match of length >= 2 is found, emit a back-reference `(offset, length)` where offset is the distance back to the match start, and length is the match length. Advance by the match length.\n4. If no match is found, emit the element as a literal and advance by 1.\n5. The output of this implementation is the count of back-references found.\n\nInput format: array of integers\nOutput: number of back-references found\n\n## Worked Example\n\nGiven input: `[1, 2, 3, 1, 2, 3, 4]` with window size `w = 6`:\n\n- Position 0: `1` -- no previous data, emit literal\n- Position 1: `2` -- no match of length >= 2, emit literal\n- Position 2: `3` -- no match of length >= 2, emit literal\n- Position 3: `1` -- look back in window `[1, 2, 3]`. Found `1, 2, 3` starting at offset 3, length 3. Emit back-reference (3, 3). Advance to position 6.\n- Position 6: `4` -- no match in window, emit literal\n\n**Result:** 1 back-reference found\n\n## Pseudocode\n\n```\nfunction lz77CountBackReferences(data, windowSize):\n    n = length(data)\n    count = 0\n    i = 0\n\n    while i < n:\n        bestLength = 0\n        bestOffset = 0\n        searchStart = max(0, i - windowSize)\n\n        for j from searchStart to i - 1:\n            matchLen = 0\n            while i + matchLen < n and data[j + matchLen] == data[i + matchLen]:\n                matchLen = matchLen + 1\n                if j + matchLen >= i:\n                    break\n\n            if matchLen >= 2 and matchLen > bestLength:\n                bestLength = matchLen\n                bestOffset = i - j\n\n        if bestLength >= 2:\n            count = count + 1\n            i = i + bestLength\n        else:\n            i = i + 1\n\n    return count\n```\n\n## Complexity Analysis\n\n| Case    | Time     | Space |\n|---------|----------|-------|\n| Best    | O(n)     | O(n)  |\n| Average | O(n * w) | O(n)  |\n| Worst   | O(n * w) | O(n)  |\n\nWhere `n` is the input length and `w` is the sliding window size.\n\n- **Best case O(n):** When no matches are found (all elements are unique), each position requires only a scan through the window that quickly fails to find length-2 matches.\n- **Average/Worst case O(n * w):** For each of the n positions, we may scan up to w positions backward and compare sequences.\n- **Space O(n):** The input array is stored. The sliding window is a view into the same array, so no additional significant space is needed beyond the output.\n- Real implementations use hash tables or suffix trees to accelerate match finding, reducing average time to nearly O(n).\n\n## When to Use\n\n- General-purpose lossless data compression\n- Compressing files with repeating patterns (text files, source code, log files)\n- As a component in DEFLATE, gzip, and ZIP compression\n- Network protocol compression (HTTP compression)\n- Image format compression (PNG uses DEFLATE which is LZ77 + Huffman)\n- When the data has significant local redundancy\n\n## When NOT to Use\n\n- **Already compressed data:** Applying LZ77 to JPEG, MP3, or other compressed formats will not reduce size and may slightly increase it.\n- **Random or high-entropy data:** If the data has no repeating patterns, LZ77 produces output larger than the input due to encoding overhead.\n- **When decompression speed is critical above all else:** LZ77 decompression is fast, but simpler schemes like RLE have even lower decompression overhead.\n- **Streaming with extreme latency requirements:** The sliding window approach requires buffering. For zero-latency needs, consider simpler encoding methods.\n- **When better compression ratio is paramount:** LZ77 alone is often combined with entropy coding (Huffman or arithmetic coding) for better compression. For maximum ratio, consider LZ78, LZMA, or Brotli.\n\n## Comparison\n\n| Algorithm | Compression Ratio | Speed    | Complexity | Used In           |\n|-----------|-------------------|----------|------------|-------------------|\n| LZ77      | Good              | Fast     | O(n * w)   | gzip, PNG, ZIP    |\n| LZ78/LZW  | Good              | Fast     | O(n)       | GIF, Unix compress|\n| LZMA      | Excellent         | Slower   | O(n * w)   | 7z, xz            |\n| RLE       | Poor (general)    | Very fast| O(n)       | BMP, fax          |\n| Huffman   | Moderate          | Fast     | O(n log n) | JPEG, MP3 (part)  |\n| Brotli    | Excellent         | Moderate | O(n)       | Web (HTTP)        |\n\nLZ77 strikes a good balance between compression ratio and speed. It is the foundation of the DEFLATE algorithm (LZ77 + Huffman coding), which is one of the most widely deployed compression algorithms in the world. LZMA achieves better compression at the cost of speed; RLE is faster but only effective on data with long runs.\n\n## References\n\n- Ziv, J. and Lempel, A. (1977). \"A Universal Algorithm for Sequential Data Compression.\" *IEEE Transactions on Information Theory*, 23(3), 337-343.\n- Salomon, D. (2007). *Data Compression: The Complete Reference* (4th ed.). Springer.\n- Sayood, K. (2017). *Introduction to Data Compression* (5th ed.). Morgan Kaufmann.\n- RFC 1951 - DEFLATE Compressed Data Format Specification.\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [lz77_compression.py](python/lz77_compression.py) |\n| Java       | [Lz77Compression.java](java/Lz77Compression.java) |\n| C++        | [lz77_compression.cpp](cpp/lz77_compression.cpp) |\n| C          | [lz77_compression.c](c/lz77_compression.c) |\n| Go         | [lz77_compression.go](go/lz77_compression.go) |\n| TypeScript | [lz77Compression.ts](typescript/lz77Compression.ts) |\n| Rust       | [lz77_compression.rs](rust/lz77_compression.rs) |\n| Kotlin     | [Lz77Compression.kt](kotlin/Lz77Compression.kt) |\n| Swift      | [Lz77Compression.swift](swift/Lz77Compression.swift) |\n| Scala      | [Lz77Compression.scala](scala/Lz77Compression.scala) |\n| C#         | [Lz77Compression.cs](csharp/Lz77Compression.cs) |\n"
+}

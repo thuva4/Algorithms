@@ -1,0 +1,30 @@
+algorithm: "activity-selection"
+function_signature:
+  name: "activity_selection"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "six activities"
+    input: [[1, 2, 3, 4, 0, 6, 5, 7, 8, 9, 5, 9]]
+    expected: 4
+  - name: "four activities with overlaps"
+    input: [[1, 3, 2, 5, 4, 7, 1, 8]]
+    expected: 2
+  - name: "single activity"
+    input: [[0, 1]]
+    expected: 1
+  - name: "three identical activities"
+    input: [[1, 3, 1, 3, 1, 3]]
+    expected: 1
+  - name: "non-overlapping activities"
+    input: [[0, 1, 1, 2, 2, 3]]
+    expected: 3
+  - name: "all overlapping"
+    input: [[0, 10, 1, 9, 2, 8]]
+    expected: 1
+  - name: "empty input"
+    input: [[]]
+    expected: 0
+  - name: "two non-overlapping"
+    input: [[0, 2, 3, 5]]
+    expected: 2

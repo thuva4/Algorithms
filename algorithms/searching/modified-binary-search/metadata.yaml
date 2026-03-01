@@ -1,0 +1,21 @@
+name: "Modified Binary Search"
+slug: "modified-binary-search"
+category: "searching"
+subcategory: "binary"
+difficulty: "intermediate"
+tags: [searching, binary, divide-and-conquer, sorted, variation]
+complexity:
+  time:
+    best: "O(1)"
+    average: "O(log n)"
+    worst: "O(log n)"
+  space: "O(1)"
+stable: null
+in_place: null
+related: [binary-search, ternary-search, linear-search]
+implementations: [cpp]
+visualization: true
+patterns:
+  - modified-binary-search
+patternDifficulty: intermediate
+practiceOrder: 2

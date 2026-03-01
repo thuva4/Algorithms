@@ -1,0 +1,30 @@
+algorithm: "knuth-morris-pratt"
+function_signature:
+  name: "kmp_search"
+  input: [text, pattern]
+  output: first_index_or_negative_one
+test_cases:
+  - name: "pattern found"
+    input: ["ABABDABACDABABCABAB", "ABABCABAB"]
+    expected: 10
+  - name: "pattern not found"
+    input: ["ABCDEF", "XYZ"]
+    expected: -1
+  - name: "pattern at start"
+    input: ["ABCDEF", "ABC"]
+    expected: 0
+  - name: "empty pattern"
+    input: ["ABC", ""]
+    expected: 0
+  - name: "pattern equals text"
+    input: ["ABC", "ABC"]
+    expected: 0
+  - name: "single character match"
+    input: ["ABCDE", "C"]
+    expected: 2
+  - name: "repeated pattern"
+    input: ["AAAAAA", "AAA"]
+    expected: 0
+  - name: "pattern at end"
+    input: ["HELLO WORLD", "WORLD"]
+    expected: 6

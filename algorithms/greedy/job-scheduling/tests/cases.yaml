@@ -1,0 +1,18 @@
+algorithm: "job-scheduling"
+function_signature:
+  name: "job_scheduling"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "basic scheduling"
+    input: [[4, 2, 100, 1, 19, 2, 27, 1, 25]]
+    expected: 127
+  - name: "all same deadline"
+    input: [[3, 1, 10, 1, 20, 1, 30]]
+    expected: 30
+  - name: "increasing deadlines"
+    input: [[3, 1, 50, 2, 60, 3, 70]]
+    expected: 180
+  - name: "single job"
+    input: [[1, 2, 100]]
+    expected: 100

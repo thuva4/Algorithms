@@ -1,0 +1,36 @@
+algorithm: "quick-select"
+function_signature:
+  name: "quick_select"
+  input: [array_of_integers, k]
+  output: integer_value
+test_cases:
+  - name: "find 1st smallest"
+    input: [[3, 1, 4, 1, 5], 1]
+    expected: 1
+  - name: "find 3rd smallest"
+    input: [[3, 1, 4, 1, 5], 3]
+    expected: 3
+  - name: "find largest in array"
+    input: [[3, 1, 4, 1, 5], 5]
+    expected: 5
+  - name: "find 2nd smallest"
+    input: [[7, 2, 9, 4, 6], 2]
+    expected: 4
+  - name: "single element"
+    input: [[42], 1]
+    expected: 42
+  - name: "two elements find smallest"
+    input: [[8, 3], 1]
+    expected: 3
+  - name: "two elements find largest"
+    input: [[8, 3], 2]
+    expected: 8
+  - name: "all same elements"
+    input: [[5, 5, 5, 5], 2]
+    expected: 5
+  - name: "negative numbers"
+    input: [[-3, 5, -1, 0, 2], 1]
+    expected: -3
+  - name: "find median"
+    input: [[9, 1, 5, 3, 7], 3]
+    expected: 5

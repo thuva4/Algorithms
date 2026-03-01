@@ -1,0 +1,17 @@
+name: "Euler Totient Sieve"
+slug: "euler-totient-sieve"
+category: "math"
+subcategory: "number-theory"
+difficulty: "intermediate"
+tags: [math, number-theory, euler-totient, sieve, phi-function]
+complexity:
+  time:
+    best: "O(n log log n)"
+    average: "O(n log log n)"
+    worst: "O(n log log n)"
+  space: "O(n)"
+stable: null
+in_place: false
+related: [sieve-of-eratosthenes]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

@@ -1,0 +1,18 @@
+algorithm: "tarjans-scc"
+function_signature:
+  name: "tarjans_scc"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "two SCCs"
+    input: [[5, 5, 0, 1, 1, 2, 2, 0, 3, 4, 4, 3]]
+    expected: 2
+  - name: "single SCC (full cycle)"
+    input: [[3, 3, 0, 1, 1, 2, 2, 0]]
+    expected: 1
+  - name: "no edges (each vertex is its own SCC)"
+    input: [[3, 0]]
+    expected: 3
+  - name: "single cycle of four"
+    input: [[4, 4, 0, 1, 1, 2, 2, 3, 3, 0]]
+    expected: 1

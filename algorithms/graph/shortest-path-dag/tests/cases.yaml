@@ -1,0 +1,18 @@
+algorithm: "shortest-path-dag"
+function_signature:
+  name: "shortest_path_dag"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "simple path"
+    input: [[4, 4, 0, 0, 1, 2, 0, 2, 4, 1, 2, 1, 1, 3, 7]]
+    expected: 9
+  - name: "direct edge is shortest"
+    input: [[3, 3, 0, 0, 1, 5, 0, 2, 3, 1, 2, 1]]
+    expected: 3
+  - name: "single edge"
+    input: [[2, 1, 0, 0, 1, 10]]
+    expected: 10
+  - name: "unreachable vertex"
+    input: [[3, 1, 0, 1, 2, 5]]
+    expected: -1

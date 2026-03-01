@@ -1,0 +1,36 @@
+algorithm: "linear-search"
+function_signature:
+  name: "linear_search"
+  input: [array_of_integers, target_integer]
+  output: integer_index
+test_cases:
+  - name: "element found in middle"
+    input: [[4, 2, 7, 1, 9, 3], 7]
+    expected: 2
+  - name: "element at beginning"
+    input: [[5, 3, 8, 1, 2], 5]
+    expected: 0
+  - name: "element at end"
+    input: [[5, 3, 8, 1, 2], 2]
+    expected: 4
+  - name: "element not found"
+    input: [[5, 3, 8, 1, 2], 6]
+    expected: -1
+  - name: "single element found"
+    input: [[5], 5]
+    expected: 0
+  - name: "single element not found"
+    input: [[5], 3]
+    expected: -1
+  - name: "empty array"
+    input: [[], 1]
+    expected: -1
+  - name: "unsorted array with duplicates"
+    input: [[3, 7, 3, 1, 5], 3]
+    expected: 0
+  - name: "negative numbers"
+    input: [[-3, 5, -1, 0, 2], -1]
+    expected: 2
+  - name: "large values"
+    input: [[100, -200, 300, 0, 50], 300]
+    expected: 2

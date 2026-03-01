@@ -1,0 +1,21 @@
+name: "Flood Fill"
+slug: "flood-fill"
+category: "graph"
+subcategory: "traversal"
+difficulty: "beginner"
+tags: [graph, traversal, grid, recursion, image-processing]
+complexity:
+  time:
+    best: "O(V)"
+    average: "O(V)"
+    worst: "O(V)"
+  space: "O(V)"
+stable: null
+in_place: null
+related: [breadth-first-search, depth-first-search, connected-component-labeling]
+implementations: [cpp, java, python, swift]
+visualization: true
+patterns:
+  - tree-bfs
+patternDifficulty: intermediate
+practiceOrder: 3

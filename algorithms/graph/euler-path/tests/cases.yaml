@@ -1,0 +1,18 @@
+algorithm: "euler-path"
+function_signature:
+  name: "euler_path"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "triangle (Euler circuit exists)"
+    input: [[3, 3, 0, 1, 1, 2, 2, 0]]
+    expected: 1
+  - name: "path graph (no Euler circuit)"
+    input: [[3, 2, 0, 1, 1, 2]]
+    expected: 0
+  - name: "square (Euler circuit exists)"
+    input: [[4, 4, 0, 1, 1, 2, 2, 3, 3, 0]]
+    expected: 1
+  - name: "disconnected graph"
+    input: [[4, 2, 0, 1, 2, 3]]
+    expected: 0

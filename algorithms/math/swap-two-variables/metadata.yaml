@@ -1,0 +1,17 @@
+name: "Swap Two Variables"
+slug: "swap-two-variables"
+category: "math"
+subcategory: "basic-operations"
+difficulty: "beginner"
+tags: [math, swap, variables, basic, temporary-variable]
+complexity:
+  time:
+    best: "O(1)"
+    average: "O(1)"
+    worst: "O(1)"
+  space: "O(1)"
+stable: false
+in_place: true
+related: [xor-swap]
+implementations: [c, go, typescript, scala]
+visualization: false

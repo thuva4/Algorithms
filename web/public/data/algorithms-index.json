@@ -1,0 +1,8564 @@
+{
+  "totalAlgorithms": 246,
+  "totalImplementations": 2505,
+  "algorithms": [
+    {
+      "name": "Bitonic Sort",
+      "slug": "bitonic-sort",
+      "category": "sorting",
+      "difficulty": "advanced",
+      "tags": [
+        "sorting",
+        "comparison",
+        "parallel",
+        "network-sort"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n log^2 n)",
+          "average": "O(n log^2 n)",
+          "worst": "O(n log^2 n)"
+        },
+        "space": "O(n log^2 n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Bogo Sort",
+      "slug": "bogo-sort",
+      "category": "sorting",
+      "difficulty": "beginner",
+      "tags": [
+        "sorting",
+        "random",
+        "inefficient",
+        "educational"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n)",
+          "average": "O((n+1)!)",
+          "worst": "O(infinity)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Bubble Sort",
+      "slug": "bubble-sort",
+      "category": "sorting",
+      "difficulty": "beginner",
+      "tags": [
+        "sorting",
+        "comparison",
+        "stable",
+        "in-place",
+        "adaptive"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n)",
+          "average": "O(n^2)",
+          "worst": "O(n^2)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Bucket Sort",
+      "slug": "bucket-sort",
+      "category": "sorting",
+      "difficulty": "intermediate",
+      "tags": [
+        "sorting",
+        "distribution",
+        "non-comparison",
+        "bucket"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n + k)",
+          "average": "O(n + k)",
+          "worst": "O(n^2)"
+        },
+        "space": "O(n + k)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Cocktail Sort",
+      "slug": "cocktail-sort",
+      "category": "sorting",
+      "difficulty": "beginner",
+      "tags": [
+        "sorting",
+        "comparison",
+        "stable",
+        "in-place",
+        "adaptive"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n)",
+          "average": "O(n^2)",
+          "worst": "O(n^2)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Comb Sort",
+      "slug": "comb-sort",
+      "category": "sorting",
+      "difficulty": "intermediate",
+      "tags": [
+        "sorting",
+        "comparison",
+        "in-place",
+        "unstable",
+        "gap-based"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n log n)",
+          "average": "O(n^2 / 2^p)",
+          "worst": "O(n^2)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Counting Sort",
+      "slug": "counting-sort",
+      "category": "sorting",
+      "difficulty": "intermediate",
+      "tags": [
+        "sorting",
+        "distribution",
+        "non-comparison",
+        "stable",
+        "integer"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n + k)",
+          "average": "O(n + k)",
+          "worst": "O(n + k)"
+        },
+        "space": "O(k)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Cycle Sort",
+      "slug": "cycle-sort",
+      "category": "sorting",
+      "difficulty": "intermediate",
+      "tags": [
+        "sorting",
+        "comparison",
+        "in-place",
+        "unstable",
+        "optimal-writes"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n^2)",
+          "average": "O(n^2)",
+          "worst": "O(n^2)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Gnome Sort",
+      "slug": "gnome-sort",
+      "category": "sorting",
+      "difficulty": "beginner",
+      "tags": [
+        "sorting",
+        "comparison",
+        "in-place",
+        "stable",
+        "simple"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n)",
+          "average": "O(n^2)",
+          "worst": "O(n^2)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Heap Sort",
+      "slug": "heap-sort",
+      "category": "sorting",
+      "difficulty": "intermediate",
+      "tags": [
+        "sorting",
+        "comparison",
+        "in-place",
+        "unstable",
+        "heap"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n log n)",
+          "average": "O(n log n)",
+          "worst": "O(n log n)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Insertion Sort",
+      "slug": "insertion-sort",
+      "category": "sorting",
+      "difficulty": "beginner",
+      "tags": [
+        "sorting",
+        "comparison",
+        "in-place",
+        "stable",
+        "adaptive",
+        "simple"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n)",
+          "average": "O(n^2)",
+          "worst": "O(n^2)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Merge Sort",
+      "slug": "merge-sort",
+      "category": "sorting",
+      "difficulty": "intermediate",
+      "tags": [
+        "sorting",
+        "divide-and-conquer",
+        "stable",
+        "comparison"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n log n)",
+          "average": "O(n log n)",
+          "worst": "O(n log n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Pancake Sort",
+      "slug": "pancake-sort",
+      "category": "sorting",
+      "difficulty": "intermediate",
+      "tags": [
+        "sorting",
+        "comparison",
+        "in-place",
+        "unstable",
+        "puzzle"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n)",
+          "average": "O(n^2)",
+          "worst": "O(n^2)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Partial Sort",
+      "slug": "partial-sort",
+      "category": "sorting",
+      "difficulty": "intermediate",
+      "tags": [
+        "sorting",
+        "comparison",
+        "selection",
+        "heap"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n log k)",
+          "average": "O(n log k)",
+          "worst": "O(n log k)"
+        },
+        "space": "O(k)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Pigeonhole Sort",
+      "slug": "pigeonhole-sort",
+      "category": "sorting",
+      "difficulty": "intermediate",
+      "tags": [
+        "sorting",
+        "distribution",
+        "non-comparison",
+        "integer"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n + k)",
+          "average": "O(n + k)",
+          "worst": "O(n + k)"
+        },
+        "space": "O(n + k)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Postman Sort",
+      "slug": "postman-sort",
+      "category": "sorting",
+      "difficulty": "intermediate",
+      "tags": [
+        "sorting",
+        "non-comparison",
+        "stable",
+        "distribution"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n)",
+          "average": "O(n*k)",
+          "worst": "O(n*k)"
+        },
+        "space": "O(n+k)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Quick Sort",
+      "slug": "quick-sort",
+      "category": "sorting",
+      "difficulty": "intermediate",
+      "tags": [
+        "sorting",
+        "comparison",
+        "in-place",
+        "divide-and-conquer"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n log n)",
+          "average": "O(n log n)",
+          "worst": "O(n^2)"
+        },
+        "space": "O(log n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Radix Sort",
+      "slug": "radix-sort",
+      "category": "sorting",
+      "difficulty": "intermediate",
+      "tags": [
+        "sorting",
+        "non-comparison",
+        "stable",
+        "distribution"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(nk)",
+          "average": "O(nk)",
+          "worst": "O(nk)"
+        },
+        "space": "O(n+k)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Selection Sort",
+      "slug": "selection-sort",
+      "category": "sorting",
+      "difficulty": "beginner",
+      "tags": [
+        "sorting",
+        "comparison",
+        "in-place"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n^2)",
+          "average": "O(n^2)",
+          "worst": "O(n^2)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Shell Sort",
+      "slug": "shell-sort",
+      "category": "sorting",
+      "difficulty": "intermediate",
+      "tags": [
+        "sorting",
+        "comparison",
+        "in-place",
+        "gap-sequence"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n log n)",
+          "average": "O(n^(4/3))",
+          "worst": "O(n^2)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Strand Sort",
+      "slug": "strand-sort",
+      "category": "sorting",
+      "difficulty": "intermediate",
+      "tags": [
+        "sorting",
+        "comparison",
+        "merge",
+        "subsequence"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n)",
+          "average": "O(n^2)",
+          "worst": "O(n^2)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Tim Sort",
+      "slug": "tim-sort",
+      "category": "sorting",
+      "difficulty": "advanced",
+      "tags": [
+        "sorting",
+        "hybrid",
+        "adaptive",
+        "stable",
+        "merge",
+        "insertion"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n)",
+          "average": "O(n log n)",
+          "worst": "O(n log n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Tree Sort",
+      "slug": "tree-sort",
+      "category": "sorting",
+      "difficulty": "intermediate",
+      "tags": [
+        "sorting",
+        "comparison",
+        "tree",
+        "bst",
+        "in-order"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n log n)",
+          "average": "O(n log n)",
+          "worst": "O(n^2)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Best-First Search",
+      "slug": "best-first-search",
+      "category": "searching",
+      "difficulty": "advanced",
+      "tags": [
+        "searching",
+        "heuristic",
+        "graph",
+        "greedy",
+        "priority-queue"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(1)",
+          "average": "O(b^d)",
+          "worst": "O(b^d)"
+        },
+        "space": "O(b^d)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Binary Search",
+      "slug": "binary-search",
+      "category": "searching",
+      "difficulty": "intermediate",
+      "tags": [
+        "searching",
+        "binary",
+        "divide-and-conquer",
+        "sorted"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(1)",
+          "average": "O(log n)",
+          "worst": "O(log n)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Exponential Search",
+      "slug": "exponential-search",
+      "category": "searching",
+      "difficulty": "intermediate",
+      "tags": [
+        "searching",
+        "sorted",
+        "binary-search",
+        "exponential",
+        "comparison"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(1)",
+          "average": "O(log i)",
+          "worst": "O(log n)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Fibonacci Search",
+      "slug": "fibonacci-search",
+      "category": "searching",
+      "difficulty": "intermediate",
+      "tags": [
+        "searching",
+        "sorted",
+        "fibonacci",
+        "comparison",
+        "divide-and-conquer"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(1)",
+          "average": "O(log n)",
+          "worst": "O(log n)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Interpolation Search",
+      "slug": "interpolation-search",
+      "category": "searching",
+      "difficulty": "intermediate",
+      "tags": [
+        "searching",
+        "interpolation",
+        "sorted-array"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(1)",
+          "average": "O(log log n)",
+          "worst": "O(n)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Jump Search",
+      "slug": "jump-search",
+      "category": "searching",
+      "difficulty": "beginner",
+      "tags": [
+        "searching",
+        "jump",
+        "sorted-array",
+        "block-search"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(1)",
+          "average": "O(sqrt(n))",
+          "worst": "O(sqrt(n))"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Linear Search",
+      "slug": "linear-search",
+      "category": "searching",
+      "difficulty": "beginner",
+      "tags": [
+        "searching",
+        "linear",
+        "sequential",
+        "unsorted"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(1)",
+          "average": "O(n)",
+          "worst": "O(n)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Modified Binary Search",
+      "slug": "modified-binary-search",
+      "category": "searching",
+      "difficulty": "intermediate",
+      "tags": [
+        "searching",
+        "binary",
+        "divide-and-conquer",
+        "sorted",
+        "variation"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(1)",
+          "average": "O(log n)",
+          "worst": "O(log n)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Quick Select",
+      "slug": "quick-select",
+      "category": "searching",
+      "difficulty": "intermediate",
+      "tags": [
+        "searching",
+        "selection",
+        "partition",
+        "kth-element"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n)",
+          "average": "O(n)",
+          "worst": "O(n^2)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Ternary Search",
+      "slug": "ternary-search",
+      "category": "searching",
+      "difficulty": "intermediate",
+      "tags": [
+        "searching",
+        "ternary",
+        "divide-and-conquer",
+        "sorted"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(1)",
+          "average": "O(log3 n)",
+          "worst": "O(log3 n)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "2-SAT",
+      "slug": "2-sat",
+      "category": "graph",
+      "difficulty": "advanced",
+      "tags": [
+        "graph",
+        "2-sat",
+        "implication-graph",
+        "scc",
+        "boolean-satisfiability"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(V + E)",
+          "average": "O(V + E)",
+          "worst": "O(V + E)"
+        },
+        "space": "O(V + E)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Bidirectional A*",
+      "slug": "a-star-bidirectional",
+      "category": "graph",
+      "difficulty": "advanced",
+      "tags": [
+        "graph",
+        "shortest-path",
+        "heuristic",
+        "bidirectional",
+        "pathfinding",
+        "grid"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(E)",
+          "average": "O(E)",
+          "worst": "O(E)"
+        },
+        "space": "O(V)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "A* Search",
+      "slug": "a-star-search",
+      "category": "graph",
+      "difficulty": "advanced",
+      "tags": [
+        "graph",
+        "shortest-path",
+        "heuristic",
+        "priority-queue",
+        "pathfinding",
+        "weighted"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(E)",
+          "average": "O(E)",
+          "worst": "O(E)"
+        },
+        "space": "O(V)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "All-Pairs Shortest Path",
+      "slug": "all-pairs-shortest-path",
+      "category": "graph",
+      "difficulty": "advanced",
+      "tags": [
+        "graph",
+        "shortest-path",
+        "floyd-warshall",
+        "dynamic-programming"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(V^3)",
+          "average": "O(V^3)",
+          "worst": "O(V^3)"
+        },
+        "space": "O(V^2)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Articulation Points (Cut Vertices)",
+      "slug": "articulation-points",
+      "category": "graph",
+      "difficulty": "advanced",
+      "tags": [
+        "graph",
+        "undirected",
+        "articulation-points",
+        "cut-vertices",
+        "dfs",
+        "biconnectivity"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(V + E)",
+          "average": "O(V + E)",
+          "worst": "O(V + E)"
+        },
+        "space": "O(V)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Bellman-Ford Algorithm",
+      "slug": "bellman-ford",
+      "category": "graph",
+      "difficulty": "intermediate",
+      "tags": [
+        "graph",
+        "shortest-path",
+        "dynamic-programming",
+        "negative-weights",
+        "weighted"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(VE)",
+          "average": "O(VE)",
+          "worst": "O(VE)"
+        },
+        "space": "O(V)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Bidirectional BFS",
+      "slug": "bidirectional-bfs",
+      "category": "graph",
+      "difficulty": "intermediate",
+      "tags": [
+        "graph",
+        "bfs",
+        "bidirectional",
+        "shortest-path",
+        "unweighted"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(V + E)",
+          "average": "O(V + E)",
+          "worst": "O(V + E)"
+        },
+        "space": "O(V)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Bipartite Check",
+      "slug": "bipartite-check",
+      "category": "graph",
+      "difficulty": "intermediate",
+      "tags": [
+        "graph",
+        "undirected",
+        "bipartite",
+        "bfs",
+        "two-coloring"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(V + E)",
+          "average": "O(V + E)",
+          "worst": "O(V + E)"
+        },
+        "space": "O(V)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Bipartite Matching (Hopcroft-Karp)",
+      "slug": "bipartite-matching",
+      "category": "graph",
+      "difficulty": "advanced",
+      "tags": [
+        "graph",
+        "matching",
+        "bipartite",
+        "hopcroft-karp",
+        "maximum-matching"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(E * sqrt(V))",
+          "average": "O(E * sqrt(V))",
+          "worst": "O(E * sqrt(V))"
+        },
+        "space": "O(V)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Breadth-First Search",
+      "slug": "breadth-first-search",
+      "category": "graph",
+      "difficulty": "beginner",
+      "tags": [
+        "graph",
+        "traversal",
+        "bfs",
+        "queue",
+        "shortest-path-unweighted"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(V+E)",
+          "average": "O(V+E)",
+          "worst": "O(V+E)"
+        },
+        "space": "O(V)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Bridges (Cut Edges)",
+      "slug": "bridges",
+      "category": "graph",
+      "difficulty": "advanced",
+      "tags": [
+        "graph",
+        "undirected",
+        "bridges",
+        "cut-edges",
+        "dfs",
+        "biconnectivity"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(V + E)",
+          "average": "O(V + E)",
+          "worst": "O(V + E)"
+        },
+        "space": "O(V)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Centroid Tree (Centroid Decomposition)",
+      "slug": "centroid-tree",
+      "category": "graph",
+      "difficulty": "advanced",
+      "tags": [
+        "graph",
+        "tree",
+        "centroid-decomposition",
+        "divide-and-conquer"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(V log V)",
+          "average": "O(V log V)",
+          "worst": "O(V log V)"
+        },
+        "space": "O(V)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Chromatic Number",
+      "slug": "chromatic-number",
+      "category": "graph",
+      "difficulty": "advanced",
+      "tags": [
+        "graph",
+        "coloring",
+        "chromatic-number",
+        "backtracking",
+        "pruning"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(k^V)",
+          "average": "O(k^V)",
+          "worst": "O(k^V)"
+        },
+        "space": "O(V + E)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Connected Component Labeling",
+      "slug": "connected-component-labeling",
+      "category": "graph",
+      "difficulty": "intermediate",
+      "tags": [
+        "graph",
+        "connectivity",
+        "components",
+        "union-find",
+        "labeling"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(V+E)",
+          "average": "O(V+E)",
+          "worst": "O(V+E)"
+        },
+        "space": "O(V)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Counting Triangles",
+      "slug": "counting-triangles",
+      "category": "graph",
+      "difficulty": "intermediate",
+      "tags": [
+        "graph",
+        "triangle",
+        "counting",
+        "adjacency-matrix",
+        "undirected"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(V^3)",
+          "average": "O(V^3)",
+          "worst": "O(V^3)"
+        },
+        "space": "O(V^2)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Floyd's Cycle Detection",
+      "slug": "cycle-detection-floyd",
+      "category": "graph",
+      "difficulty": "intermediate",
+      "tags": [
+        "graph",
+        "linked-list",
+        "two-pointers",
+        "cycle-detection"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n)",
+          "average": "O(n)",
+          "worst": "O(n)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Depth-First Search",
+      "slug": "depth-first-search",
+      "category": "graph",
+      "difficulty": "beginner",
+      "tags": [
+        "graph",
+        "traversal",
+        "dfs",
+        "stack",
+        "recursive",
+        "backtracking"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(V+E)",
+          "average": "O(V+E)",
+          "worst": "O(V+E)"
+        },
+        "space": "O(V)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Dijkstra's Algorithm",
+      "slug": "dijkstras",
+      "category": "graph",
+      "difficulty": "intermediate",
+      "tags": [
+        "graph",
+        "shortest-path",
+        "greedy",
+        "priority-queue",
+        "weighted"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O((V+E) log V)",
+          "average": "O((V+E) log V)",
+          "worst": "O((V+E) log V)"
+        },
+        "space": "O(V)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Dinic's Algorithm",
+      "slug": "dinic",
+      "category": "graph",
+      "difficulty": "advanced",
+      "tags": [
+        "graph",
+        "network-flow",
+        "max-flow",
+        "dinic",
+        "blocking-flow"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(V^2 * E)",
+          "average": "O(V^2 * E)",
+          "worst": "O(V^2 * E)"
+        },
+        "space": "O(V^2)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Edmonds-Karp Algorithm",
+      "slug": "edmonds-karp",
+      "category": "graph",
+      "difficulty": "advanced",
+      "tags": [
+        "graph",
+        "network-flow",
+        "max-flow",
+        "bfs",
+        "augmenting-path"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(VE^2)",
+          "average": "O(VE^2)",
+          "worst": "O(VE^2)"
+        },
+        "space": "O(V^2)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Eulerian Path/Circuit",
+      "slug": "euler-path",
+      "category": "graph",
+      "difficulty": "intermediate",
+      "tags": [
+        "graph",
+        "euler",
+        "circuit",
+        "path",
+        "hierholzer"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(V + E)",
+          "average": "O(V + E)",
+          "worst": "O(V + E)"
+        },
+        "space": "O(V + E)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Flood Fill",
+      "slug": "flood-fill",
+      "category": "graph",
+      "difficulty": "beginner",
+      "tags": [
+        "graph",
+        "traversal",
+        "grid",
+        "recursion",
+        "image-processing"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(V)",
+          "average": "O(V)",
+          "worst": "O(V)"
+        },
+        "space": "O(V)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Floyd-Warshall Algorithm",
+      "slug": "floyds-algorithm",
+      "category": "graph",
+      "difficulty": "intermediate",
+      "tags": [
+        "graph",
+        "shortest-path",
+        "dynamic-programming",
+        "all-pairs",
+        "weighted"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(V^3)",
+          "average": "O(V^3)",
+          "worst": "O(V^3)"
+        },
+        "space": "O(V^2)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Ford-Fulkerson",
+      "slug": "ford-fulkerson",
+      "category": "graph",
+      "difficulty": "advanced",
+      "tags": [
+        "graph",
+        "network-flow",
+        "max-flow",
+        "dfs",
+        "ford-fulkerson"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(E * max_flow)",
+          "average": "O(E * max_flow)",
+          "worst": "O(E * max_flow)"
+        },
+        "space": "O(V^2)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Graph Coloring",
+      "slug": "graph-coloring",
+      "category": "graph",
+      "difficulty": "intermediate",
+      "tags": [
+        "graph",
+        "undirected",
+        "coloring",
+        "chromatic-number",
+        "backtracking"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(V * 2^V)",
+          "average": "O(V * 2^V)",
+          "worst": "O(V * 2^V)"
+        },
+        "space": "O(V)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Graph Cycle Detection (DFS Coloring)",
+      "slug": "graph-cycle-detection",
+      "category": "graph",
+      "difficulty": "intermediate",
+      "tags": [
+        "graph",
+        "directed",
+        "cycle-detection",
+        "dfs",
+        "coloring"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(V + E)",
+          "average": "O(V + E)",
+          "worst": "O(V + E)"
+        },
+        "space": "O(V)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Hamiltonian Path",
+      "slug": "hamiltonian-path",
+      "category": "graph",
+      "difficulty": "advanced",
+      "tags": [
+        "graph",
+        "hamiltonian",
+        "dp",
+        "bitmask",
+        "np-hard"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(2^n * n^2)",
+          "average": "O(2^n * n^2)",
+          "worst": "O(2^n * n^2)"
+        },
+        "space": "O(2^n * n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Hungarian Algorithm",
+      "slug": "hungarian-algorithm",
+      "category": "graph",
+      "difficulty": "advanced",
+      "tags": [
+        "graph",
+        "matching",
+        "assignment-problem",
+        "bipartite",
+        "optimization"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n^3)",
+          "average": "O(n^3)",
+          "worst": "O(n^3)"
+        },
+        "space": "O(n^2)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Johnson's Algorithm",
+      "slug": "johnson-algorithm",
+      "category": "graph",
+      "difficulty": "advanced",
+      "tags": [
+        "graph",
+        "shortest-path",
+        "all-pairs",
+        "reweighting",
+        "negative-weights"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(V^2 log V + VE)",
+          "average": "O(V^2 log V + VE)",
+          "worst": "O(V^2 log V + VE)"
+        },
+        "space": "O(V^2)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Kosaraju's Strongly Connected Components",
+      "slug": "kosarajus-scc",
+      "category": "graph",
+      "difficulty": "advanced",
+      "tags": [
+        "graph",
+        "directed",
+        "strongly-connected-components",
+        "dfs",
+        "kosaraju"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(V + E)",
+          "average": "O(V + E)",
+          "worst": "O(V + E)"
+        },
+        "space": "O(V + E)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Kruskal's Algorithm",
+      "slug": "kruskals-algorithm",
+      "category": "graph",
+      "difficulty": "intermediate",
+      "tags": [
+        "graph",
+        "minimum-spanning-tree",
+        "greedy",
+        "union-find",
+        "weighted"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(E log E)",
+          "average": "O(E log E)",
+          "worst": "O(E log E)"
+        },
+        "space": "O(V)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Longest Path",
+      "slug": "longest-path",
+      "category": "graph",
+      "difficulty": "intermediate",
+      "tags": [
+        "graph",
+        "traversal",
+        "dag",
+        "dynamic-programming",
+        "topological-sort"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(V+E)",
+          "average": "O(V+E)",
+          "worst": "O(V+E)"
+        },
+        "space": "O(V)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Max Flow (Edmonds-Karp)",
+      "slug": "max-flow-min-cut",
+      "category": "graph",
+      "difficulty": "advanced",
+      "tags": [
+        "graph",
+        "network-flow",
+        "max-flow",
+        "min-cut",
+        "bfs",
+        "edmonds-karp"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(VE^2)",
+          "average": "O(VE^2)",
+          "worst": "O(VE^2)"
+        },
+        "space": "O(V^2)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Maximum Bipartite Matching (Kuhn's Algorithm)",
+      "slug": "maximum-bipartite-matching",
+      "category": "graph",
+      "difficulty": "intermediate",
+      "tags": [
+        "graph",
+        "bipartite",
+        "matching",
+        "augmenting-path",
+        "kuhn"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(V * E)",
+          "average": "O(V * E)",
+          "worst": "O(V * E)"
+        },
+        "space": "O(V + E)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Minimum Cut (Stoer-Wagner)",
+      "slug": "minimum-cut-stoer-wagner",
+      "category": "graph",
+      "difficulty": "advanced",
+      "tags": [
+        "graph",
+        "minimum-cut",
+        "undirected",
+        "weighted",
+        "stoer-wagner"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(V^3)",
+          "average": "O(V^3)",
+          "worst": "O(V^3)"
+        },
+        "space": "O(V^2)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Minimum Spanning Arborescence (Edmonds/Chu-Liu)",
+      "slug": "minimum-spanning-arborescence",
+      "category": "graph",
+      "difficulty": "advanced",
+      "tags": [
+        "graph",
+        "directed",
+        "minimum-spanning-tree",
+        "arborescence",
+        "edmonds",
+        "chu-liu"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(EV)",
+          "average": "O(EV)",
+          "worst": "O(EV)"
+        },
+        "space": "O(V + E)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Minimum Spanning Tree (Boruvka)",
+      "slug": "minimum-spanning-tree-boruvka",
+      "category": "graph",
+      "difficulty": "intermediate",
+      "tags": [
+        "graph",
+        "minimum-spanning-tree",
+        "greedy",
+        "union-find"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(E log V)",
+          "average": "O(E log V)",
+          "worst": "O(E log V)"
+        },
+        "space": "O(V + E)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Minimum Cost Maximum Flow",
+      "slug": "network-flow-mincost",
+      "category": "graph",
+      "difficulty": "advanced",
+      "tags": [
+        "graph",
+        "network-flow",
+        "min-cost",
+        "max-flow",
+        "spfa",
+        "shortest-path"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(V * E * flow)",
+          "average": "O(V * E * flow)",
+          "worst": "O(V * E * flow)"
+        },
+        "space": "O(V + E)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Planarity Testing (Euler's Formula)",
+      "slug": "planarity-testing",
+      "category": "graph",
+      "difficulty": "advanced",
+      "tags": [
+        "graph",
+        "planar",
+        "euler-formula",
+        "planarity",
+        "simple-graph"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(V + E)",
+          "average": "O(V + E)",
+          "worst": "O(V + E)"
+        },
+        "space": "O(V + E)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Prim's Algorithm",
+      "slug": "prims",
+      "category": "graph",
+      "difficulty": "intermediate",
+      "tags": [
+        "graph",
+        "minimum-spanning-tree",
+        "greedy",
+        "priority-queue",
+        "weighted"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(E log V)",
+          "average": "O(E log V)",
+          "worst": "O(E log V)"
+        },
+        "space": "O(V)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Prim's MST (Priority Queue)",
+      "slug": "prims-fibonacci-heap",
+      "category": "graph",
+      "difficulty": "advanced",
+      "tags": [
+        "graph",
+        "minimum-spanning-tree",
+        "prims",
+        "priority-queue",
+        "fibonacci-heap"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(E log V)",
+          "average": "O(E log V)",
+          "worst": "O(E log V)"
+        },
+        "space": "O(V + E)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Shortest Path in DAG",
+      "slug": "shortest-path-dag",
+      "category": "graph",
+      "difficulty": "intermediate",
+      "tags": [
+        "graph",
+        "shortest-path",
+        "dag",
+        "topological-sort",
+        "dynamic-programming"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(V + E)",
+          "average": "O(V + E)",
+          "worst": "O(V + E)"
+        },
+        "space": "O(V + E)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "SPFA (Shortest Path Faster Algorithm)",
+      "slug": "spfa",
+      "category": "graph",
+      "difficulty": "intermediate",
+      "tags": [
+        "graph",
+        "shortest-path",
+        "bellman-ford",
+        "queue",
+        "optimization"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(E)",
+          "average": "O(E)",
+          "worst": "O(VE)"
+        },
+        "space": "O(V)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Strongly Connected Condensation",
+      "slug": "strongly-connected-condensation",
+      "category": "graph",
+      "difficulty": "advanced",
+      "tags": [
+        "graph",
+        "directed",
+        "strongly-connected-components",
+        "condensation",
+        "dag"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(V + E)",
+          "average": "O(V + E)",
+          "worst": "O(V + E)"
+        },
+        "space": "O(V + E)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Strongly Connected Components",
+      "slug": "strongly-connected-graph",
+      "category": "graph",
+      "difficulty": "advanced",
+      "tags": [
+        "graph",
+        "connectivity",
+        "scc",
+        "kosaraju",
+        "tarjan",
+        "directed"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(V+E)",
+          "average": "O(V+E)",
+          "worst": "O(V+E)"
+        },
+        "space": "O(V)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Path-Based SCC Algorithm",
+      "slug": "strongly-connected-path-based",
+      "category": "graph",
+      "difficulty": "advanced",
+      "tags": [
+        "graph",
+        "directed",
+        "strongly-connected-components",
+        "path-based",
+        "dfs"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(V + E)",
+          "average": "O(V + E)",
+          "worst": "O(V + E)"
+        },
+        "space": "O(V)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Tarjan's Strongly Connected Components",
+      "slug": "tarjans-scc",
+      "category": "graph",
+      "difficulty": "advanced",
+      "tags": [
+        "graph",
+        "directed",
+        "strongly-connected-components",
+        "dfs",
+        "tarjan"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(V + E)",
+          "average": "O(V + E)",
+          "worst": "O(V + E)"
+        },
+        "space": "O(V)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Topological Sort",
+      "slug": "topological-sort",
+      "category": "graph",
+      "difficulty": "intermediate",
+      "tags": [
+        "graph",
+        "traversal",
+        "dag",
+        "ordering",
+        "scheduling"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(V+E)",
+          "average": "O(V+E)",
+          "worst": "O(V+E)"
+        },
+        "space": "O(V)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "All Topological Orderings",
+      "slug": "topological-sort-all",
+      "category": "graph",
+      "difficulty": "advanced",
+      "tags": [
+        "graph",
+        "topological-sort",
+        "backtracking",
+        "enumeration",
+        "dag"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(V! * V)",
+          "average": "O(V! * V)",
+          "worst": "O(V! * V)"
+        },
+        "space": "O(V + E)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Kahn's Topological Sort",
+      "slug": "topological-sort-kahn",
+      "category": "graph",
+      "difficulty": "intermediate",
+      "tags": [
+        "graph",
+        "topological-sort",
+        "bfs",
+        "dag"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(V+E)",
+          "average": "O(V+E)",
+          "worst": "O(V+E)"
+        },
+        "space": "O(V)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Parallel Topological Sort",
+      "slug": "topological-sort-parallel",
+      "category": "graph",
+      "difficulty": "advanced",
+      "tags": [
+        "graph",
+        "topological-sort",
+        "parallel",
+        "dag",
+        "kahn",
+        "scheduling"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(V + E)",
+          "average": "O(V + E)",
+          "worst": "O(V + E)"
+        },
+        "space": "O(V + E)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Bitmask DP",
+      "slug": "bitmask-dp",
+      "category": "dynamic-programming",
+      "difficulty": "advanced",
+      "tags": [
+        "dynamic-programming",
+        "bitmask",
+        "subset",
+        "assignment",
+        "tsp"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n^2 * 2^n)",
+          "average": "O(n^2 * 2^n)",
+          "worst": "O(n^2 * 2^n)"
+        },
+        "space": "O(n * 2^n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Coin Change",
+      "slug": "coin-change",
+      "category": "dynamic-programming",
+      "difficulty": "intermediate",
+      "tags": [
+        "dynamic-programming",
+        "optimization",
+        "greedy",
+        "combinatorial"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(nS)",
+          "average": "O(nS)",
+          "worst": "O(nS)"
+        },
+        "space": "O(S)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Convex Hull Trick",
+      "slug": "convex-hull-trick",
+      "category": "dynamic-programming",
+      "difficulty": "advanced",
+      "tags": [
+        "dynamic-programming",
+        "convex-hull-trick",
+        "optimization",
+        "geometry"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n)",
+          "average": "O(n log n)",
+          "worst": "O(n log n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Digit DP",
+      "slug": "digit-dp",
+      "category": "dynamic-programming",
+      "difficulty": "advanced",
+      "tags": [
+        "dynamic-programming",
+        "digit-dp",
+        "counting",
+        "number-theory"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(D * S * 2)",
+          "average": "O(D * S * 2)",
+          "worst": "O(D * S * 2)"
+        },
+        "space": "O(D * S * 2)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "DP on Trees",
+      "slug": "dp-on-trees",
+      "category": "dynamic-programming",
+      "difficulty": "advanced",
+      "tags": [
+        "dynamic-programming",
+        "trees",
+        "rerooting",
+        "bottom-up"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n)",
+          "average": "O(n)",
+          "worst": "O(n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Dungeon Game",
+      "slug": "dungeon-game",
+      "category": "dynamic-programming",
+      "difficulty": "advanced",
+      "tags": [
+        "dynamic-programming",
+        "grid",
+        "pathfinding",
+        "bottom-up"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(mn)",
+          "average": "O(mn)",
+          "worst": "O(mn)"
+        },
+        "space": "O(mn)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Max 1D Range Sum",
+      "slug": "dynamic-programming",
+      "category": "dynamic-programming",
+      "difficulty": "beginner",
+      "tags": [
+        "dynamic-programming",
+        "sequences",
+        "range-sum",
+        "maximum-sum"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n)",
+          "average": "O(n)",
+          "worst": "O(n)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 5,
+      "languages": [
+        "c",
+        "cpp",
+        "java",
+        "kotlin",
+        "swift"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Edit Distance",
+      "slug": "edit-distance",
+      "category": "dynamic-programming",
+      "difficulty": "intermediate",
+      "tags": [
+        "dynamic-programming",
+        "string",
+        "levenshtein",
+        "distance"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(mn)",
+          "average": "O(mn)",
+          "worst": "O(mn)"
+        },
+        "space": "O(mn)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Egg Drop Problem",
+      "slug": "egg-drop",
+      "category": "dynamic-programming",
+      "difficulty": "intermediate",
+      "tags": [
+        "dynamic-programming",
+        "optimization",
+        "decision",
+        "egg-drop"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(e * f^2)",
+          "average": "O(e * f^2)",
+          "worst": "O(e * f^2)"
+        },
+        "space": "O(e * f)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Fibonacci",
+      "slug": "fibonacci",
+      "category": "dynamic-programming",
+      "difficulty": "beginner",
+      "tags": [
+        "dynamic-programming",
+        "classical",
+        "memoization",
+        "tabulation"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n)",
+          "average": "O(n)",
+          "worst": "O(n)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Kadane's Algorithm",
+      "slug": "kadanes",
+      "category": "dynamic-programming",
+      "difficulty": "beginner",
+      "tags": [
+        "dynamic-programming",
+        "sequences",
+        "subarray",
+        "maximum-sum"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n)",
+          "average": "O(n)",
+          "worst": "O(n)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Knapsack (0/1)",
+      "slug": "knapsack",
+      "category": "dynamic-programming",
+      "difficulty": "intermediate",
+      "tags": [
+        "dynamic-programming",
+        "optimization",
+        "combinatorial",
+        "knapsack"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(nW)",
+          "average": "O(nW)",
+          "worst": "O(nW)"
+        },
+        "space": "O(nW)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Knuth's Optimization",
+      "slug": "knuth-optimization",
+      "category": "dynamic-programming",
+      "difficulty": "advanced",
+      "tags": [
+        "dynamic-programming",
+        "interval-dp",
+        "optimization",
+        "optimal-bst"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n^2)",
+          "average": "O(n^2)",
+          "worst": "O(n^2)"
+        },
+        "space": "O(n^2)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Longest Bitonic Subsequence",
+      "slug": "longest-bitonic-subsequence",
+      "category": "dynamic-programming",
+      "difficulty": "advanced",
+      "tags": [
+        "dynamic-programming",
+        "sequences",
+        "bitonic",
+        "subsequence"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n log n)",
+          "average": "O(n log n)",
+          "worst": "O(n log n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Longest Common Subsequence",
+      "slug": "longest-common-subsequence",
+      "category": "dynamic-programming",
+      "difficulty": "intermediate",
+      "tags": [
+        "dynamic-programming",
+        "sequences",
+        "string",
+        "tabulation"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(mn)",
+          "average": "O(mn)",
+          "worst": "O(mn)"
+        },
+        "space": "O(mn)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Longest Common Substring",
+      "slug": "longest-common-substring",
+      "category": "dynamic-programming",
+      "difficulty": "intermediate",
+      "tags": [
+        "dynamic-programming",
+        "strings",
+        "substring"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n*m)",
+          "average": "O(n*m)",
+          "worst": "O(n*m)"
+        },
+        "space": "O(n*m)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Longest Increasing Subsequence",
+      "slug": "longest-increasing-subsequence",
+      "category": "dynamic-programming",
+      "difficulty": "intermediate",
+      "tags": [
+        "dynamic-programming",
+        "sequences",
+        "binary-search",
+        "patience-sorting"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n log n)",
+          "average": "O(n log n)",
+          "worst": "O(n log n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Longest Palindromic Subsequence",
+      "slug": "longest-palindromic-subsequence",
+      "category": "dynamic-programming",
+      "difficulty": "intermediate",
+      "tags": [
+        "dynamic-programming",
+        "palindrome",
+        "subsequence"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n^2)",
+          "average": "O(n^2)",
+          "worst": "O(n^2)"
+        },
+        "space": "O(n^2)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Longest Subset with Zero Sum",
+      "slug": "longest-subset-zero-sum",
+      "category": "dynamic-programming",
+      "difficulty": "intermediate",
+      "tags": [
+        "dynamic-programming",
+        "sequences",
+        "subarray",
+        "zero-sum"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n^2)",
+          "average": "O(n^2)",
+          "worst": "O(n^2)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Matrix Chain Multiplication",
+      "slug": "matrix-chain-multiplication",
+      "category": "dynamic-programming",
+      "difficulty": "intermediate",
+      "tags": [
+        "dynamic-programming",
+        "optimization",
+        "matrices"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n^3)",
+          "average": "O(n^3)",
+          "worst": "O(n^3)"
+        },
+        "space": "O(n^2)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Optimal Binary Search Tree",
+      "slug": "optimal-bst",
+      "category": "dynamic-programming",
+      "difficulty": "advanced",
+      "tags": [
+        "dynamic-programming",
+        "bst",
+        "optimization",
+        "trees"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n^3)",
+          "average": "O(n^3)",
+          "worst": "O(n^3)"
+        },
+        "space": "O(n^2)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Palindrome Partitioning",
+      "slug": "palindrome-partitioning",
+      "category": "dynamic-programming",
+      "difficulty": "intermediate",
+      "tags": [
+        "dynamic-programming",
+        "palindrome",
+        "partitioning",
+        "strings"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n^2)",
+          "average": "O(n^2)",
+          "worst": "O(n^2)"
+        },
+        "space": "O(n^2)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Partition Problem",
+      "slug": "partition-problem",
+      "category": "dynamic-programming",
+      "difficulty": "intermediate",
+      "tags": [
+        "dynamic-programming",
+        "subset-sum",
+        "partition",
+        "knapsack"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n * S)",
+          "average": "O(n * S)",
+          "worst": "O(n * S)"
+        },
+        "space": "O(S)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Rod Cutting Algorithm",
+      "slug": "rod-cutting-algorithm",
+      "category": "dynamic-programming",
+      "difficulty": "intermediate",
+      "tags": [
+        "dynamic-programming",
+        "optimization",
+        "memoization",
+        "cutting"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n^2)",
+          "average": "O(n^2)",
+          "worst": "O(n^2)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Sequence Alignment",
+      "slug": "sequence-alignment",
+      "category": "dynamic-programming",
+      "difficulty": "advanced",
+      "tags": [
+        "dynamic-programming",
+        "string",
+        "alignment",
+        "bioinformatics",
+        "hirschberg"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(mn)",
+          "average": "O(mn)",
+          "worst": "O(mn)"
+        },
+        "space": "O(m)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Sum over Subsets DP",
+      "slug": "sos-dp",
+      "category": "dynamic-programming",
+      "difficulty": "advanced",
+      "tags": [
+        "dynamic-programming",
+        "bitmask",
+        "subset-sum",
+        "sos"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n * 2^n)",
+          "average": "O(n * 2^n)",
+          "worst": "O(n * 2^n)"
+        },
+        "space": "O(2^n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Travelling Salesman Problem",
+      "slug": "travelling-salesman",
+      "category": "dynamic-programming",
+      "difficulty": "advanced",
+      "tags": [
+        "dp",
+        "bitmask",
+        "tsp",
+        "graph",
+        "np-hard",
+        "optimization"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(2^n * n^2)",
+          "average": "O(2^n * n^2)",
+          "worst": "O(2^n * n^2)"
+        },
+        "space": "O(2^n * n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Wildcard Matching",
+      "slug": "wildcard-matching",
+      "category": "dynamic-programming",
+      "difficulty": "intermediate",
+      "tags": [
+        "dynamic-programming",
+        "pattern-matching",
+        "wildcard",
+        "strings"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n * m)",
+          "average": "O(n * m)",
+          "worst": "O(n * m)"
+        },
+        "space": "O(n * m)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Word Break",
+      "slug": "word-break",
+      "category": "dynamic-programming",
+      "difficulty": "intermediate",
+      "tags": [
+        "dynamic-programming",
+        "strings",
+        "memoization"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n)",
+          "average": "O(n^2)",
+          "worst": "O(n^2)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "AVL Tree",
+      "slug": "avl-tree",
+      "category": "trees",
+      "difficulty": "intermediate",
+      "tags": [
+        "trees",
+        "balanced",
+        "self-balancing",
+        "binary-search-tree",
+        "avl"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n log n)",
+          "average": "O(n log n)",
+          "worst": "O(n log n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "B-Tree",
+      "slug": "b-tree",
+      "category": "trees",
+      "difficulty": "advanced",
+      "tags": [
+        "tree",
+        "balanced",
+        "self-balancing",
+        "disk-based",
+        "database",
+        "b-tree"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(log n)",
+          "average": "O(log n)",
+          "worst": "O(log n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "2D Binary Indexed Tree",
+      "slug": "binary-indexed-tree-2d",
+      "category": "trees",
+      "difficulty": "advanced",
+      "tags": [
+        "trees",
+        "fenwick-tree",
+        "binary-indexed-tree",
+        "2d",
+        "prefix-sum"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(log(R) * log(C))",
+          "average": "O(log(R) * log(C))",
+          "worst": "O(log(R) * log(C))"
+        },
+        "space": "O(R * C)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Binary Search Tree",
+      "slug": "binary-search-tree",
+      "category": "trees",
+      "difficulty": "beginner",
+      "tags": [
+        "trees",
+        "binary-search-tree",
+        "search",
+        "insert"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(log n)",
+          "average": "O(log n)",
+          "worst": "O(n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Binary Tree",
+      "slug": "binary-tree",
+      "category": "trees",
+      "difficulty": "beginner",
+      "tags": [
+        "trees",
+        "binary-tree",
+        "traversal",
+        "level-order",
+        "bfs"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n)",
+          "average": "O(n)",
+          "worst": "O(n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Centroid Decomposition",
+      "slug": "centroid-decomposition",
+      "category": "trees",
+      "difficulty": "advanced",
+      "tags": [
+        "trees",
+        "centroid",
+        "decomposition",
+        "divide-and-conquer"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(N log N)",
+          "average": "O(N log N)",
+          "worst": "O(N log N)"
+        },
+        "space": "O(N)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Fenwick Tree",
+      "slug": "fenwick-tree",
+      "category": "trees",
+      "difficulty": "intermediate",
+      "tags": [
+        "trees",
+        "fenwick-tree",
+        "binary-indexed-tree",
+        "range-query",
+        "prefix-sum"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(log n)",
+          "average": "O(log n)",
+          "worst": "O(log n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Heavy-Light Decomposition",
+      "slug": "heavy-light-decomposition",
+      "category": "trees",
+      "difficulty": "advanced",
+      "tags": [
+        "trees",
+        "decomposition",
+        "path-query",
+        "heavy-light",
+        "segment-tree"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(log^2 n)",
+          "average": "O(log^2 n)",
+          "worst": "O(log^2 n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 5,
+      "languages": [
+        "c",
+        "cpp",
+        "java",
+        "kotlin",
+        "swift"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Interval Tree",
+      "slug": "interval-tree",
+      "category": "trees",
+      "difficulty": "intermediate",
+      "tags": [
+        "trees",
+        "interval-tree",
+        "range-query",
+        "augmented-bst",
+        "overlap"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(log n)",
+          "average": "O(log n + k)",
+          "worst": "O(n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "KD-Tree",
+      "slug": "kd-tree",
+      "category": "trees",
+      "difficulty": "intermediate",
+      "tags": [
+        "trees",
+        "kd-tree",
+        "spatial",
+        "nearest-neighbor",
+        "binary-space-partition"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(log n)",
+          "average": "O(log n)",
+          "worst": "O(n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Lowest Common Ancestor",
+      "slug": "lowest-common-ancestor",
+      "category": "trees",
+      "difficulty": "intermediate",
+      "tags": [
+        "trees",
+        "lca",
+        "binary-lifting",
+        "ancestors"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(N log N)",
+          "average": "O(N log N)",
+          "worst": "O(N log N)"
+        },
+        "space": "O(N log N)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Merge Sort Tree",
+      "slug": "merge-sort-tree",
+      "category": "trees",
+      "difficulty": "advanced",
+      "tags": [
+        "trees",
+        "segment-tree",
+        "merge-sort",
+        "order-statistics"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(log^2 n)",
+          "average": "O(log^2 n)",
+          "worst": "O(log^2 n)"
+        },
+        "space": "O(n log n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Persistent Segment Tree",
+      "slug": "persistent-segment-tree",
+      "category": "trees",
+      "difficulty": "advanced",
+      "tags": [
+        "trees",
+        "segment-tree",
+        "persistent",
+        "versioning",
+        "immutable"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(log n)",
+          "average": "O(log n)",
+          "worst": "O(log n)"
+        },
+        "space": "O(n log n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Prufer Code",
+      "slug": "prufer-code",
+      "category": "trees",
+      "difficulty": "intermediate",
+      "tags": [
+        "trees",
+        "encoding",
+        "prufer-sequence",
+        "labeled-tree",
+        "bijection"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n log n)",
+          "average": "O(n log n)",
+          "worst": "O(n log n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 5,
+      "languages": [
+        "c",
+        "cpp",
+        "java",
+        "kotlin",
+        "swift"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Range Tree",
+      "slug": "range-tree",
+      "category": "trees",
+      "difficulty": "advanced",
+      "tags": [
+        "trees",
+        "range-tree",
+        "orthogonal-range-query",
+        "balanced-bst",
+        "counting"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(log n)",
+          "average": "O(log n)",
+          "worst": "O(log n + k)"
+        },
+        "space": "O(n log n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Red-Black Tree",
+      "slug": "red-black-tree",
+      "category": "trees",
+      "difficulty": "advanced",
+      "tags": [
+        "trees",
+        "balanced",
+        "self-balancing",
+        "binary-search-tree",
+        "red-black"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n log n)",
+          "average": "O(n log n)",
+          "worst": "O(n log n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Segment Tree",
+      "slug": "segment-tree",
+      "category": "trees",
+      "difficulty": "intermediate",
+      "tags": [
+        "trees",
+        "segment-tree",
+        "range-query",
+        "range-update",
+        "lazy-propagation"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(log n)",
+          "average": "O(log n)",
+          "worst": "O(log n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Segment Tree with Lazy Propagation",
+      "slug": "segment-tree-lazy",
+      "category": "trees",
+      "difficulty": "advanced",
+      "tags": [
+        "trees",
+        "segment-tree",
+        "lazy-propagation",
+        "range-update",
+        "range-query"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(log n)",
+          "average": "O(log n)",
+          "worst": "O(log n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Splay Tree",
+      "slug": "splay-tree",
+      "category": "trees",
+      "difficulty": "advanced",
+      "tags": [
+        "tree",
+        "bst",
+        "self-adjusting",
+        "amortized",
+        "splay"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(log n)",
+          "average": "O(log n)",
+          "worst": "O(log n) amortized"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Tarjan's Offline LCA",
+      "slug": "tarjans-offline-lca",
+      "category": "trees",
+      "difficulty": "advanced",
+      "tags": [
+        "trees",
+        "lca",
+        "tarjan",
+        "union-find",
+        "offline-algorithm"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n + q)",
+          "average": "O(n * alpha(n) + q)",
+          "worst": "O(n * alpha(n) + q)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 5,
+      "languages": [
+        "c",
+        "cpp",
+        "java",
+        "kotlin",
+        "swift"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Treap",
+      "slug": "treap",
+      "category": "trees",
+      "difficulty": "advanced",
+      "tags": [
+        "tree",
+        "bst",
+        "heap",
+        "randomized",
+        "treap"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(log n)",
+          "average": "O(log n)",
+          "worst": "O(n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Tree Diameter",
+      "slug": "tree-diameter",
+      "category": "trees",
+      "difficulty": "intermediate",
+      "tags": [
+        "trees",
+        "bfs",
+        "dfs",
+        "diameter",
+        "graph"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(V)",
+          "average": "O(V)",
+          "worst": "O(V)"
+        },
+        "space": "O(V)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Tree Traversals",
+      "slug": "tree-traversals",
+      "category": "trees",
+      "difficulty": "beginner",
+      "tags": [
+        "tree",
+        "traversal",
+        "inorder",
+        "preorder",
+        "postorder",
+        "level-order"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n)",
+          "average": "O(n)",
+          "worst": "O(n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Trie",
+      "slug": "trie",
+      "category": "trees",
+      "difficulty": "intermediate",
+      "tags": [
+        "trees",
+        "strings",
+        "prefix",
+        "search"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(m)",
+          "average": "O(m)",
+          "worst": "O(m)"
+        },
+        "space": "O(n*m)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Aho-Corasick",
+      "slug": "aho-corasick",
+      "category": "strings",
+      "difficulty": "advanced",
+      "tags": [
+        "strings",
+        "pattern-matching",
+        "multi-pattern",
+        "trie",
+        "automaton"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n + m + z)",
+          "average": "O(n + m + z)",
+          "worst": "O(n + m + z)"
+        },
+        "space": "O(m)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Bitap Algorithm",
+      "slug": "bitap-algorithm",
+      "category": "strings",
+      "difficulty": "intermediate",
+      "tags": [
+        "strings",
+        "pattern-matching",
+        "bitwise",
+        "approximate-matching",
+        "shift-or"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n)",
+          "average": "O(n)",
+          "worst": "O(nm)"
+        },
+        "space": "O(m)"
+      },
+      "languageCount": 6,
+      "languages": [
+        "c",
+        "cpp",
+        "java",
+        "kotlin",
+        "python",
+        "swift"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Boyer-Moore Search",
+      "slug": "boyer-moore",
+      "category": "strings",
+      "difficulty": "intermediate",
+      "tags": [
+        "strings",
+        "pattern-matching",
+        "boyer-moore",
+        "bad-character",
+        "search"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n/m)",
+          "average": "O(n)",
+          "worst": "O(n*m)"
+        },
+        "space": "O(k)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Knuth-Morris-Pratt",
+      "slug": "knuth-morris-pratt",
+      "category": "strings",
+      "difficulty": "intermediate",
+      "tags": [
+        "strings",
+        "pattern-matching",
+        "kmp",
+        "prefix-function",
+        "substring-search"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n + m)",
+          "average": "O(n + m)",
+          "worst": "O(n + m)"
+        },
+        "space": "O(m)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Levenshtein Distance",
+      "slug": "levenshtein-distance",
+      "category": "strings",
+      "difficulty": "intermediate",
+      "tags": [
+        "strings",
+        "dynamic-programming",
+        "edit-distance",
+        "levenshtein"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n * m)",
+          "average": "O(n * m)",
+          "worst": "O(n * m)"
+        },
+        "space": "O(n * m)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Longest Palindromic Substring",
+      "slug": "longest-palindromic-substring",
+      "category": "strings",
+      "difficulty": "intermediate",
+      "tags": [
+        "strings",
+        "palindrome",
+        "expand-around-center",
+        "dynamic-programming"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n)",
+          "average": "O(n^2)",
+          "worst": "O(n^2)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "LZ77 Compression",
+      "slug": "lz77-compression",
+      "category": "strings",
+      "difficulty": "intermediate",
+      "tags": [
+        "strings",
+        "compression",
+        "lz77",
+        "sliding-window"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n * w)",
+          "average": "O(n * w)",
+          "worst": "O(n * w)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Manacher's Algorithm",
+      "slug": "manachers-algorithm",
+      "category": "strings",
+      "difficulty": "advanced",
+      "tags": [
+        "strings",
+        "palindrome",
+        "manachers",
+        "linear-time"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n)",
+          "average": "O(n)",
+          "worst": "O(n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Rabin-Karp",
+      "slug": "rabin-karp",
+      "category": "strings",
+      "difficulty": "intermediate",
+      "tags": [
+        "strings",
+        "pattern-matching",
+        "hashing",
+        "rolling-hash",
+        "substring-search"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n + m)",
+          "average": "O(n + m)",
+          "worst": "O(nm)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Robin-Karp Rolling Hash",
+      "slug": "robin-karp-rolling-hash",
+      "category": "strings",
+      "difficulty": "intermediate",
+      "tags": [
+        "strings",
+        "hashing",
+        "rolling-hash",
+        "pattern-matching"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n + m)",
+          "average": "O(n + m)",
+          "worst": "O(n * m)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Run-Length Encoding",
+      "slug": "run-length-encoding",
+      "category": "strings",
+      "difficulty": "beginner",
+      "tags": [
+        "strings",
+        "compression",
+        "encoding",
+        "rle"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n)",
+          "average": "O(n)",
+          "worst": "O(n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "String to Token",
+      "slug": "string-to-token",
+      "category": "strings",
+      "difficulty": "beginner",
+      "tags": [
+        "strings",
+        "tokenization",
+        "parsing",
+        "splitting"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n)",
+          "average": "O(n)",
+          "worst": "O(n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 5,
+      "languages": [
+        "c",
+        "cpp",
+        "java",
+        "kotlin",
+        "swift"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Suffix Array",
+      "slug": "suffix-array",
+      "category": "strings",
+      "difficulty": "advanced",
+      "tags": [
+        "strings",
+        "suffix-array",
+        "sorting",
+        "text-processing"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n log^2 n)",
+          "average": "O(n log^2 n)",
+          "worst": "O(n log^2 n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Suffix Tree",
+      "slug": "suffix-tree",
+      "category": "strings",
+      "difficulty": "advanced",
+      "tags": [
+        "strings",
+        "suffix-tree",
+        "distinct-substrings",
+        "text-processing"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n)",
+          "average": "O(n)",
+          "worst": "O(n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Z-Algorithm",
+      "slug": "z-algorithm",
+      "category": "strings",
+      "difficulty": "intermediate",
+      "tags": [
+        "strings",
+        "pattern-matching",
+        "z-function",
+        "z-array",
+        "prefix"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n)",
+          "average": "O(n)",
+          "worst": "O(n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Binary GCD",
+      "slug": "binary-gcd",
+      "category": "math",
+      "difficulty": "intermediate",
+      "tags": [
+        "math",
+        "gcd",
+        "binary",
+        "stein-algorithm",
+        "bitwise"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(1)",
+          "average": "O(log(min(a,b))^2)",
+          "worst": "O(log(min(a,b))^2)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 7,
+      "languages": [
+        "c",
+        "cpp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "swift"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Borwein's Algorithm",
+      "slug": "borweins-algorithm",
+      "category": "math",
+      "difficulty": "advanced",
+      "tags": [
+        "math",
+        "pi",
+        "approximation",
+        "borwein",
+        "numerical"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n)",
+          "average": "O(n)",
+          "worst": "O(n)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 3,
+      "languages": [
+        "cpp",
+        "java",
+        "python"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Catalan Numbers",
+      "slug": "catalan-numbers",
+      "category": "math",
+      "difficulty": "intermediate",
+      "tags": [
+        "math",
+        "combinatorics",
+        "dynamic-programming",
+        "catalan"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n)",
+          "average": "O(n)",
+          "worst": "O(n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Chinese Remainder Theorem",
+      "slug": "chinese-remainder-theorem",
+      "category": "math",
+      "difficulty": "advanced",
+      "tags": [
+        "math",
+        "number-theory",
+        "crt",
+        "modular-arithmetic",
+        "congruences"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n log M)",
+          "average": "O(n log M)",
+          "worst": "O(n log M)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Combination",
+      "slug": "combination",
+      "category": "math",
+      "difficulty": "beginner",
+      "tags": [
+        "math",
+        "combination",
+        "nCr",
+        "binomial-coefficient",
+        "combinatorics"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(r)",
+          "average": "O(r)",
+          "worst": "O(r)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 5,
+      "languages": [
+        "c",
+        "cpp",
+        "java",
+        "kotlin",
+        "swift"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Conjugate Gradient",
+      "slug": "conjugate-gradient",
+      "category": "math",
+      "difficulty": "advanced",
+      "tags": [
+        "math",
+        "optimization",
+        "linear-algebra",
+        "conjugate-gradient",
+        "iterative-solver"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n * sqrt(k))",
+          "average": "O(n * sqrt(k))",
+          "worst": "O(n^2 * sqrt(k))"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 2,
+      "languages": [
+        "cpp",
+        "python"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Discrete Logarithm (Baby-step Giant-step)",
+      "slug": "discrete-logarithm",
+      "category": "math",
+      "difficulty": "advanced",
+      "tags": [
+        "math",
+        "number-theory",
+        "discrete-logarithm",
+        "baby-step-giant-step",
+        "modular-arithmetic"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(sqrt(p))",
+          "average": "O(sqrt(p))",
+          "worst": "O(sqrt(p))"
+        },
+        "space": "O(sqrt(p))"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Doomsday Algorithm",
+      "slug": "doomsday",
+      "category": "math",
+      "difficulty": "intermediate",
+      "tags": [
+        "math",
+        "calendar",
+        "day-of-week",
+        "doomsday",
+        "date"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(1)",
+          "average": "O(1)",
+          "worst": "O(1)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 9,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Euler's Totient Function",
+      "slug": "euler-toient",
+      "category": "math",
+      "difficulty": "intermediate",
+      "tags": [
+        "math",
+        "euler",
+        "totient",
+        "phi-function",
+        "number-theory"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(sqrt(n))",
+          "average": "O(sqrt(n))",
+          "worst": "O(sqrt(n))"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 5,
+      "languages": [
+        "c",
+        "cpp",
+        "java",
+        "kotlin",
+        "swift"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Euler Totient Sieve",
+      "slug": "euler-totient-sieve",
+      "category": "math",
+      "difficulty": "intermediate",
+      "tags": [
+        "math",
+        "number-theory",
+        "euler-totient",
+        "sieve",
+        "phi-function"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n log log n)",
+          "average": "O(n log log n)",
+          "worst": "O(n log log n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Extended Euclidean",
+      "slug": "extended-euclidean",
+      "category": "math",
+      "difficulty": "intermediate",
+      "tags": [
+        "math",
+        "gcd",
+        "extended-euclidean",
+        "bezout",
+        "modular-inverse"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(1)",
+          "average": "O(log(min(a,b)))",
+          "worst": "O(log(min(a,b)))"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 7,
+      "languages": [
+        "c",
+        "cpp",
+        "java",
+        "kotlin",
+        "python",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Extended GCD Applications",
+      "slug": "extended-gcd-applications",
+      "category": "math",
+      "difficulty": "intermediate",
+      "tags": [
+        "math",
+        "gcd",
+        "modular-inverse",
+        "number-theory"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(log(min(a, m)))",
+          "average": "O(log(min(a, m)))",
+          "worst": "O(log(min(a, m)))"
+        },
+        "space": "O(log(min(a, m)))"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Factorial",
+      "slug": "factorial",
+      "category": "math",
+      "difficulty": "beginner",
+      "tags": [
+        "math",
+        "factorial",
+        "recursion",
+        "iterative"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n)",
+          "average": "O(n)",
+          "worst": "O(n)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Fast Fourier Transform",
+      "slug": "fast-fourier-transform",
+      "category": "math",
+      "difficulty": "advanced",
+      "tags": [
+        "math",
+        "fft",
+        "fourier",
+        "signal-processing",
+        "polynomial-multiplication"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n log n)",
+          "average": "O(n log n)",
+          "worst": "O(n log n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 5,
+      "languages": [
+        "c",
+        "cpp",
+        "java",
+        "python",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Fisher-Yates Shuffle",
+      "slug": "fisher-yates-shuffle",
+      "category": "math",
+      "difficulty": "beginner",
+      "tags": [
+        "math",
+        "shuffle",
+        "random",
+        "permutation",
+        "in-place"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n)",
+          "average": "O(n)",
+          "worst": "O(n)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 6,
+      "languages": [
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "python",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Gaussian Elimination",
+      "slug": "gaussian-elimination",
+      "category": "math",
+      "difficulty": "intermediate",
+      "tags": [
+        "math",
+        "linear-algebra",
+        "gaussian-elimination",
+        "systems-of-equations"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n^3)",
+          "average": "O(n^3)",
+          "worst": "O(n^3)"
+        },
+        "space": "O(n^2)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Genetic Algorithm",
+      "slug": "genetic-algorithm",
+      "category": "math",
+      "difficulty": "advanced",
+      "tags": [
+        "math",
+        "optimization",
+        "metaheuristic",
+        "evolutionary",
+        "genetic"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(g * p * n)",
+          "average": "O(g * p * n)",
+          "worst": "O(g * p * n)"
+        },
+        "space": "O(p)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Greatest Common Divisor",
+      "slug": "greatest-common-divisor",
+      "category": "math",
+      "difficulty": "beginner",
+      "tags": [
+        "math",
+        "gcd",
+        "euclidean",
+        "number-theory",
+        "divisor"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(1)",
+          "average": "O(log(min(a,b)))",
+          "worst": "O(log(min(a,b)))"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Histogram Equalization",
+      "slug": "histogram-equalization",
+      "category": "math",
+      "difficulty": "intermediate",
+      "tags": [
+        "math",
+        "histogram",
+        "equalization",
+        "image-processing",
+        "contrast"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n)",
+          "average": "O(n)",
+          "worst": "O(n)"
+        },
+        "space": "O(k)"
+      },
+      "languageCount": 1,
+      "languages": [
+        "java"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Inverse Fast Fourier Transform",
+      "slug": "inverse-fast-fourier-transform",
+      "category": "math",
+      "difficulty": "advanced",
+      "tags": [
+        "math",
+        "ifft",
+        "fourier",
+        "signal-processing",
+        "inverse-transform"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n log n)",
+          "average": "O(n log n)",
+          "worst": "O(n log n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 1,
+      "languages": [
+        "cpp"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Josephus Problem",
+      "slug": "josephus-problem",
+      "category": "math",
+      "difficulty": "intermediate",
+      "tags": [
+        "math",
+        "josephus",
+        "circular",
+        "elimination",
+        "recursion"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n)",
+          "average": "O(n)",
+          "worst": "O(n)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 5,
+      "languages": [
+        "c",
+        "cpp",
+        "java",
+        "kotlin",
+        "swift"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Lucas' Theorem",
+      "slug": "lucas-theorem",
+      "category": "math",
+      "difficulty": "intermediate",
+      "tags": [
+        "math",
+        "combinatorics",
+        "lucas-theorem",
+        "binomial-coefficient",
+        "modular-arithmetic"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(p log_p(n))",
+          "average": "O(p log_p(n))",
+          "worst": "O(p + log_p(n))"
+        },
+        "space": "O(p)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Luhn Algorithm",
+      "slug": "luhn",
+      "category": "math",
+      "difficulty": "beginner",
+      "tags": [
+        "math",
+        "luhn",
+        "checksum",
+        "validation",
+        "credit-card"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n)",
+          "average": "O(n)",
+          "worst": "O(n)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 6,
+      "languages": [
+        "c",
+        "cpp",
+        "java",
+        "kotlin",
+        "python",
+        "swift"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Matrix Determinant",
+      "slug": "matrix-determinant",
+      "category": "math",
+      "difficulty": "intermediate",
+      "tags": [
+        "math",
+        "linear-algebra",
+        "matrix",
+        "determinant"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n^3)",
+          "average": "O(n^3)",
+          "worst": "O(n^3)"
+        },
+        "space": "O(n^2)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Matrix Exponentiation",
+      "slug": "matrix-exponentiation",
+      "category": "math",
+      "difficulty": "advanced",
+      "tags": [
+        "math",
+        "matrix",
+        "exponentiation",
+        "fast-power",
+        "linear-recurrence"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(k^3 log n)",
+          "average": "O(k^3 log n)",
+          "worst": "O(k^3 log n)"
+        },
+        "space": "O(k^2)"
+      },
+      "languageCount": 1,
+      "languages": [
+        "cpp"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Miller-Rabin Primality Test",
+      "slug": "miller-rabin",
+      "category": "math",
+      "difficulty": "advanced",
+      "tags": [
+        "math",
+        "primality",
+        "probabilistic",
+        "number-theory"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(k log^2 n)",
+          "average": "O(k log^2 n)",
+          "worst": "O(k log^2 n)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Mobius Function",
+      "slug": "mobius-function",
+      "category": "math",
+      "difficulty": "advanced",
+      "tags": [
+        "math",
+        "number-theory",
+        "mobius-function",
+        "sieve",
+        "mobius-inversion"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n log log n)",
+          "average": "O(n log log n)",
+          "worst": "O(n log log n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Modular Exponentiation",
+      "slug": "modular-exponentiation",
+      "category": "math",
+      "difficulty": "intermediate",
+      "tags": [
+        "math",
+        "modular-arithmetic",
+        "exponentiation",
+        "fast-power",
+        "number-theory"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(log exp)",
+          "average": "O(log exp)",
+          "worst": "O(log exp)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Newton's Method (Integer Square Root)",
+      "slug": "newtons-method",
+      "category": "math",
+      "difficulty": "intermediate",
+      "tags": [
+        "math",
+        "numerical",
+        "newton-raphson",
+        "square-root",
+        "approximation"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(log n)",
+          "average": "O(log n)",
+          "worst": "O(log n)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Number Theoretic Transform (NTT)",
+      "slug": "ntt",
+      "category": "math",
+      "difficulty": "advanced",
+      "tags": [
+        "math",
+        "number-theory",
+        "ntt",
+        "polynomial-multiplication",
+        "finite-field"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n log n)",
+          "average": "O(n log n)",
+          "worst": "O(n log n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Pollard's Rho",
+      "slug": "pollards-rho",
+      "category": "math",
+      "difficulty": "advanced",
+      "tags": [
+        "math",
+        "number-theory",
+        "factorization",
+        "pollards-rho",
+        "probabilistic"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n^(1/4))",
+          "average": "O(n^(1/4))",
+          "worst": "O(n^(1/2))"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Primality Tests",
+      "slug": "primality-tests",
+      "category": "math",
+      "difficulty": "advanced",
+      "tags": [
+        "math",
+        "primes",
+        "fermat",
+        "miller-rabin",
+        "probabilistic"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(k log^2 n)",
+          "average": "O(k log^2 n)",
+          "worst": "O(k log^2 n)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 5,
+      "languages": [
+        "c",
+        "cpp",
+        "java",
+        "kotlin",
+        "swift"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Prime Check",
+      "slug": "prime-check",
+      "category": "math",
+      "difficulty": "beginner",
+      "tags": [
+        "math",
+        "primes",
+        "primality",
+        "number-theory"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(1)",
+          "average": "O(sqrt(n))",
+          "worst": "O(sqrt(n))"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Reservoir Sampling",
+      "slug": "reservoir-sampling",
+      "category": "math",
+      "difficulty": "intermediate",
+      "tags": [
+        "math",
+        "sampling",
+        "random",
+        "streaming",
+        "probability"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n)",
+          "average": "O(n)",
+          "worst": "O(n)"
+        },
+        "space": "O(k)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Segmented Sieve",
+      "slug": "segmented-sieve",
+      "category": "math",
+      "difficulty": "intermediate",
+      "tags": [
+        "math",
+        "primes",
+        "sieve",
+        "segmented",
+        "number-theory"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n log log n)",
+          "average": "O(n log log n)",
+          "worst": "O(n log log n)"
+        },
+        "space": "O(sqrt(n))"
+      },
+      "languageCount": 6,
+      "languages": [
+        "c",
+        "cpp",
+        "java",
+        "kotlin",
+        "python",
+        "swift"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Sieve of Eratosthenes",
+      "slug": "sieve-of-eratosthenes",
+      "category": "math",
+      "difficulty": "intermediate",
+      "tags": [
+        "math",
+        "primes",
+        "sieve",
+        "number-theory"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n log log n)",
+          "average": "O(n log log n)",
+          "worst": "O(n log log n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Simulated Annealing",
+      "slug": "simulated-annealing",
+      "category": "math",
+      "difficulty": "advanced",
+      "tags": [
+        "math",
+        "optimization",
+        "metaheuristic",
+        "probabilistic",
+        "stochastic"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n * iterations)",
+          "average": "O(n * iterations)",
+          "worst": "O(n * iterations)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Sumset",
+      "slug": "sumset",
+      "category": "math",
+      "difficulty": "intermediate",
+      "tags": [
+        "math",
+        "sumset",
+        "minkowski-sum",
+        "set-addition"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n * m)",
+          "average": "O(n * m)",
+          "worst": "O(n * m)"
+        },
+        "space": "O(n * m)"
+      },
+      "languageCount": 6,
+      "languages": [
+        "c",
+        "cpp",
+        "java",
+        "kotlin",
+        "python",
+        "swift"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Swap Two Variables",
+      "slug": "swap-two-variables",
+      "category": "math",
+      "difficulty": "beginner",
+      "tags": [
+        "math",
+        "swap",
+        "variables",
+        "basic",
+        "temporary-variable"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(1)",
+          "average": "O(1)",
+          "worst": "O(1)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 8,
+      "languages": [
+        "c",
+        "cpp",
+        "go",
+        "java",
+        "kotlin",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Vegas Algorithm",
+      "slug": "vegas-algorithm",
+      "category": "math",
+      "difficulty": "advanced",
+      "tags": [
+        "math",
+        "randomized",
+        "las-vegas",
+        "probabilistic",
+        "always-correct"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(1)",
+          "average": "O(n)",
+          "worst": "unbounded"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 1,
+      "languages": [
+        "cpp"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Activity Selection",
+      "slug": "activity-selection",
+      "category": "greedy",
+      "difficulty": "beginner",
+      "tags": [
+        "greedy",
+        "scheduling",
+        "optimization"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n log n)",
+          "average": "O(n log n)",
+          "worst": "O(n log n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Elevator Algorithm",
+      "slug": "elevator-algorithm",
+      "category": "greedy",
+      "difficulty": "intermediate",
+      "tags": [
+        "greedy",
+        "scheduling",
+        "elevator",
+        "scan",
+        "disk-scheduling"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n log n)",
+          "average": "O(n log n)",
+          "worst": "O(n log n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 1,
+      "languages": [
+        "java"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Fractional Knapsack",
+      "slug": "fractional-knapsack",
+      "category": "greedy",
+      "difficulty": "beginner",
+      "tags": [
+        "greedy",
+        "optimization",
+        "knapsack",
+        "fractional"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n log n)",
+          "average": "O(n log n)",
+          "worst": "O(n log n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Huffman Coding",
+      "slug": "huffman-coding",
+      "category": "greedy",
+      "difficulty": "intermediate",
+      "tags": [
+        "greedy",
+        "tree",
+        "compression",
+        "encoding"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n log n)",
+          "average": "O(n log n)",
+          "worst": "O(n log n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Interval Scheduling Maximization",
+      "slug": "interval-scheduling",
+      "category": "greedy",
+      "difficulty": "intermediate",
+      "tags": [
+        "greedy",
+        "scheduling",
+        "intervals",
+        "optimization"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n log n)",
+          "average": "O(n log n)",
+          "worst": "O(n log n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Job Scheduling",
+      "slug": "job-scheduling",
+      "category": "greedy",
+      "difficulty": "intermediate",
+      "tags": [
+        "greedy",
+        "scheduling",
+        "optimization",
+        "deadline"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n log n)",
+          "average": "O(n log n)",
+          "worst": "O(n^2)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Minimax with Alpha-Beta Pruning",
+      "slug": "min-max-ab-pruning",
+      "category": "backtracking",
+      "difficulty": "advanced",
+      "tags": [
+        "backtracking",
+        "game-theory",
+        "minimax",
+        "alpha-beta",
+        "pruning",
+        "optimization"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(b^(d/2))",
+          "average": "O(b^(3d/4))",
+          "worst": "O(b^d)"
+        },
+        "space": "O(b * d)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Minimax",
+      "slug": "minimax",
+      "category": "backtracking",
+      "difficulty": "intermediate",
+      "tags": [
+        "backtracking",
+        "game-theory",
+        "minimax",
+        "adversarial-search",
+        "decision-tree"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(b^d)",
+          "average": "O(b^d)",
+          "worst": "O(b^d)"
+        },
+        "space": "O(b * d)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "N-Queens",
+      "slug": "n-queens",
+      "category": "backtracking",
+      "difficulty": "intermediate",
+      "tags": [
+        "backtracking",
+        "recursion",
+        "constraint-satisfaction"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n!)",
+          "average": "O(n!)",
+          "worst": "O(n!)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Permutations",
+      "slug": "permutations",
+      "category": "backtracking",
+      "difficulty": "intermediate",
+      "tags": [
+        "backtracking",
+        "permutations",
+        "recursion",
+        "combinatorics",
+        "brute-force"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n!)",
+          "average": "O(n!)",
+          "worst": "O(n!)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Rat in a Maze",
+      "slug": "rat-in-a-maze",
+      "category": "backtracking",
+      "difficulty": "intermediate",
+      "tags": [
+        "backtracking",
+        "maze",
+        "pathfinding",
+        "recursion",
+        "grid"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(2^(n^2))",
+          "average": "O(2^(n^2))",
+          "worst": "O(2^(n^2))"
+        },
+        "space": "O(n^2)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Subset Sum",
+      "slug": "subset-sum",
+      "category": "backtracking",
+      "difficulty": "intermediate",
+      "tags": [
+        "backtracking",
+        "recursion",
+        "dynamic-programming"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n)",
+          "average": "O(2^n)",
+          "worst": "O(2^n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Sudoku Solver",
+      "slug": "sudoku-solver",
+      "category": "backtracking",
+      "difficulty": "intermediate",
+      "tags": [
+        "backtracking",
+        "recursion",
+        "constraint-satisfaction",
+        "puzzle"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(1)",
+          "average": "O(9^m)",
+          "worst": "O(9^81)"
+        },
+        "space": "O(81)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Counting Inversions",
+      "slug": "counting-inversions",
+      "category": "divide-and-conquer",
+      "difficulty": "intermediate",
+      "tags": [
+        "divide-and-conquer",
+        "inversions",
+        "merge-sort",
+        "counting",
+        "sorting"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n log n)",
+          "average": "O(n log n)",
+          "worst": "O(n log n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Karatsuba Multiplication",
+      "slug": "karatsuba-multiplication",
+      "category": "divide-and-conquer",
+      "difficulty": "intermediate",
+      "tags": [
+        "divide-and-conquer",
+        "multiplication",
+        "karatsuba",
+        "math"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n^1.585)",
+          "average": "O(n^1.585)",
+          "worst": "O(n^1.585)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Maximum Subarray (Divide and Conquer)",
+      "slug": "maximum-subarray-divide-conquer",
+      "category": "divide-and-conquer",
+      "difficulty": "intermediate",
+      "tags": [
+        "divide-and-conquer",
+        "maximum-subarray",
+        "array"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n log n)",
+          "average": "O(n log n)",
+          "worst": "O(n log n)"
+        },
+        "space": "O(log n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Strassen's Matrix Multiplication",
+      "slug": "strassens-matrix",
+      "category": "divide-and-conquer",
+      "difficulty": "advanced",
+      "tags": [
+        "divide-and-conquer",
+        "matrix",
+        "multiplication",
+        "strassen"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n^2.807)",
+          "average": "O(n^2.807)",
+          "worst": "O(n^2.807)"
+        },
+        "space": "O(n^2)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Bit Reversal",
+      "slug": "bit-reversal",
+      "category": "bit-manipulation",
+      "difficulty": "beginner",
+      "tags": [
+        "bit-manipulation",
+        "reversal",
+        "bitwise",
+        "32-bit"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(1)",
+          "average": "O(1)",
+          "worst": "O(1)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Count Set Bits",
+      "slug": "count-set-bits",
+      "category": "bit-manipulation",
+      "difficulty": "beginner",
+      "tags": [
+        "bit-manipulation",
+        "counting",
+        "popcount",
+        "hamming-weight"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n * k)",
+          "average": "O(n * k)",
+          "worst": "O(n * k)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "Hamming Distance",
+      "slug": "hamming-distance",
+      "category": "bit-manipulation",
+      "difficulty": "beginner",
+      "tags": [
+        "bit-manipulation",
+        "hamming",
+        "distance",
+        "xor",
+        "error-detection"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(1)",
+          "average": "O(1)",
+          "worst": "O(1)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Power of Two Check",
+      "slug": "power-of-two-check",
+      "category": "bit-manipulation",
+      "difficulty": "beginner",
+      "tags": [
+        "bit-manipulation",
+        "power-of-two",
+        "bitwise"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(1)",
+          "average": "O(1)",
+          "worst": "O(1)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Unary Coding",
+      "slug": "unary-coding",
+      "category": "bit-manipulation",
+      "difficulty": "beginner",
+      "tags": [
+        "bit-manipulation",
+        "encoding",
+        "unary",
+        "compression",
+        "prefix-code"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n)",
+          "average": "O(n)",
+          "worst": "O(n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "XOR Swap",
+      "slug": "xor-swap",
+      "category": "bit-manipulation",
+      "difficulty": "beginner",
+      "tags": [
+        "bit-manipulation",
+        "xor",
+        "swap",
+        "in-place",
+        "no-temp"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(1)",
+          "average": "O(1)",
+          "worst": "O(1)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Closest Pair of Points",
+      "slug": "closest-pair-of-points",
+      "category": "geometry",
+      "difficulty": "intermediate",
+      "tags": [
+        "geometry",
+        "divide-and-conquer",
+        "distance",
+        "computational-geometry"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n log n)",
+          "average": "O(n log n)",
+          "worst": "O(n log n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Convex Hull",
+      "slug": "convex-hull",
+      "category": "geometry",
+      "difficulty": "intermediate",
+      "tags": [
+        "geometry",
+        "convex-hull",
+        "computational-geometry",
+        "graham-scan"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n log n)",
+          "average": "O(n log n)",
+          "worst": "O(n log n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Convex Hull - Jarvis March",
+      "slug": "convex-hull-jarvis",
+      "category": "geometry",
+      "difficulty": "intermediate",
+      "tags": [
+        "geometry",
+        "convex-hull",
+        "gift-wrapping",
+        "jarvis-march"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(nh)",
+          "average": "O(nh)",
+          "worst": "O(n^2)"
+        },
+        "space": "O(h)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Delaunay Triangulation",
+      "slug": "delaunay-triangulation",
+      "category": "geometry",
+      "difficulty": "advanced",
+      "tags": [
+        "geometry",
+        "triangulation",
+        "delaunay",
+        "computational-geometry"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n^4)",
+          "average": "O(n^4)",
+          "worst": "O(n^4)"
+        },
+        "space": "O(n^2)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Line Segment Intersection",
+      "slug": "line-intersection",
+      "category": "geometry",
+      "difficulty": "intermediate",
+      "tags": [
+        "geometry",
+        "intersection",
+        "line-segment",
+        "computational-geometry"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(1)",
+          "average": "O(1)",
+          "worst": "O(1)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Point in Polygon",
+      "slug": "point-in-polygon",
+      "category": "geometry",
+      "difficulty": "intermediate",
+      "tags": [
+        "geometry",
+        "ray-casting",
+        "polygon",
+        "containment",
+        "computational-geometry"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n)",
+          "average": "O(n)",
+          "worst": "O(n)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Voronoi Diagram",
+      "slug": "voronoi-diagram",
+      "category": "geometry",
+      "difficulty": "advanced",
+      "tags": [
+        "geometry",
+        "voronoi",
+        "computational-geometry",
+        "partitioning"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n^4)",
+          "average": "O(n^4)",
+          "worst": "O(n^4)"
+        },
+        "space": "O(n^2)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Simplified AES",
+      "slug": "aes-simplified",
+      "category": "cryptography",
+      "difficulty": "advanced",
+      "tags": [
+        "cryptography",
+        "aes",
+        "symmetric-key",
+        "substitution",
+        "block-cipher"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n)",
+          "average": "O(n)",
+          "worst": "O(n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Diffie-Hellman Key Exchange",
+      "slug": "diffie-hellman",
+      "category": "cryptography",
+      "difficulty": "intermediate",
+      "tags": [
+        "cryptography",
+        "key-exchange",
+        "diffie-hellman",
+        "modular-exponentiation",
+        "public-key"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(log n)",
+          "average": "O(log n)",
+          "worst": "O(log n)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Pearson Hashing",
+      "slug": "pearson-hashing",
+      "category": "cryptography",
+      "difficulty": "beginner",
+      "tags": [
+        "cryptography",
+        "hashing",
+        "pearson",
+        "non-cryptographic",
+        "byte-hash"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n)",
+          "average": "O(n)",
+          "worst": "O(n)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 1,
+      "languages": [
+        "java"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "RSA Algorithm",
+      "slug": "rsa-algorithm",
+      "category": "cryptography",
+      "difficulty": "advanced",
+      "tags": [
+        "cryptography",
+        "rsa",
+        "public-key",
+        "encryption",
+        "modular-exponentiation"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(log n)",
+          "average": "O(log n)",
+          "worst": "O(log n)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Bloom Filter",
+      "slug": "bloom-filter",
+      "category": "data-structures",
+      "difficulty": "intermediate",
+      "tags": [
+        "data-structures",
+        "bloom-filter",
+        "probabilistic",
+        "hashing",
+        "membership-test"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(k)",
+          "average": "O(k)",
+          "worst": "O(k)"
+        },
+        "space": "O(m)"
+      },
+      "languageCount": 1,
+      "languages": [
+        "python"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Cuckoo Hashing",
+      "slug": "cuckoo-hashing",
+      "category": "data-structures",
+      "difficulty": "intermediate",
+      "tags": [
+        "data-structures",
+        "hashing",
+        "cuckoo-hashing",
+        "hash-table",
+        "constant-lookup"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(1)",
+          "average": "O(1)",
+          "worst": "O(n) rehash"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Disjoint Sparse Table",
+      "slug": "disjoint-sparse-table",
+      "category": "data-structures",
+      "difficulty": "advanced",
+      "tags": [
+        "data-structures",
+        "range-query",
+        "sparse-table",
+        "range-sum"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(1)",
+          "average": "O(1)",
+          "worst": "O(1)"
+        },
+        "space": "O(n log n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Fibonacci Heap",
+      "slug": "fibonacci-heap",
+      "category": "data-structures",
+      "difficulty": "advanced",
+      "tags": [
+        "data-structures",
+        "heap",
+        "fibonacci-heap",
+        "priority-queue",
+        "amortized"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(1)",
+          "average": "O(1) insert / O(log n) extract-min",
+          "worst": "O(n) extract-min"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Hash Table",
+      "slug": "hash-table",
+      "category": "data-structures",
+      "difficulty": "beginner",
+      "tags": [
+        "data-structures",
+        "hashing",
+        "collision-resolution"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(1)",
+          "average": "O(1)",
+          "worst": "O(n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Binary Heap",
+      "slug": "heap-operations",
+      "category": "data-structures",
+      "difficulty": "beginner",
+      "tags": [
+        "data-structures",
+        "heap",
+        "min-heap",
+        "priority-queue",
+        "sorting"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n log n)",
+          "average": "O(n log n)",
+          "worst": "O(n log n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Infix to Postfix",
+      "slug": "infix-to-postfix",
+      "category": "data-structures",
+      "difficulty": "intermediate",
+      "tags": [
+        "data-structures",
+        "stack",
+        "expression",
+        "infix",
+        "postfix",
+        "shunting-yard"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n)",
+          "average": "O(n)",
+          "worst": "O(n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 5,
+      "languages": [
+        "c",
+        "cpp",
+        "java",
+        "kotlin",
+        "swift"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Linked List Operations",
+      "slug": "linked-list-operations",
+      "category": "data-structures",
+      "difficulty": "beginner",
+      "tags": [
+        "data-structures",
+        "linked-list",
+        "pointers"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(1)",
+          "average": "O(n)",
+          "worst": "O(n)"
+        },
+        "space": "O(1)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "LRU Cache",
+      "slug": "lru-cache",
+      "category": "data-structures",
+      "difficulty": "intermediate",
+      "tags": [
+        "data-structures",
+        "cache",
+        "hash-map",
+        "linked-list"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(1)",
+          "average": "O(1)",
+          "worst": "O(1)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Mo's Algorithm",
+      "slug": "mo-algorithm",
+      "category": "data-structures",
+      "difficulty": "advanced",
+      "tags": [
+        "data-structures",
+        "range-query",
+        "offline",
+        "sqrt-decomposition"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O((N+Q)*sqrt(N))",
+          "average": "O((N+Q)*sqrt(N))",
+          "worst": "O((N+Q)*sqrt(N))"
+        },
+        "space": "O(N+Q)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Persistent Data Structures",
+      "slug": "persistent-data-structures",
+      "category": "data-structures",
+      "difficulty": "advanced",
+      "tags": [
+        "data-structures",
+        "persistent",
+        "segment-tree",
+        "immutable",
+        "versioning"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(log n)",
+          "average": "O(log n)",
+          "worst": "O(log n)"
+        },
+        "space": "O(n log n)"
+      },
+      "languageCount": 1,
+      "languages": [
+        "cpp"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Priority Queue",
+      "slug": "priority-queue",
+      "category": "data-structures",
+      "difficulty": "beginner",
+      "tags": [
+        "data-structures",
+        "priority-queue",
+        "heap",
+        "min-heap"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n log n)",
+          "average": "O(n log n)",
+          "worst": "O(n log n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Queue",
+      "slug": "queue-operations",
+      "category": "data-structures",
+      "difficulty": "beginner",
+      "tags": [
+        "data-structures",
+        "queue",
+        "fifo",
+        "linear"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n)",
+          "average": "O(n)",
+          "worst": "O(n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Rope Data Structure",
+      "slug": "rope-data-structure",
+      "category": "data-structures",
+      "difficulty": "advanced",
+      "tags": [
+        "data-structures",
+        "rope",
+        "string-operations",
+        "binary-tree",
+        "concatenation"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(log n)",
+          "average": "O(log n)",
+          "worst": "O(n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Skip List",
+      "slug": "skip-list",
+      "category": "data-structures",
+      "difficulty": "advanced",
+      "tags": [
+        "data-structure",
+        "linked-list",
+        "probabilistic",
+        "search",
+        "skip-list"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(log n)",
+          "average": "O(log n)",
+          "worst": "O(n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Sparse Table",
+      "slug": "sparse-table",
+      "category": "data-structures",
+      "difficulty": "intermediate",
+      "tags": [
+        "data-structures",
+        "range-query",
+        "rmq",
+        "sparse-table",
+        "static"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(1)",
+          "average": "O(1)",
+          "worst": "O(1)"
+        },
+        "space": "O(n log n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Sqrt Decomposition",
+      "slug": "sqrt-decomposition",
+      "category": "data-structures",
+      "difficulty": "intermediate",
+      "tags": [
+        "data-structures",
+        "range-query",
+        "sqrt-decomposition",
+        "blocking"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(1)",
+          "average": "O(sqrt(n))",
+          "worst": "O(sqrt(n))"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Stack",
+      "slug": "stack-operations",
+      "category": "data-structures",
+      "difficulty": "beginner",
+      "tags": [
+        "data-structures",
+        "stack",
+        "lifo",
+        "linear"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(n)",
+          "average": "O(n)",
+          "worst": "O(n)"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    },
+    {
+      "name": "Union-Find",
+      "slug": "union-find",
+      "category": "data-structures",
+      "difficulty": "intermediate",
+      "tags": [
+        "data-structures",
+        "union-find",
+        "disjoint-set",
+        "path-compression",
+        "union-by-rank"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(1)",
+          "average": "O(alpha(n))",
+          "worst": "O(alpha(n))"
+        },
+        "space": "O(n)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": true
+    },
+    {
+      "name": "van Emde Boas Tree",
+      "slug": "van-emde-boas-tree",
+      "category": "data-structures",
+      "difficulty": "advanced",
+      "tags": [
+        "data-structures",
+        "van-emde-boas",
+        "integer-set",
+        "predecessor",
+        "successor"
+      ],
+      "complexity": {
+        "time": {
+          "best": "O(1)",
+          "average": "O(log log U)",
+          "worst": "O(log log U)"
+        },
+        "space": "O(U)"
+      },
+      "languageCount": 11,
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "kotlin",
+        "python",
+        "rust",
+        "scala",
+        "swift",
+        "typescript"
+      ],
+      "visualization": false
+    }
+  ]
+}

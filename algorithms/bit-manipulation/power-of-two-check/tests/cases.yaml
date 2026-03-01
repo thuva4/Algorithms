@@ -1,0 +1,18 @@
+algorithm: "power-of-two-check"
+function_signature:
+  name: "power_of_two_check"
+  input: [integer]
+  output: integer
+test_cases:
+  - name: "power of two (16)"
+    input: [16]
+    expected: 1
+  - name: "not power of two (15)"
+    input: [15]
+    expected: 0
+  - name: "one"
+    input: [1]
+    expected: 1
+  - name: "zero"
+    input: [0]
+    expected: 0

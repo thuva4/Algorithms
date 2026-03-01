@@ -1,0 +1,17 @@
+name: "Segment Tree"
+slug: "segment-tree"
+category: "trees"
+subcategory: "range-query"
+difficulty: "intermediate"
+tags: [trees, segment-tree, range-query, range-update, lazy-propagation]
+complexity:
+  time:
+    best: "O(log n)"
+    average: "O(log n)"
+    worst: "O(log n)"
+  space: "O(n)"
+stable: false
+in_place: false
+related: [fenwick-tree, binary-tree]
+implementations: [cpp]
+visualization: true

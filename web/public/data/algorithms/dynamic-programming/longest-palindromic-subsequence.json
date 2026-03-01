@@ -1,0 +1,133 @@
+{
+  "name": "Longest Palindromic Subsequence",
+  "slug": "longest-palindromic-subsequence",
+  "category": "dynamic-programming",
+  "subcategory": "subsequence",
+  "difficulty": "intermediate",
+  "tags": [
+    "dynamic-programming",
+    "palindrome",
+    "subsequence"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n^2)",
+      "average": "O(n^2)",
+      "worst": "O(n^2)"
+    },
+    "space": "O(n^2)"
+  },
+  "stable": null,
+  "in_place": null,
+  "related": [
+    "longest-common-subsequence",
+    "longest-increasing-subsequence"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "longest_palindromic_subsequence.c",
+          "content": "#include \"longest_palindromic_subsequence.h\"\n\nint longest_palindromic_subsequence(const int* arr, int n) {\n    if (n == 0) return 0;\n    int dp[500][500];\n    for (int i = 0; i < n; i++)\n        for (int j = 0; j < n; j++)\n            dp[i][j] = 0;\n    for (int i = 0; i < n; i++) dp[i][i] = 1;\n    for (int len = 2; len <= n; len++) {\n        for (int i = 0; i <= n - len; i++) {\n            int j = i + len - 1;\n            if (arr[i] == arr[j]) dp[i][j] = (len == 2) ? 2 : dp[i + 1][j - 1] + 2;\n            else dp[i][j] = dp[i + 1][j] > dp[i][j - 1] ? dp[i + 1][j] : dp[i][j - 1];\n        }\n    }\n    return dp[0][n - 1];\n}\n"
+        },
+        {
+          "filename": "longest_palindromic_subsequence.h",
+          "content": "#ifndef LONGEST_PALINDROMIC_SUBSEQUENCE_H\n#define LONGEST_PALINDROMIC_SUBSEQUENCE_H\n\nint longest_palindromic_subsequence(const int* arr, int n);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "longest_palindromic_subsequence.cpp",
+          "content": "#include <vector>\n#include <algorithm>\n\nint longest_palindromic_subsequence(std::vector<int> arr) {\n    int n = static_cast<int>(arr.size());\n    if (n == 0) return 0;\n    std::vector<std::vector<int>> dp(n, std::vector<int>(n, 0));\n    for (int i = 0; i < n; i++) dp[i][i] = 1;\n    for (int len = 2; len <= n; len++) {\n        for (int i = 0; i <= n - len; i++) {\n            int j = i + len - 1;\n            if (arr[i] == arr[j]) dp[i][j] = (len == 2) ? 2 : dp[i + 1][j - 1] + 2;\n            else dp[i][j] = std::max(dp[i + 1][j], dp[i][j - 1]);\n        }\n    }\n    return dp[0][n - 1];\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "LongestPalindromicSubsequence.cs",
+          "content": "using System;\n\npublic class LongestPalindromicSubsequence\n{\n    public static int Solve(int[] arr)\n    {\n        int n = arr.Length;\n        if (n == 0) return 0;\n        int[,] dp = new int[n, n];\n        for (int i = 0; i < n; i++) dp[i, i] = 1;\n        for (int len = 2; len <= n; len++)\n        {\n            for (int i = 0; i <= n - len; i++)\n            {\n                int j = i + len - 1;\n                if (arr[i] == arr[j]) dp[i, j] = len == 2 ? 2 : dp[i + 1, j - 1] + 2;\n                else dp[i, j] = Math.Max(dp[i + 1, j], dp[i, j - 1]);\n            }\n        }\n        return dp[0, n - 1];\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "longest_palindromic_subsequence.go",
+          "content": "package longestpalindromicsubsequence\n\n// LongestPalindromicSubsequence returns the length of the longest palindromic subsequence.\nfunc LongestPalindromicSubsequence(arr []int) int {\n\tn := len(arr)\n\tif n == 0 { return 0 }\n\tdp := make([][]int, n)\n\tfor i := range dp { dp[i] = make([]int, n) }\n\tfor i := 0; i < n; i++ { dp[i][i] = 1 }\n\tfor l := 2; l <= n; l++ {\n\t\tfor i := 0; i <= n-l; i++ {\n\t\t\tj := i + l - 1\n\t\t\tif arr[i] == arr[j] {\n\t\t\t\tif l == 2 { dp[i][j] = 2 } else { dp[i][j] = dp[i+1][j-1] + 2 }\n\t\t\t} else {\n\t\t\t\tif dp[i+1][j] > dp[i][j-1] { dp[i][j] = dp[i+1][j] } else { dp[i][j] = dp[i][j-1] }\n\t\t\t}\n\t\t}\n\t}\n\treturn dp[0][n-1]\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "LongestPalindromicSubsequence.java",
+          "content": "public class LongestPalindromicSubsequence {\n\n    public static int longestPalindromicSubsequence(int[] arr) {\n        int n = arr.length;\n        if (n == 0) return 0;\n        int[][] dp = new int[n][n];\n        for (int i = 0; i < n; i++) dp[i][i] = 1;\n        for (int len = 2; len <= n; len++) {\n            for (int i = 0; i <= n - len; i++) {\n                int j = i + len - 1;\n                if (arr[i] == arr[j]) dp[i][j] = (len == 2) ? 2 : dp[i + 1][j - 1] + 2;\n                else dp[i][j] = Math.max(dp[i + 1][j], dp[i][j - 1]);\n            }\n        }\n        return dp[0][n - 1];\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "LongestPalindromicSubsequence.kt",
+          "content": "fun longestPalindromicSubsequence(arr: IntArray): Int {\n    val n = arr.size\n    if (n == 0) return 0\n    val dp = Array(n) { IntArray(n) }\n    for (i in 0 until n) dp[i][i] = 1\n    for (len in 2..n) {\n        for (i in 0..n - len) {\n            val j = i + len - 1\n            if (arr[i] == arr[j]) dp[i][j] = if (len == 2) 2 else dp[i + 1][j - 1] + 2\n            else dp[i][j] = maxOf(dp[i + 1][j], dp[i][j - 1])\n        }\n    }\n    return dp[0][n - 1]\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "longest_palindromic_subsequence.py",
+          "content": "def longest_palindromic_subsequence(arr: list[int]) -> int:\n    n = len(arr)\n    if n == 0:\n        return 0\n    dp = [[0] * n for _ in range(n)]\n    for i in range(n):\n        dp[i][i] = 1\n    for length in range(2, n + 1):\n        for i in range(n - length + 1):\n            j = i + length - 1\n            if arr[i] == arr[j]:\n                dp[i][j] = dp[i + 1][j - 1] + 2 if length > 2 else 2\n            else:\n                dp[i][j] = max(dp[i + 1][j], dp[i][j - 1])\n    return dp[0][n - 1]\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "longest_palindromic_subsequence.rs",
+          "content": "pub fn longest_palindromic_subsequence(arr: &[i32]) -> i32 {\n    let n = arr.len();\n    if n == 0 { return 0; }\n    let mut dp = vec![vec![0i32; n]; n];\n    for i in 0..n { dp[i][i] = 1; }\n    for len in 2..=n {\n        for i in 0..=n-len {\n            let j = i + len - 1;\n            if arr[i] == arr[j] { dp[i][j] = if len == 2 { 2 } else { dp[i+1][j-1] + 2 }; }\n            else { dp[i][j] = dp[i+1][j].max(dp[i][j-1]); }\n        }\n    }\n    dp[0][n-1]\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "LongestPalindromicSubsequence.scala",
+          "content": "object LongestPalindromicSubsequence {\n\n  def longestPalindromicSubsequence(arr: Array[Int]): Int = {\n    val n = arr.length\n    if (n == 0) return 0\n    val dp = Array.ofDim[Int](n, n)\n    for (i <- 0 until n) dp(i)(i) = 1\n    for (len <- 2 to n; i <- 0 to n - len) {\n      val j = i + len - 1\n      if (arr(i) == arr(j)) dp(i)(j) = if (len == 2) 2 else dp(i + 1)(j - 1) + 2\n      else dp(i)(j) = math.max(dp(i + 1)(j), dp(i)(j - 1))\n    }\n    dp(0)(n - 1)\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "LongestPalindromicSubsequence.swift",
+          "content": "func longestPalindromicSubsequence(_ arr: [Int]) -> Int {\n    let n = arr.count\n    if n == 0 { return 0 }\n    var dp = Array(repeating: Array(repeating: 0, count: n), count: n)\n    for i in 0..<n { dp[i][i] = 1 }\n    if n >= 2 {\n        for len in 2...n {\n            for i in 0...(n - len) {\n                let j = i + len - 1\n                if arr[i] == arr[j] { dp[i][j] = len == 2 ? 2 : dp[i + 1][j - 1] + 2 }\n                else { dp[i][j] = max(dp[i + 1][j], dp[i][j - 1]) }\n            }\n        }\n    }\n    return dp[0][n - 1]\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "longestPalindromicSubsequence.ts",
+          "content": "export function longestPalindromicSubsequence(arr: number[]): number {\n    const n = arr.length;\n    if (n === 0) return 0;\n    const dp: number[][] = Array.from({ length: n }, () => new Array(n).fill(0));\n    for (let i = 0; i < n; i++) dp[i][i] = 1;\n    for (let len = 2; len <= n; len++) {\n        for (let i = 0; i <= n - len; i++) {\n            const j = i + len - 1;\n            if (arr[i] === arr[j]) dp[i][j] = len === 2 ? 2 : dp[i + 1][j - 1] + 2;\n            else dp[i][j] = Math.max(dp[i + 1][j], dp[i][j - 1]);\n        }\n    }\n    return dp[0][n - 1];\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Longest Palindromic Subsequence\n\n## Overview\n\nGiven a sequence of integers (or characters), the Longest Palindromic Subsequence (LPS) problem finds the length of the longest subsequence that reads the same forwards and backwards. A subsequence is obtained by deleting zero or more elements without changing the order of the remaining elements. Unlike the longest palindromic substring, the elements in the subsequence need not be contiguous.\n\nThis problem is closely related to the Longest Common Subsequence (LCS): the LPS of a sequence is equivalent to the LCS of the sequence and its reverse. It has applications in computational biology, text analysis, and data compression.\n\n## How It Works\n\nUse a 2D DP table where `dp[i][j]` represents the LPS length for the subarray from index i to j.\n\n1. **Base cases:**\n   - `dp[i][i] = 1` (a single element is a palindrome of length 1)\n   - `dp[i][i-1] = 0` (empty range, used for even-length palindrome computation)\n\n2. **Recurrence (fill diagonally, by increasing length):**\n   - If `arr[i] == arr[j]`: `dp[i][j] = dp[i+1][j-1] + 2` (both endpoints contribute to the palindrome)\n   - Otherwise: `dp[i][j] = max(dp[i+1][j], dp[i][j-1])` (skip one endpoint)\n\n3. **Answer:** `dp[0][n-1]`\n\n## Worked Example\n\n**Input:** `[1, 2, 3, 2, 1]`\n\n**DP table (i = row, j = column):**\n\n| i\\j | 0 | 1 | 2 | 3 | 4 |\n|-----|---|---|---|---|---|\n| 0   | 1 | 1 | 1 | 3 | **5** |\n| 1   |   | 1 | 1 | 3 | 3 |\n| 2   |   |   | 1 | 1 | 1 |\n| 3   |   |   |   | 1 | 1 |\n| 4   |   |   |   |   | 1 |\n\n**Step-by-step for key cells:**\n\n- dp[3][4]: arr[3]=2, arr[4]=1. Not equal. max(dp[4][4], dp[3][3]) = max(1,1) = 1.\n- dp[2][3]: arr[2]=3, arr[3]=2. Not equal. max(dp[3][3], dp[2][2]) = max(1,1) = 1.\n- dp[1][3]: arr[1]=2, arr[3]=2. Equal! dp[2][2] + 2 = 1 + 2 = 3.\n- dp[0][3]: arr[0]=1, arr[3]=2. Not equal. max(dp[1][3], dp[0][2]) = max(3,1) = 3.\n- dp[0][4]: arr[0]=1, arr[4]=1. Equal! dp[1][3] + 2 = 3 + 2 = **5**.\n\n**Answer: 5** -- the entire sequence [1, 2, 3, 2, 1] is a palindrome.\n\n**Second example:** `[5, 1, 2, 1, 4]`\nLPS = [1, 2, 1] with length 3 (or [5, 1, 5] is not valid since 5 appears only once; the correct LPS is [1, 2, 1]).\n\n## Pseudocode\n\n```\nfunction longestPalindromicSubsequence(arr, n):\n    dp = 2D array of size n x n, initialized to 0\n\n    // Base case: single elements\n    for i = 0 to n-1:\n        dp[i][i] = 1\n\n    // Fill by increasing subsequence length\n    for len = 2 to n:\n        for i = 0 to n - len:\n            j = i + len - 1\n            if arr[i] == arr[j]:\n                dp[i][j] = dp[i+1][j-1] + 2\n            else:\n                dp[i][j] = max(dp[i+1][j], dp[i][j-1])\n\n    return dp[0][n-1]\n```\n\n## Complexity Analysis\n\n| Case    | Time   | Space  |\n|---------|--------|--------|\n| All     | O(n^2) | O(n^2) |\n\n**Why these complexities?**\n\n- **Time -- O(n^2):** There are O(n^2) subproblems (one for each pair (i, j) where i <= j). Each subproblem is solved in O(1) time. Total: O(n^2).\n\n- **Space -- O(n^2):** The full 2D DP table is stored. This can be optimized to O(n) by observing that dp[i][j] only depends on dp[i+1][j-1], dp[i+1][j], and dp[i][j-1], so we can use a single row with a rolling variable.\n\n## When to Use\n\n- **DNA/RNA sequence analysis:** Finding palindromic structures in biological sequences, which are important for understanding secondary structures in RNA.\n- **Text processing:** Detecting palindromic patterns in strings or sequences for compression or pattern matching.\n- **Data compression:** Palindromic subsequences reveal redundancy that can be exploited for compression.\n- **When deletions are allowed:** Unlike the longest palindromic substring (contiguous), LPS allows gaps, making it suitable for noisy or gapped data.\n\n## When NOT to Use\n\n- **When contiguous palindromes are needed:** If the palindrome must be a substring (no gaps), use Manacher's algorithm in O(n) time instead.\n- **Very long sequences:** For sequences of length > 10^4 to 10^5, the O(n^2) time and space may be prohibitive. Consider approximate or heuristic approaches.\n- **Real-time processing:** The O(n^2) algorithm is not suitable for streaming or real-time applications on long inputs.\n- **When only existence matters:** If you only need to know whether a palindrome of a certain length exists, faster methods may be available.\n\n## Comparison\n\n| Algorithm                | Time   | Space  | Notes                                       |\n|-------------------------|--------|--------|---------------------------------------------|\n| **LPS (interval DP)**   | **O(n^2)** | **O(n^2)** | **Finds longest non-contiguous palindrome** |\n| LPS via LCS             | O(n^2) | O(n^2) | LCS of sequence and its reverse; equivalent |\n| Manacher's Algorithm     | O(n)   | O(n)   | Longest palindromic **substring** only      |\n| Expand Around Center     | O(n^2) | O(1)   | For palindromic substrings; simpler         |\n| Suffix Array + LCP       | O(n)   | O(n)   | For palindromic substrings; complex         |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [longest_palindromic_subsequence.py](python/longest_palindromic_subsequence.py) |\n| Java       | [LongestPalindromicSubsequence.java](java/LongestPalindromicSubsequence.java) |\n| C++        | [longest_palindromic_subsequence.cpp](cpp/longest_palindromic_subsequence.cpp) |\n| C          | [longest_palindromic_subsequence.c](c/longest_palindromic_subsequence.c) |\n| Go         | [longest_palindromic_subsequence.go](go/longest_palindromic_subsequence.go) |\n| TypeScript | [longestPalindromicSubsequence.ts](typescript/longestPalindromicSubsequence.ts) |\n| Rust       | [longest_palindromic_subsequence.rs](rust/longest_palindromic_subsequence.rs) |\n| Kotlin     | [LongestPalindromicSubsequence.kt](kotlin/LongestPalindromicSubsequence.kt) |\n| Swift      | [LongestPalindromicSubsequence.swift](swift/LongestPalindromicSubsequence.swift) |\n| Scala      | [LongestPalindromicSubsequence.scala](scala/LongestPalindromicSubsequence.scala) |\n| C#         | [LongestPalindromicSubsequence.cs](csharp/LongestPalindromicSubsequence.cs) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 15: Dynamic Programming (LCS-based approach).\n- Kleinberg, J., & Tardos, E. (2006). *Algorithm Design*. Pearson. Chapter 6: Dynamic Programming.\n- [Longest Palindromic Subsequence -- Wikipedia](https://en.wikipedia.org/wiki/Longest_palindromic_subsequence)\n- [Longest Palindromic Subsequence -- GeeksforGeeks](https://www.geeksforgeeks.org/longest-palindromic-subsequence-dp-12/)\n"
+}

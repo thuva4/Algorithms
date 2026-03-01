@@ -1,0 +1,135 @@
+{
+  "name": "Pancake Sort",
+  "slug": "pancake-sort",
+  "category": "sorting",
+  "subcategory": "other",
+  "difficulty": "intermediate",
+  "tags": [
+    "sorting",
+    "comparison",
+    "in-place",
+    "unstable",
+    "puzzle"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "average": "O(n^2)",
+      "worst": "O(n^2)"
+    },
+    "space": "O(1)"
+  },
+  "stable": false,
+  "in_place": true,
+  "related": [
+    "selection-sort",
+    "bubble-sort"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "pancake_sort.c",
+          "content": "#include \"pancake_sort.h\"\n\nstatic void flip(int arr[], int k) {\n    int i = 0;\n    while (i < k) {\n        int temp = arr[i];\n        arr[i] = arr[k];\n        arr[k] = temp;\n        i++;\n        k--;\n    }\n}\n\nstatic int find_max(int arr[], int n) {\n    int mi = 0;\n    for (int i = 0; i < n; i++) {\n        if (arr[i] > arr[mi]) {\n            mi = i;\n        }\n    }\n    return mi;\n}\n\nvoid pancake_sort(int arr[], int n) {\n    for (int curr_size = n; curr_size > 1; curr_size--) {\n        int mi = find_max(arr, curr_size);\n\n        if (mi != curr_size - 1) {\n            flip(arr, mi);\n            flip(arr, curr_size - 1);\n        }\n    }\n}\n"
+        },
+        {
+          "filename": "pancake_sort.h",
+          "content": "#ifndef PANCAKE_SORT_H\n#define PANCAKE_SORT_H\n\n/**\n * Pancake Sort implementation.\n * Sorts the array by repeatedly flipping subarrays.\n * @param arr the input array (modified in-place)\n * @param n the number of elements in the array\n */\nvoid pancake_sort(int arr[], int n);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "pancake_sort.cpp",
+          "content": "#include <vector>\n#include <algorithm>\n\nvoid flip(std::vector<int>& arr, int k) {\n    int i = 0;\n    while (i < k) {\n        std::swap(arr[i], arr[k]);\n        i++;\n        k--;\n    }\n}\n\nint find_max(const std::vector<int>& arr, int n) {\n    int mi = 0;\n    for (int i = 0; i < n; i++) {\n        if (arr[i] > arr[mi]) {\n            mi = i;\n        }\n    }\n    return mi;\n}\n\n/**\n * Pancake Sort implementation.\n * Sorts the array by repeatedly flipping subarrays.\n * @param arr the input vector\n * @returns a sorted copy of the vector\n */\nstd::vector<int> pancake_sort(std::vector<int> arr) {\n    int n = static_cast<int>(arr.size());\n\n    for (int curr_size = n; curr_size > 1; curr_size--) {\n        int mi = find_max(arr, curr_size);\n\n        if (mi != curr_size - 1) {\n            flip(arr, mi);\n            flip(arr, curr_size - 1);\n        }\n    }\n\n    return arr;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "PancakeSort.cs",
+          "content": "using System;\n\nnamespace Algorithms.Sorting.Pancake\n{\n    /**\n     * Pancake Sort implementation.\n     * Sorts the array by repeatedly flipping subarrays.\n     */\n    public static class PancakeSort\n    {\n        public static int[] Sort(int[] arr)\n        {\n            if (arr == null)\n            {\n                return new int[0];\n            }\n\n            int[] result = (int[])arr.Clone();\n            int n = result.Length;\n\n            for (int currSize = n; currSize > 1; currSize--)\n            {\n                int mi = FindMax(result, currSize);\n\n                if (mi != currSize - 1)\n                {\n                    Flip(result, mi);\n                    Flip(result, currSize - 1);\n                }\n            }\n\n            return result;\n        }\n\n        private static void Flip(int[] arr, int k)\n        {\n            int i = 0;\n            while (i < k)\n            {\n                int temp = arr[i];\n                arr[i] = arr[k];\n                arr[k] = temp;\n                i++;\n                k--;\n            }\n        }\n\n        private static int FindMax(int[] arr, int n)\n        {\n            int mi = 0;\n            for (int i = 0; i < n; i++)\n            {\n                if (arr[i] > arr[mi])\n                {\n                    mi = i;\n                }\n            }\n            return mi;\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "pancake_sort.go",
+          "content": "package pancakesort\n\n/**\n * PancakeSort implementation.\n * Sorts the array by repeatedly flipping subarrays.\n * It returns a new sorted slice without modifying the original input.\n */\nfunc PancakeSort(arr []int) []int {\n\tn := len(arr)\n\tif n <= 1 {\n\t\treturn append([]int{}, arr...)\n\t}\n\n\tresult := make([]int, n)\n\tcopy(result, arr)\n\n\tfor currSize := n; currSize > 1; currSize-- {\n\t\tmi := findMax(result, currSize)\n\n\t\tif mi != currSize-1 {\n\t\t\tflip(result, mi)\n\t\t\tflip(result, currSize-1)\n\t\t}\n\t}\n\n\treturn result\n}\n\nfunc flip(arr []int, k int) {\n\ti := 0\n\tfor i < k {\n\t\tarr[i], arr[k] = arr[k], arr[i]\n\t\ti++\n\t\tk--\n\t}\n}\n\nfunc findMax(arr []int, n int) int {\n\tmi := 0\n\tfor i := 0; i < n; i++ {\n\t\tif arr[i] > arr[mi] {\n\t\t\tmi = i\n\t\t}\n\t}\n\treturn mi\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "PancakeSort.java",
+          "content": "import java.util.Arrays;\n\npublic class PancakeSort {\n    /**\n     * Pancake Sort implementation.\n     * Sorts the array by repeatedly flipping subarrays.\n     * @param arr the input array\n     * @return a sorted copy of the array\n     */\n    public static int[] sort(int[] arr) {\n        if (arr == null) {\n            return new int[0];\n        }\n\n        int[] result = Arrays.copyOf(arr, arr.length);\n        int n = result.length;\n\n        for (int currSize = n; currSize > 1; currSize--) {\n            int mi = findMax(result, currSize);\n\n            if (mi != currSize - 1) {\n                flip(result, mi);\n                flip(result, currSize - 1);\n            }\n        }\n\n        return result;\n    }\n\n    private static void flip(int[] arr, int k) {\n        int i = 0;\n        while (i < k) {\n            int temp = arr[i];\n            arr[i] = arr[k];\n            arr[k] = temp;\n            i++;\n            k--;\n        }\n    }\n\n    private static int findMax(int[] arr, int n) {\n        int mi = 0;\n        for (int i = 0; i < n; i++) {\n            if (arr[i] > arr[mi]) {\n                mi = i;\n            }\n        }\n        return mi;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "PancakeSort.kt",
+          "content": "package algorithms.sorting.pancake\n\n/**\n * Pancake Sort implementation.\n * Sorts the array by repeatedly flipping subarrays.\n */\nobject PancakeSort {\n    fun sort(arr: IntArray): IntArray {\n        val result = arr.copyOf()\n        val n = result.size\n\n        for (currSize in n downTo 2) {\n            val mi = findMax(result, currSize)\n\n            if (mi != currSize - 1) {\n                flip(result, mi)\n                flip(result, currSize - 1)\n            }\n        }\n\n        return result\n    }\n\n    private fun flip(arr: IntArray, k: Int) {\n        var i = 0\n        var j = k\n        while (i < j) {\n            val temp = arr[i]\n            arr[i] = arr[j]\n            arr[j] = temp\n            i++\n            j--\n        }\n    }\n\n    private fun findMax(arr: IntArray, n: Int): Int {\n        var mi = 0\n        for (i in 0 until n) {\n            if (arr[i] > arr[mi]) {\n                mi = i\n            }\n        }\n        return mi\n    }\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "pancake_sort.py",
+          "content": "def flip(arr: list[int], k: int) -> None:\n    left = 0\n    while left < k:\n        arr[left], arr[k] = arr[k], arr[left]\n        left += 1\n        k -= 1\n\n\ndef pancake_sort(arr: list[int]) -> list[int]:\n    \"\"\"\n    Pancake Sort implementation.\n    Sorts the array by repeatedly flipping subarrays.\n    \"\"\"\n    result = list(arr)\n    n = len(result)\n\n    curr_size = n\n    while curr_size > 1:\n        mi = result.index(max(result[:curr_size]))\n\n        if mi != curr_size - 1:\n            flip(result, mi)\n            flip(result, curr_size - 1)\n\n        curr_size -= 1\n\n    return result\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "pancake_sort.rs",
+          "content": "/**\n * Pancake Sort implementation.\n * Sorts the array by repeatedly flipping subarrays.\n */\npub fn pancake_sort(arr: &[i32]) -> Vec<i32> {\n    let mut result = arr.to_vec();\n    let n = result.len();\n\n    if n <= 1 {\n        return result;\n    }\n\n    for curr_size in (2..=n).rev() {\n        let mi = find_max(&result, curr_size);\n\n        if mi != curr_size - 1 {\n            flip(&mut result, mi);\n            flip(&mut result, curr_size - 1);\n        }\n    }\n\n    result\n}\n\nfn flip(arr: &mut [i32], k: usize) {\n    let mut i = 0;\n    let mut j = k;\n    while i < j {\n        arr.swap(i, j);\n        i += 1;\n        j -= 1;\n    }\n}\n\nfn find_max(arr: &[i32], n: usize) -> usize {\n    let mut mi = 0;\n    for i in 0..n {\n        if arr[i] > arr[mi] {\n            mi = i;\n        }\n    }\n    mi\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "PancakeSort.scala",
+          "content": "package algorithms.sorting.pancake\n\n/**\n * Pancake Sort implementation.\n * Sorts the array by repeatedly flipping subarrays.\n */\nobject PancakeSort {\n  def sort(arr: Array[Int]): Array[Int] = {\n    val result = arr.clone()\n    val n = result.length\n\n    for (currSize <- n to 2 by -1) {\n      val mi = findMax(result, currSize)\n\n      if (mi != currSize - 1) {\n        flip(result, mi)\n        flip(result, currSize - 1)\n      }\n    }\n\n    result\n  }\n\n  private def flip(arr: Array[Int], k: Int): Unit = {\n    var i = 0\n    var j = k\n    while (i < j) {\n      val temp = arr(i)\n      arr(i) = arr(j)\n      arr(j) = temp\n      i += 1\n      j -= 1\n    }\n  }\n\n  private def findMax(arr: Array[Int], n: Int): Int = {\n    var mi = 0\n    for (i <- 0 until n) {\n      if (arr(i) > arr(mi)) {\n        mi = i\n      }\n    }\n    mi\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "PancakeSort.swift",
+          "content": "/**\n * Pancake Sort implementation.\n * Sorts the array by repeatedly flipping subarrays.\n */\npublic class PancakeSort {\n    public static func sort(_ arr: [Int]) -> [Int] {\n        var result = arr\n        let n = result.count\n\n        if n <= 1 {\n            return result\n        }\n\n        for currSize in stride(from: n, through: 2, by: -1) {\n            let mi = findMax(result, currSize)\n\n            if mi != currSize - 1 {\n                flip(&result, mi)\n                flip(&result, currSize - 1)\n            }\n        }\n\n        return result\n    }\n\n    private static func flip(_ arr: inout [Int], _ k: Int) {\n        var i = 0\n        var j = k\n        while i < j {\n            arr.swapAt(i, j)\n            i += 1\n            j -= 1\n        }\n    }\n\n    private static func findMax(_ arr: [Int], _ n: Int) -> Int {\n        var mi = 0\n        for i in 0..<n {\n            if arr[i] > arr[mi] {\n                mi = i\n            }\n        }\n        return mi\n    }\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "pancakeSort.ts",
+          "content": "function flip(arr: number[], k: number): void {\n    let i = 0;\n    while (i < k) {\n        [arr[i], arr[k]] = [arr[k], arr[i]];\n        i++;\n        k--;\n    }\n}\n\nfunction findMax(arr: number[], n: number): number {\n    let mi = 0;\n    for (let i = 0; i < n; i++) {\n        if (arr[i] > arr[mi]) {\n            mi = i;\n        }\n    }\n    return mi;\n}\n\n/**\n * Pancake Sort implementation.\n * Sorts the array by repeatedly flipping subarrays.\n * @param arr the input array\n * @returns a sorted copy of the array\n */\nexport function pancakeSort(arr: number[]): number[] {\n    const result = [...arr];\n    const n = result.length;\n\n    for (let currSize = n; currSize > 1; currSize--) {\n        const mi = findMax(result, currSize);\n\n        if (mi !== currSize - 1) {\n            flip(result, mi);\n            flip(result, currSize - 1);\n        }\n    }\n\n    return result;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "readme": "# Pancake Sort\n\n## Overview\n\nPancake Sort is a sorting algorithm in which the only allowed operation is a \"pancake flip\" -- reversing the order of the first k elements of the array. The algorithm is named after the analogous problem of sorting a stack of pancakes by size using only a spatula that can flip the top portion of the stack. The goal is to sort the entire array using a sequence of such prefix reversals.\n\nThe pancake sorting problem was first posed by Jacob E. Goodman under the pseudonym \"Harry Dweighter\" (a play on \"harried waiter\") in 1975. Bill Gates (co-founder of Microsoft) co-authored one of the first papers on the problem, establishing upper bounds on the number of flips required. The problem remains of theoretical interest because the exact number of flips needed for the worst case is still an open question for large n.\n\n## How It Works\n\n1. For each position from `n` down to `2` (where `n` is the array length):\n   - Find the index of the maximum element in the unsorted portion (indices 0 to current position - 1).\n   - If the maximum is not already at the correct position:\n     - If the maximum is not at index 0, flip the prefix from 0 to the maximum's index, bringing the maximum to position 0.\n     - Flip the prefix from 0 to the current position - 1, placing the maximum in its correct final position.\n2. After processing all positions, the array is sorted.\n\n## Worked Example\n\nGiven input: `[3, 1, 5, 2, 4]`\n\n**Iteration 1** (place max in position 4):\n- Unsorted portion: `[3, 1, 5, 2, 4]` (indices 0-4). Max is 5 at index 2.\n- Flip(0..2): `[5, 1, 3, 2, 4]` -- bring 5 to front.\n- Flip(0..4): `[4, 2, 3, 1, 5]` -- place 5 at index 4.\n\n**Iteration 2** (place max in position 3):\n- Unsorted portion: `[4, 2, 3, 1]` (indices 0-3). Max is 4 at index 0.\n- 4 is already at index 0, so just flip(0..3): `[1, 3, 2, 4, 5]` -- place 4 at index 3.\n\n**Iteration 3** (place max in position 2):\n- Unsorted portion: `[1, 3, 2]` (indices 0-2). Max is 3 at index 1.\n- Flip(0..1): `[3, 1, 2, 4, 5]` -- bring 3 to front.\n- Flip(0..2): `[2, 1, 3, 4, 5]` -- place 3 at index 2.\n\n**Iteration 4** (place max in position 1):\n- Unsorted portion: `[2, 1]` (indices 0-1). Max is 2 at index 0.\n- Flip(0..1): `[1, 2, 3, 4, 5]` -- place 2 at index 1.\n\nResult: `[1, 2, 3, 4, 5]`\n\n## Pseudocode\n\n```\nfunction flip(array, k):\n    // Reverse elements from index 0 to k\n    left = 0\n    right = k\n    while left < right:\n        swap(array[left], array[right])\n        left = left + 1\n        right = right - 1\n\nfunction pancakeSort(array):\n    n = length(array)\n\n    for size from n down to 2:\n        // Find index of max element in array[0..size-1]\n        maxIdx = 0\n        for i from 1 to size - 1:\n            if array[i] > array[maxIdx]:\n                maxIdx = i\n\n        // Move max to its correct position\n        if maxIdx != size - 1:\n            if maxIdx != 0:\n                flip(array, maxIdx)    // bring max to front\n            flip(array, size - 1)      // place max at end of unsorted portion\n\n    return array\n```\n\n## Complexity Analysis\n\n| Case    | Time   | Space |\n|---------|--------|-------|\n| Best    | O(n)   | O(1)  |\n| Average | O(n^2) | O(1)  |\n| Worst   | O(n^2) | O(1)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(n):** When the array is already sorted, the algorithm scans each subarray to find the maximum, confirms it is already in place, and does no flips. The total number of comparisons for finding maxima is n-1 + n-2 + ... + 1 = n(n-1)/2, but with an optimized check, a single pass confirms sortedness in O(n).\n\n- **Average and Worst Case -- O(n^2):** The outer loop runs n-1 times. Each iteration requires finding the maximum (O(k) for a subarray of size k) and performing up to 2 flips (each O(k)). The total work is proportional to n + (n-1) + ... + 1 = n(n-1)/2, which is O(n^2).\n\n- **Space -- O(1):** Pancake Sort is an in-place algorithm. The flip operation reverses elements in place and requires only a constant number of extra variables.\n\n## When to Use\n\n- **Constrained environments where only prefix reversals are allowed:** In robotics or hardware where the only available operation is flipping a prefix of a sequence, pancake sort is a natural fit.\n- **Educational purposes:** It clearly illustrates the concept of sorting under restricted operations.\n- **Studying combinatorial problems:** The pancake number (minimum worst-case flips for n elements) is an active area of combinatorial research.\n- **Sorting pancakes:** The literal application of sorting a disordered stack of pancakes by size using a spatula.\n\n## When NOT to Use\n\n- **General-purpose sorting:** O(n^2) performance makes Pancake Sort impractical for anything beyond small arrays.\n- **Large datasets:** For large inputs, O(n log n) algorithms are dramatically faster.\n- **When stability matters:** Pancake Sort is not stable, as prefix reversals can change the relative order of equal elements.\n- **When comparisons are expensive:** Pancake Sort always performs O(n^2) comparisons even when the data is partially sorted.\n\n## Comparison with Similar Algorithms\n\n| Algorithm      | Time (avg) | Space | Stable | Notes                                          |\n|----------------|-----------|-------|--------|-------------------------------------------------|\n| Pancake Sort   | O(n^2)    | O(1)  | No     | Only uses prefix reversals; theoretical interest |\n| Bubble Sort    | O(n^2)    | O(1)  | Yes    | Uses adjacent swaps; stable                      |\n| Selection Sort | O(n^2)    | O(1)  | No     | Similar strategy of placing max/min first        |\n| Insertion Sort | O(n^2)    | O(1)  | Yes    | Generally faster in practice                     |\n| Quick Sort     | O(n log n)| O(log n) | No  | Far superior for large datasets                  |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [pancake_sort.py](python/pancake_sort.py) |\n| Java       | [PancakeSort.java](java/PancakeSort.java) |\n| C++        | [pancake_sort.cpp](cpp/pancake_sort.cpp) |\n| C          | [pancake_sort.c](c/pancake_sort.c) |\n| Go         | [pancake_sort.go](go/pancake_sort.go) |\n| TypeScript | [pancakeSort.ts](typescript/pancakeSort.ts) |\n| Rust       | [pancake_sort.rs](rust/pancake_sort.rs) |\n| Kotlin     | [PancakeSort.kt](kotlin/PancakeSort.kt) |\n| Swift      | [PancakeSort.swift](swift/PancakeSort.swift) |\n| Scala      | [PancakeSort.scala](scala/PancakeSort.scala) |\n| C#         | [PancakeSort.cs](csharp/PancakeSort.cs) |\n\n## References\n\n- Gates, W. H., & Papadimitriou, C. H. (1979). \"Bounds for sorting by prefix reversal.\" *Discrete Mathematics*, 27(1), 47-57.\n- Chitturi, B., et al. (2009). \"An (18/11)n upper bound for sorting by prefix reversals.\" *Theoretical Computer Science*, 410(36), 3372-3390.\n- [Pancake Sorting -- Wikipedia](https://en.wikipedia.org/wiki/Pancake_sorting)\n"
+}

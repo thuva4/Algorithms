@@ -1,0 +1,21 @@
+algorithm: "topological-sort-all"
+function_signature:
+  name: "topological_sort_all"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "chain of 3"
+    input: [[3, 2, 0, 1, 1, 2]]
+    expected: 1
+  - name: "no edges 3 nodes"
+    input: [[3, 0]]
+    expected: 6
+  - name: "diamond"
+    input: [[4, 4, 0, 1, 0, 2, 1, 3, 2, 3]]
+    expected: 2
+  - name: "single node"
+    input: [[1, 0]]
+    expected: 1
+  - name: "two independent chains"
+    input: [[4, 2, 0, 1, 2, 3]]
+    expected: 6

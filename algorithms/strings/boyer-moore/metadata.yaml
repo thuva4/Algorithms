@@ -1,0 +1,15 @@
+name: "Boyer-Moore Search"
+slug: "boyer-moore"
+category: "strings"
+subcategory: "pattern-matching"
+difficulty: "intermediate"
+tags: [strings, pattern-matching, boyer-moore, bad-character, search]
+complexity:
+  time:
+    best: "O(n/m)"
+    average: "O(n)"
+    worst: "O(n*m)"
+  space: "O(k)"
+related: [knuth-morris-pratt, rabin-karp, z-algorithm]
+implementations: [python, java, cpp, c, go, typescript, kotlin, rust, swift, scala, csharp]
+visualization: true

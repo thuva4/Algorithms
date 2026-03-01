@@ -1,0 +1,140 @@
+{
+  "name": "Graph Cycle Detection (DFS Coloring)",
+  "slug": "graph-cycle-detection",
+  "category": "graph",
+  "subcategory": "cycle-detection",
+  "difficulty": "intermediate",
+  "tags": [
+    "graph",
+    "directed",
+    "cycle-detection",
+    "dfs",
+    "coloring"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(V + E)",
+      "average": "O(V + E)",
+      "worst": "O(V + E)"
+    },
+    "space": "O(V)"
+  },
+  "stable": null,
+  "in_place": false,
+  "related": [
+    "depth-first-search",
+    "topological-sort"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "graph_cycle_detection.c",
+          "content": "#include \"graph_cycle_detection.h\"\n#include <string.h>\n\n#define MAX_V 1000\nstatic int adj[MAX_V][MAX_V], adj_count[MAX_V], color[MAX_V];\n\nstatic int dfs(int v) {\n    color[v] = 1;\n    for (int i = 0; i < adj_count[v]; i++) {\n        int w = adj[v][i];\n        if (color[w] == 1) return 1;\n        if (color[w] == 0 && dfs(w)) return 1;\n    }\n    color[v] = 2;\n    return 0;\n}\n\nint graph_cycle_detection(int arr[], int size) {\n    int n = arr[0], m = arr[1];\n    memset(adj_count, 0, sizeof(int) * n);\n    memset(color, 0, sizeof(int) * n);\n    for (int i = 0; i < m; i++) {\n        int u = arr[2 + 2 * i], v = arr[2 + 2 * i + 1];\n        adj[u][adj_count[u]++] = v;\n    }\n    for (int v = 0; v < n; v++) {\n        if (color[v] == 0 && dfs(v)) return 1;\n    }\n    return 0;\n}\n"
+        },
+        {
+          "filename": "graph_cycle_detection.h",
+          "content": "#ifndef GRAPH_CYCLE_DETECTION_H\n#define GRAPH_CYCLE_DETECTION_H\n\nint graph_cycle_detection(int arr[], int size);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "graph_cycle_detection.cpp",
+          "content": "#include <vector>\nusing namespace std;\n\nstatic bool dfs_gcd(int v, vector<vector<int>>& adj, vector<int>& color) {\n    color[v] = 1;\n    for (int w : adj[v]) {\n        if (color[w] == 1) return true;\n        if (color[w] == 0 && dfs_gcd(w, adj, color)) return true;\n    }\n    color[v] = 2;\n    return false;\n}\n\nint graph_cycle_detection(vector<int> arr) {\n    int n = arr[0], m = arr[1];\n    vector<vector<int>> adj(n);\n    for (int i = 0; i < m; i++) {\n        adj[arr[2 + 2 * i]].push_back(arr[2 + 2 * i + 1]);\n    }\n    vector<int> color(n, 0);\n    for (int v = 0; v < n; v++) {\n        if (color[v] == 0 && dfs_gcd(v, adj, color)) return 1;\n    }\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "GraphCycleDetection.cs",
+          "content": "using System;\nusing System.Collections.Generic;\n\npublic class GraphCycleDetection\n{\n    private static List<int>[] adj;\n    private static int[] color;\n\n    public static int Solve(int[] arr)\n    {\n        int n = arr[0], m = arr[1];\n        adj = new List<int>[n];\n        for (int i = 0; i < n; i++) adj[i] = new List<int>();\n        for (int i = 0; i < m; i++) adj[arr[2 + 2 * i]].Add(arr[2 + 2 * i + 1]);\n        color = new int[n];\n        for (int v = 0; v < n; v++)\n        {\n            if (color[v] == 0 && Dfs(v)) return 1;\n        }\n        return 0;\n    }\n\n    private static bool Dfs(int v)\n    {\n        color[v] = 1;\n        foreach (int w in adj[v])\n        {\n            if (color[w] == 1) return true;\n            if (color[w] == 0 && Dfs(w)) return true;\n        }\n        color[v] = 2;\n        return false;\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "graph_cycle_detection.go",
+          "content": "package graphcycledetection\n\nfunc GraphCycleDetection(arr []int) int {\n\tn := arr[0]; m := arr[1]\n\tadj := make([][]int, n)\n\tfor i := 0; i < n; i++ { adj[i] = []int{} }\n\tfor i := 0; i < m; i++ {\n\t\tadj[arr[2+2*i]] = append(adj[arr[2+2*i]], arr[2+2*i+1])\n\t}\n\tcolor := make([]int, n)\n\n\tvar dfs func(v int) bool\n\tdfs = func(v int) bool {\n\t\tcolor[v] = 1\n\t\tfor _, w := range adj[v] {\n\t\t\tif color[w] == 1 { return true }\n\t\t\tif color[w] == 0 && dfs(w) { return true }\n\t\t}\n\t\tcolor[v] = 2\n\t\treturn false\n\t}\n\n\tfor v := 0; v < n; v++ {\n\t\tif color[v] == 0 && dfs(v) { return 1 }\n\t}\n\treturn 0\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "GraphCycleDetection.java",
+          "content": "import java.util.*;\n\npublic class GraphCycleDetection {\n\n    public static int graphCycleDetection(int[] arr) {\n        int n = arr[0], m = arr[1];\n        List<List<Integer>> adj = new ArrayList<>();\n        for (int i = 0; i < n; i++) adj.add(new ArrayList<>());\n        for (int i = 0; i < m; i++) {\n            adj.get(arr[2 + 2 * i]).add(arr[2 + 2 * i + 1]);\n        }\n        int[] color = new int[n]; // 0=white, 1=gray, 2=black\n        for (int v = 0; v < n; v++) {\n            if (color[v] == 0 && dfs(v, adj, color)) return 1;\n        }\n        return 0;\n    }\n\n    private static boolean dfs(int v, List<List<Integer>> adj, int[] color) {\n        color[v] = 1;\n        for (int w : adj.get(v)) {\n            if (color[w] == 1) return true;\n            if (color[w] == 0 && dfs(w, adj, color)) return true;\n        }\n        color[v] = 2;\n        return false;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "GraphCycleDetection.kt",
+          "content": "fun graphCycleDetection(arr: IntArray): Int {\n    val n = arr[0]; val m = arr[1]\n    val adj = Array(n) { mutableListOf<Int>() }\n    for (i in 0 until m) { adj[arr[2 + 2 * i]].add(arr[2 + 2 * i + 1]) }\n    val color = IntArray(n)\n\n    fun dfs(v: Int): Boolean {\n        color[v] = 1\n        for (w in adj[v]) {\n            if (color[w] == 1) return true\n            if (color[w] == 0 && dfs(w)) return true\n        }\n        color[v] = 2\n        return false\n    }\n\n    for (v in 0 until n) {\n        if (color[v] == 0 && dfs(v)) return 1\n    }\n    return 0\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "graph_cycle_detection.py",
+          "content": "def graph_cycle_detection(arr: list[int]) -> int:\n    n = arr[0]\n    m = arr[1]\n    adj = [[] for _ in range(n)]\n    for i in range(m):\n        u = arr[2 + 2 * i]\n        v = arr[2 + 2 * i + 1]\n        adj[u].append(v)\n\n    WHITE, GRAY, BLACK = 0, 1, 2\n    color = [WHITE] * n\n\n    def dfs(v):\n        color[v] = GRAY\n        for w in adj[v]:\n            if color[w] == GRAY:\n                return True\n            if color[w] == WHITE and dfs(w):\n                return True\n        color[v] = BLACK\n        return False\n\n    for v in range(n):\n        if color[v] == WHITE:\n            if dfs(v):\n                return 1\n    return 0\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "graph_cycle_detection.rs",
+          "content": "pub fn graph_cycle_detection(arr: &[i32]) -> i32 {\n    let n = arr[0] as usize;\n    let m = arr[1] as usize;\n    let mut adj = vec![vec![]; n];\n    for i in 0..m {\n        let u = arr[2 + 2 * i] as usize;\n        let v = arr[2 + 2 * i + 1] as usize;\n        adj[u].push(v);\n    }\n    let mut color = vec![0u8; n];\n\n    fn dfs(v: usize, adj: &[Vec<usize>], color: &mut [u8]) -> bool {\n        color[v] = 1;\n        for &w in &adj[v] {\n            if color[w] == 1 { return true; }\n            if color[w] == 0 && dfs(w, adj, color) { return true; }\n        }\n        color[v] = 2;\n        false\n    }\n\n    for v in 0..n {\n        if color[v] == 0 && dfs(v, &adj, &mut color) { return 1; }\n    }\n    0\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "GraphCycleDetection.scala",
+          "content": "object GraphCycleDetection {\n\n  def graphCycleDetection(arr: Array[Int]): Int = {\n    val n = arr(0); val m = arr(1)\n    val adj = Array.fill(n)(scala.collection.mutable.ListBuffer[Int]())\n    for (i <- 0 until m) { adj(arr(2 + 2 * i)) += arr(2 + 2 * i + 1) }\n    val color = Array.fill(n)(0)\n\n    def dfs(v: Int): Boolean = {\n      color(v) = 1\n      for (w <- adj(v)) {\n        if (color(w) == 1) return true\n        if (color(w) == 0 && dfs(w)) return true\n      }\n      color(v) = 2\n      false\n    }\n\n    for (v <- 0 until n) {\n      if (color(v) == 0 && dfs(v)) return 1\n    }\n    0\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "GraphCycleDetection.swift",
+          "content": "func graphCycleDetection(_ arr: [Int]) -> Int {\n    let n = arr[0]; let m = arr[1]\n    var adj = [[Int]](repeating: [], count: n)\n    for i in 0..<m { adj[arr[2 + 2 * i]].append(arr[2 + 2 * i + 1]) }\n    var color = [Int](repeating: 0, count: n)\n\n    func dfs(_ v: Int) -> Bool {\n        color[v] = 1\n        for w in adj[v] {\n            if color[w] == 1 { return true }\n            if color[w] == 0 && dfs(w) { return true }\n        }\n        color[v] = 2\n        return false\n    }\n\n    for v in 0..<n {\n        if color[v] == 0 && dfs(v) { return 1 }\n    }\n    return 0\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "graphCycleDetection.ts",
+          "content": "export function graphCycleDetection(arr: number[]): number {\n    const n = arr[0], m = arr[1];\n    const adj: number[][] = Array.from({ length: n }, () => []);\n    for (let i = 0; i < m; i++) {\n        adj[arr[2 + 2 * i]].push(arr[2 + 2 * i + 1]);\n    }\n    const color = new Array(n).fill(0);\n\n    function dfs(v: number): boolean {\n        color[v] = 1;\n        for (const w of adj[v]) {\n            if (color[w] === 1) return true;\n            if (color[w] === 0 && dfs(w)) return true;\n        }\n        color[v] = 2;\n        return false;\n    }\n\n    for (let v = 0; v < n; v++) {\n        if (color[v] === 0 && dfs(v)) return 1;\n    }\n    return 0;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "patterns": [
+    "fast-slow-pointers"
+  ],
+  "patternDifficulty": "intermediate",
+  "practiceOrder": 3,
+  "readme": "# Graph Cycle Detection (DFS Coloring)\n\n## Overview\n\nThis algorithm detects whether a directed graph contains a cycle using DFS with three-color marking (white/gray/black). A vertex colored white is unvisited, gray means it is currently being explored (on the recursion stack), and black means it is fully processed. A back edge to a gray vertex indicates a cycle.\n\n## How It Works\n\n1. Initialize all vertices as WHITE (0 = unvisited).\n2. For each unvisited vertex, start a DFS.\n3. Mark the current vertex GRAY (1 = in progress).\n4. For each neighbor: if GRAY, a cycle is found; if WHITE, recurse.\n5. After processing all neighbors, mark the vertex BLACK (2 = done).\n\nInput format: [n, m, u1, v1, ...]. Output: 1 if cycle exists, 0 otherwise.\n\n## Worked Example\n\nConsider a directed graph with 4 vertices:\n\n```\n    0 ---> 1 ---> 2\n           ^      |\n           |      |\n           +------+\n           3 <----/\n           (wait, let me redraw)\n```\n\nActually:\n\n```\n    0 ---> 1 ---> 2\n                  |\n                  v\n                  3 ---> 1    (back edge!)\n```\n\nEdges: 0->1, 1->2, 2->3, 3->1.\n\n**DFS from vertex 0:**\n1. Visit 0, mark GRAY. Explore neighbor 1.\n2. Visit 1, mark GRAY. Explore neighbor 2.\n3. Visit 2, mark GRAY. Explore neighbor 3.\n4. Visit 3, mark GRAY. Explore neighbor 1.\n5. Vertex 1 is **GRAY** (on current recursion stack). **Cycle detected!**\n\nThe cycle is: 1 -> 2 -> 3 -> 1.\n\n**Counter-example (DAG):**\n\n```\n    0 ---> 1 ---> 3\n    |             ^\n    v             |\n    2 ------------+\n```\n\nEdges: 0->1, 0->2, 1->3, 2->3.\n\nDFS from 0: Visit 0(GRAY) -> 1(GRAY) -> 3(GRAY -> BLACK) -> back to 1(BLACK) -> back to 0, explore 2(GRAY) -> 3 is BLACK (not GRAY). 2 -> BLACK. 0 -> BLACK. No cycle found. Output: 0.\n\n## Pseudocode\n\n```\nfunction hasCycle(graph, n):\n    color = array of size n, initialized to WHITE (0)\n\n    function dfs(u):\n        color[u] = GRAY   // currently being explored\n\n        for each neighbor v of u:\n            if color[v] == GRAY:\n                return true    // back edge = cycle\n            if color[v] == WHITE:\n                if dfs(v):\n                    return true\n\n        color[u] = BLACK       // fully processed\n        return false\n\n    for i = 0 to n-1:\n        if color[i] == WHITE:\n            if dfs(i):\n                return true\n\n    return false\n```\n\n## Complexity Analysis\n\n| Case    | Time     | Space |\n|---------|----------|-------|\n| Best    | O(V + E) | O(V)  |\n| Average | O(V + E) | O(V)  |\n| Worst   | O(V + E) | O(V)  |\n\n## When to Use\n\n- **Dependency resolution**: Detecting circular dependencies in build systems, package managers, or module imports\n- **Deadlock detection**: Identifying cycles in wait-for graphs in operating systems or databases\n- **Topological sort prerequisite**: Verifying that a DAG is indeed acyclic before performing topological sort\n- **Course prerequisite validation**: Checking that a course prerequisite graph has no circular dependencies\n- **Workflow validation**: Ensuring directed workflow graphs have no infinite loops\n\n## When NOT to Use\n\n- **Undirected graphs**: For undirected graphs, cycle detection is simpler (any back edge in DFS indicates a cycle, and a union-find approach also works); the three-color method is designed for directed graphs\n- **Finding all cycles**: This algorithm only detects whether a cycle exists; to enumerate all cycles, use Johnson's algorithm\n- **Weighted negative cycles**: For detecting negative-weight cycles (relevant to shortest paths), use Bellman-Ford instead\n- **Very large graphs with known structure**: If the graph is known to be a tree or DAG, the check is unnecessary\n\n## Comparison\n\n| Algorithm | Graph Type | Detects | Time | Space |\n|-----------|-----------|---------|------|-------|\n| DFS 3-coloring (this) | Directed | Any cycle | O(V + E) | O(V) |\n| Floyd's Tortoise-Hare | Linked list / functional graph | Cycle + start + length | O(n) | O(1) |\n| Union-Find | Undirected | Any cycle | O(E * alpha(V)) | O(V) |\n| DFS back-edge (undirected) | Undirected | Any cycle | O(V + E) | O(V) |\n| Bellman-Ford | Weighted directed | Negative cycles | O(V * E) | O(V) |\n| Topological Sort (Kahn's) | Directed | Cycle (if sort fails) | O(V + E) | O(V) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.), Section 22.3: Depth-first search.\n- [Cycle detection -- Wikipedia](https://en.wikipedia.org/wiki/Cycle_(graph_theory)#Cycle_detection)\n- Tarjan, R. E. (1972). \"Depth-first search and linear graph algorithms.\" SIAM Journal on Computing, 1(2), 146-160.\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [graph_cycle_detection.py](python/graph_cycle_detection.py) |\n| Java       | [GraphCycleDetection.java](java/GraphCycleDetection.java) |\n| C++        | [graph_cycle_detection.cpp](cpp/graph_cycle_detection.cpp) |\n| C          | [graph_cycle_detection.c](c/graph_cycle_detection.c) |\n| Go         | [graph_cycle_detection.go](go/graph_cycle_detection.go) |\n| TypeScript | [graphCycleDetection.ts](typescript/graphCycleDetection.ts) |\n| Rust       | [graph_cycle_detection.rs](rust/graph_cycle_detection.rs) |\n| Kotlin     | [GraphCycleDetection.kt](kotlin/GraphCycleDetection.kt) |\n| Swift      | [GraphCycleDetection.swift](swift/GraphCycleDetection.swift) |\n| Scala      | [GraphCycleDetection.scala](scala/GraphCycleDetection.scala) |\n| C#         | [GraphCycleDetection.cs](csharp/GraphCycleDetection.cs) |\n"
+}

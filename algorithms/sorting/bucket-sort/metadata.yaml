@@ -1,0 +1,17 @@
+name: "Bucket Sort"
+slug: "bucket-sort"
+category: "sorting"
+subcategory: "distribution-based"
+difficulty: "intermediate"
+tags: [sorting, distribution, non-comparison, bucket]
+complexity:
+  time:
+    best: "O(n + k)"
+    average: "O(n + k)"
+    worst: "O(n^2)"
+  space: "O(n + k)"
+stable: true
+in_place: false
+related: [counting-sort, radix-sort]
+implementations: [python, java, cpp, c, go, typescript, kotlin, rust, swift, scala, csharp]
+visualization: false

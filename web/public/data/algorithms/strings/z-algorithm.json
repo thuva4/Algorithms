@@ -1,0 +1,133 @@
+{
+  "name": "Z-Algorithm",
+  "slug": "z-algorithm",
+  "category": "strings",
+  "subcategory": "pattern-matching",
+  "difficulty": "intermediate",
+  "tags": [
+    "strings",
+    "pattern-matching",
+    "z-function",
+    "z-array",
+    "prefix"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "average": "O(n)",
+      "worst": "O(n)"
+    },
+    "space": "O(n)"
+  },
+  "related": [
+    "knuth-morris-pratt",
+    "rabin-karp"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "z_function.c",
+          "content": "#include \"z_function.h\"\n#include <string.h>\n\nvoid z_function(int arr[], int n, int result[]) {\n    memset(result, 0, sizeof(int) * n);\n    int l = 0, r = 0;\n    for (int i = 1; i < n; i++) {\n        if (i < r) {\n            result[i] = r - i < result[i - l] ? r - i : result[i - l];\n        }\n        while (i + result[i] < n && arr[result[i]] == arr[i + result[i]]) {\n            result[i]++;\n        }\n        if (i + result[i] > r) {\n            l = i;\n            r = i + result[i];\n        }\n    }\n}\n"
+        },
+        {
+          "filename": "z_function.h",
+          "content": "#ifndef Z_FUNCTION_H\n#define Z_FUNCTION_H\n\nvoid z_function(int arr[], int n, int result[]);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "z_function.cpp",
+          "content": "#include <vector>\n#include <algorithm>\nusing namespace std;\n\nvector<int> z_function(vector<int> arr) {\n    int n = (int)arr.size();\n    vector<int> z(n, 0);\n    int l = 0, r = 0;\n    for (int i = 1; i < n; i++) {\n        if (i < r) {\n            z[i] = min(r - i, z[i - l]);\n        }\n        while (i + z[i] < n && arr[z[i]] == arr[i + z[i]]) {\n            z[i]++;\n        }\n        if (i + z[i] > r) {\n            l = i;\n            r = i + z[i];\n        }\n    }\n    return z;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "ZFunction.cs",
+          "content": "using System;\n\npublic class ZFunction\n{\n    public static int[] Solve(int[] arr)\n    {\n        int n = arr.Length;\n        int[] z = new int[n];\n        int l = 0, r = 0;\n        for (int i = 1; i < n; i++)\n        {\n            if (i < r)\n                z[i] = Math.Min(r - i, z[i - l]);\n            while (i + z[i] < n && arr[z[i]] == arr[i + z[i]])\n                z[i]++;\n            if (i + z[i] > r)\n            {\n                l = i;\n                r = i + z[i];\n            }\n        }\n        return z;\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "z_function.go",
+          "content": "package zalgorithm\n\nfunc ZFunction(arr []int) []int {\n\tn := len(arr)\n\tz := make([]int, n)\n\tl, r := 0, 0\n\tfor i := 1; i < n; i++ {\n\t\tif i < r {\n\t\t\tz[i] = r - i\n\t\t\tif z[i-l] < z[i] {\n\t\t\t\tz[i] = z[i-l]\n\t\t\t}\n\t\t}\n\t\tfor i+z[i] < n && arr[z[i]] == arr[i+z[i]] {\n\t\t\tz[i]++\n\t\t}\n\t\tif i+z[i] > r {\n\t\t\tl = i\n\t\t\tr = i + z[i]\n\t\t}\n\t}\n\treturn z\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "ZFunction.java",
+          "content": "public class ZFunction {\n\n    public static int[] zFunction(int[] arr) {\n        int n = arr.length;\n        int[] z = new int[n];\n        int l = 0, r = 0;\n        for (int i = 1; i < n; i++) {\n            if (i < r) {\n                z[i] = Math.min(r - i, z[i - l]);\n            }\n            while (i + z[i] < n && arr[z[i]] == arr[i + z[i]]) {\n                z[i]++;\n            }\n            if (i + z[i] > r) {\n                l = i;\n                r = i + z[i];\n            }\n        }\n        return z;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "ZFunction.kt",
+          "content": "fun zFunction(arr: IntArray): IntArray {\n    val n = arr.size\n    val z = IntArray(n)\n    var l = 0\n    var r = 0\n    for (i in 1 until n) {\n        if (i < r) {\n            z[i] = minOf(r - i, z[i - l])\n        }\n        while (i + z[i] < n && arr[z[i]] == arr[i + z[i]]) {\n            z[i]++\n        }\n        if (i + z[i] > r) {\n            l = i\n            r = i + z[i]\n        }\n    }\n    return z\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "z_function.py",
+          "content": "def z_function(arr: list[int]) -> list[int]:\n    n = len(arr)\n    if n == 0:\n        return []\n    z = [0] * n\n    l, r = 0, 0\n    for i in range(1, n):\n        if i < r:\n            z[i] = min(r - i, z[i - l])\n        while i + z[i] < n and arr[z[i]] == arr[i + z[i]]:\n            z[i] += 1\n        if i + z[i] > r:\n            l, r = i, i + z[i]\n    return z\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "z_function.rs",
+          "content": "pub fn z_function(arr: &[i32]) -> Vec<i32> {\n    let n = arr.len();\n    let mut z = vec![0i32; n];\n    let mut l: usize = 0;\n    let mut r: usize = 0;\n    for i in 1..n {\n        if i < r {\n            z[i] = ((r - i) as i32).min(z[i - l]);\n        }\n        while i + (z[i] as usize) < n && arr[z[i] as usize] == arr[i + z[i] as usize] {\n            z[i] += 1;\n        }\n        if i + (z[i] as usize) > r {\n            l = i;\n            r = i + z[i] as usize;\n        }\n    }\n    z\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "ZFunction.scala",
+          "content": "object ZFunction {\n\n  def zFunction(arr: Array[Int]): Array[Int] = {\n    val n = arr.length\n    val z = Array.fill(n)(0)\n    var l = 0\n    var r = 0\n    for (i <- 1 until n) {\n      if (i < r) {\n        z(i) = math.min(r - i, z(i - l))\n      }\n      while (i + z(i) < n && arr(z(i)) == arr(i + z(i))) {\n        z(i) += 1\n      }\n      if (i + z(i) > r) {\n        l = i\n        r = i + z(i)\n      }\n    }\n    z\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "ZFunction.swift",
+          "content": "func zFunction(_ arr: [Int]) -> [Int] {\n    let n = arr.count\n    var z = [Int](repeating: 0, count: n)\n    var l = 0, r = 0\n    for i in 1..<n {\n        if i < r {\n            z[i] = min(r - i, z[i - l])\n        }\n        while i + z[i] < n && arr[z[i]] == arr[i + z[i]] {\n            z[i] += 1\n        }\n        if i + z[i] > r {\n            l = i\n            r = i + z[i]\n        }\n    }\n    return z\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "zFunction.ts",
+          "content": "export function zFunction(arr: number[]): number[] {\n    const n = arr.length;\n    const z = new Array(n).fill(0);\n    let l = 0, r = 0;\n    for (let i = 1; i < n; i++) {\n        if (i < r) {\n            z[i] = Math.min(r - i, z[i - l]);\n        }\n        while (i + z[i] < n && arr[z[i]] === arr[i + z[i]]) {\n            z[i]++;\n        }\n        if (i + z[i] > r) {\n            l = i;\n            r = i + z[i];\n        }\n    }\n    return z;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "readme": "# Z-Algorithm\n\n## Overview\n\nThe Z-algorithm computes the Z-array for a given sequence in linear time. For a sequence S of length n, the Z-array is defined as: Z[i] is the length of the longest substring starting at position i that matches a prefix of S. By convention, Z[0] is set to 0 (or sometimes n). The algorithm runs in O(n) time by maintaining a window [L, R] representing the rightmost interval that matches a prefix of S, reusing previously computed Z-values to avoid redundant comparisons.\n\nThe Z-algorithm is a powerful tool for pattern matching: by concatenating `pattern + sentinel + text`, the Z-array will have values equal to the pattern length at every position where the pattern occurs in the text.\n\n## How It Works\n\n1. Initialize Z[0] = 0 (by convention), L = 0, R = 0.\n2. For each position i from 1 to n-1:\n   - If `i < R`, then position i is inside the current Z-box [L, R]. Its mirror position is `i - L`. Set `Z[i] = min(R - i, Z[i - L])` as a starting point.\n   - Attempt to extend: while `i + Z[i] < n` and `S[Z[i]] == S[i + Z[i]]`, increment Z[i].\n   - If `i + Z[i] > R`, update L = i and R = i + Z[i].\n3. The Z-array is complete.\n\n## Worked Example\n\nGiven input: `[1, 1, 2, 1, 1, 2, 1]`\n\n**Computing the Z-array step by step:**\n\n```\nIndex:  0  1  2  3  4  5  6\nValue:  1  1  2  1  1  2  1\nZ:      0  1  0  4  1  0  1\n```\n\n- Z[0] = 0 (by convention)\n- Z[1]: Compare S[0]=1 with S[1]=1: match. Compare S[1]=1 with S[2]=2: mismatch. Z[1] = 1. Update L=1, R=2.\n- Z[2]: i=2, i >= R=2. Compare S[0]=1 with S[2]=2: mismatch. Z[2] = 0.\n- Z[3]: i=3, i >= R=2. Compare S[0]=1 with S[3]=1, S[1]=1 with S[4]=1, S[2]=2 with S[5]=2, S[3]=1 with S[6]=1. Then S[4]=1 but index 7 is out of bounds. Z[3] = 4. Update L=3, R=7.\n- Z[4]: i=4, i < R=7. Mirror = 4-3 = 1. Z[1] = 1, R-i = 3. Z[4] = min(3, 1) = 1. Try to extend: S[1]=1 vs S[5]=2: mismatch. Z[4] = 1.\n- Z[5]: i=5, i < R=7. Mirror = 5-3 = 2. Z[2] = 0, R-i = 2. Z[5] = 0.\n- Z[6]: i=6, i < R=7. Mirror = 6-3 = 3. Z[3] = 4, R-i = 1. Z[6] = min(1, 4) = 1. Try to extend: index 7 out of bounds. Z[6] = 1.\n\n**Result:** Z-array = `[0, 1, 0, 4, 1, 0, 1]`\n\n**Pattern matching application:** To find pattern `[1, 1]` in text `[2, 1, 1, 2]`, compute the Z-array of `[1, 1, $, 2, 1, 1, 2]` (where $ is a sentinel). Z-values equal to pattern length (2) indicate match positions.\n\n## Pseudocode\n\n```\nfunction zFunction(S):\n    n = length(S)\n    Z = array of n zeros\n    L = 0\n    R = 0\n\n    for i from 1 to n - 1:\n        if i < R:\n            Z[i] = min(R - i, Z[i - L])\n\n        while i + Z[i] < n and S[Z[i]] == S[i + Z[i]]:\n            Z[i] = Z[i] + 1\n\n        if i + Z[i] > R:\n            L = i\n            R = i + Z[i]\n\n    return Z\n```\n\n## Complexity Analysis\n\n| Case    | Time | Space |\n|---------|------|-------|\n| Best    | O(n) | O(n)  |\n| Average | O(n) | O(n)  |\n| Worst   | O(n) | O(n)  |\n\n- **Time O(n):** The inner while loop advances the R pointer. Since R only moves forward and is bounded by n, the total number of character comparisons across all iterations is at most 2n. This gives an amortized O(1) per position.\n- **Space O(n):** The Z-array requires O(n) storage.\n- The algorithm is optimal since computing the Z-array requires examining every character at least once.\n\n## When to Use\n\n- String pattern matching (by concatenating pattern + sentinel + text)\n- Finding all occurrences of a pattern in a text in O(n + m) time\n- Finding the period of a string (smallest repeating unit)\n- String compression: determining if a string is a repetition of a smaller pattern\n- Computing prefix function values (the Z-array and KMP failure function are closely related)\n- Competitive programming problems involving string matching and periodicity\n\n## When NOT to Use\n\n- **When you only need the first match:** Boyer-Moore or even a naive search may be faster in practice for finding just the first occurrence, since they can stop early.\n- **Multi-pattern matching:** For searching multiple patterns simultaneously, use Aho-Corasick. The Z-algorithm handles one pattern at a time.\n- **When KMP failure function is already available:** The KMP algorithm solves the same pattern matching problem. If you already have a KMP implementation, using Z-algorithm adds no benefit.\n- **Approximate matching:** The Z-algorithm is for exact matching only. For fuzzy matching, use edit distance or other approximate string matching algorithms.\n\n## Comparison\n\n| Algorithm   | Preprocessing | Search Time | Space | Best For                        |\n|-------------|---------------|-------------|-------|---------------------------------|\n| Z-Algorithm | O(n + m)      | O(n + m)    | O(n+m)| Exact matching, periodicity     |\n| KMP         | O(m)          | O(n)        | O(m)  | Exact matching, streaming       |\n| Boyer-Moore | O(m + k)      | O(n/m) avg  | O(k)  | Large alphabet, long patterns   |\n| Rabin-Karp  | O(m)          | O(n+m) avg  | O(1)  | Multiple pattern matching       |\n\nThe Z-algorithm and KMP are closely related and solve the same core problem with the same asymptotic complexity. The Z-algorithm is often considered easier to understand and implement. KMP is better suited for streaming scenarios where the text arrives one character at a time. Boyer-Moore is fastest in practice for single-pattern search on natural text.\n\n## References\n\n- Gusfield, D. (1997). *Algorithms on Strings, Trees, and Sequences*, Chapter 1. Cambridge University Press.\n- Cormen, T.H., Leiserson, C.E., Rivest, R.L., and Stein, C. (2009). *Introduction to Algorithms* (3rd ed.), Chapter 32. MIT Press.\n- Crochemore, M. and Rytter, W. (2003). *Jewels of Stringology*. World Scientific.\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [z_function.py](python/z_function.py) |\n| Java       | [ZFunction.java](java/ZFunction.java) |\n| C++        | [z_function.cpp](cpp/z_function.cpp) |\n| C          | [z_function.c](c/z_function.c) |\n| Go         | [z_function.go](go/z_function.go) |\n| TypeScript | [zFunction.ts](typescript/zFunction.ts) |\n| Rust       | [z_function.rs](rust/z_function.rs) |\n| Kotlin     | [ZFunction.kt](kotlin/ZFunction.kt) |\n| Swift      | [ZFunction.swift](swift/ZFunction.swift) |\n| Scala      | [ZFunction.scala](scala/ZFunction.scala) |\n| C#         | [ZFunction.cs](csharp/ZFunction.cs) |\n"
+}

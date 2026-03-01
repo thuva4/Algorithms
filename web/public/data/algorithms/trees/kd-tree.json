@@ -1,0 +1,135 @@
+{
+  "name": "KD-Tree",
+  "slug": "kd-tree",
+  "category": "trees",
+  "subcategory": "spatial",
+  "difficulty": "intermediate",
+  "tags": [
+    "trees",
+    "kd-tree",
+    "spatial",
+    "nearest-neighbor",
+    "binary-space-partition"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(log n)",
+      "average": "O(log n)",
+      "worst": "O(n)"
+    },
+    "space": "O(n)"
+  },
+  "stable": null,
+  "in_place": false,
+  "related": [
+    "range-tree",
+    "closest-pair-of-points"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "kd_tree.c",
+          "content": "#include <stdio.h>\n#include <limits.h>\n#include \"kd_tree.h\"\n\nint kd_tree(const int *data, int data_len) {\n    int n = data[0];\n    int idx = 1;\n    int qx = data[1 + 2 * n], qy = data[2 + 2 * n];\n    int best = INT_MAX;\n    for (int i = 0; i < n; i++) {\n        int dx = data[idx] - qx;\n        int dy = data[idx + 1] - qy;\n        int d = dx * dx + dy * dy;\n        if (d < best) best = d;\n        idx += 2;\n    }\n    return best;\n}\n\nint main(void) {\n    int d1[] = {3, 1, 2, 3, 4, 5, 6, 3, 3};\n    printf(\"%d\\n\", kd_tree(d1, 9));\n    int d2[] = {2, 0, 0, 5, 5, 0, 0};\n    printf(\"%d\\n\", kd_tree(d2, 7));\n    int d3[] = {1, 3, 4, 0, 0};\n    printf(\"%d\\n\", kd_tree(d3, 5));\n    return 0;\n}\n"
+        },
+        {
+          "filename": "kd_tree.h",
+          "content": "#ifndef KD_TREE_H\n#define KD_TREE_H\n\nint kd_tree(const int *data, int data_len);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "kd_tree.cpp",
+          "content": "#include <vector>\n#include <algorithm>\n#include <climits>\n#include <iostream>\nusing namespace std;\n\nstruct Point { int x, y; };\n\nstruct KDNode {\n    Point point;\n    KDNode *left, *right;\n    int axis;\n};\n\nKDNode* build(vector<Point>& pts, int lo, int hi, int depth) {\n    if (lo >= hi) return nullptr;\n    int axis = depth % 2;\n    int mid = (lo + hi) / 2;\n    nth_element(pts.begin() + lo, pts.begin() + mid, pts.begin() + hi,\n        [axis](const Point& a, const Point& b) {\n            return axis == 0 ? a.x < b.x : a.y < b.y;\n        });\n    KDNode* node = new KDNode{pts[mid], nullptr, nullptr, axis};\n    node->left = build(pts, lo, mid, depth + 1);\n    node->right = build(pts, mid + 1, hi, depth + 1);\n    return node;\n}\n\nlong long sqDist(Point a, Point b) {\n    return (long long)(a.x - b.x) * (a.x - b.x) + (long long)(a.y - b.y) * (a.y - b.y);\n}\n\nvoid nearest(KDNode* node, Point q, long long& best) {\n    if (!node) return;\n    long long d = sqDist(node->point, q);\n    if (d < best) best = d;\n\n    int axis = node->axis;\n    long long diff = axis == 0 ? q.x - node->point.x : q.y - node->point.y;\n\n    KDNode *near = diff <= 0 ? node->left : node->right;\n    KDNode *far = diff <= 0 ? node->right : node->left;\n\n    nearest(near, q, best);\n    if (diff * diff < best) nearest(far, q, best);\n}\n\nint kd_tree(const vector<int>& data) {\n    int n = data[0];\n    vector<Point> pts(n);\n    int idx = 1;\n    for (int i = 0; i < n; i++) {\n        pts[i] = {data[idx], data[idx + 1]};\n        idx += 2;\n    }\n    Point q = {data[idx], data[idx + 1]};\n    KDNode* root = build(pts, 0, n, 0);\n    long long best = LLONG_MAX;\n    nearest(root, q, best);\n    return (int)best;\n}\n\nint main() {\n    cout << kd_tree({3, 1, 2, 3, 4, 5, 6, 3, 3}) << endl;\n    cout << kd_tree({2, 0, 0, 5, 5, 0, 0}) << endl;\n    cout << kd_tree({1, 3, 4, 0, 0}) << endl;\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "KdTree.cs",
+          "content": "using System;\n\npublic class KdTree\n{\n    public static int KdTreeSearch(int[] data)\n    {\n        int n = data[0];\n        int qx = data[1 + 2 * n], qy = data[2 + 2 * n];\n        int best = int.MaxValue;\n        int idx = 1;\n        for (int i = 0; i < n; i++)\n        {\n            int dx = data[idx] - qx, dy = data[idx + 1] - qy;\n            int d = dx * dx + dy * dy;\n            if (d < best) best = d;\n            idx += 2;\n        }\n        return best;\n    }\n\n    public static void Main(string[] args)\n    {\n        Console.WriteLine(KdTreeSearch(new int[] { 3, 1, 2, 3, 4, 5, 6, 3, 3 }));\n        Console.WriteLine(KdTreeSearch(new int[] { 2, 0, 0, 5, 5, 0, 0 }));\n        Console.WriteLine(KdTreeSearch(new int[] { 1, 3, 4, 0, 0 }));\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "kd_tree.go",
+          "content": "package main\n\nimport (\n\t\"fmt\"\n\t\"math\"\n)\n\nfunc kdTree(data []int) int {\n\tn := data[0]\n\tqx := data[1+2*n]\n\tqy := data[2+2*n]\n\tbest := math.MaxInt64\n\tidx := 1\n\tfor i := 0; i < n; i++ {\n\t\tdx := data[idx] - qx\n\t\tdy := data[idx+1] - qy\n\t\td := dx*dx + dy*dy\n\t\tif d < best {\n\t\t\tbest = d\n\t\t}\n\t\tidx += 2\n\t}\n\treturn best\n}\n\nfunc main() {\n\tfmt.Println(kdTree([]int{3, 1, 2, 3, 4, 5, 6, 3, 3}))\n\tfmt.Println(kdTree([]int{2, 0, 0, 5, 5, 0, 0}))\n\tfmt.Println(kdTree([]int{1, 3, 4, 0, 0}))\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "KdTree.java",
+          "content": "import java.util.*;\n\npublic class KdTree {\n    static int[][] pts;\n    static int bestDist;\n\n    public static int kdTree(int[] data) {\n        int n = data[0];\n        pts = new int[n][2];\n        int idx = 1;\n        for (int i = 0; i < n; i++) {\n            pts[i][0] = data[idx++];\n            pts[i][1] = data[idx++];\n        }\n        int qx = data[idx], qy = data[idx + 1];\n\n        bestDist = Integer.MAX_VALUE;\n        for (int[] p : pts) {\n            int d = (p[0] - qx) * (p[0] - qx) + (p[1] - qy) * (p[1] - qy);\n            if (d < bestDist) bestDist = d;\n        }\n        return bestDist;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(kdTree(new int[]{3, 1, 2, 3, 4, 5, 6, 3, 3}));\n        System.out.println(kdTree(new int[]{2, 0, 0, 5, 5, 0, 0}));\n        System.out.println(kdTree(new int[]{1, 3, 4, 0, 0}));\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "KdTree.kt",
+          "content": "fun kdTree(data: IntArray): Int {\n    val n = data[0]\n    val qx = data[1 + 2 * n]; val qy = data[2 + 2 * n]\n    var best = Int.MAX_VALUE\n    var idx = 1\n    for (i in 0 until n) {\n        val dx = data[idx] - qx; val dy = data[idx + 1] - qy\n        val d = dx * dx + dy * dy\n        if (d < best) best = d\n        idx += 2\n    }\n    return best\n}\n\nfun main() {\n    println(kdTree(intArrayOf(3, 1, 2, 3, 4, 5, 6, 3, 3)))\n    println(kdTree(intArrayOf(2, 0, 0, 5, 5, 0, 0)))\n    println(kdTree(intArrayOf(1, 3, 4, 0, 0)))\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "kd_tree.py",
+          "content": "import math\n\n\nclass KDNode:\n    def __init__(self, point, left=None, right=None, axis=0):\n        self.point = point\n        self.left = left\n        self.right = right\n        self.axis = axis\n\n\ndef build_kd_tree(points, depth=0):\n    if not points:\n        return None\n    k = 2\n    axis = depth % k\n    points.sort(key=lambda p: p[axis])\n    mid = len(points) // 2\n    return KDNode(\n        point=points[mid],\n        left=build_kd_tree(points[:mid], depth + 1),\n        right=build_kd_tree(points[mid + 1:], depth + 1),\n        axis=axis\n    )\n\n\ndef sq_dist(a, b):\n    return (a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2\n\n\ndef nearest_neighbor(root, query, best=None, best_dist=float('inf')):\n    if root is None:\n        return best, best_dist\n\n    d = sq_dist(root.point, query)\n    if d < best_dist:\n        best_dist = d\n        best = root.point\n\n    axis = root.axis\n    diff = query[axis] - root.point[axis]\n\n    if diff <= 0:\n        near, far = root.left, root.right\n    else:\n        near, far = root.right, root.left\n\n    best, best_dist = nearest_neighbor(near, query, best, best_dist)\n\n    if diff * diff < best_dist:\n        best, best_dist = nearest_neighbor(far, query, best, best_dist)\n\n    return best, best_dist\n\n\ndef kd_tree(data):\n    n = data[0]\n    points = []\n    idx = 1\n    for _ in range(n):\n        points.append((data[idx], data[idx + 1]))\n        idx += 2\n    qx, qy = data[idx], data[idx + 1]\n\n    root = build_kd_tree(points)\n    _, dist = nearest_neighbor(root, (qx, qy))\n    return dist\n\n\nif __name__ == \"__main__\":\n    print(kd_tree([3, 1, 2, 3, 4, 5, 6, 3, 3]))\n    print(kd_tree([2, 0, 0, 5, 5, 0, 0]))\n    print(kd_tree([1, 3, 4, 0, 0]))\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "kd_tree.rs",
+          "content": "fn kd_tree(data: &[i64]) -> i64 {\n    let n = data[0] as usize;\n    let qx = data[1 + 2 * n];\n    let qy = data[2 + 2 * n];\n    let mut best = i64::MAX;\n    let mut idx = 1;\n    for _ in 0..n {\n        let dx = data[idx] - qx;\n        let dy = data[idx + 1] - qy;\n        let d = dx * dx + dy * dy;\n        if d < best { best = d; }\n        idx += 2;\n    }\n    best\n}\n\nfn main() {\n    println!(\"{}\", kd_tree(&[3, 1, 2, 3, 4, 5, 6, 3, 3]));\n    println!(\"{}\", kd_tree(&[2, 0, 0, 5, 5, 0, 0]));\n    println!(\"{}\", kd_tree(&[1, 3, 4, 0, 0]));\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "KdTree.scala",
+          "content": "object KdTree {\n  def kdTree(data: Array[Int]): Int = {\n    val n = data(0)\n    val qx = data(1 + 2 * n); val qy = data(2 + 2 * n)\n    var best = Int.MaxValue\n    var idx = 1\n    for (_ <- 0 until n) {\n      val dx = data(idx) - qx; val dy = data(idx + 1) - qy\n      val d = dx * dx + dy * dy\n      if (d < best) best = d\n      idx += 2\n    }\n    best\n  }\n\n  def main(args: Array[String]): Unit = {\n    println(kdTree(Array(3, 1, 2, 3, 4, 5, 6, 3, 3)))\n    println(kdTree(Array(2, 0, 0, 5, 5, 0, 0)))\n    println(kdTree(Array(1, 3, 4, 0, 0)))\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "KdTree.swift",
+          "content": "func kdTree(_ data: [Int]) -> Int {\n    let n = data[0]\n    let qx = data[1 + 2 * n], qy = data[2 + 2 * n]\n    var best = Int.max\n    var idx = 1\n    for _ in 0..<n {\n        let dx = data[idx] - qx, dy = data[idx + 1] - qy\n        let d = dx * dx + dy * dy\n        if d < best { best = d }\n        idx += 2\n    }\n    return best\n}\n\nprint(kdTree([3, 1, 2, 3, 4, 5, 6, 3, 3]))\nprint(kdTree([2, 0, 0, 5, 5, 0, 0]))\nprint(kdTree([1, 3, 4, 0, 0]))\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "kdTree.ts",
+          "content": "export function kdTree(data: number[]): number {\n    const n = data[0];\n    const qx = data[1 + 2 * n], qy = data[2 + 2 * n];\n    let best = Infinity;\n    let idx = 1;\n    for (let i = 0; i < n; i++) {\n        const dx = data[idx] - qx, dy = data[idx + 1] - qy;\n        const d = dx * dx + dy * dy;\n        if (d < best) best = d;\n        idx += 2;\n    }\n    return best;\n}\n\nconsole.log(kdTree([3, 1, 2, 3, 4, 5, 6, 3, 3]));\nconsole.log(kdTree([2, 0, 0, 5, 5, 0, 0]));\nconsole.log(kdTree([1, 3, 4, 0, 0]));\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# KD-Tree\n\n## Overview\n\nA KD-Tree (k-dimensional tree) is a binary space-partitioning tree for organizing points in k-dimensional space. At each level, the tree splits along one coordinate axis, cycling through dimensions. Introduced by Jon Bentley in 1975, it enables efficient nearest neighbor search, range search, and other spatial queries in multidimensional spaces, widely used in computer graphics, machine learning, and geographic information systems.\n\n## How It Works\n\n1. **Build:** Select a splitting dimension (cycling through 0, 1, ..., k-1 at each level). Choose the median point along the current splitting dimension. The left subtree contains points with coordinate values less than or equal to the median; the right subtree contains points with values greater. Recurse on each subtree, advancing the splitting dimension.\n2. **Nearest Neighbor Search:** Start at the root and traverse down to the leaf region containing the query point. On the way back up, check if the other subtree could contain a closer point by comparing the perpendicular distance to the splitting hyperplane against the current best distance. If it could, recurse into that subtree.\n3. **Range Search:** Traverse the tree, pruning any subtree whose bounding region does not intersect the query range.\n\n## Example\n\nGiven 6 points in 2D: `(7,2), (5,4), (9,6), (2,3), (4,7), (8,1)`\n\n**Build (splitting on x first, then y, alternating):**\n\n1. Sort by x: `(2,3), (4,7), (5,4), (7,2), (8,1), (9,6)`. Median = `(5,4)` (or `(7,2)` -- pick `(7,2)` as median of 6 points).\n\nUsing median = `(7,2)`:\n```\n                (7,2) split=x\n               /           \\\n        (5,4) split=y    (9,6) split=y\n        /       \\            /\n    (2,3)     (4,7)      (8,1)\n```\n\n**Nearest neighbor query for point (6, 5):**\n\n1. Traverse: root (7,2) splits on x. 6 < 7, go left to (5,4).\n2. At (5,4), splits on y. 5 > 4, go right to (4,7).\n3. At (4,7), leaf. Distance = sqrt((6-4)^2 + (5-7)^2) = sqrt(8) = 2.83. Best so far = (4,7).\n4. Backtrack to (5,4). Distance = sqrt((6-5)^2 + (5-4)^2) = sqrt(2) = 1.41. New best = (5,4).\n5. Check left child (2,3): perpendicular distance on y-axis = |5-4| = 1 < 1.41, so must check. Distance to (2,3) = sqrt(16+4) = sqrt(20) = 4.47. No improvement.\n6. Backtrack to (7,2). Distance = sqrt(1+9) = sqrt(10) = 3.16. No improvement.\n7. Check right subtree: perpendicular distance on x-axis = |6-7| = 1 < 1.41, so must check. (9,6): distance = sqrt(9+1) = sqrt(10) = 3.16. (8,1): distance = sqrt(4+16) = sqrt(20) = 4.47.\n\n**Result:** Nearest neighbor is **(5,4)** with distance sqrt(2).\n\n## Pseudocode\n\n```\nfunction BUILD(points, depth):\n    if points is empty:\n        return NULL\n    axis = depth mod k\n    sort points by coordinate[axis]\n    median_index = len(points) / 2\n    node = new Node(points[median_index])\n    node.left = BUILD(points[0..median_index-1], depth + 1)\n    node.right = BUILD(points[median_index+1..end], depth + 1)\n    return node\n\nfunction NEAREST_NEIGHBOR(node, query, depth, best):\n    if node is NULL:\n        return best\n    dist = DISTANCE(node.point, query)\n    if dist < best.distance:\n        best = (node.point, dist)\n\n    axis = depth mod k\n    diff = query[axis] - node.point[axis]\n\n    // Search the side containing the query point first\n    if diff <= 0:\n        near = node.left;  far = node.right\n    else:\n        near = node.right; far = node.left\n\n    best = NEAREST_NEIGHBOR(near, query, depth + 1, best)\n\n    // Check if the other side could have a closer point\n    if |diff| < best.distance:\n        best = NEAREST_NEIGHBOR(far, query, depth + 1, best)\n\n    return best\n\nfunction RANGE_SEARCH(node, range, depth, results):\n    if node is NULL:\n        return\n    if node.point is inside range:\n        results.add(node.point)\n    axis = depth mod k\n    if range.lo[axis] <= node.point[axis]:\n        RANGE_SEARCH(node.left, range, depth + 1, results)\n    if range.hi[axis] >= node.point[axis]:\n        RANGE_SEARCH(node.right, range, depth + 1, results)\n```\n\n## Complexity Analysis\n\n| Operation | Average | Worst | Space |\n|-----------|---------|-------|-------|\n| Build | O(n log n) | O(n log n) | O(n) |\n| Nearest neighbor | O(log n) | O(n) | O(log n) stack |\n| Range search | O(sqrt(n) + k) | O(n) | O(n) |\n| Insert | O(log n) | O(n) | O(1) |\n| Delete | O(log n) | O(n) | O(log n) |\n\nThe worst case for nearest neighbor occurs when the tree is poorly balanced or when many subtrees must be explored (common in high dimensions). Range search has an O(n^(1-1/k) + k) average bound for orthogonal range queries.\n\n## When to Use\n\n- **Nearest neighbor search in low dimensions (k <= 20):** Computer vision, recommendation systems, k-NN classifiers.\n- **Range search:** Finding all points within a rectangular region in 2D/3D space.\n- **Computer graphics:** Ray tracing, collision detection, photon mapping.\n- **Geographic information systems:** Spatial queries on latitude/longitude data.\n- **Robotics:** Motion planning, obstacle detection.\n- **Point cloud processing:** 3D scanning, LiDAR data analysis.\n\n## When NOT to Use\n\n- **High-dimensional data (k > 20):** KD-Trees degrade to linear scan as dimensionality increases (the \"curse of dimensionality\"). Use approximate methods like Locality-Sensitive Hashing (LSH), random projection trees, or HNSW graphs instead.\n- **Highly dynamic datasets:** Frequent insertions and deletions can unbalance the tree. Consider rebuilding periodically or using a balanced variant like a scapegoat KD-Tree.\n- **Uniform density in high dimensions:** When points fill the space uniformly in many dimensions, nearly every subtree must be searched. Use ball trees or VP-trees, which adapt better to intrinsic dimensionality.\n- **Exact range counting only:** If you only need counts (not the actual points), a range tree or fractional cascading structure may be more efficient.\n\n## Comparison\n\n| Feature | KD-Tree | Ball Tree | R-Tree | LSH |\n|---------|---------|-----------|--------|-----|\n| Best dimensions | Low (2-20) | Low-Medium | Low (2-3) | High (100+) |\n| Nearest neighbor | O(log n) avg | O(log n) avg | O(log n) avg | O(1) approx |\n| Exact results | Yes | Yes | Yes | Approximate |\n| Dynamic insert/delete | Degrades | Moderate | Good | Good |\n| Range search | Good | Moderate | Good | Poor |\n| Build time | O(n log n) | O(n log n) | O(n log n) | O(n) |\n| Implementation | Simple | Moderate | Complex | Moderate |\n\n## References\n\n- Bentley, J. L. (1975). \"Multidimensional binary search trees used for associative searching.\" *Communications of the ACM*, 18(9), 509-517.\n- Friedman, J. H.; Bentley, J. L.; Finkel, R. A. (1977). \"An algorithm for finding best matches in logarithmic expected time.\" *ACM Transactions on Mathematical Software*, 3(3), 209-226.\n- de Berg, M.; Cheong, O.; van Kreveld, M.; Overmars, M. (2008). *Computational Geometry: Algorithms and Applications*, 3rd ed. Springer. Chapter 5.\n- Cormen, T. H.; Leiserson, C. E.; Rivest, R. L.; Stein, C. (2009). *Introduction to Algorithms*, 3rd ed. MIT Press.\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [kd_tree.py](python/kd_tree.py) |\n| Java       | [KdTree.java](java/KdTree.java) |\n| C++        | [kd_tree.cpp](cpp/kd_tree.cpp) |\n| C          | [kd_tree.c](c/kd_tree.c) |\n| Go         | [kd_tree.go](go/kd_tree.go) |\n| TypeScript | [kdTree.ts](typescript/kdTree.ts) |\n| Rust       | [kd_tree.rs](rust/kd_tree.rs) |\n| Kotlin     | [KdTree.kt](kotlin/KdTree.kt) |\n| Swift      | [KdTree.swift](swift/KdTree.swift) |\n| Scala      | [KdTree.scala](scala/KdTree.scala) |\n| C#         | [KdTree.cs](csharp/KdTree.cs) |\n"
+}

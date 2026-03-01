@@ -1,0 +1,160 @@
+{
+  "name": "Quick Select",
+  "slug": "quick-select",
+  "category": "searching",
+  "subcategory": "linear",
+  "difficulty": "intermediate",
+  "tags": [
+    "searching",
+    "selection",
+    "partition",
+    "kth-element"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "average": "O(n)",
+      "worst": "O(n^2)"
+    },
+    "space": "O(1)"
+  },
+  "stable": null,
+  "in_place": null,
+  "related": [
+    "binary-search",
+    "linear-search"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "quick_select.c",
+          "content": "#include \"quick_select.h\"\n#include <stdlib.h>\n\nstatic void swap(int* a, int* b) {\n    int t = *a;\n    *a = *b;\n    *b = t;\n}\n\nstatic int partition(int arr[], int l, int r) {\n    int x = arr[r], i = l;\n    for (int j = l; j <= r - 1; j++) {\n        if (arr[j] <= x) {\n            swap(&arr[i], &arr[j]);\n            i++;\n        }\n    }\n    swap(&arr[i], &arr[r]);\n    return i;\n}\n\nstatic int kthSmallest(int arr[], int l, int r, int k) {\n    if (k > 0 && k <= r - l + 1) {\n        int pos = partition(arr, l, r);\n        \n        if (pos - l == k - 1)\n            return arr[pos];\n        if (pos - l > k - 1)\n            return kthSmallest(arr, l, pos - 1, k);\n            \n        return kthSmallest(arr, pos + 1, r, k - pos + l - 1);\n    }\n    return -1; // Should not happen for valid k\n}\n\nint quick_select(int arr[], int n, int k) {\n    return kthSmallest(arr, 0, n - 1, k);\n}\n"
+        },
+        {
+          "filename": "quick_select.h",
+          "content": "#ifndef QUICK_SELECT_H\n#define QUICK_SELECT_H\n\nint quick_select(int arr[], int n, int k);\n\n#endif\n"
+        },
+        {
+          "filename": "quickselect.c",
+          "content": "#include <stdio.h>\n\nvoid swap(int *a, int *b) {\n    int temp = *a;\n    *a = *b;\n    *b = temp;\n}\n\nint partition(int arr[], int left, int right) {\n    int pivot = arr[right];\n    int store_index = left;\n\n    for (int i = left; i < right; i++) {\n        if (arr[i] < pivot) {\n            swap(&arr[store_index], &arr[i]);\n            store_index++;\n        }\n    }\n    swap(&arr[store_index], &arr[right]);\n    return store_index;\n}\n\nint quick_select(int arr[], int n, int k) {\n    int left = 0;\n    int right = n - 1;\n    int target = k - 1;\n\n    while (left <= right) {\n        int pivot_index = partition(arr, left, right);\n        if (pivot_index == target) {\n            return arr[pivot_index];\n        } else if (pivot_index < target) {\n            left = pivot_index + 1;\n        } else {\n            right = pivot_index - 1;\n        }\n    }\n\n    return -1;\n}\n\nint main() {\n    int arr[] = {3, 1, 4, 1, 5};\n    int n = 5;\n    int k = 3;\n    int result = quick_select(arr, n, k);\n    printf(\"The %dth smallest element is %d\\n\", k, result);\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "quick_select.cpp",
+          "content": "#include \"quick_select.h\"\n#include <vector>\n#include <algorithm>\n\nstatic int partition(std::vector<int>& arr, int l, int r) {\n    int x = arr[r], i = l;\n    for (int j = l; j <= r - 1; j++) {\n        if (arr[j] <= x) {\n            std::swap(arr[i], arr[j]);\n            i++;\n        }\n    }\n    std::swap(arr[i], arr[r]);\n    return i;\n}\n\nstatic int kthSmallest(std::vector<int>& arr, int l, int r, int k) {\n    if (k > 0 && k <= r - l + 1) {\n        int pos = partition(arr, l, r);\n        \n        if (pos - l == k - 1)\n            return arr[pos];\n        if (pos - l > k - 1)\n            return kthSmallest(arr, l, pos - 1, k);\n            \n        return kthSmallest(arr, pos + 1, r, k - pos + l - 1);\n    }\n    return -1;\n}\n\nint quick_select(std::vector<int>& arr, int k) {\n    return kthSmallest(arr, 0, arr.size() - 1, k);\n}\n"
+        },
+        {
+          "filename": "quick_select.h",
+          "content": "#ifndef QUICK_SELECT_H\n#define QUICK_SELECT_H\n\n#include <vector>\n\nint quick_select(std::vector<int>& arr, int k);\n\n#endif\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "QuickSelect.cs",
+          "content": "namespace Algorithms.Searching.QuickSelect\n{\n    public class QuickSelect\n    {\n        public static int Select(int[] arr, int k)\n        {\n            return KthSmallest(arr, 0, arr.Length - 1, k);\n        }\n\n        private static int KthSmallest(int[] arr, int l, int r, int k)\n        {\n            if (k > 0 && k <= r - l + 1)\n            {\n                int pos = Partition(arr, l, r);\n\n                if (pos - l == k - 1)\n                    return arr[pos];\n                if (pos - l > k - 1)\n                    return KthSmallest(arr, l, pos - 1, k);\n\n                return KthSmallest(arr, pos + 1, r, k - pos + l - 1);\n            }\n            return -1;\n        }\n\n        private static int Partition(int[] arr, int l, int r)\n        {\n            int x = arr[r], i = l;\n            for (int j = l; j <= r - 1; j++)\n            {\n                if (arr[j] <= x)\n                {\n                    int temp = arr[i];\n                    arr[i] = arr[j];\n                    arr[j] = temp;\n                    i++;\n                }\n            }\n            int temp2 = arr[i];\n            arr[i] = arr[r];\n            arr[r] = temp2;\n            return i;\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "QuickSelect.go",
+          "content": "package main\n\nimport (\n\t\"math/rand\"\n)\n\nfunc quickselect(list []int, item_index int) int {\n\treturn selec(list,0, len(list) - 1, item_index)\n}\n\nfunc partition(list []int, left int, right int, pivotIndex int) int {\n\tpivotValue := list[pivotIndex]\n\n\t// move pivot to end\n\tlist[pivotIndex], list[right] = list[right], list[pivotIndex]\n\n\tstoreIndex := left\n\n\tfor i := left; i < right; i++ {\n\t\tif list[i] < pivotValue {\n\t\t\t// move pivot to its final place\n\t\t\tlist[storeIndex], list[i] = list[i], list[storeIndex]\n\t\t\tstoreIndex += 1\n\t\t}\n\t}\n\tlist[right], list[storeIndex] = list[storeIndex], list[right]\n\n\treturn storeIndex\n}\n\nfunc selec(list []int, left int, right int, k int) int {\n\n\tif left == right {\n\t\treturn list[left]\n\t}\n\n\tpivotIndex := rand.Intn(right)\n\t// the pivot in its final sorted position\n\tpivotIndex = partition(list, left, right, pivotIndex)\n\n\tif k == pivotIndex {\n\t\treturn list[k]\n\t} else if k < pivotIndex {\n\t\treturn selec (list, left, pivotIndex - 1, k)\n\t} else {\n\t\treturn selec(list, pivotIndex + 1, right, k)\n\t}\n}\n\nfunc main() {}"
+        },
+        {
+          "filename": "quick_select.go",
+          "content": "package quickselect\n\nfunc QuickSelect(arr []int, k int) int {\n\treturn kthSmallest(arr, 0, len(arr)-1, k)\n}\n\nfunc kthSmallest(arr []int, l, r, k int) int {\n\tif k > 0 && k <= r-l+1 {\n\t\tpos := partition(arr, l, r)\n\n\t\tif pos-l == k-1 {\n\t\t\treturn arr[pos]\n\t\t}\n\t\tif pos-l > k-1 {\n\t\t\treturn kthSmallest(arr, l, pos-1, k)\n\t\t}\n\t\treturn kthSmallest(arr, pos+1, r, k-pos+l-1)\n\t}\n\treturn -1\n}\n\nfunc partition(arr []int, l, r int) int {\n\tx := arr[r]\n\ti := l\n\tfor j := l; j <= r-1; j++ {\n\t\tif arr[j] <= x {\n\t\t\tarr[i], arr[j] = arr[j], arr[i]\n\t\t\ti++\n\t\t}\n\t}\n\tarr[i], arr[r] = arr[r], arr[i]\n\treturn i\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "QuickSelect.java",
+          "content": "package algorithms.searching.quickselect;\n\npublic class QuickSelect {\n    public static int select(int[] arr, int k) {\n        return kthSmallest(arr, 0, arr.length - 1, k);\n    }\n\n    private static int kthSmallest(int[] arr, int l, int r, int k) {\n        if (k > 0 && k <= r - l + 1) {\n            int pos = partition(arr, l, r);\n\n            if (pos - l == k - 1)\n                return arr[pos];\n            if (pos - l > k - 1)\n                return kthSmallest(arr, l, pos - 1, k);\n\n            return kthSmallest(arr, pos + 1, r, k - pos + l - 1);\n        }\n        return -1;\n    }\n\n    private static int partition(int[] arr, int l, int r) {\n        int x = arr[r], i = l;\n        for (int j = l; j <= r - 1; j++) {\n            if (arr[j] <= x) {\n                int temp = arr[i];\n                arr[i] = arr[j];\n                arr[j] = temp;\n                i++;\n            }\n        }\n        int temp = arr[i];\n        arr[i] = arr[r];\n        arr[r] = temp;\n        return i;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "QuickSelect.kt",
+          "content": "package algorithms.searching.quickselect\n\nclass QuickSelect {\n    fun select(arr: IntArray, k: Int): Int {\n        return kthSmallest(arr, 0, arr.size - 1, k)\n    }\n\n    private fun kthSmallest(arr: IntArray, l: Int, r: Int, k: Int): Int {\n        if (k > 0 && k <= r - l + 1) {\n            val pos = partition(arr, l, r)\n\n            if (pos - l == k - 1)\n                return arr[pos]\n            if (pos - l > k - 1)\n                return kthSmallest(arr, l, pos - 1, k)\n\n            return kthSmallest(arr, pos + 1, r, k - pos + l - 1)\n        }\n        return -1\n    }\n\n    private fun partition(arr: IntArray, l: Int, r: Int): Int {\n        val x = arr[r]\n        var i = l\n        for (j in l until r) {\n            if (arr[j] <= x) {\n                val temp = arr[i]\n                arr[i] = arr[j]\n                arr[j] = temp\n                i++\n            }\n        }\n        val temp = arr[i]\n        arr[i] = arr[r]\n        arr[r] = temp\n        return i\n    }\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "quick_select.py",
+          "content": "def quick_select(arr, k):\n    return kth_smallest(arr, 0, len(arr) - 1, k)\n\ndef kth_smallest(arr, l, r, k):\n    if k > 0 and k <= r - l + 1:\n        pos = partition(arr, l, r)\n        \n        if pos - l == k - 1:\n            return arr[pos]\n        if pos - l > k - 1:\n            return kth_smallest(arr, l, pos - 1, k)\n            \n        return kth_smallest(arr, pos + 1, r, k - pos + l - 1)\n        \n    return -1\n\ndef partition(arr, l, r):\n    x = arr[r]\n    i = l\n    for j in range(l, r):\n        if arr[j] <= x:\n            arr[i], arr[j] = arr[j], arr[i]\n            i += 1\n            \n    arr[i], arr[r] = arr[r], arr[i]\n    return i\n"
+        },
+        {
+          "filename": "quickselect-python.py",
+          "content": "#!/usr/bin/env python3\n\n'''\nPython Implementation of Quick Select\ninput : array of values, n (index @ which value is required)\noutput : Value of element at nth index of array\n'''\n\n\ndef QuickSelect(arr, n):\n\tprint(arr, n)\n\tpivot = arr[0]\n\tleft = [x for x in arr[1:] if x < pivot]\n\tright = [x for x in arr[1:] if x >= pivot]\n\n\tindex_of_pivot = len(left)\n\n\tif n < index_of_pivot:\n\t\treturn QuickSelect(left, n)\n\telif n > index_of_pivot:\n\t\treturn QuickSelect(right, n - index_of_pivot - 1)\n\telse:\n\t\treturn pivot\n\n\ndef run_tests():\n\tarray, index = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1], 3\n\tprint(bool(QuickSelect(array, index), sorted(array)[index] ))\n\n\tarray, index = [0, 8, 7, 5, 2, 3, 5], 5\n\tprint(bool(QuickSelect(array, index), sorted(array)[index] ))\n\n\tarray, index = [36, 8, 7, 5, 2, 3, 5], 5\n\tprint(bool( QuickSelect(array, index), sorted(array)[index] ))\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "quick_select.rs",
+          "content": "pub fn quick_select(arr: &mut [i32], k: usize) -> i32 {\n    let n = arr.len();\n    if n == 0 {\n        return -1;\n    }\n    kth_smallest(arr, 0, n - 1, k)\n}\n\nfn kth_smallest(arr: &mut [i32], l: usize, r: usize, k: usize) -> i32 {\n    if k > 0 && k <= r - l + 1 {\n        let pos = partition(arr, l, r);\n        \n        if pos - l == k - 1 {\n            return arr[pos];\n        }\n        if pos - l > k - 1 {\n            return kth_smallest(arr, l, pos - 1, k);\n        }\n        return kth_smallest(arr, pos + 1, r, k - pos + l - 1);\n    }\n    -1\n}\n\nfn partition(arr: &mut [i32], l: usize, r: usize) -> usize {\n    let x = arr[r];\n    let mut i = l;\n    for j in l..r {\n        if arr[j] <= x {\n            arr.swap(i, j);\n            i += 1;\n        }\n    }\n    arr.swap(i, r);\n    i\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "QuickSelect.scala",
+          "content": "object QuickSelect {\n  def select(arr: Array[Int], k: Int): Int = {\n    kthSmallest(arr, 0, arr.length - 1, k)\n  }\n\n  private def kthSmallest(arr: Array[Int], l: Int, r: Int, k: Int): Int = {\n    if (k > 0 && k <= r - l + 1) {\n      val pos = partition(arr, l, r)\n\n      if (pos - l == k - 1)\n        return arr(pos)\n      if (pos - l > k - 1)\n        return kthSmallest(arr, l, pos - 1, k)\n      \n      return kthSmallest(arr, pos + 1, r, k - pos + l - 1)\n    }\n    -1\n  }\n\n  private def partition(arr: Array[Int], l: Int, r: Int): Int = {\n    val x = arr(r)\n    var i = l\n    for (j <- l until r) {\n      if (arr(j) <= x) {\n        val temp = arr(i)\n        arr(i) = arr(j)\n        arr(j) = temp\n        i += 1\n      }\n    }\n    val temp = arr(i)\n    arr(i) = arr(r)\n    arr(r) = temp\n    i\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "QuickSelect.swift",
+          "content": "class QuickSelect {\n    static func select(_ arr: inout [Int], _ k: Int) -> Int {\n        return kthSmallest(&arr, 0, arr.count - 1, k)\n    }\n\n    private static func kthSmallest(_ arr: inout [Int], _ l: Int, _ r: Int, _ k: Int) -> Int {\n        if k > 0 && k <= r - l + 1 {\n            let pos = partition(&arr, l, r)\n\n            if pos - l == k - 1 {\n                return arr[pos]\n            }\n            if pos - l > k - 1 {\n                return kthSmallest(&arr, l, pos - 1, k)\n            }\n            return kthSmallest(&arr, pos + 1, r, k - pos + l - 1)\n        }\n        return -1\n    }\n\n    private static func partition(_ arr: inout [Int], _ l: Int, _ r: Int) -> Int {\n        let x = arr[r]\n        var i = l\n        for j in l..<r {\n            if arr[j] <= x {\n                arr.swapAt(i, j)\n                i += 1\n            }\n        }\n        arr.swapAt(i, r)\n        return i\n    }\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "index.js",
+          "content": "export function quickSelect(arr, k) {\n  if (k < 1 || k > arr.length) {\n    return -1;\n  }\n\n  const sorted = [...arr].sort((a, b) => a - b);\n  return sorted[k - 1];\n}\n"
+        },
+        {
+          "filename": "quick-select.ts",
+          "content": "export function quickSelect(arr: number[], k: number): number {\n  return kthSmallest(arr, 0, arr.length - 1, k);\n}\n\nfunction kthSmallest(arr: number[], l: number, r: number, k: number): number {\n  if (k > 0 && k <= r - l + 1) {\n    const pos = partition(arr, l, r);\n    \n    if (pos - l === k - 1) {\n      return arr[pos];\n    }\n    if (pos - l > k - 1) {\n      return kthSmallest(arr, l, pos - 1, k);\n    }\n    return kthSmallest(arr, pos + 1, r, k - pos + l - 1);\n  }\n  return -1;\n}\n\nfunction partition(arr: number[], l: number, r: number): number {\n  const x = arr[r];\n  let i = l;\n  for (let j = l; j < r; j++) {\n    if (arr[j] <= x) {\n      [arr[i], arr[j]] = [arr[j], arr[i]];\n      i++;\n    }\n  }\n  [arr[i], arr[r]] = [arr[r], arr[i]];\n  return i;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "patterns": [
+    "two-pointers",
+    "top-k-elements"
+  ],
+  "patternDifficulty": "intermediate",
+  "practiceOrder": 4,
+  "readme": "# Quick Select\n\n## Overview\n\nQuick Select is a selection algorithm that finds the k-th smallest (or largest) element in an unordered list. It is closely related to Quick Sort and uses the same partitioning strategy, but instead of recursing into both halves, Quick Select only recurses into the half that contains the desired element. This optimization gives it an average-case linear time complexity of O(n), making it significantly faster than sorting the entire array just to find one element.\n\nQuick Select was developed by Tony Hoare (the inventor of Quick Sort) in 1961 and is widely used in practice for order statistics problems, such as finding medians or percentiles.\n\n## How It Works\n\nQuick Select uses a partition function to rearrange elements around a pivot. After partitioning, the pivot is in its final sorted position. If the pivot's position matches k, the algorithm returns the pivot. If k is less than the pivot position, the algorithm recurses on the left partition. If k is greater, it recurses on the right partition. Unlike Quick Sort, only one recursive call is made per step.\n\n### Example\n\nGiven input: `[7, 3, 1, 5, 9, 2, 8]`, find the 3rd smallest element (k = 2, 0-indexed)\n\n**Step 1:** Choose pivot = `8` (last element), partition around it.\n\n| Action | Array State |\n|--------|-------------|\n| Initial | `[7, 3, 1, 5, 9, 2, 8]` |\n| After partitioning | `[7, 3, 1, 5, 2, 8, 9]` |\n| Pivot index = 5 | `8` is at position 5 |\n\nk = 2 < 5, so recurse on left partition: `[7, 3, 1, 5, 2]`\n\n**Step 2:** Choose pivot = `2` (last element), partition around it.\n\n| Action | Array State |\n|--------|-------------|\n| Initial subarray | `[7, 3, 1, 5, 2]` |\n| After partitioning | `[1, 2, 7, 5, 3]` |\n| Pivot index = 1 | `2` is at position 1 |\n\nk = 2 > 1, so recurse on right partition: `[7, 5, 3]` (starting from index 2)\n\n**Step 3:** Choose pivot = `3` (last element), partition around it.\n\n| Action | Array State |\n|--------|-------------|\n| Initial subarray | `[7, 5, 3]` |\n| After partitioning | `[3, 5, 7]` |\n| Pivot index = 2 | `3` is at position 2 |\n\nk = 2 == pivot index. Return `3`.\n\nResult: The 3rd smallest element is `3`.\n\n## Pseudocode\n\n```\nfunction quickSelect(array, low, high, k):\n    if low == high:\n        return array[low]\n\n    pivotIndex = partition(array, low, high)\n\n    if k == pivotIndex:\n        return array[k]\n    else if k < pivotIndex:\n        return quickSelect(array, low, pivotIndex - 1, k)\n    else:\n        return quickSelect(array, pivotIndex + 1, high, k)\n\nfunction partition(array, low, high):\n    pivot = array[high]\n    i = low - 1\n\n    for j from low to high - 1:\n        if array[j] <= pivot:\n            i = i + 1\n            swap(array[i], array[j])\n\n    swap(array[i + 1], array[high])\n    return i + 1\n```\n\nThe key insight is that partitioning takes O(n), and we only recurse on one side, giving expected sizes of n, n/2, n/4, ..., which sum to approximately 2n = O(n).\n\n## Complexity Analysis\n\n| Case    | Time   | Space |\n|---------|--------|-------|\n| Best    | O(n)   | O(1)  |\n| Average | O(n)   | O(1)  |\n| Worst   | O(n^2) | O(1)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(n):** The pivot perfectly partitions the array such that the k-th element is found after the first partition. The partition operation itself scans all n elements once, giving O(n).\n\n- **Average Case -- O(n):** With a random pivot, the expected partition splits the array roughly in half. The work done is n + n/2 + n/4 + ... = 2n, which is O(n). This is formally proven using expectation analysis similar to Quick Sort's average-case proof.\n\n- **Worst Case -- O(n^2):** If the pivot is always the smallest or largest element (e.g., already sorted input with last-element pivot), the partition only reduces the problem size by 1 each time. This gives n + (n-1) + (n-2) + ... + 1 = n(n-1)/2 = O(n^2). This can be mitigated by using randomized pivot selection or the Median of Medians algorithm for guaranteed O(n) worst case.\n\n- **Space -- O(1):** Quick Select operates in-place, modifying the array directly. The iterative version uses constant space. The recursive version uses O(log n) stack space on average, or O(n) in the worst case.\n\n## When to Use\n\n- **Finding the k-th smallest/largest element:** Quick Select is the standard algorithm for this problem, faster than sorting the entire array.\n- **Finding the median:** Quick Select with k = n/2 finds the median in expected O(n) time.\n- **Computing percentiles and order statistics:** Any rank-based query on unsorted data benefits from Quick Select.\n- **Partial sorting:** When you need the top-k or bottom-k elements without fully sorting.\n- **When average-case performance is acceptable:** The O(n) average case makes Quick Select excellent for most practical inputs.\n\n## When NOT to Use\n\n- **When worst-case guarantees are needed:** The O(n^2) worst case can be problematic for adversarial inputs. Use Median of Medians (Introselect) for guaranteed O(n).\n- **When the original array must not be modified:** Quick Select rearranges elements in-place. If the original order must be preserved, a copy is needed.\n- **When multiple order statistics are needed simultaneously:** Sorting (O(n log n)) once and then looking up any rank in O(1) is better than running Quick Select multiple times.\n- **Very small arrays:** For tiny arrays, simply sorting and indexing is simpler and has negligible performance difference.\n\n## Comparison with Similar Algorithms\n\n| Algorithm        | Time (avg) | Space | Notes                                    |\n|------------------|-----------|-------|------------------------------------------|\n| Quick Select     | O(n)      | O(1)  | Fast average case; O(n^2) worst case     |\n| Median of Medians| O(n)      | O(n)  | Guaranteed O(n); higher constant factor  |\n| Sort + Index     | O(n log n)| O(1)* | Simple but slower; full sort is wasteful |\n| Heap-based       | O(n log k)| O(k)  | Good when k is small relative to n       |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Go         | [QuickSelect.go](go/QuickSelect.go) |\n| Java       | [QuickSelect.java](java/QuickSelect.java) |\n| Python     | [quickselect-python.py](python/quickselect-python.py) |\n| TypeScript | [index.js](typescript/index.js) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 9: Medians and Order Statistics.\n- Hoare, C. A. R. (1961). \"Algorithm 65: Find\". *Communications of the ACM*. 4(7): 321-322.\n- [Quickselect -- Wikipedia](https://en.wikipedia.org/wiki/Quickselect)\n"
+}

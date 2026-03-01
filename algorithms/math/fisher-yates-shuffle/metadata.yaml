@@ -1,0 +1,17 @@
+name: "Fisher-Yates Shuffle"
+slug: "fisher-yates-shuffle"
+category: "math"
+subcategory: "randomization"
+difficulty: "beginner"
+tags: [math, shuffle, random, permutation, in-place]
+complexity:
+  time:
+    best: "O(n)"
+    average: "O(n)"
+    worst: "O(n)"
+  space: "O(1)"
+stable: false
+in_place: true
+related: [permutations]
+implementations: [python, java, cpp, go, csharp, typescript]
+visualization: true

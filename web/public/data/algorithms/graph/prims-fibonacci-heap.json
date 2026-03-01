@@ -1,0 +1,135 @@
+{
+  "name": "Prim's MST (Priority Queue)",
+  "slug": "prims-fibonacci-heap",
+  "category": "graph",
+  "subcategory": "spanning-tree",
+  "difficulty": "advanced",
+  "tags": [
+    "graph",
+    "minimum-spanning-tree",
+    "prims",
+    "priority-queue",
+    "fibonacci-heap"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(E log V)",
+      "average": "O(E log V)",
+      "worst": "O(E log V)"
+    },
+    "space": "O(V + E)"
+  },
+  "stable": null,
+  "in_place": false,
+  "related": [
+    "prims",
+    "dijkstras"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "prims_fibonacci_heap.c",
+          "content": "#include \"prims_fibonacci_heap.h\"\n#include <limits.h>\n#include <string.h>\n\n#define MAX_V 1000\n\nint prims_fibonacci_heap(int arr[], int size) {\n    int n = arr[0], m = arr[1];\n    /* Simple O(V^2) Prim's for C */\n    int w_mat[MAX_V][MAX_V];\n    int i, j;\n    for (i = 0; i < n; i++)\n        for (j = 0; j < n; j++)\n            w_mat[i][j] = INT_MAX;\n\n    for (i = 0; i < m; i++) {\n        int u = arr[2+3*i], v = arr[2+3*i+1], w = arr[2+3*i+2];\n        if (w < w_mat[u][v]) { w_mat[u][v] = w; w_mat[v][u] = w; }\n    }\n\n    int in_mst[MAX_V], key[MAX_V];\n    memset(in_mst, 0, sizeof(int) * n);\n    for (i = 0; i < n; i++) key[i] = INT_MAX;\n    key[0] = 0;\n    int total = 0;\n\n    for (i = 0; i < n; i++) {\n        int u = -1;\n        for (j = 0; j < n; j++) {\n            if (!in_mst[j] && (u == -1 || key[j] < key[u])) u = j;\n        }\n        in_mst[u] = 1;\n        total += key[u];\n        for (j = 0; j < n; j++) {\n            if (!in_mst[j] && w_mat[u][j] < key[j]) {\n                key[j] = w_mat[u][j];\n            }\n        }\n    }\n\n    return total;\n}\n"
+        },
+        {
+          "filename": "prims_fibonacci_heap.h",
+          "content": "#ifndef PRIMS_FIBONACCI_HEAP_H\n#define PRIMS_FIBONACCI_HEAP_H\n\nint prims_fibonacci_heap(int arr[], int size);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "prims_fibonacci_heap.cpp",
+          "content": "#include <vector>\n#include <queue>\n#include <climits>\nusing namespace std;\n\nint prims_fibonacci_heap(vector<int> arr) {\n    int n = arr[0], m = arr[1];\n    vector<vector<pair<int,int>>> adj(n);\n    for (int i = 0; i < m; i++) {\n        int u = arr[2+3*i], v = arr[2+3*i+1], w = arr[2+3*i+2];\n        adj[u].push_back({w, v});\n        adj[v].push_back({w, u});\n    }\n\n    vector<bool> inMst(n, false);\n    vector<int> key(n, INT_MAX);\n    key[0] = 0;\n    priority_queue<pair<int,int>, vector<pair<int,int>>, greater<>> pq;\n    pq.push({0, 0});\n    int total = 0;\n\n    while (!pq.empty()) {\n        auto [w, u] = pq.top(); pq.pop();\n        if (inMst[u]) continue;\n        inMst[u] = true;\n        total += w;\n        for (auto& [ew, v] : adj[u]) {\n            if (!inMst[v] && ew < key[v]) {\n                key[v] = ew;\n                pq.push({ew, v});\n            }\n        }\n    }\n\n    return total;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "PrimsFibonacciHeap.cs",
+          "content": "using System;\nusing System.Collections.Generic;\n\npublic class PrimsFibonacciHeap\n{\n    public static int Solve(int[] arr)\n    {\n        int n = arr[0], m = arr[1];\n        var adj = new List<(int w, int v)>[n];\n        for (int i = 0; i < n; i++) adj[i] = new List<(int, int)>();\n        for (int i = 0; i < m; i++)\n        {\n            int u = arr[2+3*i], v = arr[2+3*i+1], w = arr[2+3*i+2];\n            adj[u].Add((w, v)); adj[v].Add((w, u));\n        }\n\n        bool[] inMst = new bool[n];\n        int[] key = new int[n];\n        for (int i = 0; i < n; i++) key[i] = int.MaxValue;\n        key[0] = 0;\n        int total = 0;\n\n        // Simple O(V^2) Prim's\n        for (int iter = 0; iter < n; iter++)\n        {\n            int u = -1;\n            for (int v = 0; v < n; v++)\n            {\n                if (!inMst[v] && (u == -1 || key[v] < key[u])) u = v;\n            }\n            inMst[u] = true;\n            total += key[u];\n            foreach (var (w, v) in adj[u])\n            {\n                if (!inMst[v] && w < key[v]) key[v] = w;\n            }\n        }\n\n        return total;\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "prims_fibonacci_heap.go",
+          "content": "package primsfibonacciheap\n\nimport \"container/heap\"\n\ntype item struct{ w, v int }\ntype minHeap []item\nfunc (h minHeap) Len() int            { return len(h) }\nfunc (h minHeap) Less(i, j int) bool   { return h[i].w < h[j].w }\nfunc (h minHeap) Swap(i, j int)        { h[i], h[j] = h[j], h[i] }\nfunc (h *minHeap) Push(x interface{})  { *h = append(*h, x.(item)) }\nfunc (h *minHeap) Pop() interface{} {\n\told := *h; n := len(old); x := old[n-1]; *h = old[:n-1]; return x\n}\n\nfunc PrimsFibonacciHeap(arr []int) int {\n\tn := arr[0]; m := arr[1]\n\ttype edge struct{ w, v int }\n\tadj := make([][]edge, n)\n\tfor i := 0; i < n; i++ { adj[i] = []edge{} }\n\tfor i := 0; i < m; i++ {\n\t\tu, v, w := arr[2+3*i], arr[2+3*i+1], arr[2+3*i+2]\n\t\tadj[u] = append(adj[u], edge{w, v})\n\t\tadj[v] = append(adj[v], edge{w, u})\n\t}\n\n\tINF := 1<<31 - 1\n\tinMst := make([]bool, n)\n\tkey := make([]int, n)\n\tfor i := range key { key[i] = INF }\n\tkey[0] = 0\n\th := &minHeap{item{0, 0}}\n\theap.Init(h)\n\ttotal := 0\n\n\tfor h.Len() > 0 {\n\t\ttop := heap.Pop(h).(item)\n\t\tu := top.v\n\t\tif inMst[u] { continue }\n\t\tinMst[u] = true\n\t\ttotal += top.w\n\t\tfor _, e := range adj[u] {\n\t\t\tif !inMst[e.v] && e.w < key[e.v] {\n\t\t\t\tkey[e.v] = e.w\n\t\t\t\theap.Push(h, item{e.w, e.v})\n\t\t\t}\n\t\t}\n\t}\n\n\treturn total\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "PrimsFibonacciHeap.java",
+          "content": "import java.util.*;\n\npublic class PrimsFibonacciHeap {\n\n    public static int primsFibonacciHeap(int[] arr) {\n        int n = arr[0], m = arr[1];\n        List<List<int[]>> adj = new ArrayList<>();\n        for (int i = 0; i < n; i++) adj.add(new ArrayList<>());\n        for (int i = 0; i < m; i++) {\n            int u = arr[2 + 3 * i], v = arr[2 + 3 * i + 1], w = arr[2 + 3 * i + 2];\n            adj.get(u).add(new int[]{w, v});\n            adj.get(v).add(new int[]{w, u});\n        }\n\n        boolean[] inMst = new boolean[n];\n        int[] key = new int[n];\n        Arrays.fill(key, Integer.MAX_VALUE);\n        key[0] = 0;\n        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[0] - b[0]);\n        pq.add(new int[]{0, 0});\n        int total = 0;\n\n        while (!pq.isEmpty()) {\n            int[] top = pq.poll();\n            int w = top[0], u = top[1];\n            if (inMst[u]) continue;\n            inMst[u] = true;\n            total += w;\n            for (int[] edge : adj.get(u)) {\n                int ew = edge[0], v = edge[1];\n                if (!inMst[v] && ew < key[v]) {\n                    key[v] = ew;\n                    pq.add(new int[]{ew, v});\n                }\n            }\n        }\n\n        return total;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "PrimsFibonacciHeap.kt",
+          "content": "import java.util.PriorityQueue\n\nfun primsFibonacciHeap(arr: IntArray): Int {\n    val n = arr[0]; val m = arr[1]\n    val adj = Array(n) { mutableListOf<Pair<Int, Int>>() }\n    for (i in 0 until m) {\n        val u = arr[2+3*i]; val v = arr[2+3*i+1]; val w = arr[2+3*i+2]\n        adj[u].add(Pair(w, v)); adj[v].add(Pair(w, u))\n    }\n\n    val inMst = BooleanArray(n)\n    val key = IntArray(n) { Int.MAX_VALUE }\n    key[0] = 0\n    val pq = PriorityQueue<Pair<Int, Int>>(compareBy { it.first })\n    pq.add(Pair(0, 0))\n    var total = 0\n\n    while (pq.isNotEmpty()) {\n        val (w, u) = pq.poll()\n        if (inMst[u]) continue\n        inMst[u] = true; total += w\n        for ((ew, v) in adj[u]) {\n            if (!inMst[v] && ew < key[v]) { key[v] = ew; pq.add(Pair(ew, v)) }\n        }\n    }\n\n    return total\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "prims_fibonacci_heap.py",
+          "content": "import heapq\n\ndef prims_fibonacci_heap(arr: list[int]) -> int:\n    n = arr[0]\n    m = arr[1]\n    adj = [[] for _ in range(n)]\n    for i in range(m):\n        u = arr[2 + 3 * i]\n        v = arr[2 + 3 * i + 1]\n        w = arr[2 + 3 * i + 2]\n        adj[u].append((w, v))\n        adj[v].append((w, u))\n\n    in_mst = [False] * n\n    key = [float('inf')] * n\n    key[0] = 0\n    heap = [(0, 0)]\n    total = 0\n\n    while heap:\n        w, u = heapq.heappop(heap)\n        if in_mst[u]:\n            continue\n        in_mst[u] = True\n        total += w\n        for weight, v in adj[u]:\n            if not in_mst[v] and weight < key[v]:\n                key[v] = weight\n                heapq.heappush(heap, (weight, v))\n\n    return total\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "prims_fibonacci_heap.rs",
+          "content": "use std::collections::BinaryHeap;\nuse std::cmp::Reverse;\n\npub fn prims_fibonacci_heap(arr: &[i32]) -> i32 {\n    let n = arr[0] as usize;\n    let m = arr[1] as usize;\n    let mut adj: Vec<Vec<(i32, usize)>> = vec![vec![]; n];\n    for i in 0..m {\n        let u = arr[2 + 3 * i] as usize;\n        let v = arr[2 + 3 * i + 1] as usize;\n        let w = arr[2 + 3 * i + 2];\n        adj[u].push((w, v));\n        adj[v].push((w, u));\n    }\n\n    let inf = i32::MAX;\n    let mut in_mst = vec![false; n];\n    let mut key = vec![inf; n];\n    key[0] = 0;\n    let mut heap = BinaryHeap::new();\n    heap.push(Reverse((0i32, 0usize)));\n    let mut total = 0i32;\n\n    while let Some(Reverse((w, u))) = heap.pop() {\n        if in_mst[u] { continue; }\n        in_mst[u] = true;\n        total += w;\n        for &(ew, v) in &adj[u] {\n            if !in_mst[v] && ew < key[v] {\n                key[v] = ew;\n                heap.push(Reverse((ew, v)));\n            }\n        }\n    }\n\n    total\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "PrimsFibonacciHeap.scala",
+          "content": "object PrimsFibonacciHeap {\n\n  def primsFibonacciHeap(arr: Array[Int]): Int = {\n    val n = arr(0); val m = arr(1)\n    val adj = Array.fill(n)(scala.collection.mutable.ListBuffer[(Int, Int)]())\n    for (i <- 0 until m) {\n      val u = arr(2+3*i); val v = arr(2+3*i+1); val w = arr(2+3*i+2)\n      adj(u) += ((w, v)); adj(v) += ((w, u))\n    }\n\n    val INF = Int.MaxValue\n    val inMst = Array.fill(n)(false)\n    val key = Array.fill(n)(INF)\n    key(0) = 0\n    val pq = scala.collection.mutable.PriorityQueue[(Int, Int)]()(Ordering.by[(Int, Int), Int](_._1).reverse)\n    pq.enqueue((0, 0))\n    var total = 0\n\n    while (pq.nonEmpty) {\n      val (w, u) = pq.dequeue()\n      if (!inMst(u)) {\n        inMst(u) = true; total += w\n        for ((ew, v) <- adj(u)) {\n          if (!inMst(v) && ew < key(v)) { key(v) = ew; pq.enqueue((ew, v)) }\n        }\n      }\n    }\n\n    total\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "PrimsFibonacciHeap.swift",
+          "content": "func primsFibonacciHeap(_ arr: [Int]) -> Int {\n    let n = arr[0]; let m = arr[1]\n    var adj = [[(Int, Int)]](repeating: [], count: n)\n    for i in 0..<m {\n        let u = arr[2+3*i], v = arr[2+3*i+1], w = arr[2+3*i+2]\n        adj[u].append((w, v)); adj[v].append((w, u))\n    }\n\n    let INF = Int.max\n    var inMst = [Bool](repeating: false, count: n)\n    var key = [Int](repeating: INF, count: n)\n    key[0] = 0\n    var total = 0\n\n    for _ in 0..<n {\n        var u = -1\n        for v in 0..<n {\n            if !inMst[v] && (u == -1 || key[v] < key[u]) { u = v }\n        }\n        inMst[u] = true; total += key[u]\n        for (w, v) in adj[u] {\n            if !inMst[v] && w < key[v] { key[v] = w }\n        }\n    }\n\n    return total\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "primsFibonacciHeap.ts",
+          "content": "export function primsFibonacciHeap(arr: number[]): number {\n    const n = arr[0], m = arr[1];\n    const adj: [number, number][][] = Array.from({ length: n }, () => []);\n    for (let i = 0; i < m; i++) {\n        const u = arr[2+3*i], v = arr[2+3*i+1], w = arr[2+3*i+2];\n        adj[u].push([w, v]); adj[v].push([w, u]);\n    }\n\n    const INF = 1e9;\n    const inMst = new Array(n).fill(false);\n    const key = new Array(n).fill(INF);\n    key[0] = 0;\n    // Simple O(V^2) for TS\n    let total = 0;\n\n    for (let iter = 0; iter < n; iter++) {\n        let u = -1;\n        for (let v = 0; v < n; v++) {\n            if (!inMst[v] && (u === -1 || key[v] < key[u])) u = v;\n        }\n        inMst[u] = true;\n        total += key[u];\n        for (const [w, v] of adj[u]) {\n            if (!inMst[v] && w < key[v]) key[v] = w;\n        }\n    }\n\n    return total;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Prim's MST (Priority Queue)\n\n## Overview\n\nThis is Prim's algorithm for finding the Minimum Spanning Tree (MST) of an undirected weighted graph, implemented with a priority queue (min-heap). Prim's algorithm grows the MST one vertex at a time by always adding the cheapest edge that connects a vertex inside the MST to a vertex outside it. With a Fibonacci heap the theoretical complexity is O(E + V log V), but using a binary heap gives O(E log V) which is simpler and practical for most use cases.\n\n## How It Works\n\n1. Start from vertex 0 with key = 0. All other vertices have key = infinity.\n2. Use a min-heap to extract the vertex with smallest key.\n3. For each neighbor of the extracted vertex, if the edge weight is less than the neighbor's current key, update it (decrease-key operation).\n4. Repeat until all vertices are in the MST.\n\nInput format: [n, m, u1, v1, w1, ...]. Output: total MST weight.\n\n## Worked Example\n\n```\nGraph with 5 vertices:\n    0 --(2)-- 1\n    0 --(6)-- 3\n    1 --(3)-- 2\n    1 --(8)-- 3\n    1 --(5)-- 4\n    2 --(7)-- 4\n    3 --(9)-- 4\n```\n\n**Step 1:** Start at vertex 0. Key[0]=0, all others=INF.\nExtract vertex 0. Update neighbors: key[1]=2, key[3]=6.\n\n**Step 2:** Extract vertex 1 (key=2). MST edge: 0-1 (weight 2).\nUpdate neighbors: key[2]=3, key[3]=min(6,8)=6, key[4]=5.\n\n**Step 3:** Extract vertex 2 (key=3). MST edge: 1-2 (weight 3).\nUpdate neighbors: key[4]=min(5,7)=5.\n\n**Step 4:** Extract vertex 4 (key=5). MST edge: 1-4 (weight 5).\nUpdate neighbors: key[3]=min(6,9)=6.\n\n**Step 5:** Extract vertex 3 (key=6). MST edge: 0-3 (weight 6).\n\n**MST weight = 2 + 3 + 5 + 6 = 16.**\nMST edges: {0-1, 1-2, 1-4, 0-3}.\n\n## Pseudocode\n\n```\nfunction primsMST(n, adj):\n    key = array of size n, all INF\n    inMST = array of size n, all false\n    key[0] = 0\n    totalWeight = 0\n\n    heap = min-priority queue\n    heap.insert((0, 0))    // (key, vertex)\n\n    while heap is not empty:\n        (k, u) = heap.extractMin()\n        if inMST[u]: continue\n        inMST[u] = true\n        totalWeight += k\n\n        for each (v, weight) in adj[u]:\n            if not inMST[v] and weight < key[v]:\n                key[v] = weight\n                heap.insert((weight, v))\n\n    return totalWeight\n```\n\n## Complexity Analysis\n\n| Case    | Time       | Space    |\n|---------|------------|----------|\n| Best    | O(E log V) | O(V + E) |\n| Average | O(E log V) | O(V + E) |\n| Worst   | O(E log V) | O(V + E) |\n\nWith a Fibonacci heap, the time improves to O(E + V log V), which is better for sparse graphs where E = O(V). The binary heap version has O(log V) per insert/extract-min and there are O(E) decrease-key operations.\n\n## When to Use\n\n- Finding MST of dense graphs (adjacency matrix representation)\n- When the graph is naturally available as an adjacency list\n- Incremental MST construction (starting from a specific vertex)\n- When you need to process edges in order of their connection to the growing tree\n- Network design (telecommunications, electrical grids, water pipes)\n\n## When NOT to Use\n\n- For very sparse graphs where E << V^2 -- Kruskal's may be more efficient due to simpler data structures.\n- When edges are already sorted by weight -- Kruskal's can exploit this directly.\n- When you need parallelism -- Boruvka's algorithm is more naturally parallel.\n- For directed graphs -- Prim's works only on undirected graphs; use Edmonds/Chu-Liu for directed MST.\n\n## Comparison\n\n| Algorithm | Time | Space | Notes |\n|-----------|------|-------|-------|\n| Prim's + Binary Heap (this) | O(E log V) | O(V + E) | Good general-purpose; simple implementation |\n| Prim's + Fibonacci Heap | O(E + V log V) | O(V + E) | Theoretically optimal; complex to implement |\n| Kruskal's | O(E log E) | O(V + E) | Sort edges first; Union-Find; good for sparse graphs |\n| Boruvka's | O(E log V) | O(V + E) | Parallelizable; used in distributed computing |\n| Prim's + Adjacency Matrix | O(V^2) | O(V^2) | Best for very dense graphs (E near V^2) |\n\n## References\n\n- Prim, R. C. (1957). \"Shortest connection networks and some generalizations.\" *Bell System Technical Journal*, 36(6), 1389-1401.\n- Jarnik, V. (1930). \"O jistem problemu minimalnim.\" *Prace Moravske Prirodovedecke Spolecnosti*, 6, 57-63.\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 23.\n- [Prim's algorithm -- Wikipedia](https://en.wikipedia.org/wiki/Prim%27s_algorithm)\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [prims_fibonacci_heap.py](python/prims_fibonacci_heap.py) |\n| Java       | [PrimsFibonacciHeap.java](java/PrimsFibonacciHeap.java) |\n| C++        | [prims_fibonacci_heap.cpp](cpp/prims_fibonacci_heap.cpp) |\n| C          | [prims_fibonacci_heap.c](c/prims_fibonacci_heap.c) |\n| Go         | [prims_fibonacci_heap.go](go/prims_fibonacci_heap.go) |\n| TypeScript | [primsFibonacciHeap.ts](typescript/primsFibonacciHeap.ts) |\n| Rust       | [prims_fibonacci_heap.rs](rust/prims_fibonacci_heap.rs) |\n| Kotlin     | [PrimsFibonacciHeap.kt](kotlin/PrimsFibonacciHeap.kt) |\n| Swift      | [PrimsFibonacciHeap.swift](swift/PrimsFibonacciHeap.swift) |\n| Scala      | [PrimsFibonacciHeap.scala](scala/PrimsFibonacciHeap.scala) |\n| C#         | [PrimsFibonacciHeap.cs](csharp/PrimsFibonacciHeap.cs) |\n"
+}

@@ -1,0 +1,135 @@
+{
+  "name": "Mobius Function",
+  "slug": "mobius-function",
+  "category": "math",
+  "subcategory": "number-theory",
+  "difficulty": "advanced",
+  "tags": [
+    "math",
+    "number-theory",
+    "mobius-function",
+    "sieve",
+    "mobius-inversion"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n log log n)",
+      "average": "O(n log log n)",
+      "worst": "O(n log log n)"
+    },
+    "space": "O(n)"
+  },
+  "stable": null,
+  "in_place": false,
+  "related": [
+    "euler-totient-sieve",
+    "sieve-of-eratosthenes"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "mobius_function.c",
+          "content": "#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n#include \"mobius_function.h\"\n\nint mobius_function(int n) {\n    int *mu = (int *)calloc(n + 1, sizeof(int));\n    int *primes = (int *)malloc((n + 1) * sizeof(int));\n    char *is_composite = (char *)calloc(n + 1, sizeof(char));\n    int prime_count = 0;\n\n    if (!mu || !primes || !is_composite) {\n        free(mu);\n        free(primes);\n        free(is_composite);\n        return 0;\n    }\n\n    mu[1] = 1;\n\n    for (int i = 2; i <= n; i++) {\n        if (!is_composite[i]) {\n            primes[prime_count++] = i;\n            mu[i] = -1;\n        }\n\n        for (int j = 0; j < prime_count; j++) {\n            long long composite = (long long)i * primes[j];\n            if (composite > n) {\n                break;\n            }\n\n            is_composite[(int)composite] = 1;\n            if (i % primes[j] == 0) {\n                mu[(int)composite] = 0;\n                break;\n            } else {\n                mu[(int)composite] = -mu[i];\n            }\n        }\n    }\n\n    int sum = 0;\n    for (int i = 1; i <= n; i++) sum += mu[i];\n    free(mu);\n    free(primes);\n    free(is_composite);\n    return sum;\n}\n\nint main(void) {\n    printf(\"%d\\n\", mobius_function(1));\n    printf(\"%d\\n\", mobius_function(10));\n    printf(\"%d\\n\", mobius_function(50));\n    return 0;\n}\n"
+        },
+        {
+          "filename": "mobius_function.h",
+          "content": "#ifndef MOBIUS_FUNCTION_H\n#define MOBIUS_FUNCTION_H\n\nint mobius_function(int n);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "mobius_function.cpp",
+          "content": "#include <vector>\n#include <iostream>\nusing namespace std;\n\nint mobius_function(int n) {\n    vector<int> mu(n + 1, 0);\n    mu[1] = 1;\n    vector<bool> is_prime(n + 1, true);\n\n    for (int i = 2; i <= n; i++) {\n        if (is_prime[i]) {\n            for (int j = i; j <= n; j += i) {\n                if (j != i) is_prime[j] = false;\n                mu[j] = -mu[j];\n            }\n            long long i2 = (long long)i * i;\n            for (long long j = i2; j <= n; j += i2) {\n                mu[(int)j] = 0;\n            }\n        }\n    }\n    int sum = 0;\n    for (int i = 1; i <= n; i++) sum += mu[i];\n    return sum;\n}\n\nint main() {\n    cout << mobius_function(1) << endl;\n    cout << mobius_function(10) << endl;\n    cout << mobius_function(50) << endl;\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "MobiusFunction.cs",
+          "content": "using System;\n\npublic class MobiusFunction\n{\n    public static int MobiusFunctionSum(int n)\n    {\n        int[] mu = new int[n + 1];\n        mu[1] = 1;\n        bool[] isPrime = new bool[n + 1];\n        Array.Fill(isPrime, true);\n\n        for (int i = 2; i <= n; i++)\n        {\n            if (isPrime[i])\n            {\n                for (int j = i; j <= n; j += i)\n                {\n                    if (j != i) isPrime[j] = false;\n                    mu[j] = -mu[j];\n                }\n                long i2 = (long)i * i;\n                for (long j = i2; j <= n; j += i2)\n                    mu[(int)j] = 0;\n            }\n        }\n        int sum = 0;\n        for (int i = 1; i <= n; i++) sum += mu[i];\n        return sum;\n    }\n\n    public static void Main(string[] args)\n    {\n        Console.WriteLine(MobiusFunctionSum(1));\n        Console.WriteLine(MobiusFunctionSum(10));\n        Console.WriteLine(MobiusFunctionSum(50));\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "mobius_function.go",
+          "content": "package main\n\nimport \"fmt\"\n\nfunc mobiusFunction(n int) int {\n\tmu := make([]int, n+1)\n\tmu[1] = 1\n\tisPrime := make([]bool, n+1)\n\tfor i := range isPrime { isPrime[i] = true }\n\n\tfor i := 2; i <= n; i++ {\n\t\tif isPrime[i] {\n\t\t\tfor j := i; j <= n; j += i {\n\t\t\t\tif j != i { isPrime[j] = false }\n\t\t\t\tmu[j] = -mu[j]\n\t\t\t}\n\t\t\ti2 := i * i\n\t\t\tfor j := i2; j <= n; j += i2 {\n\t\t\t\tmu[j] = 0\n\t\t\t}\n\t\t}\n\t}\n\tsum := 0\n\tfor i := 1; i <= n; i++ { sum += mu[i] }\n\treturn sum\n}\n\nfunc main() {\n\tfmt.Println(mobiusFunction(1))\n\tfmt.Println(mobiusFunction(10))\n\tfmt.Println(mobiusFunction(50))\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "MobiusFunction.java",
+          "content": "public class MobiusFunction {\n    public static int mobiusFunction(int n) {\n        if (n <= 0) {\n            return 0;\n        }\n\n        int[] mu = new int[n + 1];\n        int[] primes = new int[n + 1];\n        boolean[] isComposite = new boolean[n + 1];\n        int primeCount = 0;\n        mu[1] = 1;\n\n        for (int i = 2; i <= n; i++) {\n            if (!isComposite[i]) {\n                primes[primeCount++] = i;\n                mu[i] = -1;\n            }\n            for (int j = 0; j < primeCount; j++) {\n                int prime = primes[j];\n                long next = (long) i * prime;\n                if (next > n) {\n                    break;\n                }\n                isComposite[(int) next] = true;\n                if (i % prime == 0) {\n                    mu[(int) next] = 0;\n                    break;\n                }\n                mu[(int) next] = -mu[i];\n            }\n        }\n\n        int sum = 0;\n        for (int i = 1; i <= n; i++) {\n            sum += mu[i];\n        }\n        return sum;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(mobiusFunction(1));\n        System.out.println(mobiusFunction(10));\n        System.out.println(mobiusFunction(50));\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "MobiusFunction.kt",
+          "content": "fun mobiusFunction(n: Int): Int {\n    fun mobiusValue(x: Int): Int {\n        var remaining = x\n        var distinctPrimeFactors = 0\n        var factor = 2\n\n        while (factor * factor <= remaining) {\n            if (remaining % factor == 0) {\n                remaining /= factor\n                if (remaining % factor == 0) {\n                    return 0\n                }\n                distinctPrimeFactors++\n                while (remaining % factor == 0) {\n                    remaining /= factor\n                }\n            }\n            factor++\n        }\n\n        if (remaining > 1) {\n            distinctPrimeFactors++\n        }\n\n        return if (distinctPrimeFactors % 2 == 0) 1 else -1\n    }\n\n    var total = 0\n    for (value in 1..n) {\n        total += mobiusValue(value)\n    }\n    return total\n}\n\nfun main() {\n    println(mobiusFunction(1))\n    println(mobiusFunction(10))\n    println(mobiusFunction(50))\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "mobius_function.py",
+          "content": "def mobius_function(n):\n    mu = [0] * (n + 1)\n    mu[1] = 1\n    is_prime = [True] * (n + 1)\n\n    for i in range(2, n + 1):\n        if is_prime[i]:\n            for j in range(i, n + 1, i):\n                if j != i:\n                    is_prime[j] = False\n                mu[j] = -mu[j]\n            # Set mu to 0 for multiples of i^2\n            i2 = i * i\n            for j in range(i2, n + 1, i2):\n                mu[j] = 0\n\n    return sum(mu[1:])\n\n\nif __name__ == \"__main__\":\n    print(mobius_function(1))\n    print(mobius_function(5))\n    print(mobius_function(10))\n    print(mobius_function(20))\n    print(mobius_function(50))\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "mobius_function.rs",
+          "content": "fn mobius_function(n: usize) -> i32 {\n    let mut mu = vec![0i32; n + 1];\n    mu[1] = 1;\n    let mut is_prime = vec![true; n + 1];\n\n    for i in 2..=n {\n        if is_prime[i] {\n            let mut j = i;\n            while j <= n {\n                if j != i { is_prime[j] = false; }\n                mu[j] = -mu[j];\n                j += i;\n            }\n            let i2 = i * i;\n            let mut j = i2;\n            while j <= n {\n                mu[j] = 0;\n                j += i2;\n            }\n        }\n    }\n    mu[1..].iter().sum()\n}\n\nfn main() {\n    println!(\"{}\", mobius_function(1));\n    println!(\"{}\", mobius_function(10));\n    println!(\"{}\", mobius_function(50));\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "MobiusFunction.scala",
+          "content": "object MobiusFunction {\n  def mobiusFunction(n: Int): Int = {\n    val mu = Array.fill(n + 1)(0)\n    mu(1) = 1\n    val isPrime = Array.fill(n + 1)(true)\n\n    for (i <- 2 to n) {\n      if (isPrime(i)) {\n        var j = i\n        while (j <= n) {\n          if (j != i) isPrime(j) = false\n          mu(j) = -mu(j)\n          j += i\n        }\n        val i2 = i.toLong * i\n        var k = i2\n        while (k <= n) {\n          mu(k.toInt) = 0\n          k += i2\n        }\n      }\n    }\n    mu.drop(1).sum\n  }\n\n  def main(args: Array[String]): Unit = {\n    println(mobiusFunction(1))\n    println(mobiusFunction(10))\n    println(mobiusFunction(50))\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "MobiusFunction.swift",
+          "content": "func mobiusFunction(_ n: Int) -> Int {\n    if n <= 0 { return 0 }\n\n    var mu = [Int](repeating: 1, count: n + 1)\n    var isPrime = [Bool](repeating: true, count: n + 1)\n    if n >= 0 { isPrime[0] = false }\n    if n >= 1 { isPrime[1] = false }\n\n    if n >= 2 {\n        for i in 2...n {\n            if isPrime[i] {\n                var j = i\n                while j <= n {\n                    if j != i { isPrime[j] = false }\n                    mu[j] = -mu[j]\n                    j += i\n                }\n                let i2 = i * i\n                if i2 <= n {\n                    j = i2\n                    while j <= n {\n                        mu[j] = 0\n                        j += i2\n                    }\n                }\n            }\n        }\n    }\n    return mu[1...n].reduce(0, +)\n}\n\nprint(mobiusFunction(1))\nprint(mobiusFunction(10))\nprint(mobiusFunction(50))\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "mobiusFunction.ts",
+          "content": "export function mobiusFunction(n: number): number {\n    if (n <= 0) return 0;\n\n    const mu = new Array(n + 1).fill(0);\n    const primes: number[] = [];\n    const isComposite = new Array(n + 1).fill(false);\n    mu[1] = 1;\n\n    for (let i = 2; i <= n; i++) {\n        if (!isComposite[i]) {\n            primes.push(i);\n            mu[i] = -1;\n        }\n\n        for (const prime of primes) {\n            const next = i * prime;\n            if (next > n) {\n                break;\n            }\n            isComposite[next] = true;\n            if (i % prime === 0) {\n                mu[next] = 0;\n                break;\n            }\n            mu[next] = -mu[i];\n        }\n    }\n\n    let sum = 0;\n    for (let i = 1; i <= n; i++) sum += mu[i];\n    return sum;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Mobius Function\n\n## Overview\n\nThe Mobius function mu(n) is a fundamental multiplicative function in number theory defined as:\n\n- mu(1) = 1\n- mu(n) = (-1)^k if n is a product of k distinct primes (square-free with k prime factors)\n- mu(n) = 0 if n has any squared prime factor (i.e., p^2 divides n for some prime p)\n\nIt is central to the Mobius inversion formula, which allows recovering a function f from its summatory function F (where F(n) = sum of f(d) for d dividing n). The Mobius function also appears in the inclusion-exclusion principle, the Euler totient function identity, and analytic number theory.\n\n## How It Works\n\n### Sieve-Based Computation (for all values up to n)\n\n1. Initialize an array mu[1..n] with mu[i] = 1 for all i.\n2. Use a modified sieve of Eratosthenes:\n   - For each prime p (found by sieving), for each multiple m of p, flip the sign: mu[m] = -mu[m].\n   - For each multiple m of p^2, set mu[m] = 0 (has a squared factor).\n3. After the sieve completes, mu[i] contains the correct Mobius function value for each i.\n\n### Single-Value Computation\n\n1. Factorize n into its prime factors.\n2. If any prime factor appears with exponent >= 2, return 0.\n3. Otherwise, count the number of distinct prime factors k and return (-1)^k.\n\n## Worked Example\n\nCompute mu(n) for n = 1 through 12:\n\n| n  | Factorization | Squared factor? | Distinct primes | mu(n) |\n|----|---------------|-----------------|-----------------|-------|\n| 1  | 1             | No              | 0               | 1     |\n| 2  | 2             | No              | 1               | -1    |\n| 3  | 3             | No              | 1               | -1    |\n| 4  | 2^2           | Yes             | --              | 0     |\n| 5  | 5             | No              | 1               | -1    |\n| 6  | 2 * 3         | No              | 2               | 1     |\n| 7  | 7             | No              | 1               | -1    |\n| 8  | 2^3           | Yes             | --              | 0     |\n| 9  | 3^2           | Yes             | --              | 0     |\n| 10 | 2 * 5         | No              | 2               | 1     |\n| 11 | 11            | No              | 1               | -1    |\n| 12 | 2^2 * 3       | Yes             | --              | 0     |\n\nSum of mu(i) for i = 1 to 12: 1 + (-1) + (-1) + 0 + (-1) + 1 + (-1) + 0 + 0 + 1 + (-1) + 0 = **-2**.\n\n## Pseudocode\n\n```\nfunction mobiusSieve(n):\n    mu = array of size n+1, all initialized to 1\n    is_prime = array of size n+1, all initialized to true\n\n    for p from 2 to n:\n        if is_prime[p]:\n            // p is prime; flip sign for all multiples\n            for m from p to n step p:\n                is_prime[m] = (m == p)  // mark composites\n                mu[m] = mu[m] * (-1)\n\n            // Zero out multiples of p^2\n            p2 = p * p\n            for m from p2 to n step p2:\n                mu[m] = 0\n\n    return mu\n```\n\n## Complexity Analysis\n\n| Case    | Time            | Space |\n|---------|-----------------|-------|\n| Best    | O(n log log n)  | O(n)  |\n| Average | O(n log log n)  | O(n)  |\n| Worst   | O(n log log n)  | O(n)  |\n\n- **Time O(n log log n):** Same as the sieve of Eratosthenes -- each prime marks its multiples.\n- **Space O(n):** Arrays for mu and primality flags.\n- For a single value, trial division gives O(sqrt(n)) time.\n\n## Applications\n\n- **Mobius inversion:** Recovering f(n) from its Dirichlet convolution sum F(n) = sum_{d|n} f(d).\n- **Counting square-free numbers:** The count of square-free integers up to n is sum_{k=1}^{sqrt(n)} mu(k) * floor(n / k^2).\n- **Euler's totient function:** phi(n) = sum_{d|n} mu(d) * (n/d).\n- **Inclusion-exclusion in combinatorics:** The Mobius function on a poset generalizes the inclusion-exclusion principle.\n- **Analytic number theory:** Appears in the relationship between the Riemann zeta function and prime counting.\n\n## When NOT to Use\n\n- **When only a single value is needed and n is small:** Direct trial factorization is simpler than running a full sieve.\n- **When n is extremely large (> 10^9):** The sieve requires O(n) memory, which becomes impractical. Use segmented or sub-linear methods instead.\n- **When a different arithmetic function suffices:** If you only need Euler's totient, compute it directly with a totient sieve rather than going through Mobius inversion.\n\n## Comparison\n\n| Method                    | Time             | Space  | Computes           |\n|---------------------------|------------------|--------|--------------------|\n| Mobius sieve              | O(n log log n)   | O(n)   | All mu(1..n)       |\n| Linear sieve              | O(n)             | O(n)   | All mu(1..n) + primes |\n| Trial division (single)   | O(sqrt(n))       | O(1)   | Single mu(n)       |\n| Meissel-like sublinear    | O(n^(2/3))       | O(n^(1/3)) | Partial sums of mu |\n\n## References\n\n- Hardy, G. H., & Wright, E. M. (2008). *An Introduction to the Theory of Numbers* (6th ed.). Oxford University Press.\n- Apostol, T. M. (1976). *Introduction to Analytic Number Theory*. Springer.\n- [Mobius function -- Wikipedia](https://en.wikipedia.org/wiki/M%C3%B6bius_function)\n- [Mobius function -- CP-algorithms](https://cp-algorithms.com/algebra/mobius-function.html)\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [mobius_function.py](python/mobius_function.py) |\n| Java       | [MobiusFunction.java](java/MobiusFunction.java) |\n| C++        | [mobius_function.cpp](cpp/mobius_function.cpp) |\n| C          | [mobius_function.c](c/mobius_function.c) |\n| Go         | [mobius_function.go](go/mobius_function.go) |\n| TypeScript | [mobiusFunction.ts](typescript/mobiusFunction.ts) |\n| Rust       | [mobius_function.rs](rust/mobius_function.rs) |\n| Kotlin     | [MobiusFunction.kt](kotlin/MobiusFunction.kt) |\n| Swift      | [MobiusFunction.swift](swift/MobiusFunction.swift) |\n| Scala      | [MobiusFunction.scala](scala/MobiusFunction.scala) |\n| C#         | [MobiusFunction.cs](csharp/MobiusFunction.cs) |\n"
+}

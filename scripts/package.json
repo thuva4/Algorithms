@@ -4,9 +4,22 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "start": "node index.js",
+    "validate": "node validate-structure.mjs"
+  },
+  "dependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "js-yaml": "^4.1.1",
+    "yaml": "^2.7.0"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^24.10.13",
+    "gray-matter": "^4.0.3",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
+  }
 }

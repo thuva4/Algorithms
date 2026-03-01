@@ -1,0 +1,30 @@
+algorithm: "prims"
+function_signature:
+  name: "prim"
+  input: [num_vertices, weighted_adjacency_list]
+  output: mst_total_weight
+test_cases:
+  - name: "simple graph"
+    input: [4, {"0": [[1, 10], [2, 6], [3, 5]], "1": [[0, 10], [3, 15]], "2": [[0, 6], [3, 4]], "3": [[0, 5], [1, 15], [2, 4]]}]
+    expected: 19
+  - name: "single edge"
+    input: [2, {"0": [[1, 7]], "1": [[0, 7]]}]
+    expected: 7
+  - name: "triangle"
+    input: [3, {"0": [[1, 1], [2, 3]], "1": [[0, 1], [2, 2]], "2": [[0, 3], [1, 2]]}]
+    expected: 3
+  - name: "four nodes square with diagonal"
+    input: [4, {"0": [[1, 1], [2, 5], [3, 4]], "1": [[0, 1], [2, 2]], "2": [[0, 5], [1, 2], [3, 3]], "3": [[0, 4], [2, 3]]}]
+    expected: 6
+  - name: "all equal weights"
+    input: [3, {"0": [[1, 5], [2, 5]], "1": [[0, 5], [2, 5]], "2": [[0, 5], [1, 5]]}]
+    expected: 10
+  - name: "linear graph"
+    input: [4, {"0": [[1, 1]], "1": [[0, 1], [2, 2]], "2": [[1, 2], [3, 3]], "3": [[2, 3]]}]
+    expected: 6
+  - name: "star graph"
+    input: [5, {"0": [[1, 2], [2, 3], [3, 1], [4, 4]], "1": [[0, 2]], "2": [[0, 3]], "3": [[0, 1]], "4": [[0, 4]]}]
+    expected: 10
+  - name: "dense graph"
+    input: [4, {"0": [[1, 1], [2, 4], [3, 3]], "1": [[0, 1], [2, 2], [3, 5]], "2": [[0, 4], [1, 2], [3, 6]], "3": [[0, 3], [1, 5], [2, 6]]}]
+    expected: 6

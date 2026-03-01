@@ -1,0 +1,15 @@
+name: "Line Segment Intersection"
+slug: "line-intersection"
+category: "geometry"
+subcategory: "intersection"
+difficulty: "intermediate"
+tags: [geometry, intersection, line-segment, computational-geometry]
+complexity:
+  time:
+    best: "O(1)"
+    average: "O(1)"
+    worst: "O(1)"
+  space: "O(1)"
+related: [convex-hull, closest-pair-of-points, point-in-polygon]
+implementations: [python, java, cpp, c, go, typescript, kotlin, rust, swift, scala, csharp]
+visualization: false

@@ -1,0 +1,59 @@
+algorithm: "edmonds-karp"
+function_signature:
+  name: "edmonds_karp"
+  input: [capacity_matrix, source, sink]
+  output: max_flow
+test_cases:
+  - name: "simple flow network"
+    input:
+      - [[0, 10, 10, 0, 0, 0],
+         [0, 0, 2, 4, 8, 0],
+         [0, 0, 0, 0, 9, 0],
+         [0, 0, 0, 0, 0, 10],
+         [0, 0, 0, 6, 0, 10],
+         [0, 0, 0, 0, 0, 0]]
+      - 0
+      - 5
+    expected: 19
+  - name: "single path"
+    input:
+      - [[0, 5, 0], [0, 0, 5], [0, 0, 0]]
+      - 0
+      - 2
+    expected: 5
+  - name: "two parallel paths"
+    input:
+      - [[0, 3, 7, 0], [0, 0, 0, 3], [0, 0, 0, 7], [0, 0, 0, 0]]
+      - 0
+      - 3
+    expected: 10
+  - name: "bottleneck"
+    input:
+      - [[0, 100, 100, 0], [0, 0, 0, 1], [0, 0, 0, 100], [0, 0, 0, 0]]
+      - 0
+      - 3
+    expected: 101
+  - name: "no path"
+    input:
+      - [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+      - 0
+      - 2
+    expected: 0
+  - name: "two nodes"
+    input:
+      - [[0, 8], [0, 0]]
+      - 0
+      - 1
+    expected: 8
+  - name: "diamond network"
+    input:
+      - [[0, 3, 3, 0], [0, 0, 0, 3], [0, 0, 0, 3], [0, 0, 0, 0]]
+      - 0
+      - 3
+    expected: 6
+  - name: "source equals sink"
+    input:
+      - [[0, 5], [0, 0]]
+      - 0
+      - 0
+    expected: 0

@@ -1,0 +1,17 @@
+name: "Minimum Cut (Stoer-Wagner)"
+slug: "minimum-cut-stoer-wagner"
+category: "graph"
+subcategory: "connectivity"
+difficulty: "advanced"
+tags: [graph, minimum-cut, undirected, weighted, stoer-wagner]
+complexity:
+  time:
+    best: "O(V^3)"
+    average: "O(V^3)"
+    worst: "O(V^3)"
+  space: "O(V^2)"
+stable: null
+in_place: false
+related: [max-flow-min-cut, kruskals-algorithm]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

@@ -1,0 +1,36 @@
+algorithm: "breadth-first-search"
+function_signature:
+  name: "bfs"
+  input: [array_of_integers]
+  output: array_of_integers
+test_cases:
+  - name: "simple graph"
+    input: [5, 4, 0, 1, 0, 2, 1, 3, 2, 4, 0]
+    expected: [0, 1, 2, 3, 4]
+  - name: "single node"
+    input: [1, 0, 0]
+    expected: [0]
+  - name: "disconnected - only reachable"
+    input: [4, 2, 0, 1, 2, 3, 0]
+    expected: [0, 1]
+  - name: "linear graph"
+    input: [4, 3, 0, 1, 1, 2, 2, 3, 0]
+    expected: [0, 1, 2, 3]
+  - name: "cycle"
+    input: [3, 3, 0, 1, 1, 2, 2, 0, 0]
+    expected: [0, 1, 2]
+  - name: "star graph"
+    input: [5, 4, 0, 1, 0, 2, 0, 3, 0, 4, 0]
+    expected: [0, 1, 2, 3, 4]
+  - name: "binary tree structure"
+    input: [7, 6, 0, 1, 0, 2, 1, 3, 1, 4, 2, 5, 2, 6, 0]
+    expected: [0, 1, 2, 3, 4, 5, 6]
+  - name: "two nodes"
+    input: [2, 1, 0, 1, 0]
+    expected: [0, 1]
+  - name: "complete graph K4"
+    input: [4, 6, 0, 1, 0, 2, 0, 3, 1, 2, 1, 3, 2, 3, 0]
+    expected: [0, 1, 2, 3]
+  - name: "start from middle node"
+    input: [4, 3, 0, 1, 1, 2, 2, 3, 2]
+    expected: [2, 1, 3, 0]

@@ -1,0 +1,134 @@
+{
+  "name": "Simulated Annealing",
+  "slug": "simulated-annealing",
+  "category": "math",
+  "subcategory": "optimization",
+  "difficulty": "advanced",
+  "tags": [
+    "math",
+    "optimization",
+    "metaheuristic",
+    "probabilistic",
+    "stochastic"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n * iterations)",
+      "average": "O(n * iterations)",
+      "worst": "O(n * iterations)"
+    },
+    "space": "O(n)"
+  },
+  "stable": null,
+  "in_place": false,
+  "related": [
+    "newtons-method"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "simulated_annealing.c",
+          "content": "#include \"simulated_annealing.h\"\n#include <math.h>\n#include <stdlib.h>\n\nstatic unsigned int lcg_state = 42;\n\nstatic unsigned int lcg_next(void) {\n    lcg_state = lcg_state * 1103515245u + 12345u;\n    return (lcg_state >> 16) & 0x7FFF;\n}\n\nstatic double lcg_double(void) {\n    return (double)lcg_next() / 32767.0;\n}\n\nint simulated_annealing(const int arr[], int n) {\n    if (n == 0) return 0;\n    if (n == 1) return arr[0];\n\n    lcg_state = 42;\n    int current = 0;\n    int best = 0;\n    double temperature = 1000.0;\n    double cooling_rate = 0.995;\n    double min_temp = 0.01;\n\n    while (temperature > min_temp) {\n        int neighbor = (int)(lcg_next() % n);\n        int delta = arr[neighbor] - arr[current];\n\n        if (delta < 0) {\n            current = neighbor;\n        } else {\n            double probability = exp(-(double)delta / temperature);\n            if (lcg_double() < probability) {\n                current = neighbor;\n            }\n        }\n\n        if (arr[current] < arr[best]) {\n            best = current;\n        }\n\n        temperature *= cooling_rate;\n    }\n\n    return arr[best];\n}\n"
+        },
+        {
+          "filename": "simulated_annealing.h",
+          "content": "#ifndef SIMULATED_ANNEALING_H\n#define SIMULATED_ANNEALING_H\n\nint simulated_annealing(const int arr[], int n);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "simulated_annealing.cpp",
+          "content": "#include <vector>\n#include <cmath>\n#include <random>\n\nint simulated_annealing(const std::vector<int>& arr) {\n    if (arr.empty()) return 0;\n    if (arr.size() == 1) return arr[0];\n\n    int n = static_cast<int>(arr.size());\n    std::mt19937 rng(42);\n\n    int current = 0;\n    int best = 0;\n    double temperature = 1000.0;\n    double coolingRate = 0.995;\n    double minTemp = 0.01;\n\n    while (temperature > minTemp) {\n        std::uniform_int_distribution<int> dist(0, n - 1);\n        int neighbor = dist(rng);\n        int delta = arr[neighbor] - arr[current];\n\n        if (delta < 0) {\n            current = neighbor;\n        } else {\n            double probability = std::exp(-delta / temperature);\n            std::uniform_real_distribution<double> realDist(0.0, 1.0);\n            if (realDist(rng) < probability) {\n                current = neighbor;\n            }\n        }\n\n        if (arr[current] < arr[best]) {\n            best = current;\n        }\n\n        temperature *= coolingRate;\n    }\n\n    return arr[best];\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "SimulatedAnnealing.cs",
+          "content": "using System;\n\npublic class SimulatedAnnealing\n{\n    public static int Solve(int[] arr)\n    {\n        if (arr.Length == 0) return 0;\n        if (arr.Length == 1) return arr[0];\n\n        int n = arr.Length;\n        Random rng = new Random(42);\n\n        int current = 0;\n        int best = 0;\n        double temperature = 1000.0;\n        double coolingRate = 0.995;\n        double minTemp = 0.01;\n\n        while (temperature > minTemp)\n        {\n            int neighbor = rng.Next(n);\n            int delta = arr[neighbor] - arr[current];\n\n            if (delta < 0)\n            {\n                current = neighbor;\n            }\n            else\n            {\n                double probability = Math.Exp(-delta / temperature);\n                if (rng.NextDouble() < probability)\n                {\n                    current = neighbor;\n                }\n            }\n\n            if (arr[current] < arr[best])\n            {\n                best = current;\n            }\n\n            temperature *= coolingRate;\n        }\n\n        return arr[best];\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "simulated_annealing.go",
+          "content": "package main\n\nimport (\n\t\"math\"\n\t\"math/rand\"\n)\n\nfunc SimulatedAnnealing(arr []int) int {\n\tif len(arr) == 0 {\n\t\treturn 0\n\t}\n\tif len(arr) == 1 {\n\t\treturn arr[0]\n\t}\n\n\tn := len(arr)\n\trng := rand.New(rand.NewSource(42))\n\n\tcurrent := 0\n\tbest := 0\n\ttemperature := 1000.0\n\tcoolingRate := 0.995\n\tminTemp := 0.01\n\n\tfor temperature > minTemp {\n\t\tneighbor := rng.Intn(n)\n\t\tdelta := arr[neighbor] - arr[current]\n\n\t\tif delta < 0 {\n\t\t\tcurrent = neighbor\n\t\t} else {\n\t\t\tprobability := math.Exp(-float64(delta) / temperature)\n\t\t\tif rng.Float64() < probability {\n\t\t\t\tcurrent = neighbor\n\t\t\t}\n\t\t}\n\n\t\tif arr[current] < arr[best] {\n\t\t\tbest = current\n\t\t}\n\n\t\ttemperature *= coolingRate\n\t}\n\n\treturn arr[best]\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "SimulatedAnnealing.java",
+          "content": "import java.util.Random;\n\npublic class SimulatedAnnealing {\n\n    public static int simulatedAnnealing(int[] arr) {\n        if (arr.length == 0) return 0;\n        if (arr.length == 1) return arr[0];\n\n        int n = arr.length;\n        Random rng = new Random(42);\n\n        int current = 0;\n        int best = 0;\n        double temperature = 1000.0;\n        double coolingRate = 0.995;\n        double minTemp = 0.01;\n\n        while (temperature > minTemp) {\n            int neighbor = rng.nextInt(n);\n            int delta = arr[neighbor] - arr[current];\n\n            if (delta < 0) {\n                current = neighbor;\n            } else {\n                double probability = Math.exp(-delta / temperature);\n                if (rng.nextDouble() < probability) {\n                    current = neighbor;\n                }\n            }\n\n            if (arr[current] < arr[best]) {\n                best = current;\n            }\n\n            temperature *= coolingRate;\n        }\n\n        return arr[best];\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "SimulatedAnnealing.kt",
+          "content": "import kotlin.math.exp\nimport kotlin.random.Random\n\nfun simulatedAnnealing(arr: IntArray): Int {\n    if (arr.isEmpty()) return 0\n    if (arr.size == 1) return arr[0]\n\n    val n = arr.size\n    val rng = Random(42)\n\n    var current = 0\n    var best = 0\n    var temperature = 1000.0\n    val coolingRate = 0.995\n    val minTemp = 0.01\n\n    while (temperature > minTemp) {\n        val neighbor = rng.nextInt(n)\n        val delta = arr[neighbor] - arr[current]\n\n        if (delta < 0) {\n            current = neighbor\n        } else {\n            val probability = exp(-delta.toDouble() / temperature)\n            if (rng.nextDouble() < probability) {\n                current = neighbor\n            }\n        }\n\n        if (arr[current] < arr[best]) {\n            best = current\n        }\n\n        temperature *= coolingRate\n    }\n\n    return arr[best]\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "simulated_annealing.py",
+          "content": "import math\nimport random\n\n\ndef simulated_annealing(arr: list[int]) -> int:\n    if len(arr) == 0:\n        return 0\n    if len(arr) == 1:\n        return arr[0]\n\n    n = len(arr)\n    rng = random.Random(42)\n\n    current = 0\n    best = 0\n    temperature = 1000.0\n    cooling_rate = 0.995\n    min_temp = 0.01\n\n    while temperature > min_temp:\n        neighbor = rng.randint(0, n - 1)\n        delta = arr[neighbor] - arr[current]\n\n        if delta < 0:\n            current = neighbor\n        else:\n            probability = math.exp(-delta / temperature) if temperature > 0 else 0\n            if rng.random() < probability:\n                current = neighbor\n\n        if arr[current] < arr[best]:\n            best = current\n\n        temperature *= cooling_rate\n\n    return arr[best]\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "simulated_annealing.rs",
+          "content": "pub fn simulated_annealing(arr: &[i32]) -> i32 {\n    if arr.is_empty() {\n        return 0;\n    }\n    if arr.len() == 1 {\n        return arr[0];\n    }\n\n    let n = arr.len();\n    let mut state: u64 = 42;\n\n    let mut next_rand = || -> f64 {\n        state = state.wrapping_mul(6364136223846793005).wrapping_add(1442695040888963407);\n        (state >> 33) as f64 / (1u64 << 31) as f64\n    };\n\n    let mut current = 0usize;\n    let mut best = 0usize;\n    let mut temperature: f64 = 1000.0;\n    let cooling_rate: f64 = 0.995;\n    let min_temp: f64 = 0.01;\n\n    while temperature > min_temp {\n        let neighbor = ((next_rand() * n as f64) as usize).min(n - 1);\n        let delta = arr[neighbor] - arr[current];\n\n        if delta < 0 {\n            current = neighbor;\n        } else {\n            let probability = (-delta as f64 / temperature).exp();\n            if next_rand() < probability {\n                current = neighbor;\n            }\n        }\n\n        if arr[current] < arr[best] {\n            best = current;\n        }\n\n        temperature *= cooling_rate;\n    }\n\n    arr[best]\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "SimulatedAnnealing.scala",
+          "content": "object SimulatedAnnealing {\n\n  def simulatedAnnealing(arr: Array[Int]): Int = {\n    if (arr.isEmpty) return 0\n    if (arr.length == 1) return arr(0)\n\n    val n = arr.length\n    val rng = new scala.util.Random(42)\n\n    var current = 0\n    var best = 0\n    var temperature = 1000.0\n    val coolingRate = 0.995\n    val minTemp = 0.01\n\n    while (temperature > minTemp) {\n      val neighbor = rng.nextInt(n)\n      val delta = arr(neighbor) - arr(current)\n\n      if (delta < 0) {\n        current = neighbor\n      } else {\n        val probability = math.exp(-delta.toDouble / temperature)\n        if (rng.nextDouble() < probability) {\n          current = neighbor\n        }\n      }\n\n      if (arr(current) < arr(best)) {\n        best = current\n      }\n\n      temperature *= coolingRate\n    }\n\n    arr(best)\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "SimulatedAnnealing.swift",
+          "content": "import Foundation\n\nfunc simulatedAnnealing(_ arr: [Int]) -> Int {\n    if arr.isEmpty { return 0 }\n    if arr.count == 1 { return arr[0] }\n\n    let n = arr.count\n    var state: UInt64 = 42\n\n    func nextRand() -> Double {\n        state = state &* 6364136223846793005 &+ 1442695040888963407\n        return Double(state >> 33) / Double(1 << 31)\n    }\n\n    var current = 0\n    var best = 0\n    var temperature = 1000.0\n    let coolingRate = 0.995\n    let minTemp = 0.01\n\n    while temperature > minTemp {\n        let neighbor = Int(nextRand() * Double(n)) % n\n        let delta = arr[neighbor] - arr[current]\n\n        if delta < 0 {\n            current = neighbor\n        } else {\n            let probability = exp(-Double(delta) / temperature)\n            if nextRand() < probability {\n                current = neighbor\n            }\n        }\n\n        if arr[current] < arr[best] {\n            best = current\n        }\n\n        temperature *= coolingRate\n    }\n\n    return arr[best]\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "simulatedAnnealing.ts",
+          "content": "export function simulatedAnnealing(arr: number[]): number {\n    if (arr.length === 0) return 0;\n    if (arr.length === 1) return arr[0];\n\n    const n = arr.length;\n\n    // Simple seeded PRNG\n    let seed = 42;\n    function nextRand(): number {\n        seed = (seed * 1103515245 + 12345) & 0x7fffffff;\n        return seed / 0x7fffffff;\n    }\n    function nextInt(max: number): number {\n        return Math.floor(nextRand() * max);\n    }\n\n    let current = 0;\n    let best = 0;\n    let temperature = 1000.0;\n    const coolingRate = 0.995;\n    const minTemp = 0.01;\n\n    while (temperature > minTemp) {\n        const neighbor = nextInt(n);\n        const delta = arr[neighbor] - arr[current];\n\n        if (delta < 0) {\n            current = neighbor;\n        } else {\n            const probability = Math.exp(-delta / temperature);\n            if (nextRand() < probability) {\n                current = neighbor;\n            }\n        }\n\n        if (arr[current] < arr[best]) {\n            best = current;\n        }\n\n        temperature *= coolingRate;\n    }\n\n    return arr[best];\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Simulated Annealing\n\n## Overview\n\nSimulated Annealing (SA) is a probabilistic metaheuristic for approximating the global optimum of a given function. Inspired by the annealing process in metallurgy -- where a material is heated and then slowly cooled to remove defects and reach a low-energy crystalline state -- the algorithm explores the solution space by accepting worse solutions with a probability that decreases over time (as the \"temperature\" cools). This mechanism allows SA to escape local optima, making it effective for combinatorial optimization problems where the search landscape is complex and multi-modal.\n\n## How It Works\n\n1. **Initialize:** Start with an initial solution s and an initial temperature T.\n2. **Iterate** until the temperature drops below a threshold or a maximum number of iterations is reached:\n   a. **Generate neighbor:** Perturb the current solution to create a neighboring solution s'.\n   b. **Evaluate:** Compute the change in cost: delta = cost(s') - cost(s).\n   c. **Accept or reject:**\n      - If delta < 0 (neighbor is better), accept s' unconditionally.\n      - If delta >= 0 (neighbor is worse), accept s' with probability exp(-delta / T).\n   d. **Cool down:** Reduce temperature: T = T * alpha, where alpha is the cooling rate (typically 0.9 to 0.999).\n3. **Return** the best solution found across all iterations.\n\nThe acceptance probability exp(-delta / T) is high when T is large (early on, allowing exploration) and low when T is small (later, favoring exploitation).\n\n## Worked Example\n\nFind the minimum of the array [5, 3, 8, 1, 7] using simulated annealing.\n\n**Setup:** T = 100, alpha = 0.8, current index = 0 (value 5), best = 5.\n\n| Step | T     | Current (idx, val) | Neighbor (idx, val) | delta | Accept? | Best |\n|------|-------|--------------------|---------------------|-------|---------|------|\n| 1    | 100   | (0, 5)             | (2, 8)              | +3    | exp(-3/100)=0.97, rand=0.5, yes | 5 |\n| 2    | 80    | (2, 8)             | (1, 3)              | -5    | yes (better) | 3 |\n| 3    | 64    | (1, 3)             | (4, 7)              | +4    | exp(-4/64)=0.94, rand=0.99, no | 3 |\n| 4    | 51.2  | (1, 3)             | (3, 1)              | -2    | yes (better) | 1 |\n| 5    | 41.0  | (3, 1)             | (0, 5)              | +4    | exp(-4/41)=0.91, rand=0.95, no | 1 |\n\nResult: minimum value = **1** at index 3.\n\n## Pseudocode\n\n```\nfunction simulatedAnnealing(data, T_init, T_min, alpha, seed):\n    rng = initRandom(seed)\n    current = randomInitialSolution(rng)\n    best = current\n    T = T_init\n\n    while T > T_min:\n        neighbor = generateNeighbor(current, rng)\n        delta = cost(neighbor) - cost(current)\n\n        if delta < 0:\n            current = neighbor\n        else:\n            if rng.random() < exp(-delta / T):\n                current = neighbor\n\n        if cost(current) < cost(best):\n            best = current\n\n        T = T * alpha\n\n    return best\n```\n\n## Complexity Analysis\n\n| Case    | Time               | Space |\n|---------|--------------------|-------|\n| Best    | O(n * iterations)  | O(n)  |\n| Average | O(n * iterations)  | O(n)  |\n| Worst   | O(n * iterations)  | O(n)  |\n\n- **Time:** Depends on the cooling schedule. With geometric cooling (T = T * alpha), the number of iterations is O(log(T_init / T_min) / log(1/alpha)). Each iteration evaluates cost and generates a neighbor, which may take O(n) for an n-element problem.\n- **Space O(n):** Stores the current solution, best solution, and the input data.\n\n## Applications\n\n- **Traveling Salesman Problem (TSP):** Finding near-optimal tours through cities.\n- **VLSI circuit design:** Placing and routing components to minimize wire length.\n- **Job scheduling:** Assigning tasks to machines to minimize makespan or cost.\n- **Protein folding:** Searching for minimum-energy conformations.\n- **Image processing:** Optimizing pixel assignments in segmentation and denoising.\n- **Graph partitioning:** Minimizing edge cuts between partitions.\n\n## When NOT to Use\n\n- **When an exact solution is required:** SA is a heuristic and provides no guarantee of finding the true global optimum.\n- **When the problem has efficient exact algorithms:** For problems solvable in polynomial time (e.g., shortest path, minimum spanning tree), use the exact algorithm instead.\n- **When the cost function is cheap but the search space is tiny:** Exhaustive search may be faster than tuning SA parameters.\n- **When the cooling schedule is difficult to tune:** SA performance is highly sensitive to the choice of T_init, alpha, and neighbor generation. Poor tuning yields poor results.\n- **When parallelism is critical:** While parallel SA variants exist, the inherently sequential nature of the Markov chain makes it less naturally parallelizable than population-based methods (e.g., genetic algorithms).\n\n## Comparison\n\n| Method                | Type            | Guarantees optimal? | Parameters         | Notes                                    |\n|-----------------------|-----------------|---------------------|--------------------|------------------------------------------|\n| Simulated Annealing   | Single-solution | No                  | T, alpha, neighbor | Escapes local optima; simple to implement |\n| Genetic Algorithm     | Population      | No                  | Pop size, mutation | Good exploration; more parameters         |\n| Hill Climbing         | Single-solution | No (local)          | Neighbor function  | Fast but trapped in local optima          |\n| Tabu Search           | Single-solution | No                  | Tabu list size     | Memory-based; avoids revisiting           |\n| Branch and Bound      | Exact           | Yes                 | Bounding function  | Exponential worst case                    |\n| Gradient Descent      | Single-solution | No (local)*         | Learning rate      | Only for continuous, differentiable problems |\n\n\\* Gradient descent finds local optima; convex problems have a unique global optimum.\n\n## References\n\n- Kirkpatrick, S., Gelatt, C. D., & Vecchi, M. P. (1983). \"Optimization by Simulated Annealing.\" *Science*, 220(4598), 671-680.\n- Cerny, V. (1985). \"Thermodynamical approach to the traveling salesman problem.\" *Journal of Optimization Theory and Applications*, 45(1), 41-51.\n- Aarts, E. H. L., & Korst, J. (1989). *Simulated Annealing and Boltzmann Machines*. Wiley.\n- [Simulated annealing -- Wikipedia](https://en.wikipedia.org/wiki/Simulated_annealing)\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [simulated_annealing.py](python/simulated_annealing.py) |\n| Java       | [SimulatedAnnealing.java](java/SimulatedAnnealing.java) |\n| C++        | [simulated_annealing.cpp](cpp/simulated_annealing.cpp) |\n| C          | [simulated_annealing.c](c/simulated_annealing.c) |\n| Go         | [simulated_annealing.go](go/simulated_annealing.go) |\n| TypeScript | [simulatedAnnealing.ts](typescript/simulatedAnnealing.ts) |\n| Rust       | [simulated_annealing.rs](rust/simulated_annealing.rs) |\n| Kotlin     | [SimulatedAnnealing.kt](kotlin/SimulatedAnnealing.kt) |\n| Swift      | [SimulatedAnnealing.swift](swift/SimulatedAnnealing.swift) |\n| Scala      | [SimulatedAnnealing.scala](scala/SimulatedAnnealing.scala) |\n| C#         | [SimulatedAnnealing.cs](csharp/SimulatedAnnealing.cs) |\n"
+}

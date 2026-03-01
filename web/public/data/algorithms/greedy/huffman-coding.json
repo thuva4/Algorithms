@@ -1,0 +1,137 @@
+{
+  "name": "Huffman Coding",
+  "slug": "huffman-coding",
+  "category": "greedy",
+  "difficulty": "intermediate",
+  "tags": [
+    "greedy",
+    "tree",
+    "compression",
+    "encoding"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n log n)",
+      "average": "O(n log n)",
+      "worst": "O(n log n)"
+    },
+    "space": "O(n)"
+  },
+  "related": [
+    "activity-selection",
+    "binary-tree"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "huffman_coding.c",
+          "content": "#include \"huffman_coding.h\"\n#include <stdlib.h>\n\nstatic void swap(int *a, int *b) {\n    int temp = *a;\n    *a = *b;\n    *b = temp;\n}\n\nstatic void sift_up(int heap[], int index) {\n    while (index > 0) {\n        int parent = (index - 1) / 2;\n        if (heap[index] < heap[parent]) {\n            swap(&heap[index], &heap[parent]);\n            index = parent;\n        } else {\n            break;\n        }\n    }\n}\n\nstatic void sift_down(int heap[], int size, int index) {\n    while (2 * index + 1 < size) {\n        int smallest = index;\n        int left = 2 * index + 1;\n        int right = 2 * index + 2;\n\n        if (left < size && heap[left] < heap[smallest]) {\n            smallest = left;\n        }\n        if (right < size && heap[right] < heap[smallest]) {\n            smallest = right;\n        }\n        if (smallest == index) {\n            break;\n        }\n        swap(&heap[index], &heap[smallest]);\n        index = smallest;\n    }\n}\n\nint huffman_coding(int frequencies[], int size) {\n    if (size <= 1) {\n        return 0;\n    }\n\n    int *heap = (int *)malloc(size * sizeof(int));\n    int heap_size = 0;\n\n    for (int i = 0; i < size; i++) {\n        heap[heap_size] = frequencies[i];\n        sift_up(heap, heap_size);\n        heap_size++;\n    }\n\n    int total_cost = 0;\n    while (heap_size > 1) {\n        int left = heap[0];\n        heap[0] = heap[--heap_size];\n        sift_down(heap, heap_size, 0);\n\n        int right = heap[0];\n        heap[0] = heap[--heap_size];\n        sift_down(heap, heap_size, 0);\n\n        int merged = left + right;\n        total_cost += merged;\n\n        heap[heap_size] = merged;\n        sift_up(heap, heap_size);\n        heap_size++;\n    }\n\n    free(heap);\n    return total_cost;\n}\n"
+        },
+        {
+          "filename": "huffman_coding.h",
+          "content": "#ifndef HUFFMAN_CODING_H\n#define HUFFMAN_CODING_H\n\nint huffman_coding(int frequencies[], int size);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "huffman_coding.cpp",
+          "content": "#include <vector>\n#include <queue>\n\nint huffmanCoding(std::vector<int> frequencies) {\n    if (frequencies.size() <= 1) {\n        return 0;\n    }\n\n    std::priority_queue<int, std::vector<int>, std::greater<int>> minHeap;\n    for (int freq : frequencies) {\n        minHeap.push(freq);\n    }\n\n    int totalCost = 0;\n    while (minHeap.size() > 1) {\n        int left = minHeap.top(); minHeap.pop();\n        int right = minHeap.top(); minHeap.pop();\n        int merged = left + right;\n        totalCost += merged;\n        minHeap.push(merged);\n    }\n\n    return totalCost;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "HuffmanCoding.cs",
+          "content": "using System;\nusing System.Collections.Generic;\n\npublic class HuffmanCoding\n{\n    public static int Encode(int[] frequencies)\n    {\n        if (frequencies.Length <= 1)\n        {\n            return 0;\n        }\n\n        var minHeap = new SortedList<(int value, int id), int>();\n        int idCounter = 0;\n        foreach (int freq in frequencies)\n        {\n            minHeap.Add((freq, idCounter++), freq);\n        }\n\n        int totalCost = 0;\n        while (minHeap.Count > 1)\n        {\n            int left = minHeap.Values[0];\n            minHeap.RemoveAt(0);\n            int right = minHeap.Values[0];\n            minHeap.RemoveAt(0);\n\n            int merged = left + right;\n            totalCost += merged;\n            minHeap.Add((merged, idCounter++), merged);\n        }\n\n        return totalCost;\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "huffman_coding.go",
+          "content": "package huffmancoding\n\nimport \"container/heap\"\n\ntype intHeap []int\n\nfunc (h intHeap) Len() int           { return len(h) }\nfunc (h intHeap) Less(i, j int) bool { return h[i] < h[j] }\nfunc (h intHeap) Swap(i, j int)      { h[i], h[j] = h[j], h[i] }\n\nfunc (h *intHeap) Push(x interface{}) {\n\t*h = append(*h, x.(int))\n}\n\nfunc (h *intHeap) Pop() interface{} {\n\told := *h\n\tn := len(old)\n\tx := old[n-1]\n\t*h = old[:n-1]\n\treturn x\n}\n\n// HuffmanCoding computes the total weighted path length (total bits needed)\n// for a Huffman encoding given character frequencies.\nfunc HuffmanCoding(frequencies []int) int {\n\tif len(frequencies) <= 1 {\n\t\treturn 0\n\t}\n\n\th := &intHeap{}\n\tfor _, freq := range frequencies {\n\t\t*h = append(*h, freq)\n\t}\n\theap.Init(h)\n\n\ttotalCost := 0\n\tfor h.Len() > 1 {\n\t\tleft := heap.Pop(h).(int)\n\t\tright := heap.Pop(h).(int)\n\t\tmerged := left + right\n\t\ttotalCost += merged\n\t\theap.Push(h, merged)\n\t}\n\n\treturn totalCost\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "HuffmanCoding.java",
+          "content": "import java.util.PriorityQueue;\n\npublic class HuffmanCoding {\n\n    public static int huffmanCoding(int[] frequencies) {\n        if (frequencies.length <= 1) {\n            return 0;\n        }\n\n        PriorityQueue<Integer> minHeap = new PriorityQueue<>();\n        for (int freq : frequencies) {\n            minHeap.add(freq);\n        }\n\n        int totalCost = 0;\n        while (minHeap.size() > 1) {\n            int left = minHeap.poll();\n            int right = minHeap.poll();\n            int merged = left + right;\n            totalCost += merged;\n            minHeap.add(merged);\n        }\n\n        return totalCost;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "HuffmanCoding.kt",
+          "content": "import java.util.PriorityQueue\n\nfun huffmanCoding(frequencies: IntArray): Int {\n    if (frequencies.size <= 1) {\n        return 0\n    }\n\n    val minHeap = PriorityQueue<Int>()\n    for (freq in frequencies) {\n        minHeap.add(freq)\n    }\n\n    var totalCost = 0\n    while (minHeap.size > 1) {\n        val left = minHeap.poll()\n        val right = minHeap.poll()\n        val merged = left + right\n        totalCost += merged\n        minHeap.add(merged)\n    }\n\n    return totalCost\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "huffman_coding.py",
+          "content": "import heapq\n\n\ndef huffman_coding(frequencies: list[int]) -> int:\n    if len(frequencies) <= 1:\n        return 0\n\n    heap = frequencies[:]\n    heapq.heapify(heap)\n\n    total_cost = 0\n    while len(heap) > 1:\n        left = heapq.heappop(heap)\n        right = heapq.heappop(heap)\n        merged = left + right\n        total_cost += merged\n        heapq.heappush(heap, merged)\n\n    return total_cost\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "huffman_coding.rs",
+          "content": "use std::collections::BinaryHeap;\nuse std::cmp::Reverse;\n\npub fn huffman_coding(frequencies: &[i32]) -> i32 {\n    if frequencies.len() <= 1 {\n        return 0;\n    }\n\n    let mut min_heap: BinaryHeap<Reverse<i32>> = frequencies\n        .iter()\n        .map(|&f| Reverse(f))\n        .collect();\n\n    let mut total_cost = 0;\n    while min_heap.len() > 1 {\n        let Reverse(left) = min_heap.pop().unwrap();\n        let Reverse(right) = min_heap.pop().unwrap();\n        let merged = left + right;\n        total_cost += merged;\n        min_heap.push(Reverse(merged));\n    }\n\n    total_cost\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "HuffmanCoding.scala",
+          "content": "import scala.collection.mutable\n\nobject HuffmanCoding {\n\n  def huffmanCoding(frequencies: Array[Int]): Int = {\n    if (frequencies.length <= 1) return 0\n\n    val minHeap = mutable.PriorityQueue[Int]()(Ordering[Int].reverse)\n    frequencies.foreach(minHeap.enqueue(_))\n\n    var totalCost = 0\n    while (minHeap.size > 1) {\n      val left = minHeap.dequeue()\n      val right = minHeap.dequeue()\n      val merged = left + right\n      totalCost += merged\n      minHeap.enqueue(merged)\n    }\n\n    totalCost\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "HuffmanCoding.swift",
+          "content": "func huffmanCoding(_ frequencies: [Int]) -> Int {\n    if frequencies.count <= 1 {\n        return 0\n    }\n\n    var heap = frequencies.sorted()\n\n    var totalCost = 0\n    while heap.count > 1 {\n        let left = heap.removeFirst()\n        let right = heap.removeFirst()\n        let merged = left + right\n        totalCost += merged\n\n        var insertIndex = 0\n        while insertIndex < heap.count && heap[insertIndex] < merged {\n            insertIndex += 1\n        }\n        heap.insert(merged, at: insertIndex)\n    }\n\n    return totalCost\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "huffmanCoding.ts",
+          "content": "export function huffmanCoding(frequencies: number[]): number {\n    if (frequencies.length <= 1) {\n        return 0;\n    }\n\n    const heap = [...frequencies];\n    heap.sort((a, b) => a - b);\n\n    let totalCost = 0;\n    while (heap.length > 1) {\n        const left = heap.shift()!;\n        const right = heap.shift()!;\n        const merged = left + right;\n        totalCost += merged;\n\n        let i = 0;\n        while (i < heap.length && heap[i] < merged) {\n            i++;\n        }\n        heap.splice(i, 0, merged);\n    }\n\n    return totalCost;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "patterns": [
+    "two-heaps",
+    "top-k-elements"
+  ],
+  "patternDifficulty": "intermediate",
+  "practiceOrder": 4,
+  "readme": "# Huffman Coding\n\n## Overview\n\nHuffman Coding is a greedy algorithm for lossless data compression. It assigns variable-length binary codes to characters based on their frequencies: frequently occurring characters get shorter codes, while rare characters get longer codes. The result is an optimal prefix-free code, meaning no code is a prefix of another, enabling unambiguous decoding.\n\nDeveloped by David A. Huffman in 1952, this algorithm is a foundational technique in information theory and is used in file compression formats such as ZIP, GZIP, and JPEG.\n\n## How It Works\n\nThe algorithm builds a binary tree (the Huffman tree) from the bottom up:\n\n1. Create a leaf node for each character with its frequency and insert all nodes into a min-priority queue (min-heap).\n2. While there is more than one node in the queue:\n   a. Extract the two nodes with the lowest frequency.\n   b. Create a new internal node with these two as children and frequency equal to their sum.\n   c. Insert the new node back into the queue.\n3. The remaining node is the root of the Huffman tree.\n4. The total weighted path length (sum of frequency * code length for each character) gives the total number of bits needed to encode the data.\n\n### Example\n\nGiven frequencies: `[5, 9, 12, 13, 16, 45]` (for characters a through f)\n\n**Building the tree:**\n\n| Step | Queue Contents | Action |\n|------|---------------|--------|\n| 0 | 5, 9, 12, 13, 16, 45 | Initial state |\n| 1 | 12, 13, 14, 16, 45 | Merge 5+9=14 |\n| 2 | 14, 16, 25, 45 | Merge 12+13=25 |\n| 3 | 25, 30, 45 | Merge 14+16=30 |\n| 4 | 45, 55 | Merge 25+30=55 |\n| 5 | 100 | Merge 45+55=100 |\n\n**Resulting codes:**\n- f(45): `0` (1 bit)\n- c(12): `100` (3 bits)\n- d(13): `101` (3 bits)\n- a(5): `1100` (4 bits)\n- b(9): `1101` (4 bits)\n- e(16): `111` (3 bits)\n\n**Total bits:** 45*1 + 5*4 + 9*4 + 12*3 + 13*3 + 16*3 = 45 + 20 + 36 + 36 + 39 + 48 = 224\n\n## Pseudocode\n\n```\nfunction huffmanCoding(frequencies):\n    n = length(frequencies)\n    if n <= 1:\n        return 0\n\n    minHeap = new MinHeap()\n    for each freq in frequencies:\n        minHeap.insert(freq)\n\n    totalCost = 0\n    while minHeap.size() > 1:\n        left = minHeap.extractMin()\n        right = minHeap.extractMin()\n        merged = left + right\n        totalCost += merged\n        minHeap.insert(merged)\n\n    return totalCost\n```\n\nThe total weighted path length equals the sum of all internal node values, which is computed by accumulating the merged values during tree construction.\n\n## Complexity Analysis\n\n| Case    | Time       | Space |\n|---------|------------|-------|\n| Best    | O(n log n) | O(n)  |\n| Average | O(n log n) | O(n)  |\n| Worst   | O(n log n) | O(n)  |\n\n- **Time -- O(n log n):** We perform n-1 extract-min and insert operations on a heap of at most n elements. Each heap operation takes O(log n), giving O(n log n) total.\n- **Space -- O(n):** The min-heap stores at most n elements at any time.\n\n## Applications\n\n- **File compression:** ZIP, GZIP, and BZIP2 use Huffman coding as part of their compression pipeline.\n- **Image compression:** JPEG uses Huffman coding for entropy coding of quantized coefficients.\n- **Network protocols:** HTTP/2 header compression (HPACK) uses Huffman coding.\n- **Text encoding:** Foundation for understanding variable-length encoding schemes.\n- **Information theory:** Demonstrates that entropy provides a lower bound on average code length.\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [huffman_coding.py](python/huffman_coding.py) |\n| Java       | [HuffmanCoding.java](java/HuffmanCoding.java) |\n| C++        | [huffman_coding.cpp](cpp/huffman_coding.cpp) |\n| C          | [huffman_coding.c](c/huffman_coding.c) |\n| Go         | [huffman_coding.go](go/huffman_coding.go) |\n| TypeScript | [huffmanCoding.ts](typescript/huffmanCoding.ts) |\n| Kotlin     | [HuffmanCoding.kt](kotlin/HuffmanCoding.kt) |\n| Rust       | [huffman_coding.rs](rust/huffman_coding.rs) |\n| Swift      | [HuffmanCoding.swift](swift/HuffmanCoding.swift) |\n| Scala      | [HuffmanCoding.scala](scala/HuffmanCoding.scala) |\n| C#         | [HuffmanCoding.cs](csharp/HuffmanCoding.cs) |\n\n## References\n\n- Huffman, D. A. (1952). \"A Method for the Construction of Minimum-Redundancy Codes.\" *Proceedings of the IRE*, 40(9), 1098-1101.\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 16.3: Huffman Codes.\n- [Huffman Coding -- Wikipedia](https://en.wikipedia.org/wiki/Huffman_coding)\n"
+}

@@ -1,0 +1,23 @@
+name: "Priority Queue"
+slug: "priority-queue"
+category: "data-structures"
+subcategory: "queues"
+difficulty: "beginner"
+tags: [data-structures, priority-queue, heap, min-heap]
+complexity:
+  time:
+    best: "O(n log n)"
+    average: "O(n log n)"
+    worst: "O(n log n)"
+  space: "O(n)"
+stable: null
+in_place: null
+related: [heap-operations, queue-operations]
+implementations: [python, java, cpp, c, go, typescript, kotlin, rust, swift, scala, csharp]
+visualization: false
+patterns:
+  - two-heaps
+  - top-k-elements
+  - k-way-merge
+patternDifficulty: beginner
+practiceOrder: 1

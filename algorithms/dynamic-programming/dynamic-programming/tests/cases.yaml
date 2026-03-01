@@ -1,0 +1,24 @@
+algorithm: "dynamic-programming"
+function_signature:
+  name: "max_1d_range_sum"
+  input: [array_of_integers]
+  output: max_range_sum
+test_cases:
+  - name: "standard"
+    input: [[4, -5, 4, -3, 4, 4, -4, 4, -5]]
+    expected: 9
+  - name: "all positive"
+    input: [[1, 2, 3, 4]]
+    expected: 10
+  - name: "all negative"
+    input: [[-1, -2, -3]]
+    expected: 0
+  - name: "single positive"
+    input: [[5]]
+    expected: 5
+  - name: "single negative"
+    input: [[-3]]
+    expected: 0
+  - name: "mixed"
+    input: [[-2, 1, -3, 4, -1, 2, 1, -5, 4]]
+    expected: 6

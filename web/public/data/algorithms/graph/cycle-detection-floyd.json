@@ -1,0 +1,189 @@
+{
+  "name": "Floyd's Cycle Detection",
+  "slug": "cycle-detection-floyd",
+  "category": "graph",
+  "difficulty": "intermediate",
+  "tags": [
+    "graph",
+    "linked-list",
+    "two-pointers",
+    "cycle-detection"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "average": "O(n)",
+      "worst": "O(n)"
+    },
+    "space": "O(1)"
+  },
+  "related": [
+    "floyds-algorithm",
+    "breadth-first-search",
+    "depth-first-search"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "cycle_detection.c",
+          "content": "#include \"cycle_detection.h\"\n\nint detect_cycle(int arr[], int size) {\n    if (size == 0) return -1;\n    \n    int tortoise = 0;\n    int hare = 0;\n    \n    while (true) {\n        if (tortoise < 0 || tortoise >= size || arr[tortoise] < 0 || arr[tortoise] >= size) return -1;\n        tortoise = arr[tortoise];\n        \n        if (hare < 0 || hare >= size || arr[hare] < 0 || arr[hare] >= size) return -1;\n        hare = arr[hare];\n        if (hare < 0 || hare >= size || arr[hare] < 0 || arr[hare] >= size) return -1;\n        hare = arr[hare];\n        \n        if (tortoise == hare) break;\n    }\n    \n    tortoise = 0;\n    while (tortoise != hare) {\n        tortoise = arr[tortoise];\n        hare = arr[hare];\n    }\n    \n    return tortoise;\n}\n"
+        },
+        {
+          "filename": "cycle_detection.h",
+          "content": "#ifndef CYCLE_DETECTION_H\n#define CYCLE_DETECTION_H\n\nint detect_cycle(int arr[], int size);\n\n#endif\n"
+        },
+        {
+          "filename": "detect_cycle.c",
+          "content": "#include \"detect_cycle.h\"\n\nstatic int next_pos(int arr[], int size, int pos) {\n    if (pos < 0 || pos >= size || arr[pos] == -1) {\n        return -1;\n    }\n    return arr[pos];\n}\n\nint detect_cycle(int arr[], int size) {\n    if (size == 0) {\n        return -1;\n    }\n\n    int tortoise = 0;\n    int hare = 0;\n\n    /* Phase 1: Detect cycle */\n    while (1) {\n        tortoise = next_pos(arr, size, tortoise);\n        if (tortoise == -1) return -1;\n\n        hare = next_pos(arr, size, hare);\n        if (hare == -1) return -1;\n        hare = next_pos(arr, size, hare);\n        if (hare == -1) return -1;\n\n        if (tortoise == hare) break;\n    }\n\n    /* Phase 2: Find cycle start */\n    int pointer1 = 0;\n    int pointer2 = tortoise;\n    while (pointer1 != pointer2) {\n        pointer1 = arr[pointer1];\n        pointer2 = arr[pointer2];\n    }\n\n    return pointer1;\n}\n"
+        },
+        {
+          "filename": "detect_cycle.h",
+          "content": "#ifndef DETECT_CYCLE_H\n#define DETECT_CYCLE_H\n\nint detect_cycle(int arr[], int size);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "cycle_detection.cpp",
+          "content": "#include \"cycle_detection.h\"\n#include <vector>\n\nint detect_cycle(const std::vector<int>& arr) {\n    int size = arr.size();\n    if (size == 0) return -1;\n    \n    int tortoise = 0;\n    int hare = 0;\n    \n    while (true) {\n        if (tortoise < 0 || tortoise >= size || arr[tortoise] < 0 || arr[tortoise] >= size) return -1;\n        tortoise = arr[tortoise];\n        \n        if (hare < 0 || hare >= size || arr[hare] < 0 || arr[hare] >= size) return -1;\n        hare = arr[hare];\n        if (hare < 0 || hare >= size || arr[hare] < 0 || arr[hare] >= size) return -1;\n        hare = arr[hare];\n        \n        if (tortoise == hare) break;\n    }\n    \n    tortoise = 0;\n    while (tortoise != hare) {\n        tortoise = arr[tortoise];\n        hare = arr[hare];\n    }\n    \n    return tortoise;\n}\n"
+        },
+        {
+          "filename": "cycle_detection.h",
+          "content": "#ifndef CYCLE_DETECTION_H\n#define CYCLE_DETECTION_H\n\n#include <vector>\n\nint detect_cycle(const std::vector<int>& arr);\n\n#endif\n"
+        },
+        {
+          "filename": "detect_cycle.cpp",
+          "content": "#include <vector>\n\nstatic int nextPos(const std::vector<int>& arr, int pos) {\n    int n = static_cast<int>(arr.size());\n    if (pos < 0 || pos >= n || arr[pos] == -1) {\n        return -1;\n    }\n    return arr[pos];\n}\n\nint detectCycle(std::vector<int> arr) {\n    if (arr.empty()) {\n        return -1;\n    }\n\n    int tortoise = 0;\n    int hare = 0;\n\n    // Phase 1: Detect cycle\n    while (true) {\n        tortoise = nextPos(arr, tortoise);\n        if (tortoise == -1) return -1;\n\n        hare = nextPos(arr, hare);\n        if (hare == -1) return -1;\n        hare = nextPos(arr, hare);\n        if (hare == -1) return -1;\n\n        if (tortoise == hare) break;\n    }\n\n    // Phase 2: Find cycle start\n    int pointer1 = 0;\n    int pointer2 = tortoise;\n    while (pointer1 != pointer2) {\n        pointer1 = arr[pointer1];\n        pointer2 = arr[pointer2];\n    }\n\n    return pointer1;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "CycleDetection.cs",
+          "content": "namespace Algorithms.Graph.CycleDetectionFloyd\n{\n    public class CycleDetection\n    {\n        public static int Solve(int[] arr)\n        {\n            if (arr == null || arr.Length == 0) return -1;\n            int size = arr.Length;\n\n            int tortoise = 0;\n            int hare = 0;\n\n            while (true)\n            {\n                if (tortoise < 0 || tortoise >= size || arr[tortoise] < 0 || arr[tortoise] >= size) return -1;\n                tortoise = arr[tortoise];\n\n                if (hare < 0 || hare >= size || arr[hare] < 0 || arr[hare] >= size) return -1;\n                hare = arr[hare];\n                if (hare < 0 || hare >= size || arr[hare] < 0 || arr[hare] >= size) return -1;\n                hare = arr[hare];\n\n                if (tortoise == hare) break;\n            }\n\n            tortoise = 0;\n            while (tortoise != hare)\n            {\n                tortoise = arr[tortoise];\n                hare = arr[hare];\n            }\n\n            return tortoise;\n        }\n    }\n}\n"
+        },
+        {
+          "filename": "CycleDetectionFloyd.cs",
+          "content": "using System;\n\npublic class CycleDetectionFloyd\n{\n    public static int DetectCycle(int[] arr)\n    {\n        int n = arr.Length;\n        if (n == 0)\n        {\n            return -1;\n        }\n\n        int NextPos(int pos)\n        {\n            if (pos < 0 || pos >= n || arr[pos] == -1)\n            {\n                return -1;\n            }\n            return arr[pos];\n        }\n\n        int tortoise = 0;\n        int hare = 0;\n\n        // Phase 1: Detect cycle\n        while (true)\n        {\n            tortoise = NextPos(tortoise);\n            if (tortoise == -1) return -1;\n\n            hare = NextPos(hare);\n            if (hare == -1) return -1;\n            hare = NextPos(hare);\n            if (hare == -1) return -1;\n\n            if (tortoise == hare) break;\n        }\n\n        // Phase 2: Find cycle start\n        int pointer1 = 0;\n        int pointer2 = tortoise;\n        while (pointer1 != pointer2)\n        {\n            pointer1 = arr[pointer1];\n            pointer2 = arr[pointer2];\n        }\n\n        return pointer1;\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "cycle_detection.go",
+          "content": "package cycledetectionfloyd\n\nfunc DetectCycle(arr []int) int {\n\tsize := len(arr)\n\tif size == 0 {\n\t\treturn -1\n\t}\n\n\ttortoise := 0\n\thare := 0\n\n\tfor {\n\t\tif tortoise < 0 || tortoise >= size || arr[tortoise] < 0 || arr[tortoise] >= size {\n\t\t\treturn -1\n\t\t}\n\t\ttortoise = arr[tortoise]\n\n\t\tif hare < 0 || hare >= size || arr[hare] < 0 || arr[hare] >= size {\n\t\t\treturn -1\n\t\t}\n\t\thare = arr[hare]\n\t\tif hare < 0 || hare >= size || arr[hare] < 0 || arr[hare] >= size {\n\t\t\treturn -1\n\t\t}\n\t\thare = arr[hare]\n\n\t\tif tortoise == hare {\n\t\t\tbreak\n\t\t}\n\t}\n\n\ttortoise = 0\n\tfor tortoise != hare {\n\t\ttortoise = arr[tortoise]\n\t\thare = arr[hare]\n\t}\n\n\treturn tortoise\n}\n"
+        },
+        {
+          "filename": "detect_cycle.go",
+          "content": "package cycledetectionfloyd\n\n// DetectCycle uses Floyd's tortoise and hare algorithm to find the start\n// of a cycle. arr[i] is the next index after i. Returns -1 if no cycle.\nfunc DetectCycle(arr []int) int {\n\tn := len(arr)\n\tif n == 0 {\n\t\treturn -1\n\t}\n\n\tnextPos := func(pos int) int {\n\t\tif pos < 0 || pos >= n || arr[pos] == -1 {\n\t\t\treturn -1\n\t\t}\n\t\treturn arr[pos]\n\t}\n\n\ttortoise := 0\n\thare := 0\n\n\t// Phase 1: Detect cycle\n\tfor {\n\t\ttortoise = nextPos(tortoise)\n\t\tif tortoise == -1 {\n\t\t\treturn -1\n\t\t}\n\n\t\thare = nextPos(hare)\n\t\tif hare == -1 {\n\t\t\treturn -1\n\t\t}\n\t\thare = nextPos(hare)\n\t\tif hare == -1 {\n\t\t\treturn -1\n\t\t}\n\n\t\tif tortoise == hare {\n\t\t\tbreak\n\t\t}\n\t}\n\n\t// Phase 2: Find cycle start\n\tpointer1 := 0\n\tpointer2 := tortoise\n\tfor pointer1 != pointer2 {\n\t\tpointer1 = arr[pointer1]\n\t\tpointer2 = arr[pointer2]\n\t}\n\n\treturn pointer1\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "CycleDetection.java",
+          "content": "package algorithms.graph.cycledetectionfloyd;\n\npublic class CycleDetection {\n    public int solve(int[] arr) {\n        if (arr == null || arr.length == 0) return -1;\n        int size = arr.length;\n\n        int tortoise = 0;\n        int hare = 0;\n\n        while (true) {\n            if (tortoise < 0 || tortoise >= size || arr[tortoise] < 0 || arr[tortoise] >= size) return -1;\n            tortoise = arr[tortoise];\n\n            if (hare < 0 || hare >= size || arr[hare] < 0 || arr[hare] >= size) return -1;\n            hare = arr[hare];\n            if (hare < 0 || hare >= size || arr[hare] < 0 || arr[hare] >= size) return -1;\n            hare = arr[hare];\n\n            if (tortoise == hare) break;\n        }\n\n        tortoise = 0;\n        while (tortoise != hare) {\n            tortoise = arr[tortoise];\n            hare = arr[hare];\n        }\n\n        return tortoise;\n    }\n}\n"
+        },
+        {
+          "filename": "CycleDetectionFloyd.java",
+          "content": "public class CycleDetectionFloyd {\n\n    public static int detectCycle(int[] arr) {\n        int n = arr.length;\n        if (n == 0) {\n            return -1;\n        }\n\n        int tortoise = 0;\n        int hare = 0;\n\n        // Phase 1: Detect cycle\n        while (true) {\n            tortoise = nextPos(arr, n, tortoise);\n            if (tortoise == -1) return -1;\n\n            hare = nextPos(arr, n, hare);\n            if (hare == -1) return -1;\n            hare = nextPos(arr, n, hare);\n            if (hare == -1) return -1;\n\n            if (tortoise == hare) break;\n        }\n\n        // Phase 2: Find cycle start\n        int pointer1 = 0;\n        int pointer2 = tortoise;\n        while (pointer1 != pointer2) {\n            pointer1 = arr[pointer1];\n            pointer2 = arr[pointer2];\n        }\n\n        return pointer1;\n    }\n\n    private static int nextPos(int[] arr, int n, int pos) {\n        if (pos < 0 || pos >= n || arr[pos] == -1) {\n            return -1;\n        }\n        return arr[pos];\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "CycleDetection.kt",
+          "content": "package algorithms.graph.cycledetectionfloyd\n\nclass CycleDetection {\n    fun solve(arr: IntArray): Int {\n        if (arr.isEmpty()) return -1\n        val size = arr.size\n\n        var tortoise = 0\n        var hare = 0\n\n        while (true) {\n            if (tortoise < 0 || tortoise >= size || arr[tortoise] < 0 || arr[tortoise] >= size) return -1\n            tortoise = arr[tortoise]\n\n            if (hare < 0 || hare >= size || arr[hare] < 0 || arr[hare] >= size) return -1\n            hare = arr[hare]\n            if (hare < 0 || hare >= size || arr[hare] < 0 || arr[hare] >= size) return -1\n            hare = arr[hare]\n\n            if (tortoise == hare) break\n        }\n\n        tortoise = 0\n        while (tortoise != hare) {\n            tortoise = arr[tortoise]\n            hare = arr[hare]\n        }\n\n        return tortoise\n    }\n}\n"
+        },
+        {
+          "filename": "CycleDetectionFloyd.kt",
+          "content": "fun detectCycle(arr: IntArray): Int {\n    val n = arr.size\n    if (n == 0) {\n        return -1\n    }\n\n    fun nextPos(pos: Int): Int {\n        if (pos < 0 || pos >= n || arr[pos] == -1) {\n            return -1\n        }\n        return arr[pos]\n    }\n\n    var tortoise = 0\n    var hare = 0\n\n    // Phase 1: Detect cycle\n    while (true) {\n        tortoise = nextPos(tortoise)\n        if (tortoise == -1) return -1\n\n        hare = nextPos(hare)\n        if (hare == -1) return -1\n        hare = nextPos(hare)\n        if (hare == -1) return -1\n\n        if (tortoise == hare) break\n    }\n\n    // Phase 2: Find cycle start\n    var pointer1 = 0\n    var pointer2 = tortoise\n    while (pointer1 != pointer2) {\n        pointer1 = arr[pointer1]\n        pointer2 = arr[pointer2]\n    }\n\n    return pointer1\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "cycle_detection.py",
+          "content": "def detect_cycle(arr):\n    if not arr:\n        return -1\n    size = len(arr)\n    \n    tortoise = 0\n    hare = 0\n    \n    while True:\n        if tortoise < 0 or tortoise >= size or arr[tortoise] < 0 or arr[tortoise] >= size:\n            return -1\n        tortoise = arr[tortoise]\n        \n        if hare < 0 or hare >= size or arr[hare] < 0 or arr[hare] >= size:\n            return -1\n        hare = arr[hare]\n        if hare < 0 or hare >= size or arr[hare] < 0 or arr[hare] >= size:\n            return -1\n        hare = arr[hare]\n        \n        if tortoise == hare:\n            break\n            \n    tortoise = 0\n    while tortoise != hare:\n        tortoise = arr[tortoise]\n        hare = arr[hare]\n        \n    return tortoise\n"
+        },
+        {
+          "filename": "detect_cycle.py",
+          "content": "def detect_cycle(arr: list[int]) -> int:\n    n = len(arr)\n    if n == 0:\n        return -1\n\n    def next_pos(pos: int) -> int:\n        if pos < 0 or pos >= n or arr[pos] == -1:\n            return -1\n        return arr[pos]\n\n    tortoise = 0\n    hare = 0\n\n    # Phase 1: Detect cycle\n    while True:\n        tortoise = next_pos(tortoise)\n        if tortoise == -1:\n            return -1\n\n        hare = next_pos(hare)\n        if hare == -1:\n            return -1\n        hare = next_pos(hare)\n        if hare == -1:\n            return -1\n\n        if tortoise == hare:\n            break\n\n    # Phase 2: Find cycle start\n    pointer1 = 0\n    pointer2 = tortoise\n    while pointer1 != pointer2:\n        pointer1 = arr[pointer1]\n        pointer2 = arr[pointer2]\n\n    return pointer1\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "cycle_detection.rs",
+          "content": "pub fn detect_cycle(arr: &[i32]) -> i32 {\n    let size = arr.len() as i32;\n    if size == 0 {\n        return -1;\n    }\n\n    let mut tortoise = 0;\n    let mut hare = 0;\n\n    loop {\n        if tortoise < 0 || tortoise >= size || arr[tortoise as usize] < 0 || arr[tortoise as usize] >= size {\n            return -1;\n        }\n        tortoise = arr[tortoise as usize];\n\n        if hare < 0 || hare >= size || arr[hare as usize] < 0 || arr[hare as usize] >= size {\n            return -1;\n        }\n        hare = arr[hare as usize];\n        if hare < 0 || hare >= size || arr[hare as usize] < 0 || arr[hare as usize] >= size {\n            return -1;\n        }\n        hare = arr[hare as usize];\n\n        if tortoise == hare {\n            break;\n        }\n    }\n\n    tortoise = 0;\n    while tortoise != hare {\n        tortoise = arr[tortoise as usize];\n        hare = arr[hare as usize];\n    }\n\n    tortoise\n}\n"
+        },
+        {
+          "filename": "detect_cycle.rs",
+          "content": "pub fn detect_cycle(arr: &[i32]) -> i32 {\n    let n = arr.len() as i32;\n    if n == 0 {\n        return -1;\n    }\n\n    let next_pos = |pos: i32| -> i32 {\n        if pos < 0 || pos >= n || arr[pos as usize] == -1 {\n            return -1;\n        }\n        arr[pos as usize]\n    };\n\n    let mut tortoise: i32 = 0;\n    let mut hare: i32 = 0;\n\n    // Phase 1: Detect cycle\n    loop {\n        tortoise = next_pos(tortoise);\n        if tortoise == -1 {\n            return -1;\n        }\n\n        hare = next_pos(hare);\n        if hare == -1 {\n            return -1;\n        }\n        hare = next_pos(hare);\n        if hare == -1 {\n            return -1;\n        }\n\n        if tortoise == hare {\n            break;\n        }\n    }\n\n    // Phase 2: Find cycle start\n    let mut pointer1: i32 = 0;\n    let mut pointer2: i32 = tortoise;\n    while pointer1 != pointer2 {\n        pointer1 = arr[pointer1 as usize];\n        pointer2 = arr[pointer2 as usize];\n    }\n\n    pointer1\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "CycleDetection.scala",
+          "content": "package algorithms.graph.cycledetectionfloyd\n\nimport scala.util.control.Breaks._\n\nobject CycleDetection {\n  def solve(arr: Array[Int]): Int = {\n    if (arr.length == 0) return -1\n    val size = arr.length\n\n    var tortoise = 0\n    var hare = 0\n\n    breakable {\n      while (true) {\n        if (tortoise < 0 || tortoise >= size || arr(tortoise) < 0 || arr(tortoise) >= size) return -1\n        tortoise = arr(tortoise)\n\n        if (hare < 0 || hare >= size || arr(hare) < 0 || arr(hare) >= size) return -1\n        hare = arr(hare)\n        if (hare < 0 || hare >= size || arr(hare) < 0 || arr(hare) >= size) return -1\n        hare = arr(hare)\n\n        if (tortoise == hare) break\n      }\n    }\n\n    tortoise = 0\n    while (tortoise != hare) {\n      tortoise = arr(tortoise)\n      hare = arr(hare)\n    }\n\n    tortoise\n  }\n}\n"
+        },
+        {
+          "filename": "CycleDetectionFloyd.scala",
+          "content": "object CycleDetectionFloyd {\n\n  def detectCycle(arr: Array[Int]): Int = {\n    val n = arr.length\n    if (n == 0) return -1\n\n    def nextPos(pos: Int): Int = {\n      if (pos < 0 || pos >= n || arr(pos) == -1) -1\n      else arr(pos)\n    }\n\n    var tortoise = 0\n    var hare = 0\n\n    // Phase 1: Detect cycle\n    var found = false\n    while (!found) {\n      tortoise = nextPos(tortoise)\n      if (tortoise == -1) return -1\n\n      hare = nextPos(hare)\n      if (hare == -1) return -1\n      hare = nextPos(hare)\n      if (hare == -1) return -1\n\n      if (tortoise == hare) found = true\n    }\n\n    // Phase 2: Find cycle start\n    var pointer1 = 0\n    var pointer2 = tortoise\n    while (pointer1 != pointer2) {\n      pointer1 = arr(pointer1)\n      pointer2 = arr(pointer2)\n    }\n\n    pointer1\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "CycleDetection.swift",
+          "content": "class CycleDetection {\n    static func solve(_ arr: [Int]) -> Int {\n        if arr.isEmpty { return -1 }\n        let size = arr.count\n        \n        var tortoise = 0\n        var hare = 0\n        \n        while true {\n            if tortoise < 0 || tortoise >= size || arr[tortoise] < 0 || arr[tortoise] >= size {\n                return -1\n            }\n            tortoise = arr[tortoise]\n            \n            if hare < 0 || hare >= size || arr[hare] < 0 || arr[hare] >= size {\n                return -1\n            }\n            hare = arr[hare]\n            if hare < 0 || hare >= size || arr[hare] < 0 || arr[hare] >= size {\n                return -1\n            }\n            hare = arr[hare]\n            \n            if tortoise == hare {\n                break\n            }\n        }\n        \n        tortoise = 0\n        while tortoise != hare {\n            tortoise = arr[tortoise]\n            hare = arr[hare]\n        }\n        \n        return tortoise\n    }\n}\n"
+        },
+        {
+          "filename": "CycleDetectionFloyd.swift",
+          "content": "func detectCycle(_ arr: [Int]) -> Int {\n    let n = arr.count\n    if n == 0 {\n        return -1\n    }\n\n    func nextPos(_ pos: Int) -> Int {\n        if pos < 0 || pos >= n || arr[pos] == -1 {\n            return -1\n        }\n        return arr[pos]\n    }\n\n    var tortoise = 0\n    var hare = 0\n\n    // Phase 1: Detect cycle\n    while true {\n        tortoise = nextPos(tortoise)\n        if tortoise == -1 { return -1 }\n\n        hare = nextPos(hare)\n        if hare == -1 { return -1 }\n        hare = nextPos(hare)\n        if hare == -1 { return -1 }\n\n        if tortoise == hare { break }\n    }\n\n    // Phase 2: Find cycle start\n    var pointer1 = 0\n    var pointer2 = tortoise\n    while pointer1 != pointer2 {\n        pointer1 = arr[pointer1]\n        pointer2 = arr[pointer2]\n    }\n\n    return pointer1\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "cycle-detection.ts",
+          "content": "export function detectCycle(arr: number[]): number {\n  if (arr.length === 0) return -1;\n  const size = arr.length;\n\n  let tortoise = 0;\n  let hare = 0;\n\n  while (true) {\n    if (tortoise < 0 || tortoise >= size || arr[tortoise] < 0 || arr[tortoise] >= size) {\n      return -1;\n    }\n    tortoise = arr[tortoise];\n\n    if (hare < 0 || hare >= size || arr[hare] < 0 || arr[hare] >= size) {\n      return -1;\n    }\n    hare = arr[hare];\n    if (hare < 0 || hare >= size || arr[hare] < 0 || arr[hare] >= size) {\n      return -1;\n    }\n    hare = arr[hare];\n\n    if (tortoise === hare) {\n      break;\n    }\n  }\n\n  tortoise = 0;\n  while (tortoise !== hare) {\n    tortoise = arr[tortoise];\n    hare = arr[hare];\n  }\n\n  return tortoise;\n}\n"
+        },
+        {
+          "filename": "detectCycle.ts",
+          "content": "export function detectCycle(arr: number[]): number {\n    const n = arr.length;\n    if (n === 0) {\n        return -1;\n    }\n\n    function nextPos(pos: number): number {\n        if (pos < 0 || pos >= n || arr[pos] === -1) {\n            return -1;\n        }\n        return arr[pos];\n    }\n\n    let tortoise = 0;\n    let hare = 0;\n\n    // Phase 1: Detect cycle\n    while (true) {\n        tortoise = nextPos(tortoise);\n        if (tortoise === -1) return -1;\n\n        hare = nextPos(hare);\n        if (hare === -1) return -1;\n        hare = nextPos(hare);\n        if (hare === -1) return -1;\n\n        if (tortoise === hare) break;\n    }\n\n    // Phase 2: Find cycle start\n    let pointer1 = 0;\n    let pointer2 = tortoise;\n    while (pointer1 !== pointer2) {\n        pointer1 = arr[pointer1];\n        pointer2 = arr[pointer2];\n    }\n\n    return pointer1;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "patterns": [
+    "fast-slow-pointers"
+  ],
+  "patternDifficulty": "intermediate",
+  "practiceOrder": 1,
+  "readme": "# Floyd's Cycle Detection\n\n## Overview\n\nFloyd's Cycle Detection algorithm, also known as the \"tortoise and hare\" algorithm, detects cycles in a sequence of iterated function values. It uses two pointers moving at different speeds: a slow pointer (tortoise) advancing one step at a time, and a fast pointer (hare) advancing two steps. If a cycle exists, the two pointers will eventually meet inside the cycle.\n\nThe algorithm is remarkable for its O(1) space complexity -- it detects cycles without using any extra storage for visited nodes. After detecting a cycle, a second phase finds the exact starting position of the cycle.\n\n## How It Works\n\nThe algorithm proceeds in two phases:\n\n**Phase 1 -- Cycle Detection:**\n1. Initialize both tortoise and hare at the starting position (index 0).\n2. Move tortoise one step: `tortoise = next(tortoise)`.\n3. Move hare two steps: `hare = next(next(hare))`.\n4. If they meet, a cycle exists. If hare reaches the end (-1), no cycle exists.\n\n**Phase 2 -- Find Cycle Start:**\n1. Move one pointer back to the start (index 0).\n2. Advance both pointers one step at a time.\n3. The point where they meet is the start of the cycle.\n\nIn this implementation, `arr[i]` represents the next index after position `i`. A value of -1 indicates no next element (end of sequence).\n\n### Example\n\nGiven input: `[1, 2, 3, 4, 2]`\n\nSequence: 0 -> 1 -> 2 -> 3 -> 4 -> 2 -> 3 -> 4 -> ...\n\n**Phase 1 (Detection):**\n\n| Step | Tortoise | Hare |\n|------|----------|------|\n| 0 | 0 | 0 |\n| 1 | 1 | 2 |\n| 2 | 2 | 4 |\n| 3 | 3 | 3 |\n\nThey meet at index 3 (inside the cycle).\n\n**Phase 2 (Find Start):**\n\n| Step | Pointer 1 (from start) | Pointer 2 (from meeting) |\n|------|----------------------|------------------------|\n| 0 | 0 | 3 |\n| 1 | 1 | 4 |\n| 2 | 2 | 2 |\n\nThey meet at index 2 -- this is the cycle start.\n\nResult: 2\n\n## Pseudocode\n\n```\nfunction detectCycle(arr):\n    if length(arr) == 0:\n        return -1\n\n    tortoise = 0\n    hare = 0\n\n    // Phase 1: Detect cycle\n    while true:\n        // Move tortoise one step\n        if tortoise < 0 or tortoise >= length(arr) or arr[tortoise] == -1:\n            return -1\n        tortoise = arr[tortoise]\n\n        // Move hare two steps\n        if hare < 0 or hare >= length(arr) or arr[hare] == -1:\n            return -1\n        hare = arr[hare]\n        if hare < 0 or hare >= length(arr) or arr[hare] == -1:\n            return -1\n        hare = arr[hare]\n\n        if tortoise == hare:\n            break\n\n    // Phase 2: Find cycle start\n    pointer1 = 0\n    pointer2 = tortoise\n    while pointer1 != pointer2:\n        pointer1 = arr[pointer1]\n        pointer2 = arr[pointer2]\n\n    return pointer1\n```\n\n## Complexity Analysis\n\n| Case    | Time | Space |\n|---------|------|-------|\n| Best    | O(n) | O(1)  |\n| Average | O(n) | O(1)  |\n| Worst   | O(n) | O(1)  |\n\n- **Time -- O(n):** In Phase 1, the hare moves at most 2n steps before meeting the tortoise or reaching the end. In Phase 2, both pointers traverse at most n steps. Total: O(n).\n- **Space -- O(1):** Only a constant number of pointer variables are used, regardless of input size. This is the key advantage over hash-set-based cycle detection.\n\n## Applications\n\n- **Linked list cycle detection:** Determine if a linked list contains a cycle and find its entry point.\n- **Deadlock detection:** Detect circular wait conditions in operating systems.\n- **Random number generators:** Detect periodicity in pseudo-random sequences.\n- **Cryptography:** Pollard's rho algorithm for integer factorization uses Floyd's algorithm.\n- **Functional iteration:** Detect cycles in iterated function sequences.\n- **Memory leak detection:** Identify circular references in garbage collection.\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [detect_cycle.py](python/detect_cycle.py) |\n| Java       | [CycleDetectionFloyd.java](java/CycleDetectionFloyd.java) |\n| C++        | [detect_cycle.cpp](cpp/detect_cycle.cpp) |\n| C          | [detect_cycle.c](c/detect_cycle.c) |\n| Go         | [detect_cycle.go](go/detect_cycle.go) |\n| TypeScript | [detectCycle.ts](typescript/detectCycle.ts) |\n| Kotlin     | [CycleDetectionFloyd.kt](kotlin/CycleDetectionFloyd.kt) |\n| Rust       | [detect_cycle.rs](rust/detect_cycle.rs) |\n| Swift      | [CycleDetectionFloyd.swift](swift/CycleDetectionFloyd.swift) |\n| Scala      | [CycleDetectionFloyd.scala](scala/CycleDetectionFloyd.scala) |\n| C#         | [CycleDetectionFloyd.cs](csharp/CycleDetectionFloyd.cs) |\n\n## References\n\n- Floyd, R. W. (1967). \"Nondeterministic Algorithms.\" *Journal of the ACM*, 14(4), 636-644.\n- Knuth, D. E. (1997). *The Art of Computer Programming, Volume 2: Seminumerical Algorithms* (3rd ed.). Addison-Wesley. Section 3.1, Exercise 6.\n- [Cycle Detection -- Wikipedia](https://en.wikipedia.org/wiki/Cycle_detection#Floyd's_tortoise_and_hare)\n"
+}

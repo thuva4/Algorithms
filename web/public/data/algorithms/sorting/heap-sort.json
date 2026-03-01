@@ -1,0 +1,152 @@
+{
+  "name": "Heap Sort",
+  "slug": "heap-sort",
+  "category": "sorting",
+  "subcategory": "comparison-based",
+  "difficulty": "intermediate",
+  "tags": [
+    "sorting",
+    "comparison",
+    "in-place",
+    "unstable",
+    "heap"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n log n)",
+      "average": "O(n log n)",
+      "worst": "O(n log n)"
+    },
+    "space": "O(1)"
+  },
+  "stable": false,
+  "in_place": true,
+  "related": [
+    "selection-sort",
+    "merge-sort",
+    "quick-sort"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "heap_sort.c",
+          "content": "#include \"heap_sort.h\"\n\nstatic void heapify(int arr[], int n, int i) {\n    int largest = i;\n    int l = 2 * i + 1;\n    int r = 2 * i + 2;\n\n    if (l < n && arr[l] > arr[largest]) {\n        largest = l;\n    }\n\n    if (r < n && arr[r] > arr[largest]) {\n        largest = r;\n    }\n\n    if (largest != i) {\n        int temp = arr[i];\n        arr[i] = arr[largest];\n        arr[largest] = temp;\n\n        heapify(arr, n, largest);\n    }\n}\n\nvoid heap_sort(int arr[], int n) {\n    // Build max heap\n    for (int i = n / 2 - 1; i >= 0; i--) {\n        heapify(arr, n, i);\n    }\n\n    // Extract elements\n    for (int i = n - 1; i > 0; i--) {\n        int temp = arr[0];\n        arr[0] = arr[i];\n        arr[i] = temp;\n\n        heapify(arr, i, 0);\n    }\n}\n"
+        },
+        {
+          "filename": "heap_sort.h",
+          "content": "#ifndef HEAP_SORT_H\n#define HEAP_SORT_H\n\n/**\n * Heap Sort implementation.\n * Sorts an array by first building a max heap, then repeatedly extracting the maximum element.\n * @param arr the input array (modified in-place)\n * @param n the number of elements in the array\n */\nvoid heap_sort(int arr[], int n);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "HeapSort.cpp",
+          "content": "// C++ program for implementation of Heap Sort\n#include <iostream>\nusing namespace std;\n\n// To heapify a subtree rooted with node i which is\n// an index in arr[]. n is size of heap\nvoid heapify(int arr[], int n, int i)\n{\n\tint largest = i; // Initialize largest as root\n\tint l = 2*i + 1; // left = 2*i + 1\n\tint r = 2*i + 2; // right = 2*i + 2\n\n\t// If left child is larger than root\n\tif (l < n && arr[l] > arr[largest])\n\t\tlargest = l;\n\n\t// If right child is larger than largest so far\n\tif (r < n && arr[r] > arr[largest])\n\t\tlargest = r;\n\n\t// If largest is not root\n\tif (largest != i)\n\t{\n\t\tswap(arr[i], arr[largest]);\n\n\t\t// Recursively heapify the affected sub-tree\n\t\theapify(arr, n, largest);\n\t}\n}\n\n// main function to do heap sort\nvoid heapSort(int arr[], int n)\n{\n\t// Build heap (rearrange array)\n\tfor (int i = n / 2 - 1; i >= 0; i--)\n\t\theapify(arr, n, i);\n\n\t// One by one extract an element from heap\n\tfor (int i=n-1; i>=0; i--)\n\t{\n\t\t// Move current root to end\n\t\tswap(arr[0], arr[i]);\n\n\t\t// call max heapify on the reduced heap\n\t\theapify(arr, i, 0);\n\t}\n}\n\n/* A utility function to print array of size n */\nvoid printArray(int arr[], int n)\n{\n\tfor (int i=0; i<n; ++i)\n\t\tcout << arr[i] << \" \";\n\tcout << \"\\n\";\n}\n\n// Driver program\nint main()\n{\n\tint arr[] = {12, 11, 13, 5, 6, 7};\n\tint n = sizeof(arr)/sizeof(arr[0]);\n\n\theapSort(arr, n);\n\n\tcout << \"Sorted array is \\n\";\n\tprintArray(arr, n);\n}\n"
+        },
+        {
+          "filename": "heap_sort.cpp",
+          "content": "#include <vector>\n#include <algorithm>\n\nvoid heapify(std::vector<int>& arr, int n, int i) {\n    int largest = i;\n    int l = 2 * i + 1;\n    int r = 2 * i + 2;\n\n    if (l < n && arr[l] > arr[largest]) {\n        largest = l;\n    }\n\n    if (r < n && arr[r] > arr[largest]) {\n        largest = r;\n    }\n\n    if (largest != i) {\n        std::swap(arr[i], arr[largest]);\n        heapify(arr, n, largest);\n    }\n}\n\n/**\n * Heap Sort implementation.\n * Sorts an array by first building a max heap, then repeatedly extracting the maximum element.\n * @param arr the input vector\n * @returns a sorted copy of the vector\n */\nstd::vector<int> heap_sort(std::vector<int> arr) {\n    int n = static_cast<int>(arr.size());\n\n    // Build max heap\n    for (int i = n / 2 - 1; i >= 0; i--) {\n        heapify(arr, n, i);\n    }\n\n    // Extract elements\n    for (int i = n - 1; i > 0; i--) {\n        std::swap(arr[0], arr[i]);\n        heapify(arr, i, 0);\n    }\n\n    return arr;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "HeapSort.cs",
+          "content": "using System;\n\nnamespace Algorithms.Sorting.Heap\n{\n    /**\n     * Heap Sort implementation.\n     * Sorts an array by first building a max heap, then repeatedly extracting the maximum element.\n     */\n    public static class HeapSort\n    {\n        public static int[] Sort(int[] arr)\n        {\n            if (arr == null)\n            {\n                return new int[0];\n            }\n\n            int[] result = (int[])arr.Clone();\n            int n = result.Length;\n\n            // Build max heap\n            for (int i = n / 2 - 1; i >= 0; i--)\n            {\n                Heapify(result, n, i);\n            }\n\n            // Extract elements\n            for (int i = n - 1; i > 0; i--)\n            {\n                int temp = result[0];\n                result[0] = result[i];\n                result[i] = temp;\n\n                Heapify(result, i, 0);\n            }\n\n            return result;\n        }\n\n        private static void Heapify(int[] arr, int n, int i)\n        {\n            int largest = i;\n            int l = 2 * i + 1;\n            int r = 2 * i + 2;\n\n            if (l < n && arr[l] > arr[largest])\n            {\n                largest = l;\n            }\n\n            if (r < n && arr[r] > arr[largest])\n            {\n                largest = r;\n            }\n\n            if (largest != i)\n            {\n                int swap = arr[i];\n                arr[i] = arr[largest];\n                arr[largest] = swap;\n\n                Heapify(arr, n, largest);\n            }\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "heap-sort.go",
+          "content": "package main\n\nimport (\n\t\"fmt\"\n\t\"math/rand\"\n\t\"time\"\n)\n\nfunc main() {\n\tvar heap *Heap\n\tslice := generateSlice(20)\n\tfmt.Println(\"\\n--- Unsorted --- \\n\\n\", slice)\n\theap.HeapSort(slice)\n\tfmt.Println(\"\\n--- Sorted ---\\n\\n\", slice)\n}\n\n// Generates a slice of size, size filled with random numbers\nfunc generateSlice(size int) []int {\n\n\tslice := make([]int, size, size)\n\trand.Seed(time.Now().UnixNano())\n\tfor i := 0; i < size; i++ {\n\t\tslice[i] = rand.Intn(999) - rand.Intn(999)\n\t}\n\treturn slice\n}\n\ntype Heap struct {\n}\n\nfunc (heap *Heap) HeapSort(array []int) {\n\theap.BuildHeap(array)\n\n\tfor length := len(array); length > 1; length-- {\n\t\theap.RemoveTop(array, length)\n\t}\n}\n\nfunc (heap *Heap) BuildHeap(array []int) {\n\tfor i := len(array) / 2; i >= 0; i-- {\n\t\theap.Heapify(array, i, len(array))\n\t}\n}\n\nfunc (heap *Heap) RemoveTop(array []int, length int) {\n\tvar lastIndex = length - 1\n\tarray[0], array[lastIndex] = array[lastIndex], array[0]\n\theap.Heapify(array, 0, lastIndex)\n}\n\nfunc (heap *Heap) Heapify(array []int, root, length int) {\n\tvar max = root\n\tvar l, r = heap.Left(array, root), heap.Right(array, root)\n\n\tif l < length && array[l] > array[max] {\n\t\tmax = l\n\t}\n\n\tif r < length && array[r] > array[max] {\n\t\tmax = r\n\t}\n\n\tif max != root {\n\t\tarray[root], array[max] = array[max], array[root]\n\t\theap.Heapify(array, max, length)\n\t}\n}\n\nfunc (*Heap) Left(array []int, root int) int {\n\treturn (root * 2) + 1\n}\n\nfunc (*Heap) Right(array []int, root int) int {\n\treturn (root * 2) + 2\n}\n"
+        },
+        {
+          "filename": "heap_sort.go",
+          "content": "package heapsort\n\n/**\n * HeapSort implementation.\n * Sorts an array by first building a max heap, then repeatedly extracting the maximum element.\n * It returns a new sorted slice without modifying the original input.\n */\nfunc HeapSort(arr []int) []int {\n\tn := len(arr)\n\tif n <= 1 {\n\t\treturn append([]int{}, arr...)\n\t}\n\n\tresult := make([]int, n)\n\tcopy(result, arr)\n\n\t// Build max heap\n\tfor i := n/2 - 1; i >= 0; i-- {\n\t\theapify(result, n, i)\n\t}\n\n\t// Extract elements\n\tfor i := n - 1; i > 0; i-- {\n\t\tresult[0], result[i] = result[i], result[0]\n\t\theapify(result, i, 0)\n\t}\n\n\treturn result\n}\n\nfunc heapify(arr []int, n, i int) {\n\tlargest := i\n\tl := 2*i + 1\n\tr := 2*i + 2\n\n\tif l < n && arr[l] > arr[largest] {\n\t\tlargest = l\n\t}\n\n\tif r < n && arr[r] > arr[largest] {\n\t\tlargest = r\n\t}\n\n\tif largest != i {\n\t\tarr[i], arr[largest] = arr[largest], arr[i]\n\t\theapify(arr, n, largest)\n\t}\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "HeapSort.java",
+          "content": "import java.util.Arrays;\n\npublic class HeapSort {\n    /**\n     * Heap Sort implementation.\n     * Sorts an array by first building a max heap, then repeatedly extracting the maximum element.\n     * @param arr the input array\n     * @return a sorted copy of the array\n     */\n    public static int[] sort(int[] arr) {\n        if (arr == null) {\n            return new int[0];\n        }\n\n        int[] result = Arrays.copyOf(arr, arr.length);\n        int n = result.length;\n\n        // Build max heap\n        for (int i = n / 2 - 1; i >= 0; i--) {\n            heapify(result, n, i);\n        }\n\n        // Extract elements\n        for (int i = n - 1; i > 0; i--) {\n            int temp = result[0];\n            result[0] = result[i];\n            result[i] = temp;\n\n            heapify(result, i, 0);\n        }\n\n        return result;\n    }\n\n    private static void heapify(int[] arr, int n, int i) {\n        int largest = i;\n        int l = 2 * i + 1;\n        int r = 2 * i + 2;\n\n        if (l < n && arr[l] > arr[largest]) {\n            largest = l;\n        }\n\n        if (r < n && arr[r] > arr[largest]) {\n            largest = r;\n        }\n\n        if (largest != i) {\n            int swap = arr[i];\n            arr[i] = arr[largest];\n            arr[largest] = swap;\n\n            heapify(arr, n, largest);\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "HeapSort.kt",
+          "content": "package algorithms.sorting.heap\n\n/**\n * Heap Sort implementation.\n * Sorts an array by first building a max heap, then repeatedly extracting the maximum element.\n */\nobject HeapSort {\n    fun sort(arr: IntArray): IntArray {\n        val result = arr.copyOf()\n        val n = result.size\n\n        // Build max heap\n        for (i in n / 2 - 1 downTo 0) {\n            heapify(result, n, i)\n        }\n\n        // Extract elements\n        for (i in n - 1 downTo 1) {\n            val temp = result[0]\n            result[0] = result[i]\n            result[i] = temp\n\n            heapify(result, i, 0)\n        }\n\n        return result\n    }\n\n    private fun heapify(arr: IntArray, n: Int, i: Int) {\n        var largest = i\n        val l = 2 * i + 1\n        val r = 2 * i + 2\n\n        if (l < n && arr[l] > arr[largest]) {\n            largest = l\n        }\n\n        if (r < n && arr[r] > arr[largest]) {\n            largest = r\n        }\n\n        if (largest != i) {\n            val temp = arr[i]\n            arr[i] = arr[largest]\n            arr[largest] = temp\n\n            heapify(arr, n, largest)\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "HeapSort.py",
+          "content": "# Python program for implementation of heap Sort\n\n# To heapify subtree rooted at index i.\n# n is size of heap\ndef heapify(arr, n, i):\n    largest = i  # Initialize largest as root\n    l = 2 * i + 1     # left = 2*i + 1\n    r = 2 * i + 2     # right = 2*i + 2\n\n    # See if left child of root exists and is\n    # greater than root\n    if l < n and arr[i] < arr[l]:\n        largest = l\n\n    # See if right child of root exists and is\n    # greater than root\n    if r < n and arr[largest] < arr[r]:\n        largest = r\n\n    # Change root, if needed\n    if largest != i:\n        arr[i],arr[largest] = arr[largest],arr[i]  # swap\n\n        # Heapify the root.\n        heapify(arr, n, largest)\n\n# The main function to sort an array of given size\ndef heapSort(arr):\n    n = len(arr)\n\n    # Build a maxheap.\n    for i in range(n, -1, -1):\n        heapify(arr, n, i)\n\n    # One by one extract elements\n    for i in range(n-1, 0, -1):\n        arr[i], arr[0] = arr[0], arr[i]   # swap\n        heapify(arr, i, 0)\n\n# Driver code to test above\narr = [ 12, 11, 13, 5, 6, 7]\nheapSort(arr)\nn = len(arr)\nprint (\"Sorted array is\")\nfor i in range(n):\n    print (\"%d\" %arr[i]),\n"
+        },
+        {
+          "filename": "heap_sort.py",
+          "content": "def heapify(arr: list[int], n: int, i: int) -> None:\n    largest = i\n    l = 2 * i + 1\n    r = 2 * i + 2\n\n    if l < n and arr[l] > arr[largest]:\n        largest = l\n\n    if r < n and arr[r] > arr[largest]:\n        largest = r\n\n    if largest != i:\n        arr[i], arr[largest] = arr[largest], arr[i]\n        heapify(arr, n, largest)\n\n\ndef heap_sort(arr: list[int]) -> list[int]:\n    \"\"\"\n    Heap Sort implementation.\n    Sorts an array by first building a max heap, then repeatedly extracting the maximum element.\n    \"\"\"\n    result = list(arr)\n    n = len(result)\n\n    # Build max heap\n    for i in range(n // 2 - 1, -1, -1):\n        heapify(result, n, i)\n\n    # Extract elements\n    for i in range(n - 1, 0, -1):\n        result[i], result[0] = result[0], result[i]\n        heapify(result, i, 0)\n\n    return result\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "heap_sort.rs",
+          "content": "/**\n * Heap Sort implementation.\n * Sorts an array by first building a max heap, then repeatedly extracting the maximum element.\n */\npub fn heap_sort(arr: &[i32]) -> Vec<i32> {\n    let mut result = arr.to_vec();\n    let n = result.len();\n\n    if n <= 1 {\n        return result;\n    }\n\n    // Build max heap\n    for i in (0..n / 2).rev() {\n        heapify(&mut result, n, i);\n    }\n\n    // Extract elements\n    for i in (1..n).rev() {\n        result.swap(0, i);\n        heapify(&mut result, i, 0);\n    }\n\n    result\n}\n\nfn heapify(arr: &mut [i32], n: usize, i: usize) {\n    let mut largest = i;\n    let l = 2 * i + 1;\n    let r = 2 * i + 2;\n\n    if l < n && arr[l] > arr[largest] {\n        largest = l;\n    }\n\n    if r < n && arr[r] > arr[largest] {\n        largest = r;\n    }\n\n    if largest != i {\n        arr.swap(i, largest);\n        heapify(arr, n, largest);\n    }\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "HeapSort.scala",
+          "content": "package algorithms.sorting.heap\n\n/**\n * Heap Sort implementation.\n * Sorts an array by first building a max heap, then repeatedly extracting the maximum element.\n */\nobject HeapSort {\n  def sort(arr: Array[Int]): Array[Int] = {\n    val result = arr.clone()\n    val n = result.length\n\n    // Build max heap\n    for (i <- n / 2 - 1 to 0 by -1) {\n      heapify(result, n, i)\n    }\n\n    // Extract elements\n    for (i <- n - 1 until 0 by -1) {\n      val temp = result(0)\n      result(0) = result(i)\n      result(i) = temp\n\n      heapify(result, i, 0)\n    }\n\n    result\n  }\n\n  private def heapify(arr: Array[Int], n: Int, i: Int): Unit = {\n    var largest = i\n    val l = 2 * i + 1\n    val r = 2 * i + 2\n\n    if (l < n && arr(l) > arr(largest)) {\n      largest = l\n    }\n\n    if (r < n && arr(r) > arr(largest)) {\n      largest = r\n    }\n\n    if (largest != i) {\n      val temp = arr(i)\n      arr(i) = arr(largest)\n      arr(largest) = temp\n\n      heapify(arr, n, largest)\n    }\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "HeapSort.swift",
+          "content": "/**\n * Heap Sort implementation.\n * Sorts an array by first building a max heap, then repeatedly extracting the maximum element.\n */\npublic class HeapSort {\n    public static func sort(_ arr: [Int]) -> [Int] {\n        var result = arr\n        let n = result.count\n\n        // Build max heap\n        for i in stride(from: n / 2 - 1, through: 0, by: -1) {\n            heapify(&result, n, i)\n        }\n\n        // Extract elements\n        for i in stride(from: n - 1, to: 0, by: -1) {\n            result.swapAt(0, i)\n            heapify(&result, i, 0)\n        }\n\n        return result\n    }\n\n    private static func heapify(_ arr: inout [Int], _ n: Int, _ i: Int) {\n        var largest = i\n        let l = 2 * i + 1\n        let r = 2 * i + 2\n\n        if l < n && arr[l] > arr[largest] {\n            largest = l\n        }\n\n        if r < n && arr[r] > arr[largest] {\n            largest = r\n        }\n\n        if largest != i {\n            arr.swapAt(i, largest)\n            heapify(&arr, n, largest)\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "heapSort.ts",
+          "content": "function heapify(arr: number[], n: number, i: number): void {\n    let largest = i;\n    const l = 2 * i + 1;\n    const r = 2 * i + 2;\n\n    if (l < n && arr[l] > arr[largest]) {\n        largest = l;\n    }\n\n    if (r < n && arr[r] > arr[largest]) {\n        largest = r;\n    }\n\n    if (largest !== i) {\n        [arr[i], arr[largest]] = [arr[largest], arr[i]];\n        heapify(arr, n, largest);\n    }\n}\n\n/**\n * Heap Sort implementation.\n * Sorts an array by first building a max heap, then repeatedly extracting the maximum element.\n * @param arr the input array\n * @returns a sorted copy of the array\n */\nexport function heapSort(arr: number[]): number[] {\n    const result = [...arr];\n    const n = result.length;\n\n    // Build max heap\n    for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {\n        heapify(result, n, i);\n    }\n\n    // Extract elements\n    for (let i = n - 1; i > 0; i--) {\n        [result[0], result[i]] = [result[i], result[0]];\n        heapify(result, i, 0);\n    }\n\n    return result;\n}\n"
+        },
+        {
+          "filename": "index.js",
+          "content": "/* eslint-disable require-jsdoc */\n/* eslint-disable valid-jsdoc */\n/**\n * Build a max heap out of the array. A heap is a specialized tree like\n * data structure that satisfies the heap property. The heap property\n * for max heap is the following: \"if P is a parent node of C, then the\n * key (the value) of node P is greater than the key of node C\"\n * Source: https://en.wikipedia.org/wiki/Heap_(data_structure)\n * In-place algorithms\n */\nconst heapify = function(array, index, heapSize) {\n  let largest = index;\n  const leftIndex = 2 * index + 1;\n  const rightIndex = 2 * index + 2;\n\n  if (leftIndex < heapSize && array[leftIndex] > array[largest]) {\n    largest = leftIndex;\n  }\n\n  if (rightIndex < heapSize && array[rightIndex] > array[largest]) {\n    largest = rightIndex;\n  }\n\n  if (largest !== index) {\n    array[largest] = array[largest] ^ array[index];\n    array[index] = array[largest] ^ array[index];\n    array[largest] = array[largest] ^ array[index];\n\n    heapify(array, largest, heapSize);\n  }\n};\n\n/*\n* Heap sort sorts an array by building a heap from the array and\n* utilizing the heap property.\n* For more information see: https://en.wikipedia.org/wiki/Heapsort\n*/\nfunction heapSort(items) {\n  const length = items.length;\n\n  for (let i = Math.floor(items.length / 2) - 1; i > -1; i--) {\n    heapify(items, i, length);\n  }\n  for (let j = length -1; j > 0; j--) {\n    const tmp = items[0];\n    items[0] = items[j];\n    items[j] = tmp;\n    heapify(items, 0, j);\n  }\n  return items;\n}\n\nmodule.exports = heapSort;\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "readme": "# Heap Sort\n\n## Overview\n\nHeap Sort is an efficient, comparison-based sorting algorithm that uses a binary heap data structure to sort elements. It works by first building a max-heap from the input data, then repeatedly extracting the maximum element from the heap and placing it at the end of the array. The algorithm combines the best properties of Selection Sort (in-place) and Merge Sort (O(n log n) guaranteed performance).\n\nHeap Sort provides a worst-case O(n log n) time guarantee with O(1) auxiliary space, making it an excellent choice when both predictable performance and minimal memory usage are required. However, it tends to be slower in practice than Quick Sort due to poor cache locality from the non-sequential memory access patterns inherent in heap operations.\n\n## How It Works\n\nHeap Sort operates in two main phases. First, it transforms the input array into a max-heap (a complete binary tree where each parent node is greater than or equal to its children) using the \"heapify\" procedure applied bottom-up. Then, it repeatedly swaps the root (maximum element) with the last unsorted element, reduces the heap size by one, and restores the heap property by sifting the new root down. This process continues until the heap is empty and the array is sorted.\n\n### Example\n\nGiven input: `[5, 3, 8, 1, 2]`\n\n**Phase 1: Build Max-Heap**\n\nThe array represents a binary tree: index 0 is root, children of index `i` are at `2i+1` and `2i+2`.\n\n| Step | Action | Array State | Heap Valid? |\n|------|--------|-------------|-------------|\n| 1 | Start with `[5, 3, 8, 1, 2]` | `[5, 3, 8, 1, 2]` | No |\n| 2 | Heapify node at index 1 (`3`): children are `1`, `2`. `3 > 2` and `3 > 1`, no swap | `[5, 3, 8, 1, 2]` | Partial |\n| 3 | Heapify node at index 0 (`5`): children are `3`, `8`. `8 > 5`, swap `5` and `8` | `[8, 3, 5, 1, 2]` | Yes |\n\nMax-heap built: `[8, 3, 5, 1, 2]`\n\n**Phase 2: Extract Elements**\n\n**Extract 1:** Swap root `8` with last element `2`, reduce heap size\n\n| Step | Action | Array State |\n|------|--------|-------------|\n| 1 | Swap `8` and `2` | `[2, 3, 5, 1, | 8]` |\n| 2 | Heapify root `2`: children `3`, `5`. `5 > 2`, swap | `[5, 3, 2, 1, | 8]` |\n\nSorted so far: `[8]`\n\n**Extract 2:** Swap root `5` with last unsorted element `1`\n\n| Step | Action | Array State |\n|------|--------|-------------|\n| 1 | Swap `5` and `1` | `[1, 3, 2, | 5, 8]` |\n| 2 | Heapify root `1`: children `3`, `2`. `3 > 1`, swap | `[3, 1, 2, | 5, 8]` |\n\nSorted so far: `[5, 8]`\n\n**Extract 3:** Swap root `3` with last unsorted element `2`\n\n| Step | Action | Array State |\n|------|--------|-------------|\n| 1 | Swap `3` and `2` | `[2, 1, | 3, 5, 8]` |\n| 2 | Heapify root `2`: child `1`. `2 > 1`, no swap needed | `[2, 1, | 3, 5, 8]` |\n\nSorted so far: `[3, 5, 8]`\n\n**Extract 4:** Swap root `2` with last unsorted element `1`\n\n| Step | Action | Array State |\n|------|--------|-------------|\n| 1 | Swap `2` and `1` | `[1, | 2, 3, 5, 8]` |\n| 2 | Heap size is 1, no heapify needed | `[1, 2, 3, 5, 8]` |\n\nResult: `[1, 2, 3, 5, 8]`\n\n## Pseudocode\n\n```\nfunction heapSort(array):\n    n = length(array)\n\n    // Phase 1: Build max-heap (start from last non-leaf node)\n    for i from (n / 2 - 1) down to 0:\n        heapify(array, n, i)\n\n    // Phase 2: Extract elements from heap one by one\n    for i from n - 1 down to 1:\n        swap(array[0], array[i])\n        heapify(array, i, 0)\n\nfunction heapify(array, heapSize, rootIndex):\n    largest = rootIndex\n    left = 2 * rootIndex + 1\n    right = 2 * rootIndex + 2\n\n    if left < heapSize and array[left] > array[largest]:\n        largest = left\n\n    if right < heapSize and array[right] > array[largest]:\n        largest = right\n\n    if largest != rootIndex:\n        swap(array[rootIndex], array[largest])\n        heapify(array, heapSize, largest)\n```\n\nThe `heapify` function restores the max-heap property by comparing a node with its children and swapping it with the larger child if necessary, then recursing on the affected subtree. Building the heap bottom-up is an O(n) operation, which is more efficient than inserting elements one at a time.\n\n## Complexity Analysis\n\n| Case    | Time       | Space |\n|---------|------------|-------|\n| Best    | O(n log n) | O(1)  |\n| Average | O(n log n) | O(1)  |\n| Worst   | O(n log n) | O(1)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(n log n):** Even when all elements are equal or the array is already sorted, Heap Sort must still build the heap and perform n - 1 extract-max operations. Each extraction involves a swap and a heapify call that takes O(log n) time, giving O(n log n) total. The heap-building phase is O(n), but the extraction phase dominates.\n\n- **Average Case -- O(n log n):** Building the max-heap takes O(n) time (proven by analyzing the sum of heights of all nodes). The extraction phase performs n - 1 heapify operations, each taking O(log n) time in the worst case, giving O(n log n). The total is O(n) + O(n log n) = O(n log n).\n\n- **Worst Case -- O(n log n):** Unlike Quick Sort, Heap Sort's performance does not depend on the input order. Every heapify call traverses at most the height of the heap, which is always floor(log n). With n - 1 such calls, the worst case is O(n log n). There is no pathological input that degrades performance.\n\n- **Space -- O(1):** Heap Sort is an in-place sorting algorithm. The binary heap is built directly within the input array using the implicit array representation of a complete binary tree. Only a constant number of temporary variables are needed for swapping. The recursive heapify can be implemented iteratively to avoid O(log n) stack space.\n\n## When to Use\n\n- **When worst-case O(n log n) is required with O(1) space:** Heap Sort is the only comparison-based sorting algorithm that guarantees O(n log n) time with constant auxiliary space.\n- **Embedded systems or memory-constrained environments:** The O(1) space requirement makes Heap Sort ideal when memory is scarce.\n- **Priority queue operations:** The underlying heap data structure naturally supports efficient priority queue operations, and Heap Sort can be viewed as repeated priority queue extractions.\n- **When you need a guaranteed upper bound on sorting time:** Heap Sort has no pathological inputs, making it suitable for real-time or safety-critical systems where worst-case performance must be bounded.\n\n## When NOT to Use\n\n- **When average-case speed is the priority:** Quick Sort is typically 2-3x faster than Heap Sort in practice due to better cache locality and fewer comparisons on average.\n- **When stability is required:** Heap Sort is not stable. The swapping of elements to distant positions in the array can change the relative order of equal elements.\n- **Nearly sorted data:** Heap Sort cannot take advantage of existing order in the data. Unlike Insertion Sort, it always performs the same amount of work regardless of the initial arrangement.\n- **Small datasets:** The overhead of building the heap structure makes Heap Sort slower than Insertion Sort for small inputs.\n\n## Comparison with Similar Algorithms\n\n| Algorithm      | Time (avg)  | Space    | Stable | Notes                                       |\n|----------------|------------|----------|--------|---------------------------------------------|\n| Heap Sort      | O(n log n) | O(1)     | No     | Guaranteed O(n log n) with O(1) space        |\n| Quick Sort     | O(n log n) | O(log n) | No     | Faster in practice; O(n^2) worst case        |\n| Merge Sort     | O(n log n) | O(n)     | Yes    | Stable; guaranteed O(n log n); needs extra space |\n| Selection Sort | O(n^2)     | O(1)     | No     | Simpler but much slower; also selection-based |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [heap_sort.py](python/heap_sort.py) |\n| Java       | [HeapSort.java](java/HeapSort.java) |\n| C++        | [heap_sort.cpp](cpp/heap_sort.cpp) |\n| C          | [heap_sort.c](c/heap_sort.c) |\n| Go         | [heap_sort.go](go/heap_sort.go) |\n| TypeScript | [heapSort.ts](typescript/heapSort.ts) |\n| Kotlin     | [HeapSort.kt](kotlin/HeapSort.kt) |\n| Rust       | [heap_sort.rs](rust/heap_sort.rs) |\n| Swift      | [HeapSort.swift](swift/HeapSort.swift) |\n| Scala      | [HeapSort.scala](scala/HeapSort.scala) |\n| C#         | [HeapSort.cs](csharp/HeapSort.cs) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 6: Heapsort.\n- Knuth, D. E. (1998). *The Art of Computer Programming, Volume 3: Sorting and Searching* (2nd ed.). Addison-Wesley. Section 5.2.3: Sorting by Selection (Heapsort).\n- Williams, J. W. J. (1964). \"Algorithm 232: Heapsort.\" *Communications of the ACM*, 7(6), 347-349.\n- [Heapsort -- Wikipedia](https://en.wikipedia.org/wiki/Heapsort)\n"
+}

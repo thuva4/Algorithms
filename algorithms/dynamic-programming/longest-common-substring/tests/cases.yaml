@@ -1,0 +1,21 @@
+algorithm: "longest-common-substring"
+function_signature:
+  name: "longest_common_substring"
+  input: [array_of_integers, array_of_integers]
+  output: integer
+test_cases:
+  - name: "overlapping tail"
+    input: [[1, 2, 3, 4, 5], [3, 4, 5, 6, 7]]
+    expected: 3
+  - name: "no common elements"
+    input: [[1, 2, 3], [4, 5, 6]]
+    expected: 0
+  - name: "identical arrays"
+    input: [[1, 2, 3, 4], [1, 2, 3, 4]]
+    expected: 4
+  - name: "single element match"
+    input: [[1], [1]]
+    expected: 1
+  - name: "common suffix"
+    input: [[1, 2, 3, 2, 1], [3, 2, 1, 4, 7]]
+    expected: 3

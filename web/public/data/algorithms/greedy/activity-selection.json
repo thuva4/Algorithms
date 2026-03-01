@@ -1,0 +1,135 @@
+{
+  "name": "Activity Selection",
+  "slug": "activity-selection",
+  "category": "greedy",
+  "difficulty": "beginner",
+  "tags": [
+    "greedy",
+    "scheduling",
+    "optimization"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n log n)",
+      "average": "O(n log n)",
+      "worst": "O(n log n)"
+    },
+    "space": "O(n)"
+  },
+  "related": [
+    "huffman-coding",
+    "knapsack"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "activity_selection.c",
+          "content": "#include \"activity_selection.h\"\n#include <stdlib.h>\n\nstatic int compare_by_finish(const void *a, const void *b) {\n    const int *actA = (const int *)a;\n    const int *actB = (const int *)b;\n    return actA[1] - actB[1];\n}\n\nint activity_selection(int arr[], int size) {\n    int n = size / 2;\n    if (n == 0) {\n        return 0;\n    }\n\n    int (*activities)[2] = malloc(n * sizeof(*activities));\n    for (int i = 0; i < n; i++) {\n        activities[i][0] = arr[2 * i];\n        activities[i][1] = arr[2 * i + 1];\n    }\n\n    qsort(activities, n, sizeof(*activities), compare_by_finish);\n\n    int count = 1;\n    int lastFinish = activities[0][1];\n\n    for (int i = 1; i < n; i++) {\n        if (activities[i][0] >= lastFinish) {\n            count++;\n            lastFinish = activities[i][1];\n        }\n    }\n\n    free(activities);\n    return count;\n}\n"
+        },
+        {
+          "filename": "activity_selection.h",
+          "content": "#ifndef ACTIVITY_SELECTION_H\n#define ACTIVITY_SELECTION_H\n\nint activity_selection(int arr[], int size);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "activity_selection.cpp",
+          "content": "#include <vector>\n#include <algorithm>\n\nint activitySelection(std::vector<int> arr) {\n    int n = static_cast<int>(arr.size()) / 2;\n    if (n == 0) {\n        return 0;\n    }\n\n    std::vector<std::pair<int, int>> activities(n);\n    for (int i = 0; i < n; i++) {\n        activities[i] = {arr[2 * i], arr[2 * i + 1]};\n    }\n\n    std::sort(activities.begin(), activities.end(),\n              [](const std::pair<int, int>& a, const std::pair<int, int>& b) {\n                  return a.second < b.second;\n              });\n\n    int count = 1;\n    int lastFinish = activities[0].second;\n\n    for (int i = 1; i < n; i++) {\n        if (activities[i].first >= lastFinish) {\n            count++;\n            lastFinish = activities[i].second;\n        }\n    }\n\n    return count;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "ActivitySelection.cs",
+          "content": "using System;\nusing System.Linq;\n\npublic class ActivitySelection\n{\n    public static int Select(int[] arr)\n    {\n        int n = arr.Length / 2;\n        if (n == 0)\n        {\n            return 0;\n        }\n\n        var activities = new (int start, int finish)[n];\n        for (int i = 0; i < n; i++)\n        {\n            activities[i] = (arr[2 * i], arr[2 * i + 1]);\n        }\n\n        Array.Sort(activities, (a, b) => a.finish.CompareTo(b.finish));\n\n        int count = 1;\n        int lastFinish = activities[0].finish;\n\n        for (int i = 1; i < n; i++)\n        {\n            if (activities[i].start >= lastFinish)\n            {\n                count++;\n                lastFinish = activities[i].finish;\n            }\n        }\n\n        return count;\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "activity_selection.go",
+          "content": "package activityselection\n\nimport \"sort\"\n\n// ActivitySelection selects the maximum number of non-overlapping activities.\n// The input array encodes activities as consecutive pairs [start, finish, ...].\nfunc ActivitySelection(arr []int) int {\n\tn := len(arr) / 2\n\tif n == 0 {\n\t\treturn 0\n\t}\n\n\ttype activity struct {\n\t\tstart, finish int\n\t}\n\n\tactivities := make([]activity, n)\n\tfor i := 0; i < n; i++ {\n\t\tactivities[i] = activity{arr[2*i], arr[2*i+1]}\n\t}\n\n\tsort.Slice(activities, func(i, j int) bool {\n\t\treturn activities[i].finish < activities[j].finish\n\t})\n\n\tcount := 1\n\tlastFinish := activities[0].finish\n\n\tfor i := 1; i < n; i++ {\n\t\tif activities[i].start >= lastFinish {\n\t\t\tcount++\n\t\t\tlastFinish = activities[i].finish\n\t\t}\n\t}\n\n\treturn count\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "ActivitySelection.java",
+          "content": "import java.util.Arrays;\n\npublic class ActivitySelection {\n\n    public static int activitySelection(int[] arr) {\n        int n = arr.length / 2;\n        if (n == 0) {\n            return 0;\n        }\n\n        int[][] activities = new int[n][2];\n        for (int i = 0; i < n; i++) {\n            activities[i][0] = arr[2 * i];\n            activities[i][1] = arr[2 * i + 1];\n        }\n\n        Arrays.sort(activities, (a, b) -> Integer.compare(a[1], b[1]));\n\n        int count = 1;\n        int lastFinish = activities[0][1];\n\n        for (int i = 1; i < n; i++) {\n            if (activities[i][0] >= lastFinish) {\n                count++;\n                lastFinish = activities[i][1];\n            }\n        }\n\n        return count;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "ActivitySelection.kt",
+          "content": "fun activitySelection(arr: IntArray): Int {\n    val n = arr.size / 2\n    if (n == 0) {\n        return 0\n    }\n\n    val activities = Array(n) { i -> Pair(arr[2 * i], arr[2 * i + 1]) }\n    activities.sortBy { it.second }\n\n    var count = 1\n    var lastFinish = activities[0].second\n\n    for (i in 1 until n) {\n        if (activities[i].first >= lastFinish) {\n            count++\n            lastFinish = activities[i].second\n        }\n    }\n\n    return count\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "activity_selection.py",
+          "content": "def activity_selection(arr: list[int]) -> int:\n    n = len(arr) // 2\n    if n == 0:\n        return 0\n\n    activities = [(arr[2 * i], arr[2 * i + 1]) for i in range(n)]\n    activities.sort(key=lambda a: a[1])\n\n    count = 1\n    last_finish = activities[0][1]\n\n    for i in range(1, n):\n        if activities[i][0] >= last_finish:\n            count += 1\n            last_finish = activities[i][1]\n\n    return count\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "activity_selection.rs",
+          "content": "pub fn activity_selection(arr: &[i32]) -> i32 {\n    let n = arr.len() / 2;\n    if n == 0 {\n        return 0;\n    }\n\n    let mut activities: Vec<(i32, i32)> = (0..n)\n        .map(|i| (arr[2 * i], arr[2 * i + 1]))\n        .collect();\n\n    activities.sort_by_key(|a| a.1);\n\n    let mut count = 1;\n    let mut last_finish = activities[0].1;\n\n    for i in 1..n {\n        if activities[i].0 >= last_finish {\n            count += 1;\n            last_finish = activities[i].1;\n        }\n    }\n\n    count\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "ActivitySelection.scala",
+          "content": "object ActivitySelection {\n\n  def activitySelection(arr: Array[Int]): Int = {\n    val n = arr.length / 2\n    if (n == 0) return 0\n\n    val activities = (0 until n).map(i => (arr(2 * i), arr(2 * i + 1))).toArray\n    val sorted = activities.sortBy(_._2)\n\n    var count = 1\n    var lastFinish = sorted(0)._2\n\n    for (i <- 1 until n) {\n      if (sorted(i)._1 >= lastFinish) {\n        count += 1\n        lastFinish = sorted(i)._2\n      }\n    }\n\n    count\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "ActivitySelection.swift",
+          "content": "func activitySelection(_ arr: [Int]) -> Int {\n    let n = arr.count / 2\n    if n == 0 {\n        return 0\n    }\n\n    var activities: [(start: Int, finish: Int)] = []\n    for i in 0..<n {\n        activities.append((start: arr[2 * i], finish: arr[2 * i + 1]))\n    }\n\n    activities.sort { $0.finish < $1.finish }\n\n    var count = 1\n    var lastFinish = activities[0].finish\n\n    for i in 1..<n {\n        if activities[i].start >= lastFinish {\n            count += 1\n            lastFinish = activities[i].finish\n        }\n    }\n\n    return count\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "activitySelection.ts",
+          "content": "export function activitySelection(arr: number[]): number {\n    const n = Math.floor(arr.length / 2);\n    if (n === 0) {\n        return 0;\n    }\n\n    const activities: [number, number][] = [];\n    for (let i = 0; i < n; i++) {\n        activities.push([arr[2 * i], arr[2 * i + 1]]);\n    }\n\n    activities.sort((a, b) => a[1] - b[1]);\n\n    let count = 1;\n    let lastFinish = activities[0][1];\n\n    for (let i = 1; i < n; i++) {\n        if (activities[i][0] >= lastFinish) {\n            count++;\n            lastFinish = activities[i][1];\n        }\n    }\n\n    return count;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "patterns": [
+    "merge-intervals"
+  ],
+  "patternDifficulty": "beginner",
+  "practiceOrder": 2,
+  "readme": "# Activity Selection\n\n## Overview\n\nThe Activity Selection problem is a classic greedy algorithm problem. Given a set of activities, each with a start time and finish time, the goal is to select the maximum number of non-overlapping activities. Two activities are considered non-overlapping if one finishes before the other starts.\n\nThis problem arises naturally in scheduling scenarios: assigning meeting rooms, scheduling jobs on a machine, or planning events that share a common resource. The greedy approach of always selecting the activity that finishes earliest provably yields an optimal solution.\n\n## How It Works\n\nThe algorithm follows a simple greedy strategy:\n\n1. Parse the flat input array into pairs of (start, finish) times.\n2. Sort all activities by their finish times in ascending order.\n3. Select the first activity (the one that finishes earliest).\n4. For each subsequent activity, if its start time is greater than or equal to the finish time of the last selected activity, select it.\n5. Return the count of selected activities.\n\nThe key insight is that by always choosing the activity that finishes earliest, we leave as much room as possible for subsequent activities. This greedy choice property, combined with optimal substructure, guarantees an optimal solution.\n\n### Example\n\nGiven input: `[1, 2, 3, 4, 0, 6, 5, 7, 8, 9, 5, 9]`\n\nThis encodes 6 activities: (1,2), (3,4), (0,6), (5,7), (8,9), (5,9)\n\n**Step 1:** Sort by finish time: (1,2), (3,4), (0,6), (5,7), (5,9), (8,9)\n\n**Step 2:** Greedy selection:\n\n| Activity | Start | Finish | Action | Reason |\n|----------|-------|--------|--------|--------|\n| (1,2)    | 1     | 2      | Select | First activity |\n| (3,4)    | 3     | 4      | Select | 3 >= 2 (no overlap) |\n| (0,6)    | 0     | 6      | Skip   | 0 < 4 (overlaps) |\n| (5,7)    | 5     | 7      | Select | 5 >= 4 (no overlap) |\n| (5,9)    | 5     | 9      | Skip   | 5 < 7 (overlaps) |\n| (8,9)    | 8     | 9      | Select | 8 >= 7 (no overlap) |\n\nResult: 4 activities selected: (1,2), (3,4), (5,7), (8,9)\n\n## Pseudocode\n\n```\nfunction activitySelection(arr):\n    n = length(arr) / 2\n    if n == 0:\n        return 0\n\n    activities = []\n    for i from 0 to n - 1:\n        activities.add((arr[2*i], arr[2*i + 1]))\n\n    sort activities by finish time\n\n    count = 1\n    lastFinish = activities[0].finish\n\n    for i from 1 to n - 1:\n        if activities[i].start >= lastFinish:\n            count += 1\n            lastFinish = activities[i].finish\n\n    return count\n```\n\n## Complexity Analysis\n\n| Case    | Time       | Space |\n|---------|------------|-------|\n| Best    | O(n log n) | O(n)  |\n| Average | O(n log n) | O(n)  |\n| Worst   | O(n log n) | O(n)  |\n\n- **Time -- O(n log n):** Dominated by the sorting step. The greedy selection pass itself is O(n). If activities are already sorted by finish time, the algorithm runs in O(n).\n- **Space -- O(n):** Requires storage for the parsed activity pairs and sorting overhead.\n\n## Applications\n\n- **Meeting room scheduling:** Maximize the number of meetings in a single room.\n- **Job scheduling:** Schedule maximum jobs on a single machine where each job has a deadline.\n- **Resource allocation:** Optimally allocate a shared resource across time-bounded tasks.\n- **Interval scheduling:** Foundation for more complex interval scheduling problems.\n- **Event planning:** Select the most events that can be attended without conflicts.\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [activity_selection.py](python/activity_selection.py) |\n| Java       | [ActivitySelection.java](java/ActivitySelection.java) |\n| C++        | [activity_selection.cpp](cpp/activity_selection.cpp) |\n| C          | [activity_selection.c](c/activity_selection.c) |\n| Go         | [activity_selection.go](go/activity_selection.go) |\n| TypeScript | [activitySelection.ts](typescript/activitySelection.ts) |\n| Kotlin     | [ActivitySelection.kt](kotlin/ActivitySelection.kt) |\n| Rust       | [activity_selection.rs](rust/activity_selection.rs) |\n| Swift      | [ActivitySelection.swift](swift/ActivitySelection.swift) |\n| Scala      | [ActivitySelection.scala](scala/ActivitySelection.scala) |\n| C#         | [ActivitySelection.cs](csharp/ActivitySelection.cs) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 16: Greedy Algorithms.\n- [Activity Selection Problem -- Wikipedia](https://en.wikipedia.org/wiki/Activity_selection_problem)\n"
+}

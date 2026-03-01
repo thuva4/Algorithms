@@ -1,0 +1,21 @@
+name: "Connected Component Labeling"
+slug: "connected-component-labeling"
+category: "graph"
+subcategory: "connectivity"
+difficulty: "intermediate"
+tags: [graph, connectivity, components, union-find, labeling]
+complexity:
+  time:
+    best: "O(V+E)"
+    average: "O(V+E)"
+    worst: "O(V+E)"
+  space: "O(V)"
+stable: null
+in_place: null
+related: [breadth-first-search, depth-first-search, strongly-connected-graph]
+implementations: [c]
+visualization: true
+patterns:
+  - tree-bfs
+patternDifficulty: intermediate
+practiceOrder: 4

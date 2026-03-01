@@ -1,0 +1,89 @@
+{
+  "name": "Fisher-Yates Shuffle",
+  "slug": "fisher-yates-shuffle",
+  "category": "math",
+  "subcategory": "randomization",
+  "difficulty": "beginner",
+  "tags": [
+    "math",
+    "shuffle",
+    "random",
+    "permutation",
+    "in-place"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "average": "O(n)",
+      "worst": "O(n)"
+    },
+    "space": "O(1)"
+  },
+  "stable": false,
+  "in_place": true,
+  "related": [
+    "permutations"
+  ],
+  "implementations": {
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "FisherYatesShuffle.cpp",
+          "content": "#include <iostream>\n#include <vector>\n#include <random>\n\nusing namespace std;\n\n/* BUILD : g++ FisherYatesShuffle.cpp -std=c++11*/\n\n/* initialize random seed: */\nrandom_device rd;\nmt19937 mt(rd());\n\nvoid shuffle(vector<int> &a)\n{\n    int N = a.size();\n    for (int i = N-1; i > 0; i--)\n    {\n        uniform_int_distribution<> distribution(0, i);\n        int r = distribution(mt);\n        swap(a[i], a[r]);\n    }\n}\n\nint main()\n{\n    vector<int> a {0,1,2,3,4,5,6,7,8,9,10};\n\n    for (int k = 0; k < 5; k++)\n    {\n        shuffle(a);\n        for (int i = 0; i < a.size(); i++)\n        {\n            cout << a[i] << \" \";\n        }\n        cout << endl;\n    }\n  \n}"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "FisherYatesShuffle.cs",
+          "content": "using System;\nclass FisherYatesShuffle{\n\tstatic Random rnd;\n\tstatic void RandomShuffle(int[] a){\n\t\t//Shuffle (Fisher-Yates)\n\t\tfor(int i=a.Length-1;i>0;i--){\n\t\t\tint idx=rnd.Next(i+1);\n\t\t\tint t=a[idx];\n\t\t\ta[idx]=a[i];\n\t\t\ta[i]=t;\n\t\t}\n\t}\n\n\tstatic void Main(){\n\t\trnd=new Random();\n\t\tint n=10;\n\t\tint[] a=new int[n];\n\t\tfor(int j=0;j<n;j++)a[j]=j;\n\t\tRandomShuffle(a);\n\t\tfor(int j=0;j<n;j++)Console.Write(a[j]+(j<n-1 ? \" \":\"\\n\"));\n\t}\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "fyshuffle.go",
+          "content": "package main\n\nimport (\n\t\"fmt\"\n\t\"math/rand\"\n)\n\nfunc shuffle(array []int) []int {\n\tshuffled := make([]int, len(array))\n\tcopy(shuffled, array)\n\n\tfor i := len(array) - 1; i >= 1; i-- {\n\t\tj := rand.Intn(i + 1)\n\t\tarray[i], array[j] = array[j], array[i]\n\t}\n\n\treturn shuffled\n}\n\nfunc main() {\n\tarray := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}\n\tshuffle(array)\n\tfmt.Println(array)\n}\n"
+        },
+        {
+          "filename": "fyshuffle_test.go",
+          "content": "package main\n\nimport (\n\t\"testing\"\n\n\t\"github.com/stretchr/testify/assert\"\n)\n\nfunc TestShuffle(t *testing.T) {\n\tt1 := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}\n\tr1 := shuffle(t1)\n\tassert.NotEqual(t, t1, r1, \"Arrays should not be the same\")\n\n\tt2 := []int{3, 2, 5, 4, 5, 2, 9, 6, 9}\n\tr2 := shuffle(t2)\n\tassert.NotEqual(t, t2, r2, \"Arrays should not be the same\")\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "FisherYatesShuffle.java",
+          "content": "import java.util.Arrays;\nimport java.util.Random;\n\npublic class FisherYatesShuffle {\n\n\tpublic static <T> void shuffle(T[] arr) {\n\t\tRandom rnd = new Random();\n\t\tfor (int i = arr.length - 1; i > 0; i--) {\n\t\t\tint randomPos = rnd.nextInt(i + 1);\n\t\t\tif (randomPos != i) {\n\t\t\t\tT tmp = arr[randomPos];\n\t\t\t\tarr[randomPos] = arr[i];\n\t\t\t\tarr[i] = tmp;\t\t\t\t\n\t\t\t}\n\t\t}\n\t}\n\t\n\tpublic static void main(String[] args) {\n\t\tInteger[] i = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };\n\t\tString[] s = { \"mon\", \"Tue\", \"wed\", \"thu\", \"fri\", \"sat\", \"sun\" };\n\t\tCharacter[] c = { 'A', 'B', 'C', 'D', 'E', 'F', 'G' };\n\t\tshuffle(i);\n\t\tshuffle(s);\n\t\tshuffle(c);\n\t\tSystem.out.println(Arrays.toString(i));\n\t\tSystem.out.println(Arrays.toString(s));\n\t\tSystem.out.println(Arrays.toString(c));\n\t}\n\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "FisherYatesShuffle.py",
+          "content": "import random\n\n\ndef FischerYatesShuffle(arr):\n    \"\"\"\n    Shuffle an array using Fischer Yates algorithm\n    [https://en.wikipedia.org/wiki/Fisher-Yates_shuffle]\n\n    :param arr:\n    :return: shuffled array\n    \"\"\"\n\n    for i in range(0, len(arr)):\n        j = random.randrange(0, i + 1)\n        tmp = arr[i]\n        arr[i] = arr[j]\n        arr[j] = tmp\n\n    return arr\n\n\ntestArr = [i ** 2 for i in range(20)]\n\nprint(\"Initial array: \")\nprint(testArr)\n\ntestArr = FischerYatesShuffle(testArr)\nprint(\"Shuffled array: \")\nprint(testArr)\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "index.js",
+          "content": "\n/**\n * Shuffle array in place\n * @param {Array} array\n */\nfunction fischerYatesShuffle(array) {\n  const N = array.length;\n  for (let i = 1; i < N; i++) {\n    const j = Math.floor(Math.random()*i);\n    const tmp = array[i];\n    array[i] = array[j];\n    array[j] = tmp;\n  }\n}\n\nmodule.exports = fischerYatesShuffle;\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "readme": "# Fisher-Yates Shuffle\n\n## Overview\n\nThe Fisher-Yates Shuffle (also known as the Knuth Shuffle) is an algorithm for generating a uniformly random permutation of a finite sequence. Originally described by Ronald Fisher and Frank Yates in 1938, the modern version was popularized by Donald Knuth in *The Art of Computer Programming*. The algorithm works by iterating through the array from the last element to the first, swapping each element with a randomly chosen element from the remaining unshuffled portion. It guarantees that every permutation is equally likely, making it the gold standard for unbiased shuffling.\n\n## How It Works\n\n1. Start from the last element of the array (index `n - 1`).\n2. Generate a random index `j` in the range `[0, i]` (inclusive).\n3. Swap the element at index `i` with the element at index `j`.\n4. Move to the previous element (`i - 1`) and repeat until `i = 1`.\n5. The array is now a uniformly random permutation.\n\nThe key insight is that at each step, every remaining element has an equal probability of being placed at the current position, which ensures uniform distribution across all `n!` possible permutations.\n\n## Example\n\nGiven input: `[A, B, C, D]`\n\n| Step | i | Random j (0 to i) | Action | Array State |\n|------|---|-------------------|--------|-------------|\n| 1 | 3 | j = 1 | Swap arr[3] and arr[1] | `[A, D, C, B]` |\n| 2 | 2 | j = 0 | Swap arr[2] and arr[0] | `[C, D, A, B]` |\n| 3 | 1 | j = 1 | Swap arr[1] and arr[1] | `[C, D, A, B]` |\n\nResult: `[C, D, A, B]` (one of the 24 equally likely permutations)\n\n## Pseudocode\n\n```\nfunction fisherYatesShuffle(array):\n    n = length(array)\n\n    for i from n - 1 down to 1:\n        j = randomInteger(0, i)    // inclusive on both ends\n        swap(array[i], array[j])\n\n    return array\n```\n\n**Important:** The random index `j` must be chosen from `[0, i]`, not `[0, n-1]`. Using the full range at every step produces a biased shuffle where some permutations are more likely than others.\n\n## Complexity Analysis\n\n| Case    | Time | Space |\n|---------|------|-------|\n| Best    | O(n) | O(1)  |\n| Average | O(n) | O(1)  |\n| Worst   | O(n) | O(1)  |\n\n**Why these complexities?**\n\n- **Time -- O(n):** The algorithm performs exactly `n - 1` iterations, each involving one random number generation and one swap. Both operations are O(1), yielding O(n) total time regardless of input.\n\n- **Space -- O(1):** The shuffle is performed in-place. Only a constant amount of extra memory is needed for the loop variable and the temporary swap variable.\n\n## When to Use\n\n- **Card game simulations:** Shuffling a deck of cards for poker, blackjack, or any card game.\n- **Randomized algorithms:** When you need a random permutation as input to another algorithm (e.g., randomized quicksort pivot selection).\n- **Sampling without replacement:** Shuffle and take the first k elements to get a random sample of size k.\n- **A/B testing and randomized experiments:** Randomly assigning subjects to groups.\n- **Music playlist shuffling:** Generating a random play order for a list of songs.\n\n## When NOT to Use\n\n- **When you need reproducibility without a seed:** The algorithm is inherently random. If you need deterministic behavior, you must control the random number generator seed.\n- **When cryptographic security is required:** The standard Fisher-Yates shuffle uses a pseudo-random number generator. For security-sensitive applications (e.g., online gambling), use a cryptographically secure random source.\n- **When partial shuffling suffices:** If you only need k random elements from n, consider using a partial Fisher-Yates (stop after k swaps) or reservoir sampling instead of shuffling the entire array.\n\n## Comparison\n\n| Algorithm | Uniformity | Time | Space | Notes |\n|-----------|-----------|------|-------|-------|\n| Fisher-Yates Shuffle | Perfectly uniform | O(n) | O(1) | Gold standard; in-place |\n| Sort with random keys | Uniform (if keys unique) | O(n log n) | O(n) | Slower; uses extra memory |\n| Naive swap (random i, random j) | Biased | O(n) | O(1) | NOT uniform; do not use |\n| Sattolo's algorithm | Uniform cyclic permutations | O(n) | O(1) | Every element moves; no fixed points |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [fisher_yates_shuffle.py](python/fisher_yates_shuffle.py) |\n| Java       | [FisherYatesShuffle.java](java/FisherYatesShuffle.java) |\n| C++        | [fisher_yates_shuffle.cpp](cpp/fisher_yates_shuffle.cpp) |\n| Go         | [fisher_yates_shuffle.go](go/fisher_yates_shuffle.go) |\n| TypeScript | [fisherYatesShuffle.ts](typescript/fisherYatesShuffle.ts) |\n| C#         | [FisherYatesShuffle.cs](csharp/FisherYatesShuffle.cs) |\n\n## References\n\n- Fisher, R. A., & Yates, F. (1938). *Statistical Tables for Biological, Agricultural and Medical Research*. Oliver & Boyd.\n- Knuth, D. E. (1997). *The Art of Computer Programming, Volume 2: Seminumerical Algorithms* (3rd ed.). Addison-Wesley. Section 3.4.2: Random Sampling and Shuffling.\n- [Fisher-Yates Shuffle -- Wikipedia](https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle)\n"
+}

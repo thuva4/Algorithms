@@ -1,0 +1,18 @@
+algorithm: "voronoi-diagram"
+function_signature:
+  name: "voronoi_diagram"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "three points (triangle)"
+    input: [[3, 0, 0, 4, 0, 0, 3]]
+    expected: 1
+  - name: "four points (square)"
+    input: [[4, 0, 0, 2, 0, 2, 2, 0, 2]]
+    expected: 1
+  - name: "two points"
+    input: [[2, 0, 0, 1, 0]]
+    expected: 0
+  - name: "collinear points"
+    input: [[3, 0, 0, 1, 0, 2, 0]]
+    expected: 0

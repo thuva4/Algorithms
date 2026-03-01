@@ -1,0 +1,17 @@
+name: "Path-Based SCC Algorithm"
+slug: "strongly-connected-path-based"
+category: "graph"
+subcategory: "connectivity"
+difficulty: "advanced"
+tags: [graph, directed, strongly-connected-components, path-based, dfs]
+complexity:
+  time:
+    best: "O(V + E)"
+    average: "O(V + E)"
+    worst: "O(V + E)"
+  space: "O(V)"
+stable: null
+in_place: false
+related: [tarjans-scc, kosarajus-scc]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

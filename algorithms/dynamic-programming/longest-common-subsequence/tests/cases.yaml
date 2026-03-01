@@ -1,0 +1,21 @@
+algorithm: "longest-common-subsequence"
+function_signature:
+  name: "lcs"
+  input: [string1, string2]
+  output: integer_length
+test_cases:
+  - name: "common subsequence"
+    input: ["ABCBDAB", "BDCAB"]
+    expected: 4
+  - name: "identical strings"
+    input: ["ABC", "ABC"]
+    expected: 3
+  - name: "no common"
+    input: ["ABC", "DEF"]
+    expected: 0
+  - name: "empty string"
+    input: ["", "ABC"]
+    expected: 0
+  - name: "single char match"
+    input: ["A", "A"]
+    expected: 1

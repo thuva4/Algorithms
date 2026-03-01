@@ -1,0 +1,15 @@
+name: "Karatsuba Multiplication"
+slug: "karatsuba-multiplication"
+category: "divide-and-conquer"
+subcategory: "multiplication"
+difficulty: "intermediate"
+tags: [divide-and-conquer, multiplication, karatsuba, math]
+complexity:
+  time:
+    best: "O(n^1.585)"
+    average: "O(n^1.585)"
+    worst: "O(n^1.585)"
+  space: "O(n)"
+related: [strassens-matrix, counting-inversions]
+implementations: [python, java, cpp, c, go, typescript, kotlin, rust, swift, scala, csharp]
+visualization: false

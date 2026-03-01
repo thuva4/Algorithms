@@ -1,0 +1,178 @@
+{
+  "name": "Depth-First Search",
+  "slug": "depth-first-search",
+  "category": "graph",
+  "subcategory": "traversal",
+  "difficulty": "beginner",
+  "tags": [
+    "graph",
+    "traversal",
+    "dfs",
+    "stack",
+    "recursive",
+    "backtracking"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(V+E)",
+      "average": "O(V+E)",
+      "worst": "O(V+E)"
+    },
+    "space": "O(V)"
+  },
+  "stable": null,
+  "in_place": null,
+  "related": [
+    "breadth-first-search",
+    "topological-sort",
+    "strongly-connected-graph"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "DepthFirstSearch.c",
+          "content": "#include<stdio.h>\n#include <stdbool.h>\n\n#define MAXNODES 1000 // Max number of nodes\n\nbool graphmat[MAXNODES][MAXNODES];            //graph matrix\nbool isVisited[MAXNODES];               //array to keep track of visited nodes\n\nvoid dfs(int source)\n{\n    isVisited[source] = true;\n    for(int i=0; i<MAXNODES ;i++)      //visiting neighbors of source vertex\n    {\n        if(graphmat[source][i] && !isvisited[i])\n        {\n            dfs(i);\n        }\n    }\n}\n\nint main()\n{\n    int vertices,edges;\n    scanf(\"%d %d\",&vertices,&edges);\n    for(int i=0; i<edges ; i++)\n    {\n        int from,to;\n        scanf(\"%d %d\",&from,&to);\n        graphmat[from][to] = true;\n    }\n    int source;\n    scanf(\"%d\",&source);\n    dfs(source);\n    return 0;\n}\n"
+        },
+        {
+          "filename": "dfs.c",
+          "content": "#include \"dfs.h\"\n#include <stdlib.h>\n#include <stdio.h>\n#include <stdbool.h>\n\ntypedef struct Node {\n    int to;\n    struct Node* next;\n} Node;\n\ntypedef struct {\n    Node** head;\n    int n;\n} Graph;\n\nstatic Graph* create_graph(int n) {\n    Graph* g = (Graph*)malloc(sizeof(Graph));\n    g->n = n;\n    g->head = (Node**)calloc(n, sizeof(Node*));\n    return g;\n}\n\nstatic void add_edge(Graph* g, int u, int v) {\n    Node* e1 = (Node*)malloc(sizeof(Node));\n    e1->to = v;\n    e1->next = g->head[u];\n    g->head[u] = e1;\n\n    Node* e2 = (Node*)malloc(sizeof(Node));\n    e2->to = u;\n    e2->next = g->head[v];\n    g->head[v] = e2;\n}\n\nstatic void free_graph(Graph* g) {\n    for (int i = 0; i < g->n; i++) {\n        Node* curr = g->head[i];\n        while (curr) {\n            Node* temp = curr;\n            curr = curr->next;\n            free(temp);\n        }\n    }\n    free(g->head);\n    free(g);\n}\n\n// Helper to sort array for deterministic output\nstatic int compare_ints(const void* a, const void* b) {\n    return (*(int*)a - *(int*)b);\n}\n\nstatic void dfs_recursive(Graph* g, int u, bool* visited, int* res, int* res_idx) {\n    visited[u] = true;\n    res[(*res_idx)++] = u;\n    \n    for (Node* e = g->head[u]; e; e = e->next) {\n        if (!visited[e->to]) {\n            dfs_recursive(g, e->to, visited, res, res_idx);\n        }\n    }\n}\n\nvoid dfs(int arr[], int size, int** result, int* result_size) {\n    if (size < 2) {\n        *result_size = 0;\n        return;\n    }\n    \n    int n = arr[0];\n    int m = arr[1];\n    \n    if (size < 2 + 2 * m + 1) {\n        *result_size = 0;\n        return;\n    }\n    \n    int start = arr[2 + 2 * m];\n    if (start < 0 || start >= n) {\n        *result_size = 0;\n        return;\n    }\n    \n    Graph* g = create_graph(n);\n    for (int i = 0; i < m; i++) {\n        int u = arr[2 + 2 * i];\n        int v = arr[2 + 2 * i + 1];\n        if (u >= 0 && u < n && v >= 0 && v < n) {\n            add_edge(g, u, v);\n        }\n    }\n    \n    // Sort neighbors for deterministic traversal\n    for (int i = 0; i < n; i++) {\n        int count = 0;\n        for (Node* curr = g->head[i]; curr; curr = curr->next) count++;\n        \n        if (count > 1) {\n            int* neighbors = (int*)malloc(count * sizeof(int));\n            int idx = 0;\n            for (Node* curr = g->head[i]; curr; curr = curr->next) neighbors[idx++] = curr->to;\n            \n            qsort(neighbors, count, sizeof(int), compare_ints);\n            \n            // Simplest: just store sorted neighbors back in reverse order for correct processing order?\n            // Actually for recursive DFS, we iterate head to next.\n            // So we want smallest first.\n            // If we insert '1' then '2' at head, list becomes 2->1.\n            // To get 1->2, we should insert 2 then 1.\n            // So reverse sorted order insertion gives sorted order in list.\n            \n            Node* temp = g->head[i];\n            g->head[i] = NULL;\n            // Free old nodes\n            while(temp) {\n                Node* next = temp->next;\n                free(temp);\n                temp = next;\n            }\n            // Add new nodes in reverse order so they appear in correct order\n            for (int k = count - 1; k >= 0; k--) {\n                Node* e = (Node*)malloc(sizeof(Node));\n                e->to = neighbors[k];\n                e->next = g->head[i];\n                g->head[i] = e;\n            }\n            \n            free(neighbors);\n        }\n    }\n    \n    bool* visited = (bool*)calloc(n, sizeof(bool));\n    int* res = (int*)malloc(n * sizeof(int));\n    int res_idx = 0;\n    \n    dfs_recursive(g, start, visited, res, &res_idx);\n    \n    free(visited);\n    free_graph(g);\n    \n    *result = res;\n    *result_size = res_idx;\n}\n"
+        },
+        {
+          "filename": "dfs.h",
+          "content": "#ifndef DFS_H\n#define DFS_H\n\n// Caller must free result\nvoid dfs(int arr[], int size, int** result, int* result_size);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "DFS(iterative).cpp",
+          "content": "#include<bits/stdc++.h>\n\nusing namespace std;\n\nvector<int> adj[1000];            //adjacency list of graph\nbool visited[1000]={false} ;               //array to keep track of visited nodes\n\nvoid dfs(int source)\n{\n    visited[source] = true;\n\n    queue<int> q;\n    q.push(source);\n\n    while(!q.empty())\n    {\n        source = q.front() ;\n        q.pop();\n\n        for(int i=0; i<adj[source].size() ;i++)      //visiting neighbours of source vertex\n        {\n            int neighbour = adj[source][i];\n            if( !visited[neighbour])\n               {\n                visited[neighbour] = true;\n                 q.push(neighbour);\n               }\n        }\n    }\n\n}\n\nint main()\n{\n    int vertices,edges;\n    cin>>vertices>>edges;\n\n    for(int i=0; i<edges ; i++)\n    {\n        int u,v;\n        cin>>u>>v;\n        adj[u].push_back(v);\n        adj[v].push_back(u);\n    }\n\n    int source;\n    cin>>source;\n\n    dfs(source);\n\n    return 0;\n}\n"
+        },
+        {
+          "filename": "DFS(recursive).cpp",
+          "content": "#include<bits/stdc++.h>\n\nusing namespace std;\n\nvector<int> adj[1000];            //adjacency list of graph\nbool visited[1000]={false} ;               //array to keep track of visited nodes\n\nvoid dfs(int source)\n{\n    visited[source] = true;\n\n    for(int i=0; i<adj[source].size() ;i++)      //visiting neighbours of source vertex\n    {\n       int neighbour = adj[source][i];\n        if( !visited[neighbour])\n        {\n            dfs(neighbour);\n        }\n\n    }\n\n\n}\n\nint main()\n{\n    int vertices,edges;\n    cin>>vertices>>edges;\n\n    for(int i=0; i<edges ; i++)\n    {\n        int u,v;\n        cin>>u>>v;\n        adj[u].push_back(v);\n        adj[v].push_back(u);\n    }\n\n    int source;\n    cin>>source;\n\n    dfs(source);\n\n    return 0;\n}\n"
+        },
+        {
+          "filename": "dfs.cpp",
+          "content": "#include \"dfs.h\"\n#include <vector>\n#include <algorithm>\n\nstatic void dfs_recursive(int u, const std::vector<std::vector<int>>& adj, std::vector<bool>& visited, std::vector<int>& result) {\n    visited[u] = true;\n    result.push_back(u);\n    \n    for (int v : adj[u]) {\n        if (!visited[v]) {\n            dfs_recursive(v, adj, visited, result);\n        }\n    }\n}\n\nstd::vector<int> dfs(const std::vector<int>& arr) {\n    if (arr.size() < 2) return {};\n    \n    int n = arr[0];\n    int m = arr[1];\n    \n    if (arr.size() < 2 + 2 * m + 1) return {};\n    \n    int start = arr[2 + 2 * m];\n    if (start < 0 || start >= n) return {};\n    \n    std::vector<std::vector<int>> adj(n);\n    for (int i = 0; i < m; i++) {\n        int u = arr[2 + 2 * i];\n        int v = arr[2 + 2 * i + 1];\n        if (u >= 0 && u < n && v >= 0 && v < n) {\n            adj[u].push_back(v);\n            adj[v].push_back(u);\n        }\n    }\n    \n    for (int i = 0; i < n; i++) {\n        std::sort(adj[i].begin(), adj[i].end());\n    }\n    \n    std::vector<int> result;\n    std::vector<bool> visited(n, false);\n    \n    dfs_recursive(start, adj, visited, result);\n    \n    return result;\n}\n"
+        },
+        {
+          "filename": "dfs.h",
+          "content": "#ifndef DFS_H\n#define DFS_H\n\n#include <vector>\n\nstd::vector<int> dfs(const std::vector<int>& arr);\n\n#endif\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "DFS.cs",
+          "content": "using System;\nusing System.Collections.Generic;\n\nnamespace Algorithms.Graph.DepthFirstSearch\n{\n    public class Dfs\n    {\n        public static int[] Solve(int[] arr)\n        {\n            if (arr == null || arr.Length < 2) return new int[0];\n\n            int n = arr[0];\n            int m = arr[1];\n\n            if (arr.Length < 2 + 2 * m + 1) return new int[0];\n\n            int start = arr[2 + 2 * m];\n            if (start < 0 || start >= n) return new int[0];\n\n            List<int>[] adj = new List<int>[n];\n            for (int i = 0; i < n; i++) adj[i] = new List<int>();\n\n            for (int i = 0; i < m; i++)\n            {\n                int u = arr[2 + 2 * i];\n                int v = arr[2 + 2 * i + 1];\n                if (u >= 0 && u < n && v >= 0 && v < n)\n                {\n                    adj[u].Add(v);\n                    adj[v].Add(u);\n                }\n            }\n\n            for (int i = 0; i < n; i++)\n            {\n                adj[i].Sort();\n            }\n\n            List<int> result = new List<int>();\n            bool[] visited = new bool[n];\n\n            DfsRecursive(start, adj, visited, result);\n\n            return result.ToArray();\n        }\n\n        private static void DfsRecursive(int u, List<int>[] adj, bool[] visited, List<int> result)\n        {\n            visited[u] = true;\n            result.Add(u);\n\n            foreach (int v in adj[u])\n            {\n                if (!visited[v])\n                {\n                    DfsRecursive(v, adj, visited, result);\n                }\n            }\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "DFS.go",
+          "content": "package dfs\n\nimport \"sort\"\n\nfunc Dfs(arr []int) []int {\n\tif len(arr) < 2 {\n\t\treturn []int{}\n\t}\n\n\tn := arr[0]\n\tm := arr[1]\n\n\tif len(arr) < 2+2*m+1 {\n\t\treturn []int{}\n\t}\n\n\tstart := arr[2+2*m]\n\tif start < 0 || start >= n {\n\t\treturn []int{}\n\t}\n\n\tadj := make([][]int, n)\n\tfor i := 0; i < m; i++ {\n\t\tu := arr[2+2*i]\n\t\tv := arr[2+2*i+1]\n\t\tif u >= 0 && u < n && v >= 0 && v < n {\n\t\t\tadj[u] = append(adj[u], v)\n\t\t\tadj[v] = append(adj[v], u)\n\t\t}\n\t}\n\n\tfor i := 0; i < n; i++ {\n\t\tsort.Ints(adj[i])\n\t}\n\n\tresult := []int{}\n\tvisited := make([]bool, n)\n\n\tvar dfsRecursive func(int)\n\tdfsRecursive = func(u int) {\n\t\tvisited[u] = true\n\t\tresult = append(result, u)\n\n\t\tfor _, v := range adj[u] {\n\t\t\tif !visited[v] {\n\t\t\t\tdfsRecursive(v)\n\t\t\t}\n\t\t}\n\t}\n\n\tdfsRecursive(start)\n\n\treturn result\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "DFS_Iterative.java",
+          "content": "import java.util.ArrayList;\nimport java.util.Scanner;\nimport java.util.Stack;\n\n\npublic class DFS_Iterative {\n\n\t/**\n\t * @author Youssef Ali(https://github.com/youssefAli11997/)\n\t */\n\t\n\tprivate static boolean[] visited;\n\tprivate static ArrayList<Integer> AdjList[];\n\t\n\tpublic static void DFS_iterative(int source){\n\t\tStack<Integer> s = new Stack<>();\n\t\ts.push(source);\n\t\tvisited[source] = true;\n\t\t\n\t\twhile(!s.isEmpty()){\n\t\t\tint parent = s.pop();\n\t\t\tSystem.out.print(parent+\" \");\n\t\t\t\n\t\t\tfor(int child : AdjList[parent]){\n\t\t\t\tif(visited[child])\n\t\t\t\t\tcontinue;\n\t\t\t\tvisited[child] = true;\n\t\t\t\ts.push(child);\n\t\t\t}\n\t\t}\n\t\t\n\t}\n\t\n\t@SuppressWarnings(\"unchecked\")\n\tpublic static void main(String[] args) {\n\t\tScanner in = new Scanner(System.in);\n\t\t\n\t\tSystem.out.println(\"How many nodes?\");\n\t\tint nodes = in.nextInt();\n\t\t\n\t\tvisited = new boolean[nodes];\n\t\tAdjList = new ArrayList[nodes];\n\t\tfor(int i=0; i<nodes; i++)\n\t\t\tAdjList[i] = new ArrayList<Integer>();\n\t\t\n\t\tSystem.out.println(\"How many edges?\");\n\t\tint edges = in.nextInt();\n\t\t\n\t\tfor(int i=0; i<edges; i++){\n\t\t\tSystem.out.println(\"To indicate that u is connected to v, type: u v\");\n\t\t\tint u = in.nextInt();\n\t\t\tint v = in.nextInt();\n\t\t\t// Assuming that it's an undirected graph\n\t\t\tAdjList[u].add(v);\n\t\t\tAdjList[v].add(u);\n\t\t}\n\t\tSystem.out.println(\"Source node?\");\n\t\tint source = in.nextInt();\n\t\t\n\t\tDFS_iterative(source);\n\t\tSystem.out.println();\n\t}\n\n}\n"
+        },
+        {
+          "filename": "DFS_Recursive.java",
+          "content": "import java.util.ArrayList;\nimport java.util.Scanner;\n\npublic class DFS_Recursive {\n\n\t/**\n\t * @author Youssef Ali(https://github.com/youssefAli11997/)\n\t */\n\t\n\tprivate static boolean[] visited;\n\tprivate static ArrayList<Integer> AdjList[];\n\t\n\tpublic static void DFS_recursive(int parent){\n\t\tvisited[parent] = true;\n\t\tSystem.out.print(parent+\" \");\n\t\tfor(int child : AdjList[parent]){\n\t\t\tif(visited[child])\n\t\t\t\tcontinue;\n\t\t\tDFS_recursive(child);\n\t\t}\n\t}\n\t\n\t@SuppressWarnings(\"unchecked\")\n\tpublic static void main(String[] args) {\n\t\tScanner in = new Scanner(System.in);\n\t\t\n\t\tSystem.out.println(\"How many nodes?\");\n\t\tint nodes = in.nextInt();\n\t\t\n\t\tvisited = new boolean[nodes];\n\t\tAdjList = new ArrayList[nodes];\n\t\tfor(int i=0; i<nodes; i++)\n\t\t\tAdjList[i] = new ArrayList<Integer>();\n\t\t\n\t\tSystem.out.println(\"How many edges?\");\n\t\tint edges = in.nextInt();\n\t\t\n\t\tfor(int i=0; i<edges; i++){\n\t\t\tSystem.out.println(\"To indicate that u is connected to v, type: u v\");\n\t\t\tint u = in.nextInt();\n\t\t\tint v = in.nextInt();\n\t\t\t// Assuming that it's an undirected graph\n\t\t\tAdjList[u].add(v);\n\t\t\tAdjList[v].add(u);\n\t\t}\n\t\tSystem.out.println(\"Source node?\");\n\t\tint source = in.nextInt();\n\t\t\n\t\tDFS_recursive(source);\n\t\tSystem.out.println();\n\t}\n\n}\n"
+        },
+        {
+          "filename": "Dfs.java",
+          "content": "package algorithms.graph.depthfirstsearch;\n\nimport java.util.ArrayList;\nimport java.util.Collections;\nimport java.util.List;\n\npublic class Dfs {\n    public int[] solve(int[] arr) {\n        if (arr == null || arr.length < 2) return new int[0];\n\n        int n = arr[0];\n        int m = arr[1];\n\n        if (arr.length < 2 + 2 * m + 1) return new int[0];\n\n        int start = arr[2 + 2 * m];\n        if (start < 0 || start >= n) return new int[0];\n\n        List<Integer>[] adj = new ArrayList[n];\n        for (int i = 0; i < n; i++) adj[i] = new ArrayList<>();\n\n        for (int i = 0; i < m; i++) {\n            int u = arr[2 + 2 * i];\n            int v = arr[2 + 2 * i + 1];\n            if (u >= 0 && u < n && v >= 0 && v < n) {\n                adj[u].add(v);\n                adj[v].add(u);\n            }\n        }\n\n        for (int i = 0; i < n; i++) {\n            Collections.sort(adj[i]);\n        }\n\n        List<Integer> result = new ArrayList<>();\n        boolean[] visited = new boolean[n];\n\n        dfsRecursive(start, adj, visited, result);\n\n        return result.stream().mapToInt(i -> i).toArray();\n    }\n\n    private void dfsRecursive(int u, List<Integer>[] adj, boolean[] visited, List<Integer> result) {\n        visited[u] = true;\n        result.add(u);\n\n        for (int v : adj[u]) {\n            if (!visited[v]) {\n                dfsRecursive(v, adj, visited, result);\n            }\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "DFS.kt",
+          "content": "package algorithms.graph.depthfirstsearch\n\nclass Dfs {\n    fun solve(arr: IntArray): IntArray {\n        if (arr.size < 2) return IntArray(0)\n\n        val n = arr[0]\n        val m = arr[1]\n\n        if (arr.size < 2 + 2 * m + 1) return IntArray(0)\n\n        val start = arr[2 + 2 * m]\n        if (start < 0 || start >= n) return IntArray(0)\n\n        val adj = Array(n) { ArrayList<Int>() }\n        for (i in 0 until m) {\n            val u = arr[2 + 2 * i]\n            val v = arr[2 + 2 * i + 1]\n            if (u in 0 until n && v in 0 until n) {\n                adj[u].add(v)\n                adj[v].add(u)\n            }\n        }\n\n        for (i in 0 until n) {\n            adj[i].sort()\n        }\n\n        val result = ArrayList<Int>()\n        val visited = BooleanArray(n)\n\n        fun dfsRecursive(u: Int) {\n            visited[u] = true\n            result.add(u)\n\n            for (v in adj[u]) {\n                if (!visited[v]) {\n                    dfsRecursive(v)\n                }\n            }\n        }\n\n        dfsRecursive(start)\n\n        return result.toIntArray()\n    }\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "dfs.py",
+          "content": "import sys\n\n# Increase recursion depth\nsys.setrecursionlimit(1000000)\n\ndef dfs(arr):\n    if len(arr) < 2:\n        return []\n        \n    n = arr[0]\n    m = arr[1]\n    \n    if len(arr) < 2 + 2 * m + 1:\n        return []\n        \n    start = arr[2 + 2 * m]\n    if start < 0 or start >= n:\n        return []\n        \n    adj = [[] for _ in range(n)]\n    for i in range(m):\n        u = arr[2 + 2 * i]\n        v = arr[2 + 2 * i + 1]\n        if 0 <= u < n and 0 <= v < n:\n            adj[u].append(v)\n            adj[v].append(u)\n            \n    for i in range(n):\n        adj[i].sort()\n        \n    result = []\n    visited = [False] * n\n    \n    def dfs_recursive(u):\n        visited[u] = True\n        result.append(u)\n        \n        for v in adj[u]:\n            if not visited[v]:\n                dfs_recursive(v)\n                \n    dfs_recursive(start)\n    \n    return result\n"
+        },
+        {
+          "filename": "dfs_oop_rec.py",
+          "content": "class Dfs:\n\tdef __init__(self, graph, nodes):\n\t\tself.graph = graph\n\t\tself.nodes = nodes\n\t\tself.visited = [False for i in range(nodes)]\n\n\tdef dfs(self):\n\t\tfor node in range(self.nodes):\n\t\t\tif not self.visited[node]:\n\t\t\t\tself.visited[node] = True\n\t\t\t\tself.visit(node)\n\n\tdef visit(self, node):\n\t\tprint node\n\n\t\tfor neighbour in graph[node]:\n\t\t\tif not self.visited[neighbour]:\n\t\t\t\tself.visited[neighbour] = True\n\t\t\t\tself.visit(neighbour)\n\n# graph = [[1,3], [2], [], [2], [7], [6,7], [7], [], []]\n# nodes = 9\n# makeDFS = Dfs(graph, nodes)\n# makeDFS.dfs()"
+        },
+        {
+          "filename": "dfs_recursive.py",
+          "content": "#!/usr/bin/env python3\n# Naive recursive implementation of DFS on ordered graphs\nfrom collections import defaultdict\nimport sys\n\n\ndef dfs(node, adjacency_lists, strategy, visited=None):\n    if not visited:\n        visited = set()\n    \n    visited.add(node)\n    strategy(node)\n    \n    for adj_node in adjacency_lists[node]:\n        if adj_node in visited:\n            continue\n        \n        dfs(adj_node, adjacency_lists, strategy, visited)\n\n\nif __name__ == '__main__':\n    start_from = next(sys.stdin).strip()\n    adjacency = defaultdict(list)\n\n    for line in sys.stdin:\n        line = line.strip()\n        \n        if not line:\n            continue\n\n        from_, to = line.split()\n        adjacency[from_].append(to)\n\n    dfs(start_from, adjacency, lambda x: print(x))\n\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "DFS.rs",
+          "content": "pub fn dfs(arr: &[i32]) -> Vec<i32> {\n    if arr.len() < 2 {\n        return Vec::new();\n    }\n\n    let n = arr[0] as usize;\n    let m = arr[1] as usize;\n\n    if arr.len() < 2 + 2 * m + 1 {\n        return Vec::new();\n    }\n\n    let start = arr[2 + 2 * m] as usize;\n    if start >= n {\n        return Vec::new();\n    }\n\n    let mut adj = vec![vec![]; n];\n    for i in 0..m {\n        let u = arr[2 + 2 * i] as usize;\n        let v = arr[2 + 2 * i + 1] as usize;\n        if u < n && v < n {\n            adj[u].push(v);\n            adj[v].push(u);\n        }\n    }\n\n    for i in 0..n {\n        adj[i].sort();\n    }\n\n    let mut result = Vec::new();\n    let mut visited = vec![false; n];\n\n    dfs_recursive(start, &adj, &mut visited, &mut result);\n\n    result\n}\n\nfn dfs_recursive(u: usize, adj: &Vec<Vec<usize>>, visited: &mut Vec<bool>, result: &mut Vec<i32>) {\n    visited[u] = true;\n    result.push(u as i32);\n\n    for &v in &adj[u] {\n        if !visited[v] {\n            dfs_recursive(v, adj, visited, result);\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "DFS.scala",
+          "content": "package algorithms.graph.depthfirstsearch\n\nimport scala.collection.mutable\n\nobject Dfs {\n  def solve(arr: Array[Int]): Array[Int] = {\n    if (arr.length < 2) return Array.emptyIntArray\n\n    val n = arr(0)\n    val m = arr(1)\n\n    if (arr.length < 2 + 2 * m + 1) return Array.emptyIntArray\n\n    val start = arr(2 + 2 * m)\n    if (start < 0 || start >= n) return Array.emptyIntArray\n\n    val adj = Array.fill(n)(new mutable.ListBuffer[Int])\n    for (i <- 0 until m) {\n      val u = arr(2 + 2 * i)\n      val v = arr(2 + 2 * i + 1)\n      if (u >= 0 && u < n && v >= 0 && v < n) {\n        adj(u).append(v)\n        adj(v).append(u)\n      }\n    }\n\n    for (i <- 0 until n) {\n      adj(i) = adj(i).sorted\n    }\n\n    val result = new mutable.ListBuffer[Int]()\n    val visited = Array.fill(n)(false)\n\n    def dfsRecursive(u: Int): Unit = {\n      visited(u) = true\n      result.append(u)\n\n      for (v <- adj(u)) {\n        if (!visited(v)) {\n          dfsRecursive(v)\n        }\n      }\n    }\n\n    dfsRecursive(start)\n\n    result.toArray\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "DFS.swift",
+          "content": "import Foundation\n\nclass Dfs {\n    static func solve(_ arr: [Int]) -> [Int] {\n        if arr.count < 2 { return [] }\n        \n        let n = arr[0]\n        let m = arr[1]\n        \n        if arr.count < 2 + 2 * m + 1 { return [] }\n        \n        let start = arr[2 + 2 * m]\n        if start < 0 || start >= n { return [] }\n        \n        var adj = [[Int]](repeating: [], count: n)\n        for i in 0..<m {\n            let u = arr[2 + 2 * i]\n            let v = arr[2 + 2 * i + 1]\n            if u >= 0 && u < n && v >= 0 && v < n {\n                adj[u].append(v)\n                adj[v].append(u)\n            }\n        }\n        \n        for i in 0..<n {\n            adj[i].sort()\n        }\n        \n        var result = [Int]()\n        var visited = [Bool](repeating: false, count: n)\n        \n        func dfsRecursive(_ u: Int) {\n            visited[u] = true\n            result.append(u)\n            \n            for v in adj[u] {\n                if !visited[v] {\n                    dfsRecursive(v)\n                }\n            }\n        }\n        \n        dfsRecursive(start)\n        \n        return result\n    }\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "dfs.ts",
+          "content": "export function dfs(arr: number[]): number[] {\n  if (arr.length < 2) return [];\n\n  const n = arr[0];\n  const m = arr[1];\n\n  if (arr.length < 2 + 2 * m + 1) return [];\n\n  const start = arr[2 + 2 * m];\n  if (start < 0 || start >= n) return [];\n\n  const adj: number[][] = Array.from({ length: n }, () => []);\n  for (let i = 0; i < m; i++) {\n    const u = arr[2 + 2 * i];\n    const v = arr[2 + 2 * i + 1];\n    if (u >= 0 && u < n && v >= 0 && v < n) {\n      adj[u].push(v);\n      adj[v].push(u);\n    }\n  }\n\n  for (let i = 0; i < n; i++) {\n    adj[i].sort((a, b) => a - b);\n  }\n\n  const result: number[] = [];\n  const visited: boolean[] = new Array(n).fill(false);\n\n  function dfsRecursive(u: number): void {\n    visited[u] = true;\n    result.push(u);\n\n    for (const v of adj[u]) {\n      if (!visited[v]) {\n        dfsRecursive(v);\n      }\n    }\n  }\n\n  dfsRecursive(start);\n\n  return result;\n}\n"
+        },
+        {
+          "filename": "index.js",
+          "content": "// Fully runnable code with tests at https://codepen.io/sniper6/pen/QqzYEa\n\nconst dfs = (graph, source, target = -1) => {\n  // Some error handling\n  if (typeof graph.getNeighbors !== 'function') {\n    throw new Error('Graph should implement a getNeighbors function');\n  }\n  if (typeof source !== 'number') {\n    throw new Error('source should be a number');\n  }\n\n  const stack = []; // The stack that will be used\n  const order = []; // Array to hold the order of visit. Mainly for unit testing\n  const visited = {}; // Keep track of visited vertices\n\n  let found = false;\n  stack.push(source);\n  visited[source] = true;\n  while (stack.length !== 0) {\n    const currentVertex = stack.pop();\n    order.push(currentVertex);\n    const neighbors = graph.getNeighbors(currentVertex);\n    for (const neighbor of neighbors) {\n      if (!visited[neighbor]) {\n        stack.push(neighbor);\n        visited[neighbor] = true;\n        if (neighbor === target) {\n          found = true;\n        }\n      }\n    }\n  }\n  return {order, found};\n};\n\nconst GraphFactory = (() => {\n  const GraphTemplate = {\n    init() {\n      this._graph = [];\n    },\n    getNeighbors(vertex) {\n      return this._graph[vertex] || [];\n    },\n    addEdge(source, target, biDirectional = true) {\n      this._addEdge(source, target);\n      if (biDirectional) {\n        this._addEdge(target, source);\n      }\n    },\n    _addEdge(source, target) {\n      this._graph[source] = this._graph[source] || [];\n      this._graph[source].push(target);\n    },\n    printGraph() {\n      console.log(JSON.stringify(this._graph, null, 2));\n    },\n  };\n\n  return {\n    getGraph() {\n      const Graph = Object.assign({}, GraphTemplate);\n      Graph.init();\n      return Graph;\n    },\n  };\n})();\n\nmodule.exports = {dfs, GraphFactory};\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "patterns": [
+    "tree-dfs"
+  ],
+  "patternDifficulty": "beginner",
+  "practiceOrder": 1,
+  "readme": "# Depth-First Search\n\n## Overview\n\nDepth-First Search (DFS) is a fundamental graph traversal algorithm that explores as far as possible along each branch before backtracking. Starting from a source vertex, DFS dives deep into the graph following a single path until it reaches a vertex with no unvisited neighbors, then backtracks to the most recent vertex with unexplored edges. It can be implemented using recursion (which uses the call stack implicitly) or with an explicit stack data structure.\n\nDFS is one of the two foundational graph traversal techniques (alongside BFS) and is the basis for many advanced graph algorithms, including topological sorting, cycle detection, strongly connected components, and solving mazes.\n\n## How It Works\n\nDFS starts at a source vertex, marks it as visited, and then recursively visits each of its unvisited neighbors. When a vertex has no unvisited neighbors, the algorithm backtracks to the previous vertex and continues exploring its remaining unvisited neighbors. This depth-first strategy means the algorithm follows one path as deep as possible before trying alternative paths.\n\n### Example\n\nConsider the following undirected graph:\n\n```\n    A --- B --- E\n    |     |\n    C --- D --- F\n```\n\nAdjacency list (neighbors listed in alphabetical order):\n```\nA: [B, C]\nB: [A, D, E]\nC: [A, D]\nD: [B, C, F]\nE: [B]\nF: [D]\n```\n\n**DFS starting from vertex `A` (recursive):**\n\n| Step | Current | Action | Stack (implicit) | Visited |\n|------|---------|--------|------------------|---------|\n| 1 | `A` | Visit A, recurse on B | `[A]` | {A} |\n| 2 | `B` | Visit B, recurse on D (A visited) | `[A, B]` | {A, B} |\n| 3 | `D` | Visit D, recurse on C (B visited) | `[A, B, D]` | {A, B, D} |\n| 4 | `C` | Visit C, A and D visited, backtrack | `[A, B, D, C]` | {A, B, C, D} |\n| 5 | `D` | Recurse on F | `[A, B, D]` | {A, B, C, D} |\n| 6 | `F` | Visit F, D visited, backtrack | `[A, B, D, F]` | {A, B, C, D, F} |\n| 7 | `B` | Recurse on E | `[A, B]` | {A, B, C, D, F} |\n| 8 | `E` | Visit E, B visited, backtrack | `[A, B, E]` | {A, B, C, D, E, F} |\n\nDFS traversal order: `A, B, D, C, F, E`\n\nNote: DFS traversal order depends on the order in which neighbors are visited. Different orderings produce different valid DFS traversals.\n\n## Pseudocode\n\n```\n// Recursive version\nfunction DFS(graph, vertex, visited):\n    visited.add(vertex)\n    process(vertex)\n\n    for each neighbor of vertex in graph:\n        if neighbor not in visited:\n            DFS(graph, neighbor, visited)\n\n// Iterative version\nfunction DFS_iterative(graph, source):\n    visited = empty set\n    stack = empty stack\n    stack.push(source)\n\n    while stack is not empty:\n        vertex = stack.pop()\n\n        if vertex not in visited:\n            visited.add(vertex)\n            process(vertex)\n\n            for each neighbor of vertex in graph:\n                if neighbor not in visited:\n                    stack.push(neighbor)\n```\n\nThe recursive version is elegant and natural for tree-like structures. The iterative version is preferred for very deep graphs to avoid stack overflow.\n\n## Complexity Analysis\n\n| Case    | Time    | Space |\n|---------|---------|-------|\n| Best    | O(V+E) | O(V)  |\n| Average | O(V+E) | O(V)  |\n| Worst   | O(V+E) | O(V)  |\n\nWhere V is the number of vertices and E is the number of edges.\n\n**Why these complexities?**\n\n- **Best Case -- O(V+E):** DFS visits every reachable vertex exactly once and examines every edge. Even in the best case, the full traversal requires processing all vertices and edges.\n\n- **Average Case -- O(V+E):** Each vertex is visited exactly once (added to the visited set), and each edge is examined once (directed) or twice (undirected). The total work is linear in the size of the graph.\n\n- **Worst Case -- O(V+E):** Like BFS, DFS processes each vertex and edge exactly once, giving consistent O(V+E) time regardless of graph structure. For an adjacency matrix representation, this becomes O(V^2).\n\n- **Space -- O(V):** The visited set requires O(V) space. The recursion stack (or explicit stack) can grow to O(V) in the worst case -- for example, in a path graph where DFS descends through all V vertices before backtracking.\n\n## When to Use\n\n- **Cycle detection:** DFS can detect cycles in both directed and undirected graphs by tracking vertices currently on the recursion stack.\n- **Topological sorting:** DFS naturally produces a topological ordering of a DAG by recording vertices in reverse finish order.\n- **Finding connected/strongly connected components:** DFS is the basis for Kosaraju's and Tarjan's algorithms for finding SCCs.\n- **Maze solving and puzzle exploration:** DFS explores one path completely before trying alternatives, which is natural for backtracking problems.\n- **Path finding (existence, not shortest):** DFS efficiently determines whether a path exists between two vertices.\n\n## When NOT to Use\n\n- **Finding shortest paths:** DFS does not guarantee shortest paths. Use BFS for unweighted graphs or Dijkstra's for weighted graphs.\n- **Level-order traversal:** BFS naturally provides level-order traversal; DFS does not.\n- **Very deep graphs with recursion:** Recursive DFS can cause stack overflow on graphs with depth exceeding the recursion limit. Use iterative DFS or increase the stack size.\n- **When you need to explore closest nodes first:** BFS is more appropriate when proximity to the source matters.\n\n## Comparison with Similar Algorithms\n\n| Algorithm       | Time    | Space | Strategy | Notes                                    |\n|-----------------|---------|-------|----------|------------------------------------------|\n| DFS             | O(V+E) | O(V)  | Depth-first | Good for cycle detection, topological sort |\n| BFS             | O(V+E) | O(V)  | Breadth-first | Finds shortest paths in unweighted graphs |\n| Topological Sort| O(V+E) | O(V)  | DFS-based | Orders DAG vertices by dependencies      |\n| Tarjan's SCC    | O(V+E) | O(V)  | DFS-based | Finds strongly connected components      |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| C          | [DepthFirstSearch.c](c/DepthFirstSearch.c) |\n| C++        | [DFS(iterative).cpp](cpp/DFS(iterative).cpp) |\n| C++        | [DFS(recursive).cpp](cpp/DFS(recursive).cpp) |\n| Java       | [DFS_Iterative.java](java/DFS_Iterative.java) |\n| Java       | [DFS_Recursive.java](java/DFS_Recursive.java) |\n| Python     | [dfs.py](python/dfs.py) |\n| Python     | [dfs_recursive.py](python/dfs_recursive.py) |\n| Python     | [dfs_oop_rec.py](python/dfs_oop_rec.py) |\n| TypeScript | [index.js](typescript/index.js) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 22: Elementary Graph Algorithms (Section 22.3: Depth-First Search).\n- Knuth, D. E. (2011). *The Art of Computer Programming, Volume 4A: Combinatorial Algorithms*. Addison-Wesley.\n- [Depth-First Search -- Wikipedia](https://en.wikipedia.org/wiki/Depth-first_search)\n"
+}

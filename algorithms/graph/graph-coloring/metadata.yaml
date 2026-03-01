@@ -1,0 +1,15 @@
+name: "Graph Coloring"
+slug: "graph-coloring"
+category: "graph"
+subcategory: "coloring"
+difficulty: "intermediate"
+tags: [graph, undirected, coloring, chromatic-number, backtracking]
+complexity:
+  time:
+    best: "O(V * 2^V)"
+    average: "O(V * 2^V)"
+    worst: "O(V * 2^V)"
+  space: "O(V)"
+related: [bipartite-check, depth-first-search]
+implementations: [python, java, cpp, c, go, typescript, kotlin, rust, swift, scala, csharp]
+visualization: true

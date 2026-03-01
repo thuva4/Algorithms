@@ -1,0 +1,75 @@
+{
+  "name": "Max 1D Range Sum",
+  "slug": "dynamic-programming",
+  "category": "dynamic-programming",
+  "subcategory": "sequences",
+  "difficulty": "beginner",
+  "tags": [
+    "dynamic-programming",
+    "sequences",
+    "range-sum",
+    "maximum-sum"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "average": "O(n)",
+      "worst": "O(n)"
+    },
+    "space": "O(1)"
+  },
+  "stable": null,
+  "in_place": null,
+  "related": [
+    "kadanes"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "max_1d_range_sum.c",
+          "content": "int max_1d_range_sum(int arr[], int n) {\n    int best = 0;\n    int current = 0;\n\n    for (int i = 0; i < n; i++) {\n        current += arr[i];\n        if (current < 0) {\n            current = 0;\n        }\n        if (current > best) {\n            best = current;\n        }\n    }\n\n    return best;\n}\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "max_1d_range_sum.cpp",
+          "content": "#include <algorithm>\n#include <cstddef>\n#include <vector>\n\nint max_1d_range_sum(const std::vector<int>& values) {\n    if (values.empty()) {\n        return 0;\n    }\n\n    int best = values.front();\n    int current = values.front();\n    for (std::size_t index = 1; index < values.size(); ++index) {\n        current = std::max(values[index], current + values[index]);\n        best = std::max(best, current);\n    }\n\n    return std::max(0, best);\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "Max1DRangeSum.java",
+          "content": "public class Max1DRangeSum {\n\tpublic static int max1dRangeSum(int[] array) {\n\t\tif (array == null || array.length == 0) {\n\t\t\treturn 0;\n\t\t}\n\t\tint best = array[0];\n\t\tint current = array[0];\n\t\tfor (int i = 1; i < array.length; i++) {\n\t\t\tcurrent = Math.max(array[i], current + array[i]);\n\t\t\tbest = Math.max(best, current);\n\t\t}\n\t\treturn Math.max(0, best);\n\t}\n\n\t\n\tpublic static int getMax1DRangeSum(int n, int A[]){\n\t\tint current_sum = 0, ans = 0;\n\t    for (int i = 0; i < n; i++)\n\t\t {\n\t\t\tif (current_sum + A[i] >= 0) {\n\t\t\t    current_sum += A[i];\n\t\t\t    ans = Math.max(ans, current_sum);\n\t\t\t  }\n\t\t\telse {\n\t\t\t\tcurrent_sum = 0;\n\t\t\t}\n\t \t}\n\t    return ans;\n\t}\n\n\tpublic static void main(String[] args) {\n\n\t\tint n = 9, A[] = { 4, -5, 4, -3, 4, 4, -4, 4, -5 };\n\t    System.out.println(getMax1DRangeSum(n, A));         // should be 9\n\t}\n\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "DynamicProgramming.kt",
+          "content": "fun max1dRangeSum(arr: IntArray): Int {\n    var best = 0\n    var current = 0\n\n    for (value in arr) {\n        current = maxOf(0, current + value)\n        best = maxOf(best, current)\n    }\n\n    return best\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "DynamicProgramming.swift",
+          "content": "func max1dRangeSum(_ arr: [Int]) -> Int {\n    var best = 0\n    var current = 0\n\n    for value in arr {\n        current = max(0, current + value)\n        best = max(best, current)\n    }\n\n    return best\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "readme": "# Max 1D Range Sum\n\n## Overview\n\nThe Max 1D Range Sum problem finds the contiguous subarray within a one-dimensional array of numbers that has the largest sum. This is one of the most fundamental dynamic programming problems and serves as an excellent introduction to the technique. The problem was first posed by Ulf Grenander in 1977 for pattern matching in digitized images, and a linear-time solution was devised by Jay Kadane in 1984.\n\nGiven an array of n integers (which may include negative values), the goal is to find the maximum sum obtainable by selecting a contiguous subarray. If all elements are negative, the maximum subarray sum is the largest single element (or 0, depending on the problem variant).\n\n## How It Works\n\n1. Traverse the array from left to right, maintaining two variables: `current_sum` and `max_sum`.\n2. At each position i, decide whether to extend the current subarray or start a new one from position i. This is captured by: `current_sum = max(arr[i], current_sum + arr[i])`.\n3. Update `max_sum = max(max_sum, current_sum)` after each step.\n4. After processing all elements, `max_sum` holds the answer.\n\nThe key insight is the optimal substructure property: the maximum subarray ending at position i is either the element at position i alone, or the element at position i combined with the maximum subarray ending at position i-1. This eliminates the need to check all O(n^2) subarrays.\n\n## Example\n\nGiven input: `[-2, 1, -3, 4, -1, 2, 1, -5, 4]`\n\n| Index | Element | current_sum | max_sum |\n|-------|---------|-------------|---------|\n| 0     | -2      | -2          | -2      |\n| 1     | 1       | 1           | 1       |\n| 2     | -3      | -2          | 1       |\n| 3     | 4       | 4           | 4       |\n| 4     | -1      | 3           | 4       |\n| 5     | 2       | 5           | 5       |\n| 6     | 1       | 6           | 6       |\n| 7     | -5      | 1           | 6       |\n| 8     | 4       | 5           | 6       |\n\nResult: **6** (subarray `[4, -1, 2, 1]`)\n\n## Pseudocode\n\n```\nfunction maxSubarraySum(arr, n):\n    current_sum = arr[0]\n    max_sum = arr[0]\n\n    for i from 1 to n - 1:\n        current_sum = max(arr[i], current_sum + arr[i])\n        max_sum = max(max_sum, current_sum)\n\n    return max_sum\n```\n\n## Complexity Analysis\n\n| Case    | Time | Space |\n|---------|------|-------|\n| Best    | O(n) | O(1)  |\n| Average | O(n) | O(1)  |\n| Worst   | O(n) | O(1)  |\n\nThe algorithm makes a single pass through the array, examining each element exactly once. Only two extra variables are maintained regardless of input size, so the space complexity is constant.\n\n## When to Use\n\n- **Maximum profit/loss problems:** Finding the best time window to buy and sell, or the most profitable consecutive period.\n- **Signal processing:** Identifying the strongest contiguous signal segment in noisy data.\n- **Image processing:** Grenander's original motivation -- finding the maximum-likelihood estimate of a pattern in a 1D image.\n- **As a subroutine:** The 1D solution is a building block for the 2D maximum subarray problem (maximum sum rectangle in a matrix).\n- **Streaming data:** The O(1) space requirement makes it suitable for processing data streams where you cannot store the entire input.\n\n## When NOT to Use\n\n- **Non-contiguous subsets:** If you need the maximum sum of any subset (not necessarily contiguous), simply sum all positive elements. The contiguous constraint is what makes this problem interesting.\n- **Circular arrays:** The standard algorithm does not handle wrap-around. A modified approach is needed for circular variants.\n- **When you need the actual subarray indices:** The basic version only returns the sum. Tracking indices requires minor modifications.\n\n## Comparison\n\n| Algorithm              | Time     | Space | Constraint         |\n|------------------------|----------|-------|--------------------|\n| Kadane's (this)        | O(n)     | O(1)  | Contiguous subarray |\n| Brute Force            | O(n^2)   | O(1)  | Contiguous subarray |\n| Divide and Conquer     | O(n log n) | O(log n) | Contiguous subarray |\n| Prefix Sum + Min Prefix | O(n)   | O(n)  | Contiguous subarray |\n\nKadane's algorithm is optimal for this problem. The divide-and-conquer approach, while educational, is strictly slower. The prefix-sum approach achieves the same time complexity but uses more space.\n\n## Implementations\n\n| Language | File |\n|----------|------|\n| Java     | [Max1DRangeSum.java](java/Max1DRangeSum.java) |\n\n## References\n\n- Kadane, J. (1984). Maximum sum of a contiguous subsequence. *CMU Technical Report*.\n- Bentley, J. (1984). \"Programming Pearls: Algorithm Design Techniques.\" *Communications of the ACM*. 27(9): 865-873.\n- [Maximum subarray problem -- Wikipedia](https://en.wikipedia.org/wiki/Maximum_subarray_problem)\n"
+}

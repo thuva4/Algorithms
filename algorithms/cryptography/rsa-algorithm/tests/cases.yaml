@@ -1,0 +1,41 @@
+algorithm: "rsa-algorithm"
+function_signature:
+  name: "rsa_algorithm"
+  input: [p, q, e, message]
+  output: decrypted_message
+test_cases:
+  - name: "small primes"
+    input:
+      p: 61
+      q: 53
+      e: 17
+      message: 65
+    expected: 65
+  - name: "message 42"
+    input:
+      p: 61
+      q: 53
+      e: 17
+      message: 42
+    expected: 42
+  - name: "different primes"
+    input:
+      p: 11
+      q: 13
+      e: 7
+      message: 9
+    expected: 9
+  - name: "message 1"
+    input:
+      p: 7
+      q: 11
+      e: 13
+      message: 1
+    expected: 1
+  - name: "larger message"
+    input:
+      p: 61
+      q: 53
+      e: 17
+      message: 100
+    expected: 100

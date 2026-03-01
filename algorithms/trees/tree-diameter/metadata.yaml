@@ -1,0 +1,17 @@
+name: "Tree Diameter"
+slug: "tree-diameter"
+category: "trees"
+subcategory: "tree-properties"
+difficulty: "intermediate"
+tags: [trees, bfs, dfs, diameter, graph]
+complexity:
+  time:
+    best: "O(V)"
+    average: "O(V)"
+    worst: "O(V)"
+  space: "O(V)"
+stable: null
+in_place: false
+related: [breadth-first-search]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

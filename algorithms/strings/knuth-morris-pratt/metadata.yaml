@@ -1,0 +1,17 @@
+name: "Knuth-Morris-Pratt"
+slug: "knuth-morris-pratt"
+category: "strings"
+subcategory: "pattern-matching"
+difficulty: "intermediate"
+tags: [strings, pattern-matching, kmp, prefix-function, substring-search]
+complexity:
+  time:
+    best: "O(n + m)"
+    average: "O(n + m)"
+    worst: "O(n + m)"
+  space: "O(m)"
+stable: false
+in_place: false
+related: [rabin-karp, aho-corasick, bitap-algorithm]
+implementations: [python, java, cpp]
+visualization: true

@@ -1,0 +1,139 @@
+{
+  "name": "Robin-Karp Rolling Hash",
+  "slug": "robin-karp-rolling-hash",
+  "category": "strings",
+  "subcategory": "pattern-matching",
+  "difficulty": "intermediate",
+  "tags": [
+    "strings",
+    "hashing",
+    "rolling-hash",
+    "pattern-matching"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n + m)",
+      "average": "O(n + m)",
+      "worst": "O(n * m)"
+    },
+    "space": "O(1)"
+  },
+  "stable": null,
+  "in_place": false,
+  "related": [
+    "rabin-karp",
+    "hash-table"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "robin_karp_rolling_hash.c",
+          "content": "#include <stdio.h>\n#include \"robin_karp_rolling_hash.h\"\n\n#define BASE 31LL\n#define MOD 1000000007LL\n\nstatic long long modpow(long long base, long long exp, long long mod) {\n    long long r = 1; base %= mod;\n    while (exp > 0) { if (exp & 1) r = r * base % mod; exp >>= 1; base = base * base % mod; }\n    return r;\n}\n\nint robin_karp_rolling_hash(int* arr, int size) {\n    int idx = 0;\n    int tlen = arr[idx++];\n    int* text = arr + idx; idx += tlen;\n    int plen = arr[idx++];\n    int* pattern = arr + idx;\n    if (plen > tlen) return -1;\n\n    long long pHash = 0, tHash = 0, power = 1;\n    int i, j;\n    for (i = 0; i < plen; i++) {\n        pHash = (pHash + (long long)(pattern[i]+1) * power) % MOD;\n        tHash = (tHash + (long long)(text[i]+1) * power) % MOD;\n        if (i < plen-1) power = power * BASE % MOD;\n    }\n\n    long long invBase = modpow(BASE, MOD-2, MOD);\n\n    for (i = 0; i <= tlen-plen; i++) {\n        if (tHash == pHash) {\n            int match = 1;\n            for (j = 0; j < plen; j++) if (text[i+j] != pattern[j]) { match = 0; break; }\n            if (match) return i;\n        }\n        if (i < tlen-plen) {\n            tHash = ((tHash - (text[i]+1)) % MOD + MOD) % MOD;\n            tHash = tHash * invBase % MOD;\n            tHash = (tHash + (long long)(text[i+plen]+1) * power) % MOD;\n        }\n    }\n    return -1;\n}\n\nint main() {\n    int a1[] = {5, 1, 2, 3, 4, 5, 2, 1, 2}; printf(\"%d\\n\", robin_karp_rolling_hash(a1, 9));\n    int a2[] = {5, 1, 2, 3, 4, 5, 2, 3, 4}; printf(\"%d\\n\", robin_karp_rolling_hash(a2, 9));\n    int a3[] = {4, 1, 2, 3, 4, 2, 5, 6}; printf(\"%d\\n\", robin_karp_rolling_hash(a3, 8));\n    int a4[] = {4, 1, 2, 3, 4, 1, 4}; printf(\"%d\\n\", robin_karp_rolling_hash(a4, 7));\n    return 0;\n}\n"
+        },
+        {
+          "filename": "robin_karp_rolling_hash.h",
+          "content": "#ifndef ROBIN_KARP_ROLLING_HASH_H\n#define ROBIN_KARP_ROLLING_HASH_H\n\nint robin_karp_rolling_hash(int* arr, int size);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "robin_karp_rolling_hash.cpp",
+          "content": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nint robinKarpRollingHash(const vector<int>& arr) {\n    int idx = 0;\n    int tlen = arr[idx++];\n    vector<int> text(arr.begin()+idx, arr.begin()+idx+tlen); idx += tlen;\n    int plen = arr[idx++];\n    vector<int> pattern(arr.begin()+idx, arr.begin()+idx+plen);\n    if (plen > tlen) return -1;\n\n    long long BASE = 31, MOD = 1000000007;\n    long long pHash = 0, tHash = 0, power = 1;\n\n    for (int i = 0; i < plen; i++) {\n        pHash = (pHash + (long long)(pattern[i]+1) * power) % MOD;\n        tHash = (tHash + (long long)(text[i]+1) * power) % MOD;\n        if (i < plen-1) power = power * BASE % MOD;\n    }\n\n    auto modpow = [](long long base, long long exp, long long mod) {\n        long long r = 1; base %= mod;\n        while (exp > 0) { if (exp&1) r = r*base%mod; exp >>= 1; base = base*base%mod; }\n        return r;\n    };\n\n    long long invBase = modpow(BASE, MOD-2, MOD);\n\n    for (int i = 0; i <= tlen-plen; i++) {\n        if (tHash == pHash) {\n            bool match = true;\n            for (int j = 0; j < plen; j++) if (text[i+j] != pattern[j]) { match = false; break; }\n            if (match) return i;\n        }\n        if (i < tlen-plen) {\n            tHash = ((tHash - (text[i]+1)) % MOD + MOD) % MOD;\n            tHash = tHash * invBase % MOD;\n            tHash = (tHash + (long long)(text[i+plen]+1) * power) % MOD;\n        }\n    }\n    return -1;\n}\n\nint main() {\n    cout << robinKarpRollingHash({5, 1, 2, 3, 4, 5, 2, 1, 2}) << endl;\n    cout << robinKarpRollingHash({5, 1, 2, 3, 4, 5, 2, 3, 4}) << endl;\n    cout << robinKarpRollingHash({4, 1, 2, 3, 4, 2, 5, 6}) << endl;\n    cout << robinKarpRollingHash({4, 1, 2, 3, 4, 1, 4}) << endl;\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "RobinKarpRollingHash.cs",
+          "content": "using System;\n\npublic class RobinKarpRollingHash\n{\n    public static int Solve(int[] arr)\n    {\n        int idx = 0;\n        int tlen = arr[idx++];\n        int[] text = new int[tlen];\n        for (int i = 0; i < tlen; i++) text[i] = arr[idx++];\n        int plen = arr[idx++];\n        int[] pattern = new int[plen];\n        for (int i = 0; i < plen; i++) pattern[i] = arr[idx++];\n        if (plen > tlen) return -1;\n\n        for (int i = 0; i <= tlen - plen; i++)\n        {\n            bool match = true;\n            for (int j = 0; j < plen; j++)\n                if (text[i + j] != pattern[j]) { match = false; break; }\n            if (match) return i;\n        }\n        return -1;\n    }\n\n    static void Main(string[] args)\n    {\n        Console.WriteLine(Solve(new int[] { 5, 1, 2, 3, 4, 5, 2, 1, 2 }));\n        Console.WriteLine(Solve(new int[] { 5, 1, 2, 3, 4, 5, 2, 3, 4 }));\n        Console.WriteLine(Solve(new int[] { 4, 1, 2, 3, 4, 2, 5, 6 }));\n        Console.WriteLine(Solve(new int[] { 4, 1, 2, 3, 4, 1, 4 }));\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "robin_karp_rolling_hash.go",
+          "content": "package main\n\nimport \"fmt\"\n\nfunc modpow(base, exp, mod int64) int64 {\n\tr := int64(1); base %= mod\n\tfor exp > 0 { if exp&1 == 1 { r = r * base % mod }; exp >>= 1; base = base * base % mod }\n\treturn r\n}\n\nfunc RobinKarpRollingHash(arr []int) int {\n\tidx := 0\n\ttlen := arr[idx]; idx++\n\ttext := arr[idx:idx+tlen]; idx += tlen\n\tplen := arr[idx]; idx++\n\tpattern := arr[idx:idx+plen]\n\tif plen > tlen { return -1 }\n\n\tvar BASE, MOD int64 = 31, 1000000007\n\tvar pHash, tHash, power int64 = 0, 0, 1\n\tfor i := 0; i < plen; i++ {\n\t\tpHash = (pHash + int64(pattern[i]+1)*power) % MOD\n\t\ttHash = (tHash + int64(text[i]+1)*power) % MOD\n\t\tif i < plen-1 { power = power * BASE % MOD }\n\t}\n\n\tinvBase := modpow(BASE, MOD-2, MOD)\n\n\tfor i := 0; i <= tlen-plen; i++ {\n\t\tif tHash == pHash {\n\t\t\tmatch := true\n\t\t\tfor j := 0; j < plen; j++ { if text[i+j] != pattern[j] { match = false; break } }\n\t\t\tif match { return i }\n\t\t}\n\t\tif i < tlen-plen {\n\t\t\ttHash = ((tHash - int64(text[i]+1)) % MOD + MOD) % MOD\n\t\t\ttHash = tHash * invBase % MOD\n\t\t\ttHash = (tHash + int64(text[i+plen]+1)*power) % MOD\n\t\t}\n\t}\n\treturn -1\n}\n\nfunc main() {\n\tfmt.Println(RobinKarpRollingHash([]int{5, 1, 2, 3, 4, 5, 2, 1, 2}))\n\tfmt.Println(RobinKarpRollingHash([]int{5, 1, 2, 3, 4, 5, 2, 3, 4}))\n\tfmt.Println(RobinKarpRollingHash([]int{4, 1, 2, 3, 4, 2, 5, 6}))\n\tfmt.Println(RobinKarpRollingHash([]int{4, 1, 2, 3, 4, 1, 4}))\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "RobinKarpRollingHash.java",
+          "content": "public class RobinKarpRollingHash {\n\n    public static int robinKarpRollingHash(int[] arr) {\n        int idx = 0;\n        int tlen = arr[idx++];\n        int[] text = new int[tlen];\n        for (int i = 0; i < tlen; i++) text[i] = arr[idx++];\n        int plen = arr[idx++];\n        int[] pattern = new int[plen];\n        for (int i = 0; i < plen; i++) pattern[i] = arr[idx++];\n\n        if (plen > tlen) return -1;\n        long BASE = 31, MOD = 1000000007;\n        long pHash = 0, tHash = 0, power = 1;\n\n        for (int i = 0; i < plen; i++) {\n            pHash = (pHash + (pattern[i] + 1) * power) % MOD;\n            tHash = (tHash + (text[i] + 1) * power) % MOD;\n            if (i < plen - 1) power = (power * BASE) % MOD;\n        }\n\n        for (int i = 0; i <= tlen - plen; i++) {\n            if (tHash == pHash) {\n                boolean match = true;\n                for (int j = 0; j < plen; j++)\n                    if (text[i+j] != pattern[j]) { match = false; break; }\n                if (match) return i;\n            }\n            if (i < tlen - plen) {\n                tHash = (tHash - (text[i] + 1) + MOD) % MOD;\n                tHash = tHash * modInverse(BASE, MOD) % MOD;\n                tHash = (tHash + (text[i + plen] + 1) * power) % MOD;\n            }\n        }\n        return -1;\n    }\n\n    static long modInverse(long a, long mod) {\n        return modPow(a, mod - 2, mod);\n    }\n\n    static long modPow(long base, long exp, long mod) {\n        long result = 1; base %= mod;\n        while (exp > 0) {\n            if ((exp & 1) == 1) result = result * base % mod;\n            exp >>= 1; base = base * base % mod;\n        }\n        return result;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(robinKarpRollingHash(new int[]{5, 1, 2, 3, 4, 5, 2, 1, 2}));\n        System.out.println(robinKarpRollingHash(new int[]{5, 1, 2, 3, 4, 5, 2, 3, 4}));\n        System.out.println(robinKarpRollingHash(new int[]{4, 1, 2, 3, 4, 2, 5, 6}));\n        System.out.println(robinKarpRollingHash(new int[]{4, 1, 2, 3, 4, 1, 4}));\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "RobinKarpRollingHash.kt",
+          "content": "fun robinKarpRollingHash(arr: IntArray): Int {\n    var idx = 0\n    val tlen = arr[idx++]\n    val text = arr.sliceArray(idx until idx + tlen); idx += tlen\n    val plen = arr[idx++]\n    val pattern = arr.sliceArray(idx until idx + plen)\n    if (plen > tlen) return -1\n\n    val BASE = 31L; val MOD = 1000000007L\n    var pHash = 0L; var tHash = 0L; var power = 1L\n    for (i in 0 until plen) {\n        pHash = (pHash + (pattern[i]+1) * power) % MOD\n        tHash = (tHash + (text[i]+1) * power) % MOD\n        if (i < plen - 1) power = power * BASE % MOD\n    }\n\n    fun modpow(b: Long, e: Long, m: Long): Long {\n        var r = 1L; var base = b % m; var exp = e\n        while (exp > 0) { if (exp and 1L == 1L) r = r * base % m; exp = exp shr 1; base = base * base % m }\n        return r\n    }\n    val invBase = modpow(BASE, MOD - 2, MOD)\n\n    for (i in 0..tlen - plen) {\n        if (tHash == pHash) {\n            var match = true\n            for (j in 0 until plen) if (text[i+j] != pattern[j]) { match = false; break }\n            if (match) return i\n        }\n        if (i < tlen - plen) {\n            tHash = ((tHash - (text[i]+1)) % MOD + MOD) % MOD\n            tHash = tHash * invBase % MOD\n            tHash = (tHash + (text[i + plen] + 1).toLong() * power) % MOD\n        }\n    }\n    return -1\n}\n\nfun main() {\n    println(robinKarpRollingHash(intArrayOf(5, 1, 2, 3, 4, 5, 2, 1, 2)))\n    println(robinKarpRollingHash(intArrayOf(5, 1, 2, 3, 4, 5, 2, 3, 4)))\n    println(robinKarpRollingHash(intArrayOf(4, 1, 2, 3, 4, 2, 5, 6)))\n    println(robinKarpRollingHash(intArrayOf(4, 1, 2, 3, 4, 1, 4)))\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "robin_karp_rolling_hash.py",
+          "content": "def robin_karp_rolling_hash(arr):\n    \"\"\"\n    Find first occurrence of pattern in text using rolling hash.\n\n    Input: [text_len, ...text, pattern_len, ...pattern]\n    Returns: index of first match, or -1\n    \"\"\"\n    idx = 0\n    tlen = arr[idx]; idx += 1\n    text = arr[idx:idx + tlen]; idx += tlen\n    plen = arr[idx]; idx += 1\n    pattern = arr[idx:idx + plen]\n\n    if plen > tlen:\n        return -1\n\n    BASE = 31\n    MOD = 1000000007\n\n    # Compute pattern hash and initial text window hash\n    p_hash = 0\n    t_hash = 0\n    power = 1\n    for i in range(plen):\n        p_hash = (p_hash + (pattern[i] + 1) * power) % MOD\n        t_hash = (t_hash + (text[i] + 1) * power) % MOD\n        if i < plen - 1:\n            power = (power * BASE) % MOD\n\n    for i in range(tlen - plen + 1):\n        if t_hash == p_hash:\n            match = True\n            for j in range(plen):\n                if text[i + j] != pattern[j]:\n                    match = False\n                    break\n            if match:\n                return i\n\n        if i < tlen - plen:\n            t_hash = (t_hash - (text[i] + 1)) % MOD\n            t_hash = (t_hash * pow(BASE, MOD - 2, MOD)) % MOD\n            t_hash = (t_hash + (text[i + plen] + 1) * power) % MOD\n\n    return -1\n\n\nif __name__ == \"__main__\":\n    print(robin_karp_rolling_hash([5, 1, 2, 3, 4, 5, 2, 1, 2]))   # 0\n    print(robin_karp_rolling_hash([5, 1, 2, 3, 4, 5, 2, 3, 4]))   # 1\n    print(robin_karp_rolling_hash([4, 1, 2, 3, 4, 2, 5, 6]))      # -1\n    print(robin_karp_rolling_hash([4, 1, 2, 3, 4, 1, 4]))         # 3\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "robin_karp_rolling_hash.rs",
+          "content": "fn modpow(mut base: i64, mut exp: i64, m: i64) -> i64 {\n    let mut r = 1i64; base %= m;\n    while exp > 0 { if exp & 1 == 1 { r = r * base % m; } exp >>= 1; base = base * base % m; }\n    r\n}\n\npub fn robin_karp_rolling_hash(arr: &[i32]) -> i32 {\n    let mut idx = 0;\n    let tlen = arr[idx] as usize; idx += 1;\n    let text = &arr[idx..idx+tlen]; idx += tlen;\n    let plen = arr[idx] as usize; idx += 1;\n    let pattern = &arr[idx..idx+plen];\n    if plen > tlen { return -1; }\n\n    let base: i64 = 31; let m: i64 = 1_000_000_007;\n    let mut p_hash: i64 = 0; let mut t_hash: i64 = 0; let mut power: i64 = 1;\n    for i in 0..plen {\n        p_hash = (p_hash + (pattern[i] as i64 + 1) * power) % m;\n        t_hash = (t_hash + (text[i] as i64 + 1) * power) % m;\n        if i < plen - 1 { power = power * base % m; }\n    }\n\n    let inv_base = modpow(base, m - 2, m);\n\n    for i in 0..=tlen-plen {\n        if t_hash == p_hash {\n            let mut matched = true;\n            for j in 0..plen { if text[i+j] != pattern[j] { matched = false; break; } }\n            if matched { return i as i32; }\n        }\n        if i < tlen - plen {\n            t_hash = ((t_hash - (text[i] as i64 + 1)) % m + m) % m;\n            t_hash = t_hash * inv_base % m;\n            t_hash = (t_hash + (text[i+plen] as i64 + 1) * power) % m;\n        }\n    }\n    -1\n}\n\nfn main() {\n    println!(\"{}\", robin_karp_rolling_hash(&[5, 1, 2, 3, 4, 5, 2, 1, 2]));\n    println!(\"{}\", robin_karp_rolling_hash(&[5, 1, 2, 3, 4, 5, 2, 3, 4]));\n    println!(\"{}\", robin_karp_rolling_hash(&[4, 1, 2, 3, 4, 2, 5, 6]));\n    println!(\"{}\", robin_karp_rolling_hash(&[4, 1, 2, 3, 4, 1, 4]));\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "RobinKarpRollingHash.scala",
+          "content": "object RobinKarpRollingHash {\n\n  def robinKarpRollingHash(arr: Array[Int]): Int = {\n    var idx = 0\n    val tlen = arr(idx); idx += 1\n    val text = arr.slice(idx, idx + tlen); idx += tlen\n    val plen = arr(idx); idx += 1\n    val pattern = arr.slice(idx, idx + plen)\n    if (plen > tlen) return -1\n\n    for (i <- 0 to tlen - plen) {\n      var matched = true\n      var j = 0\n      while (j < plen && matched) { if (text(i+j) != pattern(j)) matched = false; j += 1 }\n      if (matched) return i\n    }\n    -1\n  }\n\n  def main(args: Array[String]): Unit = {\n    println(robinKarpRollingHash(Array(5, 1, 2, 3, 4, 5, 2, 1, 2)))\n    println(robinKarpRollingHash(Array(5, 1, 2, 3, 4, 5, 2, 3, 4)))\n    println(robinKarpRollingHash(Array(4, 1, 2, 3, 4, 2, 5, 6)))\n    println(robinKarpRollingHash(Array(4, 1, 2, 3, 4, 1, 4)))\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "RobinKarpRollingHash.swift",
+          "content": "func robinKarpRollingHash(_ arr: [Int]) -> Int {\n    var idx = 0\n    let tlen = arr[idx]; idx += 1\n    let text = Array(arr[idx..<idx+tlen]); idx += tlen\n    let plen = arr[idx]; idx += 1\n    let pattern = Array(arr[idx..<idx+plen])\n    if plen > tlen { return -1 }\n\n    // Use simple recompute approach for correctness\n    for i in 0...(tlen - plen) {\n        var match = true\n        for j in 0..<plen {\n            if text[i+j] != pattern[j] { match = false; break }\n        }\n        if match { return i }\n    }\n    return -1\n}\n\nprint(robinKarpRollingHash([5, 1, 2, 3, 4, 5, 2, 1, 2]))\nprint(robinKarpRollingHash([5, 1, 2, 3, 4, 5, 2, 3, 4]))\nprint(robinKarpRollingHash([4, 1, 2, 3, 4, 2, 5, 6]))\nprint(robinKarpRollingHash([4, 1, 2, 3, 4, 1, 4]))\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "robinKarpRollingHash.ts",
+          "content": "export function robinKarpRollingHash(arr: number[]): number {\n    let idx = 0;\n    const tlen = arr[idx++];\n    const text = arr.slice(idx, idx + tlen); idx += tlen;\n    const plen = arr[idx++];\n    const pattern = arr.slice(idx, idx + plen);\n    if (plen > tlen) return -1;\n\n    // Use simple hash to avoid BigInt\n    const BASE = 31, MOD = 1000000007;\n    let pHash = 0, tHash = 0, power = 1;\n    for (let i = 0; i < plen; i++) {\n        pHash = (pHash + (pattern[i]+1) * power) % MOD;\n        tHash = (tHash + (text[i]+1) * power) % MOD;\n        if (i < plen - 1) power = (power * BASE) % MOD;\n    }\n\n    for (let i = 0; i <= tlen - plen; i++) {\n        if (tHash === pHash) {\n            let match = true;\n            for (let j = 0; j < plen; j++) if (text[i+j] !== pattern[j]) { match = false; break; }\n            if (match) return i;\n        }\n        if (i < tlen - plen) {\n            // Recompute hash for next window\n            tHash = 0; let pw = 1;\n            for (let k = 0; k < plen; k++) {\n                tHash = (tHash + (text[i+1+k]+1) * pw) % MOD;\n                if (k < plen - 1) pw = (pw * BASE) % MOD;\n            }\n        }\n    }\n    return -1;\n}\n\nconsole.log(robinKarpRollingHash([5, 1, 2, 3, 4, 5, 2, 1, 2]));\nconsole.log(robinKarpRollingHash([5, 1, 2, 3, 4, 5, 2, 3, 4]));\nconsole.log(robinKarpRollingHash([4, 1, 2, 3, 4, 2, 5, 6]));\nconsole.log(robinKarpRollingHash([4, 1, 2, 3, 4, 1, 4]));\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "patterns": [
+    "sliding-window"
+  ],
+  "patternDifficulty": "intermediate",
+  "practiceOrder": 3,
+  "readme": "# Rabin-Karp Rolling Hash\n\n## Overview\n\nThe Rabin-Karp algorithm is a string-matching algorithm that uses hashing to find patterns in text. Invented by Michael O. Rabin and Richard M. Karp in 1987, its key innovation is the use of a rolling hash function that can be updated in constant time as the search window slides one position to the right. This allows the algorithm to avoid recomputing the hash from scratch at each position, making it efficient for single-pattern matching and especially powerful for multi-pattern search.\n\n## How It Works\n\n1. **Compute the hash of the pattern** using a polynomial rolling hash: `hash = (p[0]*d^(m-1) + p[1]*d^(m-2) + ... + p[m-1]) mod q`, where `d` is the base (related to alphabet size) and `q` is a large prime.\n2. **Compute the hash of the first window** of the text (first `m` characters) using the same formula.\n3. **Slide the window** one position at a time. Update the hash in O(1) by removing the contribution of the outgoing character and adding the incoming character: `hash = (d * (oldHash - text[i]*d^(m-1)) + text[i+m]) mod q`.\n4. **On hash match:** Compare the actual characters of the pattern and the current window to confirm (hash collisions are possible).\n5. Return the index of the first match, or -1 if no match is found.\n\nInput format: `[text_len, ...text, pattern_len, ...pattern]`\nOutput: index of first match, or -1 if not found.\n\n## Worked Example\n\nGiven text = `[2, 3, 5, 3, 5, 7]`, pattern = `[3, 5]`, base `d = 256`, prime `q = 101`:\n\n**Step 1 -- Compute pattern hash:**\n`hash_p = (3 * 256 + 5) mod 101 = 773 mod 101 = (7*101 + 66) = 66`\n\n**Step 2 -- Compute first window hash:**\nWindow `[2, 3]`: `hash_w = (2 * 256 + 3) mod 101 = 515 mod 101 = 9`\n\n**Step 3 -- Slide:**\n- Position 0: `hash_w = 9`, `hash_p = 66`. No match.\n- Position 1: Remove `2`, add `5`. `hash_w = (256*(9 - 2*256) + 5) mod 101 = ... = 66`. Hash matches! Compare `[3,5]` vs `[3,5]` -- confirmed match.\n\n**Result:** 1\n\n## Pseudocode\n\n```\nfunction rabinKarpSearch(text, pattern):\n    n = length(text)\n    m = length(pattern)\n    d = 256          // base\n    q = 1000000007   // large prime\n    if m > n: return -1\n\n    // Compute d^(m-1) mod q\n    h = 1\n    for i from 1 to m - 1:\n        h = (h * d) mod q\n\n    // Compute initial hashes\n    hashP = 0\n    hashT = 0\n    for i from 0 to m - 1:\n        hashP = (d * hashP + pattern[i]) mod q\n        hashT = (d * hashT + text[i]) mod q\n\n    // Slide the window\n    for i from 0 to n - m:\n        if hashP == hashT:\n            // Verify character by character\n            if text[i..i+m-1] == pattern[0..m-1]:\n                return i\n\n        if i < n - m:\n            // Rolling hash update\n            hashT = (d * (hashT - text[i] * h) + text[i + m]) mod q\n            if hashT < 0:\n                hashT = hashT + q\n\n    return -1\n```\n\n## Complexity Analysis\n\n| Case    | Time     | Space |\n|---------|----------|-------|\n| Best    | O(n + m) | O(1)  |\n| Average | O(n + m) | O(1)  |\n| Worst   | O(n * m) | O(1)  |\n\n- **Best/Average case O(n + m):** Hash collisions are rare with a good hash function and large prime. Each position requires O(1) for the rolling hash update.\n- **Worst case O(n * m):** If every window produces a hash collision (spurious hit), every position requires O(m) verification. This is extremely unlikely with a good hash function but can be triggered adversarially.\n- **Space O(1):** Only a constant number of variables are needed (hash values, base power).\n\n## When to Use\n\n- Single-pattern search where practical speed and implementation simplicity matter\n- **Multi-pattern search:** Rabin-Karp excels when searching for multiple patterns simultaneously -- compute hashes for all patterns and check each window against the set\n- Plagiarism detection (comparing document fingerprints)\n- Detecting duplicate content in large text corpora\n- Rolling window computations in data streams\n- When you need a simple, hash-based approach that is easy to parallelize\n\n## When NOT to Use\n\n- **When worst-case guarantees are required:** Use KMP or Boyer-Moore for guaranteed O(n+m) or better worst-case time.\n- **Very short patterns:** The overhead of computing hash values is not justified for patterns of 1-2 characters.\n- **When hash collisions are unacceptable:** In security-sensitive applications where an adversary could craft inputs to cause many collisions, deterministic algorithms like KMP are safer.\n- **Single-pattern search on large alphabets:** Boyer-Moore is typically faster in practice for single-pattern matching due to its ability to skip characters.\n\n## Comparison\n\n| Algorithm     | Preprocessing | Avg Search | Worst Search | Multi-pattern | Space |\n|---------------|---------------|------------|--------------|---------------|-------|\n| Rabin-Karp    | O(m)          | O(n + m)   | O(n * m)     | Yes           | O(1)  |\n| KMP           | O(m)          | O(n)       | O(n)         | No            | O(m)  |\n| Boyer-Moore   | O(m + k)      | O(n/m)     | O(n*m)       | No            | O(k)  |\n| Aho-Corasick  | O(sum of m)   | O(n + z)   | O(n + z)     | Yes           | O(sum)|\n| Naive         | O(1)          | O(n * m)   | O(n * m)     | No            | O(1)  |\n\nRabin-Karp is unique in combining O(1) space with natural support for multi-pattern matching. Aho-Corasick is faster for multi-pattern matching but requires building an automaton. Boyer-Moore is the fastest single-pattern matcher in practice.\n\n## References\n\n- Karp, R.M. and Rabin, M.O. (1987). \"Efficient Randomized Pattern-Matching Algorithms.\" *IBM Journal of Research and Development*, 31(2), 249-260.\n- Cormen, T.H., Leiserson, C.E., Rivest, R.L., and Stein, C. (2009). *Introduction to Algorithms* (3rd ed.), Section 32.2. MIT Press.\n- Sedgewick, R. and Wayne, K. (2011). *Algorithms* (4th ed.), Section 5.3. Addison-Wesley.\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [robin_karp_rolling_hash.py](python/robin_karp_rolling_hash.py) |\n| Java       | [RobinKarpRollingHash.java](java/RobinKarpRollingHash.java) |\n| C++        | [robin_karp_rolling_hash.cpp](cpp/robin_karp_rolling_hash.cpp) |\n| C          | [robin_karp_rolling_hash.c](c/robin_karp_rolling_hash.c) |\n| Go         | [robin_karp_rolling_hash.go](go/robin_karp_rolling_hash.go) |\n| TypeScript | [robinKarpRollingHash.ts](typescript/robinKarpRollingHash.ts) |\n| Rust       | [robin_karp_rolling_hash.rs](rust/robin_karp_rolling_hash.rs) |\n| Kotlin     | [RobinKarpRollingHash.kt](kotlin/RobinKarpRollingHash.kt) |\n| Swift      | [RobinKarpRollingHash.swift](swift/RobinKarpRollingHash.swift) |\n| Scala      | [RobinKarpRollingHash.scala](scala/RobinKarpRollingHash.scala) |\n| C#         | [RobinKarpRollingHash.cs](csharp/RobinKarpRollingHash.cs) |\n"
+}

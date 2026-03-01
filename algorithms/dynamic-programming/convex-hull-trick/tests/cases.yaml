@@ -1,0 +1,39 @@
+algorithm: "convex-hull-trick"
+description: "Query minimum y = mx + b over a set of lines"
+function_signature:
+  name: "convex_hull_trick"
+  input: "n (number of lines), lines (slope, intercept pairs), queries (x values)"
+  output: "array of minimum y values"
+input_format: "n, m1, b1, ..., mn, bn, q, x1, ..., xq"
+output_format: "q integers: minimum y for each query"
+test_cases:
+  - name: "single line"
+    input:
+      n: 1
+      lines: [[2, 1]]
+      queries: [3]
+    expected: [7]
+  - name: "two lines"
+    input:
+      n: 2
+      lines: [[1, 0], [0, 3]]
+      queries: [1, 5]
+    expected: [1, 3]
+  - name: "three lines crossing"
+    input:
+      n: 3
+      lines: [[1, 5], [-1, 10], [0, 3]]
+      queries: [0, 2, 4, 6]
+    expected: [3, 3, 3, 3]
+  - name: "negative slopes"
+    input:
+      n: 2
+      lines: [[-2, 10], [-3, 15]]
+      queries: [0, 1, 5]
+    expected: [10, 8, 0]
+  - name: "parallel lines"
+    input:
+      n: 2
+      lines: [[1, 0], [1, 5]]
+      queries: [0, 3]
+    expected: [0, 3]

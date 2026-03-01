@@ -1,0 +1,136 @@
+{
+  "name": "Permutations",
+  "slug": "permutations",
+  "category": "backtracking",
+  "subcategory": "combinatorics",
+  "difficulty": "intermediate",
+  "tags": [
+    "backtracking",
+    "permutations",
+    "recursion",
+    "combinatorics",
+    "brute-force"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n!)",
+      "average": "O(n!)",
+      "worst": "O(n!)"
+    },
+    "space": "O(n)"
+  },
+  "stable": false,
+  "in_place": false,
+  "related": [
+    "combination",
+    "factorial"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "Permutations.c",
+          "content": "#include <stdio.h>\n#include <stdlib.h>\n\nvoid swap(int *a, int *b) {\n    int temp = *a;\n    *a = *b;\n    *b = temp;\n}\n\nvoid permute(int *arr, int start, int end, int **results, int *count, int n) {\n    if (start == end) {\n        for (int i = 0; i < n; i++) {\n            results[*count][i] = arr[i];\n        }\n        (*count)++;\n        return;\n    }\n    for (int i = start; i <= end; i++) {\n        swap(&arr[start], &arr[i]);\n        permute(arr, start + 1, end, results, count, n);\n        swap(&arr[start], &arr[i]);\n    }\n}\n\nint factorial(int n) {\n    int result = 1;\n    for (int i = 2; i <= n; i++) result *= i;\n    return result;\n}\n\n/* Comparison function for qsort to sort permutations lexicographically */\nint n_global;\nint comparePermutations(const void *a, const void *b) {\n    const int *pa = *(const int **)a;\n    const int *pb = *(const int **)b;\n    for (int i = 0; i < n_global; i++) {\n        if (pa[i] != pb[i]) return pa[i] - pb[i];\n    }\n    return 0;\n}\n\nvoid permutations(int *arr, int n) {\n    if (n == 0) {\n        printf(\"[]\\n\");\n        return;\n    }\n    int total = factorial(n);\n    int **results = (int **)malloc(total * sizeof(int *));\n    for (int i = 0; i < total; i++) {\n        results[i] = (int *)malloc(n * sizeof(int));\n    }\n\n    int count = 0;\n    permute(arr, 0, n - 1, results, &count, n);\n\n    n_global = n;\n    qsort(results, count, sizeof(int *), comparePermutations);\n\n    for (int i = 0; i < count; i++) {\n        printf(\"[\");\n        for (int j = 0; j < n; j++) {\n            printf(\"%d\", results[i][j]);\n            if (j < n - 1) printf(\", \");\n        }\n        printf(\"]\\n\");\n        free(results[i]);\n    }\n    free(results);\n}\n\nint main() {\n    int arr[] = {1, 2, 3};\n    permutations(arr, 3);\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "Permutations.cpp",
+          "content": "#include <algorithm>\n#include <vector>\n\nstd::vector<std::vector<int>> permutations(std::vector<int> values) {\n    std::sort(values.begin(), values.end());\n\n    std::vector<std::vector<int>> result;\n    if (values.empty()) {\n        result.push_back({});\n        return result;\n    }\n\n    do {\n        result.push_back(values);\n    } while (std::next_permutation(values.begin(), values.end()));\n\n    return result;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "Permutations.cs",
+          "content": "using System;\nusing System.Collections.Generic;\nusing System.Linq;\n\nclass Permutations\n{\n    static List<List<int>> GetPermutations(List<int> arr)\n    {\n        var result = new List<List<int>>();\n        if (arr.Count == 0)\n        {\n            result.Add(new List<int>());\n            return result;\n        }\n        Backtrack(new List<int>(), new List<int>(arr), result);\n        result.Sort((a, b) =>\n        {\n            for (int i = 0; i < a.Count; i++)\n            {\n                if (a[i] != b[i]) return a[i].CompareTo(b[i]);\n            }\n            return 0;\n        });\n        return result;\n    }\n\n    static void Backtrack(List<int> current, List<int> remaining, List<List<int>> result)\n    {\n        if (remaining.Count == 0)\n        {\n            result.Add(new List<int>(current));\n            return;\n        }\n        for (int i = 0; i < remaining.Count; i++)\n        {\n            int elem = remaining[i];\n            current.Add(elem);\n            remaining.RemoveAt(i);\n            Backtrack(current, remaining, result);\n            remaining.Insert(i, elem);\n            current.RemoveAt(current.Count - 1);\n        }\n    }\n\n    static void Main(string[] args)\n    {\n        var arr = new List<int> { 1, 2, 3 };\n        var result = GetPermutations(arr);\n        foreach (var perm in result)\n        {\n            Console.WriteLine(\"[\" + string.Join(\", \", perm) + \"]\");\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "Permutations.go",
+          "content": "package permutations\n\nimport \"sort\"\n\n// Permutations returns all permutations of the given array, sorted lexicographically.\nfunc Permutations(arr []int) [][]int {\n\tvar result [][]int\n\tif len(arr) == 0 {\n\t\treturn [][]int{{}}\n\t}\n\tvar backtrack func(current []int, remaining []int)\n\tbacktrack = func(current []int, remaining []int) {\n\t\tif len(remaining) == 0 {\n\t\t\tperm := make([]int, len(current))\n\t\t\tcopy(perm, current)\n\t\t\tresult = append(result, perm)\n\t\t\treturn\n\t\t}\n\t\tfor i := 0; i < len(remaining); i++ {\n\t\t\tnewCurrent := append(current, remaining[i])\n\t\t\tnewRemaining := make([]int, 0, len(remaining)-1)\n\t\t\tnewRemaining = append(newRemaining, remaining[:i]...)\n\t\t\tnewRemaining = append(newRemaining, remaining[i+1:]...)\n\t\t\tbacktrack(newCurrent, newRemaining)\n\t\t}\n\t}\n\tbacktrack([]int{}, arr)\n\n\tsort.Slice(result, func(i, j int) bool {\n\t\tfor k := 0; k < len(result[i]); k++ {\n\t\t\tif result[i][k] != result[j][k] {\n\t\t\t\treturn result[i][k] < result[j][k]\n\t\t\t}\n\t\t}\n\t\treturn false\n\t})\n\treturn result\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "Permutations.java",
+          "content": "import java.util.ArrayList;\nimport java.util.Collections;\nimport java.util.List;\n\npublic class Permutations {\n    public static List<List<Integer>> permutations(List<Integer> arr) {\n        List<List<Integer>> result = new ArrayList<>();\n        if (arr.isEmpty()) {\n            result.add(new ArrayList<>());\n            return result;\n        }\n        backtrack(new ArrayList<>(), new ArrayList<>(arr), result);\n        Collections.sort(result, (a, b) -> {\n            for (int i = 0; i < a.size(); i++) {\n                if (!a.get(i).equals(b.get(i))) {\n                    return a.get(i) - b.get(i);\n                }\n            }\n            return 0;\n        });\n        return result;\n    }\n\n    private static void backtrack(List<Integer> current, List<Integer> remaining,\n                                   List<List<Integer>> result) {\n        if (remaining.isEmpty()) {\n            result.add(new ArrayList<>(current));\n            return;\n        }\n        for (int i = 0; i < remaining.size(); i++) {\n            int elem = remaining.get(i);\n            current.add(elem);\n            remaining.remove(i);\n            backtrack(current, remaining, result);\n            remaining.add(i, elem);\n            current.remove(current.size() - 1);\n        }\n    }\n\n    public static void main(String[] args) {\n        List<Integer> arr = List.of(1, 2, 3);\n        List<List<Integer>> result = permutations(new ArrayList<>(arr));\n        for (List<Integer> perm : result) {\n            System.out.println(perm);\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "Permutations.kt",
+          "content": "fun permutations(arr: List<Int>): List<List<Int>> {\n    val result = mutableListOf<List<Int>>()\n    if (arr.isEmpty()) {\n        result.add(emptyList())\n        return result\n    }\n\n    fun backtrack(current: MutableList<Int>, remaining: MutableList<Int>) {\n        if (remaining.isEmpty()) {\n            result.add(current.toList())\n            return\n        }\n        for (i in remaining.indices) {\n            val elem = remaining[i]\n            current.add(elem)\n            remaining.removeAt(i)\n            backtrack(current, remaining)\n            remaining.add(i, elem)\n            current.removeAt(current.size - 1)\n        }\n    }\n\n    backtrack(mutableListOf(), arr.toMutableList())\n    result.sortWith(compareBy<List<Int>> { it.getOrElse(0) { 0 } }\n        .thenBy { it.getOrElse(1) { 0 } }\n        .thenBy { it.getOrElse(2) { 0 } })\n    return result\n}\n\nfun main() {\n    val result = permutations(listOf(1, 2, 3))\n    for (perm in result) {\n        println(perm)\n    }\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "Permutations.py",
+          "content": "def Permutations(array):\n    if array.__len__== 1:\n        return\n    resultArray = [];\n    for i in range(array.__len__):\n        first = array[i]\n        intermediate_array=[]\n        if(i<array.__len__-1):\n            intermediate_array = array[:i] + array[i+1:]\n        else:\n            intermediate_array= array[:i]\n        map(lambda x: resultArray.append([first]+x), Permutations(intermediate_array))\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "permutations.rs",
+          "content": "fn permutations(arr: &[i32]) -> Vec<Vec<i32>> {\n    let mut result = Vec::new();\n    if arr.is_empty() {\n        result.push(vec![]);\n        return result;\n    }\n    let mut current = Vec::new();\n    let mut remaining = arr.to_vec();\n    backtrack(&mut current, &mut remaining, &mut result);\n    result.sort();\n    result\n}\n\nfn backtrack(current: &mut Vec<i32>, remaining: &mut Vec<i32>, result: &mut Vec<Vec<i32>>) {\n    if remaining.is_empty() {\n        result.push(current.clone());\n        return;\n    }\n    for i in 0..remaining.len() {\n        let elem = remaining.remove(i);\n        current.push(elem);\n        backtrack(current, remaining, result);\n        current.pop();\n        remaining.insert(i, elem);\n    }\n}\n\nfn main() {\n    let arr = vec![1, 2, 3];\n    let result = permutations(&arr);\n    for perm in &result {\n        println!(\"{:?}\", perm);\n    }\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "Permutations.scala",
+          "content": "object Permutations {\n  def permutations(arr: List[Int]): List[List[Int]] = {\n    if (arr.isEmpty) return List(List.empty[Int])\n\n    def backtrack(current: List[Int], remaining: List[Int]): List[List[Int]] = {\n      if (remaining.isEmpty) return List(current)\n      remaining.indices.flatMap { i =>\n        val elem = remaining(i)\n        val newRemaining = remaining.take(i) ++ remaining.drop(i + 1)\n        backtrack(current :+ elem, newRemaining)\n      }.toList\n    }\n\n    backtrack(List.empty, arr).sortBy(_.mkString(\",\"))\n  }\n\n  def main(args: Array[String]): Unit = {\n    val result = permutations(List(1, 2, 3))\n    result.foreach(println)\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "Permutations.swift",
+          "content": "func permutations(_ arr: [Int]) -> [[Int]] {\n    var result = [[Int]]()\n    if arr.isEmpty {\n        result.append([])\n        return result\n    }\n\n    func backtrack(_ current: inout [Int], _ remaining: inout [Int]) {\n        if remaining.isEmpty {\n            result.append(current)\n            return\n        }\n        for i in 0..<remaining.count {\n            let elem = remaining.remove(at: i)\n            current.append(elem)\n            backtrack(&current, &remaining)\n            current.removeLast()\n            remaining.insert(elem, at: i)\n        }\n    }\n\n    var current = [Int]()\n    var rem = arr\n    backtrack(&current, &rem)\n    result.sort { a, b in\n        for i in 0..<a.count {\n            if a[i] != b[i] { return a[i] < b[i] }\n        }\n        return false\n    }\n    return result\n}\n\nlet result = permutations([1, 2, 3])\nfor perm in result {\n    print(perm)\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "index.js",
+          "content": "export function permutations(values) {\n  if (values.length === 0) {\n    return [[]];\n  }\n\n  if (values.length === 1) {\n    return [values.slice()];\n  }\n\n  const results = [];\n  for (let i = 0; i < values.length; i += 1) {\n    const current = values[i];\n    const rest = values.slice(0, i).concat(values.slice(i + 1));\n\n    for (const permutation of permutations(rest)) {\n      results.push([current, ...permutation]);\n    }\n  }\n\n  return results;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "patterns": [
+    "subsets"
+  ],
+  "patternDifficulty": "beginner",
+  "practiceOrder": 1,
+  "readme": "# Permutations\n\n## Overview\n\nA permutation of a set is an arrangement of its elements in a specific order. The problem of generating all permutations of a set of n elements produces n! (n factorial) distinct arrangements. For example, the permutations of {1, 2, 3} are: [1,2,3], [1,3,2], [2,1,3], [2,3,1], [3,1,2], [3,2,1] -- a total of 3! = 6 permutations.\n\nGenerating permutations is a fundamental combinatorial operation with applications in brute-force search, cryptanalysis, testing (generating all test cases), scheduling (exploring all possible orderings), and solving puzzles like the traveling salesman problem.\n\n## How It Works\n\nThe backtracking approach generates permutations by building them one element at a time. At each position, it tries each unused element, recursively fills the remaining positions, and then backtracks to try the next element. The algorithm maintains a \"used\" set to track which elements have already been placed in the current partial permutation.\n\n### Example\n\nGenerating all permutations of `{1, 2, 3}`:\n\n```\n                        []\n                /       |        \\\n              [1]      [2]       [3]\n             / \\      / \\       / \\\n          [1,2] [1,3] [2,1] [2,3] [3,1] [3,2]\n           |     |     |     |     |     |\n        [1,2,3][1,3,2][2,1,3][2,3,1][3,1,2][3,2,1]\n```\n\n**Step-by-step backtracking trace:**\n\n| Step | Current permutation | Available elements | Action |\n|------|--------------------|--------------------|--------|\n| 1 | [] | {1, 2, 3} | Choose 1 |\n| 2 | [1] | {2, 3} | Choose 2 |\n| 3 | [1, 2] | {3} | Choose 3 |\n| 4 | [1, 2, 3] | {} | Output permutation, backtrack |\n| 5 | [1] | {2, 3} | Choose 3 |\n| 6 | [1, 3] | {2} | Choose 2 |\n| 7 | [1, 3, 2] | {} | Output permutation, backtrack |\n| 8 | [] | {1, 2, 3} | Choose 2 |\n| 9 | [2] | {1, 3} | Choose 1 |\n| 10 | [2, 1] | {3} | Choose 3 |\n| 11 | [2, 1, 3] | {} | Output permutation, backtrack |\n| ... | ... | ... | ... continues for remaining |\n\nResult: All 6 permutations generated.\n\n## Pseudocode\n\n```\nfunction permutations(elements):\n    result = empty list\n    used = array of size n, all false\n    current = empty list\n\n    function backtrack():\n        if length(current) == length(elements):\n            result.append(copy of current)\n            return\n\n        for i from 0 to length(elements) - 1:\n            if not used[i]:\n                used[i] = true\n                current.append(elements[i])\n                backtrack()\n                current.removeLast()\n                used[i] = false\n\n    backtrack()\n    return result\n```\n\nAlternatively, using the swap-based approach (Heap's algorithm) which generates permutations by swapping elements in place:\n\n```\nfunction heapPermutations(arr, n):\n    if n == 1:\n        output(arr)\n        return\n    for i from 0 to n - 1:\n        heapPermutations(arr, n - 1)\n        if n is even:\n            swap(arr[i], arr[n - 1])\n        else:\n            swap(arr[0], arr[n - 1])\n```\n\n## Complexity Analysis\n\n| Case    | Time  | Space |\n|---------|-------|-------|\n| Best    | O(n!) | O(n)  |\n| Average | O(n!) | O(n)  |\n| Worst   | O(n!) | O(n)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(n!):** There are n! permutations, and generating each one requires at least O(1) work. The total is at least O(n!). With output copying, it is O(n * n!).\n\n- **Average Case -- O(n!):** The recursion tree has n! leaves. Each internal node does O(n) work (scanning through elements), but this is amortized across all permutations.\n\n- **Worst Case -- O(n!):** Every permutation must be generated. There is no input that produces fewer than n! permutations (assuming all elements are distinct).\n\n- **Space -- O(n):** The recursion stack has depth n, and the current permutation being built has at most n elements. The `used` array has size n. (The output storage for all permutations is O(n * n!), but this is output-dependent.)\n\n## When to Use\n\n- **Exhaustive search:** When every possible ordering must be examined (e.g., brute-force TSP for small n).\n- **Testing:** Generating all possible test orderings to check for order-dependent bugs.\n- **Small input sizes (n <= 10-12):** n! grows rapidly: 10! = 3.6 million, 12! = 479 million.\n- **When a specific permutation order is needed:** Lexicographic generation produces permutations in sorted order.\n\n## When NOT to Use\n\n- **Large n (> 12-15):** n! grows super-exponentially. 15! = 1.3 trillion permutations.\n- **When you only need some permutations:** Random sampling or next-permutation algorithms are more appropriate.\n- **When order does not matter:** Use combinations instead of permutations.\n- **When only the count is needed:** The count is simply n!; no generation is necessary.\n\n## Comparison with Similar Algorithms\n\n| Method              | Time     | Space | Notes                                          |\n|--------------------|---------|-------|-------------------------------------------------|\n| Backtracking        | O(n*n!) | O(n)  | Simple; generates in any order                   |\n| Heap's Algorithm    | O(n!)   | O(n)  | Optimal; single swap per permutation             |\n| Next Permutation    | O(n) each| O(1) | Generates one at a time in lexicographic order   |\n| Steinhaus-Johnson-Trotter| O(n!)| O(n) | Minimal changes between consecutive permutations|\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [Permutations.py](python/Permutations.py) |\n| C++        | [Permutations.cpp](cpp/Permutations.cpp) |\n| TypeScript | [index.js](typescript/index.js) |\n\n## References\n\n- Knuth, D. E. (2011). *The Art of Computer Programming, Volume 4A: Combinatorial Algorithms* (1st ed.). Addison-Wesley. Section 7.2.1.2: Generating All Permutations.\n- Heap, B. R. (1963). Permutations by interchanges. *The Computer Journal*, 6(3), 293-298.\n- [Permutation -- Wikipedia](https://en.wikipedia.org/wiki/Permutation)\n"
+}

@@ -1,0 +1,17 @@
+name: "Dinic's Algorithm"
+slug: "dinic"
+category: "graph"
+subcategory: "network-flow"
+difficulty: "advanced"
+tags: [graph, network-flow, max-flow, dinic, blocking-flow]
+complexity:
+  time:
+    best: "O(V^2 * E)"
+    average: "O(V^2 * E)"
+    worst: "O(V^2 * E)"
+  space: "O(V^2)"
+stable: null
+in_place: false
+related: [max-flow-min-cut, ford-fulkerson, breadth-first-search]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

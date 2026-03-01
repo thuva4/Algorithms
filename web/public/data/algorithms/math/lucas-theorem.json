@@ -1,0 +1,135 @@
+{
+  "name": "Lucas' Theorem",
+  "slug": "lucas-theorem",
+  "category": "math",
+  "subcategory": "combinatorics",
+  "difficulty": "intermediate",
+  "tags": [
+    "math",
+    "combinatorics",
+    "lucas-theorem",
+    "binomial-coefficient",
+    "modular-arithmetic"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(p log_p(n))",
+      "average": "O(p log_p(n))",
+      "worst": "O(p + log_p(n))"
+    },
+    "space": "O(p)"
+  },
+  "stable": null,
+  "in_place": false,
+  "related": [
+    "combination",
+    "modular-exponentiation"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "lucas_theorem.c",
+          "content": "#include <stdio.h>\n#include <stdlib.h>\n#include \"lucas_theorem.h\"\n\nstatic long long mod_pow(long long base, long long exp, long long mod) {\n    long long result = 1; base %= mod;\n    while (exp > 0) {\n        if (exp & 1) result = result * base % mod;\n        exp >>= 1;\n        base = base * base % mod;\n    }\n    return result;\n}\n\nint lucas_theorem(long long n, long long k, int p) {\n    if (k > n) return 0;\n    long long *fact = (long long *)malloc(p * sizeof(long long));\n    fact[0] = 1;\n    for (int i = 1; i < p; i++) fact[i] = fact[i - 1] * i % p;\n\n    long long result = 1;\n    while (n > 0 || k > 0) {\n        int ni = (int)(n % p), ki = (int)(k % p);\n        if (ki > ni) { free(fact); return 0; }\n        long long c = fact[ni] * mod_pow(fact[ki], p - 2, p) % p;\n        c = c * mod_pow(fact[ni - ki], p - 2, p) % p;\n        result = result * c % p;\n        n /= p; k /= p;\n    }\n    free(fact);\n    return (int)result;\n}\n\nint main(void) {\n    printf(\"%d\\n\", lucas_theorem(10, 3, 7));\n    printf(\"%d\\n\", lucas_theorem(5, 2, 3));\n    printf(\"%d\\n\", lucas_theorem(100, 50, 13));\n    return 0;\n}\n"
+        },
+        {
+          "filename": "lucas_theorem.h",
+          "content": "#ifndef LUCAS_THEOREM_H\n#define LUCAS_THEOREM_H\n\nint lucas_theorem(long long n, long long k, int p);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "lucas_theorem.cpp",
+          "content": "#include <vector>\n#include <iostream>\nusing namespace std;\n\nlong long mod_pow(long long base, long long exp, long long mod) {\n    long long result = 1; base %= mod;\n    while (exp > 0) {\n        if (exp & 1) result = result * base % mod;\n        exp >>= 1;\n        base = base * base % mod;\n    }\n    return result;\n}\n\nint lucas_theorem(long long n, long long k, int p) {\n    if (k > n) return 0;\n    vector<long long> fact(p);\n    fact[0] = 1;\n    for (int i = 1; i < p; i++) fact[i] = fact[i - 1] * i % p;\n\n    long long result = 1;\n    while (n > 0 || k > 0) {\n        int ni = n % p, ki = k % p;\n        if (ki > ni) return 0;\n        long long c = fact[ni] * mod_pow(fact[ki], p - 2, p) % p * mod_pow(fact[ni - ki], p - 2, p) % p;\n        result = result * c % p;\n        n /= p; k /= p;\n    }\n    return (int)result;\n}\n\nint main() {\n    cout << lucas_theorem(10, 3, 7) << endl;\n    cout << lucas_theorem(5, 2, 3) << endl;\n    cout << lucas_theorem(100, 50, 13) << endl;\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "LucasTheorem.cs",
+          "content": "using System;\n\npublic class LucasTheorem\n{\n    static long ModPow(long b, long exp, long mod) {\n        long result = 1; b %= mod;\n        while (exp > 0) {\n            if ((exp & 1) == 1) result = result * b % mod;\n            exp >>= 1; b = b * b % mod;\n        }\n        return result;\n    }\n\n    public static int Solve(long n, long k, int p) {\n        if (k > n) return 0;\n        long pp = p;\n        long[] fact = new long[p];\n        fact[0] = 1;\n        for (int i = 1; i < p; i++) fact[i] = fact[i - 1] * i % pp;\n\n        long result = 1;\n        while (n > 0 || k > 0) {\n            int ni = (int)(n % pp), ki = (int)(k % pp);\n            if (ki > ni) return 0;\n            long c = fact[ni] * ModPow(fact[ki], pp - 2, pp) % pp * ModPow(fact[ni - ki], pp - 2, pp) % pp;\n            result = result * c % pp;\n            n /= pp; k /= pp;\n        }\n        return (int)result;\n    }\n\n    public static void Main(string[] args) {\n        Console.WriteLine(Solve(10, 3, 7));\n        Console.WriteLine(Solve(5, 2, 3));\n        Console.WriteLine(Solve(100, 50, 13));\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "lucas_theorem.go",
+          "content": "package main\n\nimport \"fmt\"\n\nfunc modPowLucas(base, exp, mod int64) int64 {\n\tresult := int64(1); base %= mod\n\tfor exp > 0 {\n\t\tif exp&1 == 1 { result = result * base % mod }\n\t\texp >>= 1; base = base * base % mod\n\t}\n\treturn result\n}\n\nfunc lucasTheorem(n, k int64, p int) int {\n\tif k > n { return 0 }\n\tpp := int64(p)\n\tfact := make([]int64, p)\n\tfact[0] = 1\n\tfor i := 1; i < p; i++ { fact[i] = fact[i-1] * int64(i) % pp }\n\n\tresult := int64(1)\n\tfor n > 0 || k > 0 {\n\t\tni := int(n % pp); ki := int(k % pp)\n\t\tif ki > ni { return 0 }\n\t\tc := fact[ni] * modPowLucas(fact[ki], pp-2, pp) % pp\n\t\tc = c * modPowLucas(fact[ni-ki], pp-2, pp) % pp\n\t\tresult = result * c % pp\n\t\tn /= pp; k /= pp\n\t}\n\treturn int(result)\n}\n\nfunc main() {\n\tfmt.Println(lucasTheorem(10, 3, 7))\n\tfmt.Println(lucasTheorem(5, 2, 3))\n\tfmt.Println(lucasTheorem(100, 50, 13))\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "LucasTheorem.java",
+          "content": "public class LucasTheorem {\n    static long modPow(long base, long exp, long mod) {\n        long result = 1; base %= mod;\n        while (exp > 0) {\n            if ((exp & 1) == 1) result = result * base % mod;\n            exp >>= 1;\n            base = base * base % mod;\n        }\n        return result;\n    }\n\n    static long combSmall(int a, int b, long[] fact, int p) {\n        if (b > a) return 0;\n        if (b == 0 || a == b) return 1;\n        return fact[a] % p * modPow(fact[b], p - 2, p) % p * modPow(fact[a - b], p - 2, p) % p;\n    }\n\n    public static int lucasTheorem(long n, long k, int p) {\n        if (k > n) return 0;\n        long[] fact = new long[p];\n        fact[0] = 1;\n        for (int i = 1; i < p; i++) fact[i] = fact[i - 1] * i % p;\n\n        long result = 1;\n        while (n > 0 || k > 0) {\n            int ni = (int) (n % p), ki = (int) (k % p);\n            if (ki > ni) return 0;\n            result = result * combSmall(ni, ki, fact, p) % p;\n            n /= p; k /= p;\n        }\n        return (int) result;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(lucasTheorem(10, 3, 7));\n        System.out.println(lucasTheorem(5, 2, 3));\n        System.out.println(lucasTheorem(100, 50, 13));\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "LucasTheorem.kt",
+          "content": "fun modPowLT(base: Long, exp: Long, mod: Long): Long {\n    var b = base % mod; var e = exp; var result = 1L\n    while (e > 0) {\n        if (e and 1L == 1L) result = result * b % mod\n        e = e shr 1; b = b * b % mod\n    }\n    return result\n}\n\nfun lucasTheorem(n: Long, k: Long, p: Int): Int {\n    if (k > n) return 0\n    val pp = p.toLong()\n    val fact = LongArray(p)\n    fact[0] = 1\n    for (i in 1 until p) fact[i] = fact[i - 1] * i % pp\n\n    var result = 1L; var nn = n; var kk = k\n    while (nn > 0 || kk > 0) {\n        val ni = (nn % pp).toInt(); val ki = (kk % pp).toInt()\n        if (ki > ni) return 0\n        val c = fact[ni] * modPowLT(fact[ki], pp - 2, pp) % pp * modPowLT(fact[ni - ki], pp - 2, pp) % pp\n        result = result * c % pp\n        nn /= pp; kk /= pp\n    }\n    return result.toInt()\n}\n\nfun main() {\n    println(lucasTheorem(10, 3, 7))\n    println(lucasTheorem(5, 2, 3))\n    println(lucasTheorem(100, 50, 13))\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "lucas_theorem.py",
+          "content": "def lucas_theorem(n, k, p):\n    if k > n:\n        return 0\n\n    # Precompute factorials mod p\n    fact = [1] * p\n    for i in range(1, p):\n        fact[i] = fact[i - 1] * i % p\n\n    def mod_inv(a, m):\n        return pow(a, m - 2, m)\n\n    def comb_small(a, b):\n        if b > a:\n            return 0\n        if b == 0 or a == b:\n            return 1\n        return fact[a] * mod_inv(fact[b], p) % p * mod_inv(fact[a - b], p) % p\n\n    result = 1\n    while n > 0 or k > 0:\n        ni = n % p\n        ki = k % p\n        if ki > ni:\n            return 0\n        result = result * comb_small(ni, ki) % p\n        n //= p\n        k //= p\n\n    return result\n\n\nif __name__ == \"__main__\":\n    print(lucas_theorem(10, 3, 7))\n    print(lucas_theorem(5, 2, 3))\n    print(lucas_theorem(100, 50, 13))\n    print(lucas_theorem(3, 5, 7))\n    print(lucas_theorem(0, 0, 5))\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "lucas_theorem.rs",
+          "content": "fn mod_pow(mut base: i64, mut exp: i64, m: i64) -> i64 {\n    let mut result = 1i64; base %= m;\n    while exp > 0 {\n        if exp & 1 == 1 { result = result * base % m; }\n        exp >>= 1; base = base * base % m;\n    }\n    result\n}\n\nfn lucas_theorem(mut n: i64, mut k: i64, p: i64) -> i64 {\n    if k > n { return 0; }\n    let mut fact = vec![1i64; p as usize];\n    for i in 1..p as usize { fact[i] = fact[i - 1] * i as i64 % p; }\n\n    let mut result = 1i64;\n    while n > 0 || k > 0 {\n        let ni = (n % p) as usize;\n        let ki = (k % p) as usize;\n        if ki > ni { return 0; }\n        let c = fact[ni] * mod_pow(fact[ki], p - 2, p) % p * mod_pow(fact[ni - ki], p - 2, p) % p;\n        result = result * c % p;\n        n /= p; k /= p;\n    }\n    result\n}\n\nfn main() {\n    println!(\"{}\", lucas_theorem(10, 3, 7));\n    println!(\"{}\", lucas_theorem(5, 2, 3));\n    println!(\"{}\", lucas_theorem(100, 50, 13));\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "LucasTheorem.scala",
+          "content": "object LucasTheorem {\n  def modPow(base: Long, exp: Long, mod: Long): Long = {\n    var b = base % mod; var e = exp; var result = 1L\n    while (e > 0) {\n      if ((e & 1) == 1) result = result * b % mod\n      e >>= 1; b = b * b % mod\n    }\n    result\n  }\n\n  def lucasTheorem(n: Long, k: Long, p: Int): Int = {\n    if (k > n) return 0\n    val pp = p.toLong\n    val fact = Array.ofDim[Long](p)\n    fact(0) = 1\n    for (i <- 1 until p) fact(i) = fact(i - 1) * i % pp\n\n    var result = 1L; var nn = n; var kk = k\n    while (nn > 0 || kk > 0) {\n      val ni = (nn % pp).toInt; val ki = (kk % pp).toInt\n      if (ki > ni) return 0\n      val c = fact(ni) * modPow(fact(ki), pp - 2, pp) % pp * modPow(fact(ni - ki), pp - 2, pp) % pp\n      result = result * c % pp\n      nn /= pp; kk /= pp\n    }\n    result.toInt\n  }\n\n  def main(args: Array[String]): Unit = {\n    println(lucasTheorem(10, 3, 7))\n    println(lucasTheorem(5, 2, 3))\n    println(lucasTheorem(100, 50, 13))\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "LucasTheorem.swift",
+          "content": "func modPowLT(_ base: Int, _ exp: Int, _ mod: Int) -> Int {\n    var b = base % mod, e = exp, result = 1\n    while e > 0 {\n        if e & 1 == 1 { result = result * b % mod }\n        e >>= 1; b = b * b % mod\n    }\n    return result\n}\n\nfunc lucasTheorem(_ n: Int, _ k: Int, _ p: Int) -> Int {\n    if k > n { return 0 }\n    var fact = [Int](repeating: 1, count: p)\n    for i in 1..<p { fact[i] = fact[i - 1] * i % p }\n\n    var result = 1, nn = n, kk = k\n    while nn > 0 || kk > 0 {\n        let ni = nn % p, ki = kk % p\n        if ki > ni { return 0 }\n        let c = fact[ni] * modPowLT(fact[ki], p - 2, p) % p * modPowLT(fact[ni - ki], p - 2, p) % p\n        result = result * c % p\n        nn /= p; kk /= p\n    }\n    return result\n}\n\nprint(lucasTheorem(10, 3, 7))\nprint(lucasTheorem(5, 2, 3))\nprint(lucasTheorem(100, 50, 13))\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "lucasTheorem.ts",
+          "content": "function modPowLucas(base: number, exp: number, mod: number): number {\n    let result = 1; base %= mod;\n    while (exp > 0) {\n        if (exp & 1) result = result * base % mod;\n        exp >>= 1; base = base * base % mod;\n    }\n    return result;\n}\n\nexport function lucasTheorem(n: number, k: number, p: number): number {\n    if (k > n) return 0;\n    const fact = new Array(p);\n    fact[0] = 1;\n    for (let i = 1; i < p; i++) fact[i] = fact[i - 1] * i % p;\n\n    let result = 1;\n    while (n > 0 || k > 0) {\n        const ni = n % p, ki = k % p;\n        if (ki > ni) return 0;\n        const c = fact[ni] * modPowLucas(fact[ki], p - 2, p) % p * modPowLucas(fact[ni - ki], p - 2, p) % p;\n        result = result * c % p;\n        n = Math.floor(n / p);\n        k = Math.floor(k / p);\n    }\n    return result;\n}\n\nconsole.log(lucasTheorem(10, 3, 7));\nconsole.log(lucasTheorem(5, 2, 3));\nconsole.log(lucasTheorem(100, 50, 13));\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Lucas' Theorem\n\n## Overview\n\nLucas' Theorem provides an efficient way to compute binomial coefficients C(n, k) modulo a prime p. It decomposes n and k into their base-p representations and computes the product of binomial coefficients of corresponding digit pairs, all modulo p. This is particularly useful in competitive programming and combinatorics where n and k can be extremely large but p is a manageable prime.\n\nThe theorem was proved by Edouard Lucas in 1878 and remains one of the most elegant results connecting number theory and combinatorics.\n\n## How It Works\n\n1. Decompose n and k into base-p digits: `n = n_m * p^m + ... + n_1 * p + n_0` and `k = k_m * p^m + ... + k_1 * p + k_0`.\n2. By Lucas' Theorem: `C(n, k) mod p = product of C(n_i, k_i) mod p` for each digit position i.\n3. If any `k_i > n_i`, the result is 0 (since `C(a, b) = 0` when `b > a`).\n4. Each `C(n_i, k_i)` with `n_i, k_i < p` can be computed using precomputed factorials modulo p.\n\n### Mathematical Statement\n\nFor a prime p and non-negative integers n and k:\n\n```\nC(n, k) mod p = Product_{i=0}^{m} C(n_i, k_i) mod p\n```\n\nwhere `n_i` and `k_i` are the i-th digits in the base-p representations of n and k.\n\n### Input/Output Format\n\n- Input: `[n, k, p]`\n- Output: `C(n, k) mod p`\n\n## Example\n\n**Compute C(10, 3) mod 3:**\n\n**Step 1 -- Convert to base 3:**\n- 10 in base 3: `101` (i.e., 1*9 + 0*3 + 1*1)\n- 3 in base 3: `010` (i.e., 0*9 + 1*3 + 0*1)\n\n**Step 2 -- Compute digit-wise binomial coefficients:**\n- C(1, 0) mod 3 = 1\n- C(0, 1) mod 3 = 0 (since 1 > 0, result is 0)\n\n**Step 3 -- Multiply:** 1 * 0 = 0\n\n**Result:** C(10, 3) mod 3 = **0**\n\n**Verification:** C(10, 3) = 120, and 120 mod 3 = 0. Correct.\n\n---\n\n**Compute C(7, 3) mod 5:**\n\n**Step 1 -- Convert to base 5:**\n- 7 in base 5: `12` (1*5 + 2)\n- 3 in base 5: `03` (0*5 + 3)\n\n**Step 2 -- Compute digit-wise binomial coefficients:**\n- C(1, 0) mod 5 = 1\n- C(2, 3) mod 5 = 0 (since 3 > 2)\n\n**Result:** C(7, 3) mod 5 = **0**\n\n**Verification:** C(7, 3) = 35, and 35 mod 5 = 0. Correct.\n\n## Pseudocode\n\n```\nfunction lucasTheorem(n, k, p):\n    // Precompute factorials mod p\n    fact = array of size p\n    fact[0] = 1\n    for i from 1 to p - 1:\n        fact[i] = fact[i - 1] * i mod p\n\n    result = 1\n    while n > 0 or k > 0:\n        n_i = n mod p\n        k_i = k mod p\n\n        if k_i > n_i:\n            return 0\n\n        // C(n_i, k_i) mod p = fact[n_i] * modInverse(fact[k_i] * fact[n_i - k_i]) mod p\n        result = result * fact[n_i] mod p\n        result = result * modInverse(fact[k_i], p) mod p\n        result = result * modInverse(fact[n_i - k_i], p) mod p\n\n        n = n / p    // integer division\n        k = k / p    // integer division\n\n    return result\n\nfunction modInverse(a, p):\n    // Using Fermat's little theorem: a^(-1) = a^(p-2) mod p\n    return power(a, p - 2, p)\n```\n\n## Complexity Analysis\n\n| Case    | Time             | Space |\n|---------|-----------------|-------|\n| Best    | O(p + log_p(n)) | O(p)  |\n| Average | O(p + log_p(n)) | O(p)  |\n| Worst   | O(p + log_p(n)) | O(p)  |\n\n**Why these complexities?**\n\n- **Time -- O(p + log_p(n)):** Precomputing factorials modulo p takes O(p) time. The main loop iterates once per base-p digit of n, which is O(log_p(n)) iterations. Each iteration performs O(log p) work for modular exponentiation, but since p is typically small, this is bounded by O(p + log_p(n)).\n\n- **Space -- O(p):** The precomputed factorial table has p entries. All other variables use constant space.\n\n## Applications\n\n- **Competitive programming:** Rapidly computing large binomial coefficients modulo a prime in problems involving combinatorics.\n- **Combinatorial identities:** Proving divisibility properties of binomial coefficients.\n- **Pascal's triangle modulo p:** Lucas' theorem reveals the fractal (Sierpinski triangle) structure of Pascal's triangle mod p.\n- **Coding theory:** Analyzing properties of error-correcting codes that depend on binomial coefficients modulo primes.\n- **Polynomial arithmetic over finite fields:** Computing coefficients in GF(p).\n\n## When NOT to Use\n\n- **When the modulus is not prime:** Lucas' theorem only applies when p is prime. For composite moduli, use Andrew Granville's generalization or the Chinese Remainder Theorem with prime power factors.\n- **When p is very large:** If p is comparable to n, the precomputation of factorials mod p becomes expensive, and the theorem provides little advantage over direct computation.\n- **When you need C(n, k) without a modulus:** Lucas' theorem is specifically for modular arithmetic. For exact binomial coefficients, use Pascal's triangle or direct multiplication with BigInteger arithmetic.\n\n## Comparison\n\n| Method | Modulus Requirement | Time | Space | Notes |\n|--------|-------------------|------|-------|-------|\n| Lucas' Theorem | Prime p | O(p + log_p(n)) | O(p) | Best for large n, small prime p |\n| Direct computation | Any | O(k) | O(1) | Overflow risk for large n |\n| Pascal's Triangle | Any | O(n * k) | O(n * k) | Precomputes all C(i,j) up to n |\n| Granville's generalization | Prime power p^a | O(p^a * log(n)) | O(p^a) | Extension for prime powers |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [lucas_theorem.py](python/lucas_theorem.py) |\n| Java       | [LucasTheorem.java](java/LucasTheorem.java) |\n| C++        | [lucas_theorem.cpp](cpp/lucas_theorem.cpp) |\n| C          | [lucas_theorem.c](c/lucas_theorem.c) |\n| Go         | [lucas_theorem.go](go/lucas_theorem.go) |\n| TypeScript | [lucasTheorem.ts](typescript/lucasTheorem.ts) |\n| Rust       | [lucas_theorem.rs](rust/lucas_theorem.rs) |\n| Kotlin     | [LucasTheorem.kt](kotlin/LucasTheorem.kt) |\n| Swift      | [LucasTheorem.swift](swift/LucasTheorem.swift) |\n| Scala      | [LucasTheorem.scala](scala/LucasTheorem.scala) |\n| C#         | [LucasTheorem.cs](csharp/LucasTheorem.cs) |\n\n## References\n\n- Lucas, E. (1878). \"Theorie des Fonctions Numeriques Simplement Periodiques.\" *American Journal of Mathematics*, 1(2), 184-196.\n- Granville, A. (1997). \"Arithmetic Properties of Binomial Coefficients I: Binomial Coefficients Modulo Prime Powers.\" *Canadian Mathematical Society Conference Proceedings*, 20, 253-276.\n- [Lucas' Theorem -- Wikipedia](https://en.wikipedia.org/wiki/Lucas%27_theorem)\n"
+}

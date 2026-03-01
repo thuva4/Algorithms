@@ -1,0 +1,134 @@
+{
+  "name": "Fractional Knapsack",
+  "slug": "fractional-knapsack",
+  "category": "greedy",
+  "subcategory": "optimization",
+  "difficulty": "beginner",
+  "tags": [
+    "greedy",
+    "optimization",
+    "knapsack",
+    "fractional"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n log n)",
+      "average": "O(n log n)",
+      "worst": "O(n log n)"
+    },
+    "space": "O(n)"
+  },
+  "stable": null,
+  "in_place": null,
+  "related": [
+    "knapsack",
+    "elevator-algorithm"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "fractional_knapsack.c",
+          "content": "#include \"fractional_knapsack.h\"\n\nint fractional_knapsack(const int* arr, int size) {\n    int capacity = arr[0];\n    int n = arr[1];\n    int values[100], weights[100];\n    int idx = 2;\n    for (int i = 0; i < n; i++) {\n        values[i] = arr[idx++];\n        weights[i] = arr[idx++];\n    }\n\n    /* Sort by value/weight ratio descending (simple bubble sort) */\n    for (int i = 0; i < n - 1; i++) {\n        for (int j = 0; j < n - 1 - i; j++) {\n            if ((double)values[j] / weights[j] < (double)values[j+1] / weights[j+1]) {\n                int tv = values[j]; values[j] = values[j+1]; values[j+1] = tv;\n                int tw = weights[j]; weights[j] = weights[j+1]; weights[j+1] = tw;\n            }\n        }\n    }\n\n    double total = 0;\n    int remaining = capacity;\n    for (int i = 0; i < n && remaining > 0; i++) {\n        if (weights[i] <= remaining) {\n            total += values[i];\n            remaining -= weights[i];\n        } else {\n            total += (double)values[i] * remaining / weights[i];\n            remaining = 0;\n        }\n    }\n    return (int)(total * 100);\n}\n"
+        },
+        {
+          "filename": "fractional_knapsack.h",
+          "content": "#ifndef FRACTIONAL_KNAPSACK_H\n#define FRACTIONAL_KNAPSACK_H\n\nint fractional_knapsack(const int* arr, int size);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "fractional_knapsack.cpp",
+          "content": "#include <vector>\n#include <algorithm>\n\nint fractional_knapsack(std::vector<int> arr) {\n    int capacity = arr[0];\n    int n = arr[1];\n    std::vector<std::pair<int, int>> items;\n    int idx = 2;\n    for (int i = 0; i < n; i++) {\n        items.push_back({arr[idx], arr[idx + 1]});\n        idx += 2;\n    }\n\n    std::sort(items.begin(), items.end(), [](const auto& a, const auto& b) {\n        return (double)a.first / a.second > (double)b.first / b.second;\n    });\n\n    double totalValue = 0;\n    int remaining = capacity;\n\n    for (const auto& item : items) {\n        if (remaining <= 0) break;\n        if (item.second <= remaining) {\n            totalValue += item.first;\n            remaining -= item.second;\n        } else {\n            totalValue += (double)item.first * remaining / item.second;\n            remaining = 0;\n        }\n    }\n\n    return static_cast<int>(totalValue * 100);\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "FractionalKnapsack.cs",
+          "content": "using System;\nusing System.Linq;\n\npublic class FractionalKnapsack\n{\n    public static int Solve(int[] arr)\n    {\n        int capacity = arr[0], n = arr[1];\n        var items = new (int value, int weight)[n];\n        int idx = 2;\n        for (int i = 0; i < n; i++) { items[i] = (arr[idx], arr[idx + 1]); idx += 2; }\n        Array.Sort(items, (a, b) => ((double)b.value / b.weight).CompareTo((double)a.value / a.weight));\n\n        double totalValue = 0;\n        int remaining = capacity;\n        foreach (var (value, weight) in items)\n        {\n            if (remaining <= 0) break;\n            if (weight <= remaining) { totalValue += value; remaining -= weight; }\n            else { totalValue += (double)value * remaining / weight; remaining = 0; }\n        }\n        return (int)(totalValue * 100);\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "fractional_knapsack.go",
+          "content": "package fractionalknapsack\n\nimport \"sort\"\n\ntype item struct{ value, weight int }\n\n// FractionalKnapsack solves the fractional knapsack problem.\nfunc FractionalKnapsack(arr []int) int {\n\tcapacity := arr[0]\n\tn := arr[1]\n\titems := make([]item, n)\n\tidx := 2\n\tfor i := 0; i < n; i++ {\n\t\titems[i] = item{arr[idx], arr[idx+1]}\n\t\tidx += 2\n\t}\n\n\tsort.Slice(items, func(i, j int) bool {\n\t\treturn float64(items[i].value)/float64(items[i].weight) > float64(items[j].value)/float64(items[j].weight)\n\t})\n\n\ttotalValue := 0.0\n\tremaining := capacity\n\tfor _, it := range items {\n\t\tif remaining <= 0 { break }\n\t\tif it.weight <= remaining {\n\t\t\ttotalValue += float64(it.value)\n\t\t\tremaining -= it.weight\n\t\t} else {\n\t\t\ttotalValue += float64(it.value) * float64(remaining) / float64(it.weight)\n\t\t\tremaining = 0\n\t\t}\n\t}\n\treturn int(totalValue * 100)\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "FractionalKnapsack.java",
+          "content": "import java.util.Arrays;\n\npublic class FractionalKnapsack {\n\n    public static int fractionalKnapsack(int[] arr) {\n        int capacity = arr[0];\n        int n = arr[1];\n        int[][] items = new int[n][2];\n        int idx = 2;\n        for (int i = 0; i < n; i++) {\n            items[i][0] = arr[idx++];\n            items[i][1] = arr[idx++];\n        }\n\n        Arrays.sort(items, (a, b) -> Double.compare((double) b[0] / b[1], (double) a[0] / a[1]));\n\n        double totalValue = 0;\n        int remaining = capacity;\n\n        for (int[] item : items) {\n            if (remaining <= 0) break;\n            if (item[1] <= remaining) {\n                totalValue += item[0];\n                remaining -= item[1];\n            } else {\n                totalValue += (double) item[0] * remaining / item[1];\n                remaining = 0;\n            }\n        }\n\n        return (int)(totalValue * 100);\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "FractionalKnapsack.kt",
+          "content": "fun fractionalKnapsack(arr: IntArray): Int {\n    val capacity = arr[0]; val n = arr[1]\n    val items = mutableListOf<Pair<Int, Int>>()\n    var idx = 2\n    for (i in 0 until n) { items.add(Pair(arr[idx], arr[idx + 1])); idx += 2 }\n    items.sortByDescending { it.first.toDouble() / it.second }\n\n    var totalValue = 0.0; var remaining = capacity\n    for ((value, weight) in items) {\n        if (remaining <= 0) break\n        if (weight <= remaining) { totalValue += value; remaining -= weight }\n        else { totalValue += value.toDouble() * remaining / weight; remaining = 0 }\n    }\n    return (totalValue * 100).toInt()\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "fractional_knapsack.py",
+          "content": "def fractional_knapsack(arr: list[int]) -> int:\n    capacity = arr[0]\n    n = arr[1]\n    items = []\n    idx = 2\n    for _ in range(n):\n        value = arr[idx]\n        weight = arr[idx + 1]\n        items.append((value, weight))\n        idx += 2\n\n    items.sort(key=lambda x: x[0] / x[1], reverse=True)\n\n    total_value = 0.0\n    remaining = capacity\n\n    for value, weight in items:\n        if remaining <= 0:\n            break\n        if weight <= remaining:\n            total_value += value\n            remaining -= weight\n        else:\n            total_value += value * remaining / weight\n            remaining = 0\n\n    return int(total_value * 100)\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "fractional_knapsack.rs",
+          "content": "pub fn fractional_knapsack(arr: &[i32]) -> i32 {\n    let capacity = arr[0];\n    let n = arr[1] as usize;\n    let mut items: Vec<(i32, i32)> = Vec::new();\n    let mut idx = 2;\n    for _ in 0..n {\n        items.push((arr[idx], arr[idx + 1]));\n        idx += 2;\n    }\n\n    items.sort_by(|a, b| {\n        let ra = a.0 as f64 / a.1 as f64;\n        let rb = b.0 as f64 / b.1 as f64;\n        rb.partial_cmp(&ra).unwrap()\n    });\n\n    let mut total_value: f64 = 0.0;\n    let mut remaining = capacity;\n    for &(value, weight) in &items {\n        if remaining <= 0 { break; }\n        if weight <= remaining {\n            total_value += value as f64;\n            remaining -= weight;\n        } else {\n            total_value += value as f64 * remaining as f64 / weight as f64;\n            remaining = 0;\n        }\n    }\n    (total_value * 100.0) as i32\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "FractionalKnapsack.scala",
+          "content": "object FractionalKnapsack {\n\n  def fractionalKnapsack(arr: Array[Int]): Int = {\n    val capacity = arr(0); val n = arr(1)\n    val items = new Array[(Int, Int)](n)\n    var idx = 2\n    for (i <- 0 until n) { items(i) = (arr(idx), arr(idx + 1)); idx += 2 }\n    val sorted = items.sortBy(x => -x._1.toDouble / x._2)\n\n    var totalValue = 0.0; var remaining = capacity\n    for ((value, weight) <- sorted if remaining > 0) {\n      if (weight <= remaining) { totalValue += value; remaining -= weight }\n      else { totalValue += value.toDouble * remaining / weight; remaining = 0 }\n    }\n    (totalValue * 100).toInt\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "FractionalKnapsack.swift",
+          "content": "func fractionalKnapsack(_ arr: [Int]) -> Int {\n    let capacity = arr[0]; let n = arr[1]\n    var items: [(Int, Int)] = []\n    var idx = 2\n    for _ in 0..<n { items.append((arr[idx], arr[idx + 1])); idx += 2 }\n    items.sort { Double($0.0) / Double($0.1) > Double($1.0) / Double($1.1) }\n\n    var totalValue = 0.0; var remaining = capacity\n    for (value, weight) in items {\n        if remaining <= 0 { break }\n        if weight <= remaining { totalValue += Double(value); remaining -= weight }\n        else { totalValue += Double(value) * Double(remaining) / Double(weight); remaining = 0 }\n    }\n    return Int(totalValue * 100)\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "fractionalKnapsack.ts",
+          "content": "export function fractionalKnapsack(arr: number[]): number {\n    const capacity = arr[0];\n    const n = arr[1];\n    const items: [number, number][] = [];\n    let idx = 2;\n    for (let i = 0; i < n; i++) {\n        items.push([arr[idx], arr[idx + 1]]);\n        idx += 2;\n    }\n\n    items.sort((a, b) => b[0] / b[1] - a[0] / a[1]);\n\n    let totalValue = 0;\n    let remaining = capacity;\n\n    for (const [value, weight] of items) {\n        if (remaining <= 0) break;\n        if (weight <= remaining) {\n            totalValue += value;\n            remaining -= weight;\n        } else {\n            totalValue += value * remaining / weight;\n            remaining = 0;\n        }\n    }\n\n    return Math.floor(totalValue * 100);\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Fractional Knapsack\n\n## Overview\n\nThe Fractional Knapsack problem is a classic optimization problem where the goal is to maximize the total value of items placed in a knapsack with a limited weight capacity. Unlike the 0/1 Knapsack problem, items can be broken into fractions, allowing you to take a portion of an item if the whole item does not fit.\n\nBecause fractional items are allowed, the greedy approach of always taking the item with the highest value-to-weight ratio is provably optimal. This makes the Fractional Knapsack problem one of the foundational examples of problems where a greedy strategy yields a globally optimal solution.\n\n## How It Works\n\n1. **Compute ratios:** For each item, calculate the value-to-weight ratio (value / weight).\n2. **Sort by ratio:** Sort all items in descending order of their value-to-weight ratio.\n3. **Greedy selection:** Iterate through the sorted items:\n   a. If the item fits entirely in the remaining capacity, take all of it and reduce the remaining capacity.\n   b. If the item does not fit entirely, take as much as possible (a fraction equal to remaining capacity / item weight) and fill the knapsack completely.\n4. **Return** the total value accumulated.\n\nThe greedy choice property holds because taking the highest-ratio item first is always at least as good as any other choice. If we skip a high-ratio item in favor of a lower-ratio item, we can always swap them and improve or maintain the total value.\n\n## Worked Example\n\n**Input:** Capacity = 50, Items: [(value=60, weight=10), (value=100, weight=20), (value=120, weight=30)]\n\n**Step 1 -- Compute ratios:**\n\n| Item | Value | Weight | Ratio (V/W) |\n|------|-------|--------|-------------|\n| A    | 60    | 10     | 6.0         |\n| B    | 100   | 20     | 5.0         |\n| C    | 120   | 30     | 4.0         |\n\n**Step 2 -- Sort by ratio (descending):** A(6.0), B(5.0), C(4.0)\n\n**Step 3 -- Greedy selection:**\n\n| Item | Remaining Capacity | Action | Value Gained | Running Total |\n|------|--------------------|--------|-------------|---------------|\n| A    | 50                 | Take all (weight=10) | 60.0 | 60.0 |\n| B    | 40                 | Take all (weight=20) | 100.0 | 160.0 |\n| C    | 20                 | Take 20/30 = 2/3 fraction | 120 * (2/3) = 80.0 | 240.0 |\n\n**Result:** Maximum value = 240.00. We took all of A, all of B, and 2/3 of C.\n\n## Pseudocode\n\n```\nfunction fractionalKnapsack(capacity, items):\n    n = length(items)\n    if n == 0 or capacity == 0:\n        return 0\n\n    // Compute value-to-weight ratio for each item\n    for each item in items:\n        item.ratio = item.value / item.weight\n\n    // Sort by ratio in descending order\n    sort items by ratio descending\n\n    totalValue = 0.0\n    remainingCapacity = capacity\n\n    for each item in items:\n        if remainingCapacity == 0:\n            break\n\n        if item.weight <= remainingCapacity:\n            // Take the whole item\n            totalValue += item.value\n            remainingCapacity -= item.weight\n        else:\n            // Take a fraction of the item\n            fraction = remainingCapacity / item.weight\n            totalValue += item.value * fraction\n            remainingCapacity = 0\n\n    return totalValue\n```\n\n## Complexity Analysis\n\n| Case    | Time       | Space |\n|---------|------------|-------|\n| Best    | O(n log n) | O(n)  |\n| Average | O(n log n) | O(n)  |\n| Worst   | O(n log n) | O(n)  |\n\n- **Time -- O(n log n):** Dominated by the sorting step. The greedy selection itself is O(n).\n- **Space -- O(n):** Requires storage for the items with their computed ratios and sorting overhead.\n\nIf the items are already sorted by ratio, the algorithm runs in O(n) time.\n\n## When to Use\n\n- **Resource allocation:** Distributing a limited budget, bandwidth, or capacity among competing demands where partial allocation is meaningful.\n- **Investment portfolio optimization:** Allocating funds across investment opportunities where you can invest any fraction of available capital.\n- **Loading cargo efficiently:** Filling a container with goods where items can be divided (e.g., bulk goods like grain, fuel, or ore).\n- **Time budgeting:** Allocating limited time across tasks where partial completion yields proportional benefit.\n- **Teaching greedy algorithms:** The Fractional Knapsack is a canonical example demonstrating when and why greedy strategies work.\n\n## When NOT to Use\n\n- **Indivisible items (0/1 Knapsack):** If items cannot be divided (e.g., discrete objects like laptops, tools, or packages), the greedy approach by ratio does not yield an optimal solution. Use dynamic programming for the 0/1 Knapsack instead.\n- **Multiple constraints:** If there are additional constraints beyond weight (e.g., volume, count limits), the problem becomes a multi-dimensional knapsack, which is NP-hard and requires different approaches.\n- **Non-linear value functions:** If the value of a partial item is not proportional to the fraction taken (e.g., diminishing returns or threshold effects), the greedy ratio-based approach does not apply.\n- **Very small item counts:** For very few items, a brute-force enumeration of all possible fractions might be simpler and avoids sorting overhead.\n\n## Comparison\n\n| Problem Variant | Optimal Strategy | Time | Notes |\n|----------------|-----------------|------|-------|\n| Fractional Knapsack (this) | Greedy by ratio | O(n log n) | Items divisible, greedy is optimal |\n| 0/1 Knapsack | Dynamic Programming | O(nW) | Items indivisible, pseudo-polynomial |\n| Bounded Knapsack | DP with multiplicity | O(nW) | Limited copies of each item |\n| Unbounded Knapsack | DP | O(nW) | Unlimited copies of each item |\n\n| Greedy Approach | Correct for Fractional? | Correct for 0/1? |\n|----------------|------------------------|-------------------|\n| Sort by value/weight ratio | Yes (provably optimal) | No (counterexample exists) |\n| Sort by value only | No | No |\n| Sort by weight only | No | No |\n\nThe key distinction is that the fractional variant allows the greedy approach to work because any \"gap\" left by not taking the best-ratio item can always be filled with a fraction of it. In the 0/1 variant, this is not possible, and the greedy approach can fail dramatically.\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [fractional_knapsack.py](python/fractional_knapsack.py) |\n| Java       | [FractionalKnapsack.java](java/FractionalKnapsack.java) |\n| C++        | [fractional_knapsack.cpp](cpp/fractional_knapsack.cpp) |\n| C          | [fractional_knapsack.c](c/fractional_knapsack.c) |\n| Go         | [fractional_knapsack.go](go/fractional_knapsack.go) |\n| TypeScript | [fractionalKnapsack.ts](typescript/fractionalKnapsack.ts) |\n| Rust       | [fractional_knapsack.rs](rust/fractional_knapsack.rs) |\n| Kotlin     | [FractionalKnapsack.kt](kotlin/FractionalKnapsack.kt) |\n| Swift      | [FractionalKnapsack.swift](swift/FractionalKnapsack.swift) |\n| Scala      | [FractionalKnapsack.scala](scala/FractionalKnapsack.scala) |\n| C#         | [FractionalKnapsack.cs](csharp/FractionalKnapsack.cs) |\n\n## References\n\n- Dantzig, G. B. (1957). \"Discrete-variable extremum problems.\" *Operations Research*, 5(2), 266-288.\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 16: Greedy Algorithms.\n- Kleinberg, J., & Tardos, E. (2006). *Algorithm Design*. Addison-Wesley. Chapter 4: Greedy Algorithms.\n- [Continuous knapsack problem -- Wikipedia](https://en.wikipedia.org/wiki/Continuous_knapsack_problem)\n"
+}

@@ -1,0 +1,17 @@
+name: "Partial Sort"
+slug: "partial-sort"
+category: "sorting"
+subcategory: "other"
+difficulty: "intermediate"
+tags: [sorting, comparison, selection, heap]
+complexity:
+  time:
+    best: "O(n log k)"
+    average: "O(n log k)"
+    worst: "O(n log k)"
+  space: "O(k)"
+stable: false
+in_place: false
+related: [quick-select, heap-sort, selection-sort]
+implementations: [python, java, cpp, c, go, typescript, kotlin, rust, swift, scala, csharp]
+visualization: true

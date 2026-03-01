@@ -1,0 +1,15 @@
+name: "Miller-Rabin Primality Test"
+slug: "miller-rabin"
+category: "math"
+subcategory: "primality"
+difficulty: "advanced"
+tags: [math, primality, probabilistic, number-theory]
+complexity:
+  time:
+    best: "O(k log^2 n)"
+    average: "O(k log^2 n)"
+    worst: "O(k log^2 n)"
+  space: "O(1)"
+related: [prime-check, sieve-of-eratosthenes, modular-exponentiation]
+implementations: [python, java, cpp, c, go, typescript, kotlin, rust, swift, scala, csharp]
+visualization: false

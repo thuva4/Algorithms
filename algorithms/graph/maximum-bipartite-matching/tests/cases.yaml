@@ -1,0 +1,21 @@
+algorithm: "maximum-bipartite-matching"
+function_signature:
+  name: "maximum_bipartite_matching"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "perfect matching"
+    input: [[3, 3, 3, 0, 0, 1, 1, 2, 2]]
+    expected: 3
+  - name: "partial matching"
+    input: [[2, 3, 3, 0, 0, 0, 1, 1, 2]]
+    expected: 2
+  - name: "single edge"
+    input: [[1, 1, 1, 0, 0]]
+    expected: 1
+  - name: "no edges"
+    input: [[2, 2, 0]]
+    expected: 0
+  - name: "all connect to one"
+    input: [[3, 1, 3, 0, 0, 1, 0, 2, 0]]
+    expected: 1

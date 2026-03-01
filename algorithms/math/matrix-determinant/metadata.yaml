@@ -1,0 +1,17 @@
+name: "Matrix Determinant"
+slug: "matrix-determinant"
+category: "math"
+subcategory: "linear-algebra"
+difficulty: "intermediate"
+tags: [math, linear-algebra, matrix, determinant]
+complexity:
+  time:
+    best: "O(n^3)"
+    average: "O(n^3)"
+    worst: "O(n^3)"
+  space: "O(n^2)"
+stable: null
+in_place: false
+related: [gaussian-elimination, strassens-matrix]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

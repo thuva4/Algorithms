@@ -1,0 +1,131 @@
+{
+  "name": "Trie",
+  "slug": "trie",
+  "category": "trees",
+  "difficulty": "intermediate",
+  "tags": [
+    "trees",
+    "strings",
+    "prefix",
+    "search"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(m)",
+      "average": "O(m)",
+      "worst": "O(m)"
+    },
+    "space": "O(n*m)"
+  },
+  "related": [
+    "binary-search-tree",
+    "binary-tree"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "trie_insert_search.c",
+          "content": "#include \"trie_insert_search.h\"\n#include <stdlib.h>\n#include <stdio.h>\n#include <string.h>\n#include <stdbool.h>\n\n#define MAX_CHILDREN 12\n\ntypedef struct TrieNode {\n    struct TrieNode *children[MAX_CHILDREN];\n    bool is_end;\n} TrieNode;\n\nstatic TrieNode *create_node(void) {\n    TrieNode *node = (TrieNode *)calloc(1, sizeof(TrieNode));\n    node->is_end = false;\n    return node;\n}\n\nstatic void free_trie(TrieNode *node) {\n    if (node == NULL) return;\n    for (int i = 0; i < MAX_CHILDREN; i++) {\n        free_trie(node->children[i]);\n    }\n    free(node);\n}\n\nstatic void trie_insert(TrieNode *root, int key) {\n    char buf[20];\n    snprintf(buf, sizeof(buf), \"%d\", key);\n    TrieNode *node = root;\n    for (int i = 0; buf[i] != '\\0'; i++) {\n        int idx = buf[i] - '0';\n        if (buf[i] == '-') idx = 10;\n        if (idx < 0 || idx >= MAX_CHILDREN) idx = 11;\n        if (node->children[idx] == NULL) {\n            node->children[idx] = create_node();\n        }\n        node = node->children[idx];\n    }\n    node->is_end = true;\n}\n\nstatic bool trie_search(TrieNode *root, int key) {\n    char buf[20];\n    snprintf(buf, sizeof(buf), \"%d\", key);\n    TrieNode *node = root;\n    for (int i = 0; buf[i] != '\\0'; i++) {\n        int idx = buf[i] - '0';\n        if (buf[i] == '-') idx = 10;\n        if (idx < 0 || idx >= MAX_CHILDREN) idx = 11;\n        if (node->children[idx] == NULL) {\n            return false;\n        }\n        node = node->children[idx];\n    }\n    return node->is_end;\n}\n\nint trie_insert_search(int arr[], int size) {\n    int mid = size / 2;\n    TrieNode *root = create_node();\n\n    for (int i = 0; i < mid; i++) {\n        trie_insert(root, arr[i]);\n    }\n\n    int count = 0;\n    for (int i = mid; i < size; i++) {\n        if (trie_search(root, arr[i])) {\n            count++;\n        }\n    }\n\n    free_trie(root);\n    return count;\n}\n"
+        },
+        {
+          "filename": "trie_insert_search.h",
+          "content": "#ifndef TRIE_INSERT_SEARCH_H\n#define TRIE_INSERT_SEARCH_H\n\nint trie_insert_search(int arr[], int size);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "trie_insert_search.cpp",
+          "content": "#include <vector>\n#include <string>\n#include <unordered_map>\n\nstruct TrieNode {\n    std::unordered_map<char, TrieNode*> children;\n    bool isEnd = false;\n\n    ~TrieNode() {\n        for (auto& pair : children) {\n            delete pair.second;\n        }\n    }\n};\n\nstatic void insert(TrieNode* root, int key) {\n    TrieNode* node = root;\n    std::string s = std::to_string(key);\n    for (char ch : s) {\n        if (node->children.find(ch) == node->children.end()) {\n            node->children[ch] = new TrieNode();\n        }\n        node = node->children[ch];\n    }\n    node->isEnd = true;\n}\n\nstatic bool search(TrieNode* root, int key) {\n    TrieNode* node = root;\n    std::string s = std::to_string(key);\n    for (char ch : s) {\n        if (node->children.find(ch) == node->children.end()) {\n            return false;\n        }\n        node = node->children[ch];\n    }\n    return node->isEnd;\n}\n\nint trieInsertSearch(std::vector<int> arr) {\n    int n = static_cast<int>(arr.size());\n    int mid = n / 2;\n    TrieNode* root = new TrieNode();\n\n    for (int i = 0; i < mid; i++) {\n        insert(root, arr[i]);\n    }\n\n    int count = 0;\n    for (int i = mid; i < n; i++) {\n        if (search(root, arr[i])) {\n            count++;\n        }\n    }\n\n    delete root;\n    return count;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "Trie.cs",
+          "content": "using System;\nusing System.Collections.Generic;\n\npublic class Trie\n{\n    private class TrieNode\n    {\n        public Dictionary<char, TrieNode> Children = new Dictionary<char, TrieNode>();\n        public bool IsEnd = false;\n    }\n\n    private static void Insert(TrieNode root, int key)\n    {\n        TrieNode node = root;\n        foreach (char ch in key.ToString())\n        {\n            if (!node.Children.ContainsKey(ch))\n            {\n                node.Children[ch] = new TrieNode();\n            }\n            node = node.Children[ch];\n        }\n        node.IsEnd = true;\n    }\n\n    private static bool Search(TrieNode root, int key)\n    {\n        TrieNode node = root;\n        foreach (char ch in key.ToString())\n        {\n            if (!node.Children.ContainsKey(ch))\n            {\n                return false;\n            }\n            node = node.Children[ch];\n        }\n        return node.IsEnd;\n    }\n\n    public static int InsertSearch(int[] arr)\n    {\n        int n = arr.Length;\n        int mid = n / 2;\n        TrieNode root = new TrieNode();\n\n        for (int i = 0; i < mid; i++)\n        {\n            Insert(root, arr[i]);\n        }\n\n        int count = 0;\n        for (int i = mid; i < n; i++)\n        {\n            if (Search(root, arr[i]))\n            {\n                count++;\n            }\n        }\n\n        return count;\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "trie_insert_search.go",
+          "content": "package trie\n\nimport \"strconv\"\n\ntype trieNode struct {\n\tchildren map[byte]*trieNode\n\tisEnd    bool\n}\n\nfunc newTrieNode() *trieNode {\n\treturn &trieNode{children: make(map[byte]*trieNode)}\n}\n\nfunc insert(root *trieNode, key int) {\n\tnode := root\n\ts := strconv.Itoa(key)\n\tfor i := 0; i < len(s); i++ {\n\t\tch := s[i]\n\t\tif _, ok := node.children[ch]; !ok {\n\t\t\tnode.children[ch] = newTrieNode()\n\t\t}\n\t\tnode = node.children[ch]\n\t}\n\tnode.isEnd = true\n}\n\nfunc search(root *trieNode, key int) bool {\n\tnode := root\n\ts := strconv.Itoa(key)\n\tfor i := 0; i < len(s); i++ {\n\t\tch := s[i]\n\t\tif _, ok := node.children[ch]; !ok {\n\t\t\treturn false\n\t\t}\n\t\tnode = node.children[ch]\n\t}\n\treturn node.isEnd\n}\n\n// TrieInsertSearch inserts the first half of arr into a trie and searches\n// for the second half, returning the count of successful searches.\nfunc TrieInsertSearch(arr []int) int {\n\tn := len(arr)\n\tmid := n / 2\n\troot := newTrieNode()\n\n\tfor i := 0; i < mid; i++ {\n\t\tinsert(root, arr[i])\n\t}\n\n\tcount := 0\n\tfor i := mid; i < n; i++ {\n\t\tif search(root, arr[i]) {\n\t\t\tcount++\n\t\t}\n\t}\n\n\treturn count\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "Trie.java",
+          "content": "import java.util.HashMap;\nimport java.util.Map;\n\npublic class Trie {\n\n    private static class TrieNode {\n        Map<Character, TrieNode> children = new HashMap<>();\n        boolean isEnd = false;\n    }\n\n    private static void insert(TrieNode root, int key) {\n        TrieNode node = root;\n        for (char ch : String.valueOf(key).toCharArray()) {\n            node.children.putIfAbsent(ch, new TrieNode());\n            node = node.children.get(ch);\n        }\n        node.isEnd = true;\n    }\n\n    private static boolean search(TrieNode root, int key) {\n        TrieNode node = root;\n        for (char ch : String.valueOf(key).toCharArray()) {\n            if (!node.children.containsKey(ch)) {\n                return false;\n            }\n            node = node.children.get(ch);\n        }\n        return node.isEnd;\n    }\n\n    public static int trieInsertSearch(int[] arr) {\n        int n = arr.length;\n        int mid = n / 2;\n        TrieNode root = new TrieNode();\n\n        for (int i = 0; i < mid; i++) {\n            insert(root, arr[i]);\n        }\n\n        int count = 0;\n        for (int i = mid; i < n; i++) {\n            if (search(root, arr[i])) {\n                count++;\n            }\n        }\n\n        return count;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "Trie.kt",
+          "content": "class TrieNode {\n    val children = mutableMapOf<Char, TrieNode>()\n    var isEnd = false\n}\n\nfun trieInsertSearch(arr: IntArray): Int {\n    val n = arr.size\n    val mid = n / 2\n    val root = TrieNode()\n\n    fun insert(key: Int) {\n        var node = root\n        for (ch in key.toString()) {\n            node = node.children.getOrPut(ch) { TrieNode() }\n        }\n        node.isEnd = true\n    }\n\n    fun search(key: Int): Boolean {\n        var node = root\n        for (ch in key.toString()) {\n            node = node.children[ch] ?: return false\n        }\n        return node.isEnd\n    }\n\n    for (i in 0 until mid) {\n        insert(arr[i])\n    }\n\n    var count = 0\n    for (i in mid until n) {\n        if (search(arr[i])) {\n            count++\n        }\n    }\n\n    return count\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "trie_insert_search.py",
+          "content": "class TrieNode:\n    def __init__(self) -> None:\n        self.children: dict[str, TrieNode] = {}\n        self.is_end: bool = False\n\n\ndef _insert(root: TrieNode, key: int) -> None:\n    node = root\n    for ch in str(key):\n        if ch not in node.children:\n            node.children[ch] = TrieNode()\n        node = node.children[ch]\n    node.is_end = True\n\n\ndef _search(root: TrieNode, key: int) -> bool:\n    node = root\n    for ch in str(key):\n        if ch not in node.children:\n            return False\n        node = node.children[ch]\n    return node.is_end\n\n\ndef trie_insert_search(arr: list[int]) -> int:\n    n = len(arr)\n    mid = n // 2\n    root = TrieNode()\n\n    for i in range(mid):\n        _insert(root, arr[i])\n\n    count = 0\n    for i in range(mid, n):\n        if _search(root, arr[i]):\n            count += 1\n\n    return count\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "trie_insert_search.rs",
+          "content": "use std::collections::HashMap;\n\nstruct TrieNode {\n    children: HashMap<u8, TrieNode>,\n    is_end: bool,\n}\n\nimpl TrieNode {\n    fn new() -> Self {\n        TrieNode {\n            children: HashMap::new(),\n            is_end: false,\n        }\n    }\n}\n\nfn insert(root: &mut TrieNode, key: i32) {\n    let s = key.to_string();\n    let mut node = root;\n    for &ch in s.as_bytes() {\n        node = node.children.entry(ch).or_insert_with(TrieNode::new);\n    }\n    node.is_end = true;\n}\n\nfn search(root: &TrieNode, key: i32) -> bool {\n    let s = key.to_string();\n    let mut node = root;\n    for &ch in s.as_bytes() {\n        match node.children.get(&ch) {\n            Some(child) => node = child,\n            None => return false,\n        }\n    }\n    node.is_end\n}\n\npub fn trie_insert_search(arr: &[i32]) -> i32 {\n    let n = arr.len();\n    let mid = n / 2;\n    let mut root = TrieNode::new();\n\n    for i in 0..mid {\n        insert(&mut root, arr[i]);\n    }\n\n    let mut count = 0;\n    for i in mid..n {\n        if search(&root, arr[i]) {\n            count += 1;\n        }\n    }\n\n    count\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "Trie.scala",
+          "content": "import scala.collection.mutable\n\nobject Trie {\n\n  private class TrieNode {\n    val children: mutable.Map[Char, TrieNode] = mutable.Map()\n    var isEnd: Boolean = false\n  }\n\n  private def insert(root: TrieNode, key: Int): Unit = {\n    var node = root\n    for (ch <- key.toString) {\n      if (!node.children.contains(ch)) {\n        node.children(ch) = new TrieNode()\n      }\n      node = node.children(ch)\n    }\n    node.isEnd = true\n  }\n\n  private def search(root: TrieNode, key: Int): Boolean = {\n    var node = root\n    for (ch <- key.toString) {\n      node.children.get(ch) match {\n        case Some(child) => node = child\n        case None => return false\n      }\n    }\n    node.isEnd\n  }\n\n  def trieInsertSearch(arr: Array[Int]): Int = {\n    val n = arr.length\n    val mid = n / 2\n    val root = new TrieNode()\n\n    for (i <- 0 until mid) {\n      insert(root, arr(i))\n    }\n\n    var count = 0\n    for (i <- mid until n) {\n      if (search(root, arr(i))) {\n        count += 1\n      }\n    }\n\n    count\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "Trie.swift",
+          "content": "class TrieNode {\n    var children: [Character: TrieNode] = [:]\n    var isEnd: Bool = false\n}\n\nfunc trieInsertSearch(_ arr: [Int]) -> Int {\n    let n = arr.count\n    let mid = n / 2\n    let root = TrieNode()\n\n    func insert(_ key: Int) {\n        var node = root\n        for ch in String(key) {\n            if node.children[ch] == nil {\n                node.children[ch] = TrieNode()\n            }\n            node = node.children[ch]!\n        }\n        node.isEnd = true\n    }\n\n    func search(_ key: Int) -> Bool {\n        var node = root\n        for ch in String(key) {\n            guard let child = node.children[ch] else {\n                return false\n            }\n            node = child\n        }\n        return node.isEnd\n    }\n\n    for i in 0..<mid {\n        insert(arr[i])\n    }\n\n    var count = 0\n    for i in mid..<n {\n        if search(arr[i]) {\n            count += 1\n        }\n    }\n\n    return count\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "trieInsertSearch.ts",
+          "content": "class TrieNode {\n    children: Map<string, TrieNode> = new Map();\n    isEnd: boolean = false;\n}\n\nfunction insert(root: TrieNode, key: number): void {\n    let node = root;\n    for (const ch of String(key)) {\n        if (!node.children.has(ch)) {\n            node.children.set(ch, new TrieNode());\n        }\n        node = node.children.get(ch)!;\n    }\n    node.isEnd = true;\n}\n\nfunction search(root: TrieNode, key: number): boolean {\n    let node = root;\n    for (const ch of String(key)) {\n        if (!node.children.has(ch)) {\n            return false;\n        }\n        node = node.children.get(ch)!;\n    }\n    return node.isEnd;\n}\n\nexport function trieInsertSearch(arr: number[]): number {\n    const n = arr.length;\n    const mid = Math.floor(n / 2);\n    const root = new TrieNode();\n\n    for (let i = 0; i < mid; i++) {\n        insert(root, arr[i]);\n    }\n\n    let count = 0;\n    for (let i = mid; i < n; i++) {\n        if (search(root, arr[i])) {\n            count++;\n        }\n    }\n\n    return count;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Trie (Prefix Tree)\n\n## Overview\n\nA Trie (pronounced \"try\"), also called a prefix tree or digital tree, is a tree-like data structure used for efficient retrieval of keys, typically strings. Unlike a binary search tree where each node stores a complete key, each node in a trie represents a single character (or digit), and the path from the root to a node spells out the key.\n\nTries are especially powerful for prefix-based operations such as autocomplete, spell checking, and IP routing. They provide O(m) lookup time where m is the key length, independent of the number of keys stored.\n\n## How It Works\n\nA trie stores keys by breaking them into individual characters (or digits for integers) and placing each character along a path from the root:\n\n1. **Insert:** For each character in the key, traverse from the root, creating new child nodes as needed. Mark the final node as the end of a word.\n2. **Search:** For each character in the key, traverse from the root following child pointers. If any character is missing, the key is not found. If all characters are found and the last node is marked as end-of-word, the key exists.\n\nFor this implementation, we use integer keys: the first half of the input array contains keys to insert, and the second half contains keys to search. The function returns how many searches succeed.\n\n### Example\n\nGiven input: `[1, 2, 3, 4, 5, 1, 3, 5, 7, 9]`\n\nFirst half (insert): 1, 2, 3, 4, 5\nSecond half (search): 1, 3, 5, 7, 9\n\n| Operation | Key | Result |\n|-----------|-----|--------|\n| Insert    | 1   | Added  |\n| Insert    | 2   | Added  |\n| Insert    | 3   | Added  |\n| Insert    | 4   | Added  |\n| Insert    | 5   | Added  |\n| Search    | 1   | Found  |\n| Search    | 3   | Found  |\n| Search    | 5   | Found  |\n| Search    | 7   | Not found |\n| Search    | 9   | Not found |\n\nResult: 3 (three successful searches)\n\n## Pseudocode\n\n```\nclass TrieNode:\n    children = {}\n    isEnd = false\n\nfunction insert(root, key):\n    node = root\n    for each character c in str(key):\n        if c not in node.children:\n            node.children[c] = new TrieNode()\n        node = node.children[c]\n    node.isEnd = true\n\nfunction search(root, key):\n    node = root\n    for each character c in str(key):\n        if c not in node.children:\n            return false\n        node = node.children[c]\n    return node.isEnd\n\nfunction trieInsertSearch(arr):\n    n = length(arr)\n    mid = n / 2\n    root = new TrieNode()\n\n    for i from 0 to mid - 1:\n        insert(root, arr[i])\n\n    count = 0\n    for i from mid to n - 1:\n        if search(root, arr[i]):\n            count += 1\n\n    return count\n```\n\n## Complexity Analysis\n\n| Case    | Time | Space   |\n|---------|------|---------|\n| Best    | O(m) | O(n*m)  |\n| Average | O(m) | O(n*m)  |\n| Worst   | O(m) | O(n*m)  |\n\n- **Time -- O(m):** Each insert or search operation traverses at most m characters (the key length). This is independent of the number of keys in the trie.\n- **Space -- O(n*m):** In the worst case, n keys each of length m share no prefixes, requiring n*m nodes. In practice, shared prefixes reduce space significantly.\n\n## Applications\n\n- **Autocomplete:** Efficiently find all words with a given prefix.\n- **Spell checking:** Quickly verify if a word exists in a dictionary.\n- **IP routing:** Longest prefix matching in network routers.\n- **Phone directories:** Contact search by prefix.\n- **Word games:** Scrabble solvers and crossword helpers.\n- **Genome analysis:** DNA sequence matching and indexing.\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [trie_insert_search.py](python/trie_insert_search.py) |\n| Java       | [Trie.java](java/Trie.java) |\n| C++        | [trie_insert_search.cpp](cpp/trie_insert_search.cpp) |\n| C          | [trie_insert_search.c](c/trie_insert_search.c) |\n| Go         | [trie_insert_search.go](go/trie_insert_search.go) |\n| TypeScript | [trieInsertSearch.ts](typescript/trieInsertSearch.ts) |\n| Kotlin     | [Trie.kt](kotlin/Trie.kt) |\n| Rust       | [trie_insert_search.rs](rust/trie_insert_search.rs) |\n| Swift      | [Trie.swift](swift/Trie.swift) |\n| Scala      | [Trie.scala](scala/Trie.scala) |\n| C#         | [Trie.cs](csharp/Trie.cs) |\n\n## References\n\n- Fredkin, E. (1960). \"Trie Memory.\" *Communications of the ACM*, 3(9), 490-499.\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press.\n- [Trie -- Wikipedia](https://en.wikipedia.org/wiki/Trie)\n"
+}

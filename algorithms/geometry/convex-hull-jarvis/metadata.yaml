@@ -1,0 +1,15 @@
+name: "Convex Hull - Jarvis March"
+slug: "convex-hull-jarvis"
+category: "geometry"
+subcategory: "convex-hull"
+difficulty: "intermediate"
+tags: [geometry, convex-hull, gift-wrapping, jarvis-march]
+complexity:
+  time:
+    best: "O(nh)"
+    average: "O(nh)"
+    worst: "O(n^2)"
+  space: "O(h)"
+related: [convex-hull, closest-pair-of-points, line-intersection]
+implementations: [python, java, cpp, c, go, typescript, kotlin, rust, swift, scala, csharp]
+visualization: false

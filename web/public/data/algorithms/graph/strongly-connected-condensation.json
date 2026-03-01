@@ -1,0 +1,136 @@
+{
+  "name": "Strongly Connected Condensation",
+  "slug": "strongly-connected-condensation",
+  "category": "graph",
+  "subcategory": "connectivity",
+  "difficulty": "advanced",
+  "tags": [
+    "graph",
+    "directed",
+    "strongly-connected-components",
+    "condensation",
+    "dag"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(V + E)",
+      "average": "O(V + E)",
+      "worst": "O(V + E)"
+    },
+    "space": "O(V + E)"
+  },
+  "stable": null,
+  "in_place": false,
+  "related": [
+    "tarjans-scc",
+    "kosarajus-scc",
+    "topological-sort"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "strongly_connected_condensation.c",
+          "content": "#include \"strongly_connected_condensation.h\"\n#include <string.h>\n\n#define MAX_V 1000\n#define MAX_E 10000\n\nstatic int adj[MAX_V][MAX_V];\nstatic int adj_count[MAX_V];\nstatic int disc[MAX_V], low_val[MAX_V], stack_arr[MAX_V];\nstatic int on_stack[MAX_V];\nstatic int index_counter, scc_count, stack_top;\n\nstatic void strongconnect(int v) {\n    disc[v] = index_counter;\n    low_val[v] = index_counter;\n    index_counter++;\n    stack_arr[stack_top++] = v;\n    on_stack[v] = 1;\n\n    for (int i = 0; i < adj_count[v]; i++) {\n        int w = adj[v][i];\n        if (disc[w] == -1) {\n            strongconnect(w);\n            if (low_val[w] < low_val[v]) low_val[v] = low_val[w];\n        } else if (on_stack[w]) {\n            if (disc[w] < low_val[v]) low_val[v] = disc[w];\n        }\n    }\n\n    if (low_val[v] == disc[v]) {\n        scc_count++;\n        while (1) {\n            int w = stack_arr[--stack_top];\n            on_stack[w] = 0;\n            if (w == v) break;\n        }\n    }\n}\n\nint strongly_connected_condensation(int arr[], int size) {\n    int n = arr[0];\n    int m = arr[1];\n\n    memset(adj_count, 0, sizeof(int) * n);\n    memset(on_stack, 0, sizeof(int) * n);\n    memset(disc, -1, sizeof(int) * n);\n\n    for (int i = 0; i < m; i++) {\n        int u = arr[2 + 2 * i];\n        int v = arr[2 + 2 * i + 1];\n        adj[u][adj_count[u]++] = v;\n    }\n\n    index_counter = 0;\n    scc_count = 0;\n    stack_top = 0;\n\n    for (int v = 0; v < n; v++) {\n        if (disc[v] == -1) strongconnect(v);\n    }\n\n    return scc_count;\n}\n"
+        },
+        {
+          "filename": "strongly_connected_condensation.h",
+          "content": "#ifndef STRONGLY_CONNECTED_CONDENSATION_H\n#define STRONGLY_CONNECTED_CONDENSATION_H\n\nint strongly_connected_condensation(int arr[], int size);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "strongly_connected_condensation.cpp",
+          "content": "#include <vector>\n#include <stack>\n#include <algorithm>\n\nusing namespace std;\n\nstatic int indexCounter, sccCount;\nstatic vector<int> disc_scc, low_scc;\nstatic vector<bool> onStack_scc;\nstatic stack<int> st_scc;\nstatic vector<vector<int>> adj_scc;\n\nstatic void strongconnect(int v) {\n    disc_scc[v] = indexCounter;\n    low_scc[v] = indexCounter;\n    indexCounter++;\n    st_scc.push(v);\n    onStack_scc[v] = true;\n\n    for (int w : adj_scc[v]) {\n        if (disc_scc[w] == -1) {\n            strongconnect(w);\n            low_scc[v] = min(low_scc[v], low_scc[w]);\n        } else if (onStack_scc[w]) {\n            low_scc[v] = min(low_scc[v], disc_scc[w]);\n        }\n    }\n\n    if (low_scc[v] == disc_scc[v]) {\n        sccCount++;\n        while (true) {\n            int w = st_scc.top(); st_scc.pop();\n            onStack_scc[w] = false;\n            if (w == v) break;\n        }\n    }\n}\n\nint strongly_connected_condensation(vector<int> arr) {\n    int n = arr[0];\n    int m = arr[1];\n    adj_scc.assign(n, vector<int>());\n    for (int i = 0; i < m; i++) {\n        int u = arr[2 + 2 * i];\n        int v = arr[2 + 2 * i + 1];\n        adj_scc[u].push_back(v);\n    }\n\n    indexCounter = 0;\n    sccCount = 0;\n    disc_scc.assign(n, -1);\n    low_scc.assign(n, 0);\n    onStack_scc.assign(n, false);\n    while (!st_scc.empty()) st_scc.pop();\n\n    for (int v = 0; v < n; v++) {\n        if (disc_scc[v] == -1) strongconnect(v);\n    }\n\n    return sccCount;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "StronglyConnectedCondensation.cs",
+          "content": "using System;\nusing System.Collections.Generic;\n\npublic class StronglyConnectedCondensation\n{\n    private static int indexCounter, sccCount;\n    private static int[] disc, low;\n    private static bool[] onStack;\n    private static Stack<int> stack;\n    private static List<int>[] adj;\n\n    public static int Solve(int[] arr)\n    {\n        int n = arr[0];\n        int m = arr[1];\n        adj = new List<int>[n];\n        for (int i = 0; i < n; i++) adj[i] = new List<int>();\n        for (int i = 0; i < m; i++)\n        {\n            int u = arr[2 + 2 * i];\n            int v = arr[2 + 2 * i + 1];\n            adj[u].Add(v);\n        }\n\n        indexCounter = 0;\n        sccCount = 0;\n        disc = new int[n];\n        low = new int[n];\n        onStack = new bool[n];\n        stack = new Stack<int>();\n        for (int i = 0; i < n; i++) disc[i] = -1;\n\n        for (int v = 0; v < n; v++)\n        {\n            if (disc[v] == -1) Strongconnect(v);\n        }\n\n        return sccCount;\n    }\n\n    private static void Strongconnect(int v)\n    {\n        disc[v] = indexCounter;\n        low[v] = indexCounter;\n        indexCounter++;\n        stack.Push(v);\n        onStack[v] = true;\n\n        foreach (int w in adj[v])\n        {\n            if (disc[w] == -1)\n            {\n                Strongconnect(w);\n                low[v] = Math.Min(low[v], low[w]);\n            }\n            else if (onStack[w])\n            {\n                low[v] = Math.Min(low[v], disc[w]);\n            }\n        }\n\n        if (low[v] == disc[v])\n        {\n            sccCount++;\n            while (true)\n            {\n                int w = stack.Pop();\n                onStack[w] = false;\n                if (w == v) break;\n            }\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "strongly_connected_condensation.go",
+          "content": "package stronglyconnectedcondensation\n\nfunc StronglyConnectedCondensation(arr []int) int {\n\tn := arr[0]\n\tm := arr[1]\n\tadj := make([][]int, n)\n\tfor i := 0; i < n; i++ {\n\t\tadj[i] = []int{}\n\t}\n\tfor i := 0; i < m; i++ {\n\t\tu := arr[2+2*i]\n\t\tv := arr[2+2*i+1]\n\t\tadj[u] = append(adj[u], v)\n\t}\n\n\tindexCounter := 0\n\tsccCount := 0\n\tdisc := make([]int, n)\n\tlow := make([]int, n)\n\tonStack := make([]bool, n)\n\tstack := []int{}\n\tfor i := 0; i < n; i++ {\n\t\tdisc[i] = -1\n\t}\n\n\tvar strongconnect func(v int)\n\tstrongconnect = func(v int) {\n\t\tdisc[v] = indexCounter\n\t\tlow[v] = indexCounter\n\t\tindexCounter++\n\t\tstack = append(stack, v)\n\t\tonStack[v] = true\n\n\t\tfor _, w := range adj[v] {\n\t\t\tif disc[w] == -1 {\n\t\t\t\tstrongconnect(w)\n\t\t\t\tif low[w] < low[v] {\n\t\t\t\t\tlow[v] = low[w]\n\t\t\t\t}\n\t\t\t} else if onStack[w] {\n\t\t\t\tif disc[w] < low[v] {\n\t\t\t\t\tlow[v] = disc[w]\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\n\t\tif low[v] == disc[v] {\n\t\t\tsccCount++\n\t\t\tfor {\n\t\t\t\tw := stack[len(stack)-1]\n\t\t\t\tstack = stack[:len(stack)-1]\n\t\t\t\tonStack[w] = false\n\t\t\t\tif w == v {\n\t\t\t\t\tbreak\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\n\tfor v := 0; v < n; v++ {\n\t\tif disc[v] == -1 {\n\t\t\tstrongconnect(v)\n\t\t}\n\t}\n\n\treturn sccCount\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "StronglyConnectedCondensation.java",
+          "content": "import java.util.*;\n\npublic class StronglyConnectedCondensation {\n\n    private static int indexCounter, sccCount;\n    private static int[] disc, low;\n    private static boolean[] onStack;\n    private static Deque<Integer> stack;\n    private static List<List<Integer>> adj;\n\n    public static int stronglyConnectedCondensation(int[] arr) {\n        int n = arr[0];\n        int m = arr[1];\n        adj = new ArrayList<>();\n        for (int i = 0; i < n; i++) adj.add(new ArrayList<>());\n        for (int i = 0; i < m; i++) {\n            int u = arr[2 + 2 * i];\n            int v = arr[2 + 2 * i + 1];\n            adj.get(u).add(v);\n        }\n\n        indexCounter = 0;\n        sccCount = 0;\n        disc = new int[n];\n        low = new int[n];\n        onStack = new boolean[n];\n        stack = new ArrayDeque<>();\n        Arrays.fill(disc, -1);\n\n        for (int v = 0; v < n; v++) {\n            if (disc[v] == -1) strongconnect(v);\n        }\n\n        return sccCount;\n    }\n\n    private static void strongconnect(int v) {\n        disc[v] = indexCounter;\n        low[v] = indexCounter;\n        indexCounter++;\n        stack.push(v);\n        onStack[v] = true;\n\n        for (int w : adj.get(v)) {\n            if (disc[w] == -1) {\n                strongconnect(w);\n                low[v] = Math.min(low[v], low[w]);\n            } else if (onStack[w]) {\n                low[v] = Math.min(low[v], disc[w]);\n            }\n        }\n\n        if (low[v] == disc[v]) {\n            sccCount++;\n            while (true) {\n                int w = stack.pop();\n                onStack[w] = false;\n                if (w == v) break;\n            }\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "StronglyConnectedCondensation.kt",
+          "content": "fun stronglyConnectedCondensation(arr: IntArray): Int {\n    val n = arr[0]\n    val m = arr[1]\n    val adj = Array(n) { mutableListOf<Int>() }\n    for (i in 0 until m) {\n        val u = arr[2 + 2 * i]\n        val v = arr[2 + 2 * i + 1]\n        adj[u].add(v)\n    }\n\n    var indexCounter = 0\n    var sccCount = 0\n    val disc = IntArray(n) { -1 }\n    val low = IntArray(n)\n    val onStack = BooleanArray(n)\n    val stack = ArrayDeque<Int>()\n\n    fun strongconnect(v: Int) {\n        disc[v] = indexCounter\n        low[v] = indexCounter\n        indexCounter++\n        stack.addLast(v)\n        onStack[v] = true\n\n        for (w in adj[v]) {\n            if (disc[w] == -1) {\n                strongconnect(w)\n                low[v] = minOf(low[v], low[w])\n            } else if (onStack[w]) {\n                low[v] = minOf(low[v], disc[w])\n            }\n        }\n\n        if (low[v] == disc[v]) {\n            sccCount++\n            while (true) {\n                val w = stack.removeLast()\n                onStack[w] = false\n                if (w == v) break\n            }\n        }\n    }\n\n    for (v in 0 until n) {\n        if (disc[v] == -1) strongconnect(v)\n    }\n\n    return sccCount\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "strongly_connected_condensation.py",
+          "content": "def strongly_connected_condensation(arr: list[int]) -> int:\n    n = arr[0]\n    m = arr[1]\n    adj = [[] for _ in range(n)]\n    for i in range(m):\n        u = arr[2 + 2 * i]\n        v = arr[2 + 2 * i + 1]\n        adj[u].append(v)\n\n    index_counter = [0]\n    scc_count = [0]\n    disc = [-1] * n\n    low = [0] * n\n    on_stack = [False] * n\n    stack = []\n\n    def strongconnect(v):\n        disc[v] = index_counter[0]\n        low[v] = index_counter[0]\n        index_counter[0] += 1\n        stack.append(v)\n        on_stack[v] = True\n\n        for w in adj[v]:\n            if disc[w] == -1:\n                strongconnect(w)\n                low[v] = min(low[v], low[w])\n            elif on_stack[w]:\n                low[v] = min(low[v], disc[w])\n\n        if low[v] == disc[v]:\n            scc_count[0] += 1\n            while True:\n                w = stack.pop()\n                on_stack[w] = False\n                if w == v:\n                    break\n\n    for v in range(n):\n        if disc[v] == -1:\n            strongconnect(v)\n\n    return scc_count[0]\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "strongly_connected_condensation.rs",
+          "content": "pub fn strongly_connected_condensation(arr: &[i32]) -> i32 {\n    let n = arr[0] as usize;\n    let m = arr[1] as usize;\n    let mut adj = vec![vec![]; n];\n    for i in 0..m {\n        let u = arr[2 + 2 * i] as usize;\n        let v = arr[2 + 2 * i + 1] as usize;\n        adj[u].push(v);\n    }\n\n    let mut index_counter: i32 = 0;\n    let mut scc_count: i32 = 0;\n    let mut disc = vec![-1i32; n];\n    let mut low = vec![0i32; n];\n    let mut on_stack = vec![false; n];\n    let mut stack = Vec::new();\n\n    fn strongconnect(\n        v: usize,\n        adj: &[Vec<usize>],\n        disc: &mut [i32],\n        low: &mut [i32],\n        on_stack: &mut [bool],\n        stack: &mut Vec<usize>,\n        index_counter: &mut i32,\n        scc_count: &mut i32,\n    ) {\n        disc[v] = *index_counter;\n        low[v] = *index_counter;\n        *index_counter += 1;\n        stack.push(v);\n        on_stack[v] = true;\n\n        for &w in &adj[v] {\n            if disc[w] == -1 {\n                strongconnect(w, adj, disc, low, on_stack, stack, index_counter, scc_count);\n                low[v] = low[v].min(low[w]);\n            } else if on_stack[w] {\n                low[v] = low[v].min(disc[w]);\n            }\n        }\n\n        if low[v] == disc[v] {\n            *scc_count += 1;\n            loop {\n                let w = stack.pop().unwrap();\n                on_stack[w] = false;\n                if w == v { break; }\n            }\n        }\n    }\n\n    for v in 0..n {\n        if disc[v] == -1 {\n            strongconnect(v, &adj, &mut disc, &mut low, &mut on_stack, &mut stack, &mut index_counter, &mut scc_count);\n        }\n    }\n\n    scc_count\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "StronglyConnectedCondensation.scala",
+          "content": "object StronglyConnectedCondensation {\n\n  def stronglyConnectedCondensation(arr: Array[Int]): Int = {\n    val n = arr(0)\n    val m = arr(1)\n    val adj = Array.fill(n)(scala.collection.mutable.ListBuffer[Int]())\n    for (i <- 0 until m) {\n      val u = arr(2 + 2 * i)\n      val v = arr(2 + 2 * i + 1)\n      adj(u) += v\n    }\n\n    var indexCounter = 0\n    var sccCount = 0\n    val disc = Array.fill(n)(-1)\n    val low = Array.fill(n)(0)\n    val onStack = Array.fill(n)(false)\n    val stack = scala.collection.mutable.Stack[Int]()\n\n    def strongconnect(v: Int): Unit = {\n      disc(v) = indexCounter\n      low(v) = indexCounter\n      indexCounter += 1\n      stack.push(v)\n      onStack(v) = true\n\n      for (w <- adj(v)) {\n        if (disc(w) == -1) {\n          strongconnect(w)\n          low(v) = math.min(low(v), low(w))\n        } else if (onStack(w)) {\n          low(v) = math.min(low(v), disc(w))\n        }\n      }\n\n      if (low(v) == disc(v)) {\n        sccCount += 1\n        var done = false\n        while (!done) {\n          val w = stack.pop()\n          onStack(w) = false\n          if (w == v) done = true\n        }\n      }\n    }\n\n    for (v <- 0 until n) {\n      if (disc(v) == -1) strongconnect(v)\n    }\n\n    sccCount\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "StronglyConnectedCondensation.swift",
+          "content": "func stronglyConnectedCondensation(_ arr: [Int]) -> Int {\n    let n = arr[0]\n    let m = arr[1]\n    var adj = [[Int]](repeating: [], count: n)\n    for i in 0..<m {\n        let u = arr[2 + 2 * i]\n        let v = arr[2 + 2 * i + 1]\n        adj[u].append(v)\n    }\n\n    var indexCounter = 0\n    var sccCount = 0\n    var disc = [Int](repeating: -1, count: n)\n    var low = [Int](repeating: 0, count: n)\n    var onStack = [Bool](repeating: false, count: n)\n    var stack = [Int]()\n\n    func strongconnect(_ v: Int) {\n        disc[v] = indexCounter\n        low[v] = indexCounter\n        indexCounter += 1\n        stack.append(v)\n        onStack[v] = true\n\n        for w in adj[v] {\n            if disc[w] == -1 {\n                strongconnect(w)\n                low[v] = min(low[v], low[w])\n            } else if onStack[w] {\n                low[v] = min(low[v], disc[w])\n            }\n        }\n\n        if low[v] == disc[v] {\n            sccCount += 1\n            while true {\n                let w = stack.removeLast()\n                onStack[w] = false\n                if w == v { break }\n            }\n        }\n    }\n\n    for v in 0..<n {\n        if disc[v] == -1 { strongconnect(v) }\n    }\n\n    return sccCount\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "stronglyConnectedCondensation.ts",
+          "content": "export function stronglyConnectedCondensation(arr: number[]): number {\n    const n = arr[0];\n    const m = arr[1];\n    const adj: number[][] = Array.from({ length: n }, () => []);\n    for (let i = 0; i < m; i++) {\n        const u = arr[2 + 2 * i];\n        const v = arr[2 + 2 * i + 1];\n        adj[u].push(v);\n    }\n\n    let indexCounter = 0;\n    let sccCount = 0;\n    const disc = new Array(n).fill(-1);\n    const low = new Array(n).fill(0);\n    const onStack = new Array(n).fill(false);\n    const stack: number[] = [];\n\n    function strongconnect(v: number): void {\n        disc[v] = indexCounter;\n        low[v] = indexCounter;\n        indexCounter++;\n        stack.push(v);\n        onStack[v] = true;\n\n        for (const w of adj[v]) {\n            if (disc[w] === -1) {\n                strongconnect(w);\n                low[v] = Math.min(low[v], low[w]);\n            } else if (onStack[w]) {\n                low[v] = Math.min(low[v], disc[w]);\n            }\n        }\n\n        if (low[v] === disc[v]) {\n            sccCount++;\n            while (true) {\n                const w = stack.pop()!;\n                onStack[w] = false;\n                if (w === v) break;\n            }\n        }\n    }\n\n    for (let v = 0; v < n; v++) {\n        if (disc[v] === -1) strongconnect(v);\n    }\n\n    return sccCount;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Strongly Connected Condensation\n\n## Overview\n\nStrongly Connected Condensation contracts each strongly connected component (SCC) of a directed graph into a single node, producing a directed acyclic graph (DAG). This condensation DAG captures the high-level structure of the original graph and is useful for many applications including dependency analysis and reachability queries. A strongly connected component is a maximal set of vertices where every vertex is reachable from every other vertex in the set.\n\nThe condensation is unique for any given directed graph and always produces a DAG, because if two SCCs were mutually reachable, they would be a single SCC by definition.\n\n## How It Works\n\n1. Find all SCCs using Tarjan's or Kosaraju's algorithm.\n2. Assign each vertex to its SCC identifier.\n3. Create a new DAG where each node represents an SCC and edges connect different SCCs: for each edge (u, v) in the original graph where u and v belong to different SCCs, add an edge from SCC(u) to SCC(v) in the condensation.\n4. Remove duplicate edges in the condensation DAG.\n\nThe output of this implementation is the number of nodes in the condensation DAG (i.e., the number of SCCs).\n\n## Example\n\nConsider the directed graph with 7 vertices and edges:\n\n```\n0 -> 1,  1 -> 2,  2 -> 0    (cycle: SCC A = {0, 1, 2})\n3 -> 4,  4 -> 3              (cycle: SCC B = {3, 4})\n2 -> 3                        (cross-edge from A to B)\n5 -> 6                        (no cycle: SCC C = {5}, SCC D = {6})\n5 -> 0                        (cross-edge from C to A)\n```\n\nInput: `[7, 8, 0,1, 1,2, 2,0, 3,4, 4,3, 2,3, 5,6, 5,0]`\n\n**SCCs found:**\n- SCC 0: {0, 1, 2}\n- SCC 1: {3, 4}\n- SCC 2: {5}\n- SCC 3: {6}\n\n**Condensation DAG:**\n```\nSCC2 ({5}) ---> SCC0 ({0,1,2}) ---> SCC1 ({3,4})\n  |\n  +---> SCC3 ({6})\n```\n\nResult: **4** (four SCCs, so four nodes in the condensation DAG)\n\n## Pseudocode\n\n```\nfunction condensation(n, edges):\n    // Step 1: Find SCCs (using Tarjan's algorithm)\n    scc_id = array of size n, initially -1\n    scc_count = 0\n    tarjan(n, edges, scc_id, scc_count)\n\n    // Step 2: Build condensation DAG\n    dag_edges = empty set\n    for each edge (u, v) in edges:\n        if scc_id[u] != scc_id[v]:\n            dag_edges.add( (scc_id[u], scc_id[v]) )\n\n    // The condensation DAG has scc_count nodes and dag_edges edges\n    return scc_count\n```\n\n## Complexity Analysis\n\n| Case    | Time     | Space    |\n|---------|----------|----------|\n| Best    | O(V + E) | O(V + E) |\n| Average | O(V + E) | O(V + E) |\n| Worst   | O(V + E) | O(V + E) |\n\nThe complexity is dominated by the SCC-finding algorithm (Tarjan's or Kosaraju's), which runs in O(V + E). Building the condensation DAG requires one additional pass over all edges, also O(E). The space stores the original graph, SCC assignments, and the condensation edges.\n\n## When to Use\n\n- **Reachability queries:** After condensation, reachability between two vertices reduces to reachability between their SCC representatives in the DAG, which is simpler and faster to answer.\n- **Dependency analysis:** Understanding the high-level dependency structure of a software system, where cycles within modules are collapsed.\n- **2-SAT solving:** The condensation graph is used to determine satisfiability and variable assignments in 2-SAT problems.\n- **Minimum vertex/edge additions:** Determining the minimum number of edges to add to make a graph strongly connected requires analyzing the condensation DAG.\n- **Topological ordering of components:** The condensation DAG can be topologically sorted, enabling processing in dependency order.\n\n## When NOT to Use\n\n- **Undirected graphs:** SCCs are only defined for directed graphs. For undirected graphs, use connected components or biconnected components instead.\n- **When you only need to detect cycles:** If you just need to know whether a cycle exists, a simple DFS with back-edge detection suffices without building the full condensation.\n- **When the graph is already a DAG:** If the graph has no cycles, each vertex is its own SCC and the condensation is the graph itself.\n\n## Comparison\n\n| Algorithm         | Time     | Space    | What It Computes                          |\n|-------------------|----------|----------|-------------------------------------------|\n| Condensation      | O(V + E) | O(V + E) | DAG of SCCs (this algorithm)             |\n| Tarjan's SCC      | O(V + E) | O(V)     | SCC membership only                      |\n| Kosaraju's SCC    | O(V + E) | O(V + E) | SCC membership (two DFS passes)          |\n| Path-based SCC    | O(V + E) | O(V)     | SCC membership (two stacks)              |\n\nCondensation builds on top of any SCC algorithm. The choice of underlying SCC algorithm affects constant factors but not asymptotic complexity.\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [strongly_connected_condensation.py](python/strongly_connected_condensation.py) |\n| Java       | [StronglyConnectedCondensation.java](java/StronglyConnectedCondensation.java) |\n| C++        | [strongly_connected_condensation.cpp](cpp/strongly_connected_condensation.cpp) |\n| C          | [strongly_connected_condensation.c](c/strongly_connected_condensation.c) |\n| Go         | [strongly_connected_condensation.go](go/strongly_connected_condensation.go) |\n| TypeScript | [stronglyConnectedCondensation.ts](typescript/stronglyConnectedCondensation.ts) |\n| Rust       | [strongly_connected_condensation.rs](rust/strongly_connected_condensation.rs) |\n| Kotlin     | [StronglyConnectedCondensation.kt](kotlin/StronglyConnectedCondensation.kt) |\n| Swift      | [StronglyConnectedCondensation.swift](swift/StronglyConnectedCondensation.swift) |\n| Scala      | [StronglyConnectedCondensation.scala](scala/StronglyConnectedCondensation.scala) |\n| C#         | [StronglyConnectedCondensation.cs](csharp/StronglyConnectedCondensation.cs) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 22.5: Strongly connected components.\n- [Condensation Graph -- Wikipedia](https://en.wikipedia.org/wiki/Condensation_(graph_theory))\n- [Strongly Connected Component -- CP-Algorithms](https://cp-algorithms.com/graph/strongly-connected-components.html)\n"
+}

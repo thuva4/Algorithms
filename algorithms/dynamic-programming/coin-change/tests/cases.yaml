@@ -1,0 +1,21 @@
+algorithm: "coin-change"
+function_signature:
+  name: "coin_change"
+  input: [coins, amount]
+  output: min_coins_or_negative_one
+test_cases:
+  - name: "standard"
+    input: [[1, 5, 10, 25], 30]
+    expected: 2
+  - name: "impossible"
+    input: [[2], 3]
+    expected: -1
+  - name: "zero amount"
+    input: [[1, 2, 5], 0]
+    expected: 0
+  - name: "exact coin"
+    input: [[1, 5, 10], 10]
+    expected: 1
+  - name: "all ones"
+    input: [[1], 5]
+    expected: 5

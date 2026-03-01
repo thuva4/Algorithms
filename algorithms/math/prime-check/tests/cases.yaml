@@ -1,0 +1,33 @@
+algorithm: "prime-check"
+function_signature:
+  name: "is_prime"
+  input: [n]
+  output: boolean
+test_cases:
+  - name: "two is prime"
+    input: [2]
+    expected: true
+  - name: "three is prime"
+    input: [3]
+    expected: true
+  - name: "four is not prime"
+    input: [4]
+    expected: false
+  - name: "one is not prime"
+    input: [1]
+    expected: false
+  - name: "zero is not prime"
+    input: [0]
+    expected: false
+  - name: "large prime"
+    input: [97]
+    expected: true
+  - name: "large non-prime"
+    input: [100]
+    expected: false
+  - name: "negative number"
+    input: [-7]
+    expected: false
+  - name: "prime 17"
+    input: [17]
+    expected: true

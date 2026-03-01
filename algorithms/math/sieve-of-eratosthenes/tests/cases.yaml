@@ -1,0 +1,24 @@
+algorithm: "sieve-of-eratosthenes"
+function_signature:
+  name: "sieve_of_eratosthenes"
+  input: [n]
+  output: list_of_primes_up_to_n
+test_cases:
+  - name: "primes up to 10"
+    input: [10]
+    expected: [2, 3, 5, 7]
+  - name: "primes up to 20"
+    input: [20]
+    expected: [2, 3, 5, 7, 11, 13, 17, 19]
+  - name: "primes up to 2"
+    input: [2]
+    expected: [2]
+  - name: "no primes below 2"
+    input: [1]
+    expected: []
+  - name: "primes up to 30"
+    input: [30]
+    expected: [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
+  - name: "single prime boundary"
+    input: [3]
+    expected: [2, 3]

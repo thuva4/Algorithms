@@ -1,0 +1,143 @@
+{
+  "name": "Tree Sort",
+  "slug": "tree-sort",
+  "category": "sorting",
+  "subcategory": "comparison-based",
+  "difficulty": "intermediate",
+  "tags": [
+    "sorting",
+    "comparison",
+    "tree",
+    "bst",
+    "in-order"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n log n)",
+      "average": "O(n log n)",
+      "worst": "O(n^2)"
+    },
+    "space": "O(n)"
+  },
+  "stable": false,
+  "in_place": false,
+  "related": [
+    "binary-search-tree",
+    "insertion-sort"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "tree_sort.c",
+          "content": "#include \"tree_sort.h\"\n#include <stdlib.h>\n\ntypedef struct Node {\n    int key;\n    struct Node *left, *right;\n} Node;\n\nstatic Node* newNode(int item) {\n    Node* temp = (Node*)malloc(sizeof(Node));\n    temp->key = item;\n    temp->left = temp->right = NULL;\n    return temp;\n}\n\nstatic Node* insert(Node* node, int key) {\n    if (node == NULL) return newNode(key);\n\n    if (key < node->key)\n        node->left = insert(node->left, key);\n    else\n        node->right = insert(node->right, key);\n\n    return node;\n}\n\nstatic void storeSorted(Node* root, int arr[], int* i) {\n    if (root != NULL) {\n        storeSorted(root->left, arr, i);\n        arr[(*i)++] = root->key;\n        storeSorted(root->right, arr, i);\n    }\n}\n\nstatic void freeTree(Node* root) {\n    if (root != NULL) {\n        freeTree(root->left);\n        freeTree(root->right);\n        free(root);\n    }\n}\n\nvoid tree_sort(int arr[], int n) {\n    Node* root = NULL;\n    \n    // Construct BST\n    for (int i = 0; i < n; i++)\n        root = insert(root, arr[i]);\n\n    // Store in-order traversal back to array\n    int i = 0;\n    storeSorted(root, arr, &i);\n    \n    // Free memory\n    freeTree(root);\n}\n"
+        },
+        {
+          "filename": "tree_sort.h",
+          "content": "#ifndef TREE_SORT_H\n#define TREE_SORT_H\n\nvoid tree_sort(int arr[], int n);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "tree_sort.cpp",
+          "content": "#include \"tree_sort.h\"\n#include <vector>\n\nstruct Node {\n    int key;\n    Node *left, *right;\n    \n    Node(int item) : key(item), left(nullptr), right(nullptr) {}\n};\n\nstatic Node* insert(Node* node, int key) {\n    if (node == nullptr) return new Node(key);\n\n    if (key < node->key)\n        node->left = insert(node->left, key);\n    else\n        node->right = insert(node->right, key);\n\n    return node;\n}\n\nstatic void storeSorted(Node* root, std::vector<int>& arr, int& i) {\n    if (root != nullptr) {\n        storeSorted(root->left, arr, i);\n        arr[i++] = root->key;\n        storeSorted(root->right, arr, i);\n    }\n}\n\nstatic void freeTree(Node* root) {\n    if (root != nullptr) {\n        freeTree(root->left);\n        freeTree(root->right);\n        delete root;\n    }\n}\n\nvoid tree_sort(std::vector<int>& arr) {\n    Node* root = nullptr;\n    \n    for (int x : arr)\n        root = insert(root, x);\n        \n    int i = 0;\n    storeSorted(root, arr, i);\n    \n    freeTree(root);\n}\n"
+        },
+        {
+          "filename": "tree_sort.h",
+          "content": "#ifndef TREE_SORT_H\n#define TREE_SORT_H\n\n#include <vector>\n\nvoid tree_sort(std::vector<int>& arr);\n\n#endif\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "TreeSort.cs",
+          "content": "namespace Algorithms.Sorting.TreeSort\n{\n    public class TreeSort\n    {\n        private class Node\n        {\n            public int key;\n            public Node left, right;\n\n            public Node(int item)\n            {\n                key = item;\n                left = right = null;\n            }\n        }\n\n        public static void Sort(int[] arr)\n        {\n            Node root = null;\n            for (int i = 0; i < arr.Length; i++)\n            {\n                root = Insert(root, arr[i]);\n            }\n\n            int index = 0;\n            StoreSorted(root, arr, ref index);\n        }\n\n        private static Node Insert(Node root, int key)\n        {\n            if (root == null)\n            {\n                root = new Node(key);\n                return root;\n            }\n\n            if (key < root.key)\n                root.left = Insert(root.left, key);\n            else\n                root.right = Insert(root.right, key);\n\n            return root;\n        }\n\n        private static void StoreSorted(Node root, int[] arr, ref int i)\n        {\n            if (root != null)\n            {\n                StoreSorted(root.left, arr, ref i);\n                arr[i++] = root.key;\n                StoreSorted(root.right, arr, ref i);\n            }\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "tree_sort.go",
+          "content": "package treesort\n\ntype Node struct {\n\tkey   int\n\tleft  *Node\n\tright *Node\n}\n\nfunc TreeSort(arr []int) {\n\tvar root *Node\n\tfor _, v := range arr {\n\t\troot = insert(root, v)\n\t}\n\n\ti := 0\n\tstoreSorted(root, arr, &i)\n}\n\nfunc insert(root *Node, key int) *Node {\n\tif root == nil {\n\t\treturn &Node{key: key}\n\t}\n\n\tif key < root.key {\n\t\troot.left = insert(root.left, key)\n\t} else {\n\t\troot.right = insert(root.right, key)\n\t}\n\n\treturn root\n}\n\nfunc storeSorted(root *Node, arr []int, i *int) {\n\tif root != nil {\n\t\tstoreSorted(root.left, arr, i)\n\t\tarr[*i] = root.key\n\t\t*i++\n\t\tstoreSorted(root.right, arr, i)\n\t}\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "TreeSort.java",
+          "content": "package algorithms.sorting.treesort;\n\npublic class TreeSort {\n    static class Node {\n        int key;\n        Node left, right;\n\n        public Node(int item) {\n            key = item;\n            left = right = null;\n        }\n    }\n\n    public static void sort(int[] arr) {\n        Node root = null;\n        for (int value : arr) {\n            root = insert(root, value);\n        }\n\n        int[] index = {0};\n        storeSorted(root, arr, index);\n    }\n\n    private static Node insert(Node root, int key) {\n        if (root == null) {\n            root = new Node(key);\n            return root;\n        }\n\n        if (key < root.key)\n            root.left = insert(root.left, key);\n        else\n            root.right = insert(root.right, key);\n\n        return root;\n    }\n\n    private static void storeSorted(Node root, int[] arr, int[] index) {\n        if (root != null) {\n            storeSorted(root.left, arr, index);\n            arr[index[0]++] = root.key;\n            storeSorted(root.right, arr, index);\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "TreeSort.kt",
+          "content": "package algorithms.sorting.treesort\n\nclass TreeSort {\n    class Node(var key: Int) {\n        var left: Node? = null\n        var right: Node? = null\n    }\n\n    fun sort(arr: IntArray) {\n        if (arr.isEmpty()) return\n        \n        var root: Node? = null\n        for (value in arr) {\n            root = insert(root, value)\n        }\n\n        var index = 0\n        storeSorted(root, arr) { index++ }\n    }\n\n    private fun insert(root: Node?, key: Int): Node {\n        if (root == null) {\n            return Node(key)\n        }\n\n        if (key < root.key) {\n            root.left = insert(root.left, key)\n        } else {\n            root.right = insert(root.right, key)\n        }\n\n        return root\n    }\n\n    private fun storeSorted(root: Node?, arr: IntArray, getAndIncrementIndex: () -> Int) {\n        if (root != null) {\n            storeSorted(root.left, arr, getAndIncrementIndex)\n            arr[getAndIncrementIndex()] = root.key\n            storeSorted(root.right, arr, getAndIncrementIndex)\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "tree_sort.py",
+          "content": "class Node:\n    def __init__(self, key):\n        self.left = None\n        self.right = None\n        self.val = key\n\ndef insert(root, key):\n    if root is None:\n        return Node(key)\n    else:\n        if key < root.val:\n            root.left = insert(root.left, key)\n        else:\n            root.right = insert(root.right, key)\n    return root\n\ndef store_sorted(root, arr, index):\n    if root is not None:\n        index = store_sorted(root.left, arr, index)\n        arr[index] = root.val\n        index += 1\n        index = store_sorted(root.right, arr, index)\n    return index\n\ndef tree_sort(arr):\n    if not arr:\n        return arr\n        \n    root = None\n    for x in arr:\n        root = insert(root, x)\n        \n    store_sorted(root, arr, 0)\n    return arr\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "tree_sort.rs",
+          "content": "struct Node {\n    val: i32,\n    left: Option<Box<Node>>,\n    right: Option<Box<Node>>,\n}\n\nimpl Node {\n    fn new(val: i32) -> Self {\n        Node {\n            val,\n            left: None,\n            right: None,\n        }\n    }\n\n    fn insert(&mut self, val: i32) {\n        if val < self.val {\n            match self.left {\n                Some(ref mut left) => left.insert(val),\n                None => self.left = Some(Box::new(Node::new(val))),\n            }\n        } else {\n            match self.right {\n                Some(ref mut right) => right.insert(val),\n                None => self.right = Some(Box::new(Node::new(val))),\n            }\n        }\n    }\n}\n\nfn store_sorted(node: &Node, arr: &mut [i32], idx: &mut usize) {\n    if let Some(ref left) = node.left {\n        store_sorted(left, arr, idx);\n    }\n    \n    arr[*idx] = node.val;\n    *idx += 1;\n    \n    if let Some(ref right) = node.right {\n        store_sorted(right, arr, idx);\n    }\n}\n\npub fn tree_sort(arr: &mut [i32]) {\n    if arr.is_empty() {\n        return;\n    }\n\n    let mut root = Node::new(arr[0]);\n    for &val in arr.iter().skip(1) {\n        root.insert(val);\n    }\n\n    let mut idx = 0;\n    store_sorted(&root, arr, &mut idx);\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "TreeSort.scala",
+          "content": "object TreeSort {\n  private class Node(var key: Int) {\n    var left: Node = null\n    var right: Node = null\n  }\n\n  def sort(arr: Array[Int]): Unit = {\n    var root: Node = null\n    for (value <- arr) {\n      root = insert(root, value)\n    }\n\n    var index = 0\n    storeSorted(root, arr, () => {\n      val temp = index\n      index += 1\n      temp\n    })\n  }\n\n  private def insert(root: Node, key: Int): Node = {\n    if (root == null) {\n      return new Node(key)\n    }\n\n    if (key < root.key) {\n      root.left = insert(root.left, key)\n    } else {\n      root.right = insert(root.right, key)\n    }\n\n    root\n  }\n\n  private def storeSorted(root: Node, arr: Array[Int], getAndIncrementIndex: () => Int): Unit = {\n    if (root != null) {\n      storeSorted(root.left, arr, getAndIncrementIndex)\n      arr(getAndIncrementIndex()) = root.key\n      storeSorted(root.right, arr, getAndIncrementIndex)\n    }\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "TreeSort.swift",
+          "content": "class TreeSort {\n    private class Node {\n        var key: Int\n        var left: Node?\n        var right: Node?\n        \n        init(_ key: Int) {\n            self.key = key\n            self.left = nil\n            self.right = nil\n        }\n    }\n    \n    static func sort(_ arr: inout [Int]) {\n        var root: Node? = nil\n        for value in arr {\n            root = insert(root, value)\n        }\n        \n        var index = 0\n        storeSorted(root, &arr, &index)\n    }\n    \n    private static func insert(_ root: Node?, _ key: Int) -> Node {\n        guard let root = root else {\n            return Node(key)\n        }\n        \n        if key < root.key {\n            root.left = insert(root.left, key)\n        } else {\n            root.right = insert(root.right, key)\n        }\n        \n        return root\n    }\n    \n    private static func storeSorted(_ root: Node?, _ arr: inout [Int], _ index: inout Int) {\n        if let root = root {\n            storeSorted(root.left, &arr, &index)\n            arr[index] = root.key\n            index += 1\n            storeSorted(root.right, &arr, &index)\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "tree-sort.ts",
+          "content": "class Node {\n  key: number;\n  left: Node | null;\n  right: Node | null;\n\n  constructor(key: number) {\n    this.key = key;\n    this.left = null;\n    this.right = null;\n  }\n}\n\nexport function treeSort(arr: number[]): number[] {\n  let root: Node | null = null;\n  for (const value of arr) {\n    root = insert(root, value);\n  }\n\n  let index = 0;\n  storeSorted(root, arr, { get: () => index, inc: () => index++ });\n  return arr;\n}\n\nfunction insert(root: Node | null, key: number): Node {\n  if (root === null) {\n    return new Node(key);\n  }\n\n  if (key < root.key) {\n    root.left = insert(root.left, key);\n  } else {\n    root.right = insert(root.right, key);\n  }\n\n  return root;\n}\n\nfunction storeSorted(root: Node | null, arr: number[], idx: { get: () => number, inc: () => number }): void {\n  if (root !== null) {\n    storeSorted(root.left, arr, idx);\n    arr[idx.inc()] = root.key;\n    storeSorted(root.right, arr, idx);\n  }\n}\n"
+        },
+        {
+          "filename": "treeSort.ts",
+          "content": "class BSTNode {\n    val: number;\n    left: BSTNode | null = null;\n    right: BSTNode | null = null;\n\n    constructor(val: number) {\n        this.val = val;\n    }\n}\n\nfunction insertBST(root: BSTNode | null, val: number): BSTNode {\n    if (root === null) return new BSTNode(val);\n    if (val < root.val) root.left = insertBST(root.left, val);\n    else root.right = insertBST(root.right, val);\n    return root;\n}\n\nfunction inorderBST(root: BSTNode | null, result: number[]): void {\n    if (root !== null) {\n        inorderBST(root.left, result);\n        result.push(root.val);\n        inorderBST(root.right, result);\n    }\n}\n\nexport function treeSort(arr: number[]): number[] {\n    if (arr.length <= 1) return [...arr];\n\n    let root: BSTNode | null = null;\n    for (const val of arr) {\n        root = insertBST(root, val);\n    }\n\n    const result: number[] = [];\n    inorderBST(root, result);\n    return result;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Tree Sort\n\n## Overview\n\nTree Sort is a sorting algorithm that builds a Binary Search Tree (BST) from the elements, then performs an in-order traversal to extract the sorted sequence. The algorithm leverages the BST property that in-order traversal visits nodes in ascending order. When a self-balancing BST (such as an AVL tree or Red-Black tree) is used, Tree Sort guarantees O(n log n) worst-case performance. With a plain BST, the worst case degrades to O(n^2) on already-sorted input.\n\nTree Sort is conceptually elegant and naturally produces a sorted data structure that supports efficient insertion, deletion, and search operations, making it useful when the data needs to remain sorted after the initial sort.\n\n## How It Works\n\n1. **Create an empty BST.**\n2. **Insert each element** of the input array into the BST. For each element:\n   - Start at the root.\n   - If the element is less than the current node, go left; otherwise, go right.\n   - Insert at the first empty position found.\n3. **Perform an in-order traversal** of the BST (left subtree, root, right subtree).\n4. The in-order traversal produces the elements in sorted order.\n\n## Example\n\nGiven input: `[5, 3, 7, 1, 4, 6, 8]`\n\n**Step 1 -- Build BST (insert elements one by one):**\n\n```\nInsert 5:       5\n\nInsert 3:       5\n               /\n              3\n\nInsert 7:       5\n               / \\\n              3   7\n\nInsert 1:       5\n               / \\\n              3   7\n             /\n            1\n\nInsert 4:       5\n               / \\\n              3   7\n             / \\\n            1   4\n\nInsert 6:       5\n               / \\\n              3   7\n             / \\ /\n            1  4 6\n\nInsert 8:       5\n               / \\\n              3   7\n             / \\ / \\\n            1  4 6  8\n```\n\n**Step 2 -- In-order traversal:** Visit left, root, right at each node.\n\n```\n1 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8\n```\n\nResult: `[1, 3, 4, 5, 6, 7, 8]`\n\n## Pseudocode\n\n```\nfunction treeSort(array):\n    root = null\n\n    // Build BST\n    for each element in array:\n        root = insert(root, element)\n\n    // In-order traversal\n    result = []\n    inOrderTraversal(root, result)\n    return result\n\nfunction insert(node, value):\n    if node is null:\n        return new Node(value)\n    if value < node.value:\n        node.left = insert(node.left, value)\n    else:\n        node.right = insert(node.right, value)\n    return node\n\nfunction inOrderTraversal(node, result):\n    if node is null:\n        return\n    inOrderTraversal(node.left, result)\n    result.append(node.value)\n    inOrderTraversal(node.right, result)\n```\n\n## Complexity Analysis\n\n| Case    | Time       | Space |\n|---------|------------|-------|\n| Best    | O(n log n) | O(n)  |\n| Average | O(n log n) | O(n)  |\n| Worst   | O(n^2)     | O(n)  |\n\n**Why these complexities?**\n\n- **Best/Average Case -- O(n log n):** When elements are inserted in a random order, the BST is approximately balanced with height O(log n). Each of the n insertions takes O(log n) time, giving O(n log n) for the build phase. The in-order traversal is always O(n).\n\n- **Worst Case -- O(n^2):** When the input is already sorted (ascending or descending), each insertion goes to the rightmost (or leftmost) leaf, creating a degenerate BST of height n. Each insertion then takes O(n) time, giving O(n^2) total. Using a self-balancing BST eliminates this worst case.\n\n- **Space -- O(n):** Each of the n elements requires a tree node, and each node stores the value plus left and right pointers. The in-order traversal also uses O(h) stack space for recursion, where h is the tree height.\n\n## When to Use\n\n- **When the sorted data structure is needed after sorting:** If you need to perform subsequent insertions, deletions, or searches on the sorted data, the BST remains useful after the initial sort.\n- **Online sorting:** Elements can be inserted into the BST as they arrive, and the sorted order can be read out at any time via in-order traversal.\n- **When using self-balancing trees:** With an AVL or Red-Black tree, Tree Sort guarantees O(n log n) worst-case time and is a viable general-purpose sort.\n- **Educational purposes:** Demonstrates the connection between binary search trees and sorting.\n\n## When NOT to Use\n\n- **Already-sorted or nearly-sorted data (with plain BST):** Creates a degenerate tree with O(n^2) performance. If you must use Tree Sort on such data, use a self-balancing BST.\n- **Memory-constrained environments:** Each element requires a tree node with two pointers, using significantly more memory than in-place sorting algorithms (roughly 3x the memory of the raw data).\n- **Cache-sensitive applications:** Tree nodes are typically allocated individually on the heap, resulting in poor cache locality compared to array-based algorithms like quicksort or merge sort.\n- **When a simpler algorithm suffices:** For one-time sorting of an array, merge sort or quicksort achieve the same O(n log n) time with better constant factors and cache performance.\n\n## Comparison\n\n| Algorithm    | Time (avg)  | Time (worst) | Space  | Stable | In-Place | Notes |\n|--------------|------------|-------------|--------|--------|----------|-------|\n| Tree Sort    | O(n log n) | O(n^2)*     | O(n)   | Depends| No       | *O(n log n) with balanced BST |\n| Merge Sort   | O(n log n) | O(n log n)  | O(n)   | Yes    | No       | Guaranteed performance |\n| Quick Sort   | O(n log n) | O(n^2)      | O(log n)| No    | Yes      | Best cache locality |\n| Heap Sort    | O(n log n) | O(n log n)  | O(1)   | No     | Yes      | Guaranteed; poor cache |\n| AVL Tree Sort| O(n log n) | O(n log n)  | O(n)   | No     | No       | Balanced tree eliminates worst case |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [tree_sort.py](python/tree_sort.py) |\n| Java       | [TreeSort.java](java/TreeSort.java) |\n| C++        | [tree_sort.cpp](cpp/tree_sort.cpp) |\n| C          | [tree_sort.c](c/tree_sort.c) |\n| Go         | [tree_sort.go](go/tree_sort.go) |\n| TypeScript | [treeSort.ts](typescript/treeSort.ts) |\n| Rust       | [tree_sort.rs](rust/tree_sort.rs) |\n| Kotlin     | [TreeSort.kt](kotlin/TreeSort.kt) |\n| Swift      | [TreeSort.swift](swift/TreeSort.swift) |\n| Scala      | [TreeSort.scala](scala/TreeSort.scala) |\n| C#         | [TreeSort.cs](csharp/TreeSort.cs) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 12: Binary Search Trees.\n- Knuth, D. E. (1998). *The Art of Computer Programming, Volume 3: Sorting and Searching* (2nd ed.). Addison-Wesley. Section 6.2.2: Binary Tree Searching.\n- [Tree Sort -- Wikipedia](https://en.wikipedia.org/wiki/Tree_sort)\n"
+}

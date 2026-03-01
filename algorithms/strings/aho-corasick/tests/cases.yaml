@@ -1,0 +1,18 @@
+algorithm: "aho-corasick"
+function_signature:
+  name: "aho_corasick_search"
+  input: [text, patterns]
+  output: list_of_matches
+test_cases:
+  - name: "multiple patterns found"
+    input: ["ahishers", ["he", "she", "his", "hers"]]
+    expected: [["his", 1], ["he", 4], ["she", 3], ["hers", 4]]
+  - name: "no patterns found"
+    input: ["abcdef", ["xyz", "uvw"]]
+    expected: []
+  - name: "single pattern found"
+    input: ["hello world", ["world"]]
+    expected: [["world", 6]]
+  - name: "overlapping patterns"
+    input: ["ushers", ["she", "he", "her"]]
+    expected: [["she", 1], ["he", 2], ["her", 2]]

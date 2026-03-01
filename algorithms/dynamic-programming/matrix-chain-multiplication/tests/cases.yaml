@@ -1,0 +1,21 @@
+algorithm: "matrix-chain-multiplication"
+function_signature:
+  name: "matrix_chain_order"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "three matrices"
+    input: [[10, 20, 30]]
+    expected: 6000
+  - name: "four matrices varied"
+    input: [[40, 20, 30, 10, 30]]
+    expected: 26000
+  - name: "four matrices increasing then decreasing"
+    input: [[10, 20, 30, 40, 30]]
+    expected: 30000
+  - name: "three small matrices"
+    input: [[1, 2, 3, 4]]
+    expected: 18
+  - name: "six matrices"
+    input: [[5, 10, 3, 12, 5, 50, 6]]
+    expected: 2010

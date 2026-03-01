@@ -1,0 +1,146 @@
+{
+  "name": "Interpolation Search",
+  "slug": "interpolation-search",
+  "category": "searching",
+  "subcategory": "search",
+  "difficulty": "intermediate",
+  "tags": [
+    "searching",
+    "interpolation",
+    "sorted-array"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(1)",
+      "average": "O(log log n)",
+      "worst": "O(n)"
+    },
+    "space": "O(1)"
+  },
+  "stable": null,
+  "in_place": true,
+  "related": [
+    "binary-search",
+    "jump-search"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "interpolation_search.c",
+          "content": "#include \"interpolation_search.h\"\n\nint interpolation_search(int arr[], int n, int target) {\n    int lo = 0, hi = n - 1;\n    \n    while (lo <= hi && target >= arr[lo] && target <= arr[hi]) {\n        if (lo == hi) {\n            if (arr[lo] == target) return lo;\n            return -1;\n        }\n        \n        if (arr[hi] == arr[lo]) {\n            if (arr[lo] == target) return lo;\n            return -1;\n        }\n        \n        int pos = lo + (((double)(hi - lo) / (arr[hi] - arr[lo])) * (target - arr[lo]));\n        \n        if (arr[pos] == target)\n            return pos;\n            \n        if (arr[pos] < target)\n            lo = pos + 1;\n        else\n            hi = pos - 1;\n    }\n    return -1;\n}\n"
+        },
+        {
+          "filename": "interpolation_search.h",
+          "content": "#ifndef INTERPOLATION_SEARCH_H\n#define INTERPOLATION_SEARCH_H\n\nint interpolation_search(int arr[], int n, int target);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "interpolation_search.cpp",
+          "content": "#include \"interpolation_search.h\"\n#include <vector>\n\nint interpolation_search(const std::vector<int>& arr, int target) {\n    int n = arr.size();\n    if (n == 0) return -1;\n    \n    int lo = 0, hi = n - 1;\n    \n    while (lo <= hi && target >= arr[lo] && target <= arr[hi]) {\n        if (lo == hi) {\n            if (arr[lo] == target) return lo;\n            return -1;\n        }\n        \n        // Prevent division by zero if arr[hi] == arr[lo] handled by lo == hi check?\n        // But if lo < hi but arr[lo] == arr[hi], then division by zero.\n        // The loop condition lo <= hi is standard.\n        // However, if arr[lo] == arr[hi], then arr[lo] <= target <= arr[hi] implies target == arr[lo].\n        // The lo == hi check handles n=1. \n        // If lo < hi and arr[lo] == arr[hi], denominator is 0.\n        // We should handle arr[lo] == arr[hi] inside loop or rely on loop condition.\n        // Actually if arr[lo] == arr[hi], target must be equal to them because of loop condition.\n        // But the formula divides by (arr[hi] - arr[lo]).\n        \n        if (arr[hi] == arr[lo]) {\n             if (arr[lo] == target) return lo;\n             return -1;\n        }\n        \n        int pos = lo + (((double)(hi - lo) / (arr[hi] - arr[lo])) * (target - arr[lo]));\n        \n        if (arr[pos] == target)\n            return pos;\n            \n        if (arr[pos] < target)\n            lo = pos + 1;\n        else\n            hi = pos - 1;\n    }\n    return -1;\n}\n"
+        },
+        {
+          "filename": "interpolation_search.h",
+          "content": "#ifndef INTERPOLATION_SEARCH_H\n#define INTERPOLATION_SEARCH_H\n\n#include <vector>\n\nint interpolation_search(const std::vector<int>& arr, int target);\n\n#endif\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "InterpolationSearch.cs",
+          "content": "namespace Algorithms.Searching.InterpolationSearch\n{\n    public class InterpolationSearch\n    {\n        public static int Search(int[] arr, int target)\n        {\n            if (arr == null || arr.Length == 0) return -1;\n            \n            int lo = 0, hi = arr.Length - 1;\n\n            while (lo <= hi && target >= arr[lo] && target <= arr[hi])\n            {\n                if (lo == hi)\n                {\n                    if (arr[lo] == target) return lo;\n                    return -1;\n                }\n                \n                if (arr[hi] == arr[lo])\n                {\n                     if (arr[lo] == target) return lo;\n                     return -1;\n                }\n\n                int pos = lo + (int)(((double)(hi - lo) / (arr[hi] - arr[lo])) * (target - arr[lo]));\n\n                if (arr[pos] == target)\n                    return pos;\n\n                if (arr[pos] < target)\n                    lo = pos + 1;\n                else\n                    hi = pos - 1;\n            }\n            return -1;\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "interpolation_search.go",
+          "content": "package interpolationsearch\n\nfunc InterpolationSearch(arr []int, target int) int {\n\tlo, hi := 0, len(arr)-1\n\t\n\tfor lo <= hi && target >= arr[lo] && target <= arr[hi] {\n\t\tif lo == hi {\n\t\t\tif arr[lo] == target {\n\t\t\t\treturn lo\n\t\t\t}\n\t\t\treturn -1\n\t\t}\n\t\t\n\t\tif arr[hi] == arr[lo] {\n\t\t\tif arr[lo] == target {\n\t\t\t\treturn lo\n\t\t\t}\n\t\t\treturn -1\n\t\t}\n\n\t\tpos := lo + int(float64(hi-lo)/float64(arr[hi]-arr[lo])*float64(target-arr[lo]))\n\n\t\tif arr[pos] == target {\n\t\t\treturn pos\n\t\t}\n\n\t\tif arr[pos] < target {\n\t\t\tlo = pos + 1\n\t\t} else {\n\t\t\thi = pos - 1\n\t\t}\n\t}\n\treturn -1\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "InterpolationSearch.java",
+          "content": "package algorithms.searching.interpolationsearch;\n\npublic class InterpolationSearch {\n    public static int search(int[] arr, int target) {\n        if (arr == null || arr.length == 0) return -1;\n        \n        int lo = 0, hi = arr.length - 1;\n        \n        while (lo <= hi && target >= arr[lo] && target <= arr[hi]) {\n            if (lo == hi) {\n                if (arr[lo] == target) return lo;\n                return -1;\n            }\n            \n            if (arr[hi] == arr[lo]) {\n                if (arr[lo] == target) return lo;\n                return -1;\n            }\n            \n            int pos = lo + (int)(((double)(hi - lo) / (arr[hi] - arr[lo])) * (target - arr[lo]));\n            \n            if (arr[pos] == target)\n                return pos;\n                \n            if (arr[pos] < target)\n                lo = pos + 1;\n            else\n                hi = pos - 1;\n        }\n        return -1;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "InterpolationSearch.kt",
+          "content": "package algorithms.searching.interpolationsearch\n\nclass InterpolationSearch {\n    fun search(arr: IntArray, target: Int): Int {\n        if (arr.isEmpty()) return -1\n        \n        var lo = 0\n        var hi = arr.size - 1\n        \n        while (lo <= hi && target >= arr[lo] && target <= arr[hi]) {\n            if (lo == hi) {\n                if (arr[lo] == target) return lo\n                return -1\n            }\n            \n            if (arr[hi] == arr[lo]) {\n                if (arr[lo] == target) return lo\n                return -1\n            }\n            \n            val pos = lo + (((hi - lo).toDouble() / (arr[hi] - arr[lo])) * (target - arr[lo])).toInt()\n            \n            if (arr[pos] == target)\n                return pos\n                \n            if (arr[pos] < target)\n                lo = pos + 1\n            else\n                hi = pos - 1\n        }\n        return -1\n    }\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "interpolation_search.py",
+          "content": "def interpolation_search(arr, target):\n    lo = 0\n    hi = len(arr) - 1\n    \n    while lo <= hi and target >= arr[lo] and target <= arr[hi]:\n        if lo == hi:\n            if arr[lo] == target:\n                return lo\n            return -1\n            \n        if arr[hi] == arr[lo]:\n            if arr[lo] == target:\n                return lo\n            return -1\n            \n        pos = lo + int(((float(hi - lo) / (arr[hi] - arr[lo])) * (target - arr[lo])))\n        \n        if arr[pos] == target:\n            return pos\n            \n        if arr[pos] < target:\n            lo = pos + 1\n        else:\n            hi = pos - 1\n            \n    return -1\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "interpolation_search.rs",
+          "content": "pub fn interpolation_search(arr: &[i32], target: i32) -> i32 {\n    let n = arr.len();\n    if n == 0 {\n        return -1;\n    }\n    \n    let mut lo = 0;\n    let mut hi = n - 1;\n    \n    while lo <= hi && target >= arr[lo] && target <= arr[hi] {\n        if lo == hi {\n            if arr[lo] == target {\n                return lo as i32;\n            }\n            return -1;\n        }\n        \n        if arr[hi] == arr[lo] {\n            if arr[lo] == target {\n                return lo as i32;\n            }\n            return -1;\n        }\n        \n        let pos = lo + (((hi - lo) as f64 / (arr[hi] - arr[lo]) as f64) * (target - arr[lo]) as f64) as usize;\n        \n        if arr[pos] == target {\n            return pos as i32;\n        }\n        \n        if arr[pos] < target {\n            lo = pos + 1;\n        } else {\n            hi = pos - 1;\n        }\n    }\n    -1\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "InterpolationSearch.scala",
+          "content": "object InterpolationSearch {\n  def search(arr: Array[Int], target: Int): Int = {\n    if (arr.isEmpty) return -1\n    \n    var lo = 0\n    var hi = arr.length - 1\n    \n    while (lo <= hi && target >= arr(lo) && target <= arr(hi)) {\n      if (lo == hi) {\n        if (arr(lo) == target) return lo\n        return -1\n      }\n      \n      if (arr(hi) == arr(lo)) {\n        if (arr(lo) == target) return lo\n        return -1\n      }\n      \n      val pos = lo + (((hi - lo).toDouble / (arr(hi) - arr(lo))) * (target - arr(lo))).toInt\n      \n      if (arr(pos) == target)\n        return pos\n        \n      if (arr(pos) < target)\n        lo = pos + 1\n      else\n        hi = pos - 1\n    }\n    -1\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "InterpolationSearch.swift",
+          "content": "class InterpolationSearch {\n    static func search(_ arr: [Int], _ target: Int) -> Int {\n        if arr.isEmpty { return -1 }\n        \n        var lo = 0\n        var hi = arr.count - 1\n        \n        while lo <= hi && target >= arr[lo] && target <= arr[hi] {\n            if lo == hi {\n                if arr[lo] == target { return lo }\n                return -1\n            }\n            \n            if arr[hi] == arr[lo] {\n                if arr[lo] == target { return lo }\n                return -1\n            }\n            \n            let pos = lo + Int((Double(hi - lo) / Double(arr[hi] - arr[lo])) * Double(target - arr[lo]))\n            \n            if arr[pos] == target { return pos }\n            \n            if arr[pos] < target {\n                lo = pos + 1\n            } else {\n                hi = pos - 1\n            }\n        }\n        return -1\n    }\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "interpolation-search.ts",
+          "content": "export function interpolationSearch(arr: number[], target: number): number {\n  if (arr.length === 0) return -1;\n  \n  let lo = 0;\n  let hi = arr.length - 1;\n  \n  while (lo <= hi && target >= arr[lo] && target <= arr[hi]) {\n    if (lo === hi) {\n      if (arr[lo] === target) return lo;\n      return -1;\n    }\n    \n    if (arr[hi] === arr[lo]) {\n      if (arr[lo] === target) return lo;\n      return -1;\n    }\n    \n    const pos = lo + Math.floor(((hi - lo) / (arr[hi] - arr[lo])) * (target - arr[lo]));\n    \n    if (arr[pos] === target) return pos;\n    \n    if (arr[pos] < target) {\n      lo = pos + 1;\n    } else {\n      hi = pos - 1;\n    }\n  }\n  return -1;\n}\n"
+        },
+        {
+          "filename": "interpolationSearch.ts",
+          "content": "export function interpolationSearch(arr: number[], target: number): number {\n    let low = 0, high = arr.length - 1;\n    while (low <= high && arr[low] <= target && target <= arr[high]) {\n        if (arr[low] === arr[high]) return arr[low] === target ? low : -1;\n        const pos = low + Math.floor((target - arr[low]) * (high - low) / (arr[high] - arr[low]));\n        if (arr[pos] === target) return pos;\n        else if (arr[pos] < target) low = pos + 1;\n        else high = pos - 1;\n    }\n    return -1;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "patterns": [
+    "modified-binary-search"
+  ],
+  "patternDifficulty": "intermediate",
+  "practiceOrder": 6,
+  "readme": "# Interpolation Search\n\n## Overview\n\nInterpolation Search is an improved variant of binary search designed for sorted arrays with uniformly distributed values. Instead of always checking the middle element, it estimates the likely position of the target using linear interpolation based on the target's value relative to the values at the current boundaries. This gives an average-case complexity of O(log log n) for uniformly distributed data, making it significantly faster than binary search for such inputs.\n\nThe algorithm was first described by Peterson in 1957. It mirrors how humans naturally search: when looking up a name starting with \"W\" in a phone book, you open near the end rather than the middle.\n\n## How It Works\n\n1. Set `low = 0` and `high = n - 1`.\n2. While `low <= high` and the target is within the range `[arr[low], arr[high]]`:\n   - Estimate the position: `pos = low + ((target - arr[low]) * (high - low)) / (arr[high] - arr[low])`.\n   - If `arr[pos] == target`, return `pos`.\n   - If `arr[pos] < target`, set `low = pos + 1`.\n   - If `arr[pos] > target`, set `high = pos - 1`.\n3. Return -1 if the target is not found.\n\n## Worked Example\n\nArray: `[10, 20, 30, 40, 50, 60, 70, 80, 90, 100]`, Target: `70`\n\n| Step | low | high | arr[low] | arr[high] | Estimated pos                                    | arr[pos] | Action     |\n|------|-----|------|----------|-----------|--------------------------------------------------|----------|------------|\n| 1    | 0   | 9    | 10       | 100       | 0 + (70-10)*(9-0)/(100-10) = 0 + 60*9/90 = 6    | 70       | Found!     |\n\nResult: Target `70` found at index **6** in a single probe.\n\nConsider a non-uniform example: `[1, 3, 5, 7, 9, 11]`, Target: `7`\n\n| Step | low | high | arr[low] | arr[high] | Estimated pos                               | arr[pos] | Action      |\n|------|-----|------|----------|-----------|---------------------------------------------|----------|-------------|\n| 1    | 0   | 5    | 1        | 11        | 0 + (7-1)*(5-0)/(11-1) = 0 + 6*5/10 = 3    | 7        | Found!      |\n\nResult: Target `7` found at index **3** in a single probe.\n\n## Pseudocode\n\n```\nfunction interpolationSearch(array, target):\n    low = 0\n    high = length(array) - 1\n\n    while low <= high and target >= array[low] and target <= array[high]:\n        // Prevent division by zero\n        if array[high] == array[low]:\n            if array[low] == target:\n                return low\n            else:\n                break\n\n        // Estimate the position using linear interpolation\n        pos = low + ((target - array[low]) * (high - low)) / (array[high] - array[low])\n\n        if array[pos] == target:\n            return pos\n        else if array[pos] < target:\n            low = pos + 1\n        else:\n            high = pos - 1\n\n    return -1\n```\n\n## Complexity Analysis\n\n| Case    | Time         | Space |\n|---------|--------------|-------|\n| Best    | O(1)         | O(1)  |\n| Average | O(log log n) | O(1)  |\n| Worst   | O(n)         | O(1)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(1):** The interpolation formula directly computes the exact position of the target on the first attempt.\n\n- **Average Case -- O(log log n):** For uniformly distributed data, each probe eliminates a large fraction of the remaining search space. The interpolation formula estimates the target's position with high accuracy, and the number of probes needed grows as the iterated logarithm of n. This double-logarithmic performance is a significant improvement over binary search's O(log n).\n\n- **Worst Case -- O(n):** When the data distribution is highly skewed (for example, exponentially distributed values), the interpolation formula makes poor estimates and may only eliminate one element per probe. In such cases, it degenerates to linear search.\n\n- **Space -- O(1):** The algorithm uses only a constant number of variables (low, high, pos) regardless of input size.\n\n## When to Use\n\n- **Uniformly distributed sorted data:** Interpolation Search achieves O(log log n), which is significantly faster than binary search's O(log n) for large, uniformly distributed datasets.\n- **Database index lookups:** When database keys are approximately uniformly distributed, interpolation search can locate records much faster than binary search.\n- **Telephone directory or dictionary lookup:** Natural datasets like alphabetically sorted names often have roughly uniform distribution across first letters.\n- **Large datasets where constant-factor improvements matter:** For very large arrays, the difference between O(log n) and O(log log n) is meaningful.\n\n## When NOT to Use\n\n- **Non-uniformly distributed data:** If values are clustered or follow an exponential, logarithmic, or other skewed distribution, interpolation search can degrade to O(n) in the worst case.\n- **Unsorted data:** The algorithm requires the input array to be sorted.\n- **Small arrays:** For small inputs, the overhead of the interpolation calculation provides no benefit over binary search or even linear search.\n- **Integer overflow risk:** The interpolation formula involves multiplication of potentially large values (`(target - arr[low]) * (high - low)`), which can overflow on certain data types without careful implementation.\n- **Arrays with many duplicate values:** When `arr[low] == arr[high]` but the target differs, the formula involves division by zero.\n\n## Comparison with Similar Algorithms\n\n| Algorithm            | Time (avg)    | Space | Notes                                                    |\n|----------------------|---------------|-------|----------------------------------------------------------|\n| Interpolation Search | O(log log n)  | O(1)  | Fastest for uniformly distributed data; O(n) worst case  |\n| Binary Search        | O(log n)      | O(1)  | Reliable O(log n) regardless of distribution             |\n| Fibonacci Search     | O(log n)      | O(1)  | Uses only addition/subtraction; good for sequential media|\n| Exponential Search   | O(log i)      | O(1)  | Best when target is near the beginning                   |\n| Jump Search          | O(sqrt(n))    | O(1)  | Simple; suited for sequential access                     |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [interpolation_search.py](python/interpolation_search.py) |\n| Java       | [InterpolationSearch.java](java/InterpolationSearch.java) |\n| C++        | [interpolation_search.cpp](cpp/interpolation_search.cpp) |\n| C          | [interpolation_search.c](c/interpolation_search.c) |\n| Go         | [interpolation_search.go](go/interpolation_search.go) |\n| TypeScript | [interpolationSearch.ts](typescript/interpolationSearch.ts) |\n| Rust       | [interpolation_search.rs](rust/interpolation_search.rs) |\n| Kotlin     | [InterpolationSearch.kt](kotlin/InterpolationSearch.kt) |\n| Swift      | [InterpolationSearch.swift](swift/InterpolationSearch.swift) |\n| Scala      | [InterpolationSearch.scala](scala/InterpolationSearch.scala) |\n| C#         | [InterpolationSearch.cs](csharp/InterpolationSearch.cs) |\n\n## References\n\n- Peterson, W. W. (1957). \"Addressing for random-access storage.\" *IBM Journal of Research and Development*, 1(2), 130-146.\n- Perl, Y., Itai, A., & Avni, H. (1978). \"Interpolation search -- a log log n search.\" *Communications of the ACM*, 21(7), 550-553.\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press.\n- [Interpolation Search -- Wikipedia](https://en.wikipedia.org/wiki/Interpolation_search)\n"
+}

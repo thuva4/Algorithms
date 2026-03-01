@@ -1,0 +1,17 @@
+name: "Unary Coding"
+slug: "unary-coding"
+category: "bit-manipulation"
+subcategory: "encoding"
+difficulty: "beginner"
+tags: [bit-manipulation, encoding, unary, compression, prefix-code]
+complexity:
+  time:
+    best: "O(n)"
+    average: "O(n)"
+    worst: "O(n)"
+  space: "O(n)"
+stable: false
+in_place: false
+related: [hamming-distance]
+implementations: [python, java, cpp, typescript]
+visualization: false

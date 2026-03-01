@@ -1,0 +1,369 @@
+name: Test Runners
+
+on:
+  pull_request:
+    branches: [master]
+    paths:
+      - 'algorithms/**'
+      - 'scripts/**'
+      - 'tests/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/test.yml'
+  push:
+    branches: [master]
+    paths:
+      - 'algorithms/**'
+      - 'scripts/**'
+      - 'tests/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/test.yml'
+
+jobs:
+  determine-scope:
+    name: Determine Test Scope
+    runs-on: ubuntu-latest
+    outputs:
+      algorithms_json: ${{ steps.scope.outputs.algorithms_json }}
+      unit_scope: ${{ steps.scope.outputs.unit_scope }}
+      typescript_scope: ${{ steps.scope.outputs.typescript_scope }}
+      python_scope: ${{ steps.scope.outputs.python_scope }}
+      java_scope: ${{ steps.scope.outputs.java_scope }}
+      cpp_scope: ${{ steps.scope.outputs.cpp_scope }}
+      c_scope: ${{ steps.scope.outputs.c_scope }}
+      go_scope: ${{ steps.scope.outputs.go_scope }}
+      rust_scope: ${{ steps.scope.outputs.rust_scope }}
+      kotlin_scope: ${{ steps.scope.outputs.kotlin_scope }}
+      swift_scope: ${{ steps.scope.outputs.swift_scope }}
+      scala_scope: ${{ steps.scope.outputs.scala_scope }}
+      csharp_scope: ${{ steps.scope.outputs.csharp_scope }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Collect changed files
+        id: diff
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BASE_SHA="${{ github.event.pull_request.base.sha }}"
+          else
+            BASE_SHA="${{ github.event.before }}"
+          fi
+
+          ZERO_SHA="0000000000000000000000000000000000000000"
+          CHANGED_FILES_PATH="$RUNNER_TEMP/changed-files.txt"
+          HEAD_SHA="HEAD"
+
+          if [ -n "$BASE_SHA" ] && [ "$BASE_SHA" != "$ZERO_SHA" ] && git cat-file -e "$BASE_SHA^{commit}" 2>/dev/null; then
+            git diff --name-only "$BASE_SHA" "$HEAD_SHA" | sed '/^$/d' > "$CHANGED_FILES_PATH"
+          elif git rev-parse "$HEAD_SHA^" >/dev/null 2>&1; then
+            PREV_SHA="$(git rev-parse "$HEAD_SHA^")"
+            git diff --name-only "$PREV_SHA" "$HEAD_SHA" | sed '/^$/d' > "$CHANGED_FILES_PATH"
+          else
+            git ls-files > "$CHANGED_FILES_PATH"
+          fi
+
+          echo "Changed files:"
+          cat "$CHANGED_FILES_PATH"
+
+      - name: Determine job scope
+        id: scope
+        run: python3 tests/determine_test_scope.py < "$RUNNER_TEMP/changed-files.txt" >> "$GITHUB_OUTPUT"
+
+  test-unit:
+    name: Unit Tests
+    needs: determine-scope
+    runs-on: ubuntu-latest
+    if: needs.determine-scope.outputs.unit_scope == 'run'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install workspace dependencies
+        run: npm ci
+
+      - name: Run repository unit tests
+        run: npm run test:unit
+
+  test-python:
+    name: Python Tests
+    needs: determine-scope
+    runs-on: ubuntu-latest
+    if: needs.determine-scope.outputs.python_scope != 'skip'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install requirements
+        run: pip install -r tests/runners/requirements.txt
+
+      - name: Run Python test runner
+        run: bash tests/run_scoped_runner.sh python tests/runners/python_runner.py "${{ needs.determine-scope.outputs.python_scope }}" '${{ needs.determine-scope.outputs.algorithms_json }}'
+
+  test-typescript:
+    name: TypeScript Tests
+    needs: determine-scope
+    runs-on: ubuntu-latest
+    if: needs.determine-scope.outputs.typescript_scope == 'run'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install runner dependencies
+        run: npm ci --prefix tests/runners/ts
+
+      - name: Run TypeScript test runner
+        run: npm test --prefix tests/runners/ts
+
+  test-java:
+    name: Java Tests
+    needs: determine-scope
+    runs-on: ubuntu-latest
+    if: needs.determine-scope.outputs.java_scope != 'skip'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Install Python dependencies
+        run: pip install -r tests/runners/requirements.txt
+
+      - name: Run Java test runner
+        run: bash tests/run_scoped_runner.sh bash tests/runners/java_runner.sh "${{ needs.determine-scope.outputs.java_scope }}" '${{ needs.determine-scope.outputs.algorithms_json }}'
+
+  test-cpp:
+    name: C++ Tests
+    needs: determine-scope
+    runs-on: ubuntu-latest
+    if: needs.determine-scope.outputs.cpp_scope != 'skip'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Python dependencies
+        run: pip install pyyaml
+
+      - name: Install g++
+        run: sudo apt-get update && sudo apt-get install -y g++
+
+      - name: Run C++ test runner
+        run: bash tests/run_scoped_runner.sh python tests/runners/cpp_runner.py "${{ needs.determine-scope.outputs.cpp_scope }}" '${{ needs.determine-scope.outputs.algorithms_json }}'
+
+  test-c:
+    name: C Tests
+    needs: determine-scope
+    runs-on: ubuntu-latest
+    if: needs.determine-scope.outputs.c_scope != 'skip'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Python dependencies
+        run: pip install pyyaml
+
+      - name: Install gcc
+        run: sudo apt-get update && sudo apt-get install -y gcc
+
+      - name: Run C test runner
+        run: bash tests/run_scoped_runner.sh bash tests/runners/c_runner.sh "${{ needs.determine-scope.outputs.c_scope }}" '${{ needs.determine-scope.outputs.algorithms_json }}'
+
+  test-go:
+    name: Go Tests
+    needs: determine-scope
+    runs-on: ubuntu-latest
+    if: needs.determine-scope.outputs.go_scope != 'skip'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Python dependencies
+        run: pip install pyyaml
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+
+      - name: Run Go test runner
+        run: bash tests/run_scoped_runner.sh bash tests/runners/go_runner.sh "${{ needs.determine-scope.outputs.go_scope }}" '${{ needs.determine-scope.outputs.algorithms_json }}'
+
+  test-rust:
+    name: Rust Tests
+    needs: determine-scope
+    runs-on: ubuntu-latest
+    if: needs.determine-scope.outputs.rust_scope != 'skip'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Python dependencies
+        run: pip install pyyaml
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Run Rust test runner
+        run: bash tests/run_scoped_runner.sh python tests/runners/rust_runner.py "${{ needs.determine-scope.outputs.rust_scope }}" '${{ needs.determine-scope.outputs.algorithms_json }}'
+
+  test-kotlin:
+    name: Kotlin Tests
+    needs: determine-scope
+    runs-on: ubuntu-latest
+    if: needs.determine-scope.outputs.kotlin_scope != 'skip' && (github.event_name == 'push' || contains(github.event.pull_request.labels.*.name, 'test-kotlin'))
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Python dependencies
+        run: pip install pyyaml
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Setup Kotlin
+        run: |
+          curl -s https://get.sdkman.io | bash
+          source "$HOME/.sdkman/bin/sdkman-init.sh"
+          sdk install kotlin
+          echo "$HOME/.sdkman/candidates/kotlin/current/bin" >> $GITHUB_PATH
+
+      - name: Run Kotlin test runner
+        run: bash tests/run_scoped_runner.sh bash tests/runners/kotlin_runner.sh "${{ needs.determine-scope.outputs.kotlin_scope }}" '${{ needs.determine-scope.outputs.algorithms_json }}'
+
+  test-swift:
+    name: Swift Tests
+    needs: determine-scope
+    runs-on: ubuntu-latest
+    if: needs.determine-scope.outputs.swift_scope != 'skip' && (github.event_name == 'push' || contains(github.event.pull_request.labels.*.name, 'test-swift'))
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Python dependencies
+        run: pip install pyyaml
+
+      - name: Setup Swift
+        uses: swift-actions/setup-swift@v2
+        with:
+          swift-version: '5.10'
+
+      - name: Run Swift test runner
+        run: bash tests/run_scoped_runner.sh bash tests/runners/swift_runner.sh "${{ needs.determine-scope.outputs.swift_scope }}" '${{ needs.determine-scope.outputs.algorithms_json }}'
+
+  test-scala:
+    name: Scala Tests
+    needs: determine-scope
+    runs-on: ubuntu-latest
+    if: needs.determine-scope.outputs.scala_scope != 'skip' && (github.event_name == 'push' || contains(github.event.pull_request.labels.*.name, 'test-scala'))
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Python dependencies
+        run: pip install pyyaml
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Setup Coursier
+        uses: coursier/setup-action@v1
+        with:
+          apps: scala scalac
+
+      - name: Install matching Scala toolchain
+        run: |
+          mkdir -p "$HOME/.local/bin"
+          export PATH="$HOME/.local/bin:$HOME/.local/share/coursier/bin:$PATH"
+          java -version
+          cs install --install-dir "$HOME/.local/bin" scala scalac
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          echo "$HOME/.local/share/coursier/bin" >> "$GITHUB_PATH"
+          command -v scalac
+          command -v scala
+          scalac -version
+          scala -version
+
+      - name: Run Scala test runner
+        run: bash tests/run_scoped_runner.sh bash tests/runners/scala_runner.sh "${{ needs.determine-scope.outputs.scala_scope }}" '${{ needs.determine-scope.outputs.algorithms_json }}'
+
+  test-csharp:
+    name: C# Tests
+    needs: determine-scope
+    runs-on: ubuntu-latest
+    if: needs.determine-scope.outputs.csharp_scope != 'skip' && (github.event_name == 'push' || contains(github.event.pull_request.labels.*.name, 'test-csharp'))
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Python dependencies
+        run: pip install pyyaml
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Run C# test runner
+        run: bash tests/run_scoped_runner.sh bash tests/runners/csharp_runner.sh "${{ needs.determine-scope.outputs.csharp_scope }}" '${{ needs.determine-scope.outputs.algorithms_json }}'

@@ -1,0 +1,186 @@
+{
+  "name": "Bipartite Check",
+  "slug": "bipartite-check",
+  "category": "graph",
+  "subcategory": "coloring",
+  "difficulty": "intermediate",
+  "tags": [
+    "graph",
+    "undirected",
+    "bipartite",
+    "bfs",
+    "two-coloring"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(V + E)",
+      "average": "O(V + E)",
+      "worst": "O(V + E)"
+    },
+    "space": "O(V)"
+  },
+  "related": [
+    "graph-coloring",
+    "breadth-first-search",
+    "depth-first-search"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "bipartite_check.c",
+          "content": "#include \"bipartite_check.h\"\n#include <stdlib.h>\n#include <stdbool.h>\n\ntypedef struct Node {\n    int to;\n    struct Node* next;\n} Node;\n\ntypedef struct {\n    Node** head;\n    int n;\n} Graph;\n\nstatic Graph* create_graph(int n) {\n    Graph* g = (Graph*)malloc(sizeof(Graph));\n    g->n = n;\n    g->head = (Node**)calloc(n, sizeof(Node*));\n    return g;\n}\n\nstatic void add_edge(Graph* g, int u, int v) {\n    Node* e1 = (Node*)malloc(sizeof(Node));\n    e1->to = v;\n    e1->next = g->head[u];\n    g->head[u] = e1;\n\n    Node* e2 = (Node*)malloc(sizeof(Node));\n    e2->to = u;\n    e2->next = g->head[v];\n    g->head[v] = e2;\n}\n\nstatic void free_graph(Graph* g) {\n    for (int i = 0; i < g->n; i++) {\n        Node* curr = g->head[i];\n        while (curr) {\n            Node* temp = curr;\n            curr = curr->next;\n            free(temp);\n        }\n    }\n    free(g->head);\n    free(g);\n}\n\ntypedef struct {\n    int* data;\n    int front, rear, capacity;\n} Queue;\n\nstatic Queue* create_queue(int capacity) {\n    Queue* q = (Queue*)malloc(sizeof(Queue));\n    q->data = (int*)malloc(capacity * sizeof(int));\n    q->front = 0;\n    q->rear = 0;\n    q->capacity = capacity;\n    return q;\n}\n\nstatic void enqueue(Queue* q, int val) {\n    q->data[q->rear++] = val;\n}\n\nstatic int dequeue(Queue* q) {\n    return q->data[q->front++];\n}\n\nstatic bool is_empty(Queue* q) {\n    return q->front == q->rear;\n}\n\nstatic void free_queue(Queue* q) {\n    free(q->data);\n    free(q);\n}\n\nint is_bipartite(int arr[], int size) {\n    if (size < 2) return 0;\n    \n    int n = arr[0];\n    int m = arr[1];\n    \n    if (size < 2 + 2 * m) return 0;\n    if (n == 0) return 1;\n    \n    Graph* g = create_graph(n);\n    for (int i = 0; i < m; i++) {\n        int u = arr[2 + 2 * i];\n        int v = arr[2 + 2 * i + 1];\n        if (u >= 0 && u < n && v >= 0 && v < n) {\n            add_edge(g, u, v);\n        }\n    }\n    \n    int* color = (int*)calloc(n, sizeof(int)); // 0: none, 1: red, -1: blue\n    Queue* q = create_queue(n);\n    int result = 1;\n    \n    for (int i = 0; i < n; i++) {\n        if (color[i] == 0) {\n            color[i] = 1;\n            enqueue(q, i);\n            \n            while (!is_empty(q)) {\n                int u = dequeue(q);\n                \n                for (Node* e = g->head[u]; e; e = e->next) {\n                    int v = e->to;\n                    if (color[v] == 0) {\n                        color[v] = -color[u];\n                        enqueue(q, v);\n                    } else if (color[v] == color[u]) {\n                        result = 0;\n                        goto end;\n                    }\n                }\n            }\n            \n            // Reset queue for next component reuse or just continue\n            // Actually queue is empty here\n            q->front = q->rear = 0; \n        }\n    }\n    \nend:\n    free(color);\n    free_queue(q);\n    free_graph(g);\n    \n    return result;\n}\n"
+        },
+        {
+          "filename": "bipartite_check.h",
+          "content": "#ifndef BIPARTITE_CHECK_H\n#define BIPARTITE_CHECK_H\n\nint is_bipartite(int arr[], int size);\n\n#endif\n"
+        },
+        {
+          "filename": "is_bipartite.c",
+          "content": "#include \"is_bipartite.h\"\n#include <string.h>\n\n#define MAX_V 1000\n\nstatic int adj_list[MAX_V][MAX_V], adj_cnt[MAX_V];\nstatic int color_arr[MAX_V];\nstatic int queue_arr[MAX_V];\n\nint is_bipartite(int arr[], int size) {\n    int n = arr[0];\n    int m = arr[1];\n\n    memset(adj_cnt, 0, sizeof(int) * n);\n    memset(color_arr, -1, sizeof(int) * n);\n\n    for (int i = 0; i < m; i++) {\n        int u = arr[2 + 2 * i];\n        int v = arr[2 + 2 * i + 1];\n        adj_list[u][adj_cnt[u]++] = v;\n        adj_list[v][adj_cnt[v]++] = u;\n    }\n\n    for (int start = 0; start < n; start++) {\n        if (color_arr[start] != -1) continue;\n        color_arr[start] = 0;\n        int front = 0, back = 0;\n        queue_arr[back++] = start;\n        while (front < back) {\n            int u = queue_arr[front++];\n            for (int i = 0; i < adj_cnt[u]; i++) {\n                int v = adj_list[u][i];\n                if (color_arr[v] == -1) {\n                    color_arr[v] = 1 - color_arr[u];\n                    queue_arr[back++] = v;\n                } else if (color_arr[v] == color_arr[u]) {\n                    return 0;\n                }\n            }\n        }\n    }\n\n    return 1;\n}\n"
+        },
+        {
+          "filename": "is_bipartite.h",
+          "content": "#ifndef IS_BIPARTITE_H\n#define IS_BIPARTITE_H\n\nint is_bipartite(int arr[], int size);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "bipartite_check.cpp",
+          "content": "#include \"bipartite_check.h\"\n#include <vector>\n#include <queue>\n\nint is_bipartite(const std::vector<int>& arr) {\n    if (arr.size() < 2) return 0;\n    \n    int n = arr[0];\n    int m = arr[1];\n    \n    if (arr.size() < 2 + 2 * m) return 0;\n    if (n == 0) return 1;\n    \n    std::vector<std::vector<int>> adj(n);\n    for (int i = 0; i < m; i++) {\n        int u = arr[2 + 2 * i];\n        int v = arr[2 + 2 * i + 1];\n        if (u >= 0 && u < n && v >= 0 && v < n) {\n            adj[u].push_back(v);\n            adj[v].push_back(u);\n        }\n    }\n    \n    std::vector<int> color(n, 0); // 0: none, 1: red, -1: blue\n    std::queue<int> q;\n    \n    for (int i = 0; i < n; i++) {\n        if (color[i] == 0) {\n            color[i] = 1;\n            q.push(i);\n            \n            while (!q.empty()) {\n                int u = q.front();\n                q.pop();\n                \n                for (int v : adj[u]) {\n                    if (color[v] == 0) {\n                        color[v] = -color[u];\n                        q.push(v);\n                    } else if (color[v] == color[u]) {\n                        return 0;\n                    }\n                }\n            }\n        }\n    }\n    \n    return 1;\n}\n"
+        },
+        {
+          "filename": "bipartite_check.h",
+          "content": "#ifndef BIPARTITE_CHECK_H\n#define BIPARTITE_CHECK_H\n\n#include <vector>\n\nint is_bipartite(const std::vector<int>& arr);\n\n#endif\n"
+        },
+        {
+          "filename": "is_bipartite.cpp",
+          "content": "#include <vector>\n#include <queue>\nusing namespace std;\n\nint is_bipartite(vector<int> arr) {\n    int n = arr[0];\n    int m = arr[1];\n    vector<vector<int>> adj(n);\n    for (int i = 0; i < m; i++) {\n        int u = arr[2 + 2 * i];\n        int v = arr[2 + 2 * i + 1];\n        adj[u].push_back(v);\n        adj[v].push_back(u);\n    }\n\n    vector<int> color(n, -1);\n\n    for (int start = 0; start < n; start++) {\n        if (color[start] != -1) continue;\n        color[start] = 0;\n        queue<int> q;\n        q.push(start);\n        while (!q.empty()) {\n            int u = q.front();\n            q.pop();\n            for (int v : adj[u]) {\n                if (color[v] == -1) {\n                    color[v] = 1 - color[u];\n                    q.push(v);\n                } else if (color[v] == color[u]) {\n                    return 0;\n                }\n            }\n        }\n    }\n\n    return 1;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "BipartiteCheck.cs",
+          "content": "using System;\nusing System.Collections.Generic;\n\nnamespace Algorithms.Graph.BipartiteCheck\n{\n    public class BipartiteCheck\n    {\n        public static int Solve(int[] arr)\n        {\n            if (arr == null || arr.Length < 2) return 0;\n\n            int n = arr[0];\n            int m = arr[1];\n\n            if (arr.Length < 2 + 2 * m) return 0;\n            if (n == 0) return 1;\n\n            List<int>[] adj = new List<int>[n];\n            for (int i = 0; i < n; i++) adj[i] = new List<int>();\n\n            for (int i = 0; i < m; i++)\n            {\n                int u = arr[2 + 2 * i];\n                int v = arr[2 + 2 * i + 1];\n                if (u >= 0 && u < n && v >= 0 && v < n)\n                {\n                    adj[u].Add(v);\n                    adj[v].Add(u);\n                }\n            }\n\n            int[] color = new int[n]; // 0: none, 1: red, -1: blue\n            Queue<int> q = new Queue<int>();\n\n            for (int i = 0; i < n; i++)\n            {\n                if (color[i] == 0)\n                {\n                    color[i] = 1;\n                    q.Enqueue(i);\n\n                    while (q.Count > 0)\n                    {\n                        int u = q.Dequeue();\n\n                        foreach (int v in adj[u])\n                        {\n                            if (color[v] == 0)\n                            {\n                                color[v] = -color[u];\n                                q.Enqueue(v);\n                            }\n                            else if (color[v] == color[u])\n                            {\n                                return 0;\n                            }\n                        }\n                    }\n                }\n            }\n\n            return 1;\n        }\n    }\n}\n"
+        },
+        {
+          "filename": "IsBipartite.cs",
+          "content": "using System;\nusing System.Collections.Generic;\n\npublic class IsBipartite\n{\n    public static int Solve(int[] arr)\n    {\n        int n = arr[0];\n        int m = arr[1];\n        var adj = new List<int>[n];\n        for (int i = 0; i < n; i++) adj[i] = new List<int>();\n        for (int i = 0; i < m; i++)\n        {\n            int u = arr[2 + 2 * i];\n            int v = arr[2 + 2 * i + 1];\n            adj[u].Add(v);\n            adj[v].Add(u);\n        }\n\n        int[] color = new int[n];\n        Array.Fill(color, -1);\n\n        for (int start = 0; start < n; start++)\n        {\n            if (color[start] != -1) continue;\n            color[start] = 0;\n            var queue = new Queue<int>();\n            queue.Enqueue(start);\n            while (queue.Count > 0)\n            {\n                int u = queue.Dequeue();\n                foreach (int v in adj[u])\n                {\n                    if (color[v] == -1)\n                    {\n                        color[v] = 1 - color[u];\n                        queue.Enqueue(v);\n                    }\n                    else if (color[v] == color[u])\n                    {\n                        return 0;\n                    }\n                }\n            }\n        }\n\n        return 1;\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "bipartite_check.go",
+          "content": "package bipartitecheck\n\nfunc IsBipartite(arr []int) int {\n\tif len(arr) < 2 {\n\t\treturn 0\n\t}\n\n\tn := arr[0]\n\tm := arr[1]\n\n\tif len(arr) < 2+2*m {\n\t\treturn 0\n\t}\n\tif n == 0 {\n\t\treturn 1\n\t}\n\n\tadj := make([][]int, n)\n\tfor i := 0; i < m; i++ {\n\t\tu := arr[2+2*i]\n\t\tv := arr[2+2*i+1]\n\t\tif u >= 0 && u < n && v >= 0 && v < n {\n\t\t\tadj[u] = append(adj[u], v)\n\t\t\tadj[v] = append(adj[v], u)\n\t\t}\n\t}\n\n\tcolor := make([]int, n) // 0: none, 1: red, -1: blue\n\tq := []int{}\n\n\tfor i := 0; i < n; i++ {\n\t\tif color[i] == 0 {\n\t\t\tcolor[i] = 1\n\t\t\tq = append(q, i)\n\n\t\t\tfor len(q) > 0 {\n\t\t\t\tu := q[0]\n\t\t\t\tq = q[1:]\n\n\t\t\t\tfor _, v := range adj[u] {\n\t\t\t\t\tif color[v] == 0 {\n\t\t\t\t\t\tcolor[v] = -color[u]\n\t\t\t\t\t\tq = append(q, v)\n\t\t\t\t\t} else if color[v] == color[u] {\n\t\t\t\t\t\treturn 0\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\n\treturn 1\n}\n"
+        },
+        {
+          "filename": "is_bipartite.go",
+          "content": "package bipartitecheck\n\nfunc IsBipartite(arr []int) int {\n\tn := arr[0]\n\tm := arr[1]\n\tadj := make([][]int, n)\n\tfor i := 0; i < n; i++ {\n\t\tadj[i] = []int{}\n\t}\n\tfor i := 0; i < m; i++ {\n\t\tu := arr[2+2*i]\n\t\tv := arr[2+2*i+1]\n\t\tadj[u] = append(adj[u], v)\n\t\tadj[v] = append(adj[v], u)\n\t}\n\n\tcolor := make([]int, n)\n\tfor i := range color {\n\t\tcolor[i] = -1\n\t}\n\n\tfor start := 0; start < n; start++ {\n\t\tif color[start] != -1 {\n\t\t\tcontinue\n\t\t}\n\t\tcolor[start] = 0\n\t\tqueue := []int{start}\n\t\tfor len(queue) > 0 {\n\t\t\tu := queue[0]\n\t\t\tqueue = queue[1:]\n\t\t\tfor _, v := range adj[u] {\n\t\t\t\tif color[v] == -1 {\n\t\t\t\t\tcolor[v] = 1 - color[u]\n\t\t\t\t\tqueue = append(queue, v)\n\t\t\t\t} else if color[v] == color[u] {\n\t\t\t\t\treturn 0\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\n\treturn 1\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "BipartiteCheck.java",
+          "content": "package algorithms.graph.bipartitecheck;\n\nimport java.util.ArrayList;\nimport java.util.LinkedList;\nimport java.util.List;\nimport java.util.Queue;\n\npublic class BipartiteCheck {\n    public int solve(int[] arr) {\n        if (arr == null || arr.length < 2) return 0;\n\n        int n = arr[0];\n        int m = arr[1];\n\n        if (arr.length < 2 + 2 * m) return 0;\n        if (n == 0) return 1;\n\n        List<Integer>[] adj = new ArrayList[n];\n        for (int i = 0; i < n; i++) adj[i] = new ArrayList<>();\n\n        for (int i = 0; i < m; i++) {\n            int u = arr[2 + 2 * i];\n            int v = arr[2 + 2 * i + 1];\n            if (u >= 0 && u < n && v >= 0 && v < n) {\n                adj[u].add(v);\n                adj[v].add(u);\n            }\n        }\n\n        int[] color = new int[n]; // 0: none, 1: red, -1: blue\n        Queue<Integer> q = new LinkedList<>();\n\n        for (int i = 0; i < n; i++) {\n            if (color[i] == 0) {\n                color[i] = 1;\n                q.add(i);\n\n                while (!q.isEmpty()) {\n                    int u = q.poll();\n\n                    for (int v : adj[u]) {\n                        if (color[v] == 0) {\n                            color[v] = -color[u];\n                            q.add(v);\n                        } else if (color[v] == color[u]) {\n                            return 0;\n                        }\n                    }\n                }\n            }\n        }\n\n        return 1;\n    }\n}\n"
+        },
+        {
+          "filename": "IsBipartite.java",
+          "content": "import java.util.*;\n\npublic class IsBipartite {\n\n    public static int isBipartite(int[] arr) {\n        int n = arr[0];\n        int m = arr[1];\n        List<List<Integer>> adj = new ArrayList<>();\n        for (int i = 0; i < n; i++) adj.add(new ArrayList<>());\n        for (int i = 0; i < m; i++) {\n            int u = arr[2 + 2 * i];\n            int v = arr[2 + 2 * i + 1];\n            adj.get(u).add(v);\n            adj.get(v).add(u);\n        }\n\n        int[] color = new int[n];\n        Arrays.fill(color, -1);\n\n        for (int start = 0; start < n; start++) {\n            if (color[start] != -1) continue;\n            color[start] = 0;\n            Queue<Integer> queue = new LinkedList<>();\n            queue.add(start);\n            while (!queue.isEmpty()) {\n                int u = queue.poll();\n                for (int v : adj.get(u)) {\n                    if (color[v] == -1) {\n                        color[v] = 1 - color[u];\n                        queue.add(v);\n                    } else if (color[v] == color[u]) {\n                        return 0;\n                    }\n                }\n            }\n        }\n\n        return 1;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "BipartiteCheck.kt",
+          "content": "package algorithms.graph.bipartitecheck\n\nimport java.util.LinkedList\nimport java.util.Queue\n\nclass BipartiteCheck {\n    fun solve(arr: IntArray): Int {\n        if (arr.size < 2) return 0\n\n        val n = arr[0]\n        val m = arr[1]\n\n        if (arr.size < 2 + 2 * m) return 0\n        if (n == 0) return 1\n\n        val adj = Array(n) { ArrayList<Int>() }\n        for (i in 0 until m) {\n            val u = arr[2 + 2 * i]\n            val v = arr[2 + 2 * i + 1]\n            if (u in 0 until n && v in 0 until n) {\n                adj[u].add(v)\n                adj[v].add(u)\n            }\n        }\n\n        val color = IntArray(n) // 0: none, 1: red, -1: blue\n        val q: Queue<Int> = LinkedList()\n\n        for (i in 0 until n) {\n            if (color[i] == 0) {\n                color[i] = 1\n                q.add(i)\n\n                while (!q.isEmpty()) {\n                    val u = q.poll()\n\n                    for (v in adj[u]) {\n                        if (color[v] == 0) {\n                            color[v] = -color[u]\n                            q.add(v)\n                        } else if (color[v] == color[u]) {\n                            return 0\n                        }\n                    }\n                }\n            }\n        }\n\n        return 1\n    }\n}\n"
+        },
+        {
+          "filename": "IsBipartite.kt",
+          "content": "fun isBipartite(arr: IntArray): Int {\n    val n = arr[0]\n    val m = arr[1]\n    val adj = Array(n) { mutableListOf<Int>() }\n    for (i in 0 until m) {\n        val u = arr[2 + 2 * i]\n        val v = arr[2 + 2 * i + 1]\n        adj[u].add(v)\n        adj[v].add(u)\n    }\n\n    val color = IntArray(n) { -1 }\n\n    for (start in 0 until n) {\n        if (color[start] != -1) continue\n        color[start] = 0\n        val queue = ArrayDeque<Int>()\n        queue.addLast(start)\n        while (queue.isNotEmpty()) {\n            val u = queue.removeFirst()\n            for (v in adj[u]) {\n                if (color[v] == -1) {\n                    color[v] = 1 - color[u]\n                    queue.addLast(v)\n                } else if (color[v] == color[u]) {\n                    return 0\n                }\n            }\n        }\n    }\n\n    return 1\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "bipartite_check.py",
+          "content": "from collections import deque\n\ndef is_bipartite(arr):\n    if len(arr) < 2:\n        return 0\n        \n    n = arr[0]\n    m = arr[1]\n    \n    if len(arr) < 2 + 2 * m:\n        return 0\n    if n == 0:\n        return 1\n        \n    adj = [[] for _ in range(n)]\n    for i in range(m):\n        u = arr[2 + 2 * i]\n        v = arr[2 + 2 * i + 1]\n        if 0 <= u < n and 0 <= v < n:\n            adj[u].append(v)\n            adj[v].append(u)\n            \n    color = [0] * n # 0: none, 1: red, -1: blue\n    q = deque()\n    \n    for i in range(n):\n        if color[i] == 0:\n            color[i] = 1\n            q.append(i)\n            \n            while q:\n                u = q.popleft()\n                \n                for v in adj[u]:\n                    if color[v] == 0:\n                        color[v] = -color[u]\n                        q.append(v)\n                    elif color[v] == color[u]:\n                        return 0\n                        \n    return 1\n"
+        },
+        {
+          "filename": "is_bipartite.py",
+          "content": "from collections import deque\n\ndef is_bipartite(arr: list[int]) -> int:\n    n = arr[0]\n    m = arr[1]\n    adj = [[] for _ in range(n)]\n    for i in range(m):\n        u = arr[2 + 2 * i]\n        v = arr[2 + 2 * i + 1]\n        adj[u].append(v)\n        adj[v].append(u)\n\n    color = [-1] * n\n\n    for start in range(n):\n        if color[start] != -1:\n            continue\n        color[start] = 0\n        queue = deque([start])\n        while queue:\n            u = queue.popleft()\n            for v in adj[u]:\n                if color[v] == -1:\n                    color[v] = 1 - color[u]\n                    queue.append(v)\n                elif color[v] == color[u]:\n                    return 0\n\n    return 1\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "bipartite_check.rs",
+          "content": "use std::collections::VecDeque;\n\npub fn is_bipartite(arr: &[i32]) -> i32 {\n    if arr.len() < 2 {\n        return 0;\n    }\n\n    let n = arr[0] as usize;\n    let m = arr[1] as usize;\n\n    if arr.len() < 2 + 2 * m {\n        return 0;\n    }\n    if n == 0 {\n        return 1;\n    }\n\n    let mut adj = vec![vec![]; n];\n    for i in 0..m {\n        let u = arr[2 + 2 * i] as usize;\n        let v = arr[2 + 2 * i + 1] as usize;\n        if u < n && v < n {\n            adj[u].push(v);\n            adj[v].push(u);\n        }\n    }\n\n    let mut color = vec![0; n]; // 0: none, 1: red, -1: blue\n    let mut q = VecDeque::new();\n\n    for i in 0..n {\n        if color[i] == 0 {\n            color[i] = 1;\n            q.push_back(i);\n\n            while let Some(u) = q.pop_front() {\n                for &v in &adj[u] {\n                    if color[v] == 0 {\n                        color[v] = -color[u];\n                        q.push_back(v);\n                    } else if color[v] == color[u] {\n                        return 0;\n                    }\n                }\n            }\n        }\n    }\n\n    1\n}\n"
+        },
+        {
+          "filename": "is_bipartite.rs",
+          "content": "use std::collections::VecDeque;\n\npub fn is_bipartite(arr: &[i32]) -> i32 {\n    let n = arr[0] as usize;\n    let m = arr[1] as usize;\n    let mut adj = vec![vec![]; n];\n    for i in 0..m {\n        let u = arr[2 + 2 * i] as usize;\n        let v = arr[2 + 2 * i + 1] as usize;\n        adj[u].push(v);\n        adj[v].push(u);\n    }\n\n    let mut color = vec![-1i32; n];\n\n    for start in 0..n {\n        if color[start] != -1 { continue; }\n        color[start] = 0;\n        let mut queue = VecDeque::new();\n        queue.push_back(start);\n        while let Some(u) = queue.pop_front() {\n            for &v in &adj[u] {\n                if color[v] == -1 {\n                    color[v] = 1 - color[u];\n                    queue.push_back(v);\n                } else if color[v] == color[u] {\n                    return 0;\n                }\n            }\n        }\n    }\n\n    1\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "BipartiteCheck.scala",
+          "content": "package algorithms.graph.bipartitecheck\n\nimport scala.collection.mutable\nimport java.util.LinkedList\nimport java.util.Queue\n\nobject BipartiteCheck {\n  def solve(arr: Array[Int]): Int = {\n    if (arr.length < 2) return 0\n\n    val n = arr(0)\n    val m = arr(1)\n\n    if (arr.length < 2 + 2 * m) return 0\n    if (n == 0) return 1\n\n    val adj = Array.fill(n)(new mutable.ListBuffer[Int])\n    for (i <- 0 until m) {\n      val u = arr(2 + 2 * i)\n      val v = arr(2 + 2 * i + 1)\n      if (u >= 0 && u < n && v >= 0 && v < n) {\n        adj(u).append(v)\n        adj(v).append(u)\n      }\n    }\n\n    val color = Array.fill(n)(0) // 0: none, 1: red, -1: blue\n    val q: Queue[Int] = new LinkedList()\n\n    for (i <- 0 until n) {\n      if (color(i) == 0) {\n        color(i) = 1\n        q.add(i)\n\n        while (!q.isEmpty) {\n          val u = q.poll()\n\n          for (v <- adj(u)) {\n            if (color(v) == 0) {\n              color(v) = -color(u)\n              q.add(v)\n            } else if (color(v) == color(u)) {\n              return 0\n            }\n          }\n        }\n      }\n    }\n\n    1\n  }\n}\n"
+        },
+        {
+          "filename": "IsBipartite.scala",
+          "content": "object IsBipartite {\n\n  def isBipartite(arr: Array[Int]): Int = {\n    val n = arr(0)\n    val m = arr(1)\n    val adj = Array.fill(n)(scala.collection.mutable.ListBuffer[Int]())\n    for (i <- 0 until m) {\n      val u = arr(2 + 2 * i)\n      val v = arr(2 + 2 * i + 1)\n      adj(u) += v\n      adj(v) += u\n    }\n\n    val color = Array.fill(n)(-1)\n\n    for (start <- 0 until n) {\n      if (color(start) == -1) {\n        color(start) = 0\n        val queue = scala.collection.mutable.Queue[Int]()\n        queue.enqueue(start)\n        while (queue.nonEmpty) {\n          val u = queue.dequeue()\n          for (v <- adj(u)) {\n            if (color(v) == -1) {\n              color(v) = 1 - color(u)\n              queue.enqueue(v)\n            } else if (color(v) == color(u)) {\n              return 0\n            }\n          }\n        }\n      }\n    }\n\n    1\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "BipartiteCheck.swift",
+          "content": "import Foundation\n\nclass BipartiteCheck {\n    static func solve(_ arr: [Int]) -> Int {\n        if arr.count < 2 { return 0 }\n        \n        let n = arr[0]\n        let m = arr[1]\n        \n        if arr.count < 2 + 2 * m { return 0 }\n        if n == 0 { return 1 }\n        \n        var adj = [[Int]](repeating: [], count: n)\n        for i in 0..<m {\n            let u = arr[2 + 2 * i]\n            let v = arr[2 + 2 * i + 1]\n            if u >= 0 && u < n && v >= 0 && v < n {\n                adj[u].append(v)\n                adj[v].append(u)\n            }\n        }\n        \n        var color = [Int](repeating: 0, count: n) // 0: none, 1: red, -1: blue\n        var q = [Int]()\n        \n        for i in 0..<n {\n            if color[i] == 0 {\n                color[i] = 1\n                q.append(i)\n                \n                var head = 0\n                while head < q.count {\n                    let u = q[head]\n                    head += 1\n                    \n                    for v in adj[u] {\n                        if color[v] == 0 {\n                            color[v] = -color[u]\n                            q.append(v)\n                        } else if color[v] == color[u] {\n                            return 0\n                        }\n                    }\n                }\n                q.removeAll()\n            }\n        }\n        \n        return 1\n    }\n}\n"
+        },
+        {
+          "filename": "IsBipartite.swift",
+          "content": "func isBipartite(_ arr: [Int]) -> Int {\n    let n = arr[0]\n    let m = arr[1]\n    var adj = [[Int]](repeating: [], count: n)\n    for i in 0..<m {\n        let u = arr[2 + 2 * i]\n        let v = arr[2 + 2 * i + 1]\n        adj[u].append(v)\n        adj[v].append(u)\n    }\n\n    var color = [Int](repeating: -1, count: n)\n\n    for start in 0..<n {\n        if color[start] != -1 { continue }\n        color[start] = 0\n        var queue = [Int]()\n        queue.append(start)\n        var front = 0\n        while front < queue.count {\n            let u = queue[front]\n            front += 1\n            for v in adj[u] {\n                if color[v] == -1 {\n                    color[v] = 1 - color[u]\n                    queue.append(v)\n                } else if color[v] == color[u] {\n                    return 0\n                }\n            }\n        }\n    }\n\n    return 1\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "bipartite-check.ts",
+          "content": "export function isBipartite(arr: number[]): number {\n  if (arr.length < 2) return 0;\n\n  const n = arr[0];\n  const m = arr[1];\n\n  if (arr.length < 2 + 2 * m) return 0;\n  if (n === 0) return 1;\n\n  const adj: number[][] = Array.from({ length: n }, () => []);\n  for (let i = 0; i < m; i++) {\n    const u = arr[2 + 2 * i];\n    const v = arr[2 + 2 * i + 1];\n    if (u >= 0 && u < n && v >= 0 && v < n) {\n      adj[u].push(v);\n      adj[v].push(u);\n    }\n  }\n\n  const color: number[] = new Array(n).fill(0); // 0: none, 1: red, -1: blue\n  const q: number[] = [];\n\n  for (let i = 0; i < n; i++) {\n    if (color[i] === 0) {\n      color[i] = 1;\n      q.push(i);\n\n      let head = 0;\n      while (head < q.length) {\n        const u = q[head++];\n\n        for (const v of adj[u]) {\n          if (color[v] === 0) {\n            color[v] = -color[u];\n            q.push(v);\n          } else if (color[v] === color[u]) {\n            return 0;\n          }\n        }\n      }\n      q.length = 0; // Clear queue for next component\n    }\n  }\n\n  return 1;\n}\n"
+        },
+        {
+          "filename": "isBipartite.ts",
+          "content": "export function isBipartite(arr: number[]): number {\n    const n = arr[0];\n    const m = arr[1];\n    const adj: number[][] = Array.from({ length: n }, () => []);\n    for (let i = 0; i < m; i++) {\n        const u = arr[2 + 2 * i];\n        const v = arr[2 + 2 * i + 1];\n        adj[u].push(v);\n        adj[v].push(u);\n    }\n\n    const color = new Array(n).fill(-1);\n\n    for (let start = 0; start < n; start++) {\n        if (color[start] !== -1) continue;\n        color[start] = 0;\n        const queue: number[] = [start];\n        let front = 0;\n        while (front < queue.length) {\n            const u = queue[front++];\n            for (const v of adj[u]) {\n                if (color[v] === -1) {\n                    color[v] = 1 - color[u];\n                    queue.push(v);\n                } else if (color[v] === color[u]) {\n                    return 0;\n                }\n            }\n        }\n    }\n\n    return 1;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "readme": "# Bipartite Check\n\n## Overview\n\nA graph is bipartite if its vertices can be divided into two disjoint sets such that every edge connects a vertex in one set to a vertex in the other. This is equivalent to checking if the graph is 2-colorable. The algorithm uses BFS to attempt a 2-coloring.\n\n## How It Works\n\n1. Start BFS from an unvisited vertex, coloring it with color 0.\n2. For each neighbor, if uncolored, assign the opposite color. If already colored with the same color, the graph is not bipartite.\n3. Repeat for all connected components.\n\n### Example\n\nGiven input: `[4, 4, 0,1, 1,2, 2,3, 3,0]` (4-cycle)\n\nThe 4-cycle can be 2-colored: {0,2} and {1,3}. Result: 1 (bipartite)\n\n## Complexity Analysis\n\n| Case    | Time     | Space |\n|---------|----------|-------|\n| Best    | O(V + E) | O(V)  |\n| Average | O(V + E) | O(V)  |\n| Worst   | O(V + E) | O(V)  |\n\n## Pseudocode\n\n```\nfunction isBipartite(graph, n):\n    color = array of size n, initialized to -1\n\n    for each vertex s from 0 to n-1:\n        if color[s] != -1: continue    // already colored\n\n        // BFS from s\n        queue = [s]\n        color[s] = 0\n\n        while queue is not empty:\n            u = queue.dequeue()\n            for each neighbor v of u:\n                if color[v] == -1:\n                    color[v] = 1 - color[u]   // opposite color\n                    queue.enqueue(v)\n                else if color[v] == color[u]:\n                    return false               // odd cycle found\n\n    return true\n```\n\n## Applications\n\n- Matching problems (job assignment, stable marriage)\n- Conflict-free scheduling (two-shift scheduling)\n- Detecting odd cycles in graphs\n- Verifying if a graph can be represented as an intersection of intervals\n- Two-coloring problems in map design\n\n## When NOT to Use\n\n- **k-colorability for k >= 3**: Bipartiteness only checks 2-colorability; for k >= 3, the problem is NP-complete\n- **Directed graphs**: Bipartiteness is defined for undirected graphs; directed graphs require different analysis\n- **Weighted matching**: If you need optimal weighted matching, use the Hungarian algorithm after confirming bipartiteness\n- **Multigraphs with self-loops**: A graph with a self-loop is never bipartite, which can be checked trivially without BFS\n\n## Comparison\n\n| Algorithm | Purpose | Time | Space |\n|-----------|---------|------|-------|\n| BFS 2-coloring | Check bipartiteness | O(V + E) | O(V) |\n| DFS 2-coloring | Check bipartiteness | O(V + E) | O(V) |\n| Union-Find | Check bipartiteness | O(V + E * alpha(V)) | O(V) |\n| Odd Cycle Detection | Find witness of non-bipartiteness | O(V + E) | O(V) |\n\n## References\n\n- [Bipartite Graph -- Wikipedia](https://en.wikipedia.org/wiki/Bipartite_graph)\n- Konig, D. (1931). \"Graphs and Matrices.\" Matematikai es Fizikai Lapok, 38, 116-119.\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [is_bipartite.py](python/is_bipartite.py) |\n| Java       | [IsBipartite.java](java/IsBipartite.java) |\n| C++        | [is_bipartite.cpp](cpp/is_bipartite.cpp) |\n| C          | [is_bipartite.c](c/is_bipartite.c) |\n| Go         | [is_bipartite.go](go/is_bipartite.go) |\n| TypeScript | [isBipartite.ts](typescript/isBipartite.ts) |\n| Rust       | [is_bipartite.rs](rust/is_bipartite.rs) |\n| Kotlin     | [IsBipartite.kt](kotlin/IsBipartite.kt) |\n| Swift      | [IsBipartite.swift](swift/IsBipartite.swift) |\n| Scala      | [IsBipartite.scala](scala/IsBipartite.scala) |\n| C#         | [IsBipartite.cs](csharp/IsBipartite.cs) |\n"
+}

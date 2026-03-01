@@ -1,0 +1,77 @@
+{
+  "name": "Euler's Totient Function",
+  "slug": "euler-toient",
+  "category": "math",
+  "subcategory": "number-theory",
+  "difficulty": "intermediate",
+  "tags": [
+    "math",
+    "euler",
+    "totient",
+    "phi-function",
+    "number-theory"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(sqrt(n))",
+      "average": "O(sqrt(n))",
+      "worst": "O(sqrt(n))"
+    },
+    "space": "O(1)"
+  },
+  "stable": false,
+  "in_place": true,
+  "related": [
+    "prime-check",
+    "sieve-of-eratosthenes"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "euler_totient.c",
+          "content": "int euler_totient(int n) {\n    if (n == 0) return 0;\n    int result = n;\n    int x = n;\n\n    for (int p = 2; p * p <= x; p++) {\n        if (x % p == 0) {\n            while (x % p == 0) {\n                x /= p;\n            }\n            result -= result / p;\n        }\n    }\n\n    if (x > 1) {\n        result -= result / x;\n    }\n\n    return result;\n}\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "toient.cpp",
+          "content": "#include<bits/stdc++.h>\n\nusing namespace std;\n\n// O(sqrtN)\n// what we are doind is -> result = result*(1-1/p)\nint phi(int n){\n\tint result = n;\n\tfor(int i=2; i*i<=n; i++){\n\t\tif(n%i == 0){\n\t\t\twhile(n%i == 0){\n\t\t\t\tn = n/i;\n\t\t\t}\n\t\t\tresult -= result/i;\n\t\t}\n\t}\n\tif(n>1)\n\t\tresult -= result/n;\n\treturn result;\n}\n\n//Euler's Toient Function from 1 to n\nvector<int> phi_1ton(int n){\n\tvector<int> phi(n+1);\n\tfor(int i=0; i<=n; i++){\n\t\tphi[i] = i;\n\t}\n\tfor(int i=2; i<n; i++){\n\t\tif(phi[i] = i){\n\t\t\tfor(int j=i; j<=n; j++){\n\t\t\t\tphi[j] -= phi[j]/i;\n\t\t\t}\n\t\t}\n\t}\n\treturn phi;\n}\n\n\nint main(){\n\tcout << \"Testing phi: \" << \"\\n\";\n\tint t;\n\tcin >> t;\n\tvector<int> v(t);\n\tfor(int i=0; i<t; i++){\n\t\tint num;\n\t\tcin >> num;\n\t\tv[i] = num;\n\t}\n\tfor(int i:v) cout << \"phi(\" << i << \"): \" << phi(i) << \"\\n\";\n\t\n\n\tcout << \"\\n\";\n\tcout << \"Testing phi_1ton: \" << \"\\n\";\n\tfor(int i:phi_1ton(t)) cout << i << \" \";\n}"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "EulerTotient.java",
+          "content": "public class EulerTotient {\n    public static int eulerTotient(int n) {\n        if (n <= 0) {\n            return 0;\n        }\n        if (n == 1) {\n            return 1;\n        }\n\n        int result = n;\n        int value = n;\n        for (int factor = 2; factor * factor <= value; factor++) {\n            if (value % factor == 0) {\n                while (value % factor == 0) {\n                    value /= factor;\n                }\n                result -= result / factor;\n            }\n        }\n        if (value > 1) {\n            result -= result / value;\n        }\n        return result;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "EulerTotient.kt",
+          "content": "fun eulerTotient(n: Int): Int {\n    if (n <= 1) {\n        return 1\n    }\n\n    var value = n\n    var result = n\n    var factor = 2\n\n    while (factor * factor <= value) {\n        if (value % factor == 0) {\n            while (value % factor == 0) {\n                value /= factor\n            }\n            result -= result / factor\n        }\n        factor++\n    }\n\n    if (value > 1) {\n        result -= result / value\n    }\n\n    return result\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "EulerTotient.swift",
+          "content": "func eulerTotient(_ n: Int) -> Int {\n    if n <= 0 { return 0 }\n    if n == 1 { return 1 }\n\n    var result = n\n    var value = n\n    var factor = 2\n\n    while factor * factor <= value {\n        if value % factor == 0 {\n            while value % factor == 0 {\n                value /= factor\n            }\n            result -= result / factor\n        }\n        factor += 1\n    }\n\n    if value > 1 {\n        result -= result / value\n    }\n\n    return result\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Euler's Totient Function\n\n## Overview\n\nEuler's Totient Function phi(n) counts the number of integers from 1 to n that are coprime to n (i.e., their greatest common divisor with n is 1). For example, phi(12) = 4, because the integers 1, 5, 7, and 11 are coprime to 12. For a prime p, phi(p) = p - 1 since all integers from 1 to p - 1 are coprime to p.\n\nThe totient function is a cornerstone of number theory with direct applications in RSA cryptography (where the private key is computed using phi), modular arithmetic (Euler's theorem states that a^phi(n) = 1 mod n for coprime a and n), and counting problems in abstract algebra.\n\n## How It Works\n\nThe algorithm computes phi(n) by finding all prime factors of n and using the formula: phi(n) = n * product of (1 - 1/p) for each distinct prime factor p of n. To avoid floating-point issues, this is computed as: start with result = n, then for each prime factor p, update result = result - result/p. The prime factors are found by trial division up to sqrt(n).\n\n### Example\n\nComputing `phi(36)`:\n\n**Step 1: Find prime factorization of 36:**\n36 = 2^2 * 3^2\n\n**Step 2: Apply the formula:**\n\n| Step | Prime factor p | result before | result = result - result/p | result after |\n|------|---------------|---------------|---------------------------|-------------|\n| Start | - | 36 | - | 36 |\n| 1 | 2 | 36 | 36 - 36/2 = 36 - 18 | 18 |\n| 2 | 3 | 18 | 18 - 18/3 = 18 - 6 | 12 |\n\nResult: `phi(36) = 12`\n\n**Verification:** Numbers from 1 to 36 coprime to 36:\n1, 5, 7, 11, 13, 17, 19, 23, 25, 29, 31, 35 -- exactly 12 numbers.\n\n**Another example -- phi(30):**\n\n30 = 2 * 3 * 5\n\n| Step | Prime factor p | result |\n|------|---------------|--------|\n| Start | - | 30 |\n| 1 | 2 | 30 - 15 = 15 |\n| 2 | 3 | 15 - 5 = 10 |\n| 3 | 5 | 10 - 2 = 8 |\n\nResult: `phi(30) = 8`\n\n## Pseudocode\n\n```\nfunction eulerTotient(n):\n    result = n\n    p = 2\n\n    while p * p <= n:\n        if n mod p == 0:\n            // Remove all factors of p\n            while n mod p == 0:\n                n = n / p\n            result = result - result / p\n        p = p + 1\n\n    // If n still has a prime factor greater than sqrt(original n)\n    if n > 1:\n        result = result - result / n\n\n    return result\n```\n\nThe algorithm performs trial division to find prime factors. For each distinct prime factor p, it applies the multiplicative formula. If after processing all factors up to sqrt(n), the remaining n is greater than 1, it is itself a prime factor.\n\n## Complexity Analysis\n\n| Case    | Time      | Space |\n|---------|----------|-------|\n| Best    | O(sqrt(n))| O(1)  |\n| Average | O(sqrt(n))| O(1)  |\n| Worst   | O(sqrt(n))| O(1)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(sqrt(n)):** Even when n is prime (requiring trial division up to sqrt(n) to confirm no factors exist), the algorithm still runs in O(sqrt(n)) time.\n\n- **Average Case -- O(sqrt(n)):** The trial division loop runs up to sqrt(n). Most composite numbers have small prime factors and are factored quickly, but the loop bound is sqrt(n).\n\n- **Worst Case -- O(sqrt(n)):** The algorithm checks divisors from 2 to sqrt(n). For highly composite numbers with many small factors, the inner while loop runs more but the total work is still dominated by the outer loop.\n\n- **Space -- O(1):** Only a result variable and loop counter are needed. No arrays or data structures are required.\n\n## When to Use\n\n- **RSA cryptography:** Computing the private key requires phi(n) where n = p * q for large primes p and q.\n- **Modular exponentiation:** Euler's theorem allows reducing exponents modulo phi(n).\n- **Counting coprime pairs:** phi(n) directly gives the count of integers coprime to n.\n- **Group theory applications:** phi(n) gives the order of the multiplicative group of integers modulo n.\n\n## When NOT to Use\n\n- **Very large n without known factorization:** Computing phi(n) is as hard as factoring n. For cryptographic-size numbers, factoring is intractable.\n- **When phi is needed for all numbers up to n:** Use a sieve-based approach (modify the Sieve of Eratosthenes) to compute phi for all values in O(n log log n).\n- **When n is prime and already known to be prime:** Simply return n - 1 without the full algorithm.\n\n## Comparison with Similar Algorithms\n\n| Method                | Time           | Space | Notes                                        |\n|----------------------|---------------|-------|----------------------------------------------|\n| Trial Division Totient| O(sqrt(n))    | O(1)  | Standard approach for a single value          |\n| Sieve-based Totient   | O(n log log n)| O(n)  | Computes phi for all values 1 to n            |\n| Factorization-based   | O(sqrt(n))    | O(1)  | Same as trial division; uses product formula  |\n| GCD counting (naive)  | O(n log n)    | O(1)  | Check GCD for each number 1..n; inefficient   |\n\n## Implementations\n\n| Language | File |\n|----------|------|\n| C++      | [toient.cpp](cpp/toient.cpp) |\n\n## References\n\n- Hardy, G. H., & Wright, E. M. (2008). *An Introduction to the Theory of Numbers* (6th ed.). Oxford University Press. Chapter 5: Arithmetical Functions.\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 31.3: Modular Arithmetic.\n- [Euler's Totient Function -- Wikipedia](https://en.wikipedia.org/wiki/Euler%27s_totient_function)\n"
+}

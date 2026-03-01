@@ -1,0 +1,135 @@
+{
+  "name": "Suffix Tree",
+  "slug": "suffix-tree",
+  "category": "strings",
+  "subcategory": "suffix-structures",
+  "difficulty": "advanced",
+  "tags": [
+    "strings",
+    "suffix-tree",
+    "distinct-substrings",
+    "text-processing"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "average": "O(n)",
+      "worst": "O(n)"
+    },
+    "space": "O(n)"
+  },
+  "stable": null,
+  "in_place": false,
+  "related": [
+    "suffix-array",
+    "trie",
+    "knuth-morris-pratt"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "suffix_tree.c",
+          "content": "#include \"suffix_tree.h\"\n#include <stdlib.h>\n#include <string.h>\n\nstatic int* g_r;\nstatic int g_n2, g_k2;\n\nstatic int cmp_sa(const void* a, const void* b) {\n    int ia = *(const int*)a, ib = *(const int*)b;\n    if (g_r[ia] != g_r[ib]) return g_r[ia] - g_r[ib];\n    int ra = ia + g_k2 < g_n2 ? g_r[ia + g_k2] : -1;\n    int rb = ib + g_k2 < g_n2 ? g_r[ib + g_k2] : -1;\n    return ra - rb;\n}\n\nint suffix_tree(int* arr, int n) {\n    if (n == 0) return 0;\n    int* sa = (int*)malloc(n * sizeof(int));\n    int* rank_a = (int*)malloc(n * sizeof(int));\n    int* tmp = (int*)malloc(n * sizeof(int));\n    for (int i = 0; i < n; i++) { sa[i] = i; rank_a[i] = arr[i]; }\n    g_n2 = n;\n    for (int k = 1; k < n; k *= 2) {\n        g_r = rank_a; g_k2 = k;\n        qsort(sa, n, sizeof(int), cmp_sa);\n        tmp[sa[0]] = 0;\n        for (int i = 1; i < n; i++) {\n            tmp[sa[i]] = tmp[sa[i-1]];\n            int p0 = rank_a[sa[i-1]], c0 = rank_a[sa[i]];\n            int p1 = sa[i-1]+k<n ? rank_a[sa[i-1]+k] : -1;\n            int c1 = sa[i]+k<n ? rank_a[sa[i]+k] : -1;\n            if (p0 != c0 || p1 != c1) tmp[sa[i]]++;\n        }\n        memcpy(rank_a, tmp, n * sizeof(int));\n        if (rank_a[sa[n-1]] == n-1) break;\n    }\n    int* invSa = (int*)malloc(n * sizeof(int));\n    int* lcp = (int*)calloc(n, sizeof(int));\n    for (int i = 0; i < n; i++) invSa[sa[i]] = i;\n    int h = 0;\n    for (int i = 0; i < n; i++) {\n        if (invSa[i] > 0) {\n            int j = sa[invSa[i]-1];\n            while (i+h < n && j+h < n && arr[i+h] == arr[j+h]) h++;\n            lcp[invSa[i]] = h;\n            if (h > 0) h--;\n        } else { h = 0; }\n    }\n    long long total = (long long)n * (n+1) / 2;\n    for (int i = 0; i < n; i++) total -= lcp[i];\n    free(sa); free(rank_a); free(tmp); free(invSa); free(lcp);\n    return (int)total;\n}\n"
+        },
+        {
+          "filename": "suffix_tree.h",
+          "content": "#ifndef SUFFIX_TREE_H\n#define SUFFIX_TREE_H\n\nint suffix_tree(int* arr, int n);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "suffix_tree.cpp",
+          "content": "#include <vector>\n#include <algorithm>\n#include <numeric>\n\nint suffix_tree(std::vector<int> arr) {\n    int n = arr.size();\n    if (n == 0) return 0;\n\n    std::vector<int> sa(n), rank(arr.begin(), arr.end()), tmp(n);\n    std::iota(sa.begin(), sa.end(), 0);\n    for (int k = 1; k < n; k *= 2) {\n        auto r = rank;\n        int step = k;\n        std::sort(sa.begin(), sa.end(), [&](int a, int b) {\n            if (r[a] != r[b]) return r[a] < r[b];\n            int ra = a+step<n ? r[a+step] : -1;\n            int rb = b+step<n ? r[b+step] : -1;\n            return ra < rb;\n        });\n        tmp[sa[0]] = 0;\n        for (int i = 1; i < n; i++) {\n            tmp[sa[i]] = tmp[sa[i-1]];\n            if (r[sa[i-1]] != r[sa[i]] ||\n                (sa[i-1]+step<n ? r[sa[i-1]+step] : -1) != (sa[i]+step<n ? r[sa[i]+step] : -1))\n                tmp[sa[i]]++;\n        }\n        rank = tmp;\n        if (rank[sa[n-1]] == n-1) break;\n    }\n\n    std::vector<int> invSa(n), lcp(n, 0);\n    for (int i = 0; i < n; i++) invSa[sa[i]] = i;\n    int h = 0;\n    for (int i = 0; i < n; i++) {\n        if (invSa[i] > 0) {\n            int j = sa[invSa[i]-1];\n            while (i+h < n && j+h < n && arr[i+h] == arr[j+h]) h++;\n            lcp[invSa[i]] = h;\n            if (h > 0) h--;\n        } else { h = 0; }\n    }\n\n    long long total = (long long)n * (n+1) / 2;\n    for (int v : lcp) total -= v;\n    return (int)total;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "SuffixTree.cs",
+          "content": "using System;\nusing System.Linq;\n\npublic class SuffixTree\n{\n    public static int Run(int[] arr)\n    {\n        int n = arr.Length;\n        if (n == 0) return 0;\n        int[] sa = Enumerable.Range(0, n).ToArray();\n        int[] rank = (int[])arr.Clone(), tmp = new int[n];\n        for (int k = 1; k < n; k *= 2)\n        {\n            int[] r = (int[])rank.Clone(); int step = k;\n            Array.Sort(sa, (a, b) => {\n                if (r[a] != r[b]) return r[a].CompareTo(r[b]);\n                int ra = a+step<n ? r[a+step] : -1;\n                int rb = b+step<n ? r[b+step] : -1;\n                return ra.CompareTo(rb);\n            });\n            tmp[sa[0]] = 0;\n            for (int i = 1; i < n; i++) {\n                tmp[sa[i]] = tmp[sa[i-1]];\n                int p0=r[sa[i-1]], c0=r[sa[i]];\n                int p1=sa[i-1]+step<n?r[sa[i-1]+step]:-1;\n                int c1=sa[i]+step<n?r[sa[i]+step]:-1;\n                if (p0!=c0||p1!=c1) tmp[sa[i]]++;\n            }\n            Array.Copy(tmp, rank, n);\n            if (rank[sa[n-1]] == n-1) break;\n        }\n        int[] invSa = new int[n], lcp = new int[n];\n        for (int i = 0; i < n; i++) invSa[sa[i]] = i;\n        int h = 0;\n        for (int i = 0; i < n; i++) {\n            if (invSa[i] > 0) {\n                int j = sa[invSa[i]-1];\n                while (i+h<n && j+h<n && arr[i+h]==arr[j+h]) h++;\n                lcp[invSa[i]] = h;\n                if (h > 0) h--;\n            } else { h = 0; }\n        }\n        return n*(n+1)/2 - lcp.Sum();\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "suffix_tree.go",
+          "content": "package suffixtree\n\nimport \"sort\"\n\n// SuffixTree counts distinct substrings using suffix array and LCP.\nfunc SuffixTree(arr []int) int {\n\tn := len(arr)\n\tif n == 0 {\n\t\treturn 0\n\t}\n\tsa := make([]int, n)\n\trank := make([]int, n)\n\ttmp := make([]int, n)\n\tfor i := 0; i < n; i++ {\n\t\tsa[i] = i\n\t\trank[i] = arr[i]\n\t}\n\tfor k := 1; k < n; k *= 2 {\n\t\tr := make([]int, n)\n\t\tcopy(r, rank)\n\t\tstep := k\n\t\tsort.Slice(sa, func(i, j int) bool {\n\t\t\ta, b := sa[i], sa[j]\n\t\t\tif r[a] != r[b] {\n\t\t\t\treturn r[a] < r[b]\n\t\t\t}\n\t\t\tra, rb := -1, -1\n\t\t\tif a+step < n { ra = r[a+step] }\n\t\t\tif b+step < n { rb = r[b+step] }\n\t\t\treturn ra < rb\n\t\t})\n\t\ttmp[sa[0]] = 0\n\t\tfor i := 1; i < n; i++ {\n\t\t\ttmp[sa[i]] = tmp[sa[i-1]]\n\t\t\tp0, c0 := r[sa[i-1]], r[sa[i]]\n\t\t\tp1, c1 := -1, -1\n\t\t\tif sa[i-1]+step < n { p1 = r[sa[i-1]+step] }\n\t\t\tif sa[i]+step < n { c1 = r[sa[i]+step] }\n\t\t\tif p0 != c0 || p1 != c1 { tmp[sa[i]]++ }\n\t\t}\n\t\tcopy(rank, tmp)\n\t\tif rank[sa[n-1]] == n-1 { break }\n\t}\n\tinvSa := make([]int, n)\n\tlcp := make([]int, n)\n\tfor i := 0; i < n; i++ { invSa[sa[i]] = i }\n\th := 0\n\tfor i := 0; i < n; i++ {\n\t\tif invSa[i] > 0 {\n\t\t\tj := sa[invSa[i]-1]\n\t\t\tfor i+h < n && j+h < n && arr[i+h] == arr[j+h] { h++ }\n\t\t\tlcp[invSa[i]] = h\n\t\t\tif h > 0 { h-- }\n\t\t} else { h = 0 }\n\t}\n\ttotal := n * (n + 1) / 2\n\tfor _, v := range lcp { total -= v }\n\treturn total\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "SuffixTree.java",
+          "content": "import java.util.*;\n\npublic class SuffixTree {\n    public static int suffixTree(int[] arr) {\n        int n = arr.length;\n        if (n == 0) return 0;\n\n        // Build suffix array\n        Integer[] sa = new Integer[n];\n        int[] rank = new int[n], tmp = new int[n];\n        for (int i = 0; i < n; i++) { sa[i] = i; rank[i] = arr[i]; }\n        for (int k = 1; k < n; k *= 2) {\n            final int[] r = rank.clone();\n            final int step = k;\n            Arrays.sort(sa, (a, b) -> {\n                if (r[a] != r[b]) return Integer.compare(r[a], r[b]);\n                int ra = a + step < n ? r[a + step] : -1;\n                int rb = b + step < n ? r[b + step] : -1;\n                return Integer.compare(ra, rb);\n            });\n            tmp[sa[0]] = 0;\n            for (int i = 1; i < n; i++) {\n                tmp[sa[i]] = tmp[sa[i - 1]];\n                int p0 = r[sa[i-1]], c0 = r[sa[i]];\n                int p1 = sa[i-1]+step<n ? r[sa[i-1]+step] : -1;\n                int c1 = sa[i]+step<n ? r[sa[i]+step] : -1;\n                if (p0 != c0 || p1 != c1) tmp[sa[i]]++;\n            }\n            System.arraycopy(tmp, 0, rank, 0, n);\n            if (rank[sa[n-1]] == n-1) break;\n        }\n\n        // Build LCP (Kasai's)\n        int[] invSa = new int[n], lcp = new int[n];\n        for (int i = 0; i < n; i++) invSa[sa[i]] = i;\n        int h = 0;\n        for (int i = 0; i < n; i++) {\n            if (invSa[i] > 0) {\n                int j = sa[invSa[i] - 1];\n                while (i+h < n && j+h < n && arr[i+h] == arr[j+h]) h++;\n                lcp[invSa[i]] = h;\n                if (h > 0) h--;\n            } else { h = 0; }\n        }\n\n        long total = (long)n * (n + 1) / 2;\n        for (int v : lcp) total -= v;\n        return (int)total;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "SuffixTree.kt",
+          "content": "fun suffixTree(arr: IntArray): Int {\n    val n = arr.size\n    if (n == 0) return 0\n    val sa = Array(n) { it }\n    var rank = arr.clone()\n    val tmp = IntArray(n)\n    var k = 1\n    while (k < n) {\n        val r = rank.clone(); val step = k\n        sa.sortWith(Comparator { a, b ->\n            if (r[a] != r[b]) return@Comparator r[a] - r[b]\n            val ra = if (a + step < n) r[a + step] else -1\n            val rb = if (b + step < n) r[b + step] else -1\n            ra - rb\n        })\n        tmp[sa[0]] = 0\n        for (i in 1 until n) {\n            tmp[sa[i]] = tmp[sa[i - 1]]\n            val p0 = r[sa[i-1]]; val c0 = r[sa[i]]\n            val p1 = if (sa[i-1]+step<n) r[sa[i-1]+step] else -1\n            val c1 = if (sa[i]+step<n) r[sa[i]+step] else -1\n            if (p0 != c0 || p1 != c1) tmp[sa[i]]++\n        }\n        rank = tmp.clone()\n        if (rank[sa[n-1]] == n-1) break\n        k *= 2\n    }\n    val invSa = IntArray(n)\n    val lcp = IntArray(n)\n    for (i in 0 until n) invSa[sa[i]] = i\n    var h = 0\n    for (i in 0 until n) {\n        if (invSa[i] > 0) {\n            val j = sa[invSa[i]-1]\n            while (i+h < n && j+h < n && arr[i+h] == arr[j+h]) h++\n            lcp[invSa[i]] = h\n            if (h > 0) h--\n        } else { h = 0 }\n    }\n    return n * (n + 1) / 2 - lcp.sum()\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "suffix_tree.py",
+          "content": "def suffix_tree(arr: list[int]) -> int:\n    n = len(arr)\n    if n == 0:\n        return 0\n\n    # Build suffix array\n    sa = list(range(n))\n    rank = arr[:]\n    tmp = [0] * n\n    k = 1\n    while k < n:\n        def cmp_key(i, r=rank[:], step=k):\n            return (r[i], r[i + step] if i + step < n else -1)\n        sa.sort(key=cmp_key)\n        tmp[sa[0]] = 0\n        for i in range(1, n):\n            tmp[sa[i]] = tmp[sa[i - 1]]\n            if cmp_key(sa[i]) != cmp_key(sa[i - 1]):\n                tmp[sa[i]] += 1\n        rank = tmp[:]\n        if rank[sa[-1]] == n - 1:\n            break\n        k *= 2\n\n    # Build LCP array using Kasai's algorithm\n    inv_sa = [0] * n\n    for i in range(n):\n        inv_sa[sa[i]] = i\n    lcp = [0] * n\n    h = 0\n    for i in range(n):\n        if inv_sa[i] > 0:\n            j = sa[inv_sa[i] - 1]\n            while i + h < n and j + h < n and arr[i + h] == arr[j + h]:\n                h += 1\n            lcp[inv_sa[i]] = h\n            if h > 0:\n                h -= 1\n        else:\n            h = 0\n\n    total = n * (n + 1) // 2 - sum(lcp)\n    return total\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "suffix_tree.rs",
+          "content": "pub fn suffix_tree(arr: &[i32]) -> i32 {\n    let n = arr.len();\n    if n == 0 { return 0; }\n\n    let mut sa: Vec<usize> = (0..n).collect();\n    let mut rank: Vec<i64> = arr.iter().map(|&x| x as i64).collect();\n    let mut tmp = vec![0i64; n];\n    let mut k = 1;\n    while k < n {\n        let r = rank.clone();\n        let step = k;\n        sa.sort_by(|&a, &b| {\n            let c = r[a].cmp(&r[b]);\n            if c != std::cmp::Ordering::Equal { return c; }\n            let ra = if a+step<n { r[a+step] } else { -1 };\n            let rb = if b+step<n { r[b+step] } else { -1 };\n            ra.cmp(&rb)\n        });\n        tmp[sa[0]] = 0;\n        for i in 1..n {\n            tmp[sa[i]] = tmp[sa[i-1]];\n            let p0 = r[sa[i-1]]; let c0 = r[sa[i]];\n            let p1 = if sa[i-1]+step<n { r[sa[i-1]+step] } else { -1 };\n            let c1 = if sa[i]+step<n { r[sa[i]+step] } else { -1 };\n            if p0 != c0 || p1 != c1 { tmp[sa[i]] += 1; }\n        }\n        rank = tmp.clone();\n        if rank[sa[n-1]] == n as i64 - 1 { break; }\n        k *= 2;\n    }\n\n    let mut inv_sa = vec![0usize; n];\n    let mut lcp = vec![0i64; n];\n    for i in 0..n { inv_sa[sa[i]] = i; }\n    let mut h: usize = 0;\n    for i in 0..n {\n        if inv_sa[i] > 0 {\n            let j = sa[inv_sa[i]-1];\n            while i+h < n && j+h < n && arr[i+h] == arr[j+h] { h += 1; }\n            lcp[inv_sa[i]] = h as i64;\n            if h > 0 { h -= 1; }\n        } else { h = 0; }\n    }\n\n    let total: i64 = n as i64 * (n as i64 + 1) / 2 - lcp.iter().sum::<i64>();\n    total as i32\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "SuffixTree.scala",
+          "content": "object SuffixTree {\n  def suffixTree(arr: Array[Int]): Int = {\n    val n = arr.length\n    if (n == 0) return 0\n    var sa = Array.tabulate(n)(identity)\n    var rank = arr.clone()\n    val tmp = new Array[Int](n)\n    var k = 1\n    while (k < n) {\n      val r = rank.clone(); val step = k\n      sa = sa.sortWith((a, b) => {\n        if (r(a) != r(b)) r(a) < r(b)\n        else {\n          val ra = if (a+step<n) r(a+step) else -1\n          val rb = if (b+step<n) r(b+step) else -1\n          ra < rb\n        }\n      })\n      tmp(sa(0)) = 0\n      for (i <- 1 until n) {\n        tmp(sa(i)) = tmp(sa(i-1))\n        val p0 = r(sa(i-1)); val c0 = r(sa(i))\n        val p1 = if (sa(i-1)+step<n) r(sa(i-1)+step) else -1\n        val c1 = if (sa(i)+step<n) r(sa(i)+step) else -1\n        if (p0 != c0 || p1 != c1) tmp(sa(i)) += 1\n      }\n      rank = tmp.clone()\n      if (rank(sa(n-1)) == n-1) { k = n }\n      else k *= 2\n    }\n    val invSa = new Array[Int](n)\n    val lcp = new Array[Int](n)\n    for (i <- 0 until n) invSa(sa(i)) = i\n    var h = 0\n    for (i <- 0 until n) {\n      if (invSa(i) > 0) {\n        val j = sa(invSa(i)-1)\n        while (i+h < n && j+h < n && arr(i+h) == arr(j+h)) h += 1\n        lcp(invSa(i)) = h\n        if (h > 0) h -= 1\n      } else { h = 0 }\n    }\n    n * (n + 1) / 2 - lcp.sum\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "SuffixTree.swift",
+          "content": "func suffixTree(_ arr: [Int]) -> Int {\n    let n = arr.count\n    if n == 0 { return 0 }\n    var sa = Array(0..<n)\n    var rank = arr\n    var tmp = [Int](repeating: 0, count: n)\n    var k = 1\n    while k < n {\n        let r = rank; let step = k\n        sa.sort { a, b in\n            if r[a] != r[b] { return r[a] < r[b] }\n            let ra = a+step<n ? r[a+step] : -1\n            let rb = b+step<n ? r[b+step] : -1\n            return ra < rb\n        }\n        tmp[sa[0]] = 0\n        for i in 1..<n {\n            tmp[sa[i]] = tmp[sa[i-1]]\n            let p0 = r[sa[i-1]], c0 = r[sa[i]]\n            let p1 = sa[i-1]+step<n ? r[sa[i-1]+step] : -1\n            let c1 = sa[i]+step<n ? r[sa[i]+step] : -1\n            if p0 != c0 || p1 != c1 { tmp[sa[i]] += 1 }\n        }\n        rank = tmp\n        if rank[sa[n-1]] == n-1 { break }\n        k *= 2\n    }\n    var invSa = [Int](repeating: 0, count: n)\n    var lcp = [Int](repeating: 0, count: n)\n    for i in 0..<n { invSa[sa[i]] = i }\n    var h = 0\n    for i in 0..<n {\n        if invSa[i] > 0 {\n            let j = sa[invSa[i]-1]\n            while i+h < n && j+h < n && arr[i+h] == arr[j+h] { h += 1 }\n            lcp[invSa[i]] = h\n            if h > 0 { h -= 1 }\n        } else { h = 0 }\n    }\n    return n * (n + 1) / 2 - lcp.reduce(0, +)\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "suffixTree.ts",
+          "content": "export function suffixTree(arr: number[]): number {\n    const n = arr.length;\n    if (n === 0) return 0;\n\n    const sa = Array.from({ length: n }, (_, i) => i);\n    let rank = [...arr];\n    const tmp = new Array(n);\n    for (let k = 1; k < n; k *= 2) {\n        const r = [...rank];\n        const step = k;\n        sa.sort((a, b) => {\n            if (r[a] !== r[b]) return r[a] - r[b];\n            const ra = a + step < n ? r[a + step] : -1;\n            const rb = b + step < n ? r[b + step] : -1;\n            return ra - rb;\n        });\n        tmp[sa[0]] = 0;\n        for (let i = 1; i < n; i++) {\n            tmp[sa[i]] = tmp[sa[i - 1]];\n            const p0 = r[sa[i-1]], c0 = r[sa[i]];\n            const p1 = sa[i-1]+step<n ? r[sa[i-1]+step] : -1;\n            const c1 = sa[i]+step<n ? r[sa[i]+step] : -1;\n            if (p0 !== c0 || p1 !== c1) tmp[sa[i]]++;\n        }\n        rank = [...tmp];\n        if (rank[sa[n-1]] === n-1) break;\n    }\n\n    const invSa = new Array(n);\n    const lcp = new Array(n).fill(0);\n    for (let i = 0; i < n; i++) invSa[sa[i]] = i;\n    let h = 0;\n    for (let i = 0; i < n; i++) {\n        if (invSa[i] > 0) {\n            const j = sa[invSa[i]-1];\n            while (i+h < n && j+h < n && arr[i+h] === arr[j+h]) h++;\n            lcp[invSa[i]] = h;\n            if (h > 0) h--;\n        } else { h = 0; }\n    }\n\n    let total = n * (n + 1) / 2;\n    for (const v of lcp) total -= v;\n    return total;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Suffix Tree (Count Distinct Substrings)\n\n## Overview\n\nA Suffix Tree is a compressed trie (prefix tree) containing all suffixes of a string. It is one of the most powerful data structures in string processing, enabling linear-time solutions to many problems including pattern matching, longest repeated substring, and counting distinct substrings.\n\nThis implementation counts the number of distinct substrings of a given array of integers. It does so by constructing a suffix array, computing the Longest Common Prefix (LCP) array using Kasai's algorithm, and applying the formula: `distinct substrings = n*(n+1)/2 - sum(LCP)`.\n\n## How It Works\n\n1. **Build the suffix array:** Sort all suffixes of the input lexicographically.\n2. **Compute the LCP array:** Using Kasai's algorithm, compute the length of the longest common prefix between each pair of adjacent suffixes in the sorted order.\n3. **Count distinct substrings:** The total number of substrings of a string of length n is `n*(n+1)/2`. Each LCP value represents shared prefixes that should not be double-counted. Subtracting the sum of all LCP values gives the count of distinct substrings.\n\n## Worked Example\n\nGiven input: `[1, 2, 1]`\n\n**Step 1 -- Suffix Array:**\n- Suffix 0: `[1, 2, 1]`\n- Suffix 1: `[2, 1]`\n- Suffix 2: `[1]`\n\nSorted: `[1]` (idx 2), `[1, 2, 1]` (idx 0), `[2, 1]` (idx 1)\nSuffix Array: `[2, 0, 1]`\n\n**Step 2 -- LCP Array (Kasai's):**\n- LCP between suffix 2 `[1]` and suffix 0 `[1, 2, 1]`: shared prefix `[1]`, length 1\n- LCP between suffix 0 `[1, 2, 1]` and suffix 1 `[2, 1]`: no shared prefix, length 0\n\nLCP Array: `[1, 0]`\n\n**Step 3 -- Count:**\nTotal substrings = `3 * 4 / 2 = 6`: `[1]`, `[1,2]`, `[1,2,1]`, `[2]`, `[2,1]`, `[1]`\nSubtract LCP sum = `1 + 0 = 1` (one duplicate `[1]`)\nDistinct substrings = `6 - 1 = 5`\n\n**Result:** 5\n\n## Pseudocode\n\n```\nfunction countDistinctSubstrings(arr):\n    n = length(arr)\n    if n == 0: return 0\n\n    // Build suffix array\n    sa = buildSuffixArray(arr)\n\n    // Build LCP array using Kasai's algorithm\n    rank = array of size n\n    for i from 0 to n - 1:\n        rank[sa[i]] = i\n\n    lcp = array of size n - 1\n    k = 0\n    for i from 0 to n - 1:\n        if rank[i] == 0:\n            k = 0\n            continue\n        j = sa[rank[i] - 1]\n        while i + k < n and j + k < n and arr[i + k] == arr[j + k]:\n            k = k + 1\n        lcp[rank[i] - 1] = k\n        if k > 0:\n            k = k - 1\n\n    // Count distinct substrings\n    total = n * (n + 1) / 2\n    return total - sum(lcp)\n```\n\n## Complexity Analysis\n\n| Case    | Time          | Space |\n|---------|---------------|-------|\n| Best    | O(n log^2 n)  | O(n)  |\n| Average | O(n log^2 n)  | O(n)  |\n| Worst   | O(n log^2 n)  | O(n)  |\n\n- **Time:** Dominated by suffix array construction. The LCP array computation with Kasai's algorithm is O(n), and the final summation is O(n). With the SA-IS suffix array construction algorithm, the overall time reduces to O(n).\n- **Space O(n):** For the suffix array, rank array, and LCP array.\n- Compared to building an explicit suffix tree (Ukkonen's algorithm), this approach uses significantly less memory.\n\n## When to Use\n\n- Counting the number of distinct substrings in a string\n- Finding the longest repeated substring\n- Pattern matching queries after one-time preprocessing\n- String comparison tasks in bioinformatics (genome analysis)\n- Building the Burrows-Wheeler Transform for data compression\n- Solving competitive programming problems on string processing\n\n## When NOT to Use\n\n- **When you need online (incremental) construction:** Suffix arrays must be rebuilt from scratch when the string changes. Use Ukkonen's suffix tree for online construction.\n- **Single pattern search:** Building a suffix array/tree for one search query is overkill. Use KMP or Boyer-Moore.\n- **Very short strings (n < 20):** The overhead of construction is not justified; brute-force enumeration is simpler and fast enough.\n- **When memory is extremely limited:** Although suffix arrays are more memory-efficient than suffix trees, they still require O(n) additional space. For streaming applications, consider online algorithms.\n\n## Comparison\n\n| Approach                    | Time (Build)   | Time (Count Distinct) | Space |\n|-----------------------------|----------------|----------------------|-------|\n| Suffix Array + LCP          | O(n log^2 n)*  | O(n)                 | O(n)  |\n| Suffix Tree (Ukkonen's)     | O(n)           | O(n) via node count  | O(n)**|\n| Brute Force (HashSet)       | O(n^2)         | O(n^2)               | O(n^2)|\n| Suffix Automaton (SAM)      | O(n)           | O(n) via path count  | O(n)  |\n\n*O(n) with SA-IS algorithm. **Suffix trees use 10-20x more memory than suffix arrays in practice.\n\nThe suffix array + LCP approach offers the best balance of simplicity, memory efficiency, and performance. Suffix automata (SAM) provide an elegant O(n) solution but are harder to implement. Brute force with a hash set works for small inputs but is impractical for large strings.\n\n## References\n\n- Manber, U. and Myers, G. (1993). \"Suffix Arrays: A New Method for On-Line String Searches.\" *SIAM Journal on Computing*, 22(5), 935-948.\n- Kasai, T., Lee, G., Arimura, H., Arikawa, S., and Park, K. (2001). \"Linear-Time Longest-Common-Prefix Computation in Suffix Arrays and Its Applications.\" *CPM 2001*, LNCS 2089, 181-192.\n- Ukkonen, E. (1995). \"On-Line Construction of Suffix Trees.\" *Algorithmica*, 14(3), 249-260.\n- Gusfield, D. (1997). *Algorithms on Strings, Trees, and Sequences*. Cambridge University Press.\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [suffix_tree.py](python/suffix_tree.py) |\n| Java       | [SuffixTree.java](java/SuffixTree.java) |\n| C++        | [suffix_tree.cpp](cpp/suffix_tree.cpp) |\n| C          | [suffix_tree.c](c/suffix_tree.c) |\n| Go         | [suffix_tree.go](go/suffix_tree.go) |\n| TypeScript | [suffixTree.ts](typescript/suffixTree.ts) |\n| Rust       | [suffix_tree.rs](rust/suffix_tree.rs) |\n| Kotlin     | [SuffixTree.kt](kotlin/SuffixTree.kt) |\n| Swift      | [SuffixTree.swift](swift/SuffixTree.swift) |\n| Scala      | [SuffixTree.scala](scala/SuffixTree.scala) |\n| C#         | [SuffixTree.cs](csharp/SuffixTree.cs) |\n"
+}

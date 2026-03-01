@@ -1,0 +1,26 @@
+algorithm: "fibonacci-heap"
+function_signature:
+  name: "fibonacci_heap"
+  input: [operations]
+  output: extract_min_results
+test_cases:
+  - name: "simple insert and extract"
+    input:
+      operations: [3, 1, 4, 0, 0]
+    expected: [1, 3]
+  - name: "single element"
+    input:
+      operations: [42, 0]
+    expected: [42]
+  - name: "multiple extracts in order"
+    input:
+      operations: [5, 2, 8, 1, 0, 0, 0, 0]
+    expected: [1, 2, 5, 8]
+  - name: "interleaved insert and extract"
+    input:
+      operations: [10, 0, 5, 0, 1, 0]
+    expected: [10, 5, 1]
+  - name: "extract from empty returns -1"
+    input:
+      operations: [0]
+    expected: [-1]

@@ -1,0 +1,17 @@
+name: "Extended GCD Applications"
+slug: "extended-gcd-applications"
+category: "math"
+subcategory: "number-theory"
+difficulty: "intermediate"
+tags: [math, gcd, modular-inverse, number-theory]
+complexity:
+  time:
+    best: "O(log(min(a, m)))"
+    average: "O(log(min(a, m)))"
+    worst: "O(log(min(a, m)))"
+  space: "O(log(min(a, m)))"
+stable: null
+in_place: false
+related: [extended-euclidean, chinese-remainder-theorem]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

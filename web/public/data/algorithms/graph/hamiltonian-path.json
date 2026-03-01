@@ -1,0 +1,135 @@
+{
+  "name": "Hamiltonian Path",
+  "slug": "hamiltonian-path",
+  "category": "graph",
+  "subcategory": "traversal",
+  "difficulty": "advanced",
+  "tags": [
+    "graph",
+    "hamiltonian",
+    "dp",
+    "bitmask",
+    "np-hard"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(2^n * n^2)",
+      "average": "O(2^n * n^2)",
+      "worst": "O(2^n * n^2)"
+    },
+    "space": "O(2^n * n)"
+  },
+  "stable": null,
+  "in_place": false,
+  "related": [
+    "euler-path",
+    "travelling-salesman"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "hamiltonian_path.c",
+          "content": "#include \"hamiltonian_path.h\"\n#include <stdlib.h>\n#include <stdbool.h>\n#include <string.h>\n\nint hamiltonian_path(int* arr, int len) {\n    int n = arr[0], m = arr[1];\n    if (n <= 1) return 1;\n    bool* adj = (bool*)calloc(n * n, sizeof(bool));\n    for (int i = 0; i < m; i++) {\n        int u = arr[2+2*i], v = arr[3+2*i];\n        adj[u*n+v] = true; adj[v*n+u] = true;\n    }\n    int full = (1 << n) - 1;\n    bool* dp = (bool*)calloc((1 << n) * n, sizeof(bool));\n    for (int i = 0; i < n; i++) dp[(1 << i)*n + i] = true;\n    for (int mask = 1; mask <= full; mask++) {\n        for (int i = 0; i < n; i++) {\n            if (!dp[mask*n+i]) continue;\n            for (int j = 0; j < n; j++) {\n                if (!(mask & (1 << j)) && adj[i*n+j])\n                    dp[(mask|(1<<j))*n+j] = true;\n            }\n        }\n    }\n    int result = 0;\n    for (int i = 0; i < n; i++) if (dp[full*n+i]) { result = 1; break; }\n    free(adj); free(dp);\n    return result;\n}\n"
+        },
+        {
+          "filename": "hamiltonian_path.h",
+          "content": "#ifndef HAMILTONIAN_PATH_H\n#define HAMILTONIAN_PATH_H\n\nint hamiltonian_path(int* arr, int len);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "hamiltonian_path.cpp",
+          "content": "#include <vector>\n\nint hamiltonian_path(std::vector<int> arr) {\n    int n = arr[0], m = arr[1];\n    if (n <= 1) return 1;\n    std::vector<std::vector<bool>> adj(n, std::vector<bool>(n, false));\n    for (int i = 0; i < m; i++) {\n        int u = arr[2+2*i], v = arr[3+2*i];\n        adj[u][v] = true; adj[v][u] = true;\n    }\n    int full = (1 << n) - 1;\n    std::vector<std::vector<bool>> dp(1 << n, std::vector<bool>(n, false));\n    for (int i = 0; i < n; i++) dp[1 << i][i] = true;\n    for (int mask = 1; mask <= full; mask++) {\n        for (int i = 0; i < n; i++) {\n            if (!dp[mask][i]) continue;\n            for (int j = 0; j < n; j++) {\n                if (!(mask & (1 << j)) && adj[i][j])\n                    dp[mask | (1 << j)][j] = true;\n            }\n        }\n    }\n    for (int i = 0; i < n; i++) if (dp[full][i]) return 1;\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "HamiltonianPath.cs",
+          "content": "public class HamiltonianPath\n{\n    public static int Run(int[] arr)\n    {\n        int n = arr[0], m = arr[1];\n        if (n <= 1) return 1;\n        bool[,] adj = new bool[n, n];\n        for (int i = 0; i < m; i++)\n        {\n            int u = arr[2+2*i], v = arr[3+2*i];\n            adj[u, v] = true; adj[v, u] = true;\n        }\n        int full = (1 << n) - 1;\n        bool[,] dp = new bool[1 << n, n];\n        for (int i = 0; i < n; i++) dp[1 << i, i] = true;\n        for (int mask = 1; mask <= full; mask++)\n            for (int i = 0; i < n; i++)\n            {\n                if (!dp[mask, i]) continue;\n                for (int j = 0; j < n; j++)\n                    if ((mask & (1 << j)) == 0 && adj[i, j])\n                        dp[mask | (1 << j), j] = true;\n            }\n        for (int i = 0; i < n; i++) if (dp[full, i]) return 1;\n        return 0;\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "hamiltonian_path.go",
+          "content": "package hamiltonianpath\n\n// HamiltonianPath returns 1 if a Hamiltonian path exists, 0 otherwise.\nfunc HamiltonianPath(arr []int) int {\n\tn, m := arr[0], arr[1]\n\tif n <= 1 { return 1 }\n\tadj := make([][]bool, n)\n\tfor i := range adj { adj[i] = make([]bool, n) }\n\tfor i := 0; i < m; i++ {\n\t\tu, v := arr[2+2*i], arr[3+2*i]\n\t\tadj[u][v] = true; adj[v][u] = true\n\t}\n\tfull := (1 << uint(n)) - 1\n\tdp := make([][]bool, 1<<uint(n))\n\tfor i := range dp { dp[i] = make([]bool, n) }\n\tfor i := 0; i < n; i++ { dp[1<<uint(i)][i] = true }\n\tfor mask := 1; mask <= full; mask++ {\n\t\tfor i := 0; i < n; i++ {\n\t\t\tif !dp[mask][i] { continue }\n\t\t\tfor j := 0; j < n; j++ {\n\t\t\t\tif mask&(1<<uint(j)) == 0 && adj[i][j] {\n\t\t\t\t\tdp[mask|(1<<uint(j))][j] = true\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\tfor i := 0; i < n; i++ { if dp[full][i] { return 1 } }\n\treturn 0\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "HamiltonianPath.java",
+          "content": "public class HamiltonianPath {\n    public static int hamiltonianPath(int[] arr) {\n        int n = arr[0], m = arr[1];\n        if (n <= 1) return 1;\n        boolean[][] adj = new boolean[n][n];\n        for (int i = 0; i < m; i++) {\n            int u = arr[2+2*i], v = arr[3+2*i];\n            adj[u][v] = true; adj[v][u] = true;\n        }\n        int full = (1 << n) - 1;\n        boolean[][] dp = new boolean[1 << n][n];\n        for (int i = 0; i < n; i++) dp[1 << i][i] = true;\n        for (int mask = 1; mask <= full; mask++) {\n            for (int i = 0; i < n; i++) {\n                if (!dp[mask][i]) continue;\n                for (int j = 0; j < n; j++) {\n                    if ((mask & (1 << j)) == 0 && adj[i][j])\n                        dp[mask | (1 << j)][j] = true;\n                }\n            }\n        }\n        for (int i = 0; i < n; i++) if (dp[full][i]) return 1;\n        return 0;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "HamiltonianPath.kt",
+          "content": "fun hamiltonianPath(arr: IntArray): Int {\n    val n = arr[0]; val m = arr[1]\n    if (n <= 1) return 1\n    val adj = Array(n) { BooleanArray(n) }\n    for (i in 0 until m) {\n        val u = arr[2+2*i]; val v = arr[3+2*i]\n        adj[u][v] = true; adj[v][u] = true\n    }\n    val full = (1 shl n) - 1\n    val dp = Array(1 shl n) { BooleanArray(n) }\n    for (i in 0 until n) dp[1 shl i][i] = true\n    for (mask in 1..full) for (i in 0 until n) {\n        if (!dp[mask][i]) continue\n        for (j in 0 until n) if (mask and (1 shl j) == 0 && adj[i][j])\n            dp[mask or (1 shl j)][j] = true\n    }\n    for (i in 0 until n) if (dp[full][i]) return 1\n    return 0\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "hamiltonian_path.py",
+          "content": "def hamiltonian_path(arr: list[int]) -> int:\n    n = arr[0]\n    m = arr[1]\n    if n <= 1:\n        return 1\n    adj = [[False] * n for _ in range(n)]\n    for i in range(m):\n        u, v = arr[2 + 2 * i], arr[3 + 2 * i]\n        adj[u][v] = True\n        adj[v][u] = True\n\n    full = (1 << n) - 1\n    dp = [[False] * n for _ in range(1 << n)]\n    for i in range(n):\n        dp[1 << i][i] = True\n\n    for mask in range(1, 1 << n):\n        for i in range(n):\n            if not dp[mask][i]:\n                continue\n            for j in range(n):\n                if mask & (1 << j) == 0 and adj[i][j]:\n                    dp[mask | (1 << j)][j] = True\n\n    for i in range(n):\n        if dp[full][i]:\n            return 1\n    return 0\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "hamiltonian_path.rs",
+          "content": "pub fn hamiltonian_path(arr: &[i32]) -> i32 {\n    let n = arr[0] as usize;\n    let m = arr[1] as usize;\n    if n <= 1 { return 1; }\n    let mut adj = vec![vec![false; n]; n];\n    for i in 0..m {\n        let u = arr[2+2*i] as usize;\n        let v = arr[3+2*i] as usize;\n        adj[u][v] = true; adj[v][u] = true;\n    }\n    let full = (1usize << n) - 1;\n    let mut dp = vec![vec![false; n]; 1 << n];\n    for i in 0..n { dp[1 << i][i] = true; }\n    for mask in 1..=full {\n        for i in 0..n {\n            if !dp[mask][i] { continue; }\n            for j in 0..n {\n                if mask & (1 << j) == 0 && adj[i][j] {\n                    dp[mask | (1 << j)][j] = true;\n                }\n            }\n        }\n    }\n    for i in 0..n { if dp[full][i] { return 1; } }\n    0\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "HamiltonianPath.scala",
+          "content": "object HamiltonianPath {\n  def hamiltonianPath(arr: Array[Int]): Int = {\n    val n = arr(0); val m = arr(1)\n    if (n <= 1) return 1\n    val adj = Array.ofDim[Boolean](n, n)\n    for (i <- 0 until m) {\n      val u = arr(2+2*i); val v = arr(3+2*i)\n      adj(u)(v) = true; adj(v)(u) = true\n    }\n    val full = (1 << n) - 1\n    val dp = Array.ofDim[Boolean](1 << n, n)\n    for (i <- 0 until n) dp(1 << i)(i) = true\n    for (mask <- 1 to full; i <- 0 until n if dp(mask)(i); j <- 0 until n) {\n      if ((mask & (1 << j)) == 0 && adj(i)(j))\n        dp(mask | (1 << j))(j) = true\n    }\n    for (i <- 0 until n) if (dp(full)(i)) return 1\n    0\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "HamiltonianPath.swift",
+          "content": "func hamiltonianPath(_ arr: [Int]) -> Int {\n    let n = arr[0], m = arr[1]\n    if n <= 1 { return 1 }\n    var adj = [[Bool]](repeating: [Bool](repeating: false, count: n), count: n)\n    for i in 0..<m {\n        let u = arr[2+2*i], v = arr[3+2*i]\n        adj[u][v] = true; adj[v][u] = true\n    }\n    let full = (1 << n) - 1\n    var dp = [[Bool]](repeating: [Bool](repeating: false, count: n), count: 1 << n)\n    for i in 0..<n { dp[1 << i][i] = true }\n    for mask in 1...full {\n        for i in 0..<n {\n            if !dp[mask][i] { continue }\n            for j in 0..<n {\n                if mask & (1 << j) == 0 && adj[i][j] {\n                    dp[mask | (1 << j)][j] = true\n                }\n            }\n        }\n    }\n    for i in 0..<n { if dp[full][i] { return 1 } }\n    return 0\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "hamiltonianPath.ts",
+          "content": "export function hamiltonianPath(arr: number[]): number {\n    const n = arr[0], m = arr[1];\n    if (n <= 1) return 1;\n    const adj: boolean[][] = Array.from({ length: n }, () => new Array(n).fill(false));\n    for (let i = 0; i < m; i++) {\n        const u = arr[2+2*i], v = arr[3+2*i];\n        adj[u][v] = true; adj[v][u] = true;\n    }\n    const full = (1 << n) - 1;\n    const dp: boolean[][] = Array.from({ length: 1 << n }, () => new Array(n).fill(false));\n    for (let i = 0; i < n; i++) dp[1 << i][i] = true;\n    for (let mask = 1; mask <= full; mask++) {\n        for (let i = 0; i < n; i++) {\n            if (!dp[mask][i]) continue;\n            for (let j = 0; j < n; j++) {\n                if (!(mask & (1 << j)) && adj[i][j])\n                    dp[mask | (1 << j)][j] = true;\n            }\n        }\n    }\n    for (let i = 0; i < n; i++) if (dp[full][i]) return 1;\n    return 0;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Hamiltonian Path\n\n## Overview\n\nA Hamiltonian Path visits every vertex in a graph exactly once. A Hamiltonian Cycle is a Hamiltonian Path that returns to the starting vertex. Determining whether a Hamiltonian Path exists is NP-complete in general, but the dynamic programming approach with bitmask (Held-Karp style) solves it in O(2^n * n^2) time, which is significantly faster than the naive O(n!) brute-force approach for moderate values of n (up to about 20-25 vertices).\n\n## How It Works\n\n1. Use DP where `dp[mask][i]` is true if there is a path visiting exactly the vertices in `mask` ending at vertex `i`.\n2. Initialize `dp[1 << i][i] = true` for all vertices (each vertex alone is a valid path of length 0).\n3. For each mask and each vertex `i` in the mask, try to extend to vertex `j` adjacent to `i` that is not yet in the mask.\n4. A Hamiltonian path exists if `dp[(1<<n)-1][i]` is true for any `i` (the full mask with all vertices visited).\n\nInput format: `[n, m, u1, v1, u2, v2, ...]`\n\n## Worked Example\n\nConsider a graph with 4 vertices and 4 edges:\n\n```\nVertices: 0, 1, 2, 3\nEdges: 0-1, 1-2, 2-3, 0-3\n\n    0 --- 1\n    |     |\n    3 --- 2\n```\n\n**DP Initialization:**\n- dp[0001][0] = true (only vertex 0)\n- dp[0010][1] = true (only vertex 1)\n- dp[0100][2] = true (only vertex 2)\n- dp[1000][3] = true (only vertex 3)\n\n**Extending paths (selected transitions):**\n- dp[0001][0] -> dp[0011][1] = true (0 -> 1)\n- dp[0001][0] -> dp[1001][3] = true (0 -> 3)\n- dp[0011][1] -> dp[0111][2] = true (0 -> 1 -> 2)\n- dp[0111][2] -> dp[1111][3] = true (0 -> 1 -> 2 -> 3)\n\n**Result:** dp[1111][3] = true, so a Hamiltonian Path exists: 0 -> 1 -> 2 -> 3.\n\n## Pseudocode\n\n```\nfunction hamiltonianPath(n, adjacency):\n    dp = 2D array of size [2^n][n], initialized to false\n\n    for i = 0 to n-1:\n        dp[1 << i][i] = true\n\n    for mask = 1 to (2^n - 1):\n        for i = 0 to n-1:\n            if bit i is not set in mask: continue\n            if dp[mask][i] is false: continue\n            for each neighbor j of i:\n                if bit j is set in mask: continue\n                dp[mask | (1 << j)][j] = true\n\n    fullMask = (1 << n) - 1\n    for i = 0 to n-1:\n        if dp[fullMask][i]: return true\n\n    return false\n```\n\n## Complexity Analysis\n\n| Case    | Time          | Space       |\n|---------|---------------|-------------|\n| Best    | O(2^n * n^2)  | O(2^n * n)  |\n| Average | O(2^n * n^2)  | O(2^n * n)  |\n| Worst   | O(2^n * n^2)  | O(2^n * n)  |\n\nThe bitmask DP explores all 2^n subsets of vertices. For each subset, it iterates over all n vertices and their neighbors. Space is dominated by the DP table.\n\n## When to Use\n\n- Route planning where every location must be visited exactly once\n- Circuit board testing (visiting every test point)\n- Genome sequencing and assembly\n- Puzzle solving (e.g., knight's tour is a special case)\n- Network topology verification\n\n## When NOT to Use\n\n- When n > 25, the exponential time and space become prohibitive. Consider heuristic or approximation methods instead.\n- When you only need the shortest path (use TSP algorithms with distance optimization instead).\n- When the graph is very sparse and structural properties can be exploited -- specialized algorithms may be faster.\n- For undirected graphs where an Eulerian path (visiting every edge) is what you actually need.\n\n## Comparison\n\n| Algorithm | Time | Space | Notes |\n|-----------|------|-------|-------|\n| Bitmask DP (this) | O(2^n * n^2) | O(2^n * n) | Exact; practical for n <= 20-25 |\n| Brute Force (backtracking) | O(n!) | O(n) | Simpler but much slower for n > 15 |\n| Inclusion-Exclusion | O(2^n * n^2) | O(2^n) | Same asymptotic complexity, different constant |\n| Heuristic (e.g., greedy, genetic) | Varies | Varies | No guarantee of finding a path; useful for large n |\n\n## References\n\n- Held, M., & Karp, R. M. (1962). \"A Dynamic Programming Approach to Sequencing Problems.\" *Journal of the Society for Industrial and Applied Mathematics*, 10(1), 196-210.\n- Bellman, R. (1962). \"Dynamic Programming Treatment of the Travelling Salesman Problem.\" *Journal of the ACM*, 9(1), 61-63.\n- [Hamiltonian path problem -- Wikipedia](https://en.wikipedia.org/wiki/Hamiltonian_path_problem)\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [hamiltonian_path.py](python/hamiltonian_path.py) |\n| Java       | [HamiltonianPath.java](java/HamiltonianPath.java) |\n| C++        | [hamiltonian_path.cpp](cpp/hamiltonian_path.cpp) |\n| C          | [hamiltonian_path.c](c/hamiltonian_path.c) |\n| Go         | [hamiltonian_path.go](go/hamiltonian_path.go) |\n| TypeScript | [hamiltonianPath.ts](typescript/hamiltonianPath.ts) |\n| Rust       | [hamiltonian_path.rs](rust/hamiltonian_path.rs) |\n| Kotlin     | [HamiltonianPath.kt](kotlin/HamiltonianPath.kt) |\n| Swift      | [HamiltonianPath.swift](swift/HamiltonianPath.swift) |\n| Scala      | [HamiltonianPath.scala](scala/HamiltonianPath.scala) |\n| C#         | [HamiltonianPath.cs](csharp/HamiltonianPath.cs) |\n"
+}

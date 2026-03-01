@@ -1,0 +1,17 @@
+name: "Skip List"
+slug: "skip-list"
+category: "data-structures"
+subcategory: "probabilistic"
+difficulty: "advanced"
+tags: [data-structure, linked-list, probabilistic, search, skip-list]
+complexity:
+  time:
+    best: "O(log n)"
+    average: "O(log n)"
+    worst: "O(n)"
+  space: "O(n)"
+stable: null
+in_place: false
+related: [linked-list-operations, binary-search-tree]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

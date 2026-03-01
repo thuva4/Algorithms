@@ -1,0 +1,17 @@
+name: "Aho-Corasick"
+slug: "aho-corasick"
+category: "strings"
+subcategory: "pattern-matching"
+difficulty: "advanced"
+tags: [strings, pattern-matching, multi-pattern, trie, automaton]
+complexity:
+  time:
+    best: "O(n + m + z)"
+    average: "O(n + m + z)"
+    worst: "O(n + m + z)"
+  space: "O(m)"
+stable: false
+in_place: false
+related: [knuth-morris-pratt, rabin-karp]
+implementations: [python]
+visualization: false

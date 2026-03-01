@@ -1,0 +1,17 @@
+name: "Segmented Sieve"
+slug: "segmented-sieve"
+category: "math"
+subcategory: "prime-numbers"
+difficulty: "intermediate"
+tags: [math, primes, sieve, segmented, number-theory]
+complexity:
+  time:
+    best: "O(n log log n)"
+    average: "O(n log log n)"
+    worst: "O(n log log n)"
+  space: "O(sqrt(n))"
+stable: false
+in_place: false
+related: [sieve-of-eratosthenes, prime-check]
+implementations: [python, java, cpp, c]
+visualization: false

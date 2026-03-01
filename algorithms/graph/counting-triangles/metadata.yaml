@@ -1,0 +1,17 @@
+name: "Counting Triangles"
+slug: "counting-triangles"
+category: "graph"
+subcategory: "analysis"
+difficulty: "intermediate"
+tags: [graph, triangle, counting, adjacency-matrix, undirected]
+complexity:
+  time:
+    best: "O(V^3)"
+    average: "O(V^3)"
+    worst: "O(V^3)"
+  space: "O(V^2)"
+stable: null
+in_place: false
+related: [graph-coloring]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

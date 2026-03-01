@@ -1,0 +1,17 @@
+name: "Mo's Algorithm"
+slug: "mo-algorithm"
+category: "data-structures"
+subcategory: "range-query"
+difficulty: "advanced"
+tags: [data-structures, range-query, offline, sqrt-decomposition]
+complexity:
+  time:
+    best: "O((N+Q)*sqrt(N))"
+    average: "O((N+Q)*sqrt(N))"
+    worst: "O((N+Q)*sqrt(N))"
+  space: "O(N+Q)"
+stable: null
+in_place: false
+related: [sqrt-decomposition, segment-tree]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

@@ -1,0 +1,130 @@
+{
+  "name": "Union-Find",
+  "slug": "union-find",
+  "category": "data-structures",
+  "subcategory": "disjoint-set",
+  "difficulty": "intermediate",
+  "tags": [
+    "data-structures",
+    "union-find",
+    "disjoint-set",
+    "path-compression",
+    "union-by-rank"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(1)",
+      "average": "O(alpha(n))",
+      "worst": "O(alpha(n))"
+    },
+    "space": "O(n)"
+  },
+  "stable": false,
+  "in_place": false,
+  "related": [
+    "tarjans-offline-lca"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "union_find.c",
+          "content": "#include <stdlib.h>\n\nstatic int uf_root(int parent[], int x) {\n    while (parent[x] != x) {\n        parent[x] = parent[parent[x]];\n        x = parent[x];\n    }\n    return x;\n}\n\nstatic void uf_union(int parent[], int rank[], int a, int b) {\n    int ra = uf_root(parent, a);\n    int rb = uf_root(parent, b);\n    if (ra == rb) {\n        return;\n    }\n    if (rank[ra] < rank[rb]) {\n        parent[ra] = rb;\n    } else if (rank[ra] > rank[rb]) {\n        parent[rb] = ra;\n    } else {\n        parent[rb] = ra;\n        rank[ra]++;\n    }\n}\n\nint* union_find_operations(int arr[], int size, int* out_size) {\n    if (size < 1) {\n        *out_size = 0;\n        return NULL;\n    }\n\n    int n = arr[0];\n    if (n < 0) {\n        *out_size = 0;\n        return NULL;\n    }\n\n    int remaining = size - 1;\n    if (remaining < 0 || (remaining % 3) != 0) {\n        *out_size = 0;\n        return NULL;\n    }\n\n    int op_count = remaining / 3;\n    int *parent = (int *)malloc((n > 0 ? n : 1) * sizeof(int));\n    int *rank = (int *)calloc((n > 0 ? n : 1), sizeof(int));\n    int *result = (int *)malloc((op_count > 0 ? op_count : 1) * sizeof(int));\n    if (!parent || !rank || !result) {\n        free(parent);\n        free(rank);\n        free(result);\n        *out_size = 0;\n        return NULL;\n    }\n\n    for (int i = 0; i < n; i++) {\n        parent[i] = i;\n    }\n\n    int result_count = 0;\n    int pos = 1;\n    for (int i = 0; i < op_count; i++) {\n        int type = arr[pos++];\n        int a = arr[pos++];\n        int b = arr[pos++];\n        if (type == 1) {\n            uf_union(parent, rank, a, b);\n        } else {\n            result[result_count++] = (uf_root(parent, a) == uf_root(parent, b)) ? 1 : 0;\n        }\n    }\n\n    free(parent);\n    free(rank);\n    *out_size = result_count;\n    return result;\n}\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "UnionFind.cpp",
+          "content": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nclass UnionFind {\n    vector<int> parent;\n    vector<int> rank_;\n\npublic:\n    UnionFind(int n) : parent(n), rank_(n, 0) {\n        for (int i = 0; i < n; i++) parent[i] = i;\n    }\n\n    int find(int x) {\n        if (parent[x] != x)\n            parent[x] = find(parent[x]);\n        return parent[x];\n    }\n\n    void unite(int x, int y) {\n        int px = find(x), py = find(y);\n        if (px == py) return;\n        if (rank_[px] < rank_[py]) swap(px, py);\n        parent[py] = px;\n        if (rank_[px] == rank_[py]) rank_[px]++;\n    }\n\n    bool connected(int x, int y) {\n        return find(x) == find(y);\n    }\n};\n\nint main() {\n    UnionFind uf(5);\n    uf.unite(0, 1);\n    uf.unite(1, 2);\n    cout << \"0 and 2 connected: \" << (uf.connected(0, 2) ? \"true\" : \"false\") << endl;\n    cout << \"0 and 3 connected: \" << (uf.connected(0, 3) ? \"true\" : \"false\") << endl;\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "UnionFind.cs",
+          "content": "using System;\n\nclass UnionFind\n{\n    private int[] parent;\n    private int[] rank;\n\n    public UnionFind(int n)\n    {\n        parent = new int[n];\n        rank = new int[n];\n        for (int i = 0; i < n; i++) parent[i] = i;\n    }\n\n    public int Find(int x)\n    {\n        if (parent[x] != x)\n            parent[x] = Find(parent[x]);\n        return parent[x];\n    }\n\n    public void Union(int x, int y)\n    {\n        int px = Find(x), py = Find(y);\n        if (px == py) return;\n        if (rank[px] < rank[py]) { int tmp = px; px = py; py = tmp; }\n        parent[py] = px;\n        if (rank[px] == rank[py]) rank[px]++;\n    }\n\n    public bool Connected(int x, int y)\n    {\n        return Find(x) == Find(y);\n    }\n\n    static void Main(string[] args)\n    {\n        var uf = new UnionFind(5);\n        uf.Union(0, 1);\n        uf.Union(1, 2);\n        Console.WriteLine(\"0 and 2 connected: \" + uf.Connected(0, 2));\n        Console.WriteLine(\"0 and 3 connected: \" + uf.Connected(0, 3));\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "UnionFind.go",
+          "content": "package unionfind\n\n// UnionFind implements a disjoint-set data structure with path compression and union by rank.\ntype UnionFind struct {\n\tparent []int\n\trank   []int\n}\n\n// New creates a new UnionFind with n elements.\nfunc New(n int) *UnionFind {\n\tparent := make([]int, n)\n\trank := make([]int, n)\n\tfor i := 0; i < n; i++ {\n\t\tparent[i] = i\n\t}\n\treturn &UnionFind{parent: parent, rank: rank}\n}\n\n// Find returns the root of the set containing x, with path compression.\nfunc (uf *UnionFind) Find(x int) int {\n\tif uf.parent[x] != x {\n\t\tuf.parent[x] = uf.Find(uf.parent[x])\n\t}\n\treturn uf.parent[x]\n}\n\n// Union merges the sets containing x and y.\nfunc (uf *UnionFind) Union(x, y int) {\n\tpx, py := uf.Find(x), uf.Find(y)\n\tif px == py {\n\t\treturn\n\t}\n\tif uf.rank[px] < uf.rank[py] {\n\t\tpx, py = py, px\n\t}\n\tuf.parent[py] = px\n\tif uf.rank[px] == uf.rank[py] {\n\t\tuf.rank[px]++\n\t}\n}\n\n// Connected checks if x and y are in the same set.\nfunc (uf *UnionFind) Connected(x, y int) bool {\n\treturn uf.Find(x) == uf.Find(y)\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "unionFind.java",
+          "content": "//union find algorithm purpose is to find if there is a path between 2 objects or not\n\npublic class unionFind {\n\tprivate int id[];\n\n\t// constructor takes number of objects\n\tpublic unionFind(int n) {\n\t\tid = new int[n];\n\t\t// set id of each object to itself\n\t\tfor (int i = 0; i < n; i++) {\n\t\t\tid[i] = i;\n\t\t}\n\t}\n\n\t/**\n\t * connect 2 objects together\n\t */\n\tpublic void union(final int n, final int m) {\n\t\tint nid = id[n];\n\t\tint mid = id[m];\n\n\t\tfor (int i = 0; i < id.length; i++) {\n\t\t\tif (id[i] == nid) {\n\t\t\t\tid[i] = mid;\n\t\t\t}\n\t\t}\n\t}\n\n\t/**\n\t * Find whether there is a path between these 2 Objects\n\t */\n\tpublic boolean intersected(final int n, final int m) {\n\t\t// checks if the 2 objects have the same id\n\t\treturn (id[n] == id[m]);\n\t}\n\n\tpublic static boolean[] unionFindOperations(int n, java.util.List<java.util.Map<Object, Object>> operations) {\n\t\tunionFind uf = new unionFind(n);\n\t\tjava.util.List<Boolean> answers = new java.util.ArrayList<>();\n\t\tfor (java.util.Map<Object, Object> operation : operations) {\n\t\t\tString type = String.valueOf(operation.get(\"type\"));\n\t\t\tint a = ((Number) operation.get(\"a\")).intValue();\n\t\t\tint b = ((Number) operation.get(\"b\")).intValue();\n\t\t\tif (\"union\".equals(type)) {\n\t\t\t\tuf.union(a, b);\n\t\t\t} else if (\"find\".equals(type)) {\n\t\t\t\tanswers.add(uf.intersected(a, b));\n\t\t\t}\n\t\t}\n\t\tboolean[] result = new boolean[answers.size()];\n\t\tfor (int i = 0; i < answers.size(); i++) {\n\t\t\tresult[i] = answers.get(i);\n\t\t}\n\t\treturn result;\n\t}\n\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "UnionFind.kt",
+          "content": "class UnionFind(n: Int) {\n    private val parent = IntArray(n) { it }\n    private val rank = IntArray(n)\n\n    fun find(x: Int): Int {\n        if (parent[x] != x)\n            parent[x] = find(parent[x])\n        return parent[x]\n    }\n\n    fun union(x: Int, y: Int) {\n        var px = find(x)\n        var py = find(y)\n        if (px == py) return\n        if (rank[px] < rank[py]) { val tmp = px; px = py; py = tmp }\n        parent[py] = px\n        if (rank[px] == rank[py]) rank[px]++\n    }\n\n    fun connected(x: Int, y: Int): Boolean {\n        return find(x) == find(y)\n    }\n}\n\ndata class UnionFindOperation(val type: String, val a: Int, val b: Int)\n\nfun unionFindOperations(n: Int, operations: List<UnionFindOperation>): BooleanArray {\n    val uf = UnionFind(n)\n    val results = mutableListOf<Boolean>()\n\n    for (operation in operations) {\n        when (operation.type) {\n            \"union\" -> uf.union(operation.a, operation.b)\n            \"find\" -> results.add(uf.connected(operation.a, operation.b))\n        }\n    }\n\n    return results.toBooleanArray()\n}\n\nfun main() {\n    val uf = UnionFind(5)\n    uf.union(0, 1)\n    uf.union(1, 2)\n    println(\"0 and 2 connected: ${uf.connected(0, 2)}\")\n    println(\"0 and 3 connected: ${uf.connected(0, 3)}\")\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "union_find.py",
+          "content": "#https://stackoverflow.com/questions/20154368/union-find-implementation-using-python\ndef union_find(lis):\n    lis = map(set, lis)\n    unions = []\n    for item in lis:\n        temp = []\n        for s in unions:\n            if s.isdisjoint(item):\n                temp.append(s)\n            else:\n                item = s.union(item)\n        temp.append(item)\n        unions = temp\n    return unions\n\n\n\nif __name__ == '__main__':\n    l = [[1, 2], [2, 3], [4, 5], [6, 7], [1, 7]]\n    print(union_find(l))\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "union_find.rs",
+          "content": "struct UnionFind {\n    parent: Vec<usize>,\n    rank: Vec<usize>,\n}\n\nimpl UnionFind {\n    fn new(n: usize) -> Self {\n        UnionFind {\n            parent: (0..n).collect(),\n            rank: vec![0; n],\n        }\n    }\n\n    fn find(&mut self, x: usize) -> usize {\n        if self.parent[x] != x {\n            self.parent[x] = self.find(self.parent[x]);\n        }\n        self.parent[x]\n    }\n\n    fn union(&mut self, x: usize, y: usize) {\n        let px = self.find(x);\n        let py = self.find(y);\n        if px == py {\n            return;\n        }\n        if self.rank[px] < self.rank[py] {\n            self.parent[px] = py;\n        } else if self.rank[px] > self.rank[py] {\n            self.parent[py] = px;\n        } else {\n            self.parent[py] = px;\n            self.rank[px] += 1;\n        }\n    }\n\n    fn connected(&mut self, x: usize, y: usize) -> bool {\n        self.find(x) == self.find(y)\n    }\n}\n\nfn main() {\n    let mut uf = UnionFind::new(5);\n    uf.union(0, 1);\n    uf.union(1, 2);\n    println!(\"0 and 2 connected: {}\", uf.connected(0, 2));\n    println!(\"0 and 3 connected: {}\", uf.connected(0, 3));\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "UnionFind.scala",
+          "content": "class UnionFind(n: Int) {\n  private val parent: Array[Int] = Array.tabulate(n)(identity)\n  private val rank: Array[Int] = Array.fill(n)(0)\n\n  def find(x: Int): Int = {\n    if (parent(x) != x)\n      parent(x) = find(parent(x))\n    parent(x)\n  }\n\n  def union(x: Int, y: Int): Unit = {\n    var px = find(x)\n    var py = find(y)\n    if (px == py) return\n    if (rank(px) < rank(py)) { val tmp = px; px = py; py = tmp }\n    parent(py) = px\n    if (rank(px) == rank(py)) rank(px) += 1\n  }\n\n  def connected(x: Int, y: Int): Boolean = {\n    find(x) == find(y)\n  }\n}\n\nobject UnionFindApp {\n  def main(args: Array[String]): Unit = {\n    val uf = new UnionFind(5)\n    uf.union(0, 1)\n    uf.union(1, 2)\n    println(s\"0 and 2 connected: ${uf.connected(0, 2)}\")\n    println(s\"0 and 3 connected: ${uf.connected(0, 3)}\")\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "UnionFind.swift",
+          "content": "class UnionFind {\n    private var parent: [Int]\n    private var rank: [Int]\n\n    init(_ n: Int) {\n        parent = Array(0..<n)\n        rank = Array(repeating: 0, count: n)\n    }\n\n    func find(_ x: Int) -> Int {\n        if parent[x] != x {\n            parent[x] = find(parent[x])\n        }\n        return parent[x]\n    }\n\n    func union(_ x: Int, _ y: Int) {\n        var px = find(x)\n        var py = find(y)\n        if px == py { return }\n        if rank[px] < rank[py] { swap(&px, &py) }\n        parent[py] = px\n        if rank[px] == rank[py] { rank[px] += 1 }\n    }\n\n    func connected(_ x: Int, _ y: Int) -> Bool {\n        return find(x) == find(y)\n    }\n}\n\nlet uf = UnionFind(5)\nuf.union(0, 1)\nuf.union(1, 2)\nprint(\"0 and 2 connected: \\(uf.connected(0, 2))\")\nprint(\"0 and 3 connected: \\(uf.connected(0, 3))\")\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "UnionFind.ts",
+          "content": "type UnionFindOperation =\n  | { type: 'union'; a: number; b: number }\n  | { type: 'find'; a: number; b: number };\n\nclass UnionFind {\n  private readonly parent: number[];\n  private readonly rank: number[];\n\n  constructor(n: number) {\n    this.parent = Array.from({ length: n }, (_, index) => index);\n    this.rank = new Array(n).fill(0);\n  }\n\n  find(node: number): number {\n    if (this.parent[node] !== node) {\n      this.parent[node] = this.find(this.parent[node]);\n    }\n\n    return this.parent[node];\n  }\n\n  union(a: number, b: number): void {\n    const rootA = this.find(a);\n    const rootB = this.find(b);\n\n    if (rootA === rootB) {\n      return;\n    }\n\n    if (this.rank[rootA] < this.rank[rootB]) {\n      this.parent[rootA] = rootB;\n    } else if (this.rank[rootA] > this.rank[rootB]) {\n      this.parent[rootB] = rootA;\n    } else {\n      this.parent[rootB] = rootA;\n      this.rank[rootA] += 1;\n    }\n  }\n\n  connected(a: number, b: number): boolean {\n    return this.find(a) === this.find(b);\n  }\n}\n\nexport function unionFindOperations(\n  n: number,\n  operations: UnionFindOperation[],\n): boolean[] {\n  const unionFind = new UnionFind(n);\n  const results: boolean[] = [];\n\n  for (const operation of operations) {\n    if (operation.type === 'union') {\n      unionFind.union(operation.a, operation.b);\n    } else if (operation.type === 'find') {\n      results.push(unionFind.connected(operation.a, operation.b));\n    }\n  }\n\n  return results;\n}\n\nexport const unionFind = unionFindOperations;\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "readme": "# Union-Find\n\n## Overview\n\nUnion-Find (also known as Disjoint Set Union or DSU) is a data structure that maintains a collection of disjoint (non-overlapping) sets. It supports two primary operations: **Find** (determine which set an element belongs to) and **Union** (merge two sets into one). With the optimizations of path compression and union by rank, both operations run in nearly O(1) amortized time -- specifically O(alpha(n)), where alpha is the inverse Ackermann function.\n\nUnion-Find is essential for Kruskal's minimum spanning tree algorithm, detecting cycles in graphs, and maintaining connected components in dynamic graphs. Its near-constant time operations make it one of the most efficient data structures in computer science.\n\n## How It Works\n\nEach set is represented as a tree, with a root element serving as the set's representative. The **Find** operation follows parent pointers from an element to its root. The **Union** operation connects two trees by making one root point to the other. Two key optimizations ensure efficiency:\n\n1. **Path compression:** During Find, all nodes on the path to the root are made to point directly to the root.\n2. **Union by rank:** When merging, the shorter tree is attached under the root of the taller tree, preventing degenerate chains.\n\n### Example\n\nOperations on elements {0, 1, 2, 3, 4, 5}:\n\n**Initial state (each element is its own set):**\n```\n{0} {1} {2} {3} {4} {5}\n 0   1   2   3   4   5    (each is its own root)\n```\n\n**Union(0, 1):**\n```\n  0      {2} {3} {4} {5}\n  |\n  1\n```\n\n**Union(2, 3):**\n```\n  0    2    {4} {5}\n  |    |\n  1    3\n```\n\n**Union(0, 2):**\n```\n    0        {4} {5}\n   / \\\n  1   2\n      |\n      3\n```\n\n**Find(3) with path compression:**\n\n| Step | Current node | Parent | Action |\n|------|-------------|--------|--------|\n| 1 | 3 | 2 | Follow parent |\n| 2 | 2 | 0 | Follow parent |\n| 3 | 0 | 0 (root) | Found root |\n| Compress | 3 -> 0 | - | 3 now points directly to 0 |\n| Compress | 2 -> 0 | - | 2 already points to 0 |\n\n**After path compression:**\n```\n      0          {4} {5}\n    / | \\\n   1  2  3\n```\n\n**Union(4, 5), then Union(0, 4):**\n```\n        0\n      / | \\ \\\n     1  2  3  4\n              |\n              5\n```\n\nSets: {0, 1, 2, 3, 4, 5} -- all connected.\n\n## Pseudocode\n\n```\nfunction makeSet(x):\n    parent[x] = x\n    rank[x] = 0\n\nfunction find(x):\n    if parent[x] != x:\n        parent[x] = find(parent[x])    // path compression\n    return parent[x]\n\nfunction union(x, y):\n    rootX = find(x)\n    rootY = find(y)\n\n    if rootX == rootY:\n        return    // already in the same set\n\n    // Union by rank\n    if rank[rootX] < rank[rootY]:\n        parent[rootX] = rootY\n    else if rank[rootX] > rank[rootY]:\n        parent[rootY] = rootX\n    else:\n        parent[rootY] = rootX\n        rank[rootX] = rank[rootX] + 1\n```\n\nPath compression flattens the tree structure during Find, while union by rank ensures the tree height grows logarithmically. Together, they yield nearly constant amortized time.\n\n## Complexity Analysis\n\n| Case    | Time        | Space |\n|---------|------------|-------|\n| Best    | O(1)       | O(n)  |\n| Average | O(alpha(n))| O(n)  |\n| Worst   | O(alpha(n))| O(n)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(1):** When an element's parent is already the root (common after path compression), Find returns immediately.\n\n- **Average Case -- O(alpha(n)):** With both path compression and union by rank, the amortized cost per operation is O(alpha(n)), where alpha(n) is the inverse Ackermann function. For all practical purposes, alpha(n) <= 4 for n up to 10^80.\n\n- **Worst Case -- O(alpha(n)):** The amortized analysis by Tarjan proves that any sequence of m operations on n elements takes O(m * alpha(n)) time total, giving O(alpha(n)) per operation.\n\n- **Space -- O(n):** Two arrays are needed: `parent[n]` for tree structure and `rank[n]` for balancing heuristic.\n\n## When to Use\n\n- **Kruskal's MST algorithm:** Efficiently detecting cycles when adding edges in order of weight.\n- **Dynamic connectivity queries:** Maintaining connected components as edges are added to a graph.\n- **Equivalence class merging:** When elements need to be grouped and group membership queried.\n- **Percolation problems:** Determining when a system becomes connected (used in physics and network analysis).\n- **Image processing:** Connected component labeling in binary images.\n\n## When NOT to Use\n\n- **When sets need to be split:** Union-Find only supports merging, not splitting sets. The split operation is not efficiently supported.\n- **When you need to enumerate all elements of a set:** Union-Find only identifies the representative; listing all members requires additional data structures.\n- **When edge deletion is needed:** Removing edges from the union structure is not supported. Use link-cut trees for dynamic forests.\n- **When the graph is static and known in advance:** BFS/DFS can compute connected components in O(V + E) without the overhead of Union-Find.\n\n## Comparison with Similar Algorithms\n\n| Data Structure | Find Time   | Union Time  | Space | Notes                                    |\n|---------------|------------|------------|-------|------------------------------------------|\n| Union-Find (optimized)| O(alpha(n))| O(alpha(n))| O(n) | Nearly constant; standard approach       |\n| Union-Find (naive)| O(n) | O(1) | O(n) | No optimizations; can degenerate to chain |\n| BFS/DFS Components| O(V+E) | N/A | O(V) | Static graphs only; one-time computation  |\n| Link-Cut Tree  | O(log n)* | O(log n)* | O(n) | *Amortized; supports edge deletion        |\n\n## Implementations\n\n| Language | File |\n|----------|------|\n| Python   | [union_find.py](python/union_find.py) |\n| Java     | [unionFind.java](java/unionFind.java) |\n| C        | [union_find.c](c/union_find.c) |\n\n## References\n\n- Tarjan, R. E. (1975). Efficiency of a good but not linear set union algorithm. *Journal of the ACM*, 22(2), 215-225.\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 21: Data Structures for Disjoint Sets.\n- [Disjoint-set Data Structure -- Wikipedia](https://en.wikipedia.org/wiki/Disjoint-set_data_structure)\n"
+}

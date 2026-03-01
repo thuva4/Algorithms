@@ -1,0 +1,46 @@
+{
+  "name": "Cocktail Shaker Sort",
+  "slug": "cocktail-shaker-sort",
+  "category": "sorting",
+  "subcategory": "comparison-based",
+  "difficulty": "beginner",
+  "tags": [
+    "sorting",
+    "comparison",
+    "stable",
+    "in-place",
+    "adaptive"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "average": "O(n^2)",
+      "worst": "O(n^2)"
+    },
+    "space": "O(1)"
+  },
+  "stable": true,
+  "in_place": true,
+  "related": [
+    "bubble-sort",
+    "cocktail-sort",
+    "insertion-sort"
+  ],
+  "implementations": {
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "shakersort.go",
+          "content": "package main\n\nfunc shakersort(array []int) {\n\tswapped := true\n\tfor swapped {\n\n\t\tswapped = false\n\t\tfor i := 0; i < len(array)-2; i++ {\n\t\t\tif array[i] > array[i+1] {\n\t\t\t\tarray[i], array[i+1] = array[i+1], array[i]\n\t\t\t\tswapped = true\n\t\t\t}\n\t\t}\n\n\t\tif !swapped {\n\t\t\tbreak\n\t\t}\n\n\t\tswapped = false\n\t\tfor i := len(array) - 2; i >= 0; i-- {\n\t\t\tif array[i] > array[i+1] {\n\t\t\t\tarray[i], array[i+1] = array[i+1], array[i]\n\t\t\t\tswapped = true\n\t\t\t}\n\t\t}\n\t}\n}\n\nfunc main() {}\n"
+        },
+        {
+          "filename": "shakersort_test.go",
+          "content": "package main\n\nimport (\n\t\"testing\"\n\n\t\"github.com/stretchr/testify/assert\"\n)\n\nfunc TestShakersort(t *testing.T) {\n\ttestArray := []int{5, 4, 6, 8, 1, 9, 4, 7, 3}\n\texpected := []int{1, 3, 4, 4, 5, 6, 7, 8, 9}\n\n\tshakersort(testArray)\n\tassert.Equal(t, testArray, expected, \"Arrays should be the same\")\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "readme": "# Cocktail Shaker Sort\n\n## Overview\n\nCocktail Shaker Sort (also known as Bidirectional Bubble Sort, Cocktail Sort, or Ripple Sort) is a variation of Bubble Sort that sorts in both directions on each pass through the list. While Bubble Sort only passes through the list from left to right (bubbling the largest unsorted element to the end), Cocktail Shaker Sort alternates between left-to-right and right-to-left passes. This bidirectional approach helps move small elements near the end of the list (\"turtles\") to the front more quickly, addressing one of Bubble Sort's main inefficiencies.\n\n## How It Works\n\n1. **Forward pass (left to right):** Compare adjacent pairs and swap if out of order, just like Bubble Sort. This moves the largest unsorted element to its correct position at the end.\n2. **Shrink the right boundary** by one (the last element is now sorted).\n3. **Backward pass (right to left):** Compare adjacent pairs and swap if out of order. This moves the smallest unsorted element to its correct position at the beginning.\n4. **Shrink the left boundary** by one (the first element is now sorted).\n5. **Repeat** until no swaps occur in a complete forward+backward pass, or the boundaries cross.\n\n## Example\n\nGiven input: `[5, 1, 4, 2, 8, 0, 2]`\n\n**Pass 1 (forward, left to right):**\n\n| Step | Comparison | Action | Array State |\n|------|-----------|--------|-------------|\n| 1 | `5` and `1` | Swap | `[1, 5, 4, 2, 8, 0, 2]` |\n| 2 | `5` and `4` | Swap | `[1, 4, 5, 2, 8, 0, 2]` |\n| 3 | `5` and `2` | Swap | `[1, 4, 2, 5, 8, 0, 2]` |\n| 4 | `5` and `8` | No swap | `[1, 4, 2, 5, 8, 0, 2]` |\n| 5 | `8` and `0` | Swap | `[1, 4, 2, 5, 0, 8, 2]` |\n| 6 | `8` and `2` | Swap | `[1, 4, 2, 5, 0, 2, 8]` |\n\n`8` is now in its correct final position.\n\n**Pass 1 (backward, right to left):**\n\n| Step | Comparison | Action | Array State |\n|------|-----------|--------|-------------|\n| 1 | `2` and `0` | No swap | `[1, 4, 2, 5, 0, 2, 8]` |\n| 2 | `0` and `5` | Swap | `[1, 4, 2, 0, 5, 2, 8]` |\n| 3 | `0` and `2` | Swap | `[1, 4, 0, 2, 5, 2, 8]` |\n| 4 | `0` and `4` | Swap | `[1, 0, 4, 2, 5, 2, 8]` |\n| 5 | `0` and `1` | Swap | `[0, 1, 4, 2, 5, 2, 8]` |\n\n`0` is now in its correct final position.\n\nAfter state: `[0, 1, 4, 2, 5, 2, 8]` -- boundaries narrowed, continue until sorted.\n\nFinal result: `[0, 1, 2, 2, 4, 5, 8]`\n\n## Pseudocode\n\n```\nfunction cocktailShakerSort(array):\n    n = length(array)\n    start = 0\n    end = n - 1\n    swapped = true\n\n    while swapped:\n        swapped = false\n\n        // Forward pass\n        for i from start to end - 1:\n            if array[i] > array[i + 1]:\n                swap(array[i], array[i + 1])\n                swapped = true\n        end = end - 1\n\n        if not swapped:\n            break\n\n        swapped = false\n\n        // Backward pass\n        for i from end down to start + 1:\n            if array[i - 1] > array[i]:\n                swap(array[i - 1], array[i])\n                swapped = true\n        start = start + 1\n\n    return array\n```\n\n## Complexity Analysis\n\n| Case    | Time   | Space |\n|---------|--------|-------|\n| Best    | O(n)   | O(1)  |\n| Average | O(n^2) | O(1)  |\n| Worst   | O(n^2) | O(1)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(n):** When the array is already sorted, the algorithm performs one forward pass with no swaps and terminates immediately. This requires n-1 comparisons.\n\n- **Average Case -- O(n^2):** On average, the bidirectional passes reduce the number of required iterations compared to Bubble Sort (roughly by a constant factor), but the asymptotic complexity remains quadratic.\n\n- **Worst Case -- O(n^2):** In the worst case, the algorithm still requires O(n) passes, each performing O(n) comparisons, for a total of O(n^2).\n\n- **Space -- O(1):** The algorithm sorts in-place, requiring only a few temporary variables.\n\n## When to Use\n\n- **Nearly sorted data with misplaced elements at both ends:** The bidirectional passes handle \"turtles\" (small elements near the end) much better than standard Bubble Sort.\n- **Educational purposes:** Demonstrates how a simple modification to Bubble Sort can improve practical performance.\n- **Small datasets:** For very small arrays where the overhead of more complex algorithms is not justified.\n- **When stability is required:** Cocktail Shaker Sort is a stable sort that preserves the relative order of equal elements.\n\n## When NOT to Use\n\n- **Large datasets:** O(n^2) time complexity makes it impractical for large inputs. Use O(n log n) algorithms instead.\n- **Performance-critical applications:** Even among quadratic sorts, Insertion Sort typically outperforms Cocktail Shaker Sort in practice.\n- **When better algorithms are available:** For virtually all practical use cases, Merge Sort, Quick Sort, or Tim Sort are superior choices.\n\n## Comparison\n\n| Algorithm            | Time (avg) | Time (best) | Space | Stable | Notes |\n|----------------------|-----------|-------------|-------|--------|-------|\n| Cocktail Shaker Sort | O(n^2)    | O(n)        | O(1)  | Yes    | Bidirectional; handles turtles |\n| Bubble Sort          | O(n^2)    | O(n)        | O(1)  | Yes    | Unidirectional; slow with turtles |\n| Insertion Sort       | O(n^2)    | O(n)        | O(1)  | Yes    | Generally faster in practice |\n| Gnome Sort           | O(n^2)    | O(n)        | O(1)  | Yes    | Similar concept; simpler code |\n| Comb Sort            | O(n^2)    | O(n log n)  | O(1)  | No     | Gap-based; much faster in practice |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Java       | [CocktailShakerSort.java](java/CocktailShakerSort.java) |\n| C++        | [cocktail_shaker_sort.cpp](cpp/cocktail_shaker_sort.cpp) |\n| C          | [cocktail_shaker_sort.c](c/cocktail_shaker_sort.c) |\n\n## References\n\n- Knuth, D. E. (1998). *The Art of Computer Programming, Volume 3: Sorting and Searching* (2nd ed.). Addison-Wesley. Section 5.2.2: Sorting by Exchanging.\n- [Cocktail Shaker Sort -- Wikipedia](https://en.wikipedia.org/wiki/Cocktail_shaker_sort)\n"
+}

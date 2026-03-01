@@ -1,0 +1,17 @@
+name: "Simulated Annealing"
+slug: "simulated-annealing"
+category: "math"
+subcategory: "optimization"
+difficulty: "advanced"
+tags: [math, optimization, metaheuristic, probabilistic, stochastic]
+complexity:
+  time:
+    best: "O(n * iterations)"
+    average: "O(n * iterations)"
+    worst: "O(n * iterations)"
+  space: "O(n)"
+stable: null
+in_place: false
+related: [newtons-method]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

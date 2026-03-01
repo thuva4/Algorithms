@@ -1,0 +1,132 @@
+{
+  "name": "Closest Pair of Points",
+  "slug": "closest-pair-of-points",
+  "category": "geometry",
+  "subcategory": "divide-and-conquer",
+  "difficulty": "intermediate",
+  "tags": [
+    "geometry",
+    "divide-and-conquer",
+    "distance",
+    "computational-geometry"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n log n)",
+      "average": "O(n log n)",
+      "worst": "O(n log n)"
+    },
+    "space": "O(n)"
+  },
+  "related": [
+    "convex-hull",
+    "line-intersection"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "closest_pair.c",
+          "content": "#include \"closest_pair.h\"\n#include <stdlib.h>\n#include <limits.h>\n\ntypedef struct { int x, y; } Point;\n\nstatic int dist_sq(Point a, Point b) {\n    return (a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y);\n}\n\nstatic int cmp_x(const void* a, const void* b) {\n    Point* pa = (Point*)a;\n    Point* pb = (Point*)b;\n    if (pa->x != pb->x) return pa->x - pb->x;\n    return pa->y - pb->y;\n}\n\nstatic int cmp_y(const void* a, const void* b) {\n    Point* pa = (Point*)a;\n    Point* pb = (Point*)b;\n    return pa->y - pb->y;\n}\n\nstatic int min_int(int a, int b) { return a < b ? a : b; }\n\nstatic int solve(Point* pts, int l, int r) {\n    if (r - l < 3) {\n        int mn = INT_MAX;\n        for (int i = l; i <= r; i++)\n            for (int j = i + 1; j <= r; j++)\n                mn = min_int(mn, dist_sq(pts[i], pts[j]));\n        return mn;\n    }\n\n    int mid = (l + r) / 2;\n    int midX = pts[mid].x;\n\n    int dl = solve(pts, l, mid);\n    int dr = solve(pts, mid + 1, r);\n    int d = min_int(dl, dr);\n\n    Point* strip = (Point*)malloc((r - l + 1) * sizeof(Point));\n    int sn = 0;\n    for (int i = l; i <= r; i++) {\n        if ((pts[i].x - midX) * (pts[i].x - midX) < d)\n            strip[sn++] = pts[i];\n    }\n    qsort(strip, sn, sizeof(Point), cmp_y);\n\n    for (int i = 0; i < sn; i++) {\n        for (int j = i + 1; j < sn &&\n                (strip[j].y - strip[i].y) * (strip[j].y - strip[i].y) < d; j++) {\n            d = min_int(d, dist_sq(strip[i], strip[j]));\n        }\n    }\n\n    free(strip);\n    return d;\n}\n\nint closest_pair(int* arr, int len) {\n    int n = len / 2;\n    Point* points = (Point*)malloc(n * sizeof(Point));\n    for (int i = 0; i < n; i++) {\n        points[i].x = arr[2 * i];\n        points[i].y = arr[2 * i + 1];\n    }\n    qsort(points, n, sizeof(Point), cmp_x);\n    int result = solve(points, 0, n - 1);\n    free(points);\n    return result;\n}\n"
+        },
+        {
+          "filename": "closest_pair.h",
+          "content": "#ifndef CLOSEST_PAIR_H\n#define CLOSEST_PAIR_H\n\nint closest_pair(int* arr, int len);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "closest_pair.cpp",
+          "content": "#include <vector>\n#include <algorithm>\n#include <climits>\n#include <cmath>\n\nusing namespace std;\n\nstatic int distSq(pair<int,int>& a, pair<int,int>& b) {\n    return (a.first - b.first) * (a.first - b.first) +\n           (a.second - b.second) * (a.second - b.second);\n}\n\nstatic int solve(vector<pair<int,int>>& pts, int l, int r) {\n    if (r - l < 3) {\n        int mn = INT_MAX;\n        for (int i = l; i <= r; i++)\n            for (int j = i + 1; j <= r; j++)\n                mn = min(mn, distSq(pts[i], pts[j]));\n        return mn;\n    }\n\n    int mid = (l + r) / 2;\n    int midX = pts[mid].first;\n\n    int dl = solve(pts, l, mid);\n    int dr = solve(pts, mid + 1, r);\n    int d = min(dl, dr);\n\n    vector<pair<int,int>> strip;\n    for (int i = l; i <= r; i++) {\n        if ((pts[i].first - midX) * (pts[i].first - midX) < d)\n            strip.push_back(pts[i]);\n    }\n    sort(strip.begin(), strip.end(), [](auto& a, auto& b) {\n        return a.second < b.second;\n    });\n\n    for (int i = 0; i < (int)strip.size(); i++) {\n        for (int j = i + 1; j < (int)strip.size() &&\n                (strip[j].second - strip[i].second) * (strip[j].second - strip[i].second) < d; j++) {\n            d = min(d, distSq(strip[i], strip[j]));\n        }\n    }\n\n    return d;\n}\n\nint closest_pair(vector<int> arr) {\n    int n = arr.size() / 2;\n    vector<pair<int,int>> points(n);\n    for (int i = 0; i < n; i++) {\n        points[i] = {arr[2*i], arr[2*i+1]};\n    }\n    sort(points.begin(), points.end());\n    return solve(points, 0, n - 1);\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "ClosestPair.cs",
+          "content": "using System;\nusing System.Collections.Generic;\nusing System.Linq;\n\npublic class ClosestPair\n{\n    public static int FindClosestPair(int[] arr)\n    {\n        int n = arr.Length / 2;\n        var points = new (int x, int y)[n];\n        for (int i = 0; i < n; i++)\n            points[i] = (arr[2 * i], arr[2 * i + 1]);\n\n        Array.Sort(points, (a, b) => a.x != b.x ? a.x.CompareTo(b.x) : a.y.CompareTo(b.y));\n        return Solve(points, 0, n - 1);\n    }\n\n    private static int DistSq((int x, int y) a, (int x, int y) b)\n    {\n        return (a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y);\n    }\n\n    private static int Solve((int x, int y)[] pts, int l, int r)\n    {\n        if (r - l < 3)\n        {\n            int mn = int.MaxValue;\n            for (int i = l; i <= r; i++)\n                for (int j = i + 1; j <= r; j++)\n                    mn = Math.Min(mn, DistSq(pts[i], pts[j]));\n            return mn;\n        }\n\n        int mid = (l + r) / 2;\n        int midX = pts[mid].x;\n\n        int dl = Solve(pts, l, mid);\n        int dr = Solve(pts, mid + 1, r);\n        int d = Math.Min(dl, dr);\n\n        var strip = new List<(int x, int y)>();\n        for (int i = l; i <= r; i++)\n        {\n            if ((pts[i].x - midX) * (pts[i].x - midX) < d)\n                strip.Add(pts[i]);\n        }\n        strip.Sort((a, b) => a.y.CompareTo(b.y));\n\n        for (int i = 0; i < strip.Count; i++)\n        {\n            for (int j = i + 1; j < strip.Count &&\n                    (strip[j].y - strip[i].y) * (strip[j].y - strip[i].y) < d; j++)\n            {\n                d = Math.Min(d, DistSq(strip[i], strip[j]));\n            }\n        }\n\n        return d;\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "closest_pair.go",
+          "content": "package closestpair\n\nimport (\n\t\"math\"\n\t\"sort\"\n)\n\ntype point struct {\n\tx, y int\n}\n\nfunc distSq(a, b point) int {\n\treturn (a.x-b.x)*(a.x-b.x) + (a.y-b.y)*(a.y-b.y)\n}\n\nfunc solve(pts []point, l, r int) int {\n\tif r-l < 3 {\n\t\tmn := math.MaxInt64\n\t\tfor i := l; i <= r; i++ {\n\t\t\tfor j := i + 1; j <= r; j++ {\n\t\t\t\td := distSq(pts[i], pts[j])\n\t\t\t\tif d < mn {\n\t\t\t\t\tmn = d\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t\treturn mn\n\t}\n\n\tmid := (l + r) / 2\n\tmidX := pts[mid].x\n\n\tdl := solve(pts, l, mid)\n\tdr := solve(pts, mid+1, r)\n\td := dl\n\tif dr < d {\n\t\td = dr\n\t}\n\n\tvar strip []point\n\tfor i := l; i <= r; i++ {\n\t\tif (pts[i].x-midX)*(pts[i].x-midX) < d {\n\t\t\tstrip = append(strip, pts[i])\n\t\t}\n\t}\n\tsort.Slice(strip, func(i, j int) bool {\n\t\treturn strip[i].y < strip[j].y\n\t})\n\n\tfor i := 0; i < len(strip); i++ {\n\t\tfor j := i + 1; j < len(strip) &&\n\t\t\t(strip[j].y-strip[i].y)*(strip[j].y-strip[i].y) < d; j++ {\n\t\t\tdd := distSq(strip[i], strip[j])\n\t\t\tif dd < d {\n\t\t\t\td = dd\n\t\t\t}\n\t\t}\n\t}\n\n\treturn d\n}\n\nfunc ClosestPair(arr []int) int {\n\tn := len(arr) / 2\n\tpoints := make([]point, n)\n\tfor i := 0; i < n; i++ {\n\t\tpoints[i] = point{arr[2*i], arr[2*i+1]}\n\t}\n\tsort.Slice(points, func(i, j int) bool {\n\t\tif points[i].x != points[j].x {\n\t\t\treturn points[i].x < points[j].x\n\t\t}\n\t\treturn points[i].y < points[j].y\n\t})\n\treturn solve(points, 0, n-1)\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "ClosestPair.java",
+          "content": "import java.util.Arrays;\nimport java.util.ArrayList;\nimport java.util.List;\n\npublic class ClosestPair {\n\n    public static int closestPair(int[] arr) {\n        int n = arr.length / 2;\n        int[][] points = new int[n][2];\n        for (int i = 0; i < n; i++) {\n            points[i][0] = arr[2 * i];\n            points[i][1] = arr[2 * i + 1];\n        }\n        Arrays.sort(points, (a, b) -> a[0] != b[0] ? a[0] - b[0] : a[1] - b[1]);\n        return solve(points, 0, n - 1);\n    }\n\n    private static int distSq(int[] p1, int[] p2) {\n        return (p1[0] - p2[0]) * (p1[0] - p2[0]) + (p1[1] - p2[1]) * (p1[1] - p2[1]);\n    }\n\n    private static int solve(int[][] points, int l, int r) {\n        if (r - l < 3) {\n            int min = Integer.MAX_VALUE;\n            for (int i = l; i <= r; i++) {\n                for (int j = i + 1; j <= r; j++) {\n                    min = Math.min(min, distSq(points[i], points[j]));\n                }\n            }\n            return min;\n        }\n\n        int mid = (l + r) / 2;\n        int midX = points[mid][0];\n\n        int dl = solve(points, l, mid);\n        int dr = solve(points, mid + 1, r);\n        int d = Math.min(dl, dr);\n\n        List<int[]> strip = new ArrayList<>();\n        for (int i = l; i <= r; i++) {\n            if ((points[i][0] - midX) * (points[i][0] - midX) < d) {\n                strip.add(points[i]);\n            }\n        }\n        strip.sort((a, b) -> a[1] - b[1]);\n\n        for (int i = 0; i < strip.size(); i++) {\n            for (int j = i + 1; j < strip.size() &&\n                    (strip.get(j)[1] - strip.get(i)[1]) * (strip.get(j)[1] - strip.get(i)[1]) < d; j++) {\n                d = Math.min(d, distSq(strip.get(i), strip.get(j)));\n            }\n        }\n\n        return d;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "ClosestPair.kt",
+          "content": "fun closestPair(arr: IntArray): Int {\n    val n = arr.size / 2\n    data class Point(val x: Int, val y: Int)\n\n    val points = Array(n) { Point(arr[2 * it], arr[2 * it + 1]) }\n    points.sortWith(compareBy({ it.x }, { it.y }))\n\n    fun distSq(a: Point, b: Point): Int =\n        (a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y)\n\n    fun solve(l: Int, r: Int): Int {\n        if (r - l < 3) {\n            var mn = Int.MAX_VALUE\n            for (i in l..r) {\n                for (j in (i + 1)..r) {\n                    mn = minOf(mn, distSq(points[i], points[j]))\n                }\n            }\n            return mn\n        }\n\n        val mid = (l + r) / 2\n        val midX = points[mid].x\n\n        val dl = solve(l, mid)\n        val dr = solve(mid + 1, r)\n        var d = minOf(dl, dr)\n\n        val strip = mutableListOf<Point>()\n        for (i in l..r) {\n            if ((points[i].x - midX) * (points[i].x - midX) < d) {\n                strip.add(points[i])\n            }\n        }\n        strip.sortBy { it.y }\n\n        for (i in strip.indices) {\n            var j = i + 1\n            while (j < strip.size && (strip[j].y - strip[i].y) * (strip[j].y - strip[i].y) < d) {\n                d = minOf(d, distSq(strip[i], strip[j]))\n                j++\n            }\n        }\n\n        return d\n    }\n\n    return solve(0, n - 1)\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "closest_pair.py",
+          "content": "def closest_pair(arr: list[int]) -> int:\n    n = len(arr) // 2\n    points = [(arr[2 * i], arr[2 * i + 1]) for i in range(n)]\n    points.sort()\n\n    def dist_sq(p1, p2):\n        return (p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2\n\n    def strip_closest(strip, d):\n        min_d = d\n        strip.sort(key=lambda p: p[1])\n        for i in range(len(strip)):\n            j = i + 1\n            while j < len(strip) and (strip[j][1] - strip[i][1]) ** 2 < min_d:\n                min_d = min(min_d, dist_sq(strip[i], strip[j]))\n                j += 1\n        return min_d\n\n    def solve(pts):\n        if len(pts) <= 3:\n            min_d = float('inf')\n            for i in range(len(pts)):\n                for j in range(i + 1, len(pts)):\n                    min_d = min(min_d, dist_sq(pts[i], pts[j]))\n            return min_d\n\n        mid = len(pts) // 2\n        mid_x = pts[mid][0]\n\n        dl = solve(pts[:mid])\n        dr = solve(pts[mid:])\n        d = min(dl, dr)\n\n        strip = [p for p in pts if (p[0] - mid_x) ** 2 < d]\n        return min(d, strip_closest(strip, d))\n\n    return solve(points)\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "closest_pair.rs",
+          "content": "pub fn closest_pair(arr: &[i32]) -> i32 {\n    let n = arr.len() / 2;\n    let mut points: Vec<(i32, i32)> = (0..n).map(|i| (arr[2 * i], arr[2 * i + 1])).collect();\n    points.sort();\n    solve(&points, 0, n as i32 - 1)\n}\n\nfn dist_sq(a: (i32, i32), b: (i32, i32)) -> i32 {\n    (a.0 - b.0) * (a.0 - b.0) + (a.1 - b.1) * (a.1 - b.1)\n}\n\nfn solve(pts: &[(i32, i32)], l: i32, r: i32) -> i32 {\n    if r - l < 3 {\n        let mut mn = i32::MAX;\n        for i in l..=r {\n            for j in (i + 1)..=r {\n                mn = mn.min(dist_sq(pts[i as usize], pts[j as usize]));\n            }\n        }\n        return mn;\n    }\n\n    let mid = (l + r) / 2;\n    let mid_x = pts[mid as usize].0;\n\n    let dl = solve(pts, l, mid);\n    let dr = solve(pts, mid + 1, r);\n    let mut d = dl.min(dr);\n\n    let mut strip: Vec<(i32, i32)> = Vec::new();\n    for i in l..=r {\n        if (pts[i as usize].0 - mid_x) * (pts[i as usize].0 - mid_x) < d {\n            strip.push(pts[i as usize]);\n        }\n    }\n    strip.sort_by_key(|p| p.1);\n\n    for i in 0..strip.len() {\n        let mut j = i + 1;\n        while j < strip.len() && (strip[j].1 - strip[i].1) * (strip[j].1 - strip[i].1) < d {\n            d = d.min(dist_sq(strip[i], strip[j]));\n            j += 1;\n        }\n    }\n\n    d\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "ClosestPair.scala",
+          "content": "object ClosestPair {\n\n  def closestPair(arr: Array[Int]): Int = {\n    val n = arr.length / 2\n    val points = Array.tabulate(n)(i => (arr(2 * i), arr(2 * i + 1)))\n    val sorted = points.sortBy(p => (p._1, p._2))\n\n    def distSq(a: (Int, Int), b: (Int, Int)): Int =\n      (a._1 - b._1) * (a._1 - b._1) + (a._2 - b._2) * (a._2 - b._2)\n\n    def solve(l: Int, r: Int): Int = {\n      if (r - l < 3) {\n        var mn = Int.MaxValue\n        for (i <- l to r; j <- (i + 1) to r)\n          mn = math.min(mn, distSq(sorted(i), sorted(j)))\n        return mn\n      }\n\n      val mid = (l + r) / 2\n      val midX = sorted(mid)._1\n\n      val dl = solve(l, mid)\n      val dr = solve(mid + 1, r)\n      var d = math.min(dl, dr)\n\n      val strip = (l to r).filter(i =>\n        (sorted(i)._1 - midX) * (sorted(i)._1 - midX) < d\n      ).map(sorted(_)).sortBy(_._2)\n\n      for (i <- strip.indices) {\n        var j = i + 1\n        while (j < strip.length && (strip(j)._2 - strip(i)._2) * (strip(j)._2 - strip(i)._2) < d) {\n          d = math.min(d, distSq(strip(i), strip(j)))\n          j += 1\n        }\n      }\n\n      d\n    }\n\n    solve(0, n - 1)\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "ClosestPair.swift",
+          "content": "func closestPair(_ arr: [Int]) -> Int {\n    let n = arr.count / 2\n    var points: [(Int, Int)] = (0..<n).map { (arr[2 * $0], arr[2 * $0 + 1]) }\n    points.sort { $0.0 != $1.0 ? $0.0 < $1.0 : $0.1 < $1.1 }\n\n    func distSq(_ a: (Int, Int), _ b: (Int, Int)) -> Int {\n        return (a.0 - b.0) * (a.0 - b.0) + (a.1 - b.1) * (a.1 - b.1)\n    }\n\n    if n < 2 { return 0 }\n\n    var best = Int.max\n    for i in 0..<(n - 1) {\n        for j in (i + 1)..<n {\n            best = min(best, distSq(points[i], points[j]))\n        }\n    }\n    return best\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "closestPair.ts",
+          "content": "export function closestPair(arr: number[]): number {\n    const n = arr.length / 2;\n    const points: [number, number][] = [];\n    for (let i = 0; i < n; i++) {\n        points.push([arr[2 * i], arr[2 * i + 1]]);\n    }\n    points.sort((a, b) => a[0] !== b[0] ? a[0] - b[0] : a[1] - b[1]);\n\n    function distSq(a: [number, number], b: [number, number]): number {\n        return (a[0] - b[0]) * (a[0] - b[0]) + (a[1] - b[1]) * (a[1] - b[1]);\n    }\n\n    function solve(l: number, r: number): number {\n        if (r - l < 3) {\n            let min = Infinity;\n            for (let i = l; i <= r; i++) {\n                for (let j = i + 1; j <= r; j++) {\n                    min = Math.min(min, distSq(points[i], points[j]));\n                }\n            }\n            return min;\n        }\n\n        const mid = Math.floor((l + r) / 2);\n        const midX = points[mid][0];\n\n        const dl = solve(l, mid);\n        const dr = solve(mid + 1, r);\n        let d = Math.min(dl, dr);\n\n        const strip: [number, number][] = [];\n        for (let i = l; i <= r; i++) {\n            if ((points[i][0] - midX) * (points[i][0] - midX) < d) {\n                strip.push(points[i]);\n            }\n        }\n        strip.sort((a, b) => a[1] - b[1]);\n\n        for (let i = 0; i < strip.length; i++) {\n            for (let j = i + 1; j < strip.length &&\n                    (strip[j][1] - strip[i][1]) * (strip[j][1] - strip[i][1]) < d; j++) {\n                d = Math.min(d, distSq(strip[i], strip[j]));\n            }\n        }\n\n        return d;\n    }\n\n    return solve(0, n - 1);\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Closest Pair of Points\n\n## Overview\n\nThe Closest Pair of Points algorithm finds the two points in a set that are nearest to each other, measured by Euclidean distance. The naive brute-force approach checks all O(n^2) pairs, but the divide-and-conquer strategy achieves O(n log n) time by recursively splitting the point set and efficiently combining results using a strip-based approach.\n\nThis is a fundamental problem in computational geometry with direct applications in collision detection, geographic analysis, and clustering.\n\n## How It Works\n\nThe divide-and-conquer algorithm proceeds as follows:\n\n1. **Sort** all points by x-coordinate.\n2. **Base case:** If there are 3 or fewer points, compute all pairwise distances directly.\n3. **Divide:** Split the points into two halves at the median x-coordinate.\n4. **Conquer:** Recursively find the closest pair in the left half (distance d_L) and right half (distance d_R).\n5. **Combine:** Let d = min(d_L, d_R). Build a strip of points whose x-coordinate is within distance d of the dividing line.\n6. **Strip check:** Sort strip points by y-coordinate. For each point, compare it with subsequent points in the strip whose y-coordinate difference is less than d. Due to a packing argument, at most 7 points need to be checked for each strip point.\n7. **Return** the overall minimum distance.\n\nThe key insight is the sparsity property: within the strip of width 2d, at most a constant number of points can exist in any d-by-d square, limiting the strip check to O(n) comparisons.\n\n## Worked Example\n\n**Input points:** (2,3), (12,30), (40,50), (5,1), (12,10), (3,4)\n\n**Step 1 -- Sort by x:** (2,3), (3,4), (5,1), (12,10), (12,30), (40,50)\n\n**Step 2 -- Divide** at median: Left = {(2,3), (3,4), (5,1)}, Right = {(12,10), (12,30), (40,50)}\n\n**Step 3 -- Left half (brute force, n=3):**\n- dist((2,3),(3,4)) = sqrt(1+1) = 1.414\n- dist((2,3),(5,1)) = sqrt(9+4) = 3.606\n- dist((3,4),(5,1)) = sqrt(4+9) = 3.606\n- d_L = 1.414\n\n**Step 4 -- Right half (brute force, n=3):**\n- dist((12,10),(12,30)) = 20.0\n- dist((12,10),(40,50)) = sqrt(784+1600) = 48.83\n- dist((12,30),(40,50)) = sqrt(784+400) = 34.41\n- d_R = 20.0\n\n**Step 5 -- Combine:** d = min(1.414, 20.0) = 1.414. Strip = points with |x - 5| < 1.414 = {(5,1), (3,4)} (midline at x~5). No cross-pair is closer than 1.414.\n\n**Result:** Closest pair is (2,3) and (3,4) with distance 1.414.\n\n## Pseudocode\n\n```\nfunction closestPair(points):\n    sort points by x-coordinate\n    return closestPairRec(points)\n\nfunction closestPairRec(P):\n    n = length(P)\n    if n <= 3:\n        return bruteForce(P)\n\n    mid = n / 2\n    midPoint = P[mid]\n    leftHalf = P[0..mid-1]\n    rightHalf = P[mid..n-1]\n\n    dL = closestPairRec(leftHalf)\n    dR = closestPairRec(rightHalf)\n    d = min(dL, dR)\n\n    // Build strip\n    strip = []\n    for each point p in P:\n        if |p.x - midPoint.x| < d:\n            strip.append(p)\n\n    sort strip by y-coordinate\n\n    // Check strip pairs\n    for i from 0 to length(strip) - 1:\n        for j from i+1 to length(strip) - 1:\n            if strip[j].y - strip[i].y >= d:\n                break\n            d = min(d, dist(strip[i], strip[j]))\n\n    return d\n```\n\n## Complexity Analysis\n\n| Case    | Time       | Space |\n|---------|------------|-------|\n| Best    | O(n log n) | O(n)  |\n| Average | O(n log n) | O(n)  |\n| Worst   | O(n log n) | O(n)  |\n\n- **Time -- O(n log n):** The recurrence is T(n) = 2T(n/2) + O(n log n) for the naive version (due to strip sorting at each level). Using a merge-sort style pre-sort, this reduces to T(n) = 2T(n/2) + O(n) = O(n log n).\n- **Space -- O(n):** Linear space for the sorted arrays and strip storage. Recursion stack depth is O(log n).\n\n## When to Use\n\n- **Collision detection in computer graphics:** Quickly identifying the closest objects in a scene.\n- **Geographic information systems (GIS):** Finding the nearest pair of facilities, landmarks, or data points.\n- **Air traffic control:** Detecting aircraft that are dangerously close to each other.\n- **Clustering algorithms:** As a subroutine in hierarchical clustering (single-linkage).\n- **Molecular simulation:** Identifying closest atom pairs for force calculations.\n- **Wireless networks:** Determining interference between closely placed transmitters.\n\n## When NOT to Use\n\n- **Small point sets (n < 50):** The brute-force O(n^2) approach has lower constant factors and is simpler. The overhead of the divide-and-conquer recursion is not worthwhile for small inputs.\n- **Higher dimensions:** The strip-based merge step relies on a 2D geometric argument. In d dimensions, the constant in the strip check grows exponentially. Use kd-trees or other spatial index structures instead.\n- **Dynamic point sets:** If points are frequently inserted or removed, rebuilding from scratch is wasteful. Use a kd-tree or a Voronoi diagram maintained incrementally.\n- **Approximate answers suffice:** Randomized grid-based algorithms can find an approximate closest pair in expected O(n) time.\n\n## Comparison\n\n| Approach | Time | Space | Notes |\n|----------|------|-------|-------|\n| Brute Force | O(n^2) | O(1) | Simple, best for small n |\n| Divide and Conquer | O(n log n) | O(n) | Optimal comparison-based algorithm |\n| Randomized (grid hashing) | O(n) expected | O(n) | Faster expected time but complex |\n| kd-tree based | O(n log n) build, O(log n) query | O(n) | Best for repeated queries or dynamic sets |\n\nThe divide-and-conquer approach is the standard textbook algorithm and is optimal among comparison-based methods. For a single batch query on a static set, it is the best choice. For repeated queries or dynamic sets, spatial data structures like kd-trees are preferred.\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [closest_pair.py](python/closest_pair.py) |\n| Java       | [ClosestPair.java](java/ClosestPair.java) |\n| C++        | [closest_pair.cpp](cpp/closest_pair.cpp) |\n| C          | [closest_pair.c](c/closest_pair.c) |\n| Go         | [closest_pair.go](go/closest_pair.go) |\n| TypeScript | [closestPair.ts](typescript/closestPair.ts) |\n| Rust       | [closest_pair.rs](rust/closest_pair.rs) |\n| Kotlin     | [ClosestPair.kt](kotlin/ClosestPair.kt) |\n| Swift      | [ClosestPair.swift](swift/ClosestPair.swift) |\n| Scala      | [ClosestPair.scala](scala/ClosestPair.scala) |\n| C#         | [ClosestPair.cs](csharp/ClosestPair.cs) |\n\n## References\n\n- Shamos, M. I., & Hoey, D. (1975). \"Closest-point problems.\" *16th Annual Symposium on Foundations of Computer Science*, 151-162.\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 33.4: Finding the closest pair of points.\n- de Berg, M., Cheong, O., van Kreveld, M., & Overmars, M. (2008). *Computational Geometry: Algorithms and Applications* (3rd ed.). Springer. Chapter 5.\n- [Closest pair of points problem -- Wikipedia](https://en.wikipedia.org/wiki/Closest_pair_of_points_problem)\n"
+}

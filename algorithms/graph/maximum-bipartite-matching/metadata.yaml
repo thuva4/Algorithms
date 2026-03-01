@@ -1,0 +1,17 @@
+name: "Maximum Bipartite Matching (Kuhn's Algorithm)"
+slug: "maximum-bipartite-matching"
+category: "graph"
+subcategory: "matching"
+difficulty: "intermediate"
+tags: [graph, bipartite, matching, augmenting-path, kuhn]
+complexity:
+  time:
+    best: "O(V * E)"
+    average: "O(V * E)"
+    worst: "O(V * E)"
+  space: "O(V + E)"
+stable: null
+in_place: false
+related: [bipartite-matching, bipartite-check]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

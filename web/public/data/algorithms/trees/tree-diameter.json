@@ -1,0 +1,134 @@
+{
+  "name": "Tree Diameter",
+  "slug": "tree-diameter",
+  "category": "trees",
+  "subcategory": "tree-properties",
+  "difficulty": "intermediate",
+  "tags": [
+    "trees",
+    "bfs",
+    "dfs",
+    "diameter",
+    "graph"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(V)",
+      "average": "O(V)",
+      "worst": "O(V)"
+    },
+    "space": "O(V)"
+  },
+  "stable": null,
+  "in_place": false,
+  "related": [
+    "breadth-first-search"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "tree_diameter.c",
+          "content": "#include <stdio.h>\n#include <stdlib.h>\n#include \"tree_diameter.h\"\n\nstatic void bfs(int start, int n, int** adj, int* adj_count, int* out_farthest, int* out_dist) {\n    int* dist = (int*)malloc(n * sizeof(int));\n    int* queue = (int*)malloc(n * sizeof(int));\n    int i, front = 0, back = 0;\n    for (i = 0; i < n; i++) dist[i] = -1;\n    dist[start] = 0;\n    queue[back++] = start;\n    int farthest = start;\n    while (front < back) {\n        int node = queue[front++];\n        for (i = 0; i < adj_count[node]; i++) {\n            int nb = adj[node][i];\n            if (dist[nb] == -1) {\n                dist[nb] = dist[node] + 1;\n                queue[back++] = nb;\n                if (dist[nb] > dist[farthest]) farthest = nb;\n            }\n        }\n    }\n    *out_farthest = farthest;\n    *out_dist = dist[farthest];\n    free(dist);\n    free(queue);\n}\n\nint tree_diameter(int* arr, int size) {\n    int idx = 0;\n    int n = arr[idx++];\n    if (n <= 1) return 0;\n\n    int m = (size - 1) / 2;\n    int** adj = (int**)malloc(n * sizeof(int*));\n    int* adj_count = (int*)calloc(n, sizeof(int));\n    int* adj_cap = (int*)malloc(n * sizeof(int));\n    int i;\n    for (i = 0; i < n; i++) { adj[i] = (int*)malloc(4 * sizeof(int)); adj_cap[i] = 4; }\n\n    for (i = 0; i < m; i++) {\n        int u = arr[idx++], v = arr[idx++];\n        if (adj_count[u] >= adj_cap[u]) { adj_cap[u] *= 2; adj[u] = (int*)realloc(adj[u], adj_cap[u] * sizeof(int)); }\n        adj[u][adj_count[u]++] = v;\n        if (adj_count[v] >= adj_cap[v]) { adj_cap[v] *= 2; adj[v] = (int*)realloc(adj[v], adj_cap[v] * sizeof(int)); }\n        adj[v][adj_count[v]++] = u;\n    }\n\n    int farthest, diameter;\n    bfs(0, n, adj, adj_count, &farthest, &diameter);\n    bfs(farthest, n, adj, adj_count, &farthest, &diameter);\n\n    for (i = 0; i < n; i++) free(adj[i]);\n    free(adj); free(adj_count); free(adj_cap);\n    return diameter;\n}\n\nint main() {\n    int a1[] = {4, 0, 1, 1, 2, 2, 3};\n    printf(\"%d\\n\", tree_diameter(a1, 7)); /* 3 */\n\n    int a2[] = {5, 0, 1, 0, 2, 0, 3, 0, 4};\n    printf(\"%d\\n\", tree_diameter(a2, 9)); /* 2 */\n\n    int a3[] = {2, 0, 1};\n    printf(\"%d\\n\", tree_diameter(a3, 3)); /* 1 */\n\n    int a4[] = {1};\n    printf(\"%d\\n\", tree_diameter(a4, 1)); /* 0 */\n\n    return 0;\n}\n"
+        },
+        {
+          "filename": "tree_diameter.h",
+          "content": "#ifndef TREE_DIAMETER_H\n#define TREE_DIAMETER_H\n\nint tree_diameter(int* arr, int size);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "tree_diameter.cpp",
+          "content": "#include <iostream>\n#include <vector>\n#include <queue>\nusing namespace std;\n\npair<int,int> bfs(int start, int n, const vector<vector<int>>& adj) {\n    vector<int> dist(n, -1);\n    dist[start] = 0;\n    queue<int> q;\n    q.push(start);\n    int farthest = start;\n    while (!q.empty()) {\n        int node = q.front(); q.pop();\n        for (int nb : adj[node]) {\n            if (dist[nb] == -1) {\n                dist[nb] = dist[node] + 1;\n                q.push(nb);\n                if (dist[nb] > dist[farthest]) farthest = nb;\n            }\n        }\n    }\n    return {farthest, dist[farthest]};\n}\n\nint treeDiameter(const vector<int>& arr) {\n    int idx = 0;\n    int n = arr[idx++];\n    if (n <= 1) return 0;\n\n    vector<vector<int>> adj(n);\n    int m = ((int)arr.size() - 1) / 2;\n    for (int i = 0; i < m; i++) {\n        int u = arr[idx++], v = arr[idx++];\n        adj[u].push_back(v);\n        adj[v].push_back(u);\n    }\n\n    auto [u, d1] = bfs(0, n, adj);\n    auto [v, diameter] = bfs(u, n, adj);\n    return diameter;\n}\n\nint main() {\n    cout << treeDiameter({4, 0, 1, 1, 2, 2, 3}) << endl;\n    cout << treeDiameter({5, 0, 1, 0, 2, 0, 3, 0, 4}) << endl;\n    cout << treeDiameter({2, 0, 1}) << endl;\n    cout << treeDiameter({1}) << endl;\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "TreeDiameter.cs",
+          "content": "using System;\nusing System.Collections.Generic;\n\npublic class TreeDiameter\n{\n    public static int Solve(int[] arr)\n    {\n        int idx = 0;\n        int n = arr[idx++];\n        if (n <= 1) return 0;\n\n        var adj = new List<int>[n];\n        for (int i = 0; i < n; i++) adj[i] = new List<int>();\n        int m = (arr.Length - 1) / 2;\n        for (int i = 0; i < m; i++)\n        {\n            int u = arr[idx++], v = arr[idx++];\n            adj[u].Add(v); adj[v].Add(u);\n        }\n\n        (int farthest, int dist) Bfs(int start)\n        {\n            int[] d = new int[n];\n            Array.Fill(d, -1);\n            d[start] = 0;\n            var queue = new Queue<int>();\n            queue.Enqueue(start);\n            int far = start;\n            while (queue.Count > 0)\n            {\n                int node = queue.Dequeue();\n                foreach (int nb in adj[node])\n                {\n                    if (d[nb] == -1)\n                    {\n                        d[nb] = d[node] + 1;\n                        queue.Enqueue(nb);\n                        if (d[nb] > d[far]) far = nb;\n                    }\n                }\n            }\n            return (far, d[far]);\n        }\n\n        var (u, _) = Bfs(0);\n        var (_, diameter) = Bfs(u);\n        return diameter;\n    }\n\n    static void Main(string[] args)\n    {\n        Console.WriteLine(Solve(new int[] { 4, 0, 1, 1, 2, 2, 3 }));\n        Console.WriteLine(Solve(new int[] { 5, 0, 1, 0, 2, 0, 3, 0, 4 }));\n        Console.WriteLine(Solve(new int[] { 2, 0, 1 }));\n        Console.WriteLine(Solve(new int[] { 1 }));\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "tree_diameter.go",
+          "content": "package main\n\nimport \"fmt\"\n\nfunc bfsDiameter(start, n int, adj [][]int) (int, int) {\n\tdist := make([]int, n)\n\tfor i := range dist { dist[i] = -1 }\n\tdist[start] = 0\n\tqueue := []int{start}\n\tfarthest := start\n\tfor len(queue) > 0 {\n\t\tnode := queue[0]; queue = queue[1:]\n\t\tfor _, nb := range adj[node] {\n\t\t\tif dist[nb] == -1 {\n\t\t\t\tdist[nb] = dist[node] + 1\n\t\t\t\tqueue = append(queue, nb)\n\t\t\t\tif dist[nb] > dist[farthest] { farthest = nb }\n\t\t\t}\n\t\t}\n\t}\n\treturn farthest, dist[farthest]\n}\n\nfunc TreeDiameter(arr []int) int {\n\tidx := 0\n\tn := arr[idx]; idx++\n\tif n <= 1 { return 0 }\n\n\tadj := make([][]int, n)\n\tm := (len(arr) - 1) / 2\n\tfor i := 0; i < m; i++ {\n\t\tu := arr[idx]; idx++\n\t\tv := arr[idx]; idx++\n\t\tadj[u] = append(adj[u], v)\n\t\tadj[v] = append(adj[v], u)\n\t}\n\n\tu, _ := bfsDiameter(0, n, adj)\n\t_, diameter := bfsDiameter(u, n, adj)\n\treturn diameter\n}\n\nfunc main() {\n\tfmt.Println(TreeDiameter([]int{4, 0, 1, 1, 2, 2, 3}))\n\tfmt.Println(TreeDiameter([]int{5, 0, 1, 0, 2, 0, 3, 0, 4}))\n\tfmt.Println(TreeDiameter([]int{2, 0, 1}))\n\tfmt.Println(TreeDiameter([]int{1}))\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "TreeDiameter.java",
+          "content": "import java.util.*;\n\npublic class TreeDiameter {\n\n    public static int treeDiameter(int[] arr) {\n        int idx = 0;\n        int n = arr[idx++];\n        if (n <= 1) return 0;\n\n        List<Integer>[] adj = new ArrayList[n];\n        for (int i = 0; i < n; i++) adj[i] = new ArrayList<>();\n        int m = (arr.length - 1) / 2;\n        for (int i = 0; i < m; i++) {\n            int u = arr[idx++], v = arr[idx++];\n            adj[u].add(v);\n            adj[v].add(u);\n        }\n\n        int[] result = bfs(0, n, adj);\n        result = bfs(result[0], n, adj);\n        return result[1];\n    }\n\n    private static int[] bfs(int start, int n, List<Integer>[] adj) {\n        int[] dist = new int[n];\n        Arrays.fill(dist, -1);\n        dist[start] = 0;\n        Queue<Integer> queue = new LinkedList<>();\n        queue.add(start);\n        int farthest = start;\n        while (!queue.isEmpty()) {\n            int node = queue.poll();\n            for (int nb : adj[node]) {\n                if (dist[nb] == -1) {\n                    dist[nb] = dist[node] + 1;\n                    queue.add(nb);\n                    if (dist[nb] > dist[farthest]) farthest = nb;\n                }\n            }\n        }\n        return new int[]{farthest, dist[farthest]};\n    }\n\n    public static void main(String[] args) {\n        System.out.println(treeDiameter(new int[]{4, 0, 1, 1, 2, 2, 3}));\n        System.out.println(treeDiameter(new int[]{5, 0, 1, 0, 2, 0, 3, 0, 4}));\n        System.out.println(treeDiameter(new int[]{2, 0, 1}));\n        System.out.println(treeDiameter(new int[]{1}));\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "TreeDiameter.kt",
+          "content": "fun treeDiameter(arr: IntArray): Int {\n    var idx = 0\n    val n = arr[idx++]\n    if (n <= 1) return 0\n\n    val adj = Array(n) { mutableListOf<Int>() }\n    val m = (arr.size - 1) / 2\n    for (i in 0 until m) {\n        val u = arr[idx++]; val v = arr[idx++]\n        adj[u].add(v); adj[v].add(u)\n    }\n\n    fun bfs(start: Int): Pair<Int, Int> {\n        val dist = IntArray(n) { -1 }\n        dist[start] = 0\n        val queue = ArrayDeque<Int>()\n        queue.add(start)\n        var farthest = start\n        while (queue.isNotEmpty()) {\n            val node = queue.removeFirst()\n            for (nb in adj[node]) {\n                if (dist[nb] == -1) {\n                    dist[nb] = dist[node] + 1\n                    queue.add(nb)\n                    if (dist[nb] > dist[farthest]) farthest = nb\n                }\n            }\n        }\n        return Pair(farthest, dist[farthest])\n    }\n\n    val (u, _) = bfs(0)\n    val (_, diameter) = bfs(u)\n    return diameter\n}\n\nfun main() {\n    println(treeDiameter(intArrayOf(4, 0, 1, 1, 2, 2, 3)))\n    println(treeDiameter(intArrayOf(5, 0, 1, 0, 2, 0, 3, 0, 4)))\n    println(treeDiameter(intArrayOf(2, 0, 1)))\n    println(treeDiameter(intArrayOf(1)))\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "tree_diameter.py",
+          "content": "from collections import deque\n\n\ndef tree_diameter(arr):\n    \"\"\"\n    Find the diameter of an unweighted tree using two BFS passes.\n\n    Input format: [n, u1, v1, u2, v2, ...]\n    Returns: diameter (number of edges in the longest path)\n    \"\"\"\n    idx = 0\n    n = arr[idx]; idx += 1\n\n    if n <= 1:\n        return 0\n\n    adj = [[] for _ in range(n)]\n    m = (len(arr) - 1) // 2\n    for _ in range(m):\n        u = arr[idx]; idx += 1\n        v = arr[idx]; idx += 1\n        adj[u].append(v)\n        adj[v].append(u)\n\n    def bfs(start):\n        dist = [-1] * n\n        dist[start] = 0\n        queue = deque([start])\n        farthest = start\n        while queue:\n            node = queue.popleft()\n            for neighbor in adj[node]:\n                if dist[neighbor] == -1:\n                    dist[neighbor] = dist[node] + 1\n                    queue.append(neighbor)\n                    if dist[neighbor] > dist[farthest]:\n                        farthest = neighbor\n        return farthest, dist[farthest]\n\n    u, _ = bfs(0)\n    _, diameter = bfs(u)\n    return diameter\n\n\nif __name__ == \"__main__\":\n    print(tree_diameter([4, 0, 1, 1, 2, 2, 3]))  # 3\n    print(tree_diameter([5, 0, 1, 0, 2, 0, 3, 0, 4]))  # 2\n    print(tree_diameter([2, 0, 1]))  # 1\n    print(tree_diameter([1]))  # 0\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "tree_diameter.rs",
+          "content": "pub fn tree_diameter(arr: &[i32]) -> i32 {\n    let mut idx = 0;\n    let n = arr[idx] as usize; idx += 1;\n    if n <= 1 { return 0; }\n\n    let mut adj: Vec<Vec<usize>> = vec![vec![]; n];\n    let m = (arr.len() - 1) / 2;\n    for _ in 0..m {\n        let u = arr[idx] as usize; idx += 1;\n        let v = arr[idx] as usize; idx += 1;\n        adj[u].push(v);\n        adj[v].push(u);\n    }\n\n    fn bfs(start: usize, n: usize, adj: &[Vec<usize>]) -> (usize, i32) {\n        let mut dist = vec![-1i32; n];\n        dist[start] = 0;\n        let mut queue = std::collections::VecDeque::new();\n        queue.push_back(start);\n        let mut farthest = start;\n        while let Some(node) = queue.pop_front() {\n            for &nb in &adj[node] {\n                if dist[nb] == -1 {\n                    dist[nb] = dist[node] + 1;\n                    queue.push_back(nb);\n                    if dist[nb] > dist[farthest] { farthest = nb; }\n                }\n            }\n        }\n        (farthest, dist[farthest])\n    }\n\n    let (u, _) = bfs(0, n, &adj);\n    let (_, diameter) = bfs(u, n, &adj);\n    diameter\n}\n\nfn main() {\n    println!(\"{}\", tree_diameter(&[4, 0, 1, 1, 2, 2, 3]));\n    println!(\"{}\", tree_diameter(&[5, 0, 1, 0, 2, 0, 3, 0, 4]));\n    println!(\"{}\", tree_diameter(&[2, 0, 1]));\n    println!(\"{}\", tree_diameter(&[1]));\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "TreeDiameter.scala",
+          "content": "object TreeDiameter {\n\n  def treeDiameter(arr: Array[Int]): Int = {\n    var idx = 0\n    val n = arr(idx); idx += 1\n    if (n <= 1) return 0\n\n    val adj = Array.fill(n)(scala.collection.mutable.ListBuffer[Int]())\n    val m = (arr.length - 1) / 2\n    for (_ <- 0 until m) {\n      val u = arr(idx); idx += 1\n      val v = arr(idx); idx += 1\n      adj(u) += v; adj(v) += u\n    }\n\n    def bfs(start: Int): (Int, Int) = {\n      val dist = Array.fill(n)(-1)\n      dist(start) = 0\n      val queue = scala.collection.mutable.Queue(start)\n      var farthest = start\n      while (queue.nonEmpty) {\n        val node = queue.dequeue()\n        for (nb <- adj(node)) {\n          if (dist(nb) == -1) {\n            dist(nb) = dist(node) + 1\n            queue.enqueue(nb)\n            if (dist(nb) > dist(farthest)) farthest = nb\n          }\n        }\n      }\n      (farthest, dist(farthest))\n    }\n\n    val (u, _) = bfs(0)\n    val (_, diameter) = bfs(u)\n    diameter\n  }\n\n  def main(args: Array[String]): Unit = {\n    println(treeDiameter(Array(4, 0, 1, 1, 2, 2, 3)))\n    println(treeDiameter(Array(5, 0, 1, 0, 2, 0, 3, 0, 4)))\n    println(treeDiameter(Array(2, 0, 1)))\n    println(treeDiameter(Array(1)))\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "TreeDiameter.swift",
+          "content": "func treeDiameter(_ arr: [Int]) -> Int {\n    var idx = 0\n    let n = arr[idx]; idx += 1\n    if n <= 1 { return 0 }\n\n    var adj = Array(repeating: [Int](), count: n)\n    let m = (arr.count - 1) / 2\n    for _ in 0..<m {\n        let u = arr[idx]; idx += 1\n        let v = arr[idx]; idx += 1\n        adj[u].append(v); adj[v].append(u)\n    }\n\n    func bfs(_ start: Int) -> (Int, Int) {\n        var dist = Array(repeating: -1, count: n)\n        dist[start] = 0\n        var queue = [start]\n        var front = 0\n        var farthest = start\n        while front < queue.count {\n            let node = queue[front]; front += 1\n            for nb in adj[node] {\n                if dist[nb] == -1 {\n                    dist[nb] = dist[node] + 1\n                    queue.append(nb)\n                    if dist[nb] > dist[farthest] { farthest = nb }\n                }\n            }\n        }\n        return (farthest, dist[farthest])\n    }\n\n    let (u, _) = bfs(0)\n    let (_, diameter) = bfs(u)\n    return diameter\n}\n\nprint(treeDiameter([4, 0, 1, 1, 2, 2, 3]))\nprint(treeDiameter([5, 0, 1, 0, 2, 0, 3, 0, 4]))\nprint(treeDiameter([2, 0, 1]))\nprint(treeDiameter([1]))\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "treeDiameter.ts",
+          "content": "export function treeDiameter(arr: number[]): number {\n    let idx = 0;\n    const n = arr[idx++];\n    if (n <= 1) return 0;\n\n    const adj: number[][] = Array.from({ length: n }, () => []);\n    const m = (arr.length - 1) >> 1;\n    for (let i = 0; i < m; i++) {\n        const u = arr[idx++], v = arr[idx++];\n        adj[u].push(v);\n        adj[v].push(u);\n    }\n\n    function bfs(start: number): [number, number] {\n        const dist = new Array(n).fill(-1);\n        dist[start] = 0;\n        const queue = [start];\n        let front = 0, farthest = start;\n        while (front < queue.length) {\n            const node = queue[front++];\n            for (const nb of adj[node]) {\n                if (dist[nb] === -1) {\n                    dist[nb] = dist[node] + 1;\n                    queue.push(nb);\n                    if (dist[nb] > dist[farthest]) farthest = nb;\n                }\n            }\n        }\n        return [farthest, dist[farthest]];\n    }\n\n    const [u] = bfs(0);\n    const [, diameter] = bfs(u);\n    return diameter;\n}\n\nconsole.log(treeDiameter([4, 0, 1, 1, 2, 2, 3]));\nconsole.log(treeDiameter([5, 0, 1, 0, 2, 0, 3, 0, 4]));\nconsole.log(treeDiameter([2, 0, 1]));\nconsole.log(treeDiameter([1]));\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Tree Diameter\n\n## Overview\n\nThe diameter of a tree is the length of the longest path between any two nodes. This path is also called the \"longest path\" or \"eccentricity\" of the tree. The two-BFS (or two-DFS) algorithm finds the diameter of an unweighted tree in O(V) time by exploiting the property that one endpoint of the diameter is always the farthest node from any arbitrary starting node. This algorithm works for both unweighted trees (counting edges) and weighted trees (summing edge weights).\n\n## How It Works\n\n1. **First BFS/DFS:** Start from any arbitrary node (e.g., node 0). Find the farthest node `u` from this starting point. Node `u` is guaranteed to be one endpoint of a diameter path.\n2. **Second BFS/DFS:** Start from node `u`. Find the farthest node `v` from `u`. The distance from `u` to `v` is the diameter of the tree.\n3. **Correctness proof sketch:** Suppose the diameter is the path from `a` to `b`. Starting BFS from any node `s`, the farthest node `u` must be either `a` or `b` (or another endpoint of an equally long path). This is because if `u` were not a diameter endpoint, we could construct a longer path, contradicting the definition.\n\n## Example\n\n**Tree:**\n```\n    0\n   / \\\n  1   2\n / \\\n3   4\n    |\n    5\n    |\n    6\n```\n\nEdges: (0,1), (0,2), (1,3), (1,4), (4,5), (5,6)\n\n**Step 1: BFS from node 0.**\n\n| Node | Distance from 0 |\n|------|-----------------|\n| 0    | 0               |\n| 1    | 1               |\n| 2    | 1               |\n| 3    | 2               |\n| 4    | 2               |\n| 5    | 3               |\n| 6    | 4               |\n\nFarthest node: **u = 6** (distance 4).\n\n**Step 2: BFS from node 6.**\n\n| Node | Distance from 6 |\n|------|-----------------|\n| 6    | 0               |\n| 5    | 1               |\n| 4    | 2               |\n| 1    | 3               |\n| 0    | 4               |\n| 3    | 4               |\n| 2    | 5               |\n\nFarthest node: **v = 2** (distance 5).\n\n**Diameter = 5** (path: 2 -- 0 -- 1 -- 4 -- 5 -- 6, which has 5 edges).\n\n## Pseudocode\n\n```\nfunction BFS_FARTHEST(adj, start, n):\n    dist = array of -1, size n\n    dist[start] = 0\n    queue = [start]\n    farthest_node = start\n    max_dist = 0\n    while queue is not empty:\n        v = queue.dequeue()\n        for u in adj[v]:\n            if dist[u] == -1:\n                dist[u] = dist[v] + 1\n                if dist[u] > max_dist:\n                    max_dist = dist[u]\n                    farthest_node = u\n                queue.enqueue(u)\n    return (farthest_node, max_dist)\n\nfunction TREE_DIAMETER(adj, n):\n    (u, _) = BFS_FARTHEST(adj, 0, n)       // any start node\n    (v, diameter) = BFS_FARTHEST(adj, u, n)\n    return diameter\n\n// Alternative: DFS-based (useful for weighted trees)\nfunction DFS_FARTHEST(adj, v, parent, dist):\n    farthest = (v, dist)\n    for (u, weight) in adj[v]:\n        if u != parent:\n            candidate = DFS_FARTHEST(adj, u, v, dist + weight)\n            if candidate.dist > farthest.dist:\n                farthest = candidate\n    return farthest\n\n// Alternative: Single DFS (compute diameter via subtree depths)\nfunction DIAMETER_SINGLE_DFS(adj, root):\n    diameter = 0\n\n    function DEPTH(v, parent):\n        max1 = 0, max2 = 0    // two longest depths among children\n        for u in adj[v]:\n            if u != parent:\n                d = DEPTH(u, v) + 1\n                if d > max1:\n                    max2 = max1; max1 = d\n                elif d > max2:\n                    max2 = d\n        diameter = max(diameter, max1 + max2)\n        return max1\n\n    DEPTH(root, -1)\n    return diameter\n```\n\n## Complexity Analysis\n\n| Algorithm | Time | Space |\n|-----------|------|-------|\n| Two-BFS | O(V + E) = O(V) for trees | O(V) |\n| Two-DFS | O(V + E) = O(V) for trees | O(V) recursion stack |\n| Single DFS | O(V + E) = O(V) for trees | O(V) recursion stack |\n| Brute force (all pairs) | O(V^2) | O(V) |\n\nSince a tree has exactly V - 1 edges, E = V - 1, so all linear-time algorithms run in O(V).\n\n## When to Use\n\n- **Finding the longest path in a tree:** The most basic use case -- network latency analysis, finding the critical path.\n- **Tree center finding:** The center of a tree (node minimizing maximum distance to any other node) lies on the diameter path. Finding the diameter first enables finding the center in O(V).\n- **Competitive programming:** Many tree problems involve the diameter as a subroutine (e.g., \"find the two farthest nodes,\" \"minimize the maximum distance after adding an edge\").\n- **Network design:** Finding the worst-case communication delay in a tree network.\n- **Phylogenetic analysis:** Finding the most divergent pair of species in an evolutionary tree.\n\n## When NOT to Use\n\n- **Graphs with cycles:** The two-BFS trick relies on the tree structure (no cycles, unique paths). For general graphs, finding the diameter requires all-pairs shortest paths (Floyd-Warshall) or BFS from every node.\n- **Directed trees:** The algorithm assumes undirected edges. For directed trees (rooted), the concept changes to \"longest directed path.\"\n- **When you need all eccentricities:** If you need the eccentricity (farthest distance) for every node, not just the global maximum, a single diameter computation is insufficient. Use a more comprehensive approach.\n- **Weighted graphs with negative weights:** The BFS approach does not work with negative edge weights. Use DFS or modify the algorithm for weighted trees.\n\n## Comparison\n\n| Method | Time | Space | Works for | Notes |\n|--------|------|-------|-----------|-------|\n| Two-BFS | O(V) | O(V) | Unweighted trees | Simplest; iterative |\n| Two-DFS | O(V) | O(V) stack | Weighted/unweighted trees | May hit recursion limits |\n| Single DFS | O(V) | O(V) stack | Weighted/unweighted trees | Computes diameter without identifying endpoints |\n| All-pairs BFS | O(V^2) | O(V) | Any graph | Brute force, general |\n| DP on tree | O(V) | O(V) | Rooted trees | Works bottom-up |\n\n## References\n\n- Bulterman, R. W.; van der Sommen, F. W.; Zwaan, G.; Verhoeff, T.; van Gasteren, A. J. M.; Feijen, W. H. J. (2002). \"On computing a longest path in a tree.\" *Information Processing Letters*, 81(2), 93-96.\n- Cormen, T. H.; Leiserson, C. E.; Rivest, R. L.; Stein, C. (2009). *Introduction to Algorithms*, 3rd ed. MIT Press. Problem 22-2.\n- Halim, S.; Halim, F. (2013). *Competitive Programming 3*. Section on Tree Diameter.\n- \"Tree Diameter.\" *CP-Algorithms*. https://cp-algorithms.com/\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [tree_diameter.py](python/tree_diameter.py) |\n| Java       | [TreeDiameter.java](java/TreeDiameter.java) |\n| C++        | [tree_diameter.cpp](cpp/tree_diameter.cpp) |\n| C          | [tree_diameter.c](c/tree_diameter.c) |\n| Go         | [tree_diameter.go](go/tree_diameter.go) |\n| TypeScript | [treeDiameter.ts](typescript/treeDiameter.ts) |\n| Rust       | [tree_diameter.rs](rust/tree_diameter.rs) |\n| Kotlin     | [TreeDiameter.kt](kotlin/TreeDiameter.kt) |\n| Swift      | [TreeDiameter.swift](swift/TreeDiameter.swift) |\n| Scala      | [TreeDiameter.scala](scala/TreeDiameter.scala) |\n| C#         | [TreeDiameter.cs](csharp/TreeDiameter.cs) |\n"
+}

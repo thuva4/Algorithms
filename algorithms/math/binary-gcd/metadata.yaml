@@ -1,0 +1,17 @@
+name: "Binary GCD"
+slug: "binary-gcd"
+category: "math"
+subcategory: "number-theory"
+difficulty: "intermediate"
+tags: [math, gcd, binary, stein-algorithm, bitwise]
+complexity:
+  time:
+    best: "O(1)"
+    average: "O(log(min(a,b))^2)"
+    worst: "O(log(min(a,b))^2)"
+  space: "O(1)"
+stable: false
+in_place: true
+related: [greatest-common-divisor, extended-euclidean]
+implementations: [python, java, cpp, go]
+visualization: false

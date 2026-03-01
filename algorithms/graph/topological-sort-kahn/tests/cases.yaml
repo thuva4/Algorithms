@@ -1,0 +1,29 @@
+algorithm: "topological-sort-kahn"
+function_signature:
+  name: "topological_sort_kahn"
+  input: [array_of_integers]
+  output: array_of_integers
+test_cases:
+  - name: "diamond graph"
+    input: [[4, 4, 0, 1, 0, 2, 1, 3, 2, 3]]
+    expected: [0, 1, 2, 3]
+    note: "or [0, 2, 1, 3] -- any valid topological order"
+  - name: "simple chain"
+    input: [[2, 1, 0, 1]]
+    expected: [0, 1]
+  - name: "linear chain of three"
+    input: [[3, 2, 0, 1, 1, 2]]
+    expected: [0, 1, 2]
+  - name: "cycle detection"
+    input: [[3, 3, 0, 1, 1, 2, 2, 0]]
+    expected: []
+  - name: "single vertex"
+    input: [[1, 0]]
+    expected: [0]
+  - name: "two disconnected vertices"
+    input: [[2, 0]]
+    expected: [0, 1]
+    note: "or [1, 0] -- any valid topological order"
+  - name: "self loop cycle"
+    input: [[1, 1, 0, 0]]
+    expected: []

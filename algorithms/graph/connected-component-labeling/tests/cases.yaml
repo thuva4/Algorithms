@@ -1,0 +1,33 @@
+algorithm: "connected-component-labeling"
+function_signature:
+  name: "connected_components"
+  input: [array_of_integers]
+  output: array_of_integers
+test_cases:
+  - name: "two components"
+    input: [4, 2, 0, 1, 2, 3]
+    expected: [0, 0, 2, 2]
+  - name: "single node"
+    input: [1, 0]
+    expected: [0]
+  - name: "all connected"
+    input: [3, 3, 0, 1, 1, 2, 2, 0]
+    expected: [0, 0, 0]
+  - name: "all disconnected"
+    input: [4, 0]
+    expected: [0, 1, 2, 3]
+  - name: "three components"
+    input: [6, 3, 0, 1, 2, 3, 4, 5]
+    expected: [0, 0, 2, 2, 4, 4]
+  - name: "one large one small"
+    input: [5, 3, 0, 1, 1, 2, 2, 3]
+    expected: [0, 0, 0, 0, 4]
+  - name: "two nodes connected"
+    input: [2, 1, 0, 1]
+    expected: [0, 0]
+  - name: "chain and isolated"
+    input: [4, 2, 0, 1, 1, 2]
+    expected: [0, 0, 0, 3]
+  - name: "star component"
+    input: [7, 5, 0, 1, 0, 2, 0, 3, 0, 4, 5, 6]
+    expected: [0, 0, 0, 0, 0, 5, 5]

@@ -1,0 +1,24 @@
+algorithm: "longest-subset-zero-sum"
+function_signature:
+  name: "longest_subset_zero_sum"
+  input: [array_of_integers]
+  output: integer_length
+test_cases:
+  - name: "standard"
+    input: [[1, 2, -3, 3]]
+    expected: 3
+  - name: "entire array sums to zero"
+    input: [[1, -1, 2, -2]]
+    expected: 4
+  - name: "no zero sum subset"
+    input: [[1, 2, 3]]
+    expected: 0
+  - name: "single zero"
+    input: [[0]]
+    expected: 1
+  - name: "all zeros"
+    input: [[0, 0, 0]]
+    expected: 3
+  - name: "negative and positive"
+    input: [[15, -2, 2, -8, 1, 7, 10, 23]]
+    expected: 5

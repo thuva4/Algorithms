@@ -1,0 +1,82 @@
+{
+  "name": "Sumset",
+  "slug": "sumset",
+  "category": "math",
+  "subcategory": "set-theory",
+  "difficulty": "intermediate",
+  "tags": [
+    "math",
+    "sumset",
+    "minkowski-sum",
+    "set-addition"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n * m)",
+      "average": "O(n * m)",
+      "worst": "O(n * m)"
+    },
+    "space": "O(n * m)"
+  },
+  "stable": false,
+  "in_place": false,
+  "related": [],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "sumset.c",
+          "content": "#include <stdio.h>\n\nchar *sumset(int arr[], int size) {\n    static char output[100000];\n    int len_a;\n    int len_b;\n    int offset = 0;\n    int sums[10000];\n    int count = 0;\n\n    if (size < 2) {\n        output[0] = '\\0';\n        return output;\n    }\n\n    len_a = arr[0];\n    if (1 + len_a >= size) {\n        output[0] = '\\0';\n        return output;\n    }\n    len_b = arr[1 + len_a];\n    if (2 + len_a + len_b > size) {\n        output[0] = '\\0';\n        return output;\n    }\n\n    for (int j = 0; j < len_b; j++) {\n        int b = arr[2 + len_a + j];\n        for (int i = 0; i < len_a; i++) {\n            int a = arr[1 + i];\n            sums[count++] = a + b;\n        }\n    }\n\n    for (int i = 0; i < count; i++) {\n        for (int j = i + 1; j < count; j++) {\n            if (sums[j] < sums[i]) {\n                int temp = sums[i];\n                sums[i] = sums[j];\n                sums[j] = temp;\n            }\n        }\n    }\n\n    output[0] = '\\0';\n    for (int i = 0; i < count; i++) {\n        offset += snprintf(\n            output + offset,\n            sizeof(output) - (size_t)offset,\n            \"%s%d\",\n            offset == 0 ? \"\" : \" \",\n            sums[i]\n        );\n    }\n\n    return output;\n}\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "sumset.cpp",
+          "content": "#include <algorithm>\n#include <vector>\n\nstd::vector<int> sumset(const std::vector<int>& set_a, const std::vector<int>& set_b) {\n    std::vector<int> result;\n    result.reserve(set_a.size() * set_b.size());\n\n    for (int a : set_a) {\n        for (int b : set_b) {\n            result.push_back(a + b);\n        }\n    }\n\n    std::sort(result.begin(), result.end());\n    return result;\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "Sumset.java",
+          "content": "import java.util.ArrayList;\nimport java.util.Collections;\nimport java.util.List;\n\npublic class Sumset {\n    public static int[] sumset(int[] setA, int[] setB) {\n        List<Integer> values = new ArrayList<>();\n        for (int a : setA) {\n            for (int b : setB) {\n                values.add(a + b);\n            }\n        }\n        Collections.sort(values);\n        int[] result = new int[values.size()];\n        for (int i = 0; i < values.size(); i++) {\n            result[i] = values.get(i);\n        }\n        return result;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "Sumset.kt",
+          "content": "fun sumset(setA: IntArray, setB: IntArray): IntArray {\n    val result = IntArray(setA.size * setB.size)\n    var index = 0\n\n    for (valueB in setB) {\n        for (valueA in setA) {\n            result[index++] = valueA + valueB\n        }\n    }\n\n    result.sort()\n    return result\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "Sumset.py",
+          "content": "def sum_set(A: set, B: set) -> set:\n    \"\"\"\n    A, B: set of numbers\n    \"\"\"\n    l_a = [0] * (max(A) + 1)\n    l_b = [0] * (max(B) + 1)\n    for i in A:\n        l_a[i] = 1\n    for i in B:\n        l_b[i] = 1\n    l_a.reverse()\n    l_b.reverse()\n    poly_A = np.poly1d(np.array(l_a))\n    poly_B = np.poly1d(np.array(l_b))\n\n    l_res = list(np.polymul(poly_A, poly_B).c)\n    l_res.reverse()\n    \n    res = set()\n\n    for (i, x) in enumerate(l_res):\n        if x == 0:\n            continue\n        res.add(i)\n\n    return res\n\nif __name__ == \"__main__\":\n    A = {3,4,5}\n    B = {2,3,4,5,6}\n    print(sum_set(A, B))"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "Sumset.swift",
+          "content": "func sumset(_ setA: [Int], _ setB: [Int]) -> [Int] {\n    var result: [Int] = []\n    for a in setA {\n        for b in setB {\n            result.append(a + b)\n        }\n    }\n    return result.sorted()\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Sumset (Minkowski Sum of Sets)\n\n## Overview\n\nThe sumset (also called the Minkowski sum) of two sets A and B is the set of all pairwise sums: A + B = {a + b : a in A, b in B}. It is a fundamental operation in additive combinatorics, computational geometry, and number theory. The naive approach computes all |A| * |B| sums and collects the distinct results. A faster approach uses polynomial multiplication: represent each set as a polynomial (with x^a terms for each element a), multiply the polynomials, and read off the nonzero exponents from the product.\n\n## How It Works\n\n### Polynomial Multiplication Approach\n\n1. Create polynomial P_A(x) where the coefficient of x^a is 1 if a is in A, 0 otherwise.\n2. Create polynomial P_B(x) similarly for set B.\n3. Multiply P_A(x) * P_B(x). The product polynomial P_C(x) has nonzero coefficient at x^c if and only if c = a + b for some a in A, b in B.\n4. Collect all exponents with nonzero coefficients in P_C to form the sumset.\n\n### Naive Approach\n\n1. For each element a in A and each element b in B, compute a + b.\n2. Collect all results into a set (removing duplicates).\n\n## Worked Example\n\nCompute A + B where A = {1, 2, 3} and B = {10, 20}.\n\n**Naive approach:**\n- 1 + 10 = 11, 1 + 20 = 21\n- 2 + 10 = 12, 2 + 20 = 22\n- 3 + 10 = 13, 3 + 20 = 23\n\nSumset A + B = {11, 12, 13, 21, 22, 23}.\n\n**Polynomial approach:**\n- P_A(x) = x^1 + x^2 + x^3\n- P_B(x) = x^10 + x^20\n- P_A * P_B = x^11 + x^12 + x^13 + x^21 + x^22 + x^23\n\nNonzero exponents: {11, 12, 13, 21, 22, 23} -- same result.\n\n## Pseudocode\n\n```\nfunction sumset(A, B):\n    // Polynomial multiplication approach\n    max_a = max(A)\n    max_b = max(B)\n\n    // Create indicator polynomials\n    poly_A = array of size max_a + 1, all zeros\n    poly_B = array of size max_b + 1, all zeros\n\n    for a in A:\n        poly_A[a] = 1\n    for b in B:\n        poly_B[b] = 1\n\n    // Multiply polynomials (using FFT/NTT for large sets, or naive for small)\n    poly_C = polynomialMultiply(poly_A, poly_B)\n\n    // Extract nonzero positions\n    result = {}\n    for i from 0 to length(poly_C) - 1:\n        if poly_C[i] != 0:\n            result.add(i)\n\n    return result\n```\n\n## Complexity Analysis\n\n| Case    | Time     | Space    |\n|---------|----------|----------|\n| Best    | O(n * m) | O(n * m) |\n| Average | O(n * m) | O(n * m) |\n| Worst   | O(n * m) | O(n * m) |\n\nWhere n = |A| and m = |B|.\n\n- **Naive approach:** O(n * m) time and space for storing all sums.\n- **Polynomial approach with FFT/NTT:** O(S log S) where S = max(A) + max(B), which is faster when S << n * m.\n- **Space:** Dominated by the polynomial arrays or the output set.\n\n## Applications\n\n- **Additive combinatorics:** Studying the structure of sumsets is central to Freiman's theorem and the Erdos-Ginzburg-Ziv theorem.\n- **Computational geometry:** Minkowski sums of convex polygons are used for collision detection and path planning in robotics.\n- **Knapsack-like problems:** Determining which sums are achievable from given sets.\n- **Number theory:** Analyzing which numbers can be represented as sums of elements from specific sets (e.g., Goldbach-type conjectures).\n- **Signal processing:** Convolution of discrete signals is equivalent to polynomial multiplication.\n\n## When NOT to Use\n\n- **When sets contain very large values:** The polynomial approach requires arrays of size proportional to max(A) + max(B), which is wasteful if the values are sparse but large.\n- **When sets are tiny:** For |A| * |B| < 100, the naive double loop is simpler and faster than setting up polynomial multiplication.\n- **When negative numbers are involved without preprocessing:** The polynomial approach assumes nonnegative indices. Negative elements require shifting all values to nonnegative range first.\n- **When only the size of the sumset is needed:** There are direct combinatorial bounds (e.g., |A + B| >= |A| + |B| - 1 for sets of integers) that avoid computing the full sumset.\n\n## Comparison\n\n| Method                    | Time          | Space         | Notes                                    |\n|---------------------------|---------------|---------------|------------------------------------------|\n| Naive double loop         | O(n * m)      | O(n * m)      | Simplest; works for any element type     |\n| Polynomial (FFT/NTT)     | O(S log S)    | O(S)          | Faster when S is small; exact with NTT   |\n| Sorting + merge           | O(nm log(nm)) | O(n * m)      | Useful when sorted output is needed      |\n| Hash set                  | O(n * m)      | O(n * m)      | Naive with deduplication; constant-time lookup |\n\nWhere S = max(A) + max(B).\n\n## References\n\n- Freiman, G. A. (1973). *Foundations of a Structural Theory of Set Addition*. AMS.\n- Tao, T., & Vu, V. (2006). *Additive Combinatorics*. Cambridge University Press.\n- [Minkowski addition -- Wikipedia](https://en.wikipedia.org/wiki/Minkowski_addition)\n- [Sumset -- Wikipedia](https://en.wikipedia.org/wiki/Sumset)\n\n## Implementations\n\n| Language | File |\n|----------|------|\n| Python   | [Sumset.py](python/Sumset.py) |\n"
+}

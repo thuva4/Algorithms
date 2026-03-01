@@ -1,0 +1,135 @@
+{
+  "name": "RSA Algorithm",
+  "slug": "rsa-algorithm",
+  "category": "cryptography",
+  "subcategory": "public-key",
+  "difficulty": "advanced",
+  "tags": [
+    "cryptography",
+    "rsa",
+    "public-key",
+    "encryption",
+    "modular-exponentiation"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(log n)",
+      "average": "O(log n)",
+      "worst": "O(log n)"
+    },
+    "space": "O(1)"
+  },
+  "stable": null,
+  "in_place": false,
+  "related": [
+    "miller-rabin",
+    "modular-exponentiation"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "rsa_algorithm.c",
+          "content": "#include <stdio.h>\n#include \"rsa_algorithm.h\"\n\nstatic long long mod_pow(long long base, long long exp, long long mod) {\n    long long result = 1; base %= mod;\n    while (exp > 0) {\n        if (exp & 1) result = result * base % mod;\n        exp >>= 1;\n        base = base * base % mod;\n    }\n    return result;\n}\n\nstatic long long ext_gcd(long long a, long long b, long long *x, long long *y) {\n    if (a == 0) { *x = 0; *y = 1; return b; }\n    long long x1, y1;\n    long long g = ext_gcd(b % a, a, &x1, &y1);\n    *x = y1 - (b / a) * x1;\n    *y = x1;\n    return g;\n}\n\nstatic long long mod_inv(long long e, long long phi) {\n    long long x, y;\n    ext_gcd(e, phi, &x, &y);\n    return (x % phi + phi) % phi;\n}\n\nlong long rsa_algorithm(long long p, long long q, long long e, long long message) {\n    long long n = p * q;\n    long long phi = (p - 1) * (q - 1);\n    long long d = mod_inv(e, phi);\n    long long cipher = mod_pow(message, e, n);\n    return mod_pow(cipher, d, n);\n}\n\nint main(void) {\n    printf(\"%lld\\n\", rsa_algorithm(61, 53, 17, 65));\n    printf(\"%lld\\n\", rsa_algorithm(61, 53, 17, 42));\n    printf(\"%lld\\n\", rsa_algorithm(11, 13, 7, 9));\n    return 0;\n}\n"
+        },
+        {
+          "filename": "rsa_algorithm.h",
+          "content": "#ifndef RSA_ALGORITHM_H\n#define RSA_ALGORITHM_H\n\nlong long rsa_algorithm(long long p, long long q, long long e, long long message);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "rsa_algorithm.cpp",
+          "content": "#include <iostream>\nusing namespace std;\n\nlong long mod_pow(long long base, long long exp, long long mod) {\n    long long result = 1; base %= mod;\n    while (exp > 0) {\n        if (exp & 1) result = result * base % mod;\n        exp >>= 1;\n        base = base * base % mod;\n    }\n    return result;\n}\n\nlong long extended_gcd(long long a, long long b, long long &x, long long &y) {\n    if (a == 0) { x = 0; y = 1; return b; }\n    long long x1, y1;\n    long long g = extended_gcd(b % a, a, x1, y1);\n    x = y1 - (b / a) * x1;\n    y = x1;\n    return g;\n}\n\nlong long mod_inverse(long long e, long long phi) {\n    long long x, y;\n    extended_gcd(e, phi, x, y);\n    return (x % phi + phi) % phi;\n}\n\nlong long rsa_algorithm(long long p, long long q, long long e, long long message) {\n    long long n = p * q;\n    long long phi = (p - 1) * (q - 1);\n    long long d = mod_inverse(e, phi);\n    long long cipher = mod_pow(message, e, n);\n    long long plain = mod_pow(cipher, d, n);\n    return plain;\n}\n\nint main() {\n    cout << rsa_algorithm(61, 53, 17, 65) << endl;\n    cout << rsa_algorithm(61, 53, 17, 42) << endl;\n    cout << rsa_algorithm(11, 13, 7, 9) << endl;\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "RsaAlgorithm.cs",
+          "content": "using System;\n\npublic class RsaAlgorithm\n{\n    static long ModPow(long b, long exp, long mod) {\n        long result = 1; b %= mod;\n        while (exp > 0) {\n            if ((exp & 1) == 1) result = result * b % mod;\n            exp >>= 1; b = b * b % mod;\n        }\n        return result;\n    }\n\n    static long ExtGcd(long a, long b, out long x, out long y) {\n        if (a == 0) { x = 0; y = 1; return b; }\n        long x1, y1;\n        long g = ExtGcd(b % a, a, out x1, out y1);\n        x = y1 - (b / a) * x1;\n        y = x1;\n        return g;\n    }\n\n    static long ModInverse(long e, long phi) {\n        long x, y;\n        ExtGcd(e % phi, phi, out x, out y);\n        return ((x % phi) + phi) % phi;\n    }\n\n    public static long Solve(long p, long q, long e, long message) {\n        long n = p * q;\n        long phi = (p - 1) * (q - 1);\n        long d = ModInverse(e, phi);\n        long cipher = ModPow(message, e, n);\n        return ModPow(cipher, d, n);\n    }\n\n    public static void Main(string[] args) {\n        Console.WriteLine(Solve(61, 53, 17, 65));\n        Console.WriteLine(Solve(61, 53, 17, 42));\n        Console.WriteLine(Solve(11, 13, 7, 9));\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "rsa_algorithm.go",
+          "content": "package main\n\nimport (\n\t\"fmt\"\n\t\"math/big\"\n)\n\nfunc rsaAlgorithm(p, q, e, message int64) int64 {\n\tn := p * q\n\tphi := (p - 1) * (q - 1)\n\n\tbE := big.NewInt(e)\n\tbPhi := big.NewInt(phi)\n\tbN := big.NewInt(n)\n\n\td := new(big.Int).ModInverse(bE, bPhi)\n\tcipher := new(big.Int).Exp(big.NewInt(message), bE, bN)\n\tplain := new(big.Int).Exp(cipher, d, bN)\n\treturn plain.Int64()\n}\n\nfunc main() {\n\tfmt.Println(rsaAlgorithm(61, 53, 17, 65))\n\tfmt.Println(rsaAlgorithm(61, 53, 17, 42))\n\tfmt.Println(rsaAlgorithm(11, 13, 7, 9))\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "RsaAlgorithm.java",
+          "content": "import java.math.BigInteger;\n\npublic class RsaAlgorithm {\n    public static long rsaAlgorithm(long p, long q, long e, long message) {\n        long n = p * q;\n        long phi = (p - 1) * (q - 1);\n\n        BigInteger bE = BigInteger.valueOf(e);\n        BigInteger bPhi = BigInteger.valueOf(phi);\n        BigInteger bN = BigInteger.valueOf(n);\n        BigInteger d = bE.modInverse(bPhi);\n\n        BigInteger cipher = BigInteger.valueOf(message).modPow(bE, bN);\n        BigInteger plain = cipher.modPow(d, bN);\n        return plain.longValue();\n    }\n\n    public static void main(String[] args) {\n        System.out.println(rsaAlgorithm(61, 53, 17, 65));\n        System.out.println(rsaAlgorithm(61, 53, 17, 42));\n        System.out.println(rsaAlgorithm(11, 13, 7, 9));\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "RsaAlgorithm.kt",
+          "content": "import java.math.BigInteger\n\nfun rsaAlgorithm(p: Long, q: Long, e: Long, message: Long): Long {\n    val n = p * q\n    val phi = (p - 1) * (q - 1)\n    val bE = BigInteger.valueOf(e)\n    val bPhi = BigInteger.valueOf(phi)\n    val bN = BigInteger.valueOf(n)\n    val d = bE.modInverse(bPhi)\n    val cipher = BigInteger.valueOf(message).modPow(bE, bN)\n    return cipher.modPow(d, bN).toLong()\n}\n\nfun main() {\n    println(rsaAlgorithm(61, 53, 17, 65))\n    println(rsaAlgorithm(61, 53, 17, 42))\n    println(rsaAlgorithm(11, 13, 7, 9))\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "rsa_algorithm.py",
+          "content": "def extended_gcd(a, b):\n    if a == 0:\n        return b, 0, 1\n    g, x, y = extended_gcd(b % a, a)\n    return g, y - (b // a) * x, x\n\n\ndef mod_inverse(e, phi):\n    g, x, _ = extended_gcd(e % phi, phi)\n    if g != 1:\n        return -1\n    return x % phi\n\n\ndef rsa_algorithm(p, q, e, message):\n    n = p * q\n    phi = (p - 1) * (q - 1)\n    d = mod_inverse(e, phi)\n\n    # Encrypt\n    ciphertext = pow(message, e, n)\n\n    # Decrypt\n    plaintext = pow(ciphertext, d, n)\n\n    return plaintext\n\n\nif __name__ == \"__main__\":\n    print(rsa_algorithm(61, 53, 17, 65))\n    print(rsa_algorithm(61, 53, 17, 42))\n    print(rsa_algorithm(11, 13, 7, 9))\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "rsa_algorithm.rs",
+          "content": "fn mod_pow(mut base: i64, mut exp: i64, modulus: i64) -> i64 {\n    let mut result = 1i64; base %= modulus;\n    while exp > 0 {\n        if exp & 1 == 1 { result = result * base % modulus; }\n        exp >>= 1; base = base * base % modulus;\n    }\n    result\n}\n\nfn ext_gcd(a: i64, b: i64) -> (i64, i64, i64) {\n    if a == 0 { return (b, 0, 1); }\n    let (g, x1, y1) = ext_gcd(b % a, a);\n    (g, y1 - (b / a) * x1, x1)\n}\n\nfn mod_inverse(e: i64, phi: i64) -> i64 {\n    let (_, x, _) = ext_gcd(e % phi, phi);\n    ((x % phi) + phi) % phi\n}\n\nfn rsa_algorithm(p: i64, q: i64, e: i64, message: i64) -> i64 {\n    let n = p * q;\n    let phi = (p - 1) * (q - 1);\n    let d = mod_inverse(e, phi);\n    let cipher = mod_pow(message, e, n);\n    mod_pow(cipher, d, n)\n}\n\nfn main() {\n    println!(\"{}\", rsa_algorithm(61, 53, 17, 65));\n    println!(\"{}\", rsa_algorithm(61, 53, 17, 42));\n    println!(\"{}\", rsa_algorithm(11, 13, 7, 9));\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "RsaAlgorithm.scala",
+          "content": "object RsaAlgorithm {\n  def rsaAlgorithm(p: Long, q: Long, e: Long, message: Long): Long = {\n    val n = p * q\n    val phi = (p - 1) * (q - 1)\n    val bE = BigInt(e)\n    val bPhi = BigInt(phi)\n    val bN = BigInt(n)\n    val d = bE.modInverse(bPhi)\n    val cipher = BigInt(message).modPow(bE, bN)\n    cipher.modPow(d, bN).toLong\n  }\n\n  def main(args: Array[String]): Unit = {\n    println(rsaAlgorithm(61, 53, 17, 65))\n    println(rsaAlgorithm(61, 53, 17, 42))\n    println(rsaAlgorithm(11, 13, 7, 9))\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "RsaAlgorithm.swift",
+          "content": "func modPowRSA(_ base: Int, _ exp: Int, _ mod: Int) -> Int {\n    var b = base % mod, e = exp, result = 1\n    while e > 0 {\n        if e & 1 == 1 { result = result * b % mod }\n        e >>= 1; b = b * b % mod\n    }\n    return result\n}\n\nfunc extGcd(_ a: Int, _ b: Int) -> (Int, Int, Int) {\n    if a == 0 { return (b, 0, 1) }\n    let (g, x1, y1) = extGcd(b % a, a)\n    return (g, y1 - (b / a) * x1, x1)\n}\n\nfunc modInverse(_ e: Int, _ phi: Int) -> Int {\n    let (_, x, _) = extGcd(e % phi, phi)\n    return ((x % phi) + phi) % phi\n}\n\nfunc rsaAlgorithm(_ p: Int, _ q: Int, _ e: Int, _ message: Int) -> Int {\n    let n = p * q\n    let phi = (p - 1) * (q - 1)\n    let d = modInverse(e, phi)\n    let cipher = modPowRSA(message, e, n)\n    return modPowRSA(cipher, d, n)\n}\n\nprint(rsaAlgorithm(61, 53, 17, 65))\nprint(rsaAlgorithm(61, 53, 17, 42))\nprint(rsaAlgorithm(11, 13, 7, 9))\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "rsaAlgorithm.ts",
+          "content": "function modPowRSA(base: number, exp: number, mod: number): number {\n    let result = 1; base %= mod;\n    while (exp > 0) {\n        if (exp & 1) result = result * base % mod;\n        exp >>= 1;\n        base = base * base % mod;\n    }\n    return result;\n}\n\nfunction extGcd(a: number, b: number): [number, number, number] {\n    if (a === 0) return [b, 0, 1];\n    const [g, x1, y1] = extGcd(b % a, a);\n    return [g, y1 - Math.floor(b / a) * x1, x1];\n}\n\nfunction modInverse(e: number, phi: number): number {\n    const [, x] = extGcd(e % phi, phi);\n    return ((x % phi) + phi) % phi;\n}\n\nexport function rsaAlgorithm(p: number, q: number, e: number, message: number): number {\n    const n = p * q;\n    const phi = (p - 1) * (q - 1);\n    const d = modInverse(e, phi);\n    const cipher = modPowRSA(message, e, n);\n    return modPowRSA(cipher, d, n);\n}\n\nconsole.log(rsaAlgorithm(61, 53, 17, 65));\nconsole.log(rsaAlgorithm(61, 53, 17, 42));\nconsole.log(rsaAlgorithm(11, 13, 7, 9));\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# RSA Algorithm\n\n## Overview\n\nRSA (Rivest-Shamir-Adleman) is a public-key cryptosystem published in 1977, and it remains one of the most widely deployed asymmetric encryption algorithms. It enables secure communication between parties who have never shared a secret key by using a pair of mathematically linked keys: a public key for encryption and a private key for decryption.\n\nThe security of RSA rests on the computational difficulty of factoring the product of two large prime numbers. While multiplying two 1024-bit primes is trivial, factoring their 2048-bit product is computationally infeasible with current technology. RSA is used for digital signatures, key exchange, and encrypting small payloads in protocols like TLS/SSL, PGP, and S/MIME.\n\n## How It Works\n\n1. **Key Generation**:\n   - Choose two distinct large primes p and q.\n   - Compute n = p * q. This is the modulus for both the public and private keys.\n   - Compute Euler's totient: phi(n) = (p - 1)(q - 1).\n   - Choose a public exponent e such that 1 < e < phi(n) and gcd(e, phi(n)) = 1. A common choice is e = 65537.\n   - Compute the private exponent d such that d * e = 1 (mod phi(n)), i.e., d is the modular multiplicative inverse of e modulo phi(n).\n   - Public key: (n, e). Private key: (n, d).\n\n2. **Encryption**: ciphertext c = m^e mod n, where m is the plaintext message (as an integer with m < n).\n\n3. **Decryption**: plaintext m = c^d mod n.\n\n**Correctness**: By Euler's theorem, m^(e*d) = m^(1 + k*phi(n)) = m * (m^phi(n))^k = m * 1^k = m (mod n), provided gcd(m, n) = 1.\n\n## Worked Example\n\n**Key Generation** with small primes p = 61, q = 53:\n\n| Step | Computation | Result |\n|------|------------|--------|\n| Compute n | 61 * 53 | 3233 |\n| Compute phi(n) | (61 - 1)(53 - 1) = 60 * 52 | 3120 |\n| Choose e | e = 17 (gcd(17, 3120) = 1) | 17 |\n| Compute d | 17 * d = 1 (mod 3120), d = 2753 | 2753 |\n\nPublic key: (n=3233, e=17). Private key: (n=3233, d=2753).\n\n**Encryption** of message m = 65:\n\nc = 65^17 mod 3233\n\nUsing repeated squaring:\n| Step | Computation | Result |\n|------|------------|--------|\n| 65^1 mod 3233 | 65 | 65 |\n| 65^2 mod 3233 | 4225 mod 3233 | 992 |\n| 65^4 mod 3233 | 992^2 mod 3233 = 984064 mod 3233 | 2149 |\n| 65^8 mod 3233 | 2149^2 mod 3233 = 4618201 mod 3233 | 2452 |\n| 65^16 mod 3233 | 2452^2 mod 3233 = 6012304 mod 3233 | 2195 |\n| 65^17 mod 3233 | 2195 * 65 mod 3233 = 142675 mod 3233 | 2790 |\n\nCiphertext: c = 2790\n\n**Decryption**: m = 2790^2753 mod 3233 = 65 (the original message).\n\n### Input/Output Format\n\n- Input: `[p, q, e, message]`\n- Output: the decrypted message (should equal the original message).\n\n## Pseudocode\n\n```\nfunction rsaKeyGeneration(p, q, e):\n    n = p * q\n    phi = (p - 1) * (q - 1)\n    d = modularInverse(e, phi)\n    return (n, e, d)\n\nfunction rsaEncrypt(message, e, n):\n    return modularExponentiation(message, e, n)\n\nfunction rsaDecrypt(ciphertext, d, n):\n    return modularExponentiation(ciphertext, d, n)\n\nfunction modularExponentiation(base, exp, mod):\n    result = 1\n    base = base mod mod\n    while exp > 0:\n        if exp is odd:\n            result = (result * base) mod mod\n        exp = exp >> 1\n        base = (base * base) mod mod\n    return result\n\nfunction modularInverse(e, phi):\n    // Extended Euclidean Algorithm\n    (g, x, _) = extendedGCD(e, phi)\n    if g != 1:\n        error \"Inverse does not exist\"\n    return x mod phi\n\nfunction extendedGCD(a, b):\n    if a == 0:\n        return (b, 0, 1)\n    (g, x1, y1) = extendedGCD(b mod a, a)\n    return (g, y1 - (b / a) * x1, x1)\n```\n\n## Complexity Analysis\n\n| Operation       | Time         | Space |\n|----------------|-------------|-------|\n| Key generation | O(k^4)      | O(k)  |\n| Encryption     | O(k^2 log e)| O(k)  |\n| Decryption     | O(k^2 log d)| O(k)  |\n\nWhere k is the number of bits in the modulus n.\n\n**Why these complexities?**\n\n- **Key generation -- O(k^4):** Finding large primes of k/2 bits requires generating random candidates and testing primality. The Miller-Rabin test runs in O(k^3) per test, and on average O(k) candidates must be tested (by the prime number theorem), giving O(k^4) overall. The modular inverse via the extended Euclidean algorithm is O(k^2), dominated by primality testing.\n\n- **Encryption/Decryption -- O(k^2 log e):** Modular exponentiation uses the square-and-multiply method, performing O(log e) multiplications. Each multiplication of k-bit numbers takes O(k^2) with schoolbook multiplication (or O(k^1.585) with Karatsuba). Since e is typically small (e.g., 65537 = 2^16 + 1), encryption is fast. Decryption uses d which is O(k) bits, making it O(k^3) in the worst case.\n\n- **Space -- O(k):** Only the key components (n, e, d, p, q) and intermediate arithmetic values are stored, each requiring O(k) bits.\n\n## Applications\n\n- **TLS/SSL certificates**: RSA signatures authenticate server identity in HTTPS connections. The server's certificate contains an RSA public key signed by a certificate authority.\n- **Digital signatures**: RSA-PSS provides non-repudiation -- the signer cannot deny having signed a document. Used in code signing, legal documents, and email (S/MIME).\n- **Key exchange**: RSA can transport a symmetric session key by encrypting it with the recipient's public key. The recipient decrypts with their private key.\n- **PGP/GPG email encryption**: RSA key pairs are used to encrypt email messages and verify sender identity.\n- **Secure Shell (SSH)**: RSA key pairs authenticate users to remote servers without passwords.\n\n## When NOT to Use\n\n- **Encrypting large data directly**: RSA can only encrypt messages smaller than the modulus (e.g., < 256 bytes for a 2048-bit key). For bulk data, use a hybrid scheme: encrypt the data with AES, then encrypt the AES key with RSA.\n- **Performance-critical applications**: RSA is 100-1000x slower than symmetric ciphers like AES. Use RSA only for key exchange or signatures, not for bulk encryption.\n- **Small key sizes**: RSA keys below 2048 bits are considered insecure. NIST recommends 2048-bit keys minimum, with 3072 or 4096 bits for long-term security.\n- **Post-quantum environments**: Shor's algorithm can factor large integers efficiently on a quantum computer, breaking RSA entirely. For quantum-resistant cryptography, use lattice-based schemes like CRYSTALS-Dilithium (signatures) or CRYSTALS-Kyber (key exchange).\n- **When forward secrecy is required**: Static RSA key exchange does not provide forward secrecy. If the private key is compromised, all past sessions encrypted with it can be decrypted. Use ephemeral Diffie-Hellman (ECDHE) instead.\n\n## Comparison with Similar Algorithms\n\n| Algorithm          | Type           | Security Basis            | Key Size (equiv. 128-bit) | Speed       |\n|-------------------|---------------|--------------------------|--------------------------|-------------|\n| RSA               | Asymmetric     | Integer factorization     | 3072 bits                | Slow        |\n| Elliptic Curve (ECDSA) | Asymmetric | Elliptic curve DLP     | 256 bits                 | Moderate    |\n| Diffie-Hellman    | Key exchange   | Discrete logarithm        | 3072 bits                | Moderate    |\n| AES               | Symmetric      | Substitution-permutation  | 128 bits                 | Fast        |\n| CRYSTALS-Dilithium| Asymmetric (PQ)| Lattice problems         | ~2528 bytes              | Fast        |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [rsa_algorithm.py](python/rsa_algorithm.py) |\n| Java       | [RsaAlgorithm.java](java/RsaAlgorithm.java) |\n| C++        | [rsa_algorithm.cpp](cpp/rsa_algorithm.cpp) |\n| C          | [rsa_algorithm.c](c/rsa_algorithm.c) |\n| Go         | [rsa_algorithm.go](go/rsa_algorithm.go) |\n| TypeScript | [rsaAlgorithm.ts](typescript/rsaAlgorithm.ts) |\n| Rust       | [rsa_algorithm.rs](rust/rsa_algorithm.rs) |\n| Kotlin     | [RsaAlgorithm.kt](kotlin/RsaAlgorithm.kt) |\n| Swift      | [RsaAlgorithm.swift](swift/RsaAlgorithm.swift) |\n| Scala      | [RsaAlgorithm.scala](scala/RsaAlgorithm.scala) |\n| C#         | [RsaAlgorithm.cs](csharp/RsaAlgorithm.cs) |\n\n## References\n\n- Rivest, R. L., Shamir, A., & Adleman, L. (1978). A method for obtaining digital signatures and public-key cryptosystems. *Communications of the ACM*, 21(2), 120-126.\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 31: Number-Theoretic Algorithms.\n- Stallings, W. (2017). *Cryptography and Network Security: Principles and Practice* (7th ed.). Pearson. Chapter 9: Public-Key Cryptography and RSA.\n- [RSA (cryptosystem) -- Wikipedia](https://en.wikipedia.org/wiki/RSA_(cryptosystem))\n"
+}

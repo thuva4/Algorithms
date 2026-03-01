@@ -1,0 +1,15 @@
+algorithm: "boyer-moore"
+function_signature:
+  name: "boyer_moore_search"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "pattern found in middle"
+    input: [[10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 3, 4, 5, 6]]
+    expected: 3
+  - name: "pattern not found"
+    input: [[5, 1, 1, 1, 1, 1, 2, 2, 2]]
+    expected: -1
+  - name: "single element pattern"
+    input: [[3, 1, 2, 3, 1, 2]]
+    expected: 1

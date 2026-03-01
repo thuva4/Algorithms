@@ -1,0 +1,14 @@
+name: "Trie"
+slug: "trie"
+category: "trees"
+difficulty: "intermediate"
+tags: [trees, strings, prefix, search]
+complexity:
+  time:
+    best: "O(m)"
+    average: "O(m)"
+    worst: "O(m)"
+  space: "O(n*m)"
+related: [binary-search-tree, binary-tree]
+implementations: [python, java, cpp, c, go, typescript, kotlin, rust, swift, scala, csharp]
+visualization: false

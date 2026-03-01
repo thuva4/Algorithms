@@ -1,0 +1,134 @@
+{
+  "name": "Bucket Sort",
+  "slug": "bucket-sort",
+  "category": "sorting",
+  "subcategory": "distribution-based",
+  "difficulty": "intermediate",
+  "tags": [
+    "sorting",
+    "distribution",
+    "non-comparison",
+    "bucket"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n + k)",
+      "average": "O(n + k)",
+      "worst": "O(n^2)"
+    },
+    "space": "O(n + k)"
+  },
+  "stable": true,
+  "in_place": false,
+  "related": [
+    "counting-sort",
+    "radix-sort"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "bucket_sort.c",
+          "content": "#include \"bucket_sort.h\"\n#include <stdlib.h>\n#include <string.h>\n\ntypedef struct {\n    int *data;\n    int size;\n    int capacity;\n} Bucket;\n\nstatic void bucket_add(Bucket *b, int x) {\n    if (b->size == b->capacity) {\n        b->capacity = b->capacity == 0 ? 4 : b->capacity * 2;\n        b->data = (int *)realloc(b->data, b->capacity * sizeof(int));\n    }\n    b->data[b->size++] = x;\n}\n\nstatic void insertion_sort(int arr[], int n) {\n    for (int i = 1; i < n; i++) {\n        int key = arr[i];\n        int j = i - 1;\n        while (j >= 0 && arr[j] > key) {\n            arr[j + 1] = arr[j];\n            j--;\n        }\n        arr[j + 1] = key;\n    }\n}\n\n/**\n * Bucket Sort implementation.\n * Divides the input into several buckets, each of which is then sorted individually.\n * @param arr the input array (modified in-place)\n * @param n the number of elements in the array\n */\nvoid bucket_sort(int arr[], int n) {\n    if (n <= 1) return;\n\n    int min_val = arr[0], max_val = arr[0];\n    for (int i = 1; i < n; i++) {\n        if (arr[i] < min_val) min_val = arr[i];\n        if (arr[i] > max_val) max_val = arr[i];\n    }\n\n    if (min_val == max_val) return;\n\n    Bucket *buckets = (Bucket *)calloc(n, sizeof(Bucket));\n    long long range = (long long)max_val - min_val;\n\n    for (int i = 0; i < n; i++) {\n        int idx = (int)((long long)(arr[i] - min_val) * (n - 1) / range);\n        bucket_add(&buckets[idx], arr[i]);\n    }\n\n    int k = 0;\n    for (int i = 0; i < n; i++) {\n        if (buckets[i].size > 0) {\n            insertion_sort(buckets[i].data, buckets[i].size);\n            for (int j = 0; j < buckets[i].size; j++) {\n                arr[k++] = buckets[i].data[j];\n            }\n            free(buckets[i].data);\n        }\n    }\n    free(buckets);\n}\n"
+        },
+        {
+          "filename": "bucket_sort.h",
+          "content": "#ifndef BUCKET_SORT_H\n#define BUCKET_SORT_H\n\nvoid bucket_sort(int arr[], int n);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "bucket_sort.cpp",
+          "content": "#include <vector>\n#include <algorithm>\n\n/**\n * Bucket Sort implementation.\n * Divides the input into several buckets, each of which is then sorted individually.\n * @param arr the input vector\n * @return a sorted copy of the vector\n */\nstd::vector<int> bucket_sort(const std::vector<int>& arr) {\n    int n = static_cast<int>(arr.size());\n    if (n <= 1) {\n        return arr;\n    }\n\n    int min_val = arr[0];\n    int max_val = arr[0];\n    for (int i = 1; i < n; i++) {\n        if (arr[i] < min_val) min_val = arr[i];\n        if (arr[i] > max_val) max_val = arr[i];\n    }\n\n    if (min_val == max_val) {\n        return arr;\n    }\n\n    // Initialize buckets\n    std::vector<std::vector<int>> buckets(n);\n    long long range = static_cast<long long>(max_val) - min_val;\n\n    // Distribute elements into buckets\n    for (int x : arr) {\n        int index = static_cast<int>((static_cast<long long>(x) - min_val) * (n - 1) / range);\n        buckets[index].push_back(x);\n    }\n\n    // Sort each bucket and merge\n    std::vector<int> result;\n    result.reserve(n);\n    for (auto& bucket : buckets) {\n        // Sort using insertion sort logic or std::sort for simplicity and performance\n        std::sort(bucket.begin(), bucket.end());\n        for (int x : bucket) {\n            result.push_back(x);\n        }\n    }\n\n    return result;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "BucketSort.cs",
+          "content": "using System;\nusing System.Collections.Generic;\nusing System.Linq;\n\nnamespace Algorithms.Sorting.Bucket\n{\n    /**\n     * Bucket Sort implementation.\n     * Divides the input into several buckets, each of which is then sorted individually.\n     */\n    public static class BucketSort\n    {\n        public static int[] Sort(int[] arr)\n        {\n            if (arr == null || arr.Length <= 1)\n            {\n                return arr == null ? new int[0] : (int[])arr.Clone();\n            }\n\n            int n = arr.Length;\n            int min = arr[0];\n            int max = arr[0];\n\n            for (int i = 1; i < n; i++)\n            {\n                if (arr[i] < min) min = arr[i];\n                if (arr[i] > max) max = arr[i];\n            }\n\n            if (min == max)\n            {\n                return (int[])arr.Clone();\n            }\n\n            // Initialize buckets\n            List<int>[] buckets = new List<int>[n];\n            for (int i = 0; i < n; i++)\n            {\n                buckets[i] = new List<int>();\n            }\n\n            long range = (long)max - min;\n\n            // Distribute elements into buckets\n            foreach (int x in arr)\n            {\n                int index = (int)((long)(x - min) * (n - 1) / range);\n                buckets[index].Add(x);\n            }\n\n            // Sort each bucket and merge\n            int[] result = new int[n];\n            int k = 0;\n            for (int i = 0; i < n; i++)\n            {\n                if (buckets[i].Count > 0)\n                {\n                    buckets[i].Sort();\n                    foreach (int x in buckets[i])\n                    {\n                        result[k++] = x;\n                    }\n                }\n            }\n\n            return result;\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "bucket_sort.go",
+          "content": "package bucketsort\n\nimport (\n\t\"sort\"\n)\n\n// BucketSort implementation.\n// Divides the input into several buckets, each of which is then sorted individually.\n// It returns a new sorted slice without modifying the original input.\nfunc BucketSort(arr []int) []int {\n\tn := len(arr)\n\tif n <= 1 {\n\t\treturn append([]int{}, arr...)\n\t}\n\n\tminVal, maxVal := arr[0], arr[0]\n\tfor _, x := range arr {\n\t\tif x < minVal {\n\t\t\tminVal = x\n\t\t}\n\t\tif x > maxVal {\n\t\t\tmaxVal = x\n\t\t}\n\t}\n\n\tif minVal == maxVal {\n\t\treturn append([]int{}, arr...)\n\t}\n\n\t// Initialize buckets\n\tbuckets := make([][]int, n)\n\trangeVal := int64(maxVal) - int64(minVal)\n\n\t// Distribute elements into buckets\n\tfor _, x := range arr {\n\t\tindex := int(int64(x-minVal) * int64(n-1) / rangeVal)\n\t\tbuckets[index] = append(buckets[index], x)\n\t}\n\n\t// Sort each bucket and merge\n\tresult := make([]int, 0, n)\n\tfor i := 0; i < n; i++ {\n\t\tif len(buckets[i]) > 0 {\n\t\t\tsort.Ints(buckets[i])\n\t\t\tresult = append(result, buckets[i]...)\n\t\t}\n\t}\n\n\treturn result\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "BucketSort.java",
+          "content": "import java.util.ArrayList;\nimport java.util.Arrays;\nimport java.util.List;\n\npublic class BucketSort {\n    /**\n     * Bucket Sort implementation.\n     * Divides the input into several buckets, each of which is then sorted individually.\n     * @param arr the input array\n     * @return a sorted copy of the array\n     */\n    public static int[] sort(int[] arr) {\n        if (arr == null || arr.length <= 1) {\n            return arr == null ? new int[0] : Arrays.copyOf(arr, arr.length);\n        }\n\n        int n = arr.length;\n        int min = arr[0];\n        int max = arr[0];\n\n        for (int i = 1; i < n; i++) {\n            if (arr[i] < min) min = arr[i];\n            if (arr[i] > max) max = arr[i];\n        }\n\n        if (min == max) {\n            return Arrays.copyOf(arr, n);\n        }\n\n        // Initialize buckets\n        List<List<Integer>> buckets = new ArrayList<>(n);\n        for (int i = 0; i < n; i++) {\n            buckets.add(new ArrayList<>());\n        }\n\n        long range = (long) max - min;\n\n        // Distribute elements into buckets\n        for (int x : arr) {\n            int index = (int) ((long) (x - min) * (n - 1) / range);\n            buckets.get(index).add(x);\n        }\n\n        // Sort each bucket and merge\n        int[] result = new int[n];\n        int k = 0;\n        for (List<Integer> bucket : buckets) {\n            // Sort bucket using insertion sort logic\n            for (int i = 1; i < bucket.size(); i++) {\n                int key = bucket.get(i);\n                int j = i - 1;\n                while (j >= 0 && bucket.get(j) > key) {\n                    bucket.set(j + 1, bucket.get(j));\n                    j--;\n                }\n                bucket.set(j + 1, key);\n            }\n            for (int x : bucket) {\n                result[k++] = x;\n            }\n        }\n\n        return result;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "BucketSort.kt",
+          "content": "package algorithms.sorting.bucket\n\n/**\n * Bucket Sort implementation.\n * Divides the input into several buckets, each of which is then sorted individually.\n */\nobject BucketSort {\n    fun sort(arr: IntArray): IntArray {\n        if (arr.size <= 1) {\n            return arr.copyOf()\n        }\n\n        val n = arr.size\n        var min = arr[0]\n        var max = arr[0]\n\n        for (i in 1 until n) {\n            if (arr[i] < min) min = arr[i]\n            if (arr[i] > max) max = arr[i]\n        }\n\n        if (min == max) {\n            return arr.copyOf()\n        }\n\n        // Initialize buckets\n        val buckets = Array(n) { mutableListOf<Int>() }\n        val range = max.toLong() - min\n\n        // Distribute elements into buckets\n        for (x in arr) {\n            val index = ((x.toLong() - min) * (n - 1) / range).toInt()\n            buckets[index].add(x)\n        }\n\n        // Sort each bucket and merge\n        val result = IntArray(n)\n        var k = 0\n        for (bucket in buckets) {\n            if (bucket.isNotEmpty()) {\n                bucket.sort()\n                for (x in bucket) {\n                    result[k++] = x\n                }\n            }\n        }\n\n        return result\n    }\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "bucket_sort.py",
+          "content": "def bucket_sort(arr: list[int]) -> list[int]:\n    \"\"\"\n    Bucket Sort implementation.\n    Divides the input into several buckets, each of which is then sorted individually.\n    \"\"\"\n    if len(arr) <= 1:\n        return list(arr)\n\n    min_val = min(arr)\n    max_val = max(arr)\n\n    # If all elements are the same\n    if min_val == max_val:\n        return list(arr)\n\n    # Use n buckets for n elements\n    n = len(arr)\n    buckets: list[list[int]] = [[] for _ in range(n)]\n    \n    # Range of values\n    range_val = max_val - min_val\n\n    # Distribute elements into buckets\n    for x in arr:\n        # Avoid index out of bounds for max_val\n        index = int((x - min_val) * (n - 1) / range_val)\n        buckets[index].append(x)\n\n    # Sort individual buckets and concatenate\n    result: list[int] = []\n    for bucket in buckets:\n        # Using insertion sort logic within buckets\n        for i in range(1, len(bucket)):\n            key = bucket[i]\n            j = i - 1\n            while j >= 0 and bucket[j] > key:\n                bucket[j + 1] = bucket[j]\n                j -= 1\n            bucket[j + 1] = key\n        result.extend(bucket)\n\n    return result\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "bucket_sort.rs",
+          "content": "/**\n * Bucket Sort implementation.\n * Divides the input into several buckets, each of which is then sorted individually.\n */\npub fn bucket_sort(arr: &[i32]) -> Vec<i32> {\n    if arr.len() <= 1 {\n        return arr.to_vec();\n    }\n\n    let n = arr.len();\n    let &min_val = arr.iter().min().unwrap();\n    let &max_val = arr.iter().max().unwrap();\n\n    if min_val == max_val {\n        return arr.to_vec();\n    }\n\n    // Initialize buckets\n    let mut buckets: Vec<Vec<i32>> = vec![Vec::new(); n];\n    let range = (max_val as i64) - (min_val as i64);\n\n    // Distribute elements into buckets\n    for &x in arr {\n        let index = (((x as i64) - (min_val as i64)) * ((n - 1) as i64) / range) as usize;\n        buckets[index].push(x);\n    }\n\n    // Sort each bucket and merge\n    let mut result = Vec::with_capacity(n);\n    for mut bucket in buckets {\n        if !bucket.is_empty() {\n            bucket.sort_unstable();\n            result.extend(bucket);\n        }\n    }\n\n    result\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "BucketSort.scala",
+          "content": "package algorithms.sorting.bucket\n\nimport scala.collection.mutable.ListBuffer\n\n/**\n * Bucket Sort implementation.\n * Divides the input into several buckets, each of which is then sorted individually.\n */\nobject BucketSort {\n  def sort(arr: Array[Int]): Array[Int] = {\n    if (arr.length <= 1) {\n      return arr.clone()\n    }\n\n    val n = arr.length\n    val minVal = arr.min\n    val maxVal = arr.max\n\n    if (minVal == maxVal) {\n      return arr.clone()\n    }\n\n    // Initialize buckets\n    val buckets = Array.fill(n)(ListBuffer.empty[Int])\n    val range = maxVal.toLong - minVal\n\n    // Distribute elements into buckets\n    for (x <- arr) {\n      val index = ((x.toLong - minVal) * (n - 1) / range).toInt\n      buckets(index) += x\n    }\n\n    // Sort each bucket and merge\n    val result = new Array[Int](n)\n    var k = 0\n    for (bucket <- buckets) {\n      if (bucket.nonEmpty) {\n        val sortedBucket = bucket.sorted\n        for (x <- sortedBucket) {\n          result(k) = x\n          k += 1\n        }\n      }\n    }\n\n    result\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "BucketSort.swift",
+          "content": "/**\n * Bucket Sort implementation.\n * Divides the input into several buckets, each of which is then sorted individually.\n */\npublic class BucketSort {\n    public static func sort(_ arr: [Int]) -> [Int] {\n        guard arr.count > 1 else {\n            return arr\n        }\n\n        let n = arr.count\n        guard let minVal = arr.min(), let maxVal = arr.max() else {\n            return arr\n        }\n\n        if minVal == maxVal {\n            return arr\n        }\n\n        // Initialize buckets\n        var buckets: [[Int]] = Array(repeating: [], count: n)\n        let range = Double(maxVal - minVal)\n\n        // Distribute elements into buckets\n        for x in arr {\n            let index = Int(Double(x - minVal) * Double(n - 1) / range)\n            buckets[index].append(x)\n        }\n\n        // Sort each bucket and merge\n        var result: [Int] = []\n        result.reserveCapacity(n)\n        for i in 0..<n {\n            if !buckets[i].isEmpty {\n                let sortedBucket = buckets[i].sorted()\n                result.append(contentsOf: sortedBucket)\n            }\n        }\n\n        return result\n    }\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "bucketSort.ts",
+          "content": "/**\n * Bucket Sort implementation.\n * Divides the input into several buckets, each of which is then sorted individually.\n * @param arr the input array\n * @returns a sorted copy of the array\n */\nexport function bucketSort(arr: number[]): number[] {\n    const n = arr.length;\n    if (n <= 1) {\n        return [...arr];\n    }\n\n    let min = arr[0];\n    let max = arr[0];\n    for (let i = 1; i < n; i++) {\n        if (arr[i] < min) min = arr[i];\n        if (arr[i] > max) max = arr[i];\n    }\n\n    if (min === max) {\n        return [...arr];\n    }\n\n    // Initialize buckets\n    const buckets: number[][] = Array.from({ length: n }, () => []);\n    const range = max - min;\n\n    // Distribute elements into buckets\n    for (const x of arr) {\n        const index = Math.floor(((x - min) * (n - 1)) / range);\n        buckets[index].push(x);\n    }\n\n    // Sort each bucket and merge\n    const result: number[] = [];\n    for (const bucket of buckets) {\n        if (bucket.length > 0) {\n            // Using built-in sort for simplicity\n            bucket.sort((a, b) => a - b);\n            result.push(...bucket);\n        }\n    }\n\n    return result;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Bucket Sort\n\n## Overview\n\nBucket Sort is a distribution-based sorting algorithm that works by distributing elements into a number of \"buckets,\" sorting each bucket individually (typically using insertion sort or another simple algorithm), and then concatenating all the sorted buckets to produce the final sorted array. It is particularly efficient when the input data is uniformly distributed over a known range.\n\nBucket Sort achieves linear average-case time complexity O(n + k) when the data is uniformly distributed, where k is the number of buckets. It is widely used in applications such as sorting floating-point numbers in a bounded range and as a subroutine in radix sort implementations.\n\n## How It Works\n\n1. Determine the minimum and maximum values in the input to establish the range.\n2. Create `k` empty buckets, each representing a sub-range of the total range.\n3. Distribute each element into the appropriate bucket based on its value: `bucket_index = floor((value - min) * k / (max - min + 1))`.\n4. Sort each individual bucket (commonly using insertion sort).\n5. Concatenate all buckets in order to produce the sorted output.\n\n## Worked Example\n\nGiven input: `[29, 25, 3, 49, 9, 37, 21, 43]`, using 5 buckets.\n\nRange: min = 3, max = 49, span = 47.\n\n**Step 1 -- Distribute elements into buckets:**\n\n| Element | Bucket Index                      | Bucket   |\n|---------|-----------------------------------|----------|\n| 29      | floor((29-3)*5/47) = floor(2.76) = 2 | Bucket 2 |\n| 25      | floor((25-3)*5/47) = floor(2.34) = 2 | Bucket 2 |\n| 3       | floor((3-3)*5/47) = floor(0) = 0     | Bucket 0 |\n| 49      | floor((49-3)*5/47) = floor(4.89) = 4 | Bucket 4 |\n| 9       | floor((9-3)*5/47) = floor(0.63) = 0  | Bucket 0 |\n| 37      | floor((37-3)*5/47) = floor(3.61) = 3 | Bucket 3 |\n| 21      | floor((21-3)*5/47) = floor(1.91) = 1 | Bucket 1 |\n| 43      | floor((43-3)*5/47) = floor(4.25) = 4 | Bucket 4 |\n\n**Step 2 -- Sort each bucket:**\n\n| Bucket   | Before Sorting | After Sorting |\n|----------|---------------|---------------|\n| Bucket 0 | [3, 9]        | [3, 9]        |\n| Bucket 1 | [21]          | [21]          |\n| Bucket 2 | [29, 25]      | [25, 29]      |\n| Bucket 3 | [37]          | [37]          |\n| Bucket 4 | [49, 43]      | [43, 49]      |\n\n**Step 3 -- Concatenate:** `[3, 9, 21, 25, 29, 37, 43, 49]`\n\n## Pseudocode\n\n```\nfunction bucketSort(array, k):\n    n = length(array)\n    if n <= 1:\n        return array\n\n    minVal = min(array)\n    maxVal = max(array)\n\n    // Create k empty buckets\n    buckets = array of k empty lists\n\n    // Distribute elements into buckets\n    for each element in array:\n        index = floor((element - minVal) * k / (maxVal - minVal + 1))\n        buckets[index].append(element)\n\n    // Sort each bucket (using insertion sort)\n    for each bucket in buckets:\n        insertionSort(bucket)\n\n    // Concatenate all buckets\n    result = []\n    for each bucket in buckets:\n        result.extend(bucket)\n\n    return result\n```\n\n## Complexity Analysis\n\n| Case    | Time      | Space    |\n|---------|-----------|----------|\n| Best    | O(n + k)  | O(n + k) |\n| Average | O(n + k)  | O(n + k) |\n| Worst   | O(n^2)    | O(n + k) |\n\n**Why these complexities?**\n\n- **Best and Average Case -- O(n + k):** When elements are uniformly distributed, each of the k buckets contains approximately n/k elements. Distributing elements takes O(n). Sorting each bucket with insertion sort takes O((n/k)^2), and summing across all k buckets gives O(k * (n/k)^2) = O(n^2/k). When k is chosen proportional to n (k ~ n), this becomes O(n).\n\n- **Worst Case -- O(n^2):** When all elements fall into a single bucket (due to highly skewed distribution), the entire sort reduces to sorting n elements with insertion sort, which is O(n^2).\n\n- **Space -- O(n + k):** The algorithm requires space for k buckets plus storage for all n elements distributed across those buckets.\n\n## When to Use\n\n- **Uniformly distributed data over a known range:** Bucket Sort achieves linear time when elements are spread evenly across the range.\n- **Sorting floating-point numbers in [0, 1):** This is the classic use case where each bucket covers an equal sub-interval.\n- **External sorting:** Bucket Sort's distribution phase maps naturally to splitting data across disk partitions.\n- **As a subroutine in radix sort:** Radix sort uses a variant of bucket sort (counting sort) to sort by each digit.\n- **Histogram-based processing:** When data naturally partitions into range-based groups.\n\n## When NOT to Use\n\n- **Highly skewed or non-uniform distributions:** If most elements cluster into a few buckets, performance degrades to O(n^2).\n- **Unknown data range:** Bucket Sort requires knowing or computing the minimum and maximum values. If the range is extremely large relative to the number of elements, too many empty buckets waste memory.\n- **Integer data with large range and few elements:** Counting sort or radix sort may be more appropriate.\n- **When in-place sorting is required:** Bucket Sort requires O(n + k) additional space for the buckets.\n\n## Comparison with Similar Algorithms\n\n| Algorithm      | Time (avg) | Space    | Stable | Notes                                          |\n|----------------|-----------|----------|--------|-------------------------------------------------|\n| Bucket Sort    | O(n + k)  | O(n + k) | Yes*   | Best for uniformly distributed data              |\n| Counting Sort  | O(n + k)  | O(n + k) | Yes    | Best for small integer ranges                    |\n| Radix Sort     | O(d(n+k)) | O(n + k) | Yes    | Sorts by digit; uses counting/bucket as subroutine |\n| Quick Sort     | O(n log n)| O(log n) | No     | General-purpose comparison sort                  |\n| Merge Sort     | O(n log n)| O(n)     | Yes    | Guaranteed O(n log n); comparison-based           |\n\n*Bucket Sort is stable when the sub-sort within each bucket is stable (e.g., insertion sort).\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [bucket_sort.py](python/bucket_sort.py) |\n| Java       | [BucketSort.java](java/BucketSort.java) |\n| C++        | [bucket_sort.cpp](cpp/bucket_sort.cpp) |\n| C          | [bucket_sort.c](c/bucket_sort.c) |\n| Go         | [bucket_sort.go](go/bucket_sort.go) |\n| TypeScript | [bucketSort.ts](typescript/bucketSort.ts) |\n| Rust       | [bucket_sort.rs](rust/bucket_sort.rs) |\n| Kotlin     | [BucketSort.kt](kotlin/BucketSort.kt) |\n| Swift      | [BucketSort.swift](swift/BucketSort.swift) |\n| Scala      | [BucketSort.scala](scala/BucketSort.scala) |\n| C#         | [BucketSort.cs](csharp/BucketSort.cs) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Section 8.4: Bucket Sort.\n- Knuth, D. E. (1998). *The Art of Computer Programming, Volume 3: Sorting and Searching* (2nd ed.). Addison-Wesley.\n- [Bucket Sort -- Wikipedia](https://en.wikipedia.org/wiki/Bucket_sort)\n"
+}

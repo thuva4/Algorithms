@@ -1,0 +1,17 @@
+name: "Levenshtein Distance"
+slug: "levenshtein-distance"
+category: "strings"
+subcategory: "edit-distance"
+difficulty: "intermediate"
+tags: [strings, dynamic-programming, edit-distance, levenshtein]
+complexity:
+  time:
+    best: "O(n * m)"
+    average: "O(n * m)"
+    worst: "O(n * m)"
+  space: "O(n * m)"
+stable: null
+in_place: false
+related: [edit-distance, longest-common-subsequence]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

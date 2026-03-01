@@ -1,0 +1,22 @@
+name: "Linked List Operations"
+slug: "linked-list-operations"
+category: "data-structures"
+subcategory: "linked-list"
+difficulty: "beginner"
+tags: [data-structures, linked-list, pointers]
+complexity:
+  time:
+    best: "O(1)"
+    average: "O(n)"
+    worst: "O(n)"
+  space: "O(1)"
+stable: false
+in_place: true
+related: [lru-cache]
+implementations: [python, java, cpp, c, go, typescript, kotlin, rust, swift, scala, csharp]
+visualization: false
+patterns:
+  - fast-slow-pointers
+  - in-place-reversal-linkedlist
+patternDifficulty: beginner
+practiceOrder: 2

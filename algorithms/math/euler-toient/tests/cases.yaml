@@ -1,0 +1,27 @@
+algorithm: "euler-toient"
+function_signature:
+  name: "euler_totient"
+  input: [n]
+  output: phi_n
+test_cases:
+  - name: "phi of 1"
+    input: [1]
+    expected: 1
+  - name: "phi of prime"
+    input: [7]
+    expected: 6
+  - name: "phi of 10"
+    input: [10]
+    expected: 4
+  - name: "phi of 12"
+    input: [12]
+    expected: 4
+  - name: "phi of power of 2"
+    input: [8]
+    expected: 4
+  - name: "phi of 36"
+    input: [36]
+    expected: 12
+  - name: "phi of 2"
+    input: [2]
+    expected: 1

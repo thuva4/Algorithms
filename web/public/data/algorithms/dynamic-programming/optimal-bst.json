@@ -1,0 +1,132 @@
+{
+  "name": "Optimal Binary Search Tree",
+  "slug": "optimal-bst",
+  "category": "dynamic-programming",
+  "subcategory": "trees",
+  "difficulty": "advanced",
+  "tags": [
+    "dynamic-programming",
+    "bst",
+    "optimization",
+    "trees"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n^3)",
+      "average": "O(n^3)",
+      "worst": "O(n^3)"
+    },
+    "space": "O(n^2)"
+  },
+  "related": [
+    "knapsack",
+    "matrix-chain-multiplication"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "optimal_bst.c",
+          "content": "#include \"optimal_bst.h\"\n#include <stdlib.h>\n#include <limits.h>\n\nint optimal_bst(int* arr, int len) {\n    int n = arr[0];\n    int* freq = arr + 1;\n\n    int** cost = (int**)malloc(n * sizeof(int*));\n    for (int i = 0; i < n; i++) {\n        cost[i] = (int*)calloc(n, sizeof(int));\n        cost[i][i] = freq[i];\n    }\n\n    for (int l = 2; l <= n; l++) {\n        for (int i = 0; i <= n - l; i++) {\n            int j = i + l - 1;\n            cost[i][j] = INT_MAX;\n            int freqSum = 0;\n            for (int k = i; k <= j; k++) freqSum += freq[k];\n\n            for (int r = i; r <= j; r++) {\n                int left = r > i ? cost[i][r-1] : 0;\n                int right = r < j ? cost[r+1][j] : 0;\n                int c = left + right + freqSum;\n                if (c < cost[i][j]) cost[i][j] = c;\n            }\n        }\n    }\n\n    int result = cost[0][n-1];\n    for (int i = 0; i < n; i++) free(cost[i]);\n    free(cost);\n    return result;\n}\n"
+        },
+        {
+          "filename": "optimal_bst.h",
+          "content": "#ifndef OPTIMAL_BST_H\n#define OPTIMAL_BST_H\n\nint optimal_bst(int* arr, int len);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "optimal_bst.cpp",
+          "content": "#include <vector>\n#include <climits>\n\nusing namespace std;\n\nint optimal_bst(vector<int> arr) {\n    int n = arr[0];\n    vector<int> freq(arr.begin() + 1, arr.begin() + 1 + n);\n    vector<vector<int>> cost(n, vector<int>(n, 0));\n\n    for (int i = 0; i < n; i++) cost[i][i] = freq[i];\n\n    for (int len = 2; len <= n; len++) {\n        for (int i = 0; i <= n - len; i++) {\n            int j = i + len - 1;\n            cost[i][j] = INT_MAX;\n            int freqSum = 0;\n            for (int k = i; k <= j; k++) freqSum += freq[k];\n\n            for (int r = i; r <= j; r++) {\n                int left = r > i ? cost[i][r-1] : 0;\n                int right = r < j ? cost[r+1][j] : 0;\n                int c = left + right + freqSum;\n                if (c < cost[i][j]) cost[i][j] = c;\n            }\n        }\n    }\n\n    return cost[0][n-1];\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "OptimalBST.cs",
+          "content": "using System;\n\npublic class OptimalBST\n{\n    public static int Compute(int[] arr)\n    {\n        int n = arr[0];\n        int[] freq = new int[n];\n        for (int i = 0; i < n; i++) freq[i] = arr[i + 1];\n\n        int[,] cost = new int[n, n];\n        for (int i = 0; i < n; i++) cost[i, i] = freq[i];\n\n        for (int len = 2; len <= n; len++)\n        {\n            for (int i = 0; i <= n - len; i++)\n            {\n                int j = i + len - 1;\n                cost[i, j] = int.MaxValue;\n                int freqSum = 0;\n                for (int k = i; k <= j; k++) freqSum += freq[k];\n\n                for (int r = i; r <= j; r++)\n                {\n                    int left = r > i ? cost[i, r - 1] : 0;\n                    int right = r < j ? cost[r + 1, j] : 0;\n                    int c = left + right + freqSum;\n                    if (c < cost[i, j]) cost[i, j] = c;\n                }\n            }\n        }\n\n        return cost[0, n - 1];\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "optimal_bst.go",
+          "content": "package optimalbst\n\nimport \"math\"\n\nfunc OptimalBST(arr []int) int {\n\tn := arr[0]\n\tfreq := arr[1 : n+1]\n\n\tcost := make([][]int, n)\n\tfor i := range cost {\n\t\tcost[i] = make([]int, n)\n\t\tcost[i][i] = freq[i]\n\t}\n\n\tfor l := 2; l <= n; l++ {\n\t\tfor i := 0; i <= n-l; i++ {\n\t\t\tj := i + l - 1\n\t\t\tcost[i][j] = math.MaxInt64\n\t\t\tfreqSum := 0\n\t\t\tfor k := i; k <= j; k++ {\n\t\t\t\tfreqSum += freq[k]\n\t\t\t}\n\n\t\t\tfor r := i; r <= j; r++ {\n\t\t\t\tleft := 0\n\t\t\t\tif r > i {\n\t\t\t\t\tleft = cost[i][r-1]\n\t\t\t\t}\n\t\t\t\tright := 0\n\t\t\t\tif r < j {\n\t\t\t\t\tright = cost[r+1][j]\n\t\t\t\t}\n\t\t\t\tc := left + right + freqSum\n\t\t\t\tif c < cost[i][j] {\n\t\t\t\t\tcost[i][j] = c\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\n\treturn cost[0][n-1]\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "OptimalBST.java",
+          "content": "public class OptimalBST {\n\n    public static int optimalBst(int[] arr) {\n        int n = arr[0];\n        int[] freq = new int[n];\n        for (int i = 0; i < n; i++) freq[i] = arr[i + 1];\n\n        int[][] cost = new int[n][n];\n\n        for (int i = 0; i < n; i++) cost[i][i] = freq[i];\n\n        for (int len = 2; len <= n; len++) {\n            for (int i = 0; i <= n - len; i++) {\n                int j = i + len - 1;\n                cost[i][j] = Integer.MAX_VALUE;\n                int freqSum = 0;\n                for (int k = i; k <= j; k++) freqSum += freq[k];\n\n                for (int r = i; r <= j; r++) {\n                    int left = r > i ? cost[i][r - 1] : 0;\n                    int right = r < j ? cost[r + 1][j] : 0;\n                    int c = left + right + freqSum;\n                    if (c < cost[i][j]) cost[i][j] = c;\n                }\n            }\n        }\n\n        return cost[0][n - 1];\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "OptimalBST.kt",
+          "content": "fun optimalBst(arr: IntArray): Int {\n    val n = arr[0]\n    val freq = IntArray(n) { arr[it + 1] }\n\n    val cost = Array(n) { IntArray(n) }\n    for (i in 0 until n) cost[i][i] = freq[i]\n\n    for (len in 2..n) {\n        for (i in 0..n - len) {\n            val j = i + len - 1\n            cost[i][j] = Int.MAX_VALUE\n            val freqSum = (i..j).sumOf { freq[it] }\n\n            for (r in i..j) {\n                val left = if (r > i) cost[i][r - 1] else 0\n                val right = if (r < j) cost[r + 1][j] else 0\n                val c = left + right + freqSum\n                if (c < cost[i][j]) cost[i][j] = c\n            }\n        }\n    }\n\n    return cost[0][n - 1]\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "optimal_bst.py",
+          "content": "def optimal_bst(arr: list[int]) -> int:\n    n = arr[0]\n    freq = arr[1:n + 1]\n\n    # cost[i][j] = optimal cost for keys i..j\n    cost = [[0] * n for _ in range(n)]\n\n    # Base case: single keys\n    for i in range(n):\n        cost[i][i] = freq[i]\n\n    # Fill for increasing chain lengths\n    for length in range(2, n + 1):\n        for i in range(n - length + 1):\n            j = i + length - 1\n            cost[i][j] = float('inf')\n            freq_sum = sum(freq[i:j + 1])\n\n            for r in range(i, j + 1):\n                left = cost[i][r - 1] if r > i else 0\n                right = cost[r + 1][j] if r < j else 0\n                c = left + right + freq_sum\n                if c < cost[i][j]:\n                    cost[i][j] = c\n\n    return cost[0][n - 1]\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "optimal_bst.rs",
+          "content": "pub fn optimal_bst(arr: &[i32]) -> i32 {\n    let n = arr[0] as usize;\n    let freq: Vec<i32> = arr[1..=n].to_vec();\n\n    let mut cost = vec![vec![0i32; n]; n];\n    for i in 0..n {\n        cost[i][i] = freq[i];\n    }\n\n    for len in 2..=n {\n        for i in 0..=(n - len) {\n            let j = i + len - 1;\n            cost[i][j] = i32::MAX;\n            let freq_sum: i32 = freq[i..=j].iter().sum();\n\n            for r in i..=j {\n                let left = if r > i { cost[i][r - 1] } else { 0 };\n                let right = if r < j { cost[r + 1][j] } else { 0 };\n                let c = left + right + freq_sum;\n                if c < cost[i][j] {\n                    cost[i][j] = c;\n                }\n            }\n        }\n    }\n\n    cost[0][n - 1]\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "OptimalBST.scala",
+          "content": "object OptimalBST {\n\n  def optimalBst(arr: Array[Int]): Int = {\n    val n = arr(0)\n    val freq = Array.tabulate(n)(i => arr(i + 1))\n\n    val cost = Array.ofDim[Int](n, n)\n    for (i <- 0 until n) cost(i)(i) = freq(i)\n\n    for (len <- 2 to n) {\n      for (i <- 0 to n - len) {\n        val j = i + len - 1\n        cost(i)(j) = Int.MaxValue\n        val freqSum = (i to j).map(freq(_)).sum\n\n        for (r <- i to j) {\n          val left = if (r > i) cost(i)(r - 1) else 0\n          val right = if (r < j) cost(r + 1)(j) else 0\n          val c = left + right + freqSum\n          if (c < cost(i)(j)) cost(i)(j) = c\n        }\n      }\n    }\n\n    cost(0)(n - 1)\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "OptimalBST.swift",
+          "content": "func optimalBst(_ arr: [Int]) -> Int {\n    let n = arr[0]\n    if n == 0 { return 0 }\n    let freq = Array(arr[1...n])\n\n    var cost = Array(repeating: Array(repeating: 0, count: n), count: n)\n    for i in 0..<n { cost[i][i] = freq[i] }\n\n    if n >= 2 {\n        for len in 2...n {\n            for i in 0...(n - len) {\n                let j = i + len - 1\n                cost[i][j] = Int.max\n                var freqSum = 0\n                for k in i...j { freqSum += freq[k] }\n\n                for r in i...j {\n                    let left = r > i ? cost[i][r - 1] : 0\n                    let right = r < j ? cost[r + 1][j] : 0\n                    let c = left + right + freqSum\n                    if c < cost[i][j] { cost[i][j] = c }\n                }\n            }\n        }\n    }\n\n    return cost[0][n - 1]\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "optimalBst.ts",
+          "content": "export function optimalBst(arr: number[]): number {\n    const n = arr[0];\n    const freq = arr.slice(1, n + 1);\n\n    const cost: number[][] = Array.from({ length: n }, () => new Array(n).fill(0));\n    for (let i = 0; i < n; i++) cost[i][i] = freq[i];\n\n    for (let len = 2; len <= n; len++) {\n        for (let i = 0; i <= n - len; i++) {\n            const j = i + len - 1;\n            cost[i][j] = Infinity;\n            let freqSum = 0;\n            for (let k = i; k <= j; k++) freqSum += freq[k];\n\n            for (let r = i; r <= j; r++) {\n                const left = r > i ? cost[i][r - 1] : 0;\n                const right = r < j ? cost[r + 1][j] : 0;\n                const c = left + right + freqSum;\n                if (c < cost[i][j]) cost[i][j] = c;\n            }\n        }\n    }\n\n    return cost[0][n - 1];\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Optimal Binary Search Tree\n\n## Overview\n\nThe Optimal BST problem constructs a binary search tree that minimizes the expected search cost given known search frequencies for each key. Unlike a balanced BST which minimizes worst-case depth, an optimal BST places frequently accessed keys closer to the root, trading off balance for reduced average access time. This is solved using dynamic programming by considering all possible root choices for each subproblem and selecting the one with minimum cost.\n\nThe problem was first studied by Knuth (1971), who also showed that the optimal split points are monotone, leading to an O(n^2) optimization (see Knuth's Optimization). The standard DP approach presented here runs in O(n^3).\n\n## How It Works\n\n1. Let freq[i] be the search frequency of key i (i = 0, 1, ..., n-1).\n2. Define `cost[i][j]` as the minimum expected search cost for a BST containing keys i through j.\n3. For each subproblem (i, j), try every key r in [i, j] as the root:\n   - Left subtree: keys i to r-1 with cost cost[i][r-1]\n   - Right subtree: keys r+1 to j with cost cost[r+1][j]\n   - When a subtree becomes a child, all its nodes go one level deeper, adding sum(freq[i..j]) to the total cost.\n4. `cost[i][j] = min over r in [i..j] of (cost[i][r-1] + cost[r+1][j]) + sum(freq[i..j])`.\n5. The answer is `cost[0][n-1]`.\n\n## Worked Example\n\n**Keys:** [10, 20, 30] with frequencies **freq = [3, 4, 2]**\n\n**Prefix sums:** W(0,0)=3, W(1,1)=4, W(2,2)=2, W(0,1)=7, W(1,2)=6, W(0,2)=9\n\n**Base cases:** cost[0][0]=3, cost[1][1]=4, cost[2][2]=2\n\n**Interval [0,1]** (keys 10, 20):\n- r=0 (root=10): cost[-1][-1] + cost[1][1] + W(0,1) = 0 + 4 + 7 = 11\n- r=1 (root=20): cost[0][0] + cost[2][1] + W(0,1) = 3 + 0 + 7 = 10\n- cost[0][1] = min(11, 10) = **10** (root=20)\n\n**Interval [1,2]** (keys 20, 30):\n- r=1 (root=20): 0 + 2 + 6 = 8\n- r=2 (root=30): 4 + 0 + 6 = 10\n- cost[1][2] = min(8, 10) = **8** (root=20)\n\n**Interval [0,2]** (all keys):\n- r=0 (root=10): 0 + 8 + 9 = 17\n- r=1 (root=20): 3 + 2 + 9 = 14\n- r=2 (root=30): 10 + 0 + 9 = 19\n- cost[0][2] = min(17, 14, 19) = **14** (root=20)\n\n**Optimal BST:**\n```\n    20 (freq=4)\n   /  \\\n  10    30\n(f=3) (f=2)\n```\n\nExpected cost = 4*1 + 3*2 + 2*2 = 4 + 6 + 4 = **14** (depths: root=1, children=2).\n\n## Pseudocode\n\n```\nfunction optimalBST(freq, n):\n    cost = 2D array of size n x n, initialized to 0\n    prefixSum = prefix sum array of freq\n\n    function W(i, j):    // sum of freq[i..j]\n        return prefixSum[j+1] - prefixSum[i]\n\n    // Base case: single keys\n    for i = 0 to n-1:\n        cost[i][i] = freq[i]\n\n    // Fill by increasing interval length\n    for len = 2 to n:\n        for i = 0 to n - len:\n            j = i + len - 1\n            cost[i][j] = infinity\n\n            for r = i to j:\n                leftCost = (r > i) ? cost[i][r-1] : 0\n                rightCost = (r < j) ? cost[r+1][j] : 0\n                total = leftCost + rightCost + W(i, j)\n                cost[i][j] = min(cost[i][j], total)\n\n    return cost[0][n-1]\n```\n\n## Complexity Analysis\n\n| Case    | Time   | Space  |\n|---------|--------|--------|\n| Best    | O(n^3) | O(n^2) |\n| Average | O(n^3) | O(n^2) |\n| Worst   | O(n^3) | O(n^2) |\n\n**Why these complexities?**\n\n- **Time -- O(n^3):** There are O(n^2) subproblems (one for each interval [i, j]). For each subproblem, we try up to O(n) possible roots. Total: O(n^3). With Knuth's optimization (monotone optimal splits), this can be reduced to O(n^2).\n\n- **Space -- O(n^2):** The cost table stores one value per interval [i, j].\n\n## When to Use\n\n- **Static dictionaries with known access patterns:** When you have a fixed set of keys and know how often each will be searched, an optimal BST minimizes average lookup time.\n- **Compiler symbol tables:** Frequently used identifiers should be placed near the root of the lookup structure.\n- **Database indexing:** When query patterns are known a priori, the index structure can be optimized accordingly.\n- **Huffman-like coding:** The optimal BST structure is related to optimal prefix codes for non-uniform distributions.\n- **Auto-complete systems:** Words searched more frequently should be found faster.\n\n## When NOT to Use\n\n- **Dynamic key sets:** If keys are inserted and deleted frequently, self-balancing BSTs (AVL, Red-Black, Splay trees) adapt automatically and are more practical.\n- **Unknown access patterns:** Without frequency data, balanced BSTs provide O(log n) worst-case guarantee.\n- **Large n with real-time constraints:** The O(n^3) construction time (or O(n^2) with Knuth's optimization) may be too slow for very large key sets.\n- **When a hash table suffices:** If O(1) average-case lookup is acceptable and order does not matter, hash tables are faster.\n- **Uniform access frequencies:** If all keys are accessed equally often, a balanced BST is already optimal.\n\n## Comparison\n\n| Data Structure        | Build Time | Lookup (avg) | Notes                                   |\n|----------------------|-----------|-------------|------------------------------------------|\n| **Optimal BST**       | **O(n^3)** | **O(weighted depth)** | **Best average case for known frequencies** |\n| Balanced BST (AVL)    | O(n log n)| O(log n)    | Self-balancing; no frequency info needed |\n| Splay Tree            | O(n)      | O(log n) amortized | Adapts to access patterns dynamically   |\n| Hash Table            | O(n)      | O(1) avg    | No ordering; worst case O(n)            |\n| Skip List             | O(n log n)| O(log n)    | Probabilistic; simpler than balanced BST|\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [optimal_bst.py](python/optimal_bst.py) |\n| Java       | [OptimalBST.java](java/OptimalBST.java) |\n| C++        | [optimal_bst.cpp](cpp/optimal_bst.cpp) |\n| C          | [optimal_bst.c](c/optimal_bst.c) |\n| Go         | [optimal_bst.go](go/optimal_bst.go) |\n| TypeScript | [optimalBst.ts](typescript/optimalBst.ts) |\n| Rust       | [optimal_bst.rs](rust/optimal_bst.rs) |\n| Kotlin     | [OptimalBST.kt](kotlin/OptimalBST.kt) |\n| Swift      | [OptimalBST.swift](swift/OptimalBST.swift) |\n| Scala      | [OptimalBST.scala](scala/OptimalBST.scala) |\n| C#         | [OptimalBST.cs](csharp/OptimalBST.cs) |\n\n## References\n\n- Knuth, D. E. (1971). \"Optimum Binary Search Trees.\" *Acta Informatica*, 1(1), 14-25.\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Section 15.5: Optimal Binary Search Trees.\n- Mehlhorn, K. (1975). \"Nearly Optimal Binary Search Trees.\" *Acta Informatica*, 5(4), 287-295.\n- [Optimal Binary Search Tree -- Wikipedia](https://en.wikipedia.org/wiki/Optimal_binary_search_tree)\n"
+}

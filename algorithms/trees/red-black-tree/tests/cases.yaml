@@ -1,0 +1,24 @@
+algorithm: "red-black-tree"
+function_signature:
+  name: "rb_insert_inorder"
+  input: [array_of_integers]
+  output: array_of_integers
+test_cases:
+  - name: "multiple insertions"
+    input: [[7, 3, 18, 10, 22, 8, 11, 26]]
+    expected: [3, 7, 8, 10, 11, 18, 22, 26]
+  - name: "sequential ascending"
+    input: [[1, 2, 3]]
+    expected: [1, 2, 3]
+  - name: "single element"
+    input: [[5]]
+    expected: [5]
+  - name: "descending order"
+    input: [[5, 4, 3, 2, 1]]
+    expected: [1, 2, 3, 4, 5]
+  - name: "two elements"
+    input: [[2, 1]]
+    expected: [1, 2]
+  - name: "duplicates ignored"
+    input: [[3, 1, 3, 2, 1]]
+    expected: [1, 2, 3]

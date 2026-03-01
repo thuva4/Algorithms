@@ -1,0 +1,17 @@
+name: "Prim's MST (Priority Queue)"
+slug: "prims-fibonacci-heap"
+category: "graph"
+subcategory: "spanning-tree"
+difficulty: "advanced"
+tags: [graph, minimum-spanning-tree, prims, priority-queue, fibonacci-heap]
+complexity:
+  time:
+    best: "O(E log V)"
+    average: "O(E log V)"
+    worst: "O(E log V)"
+  space: "O(V + E)"
+stable: null
+in_place: false
+related: [prims, dijkstras]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

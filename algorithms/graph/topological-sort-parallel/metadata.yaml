@@ -1,0 +1,17 @@
+name: "Parallel Topological Sort"
+slug: "topological-sort-parallel"
+category: "graph"
+subcategory: "ordering"
+difficulty: "advanced"
+tags: [graph, topological-sort, parallel, dag, kahn, scheduling]
+complexity:
+  time:
+    best: "O(V + E)"
+    average: "O(V + E)"
+    worst: "O(V + E)"
+  space: "O(V + E)"
+stable: null
+in_place: false
+related: [topological-sort, topological-sort-kahn]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

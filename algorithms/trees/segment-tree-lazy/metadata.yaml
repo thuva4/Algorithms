@@ -1,0 +1,17 @@
+name: "Segment Tree with Lazy Propagation"
+slug: "segment-tree-lazy"
+category: "trees"
+subcategory: "range-query"
+difficulty: "advanced"
+tags: [trees, segment-tree, lazy-propagation, range-update, range-query]
+complexity:
+  time:
+    best: "O(log n)"
+    average: "O(log n)"
+    worst: "O(log n)"
+  space: "O(n)"
+stable: null
+in_place: false
+related: [segment-tree, fenwick-tree]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

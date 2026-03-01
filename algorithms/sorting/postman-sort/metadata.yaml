@@ -1,0 +1,17 @@
+name: "Postman Sort"
+slug: "postman-sort"
+category: "sorting"
+subcategory: "distribution"
+difficulty: "intermediate"
+tags: [sorting, non-comparison, stable, distribution]
+complexity:
+  time:
+    best: "O(n)"
+    average: "O(n*k)"
+    worst: "O(n*k)"
+  space: "O(n+k)"
+stable: true
+in_place: false
+related: [radix-sort, counting-sort]
+implementations: [c]
+visualization: true

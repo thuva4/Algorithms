@@ -1,0 +1,21 @@
+algorithm: "word-break"
+function_signature:
+  name: "can_sum"
+  input: [array_of_integers, integer]
+  output: integer
+test_cases:
+  - name: "reachable with two and three"
+    input: [[2, 3], 7]
+    expected: 1
+  - name: "reachable with five and three"
+    input: [[5, 3], 8]
+    expected: 1
+  - name: "unreachable with evens"
+    input: [[2, 4], 7]
+    expected: 0
+  - name: "reachable with single one"
+    input: [[1], 5]
+    expected: 1
+  - name: "unreachable large element"
+    input: [[7], 3]
+    expected: 0

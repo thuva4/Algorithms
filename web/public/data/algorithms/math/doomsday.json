@@ -1,0 +1,114 @@
+{
+  "name": "Doomsday Algorithm",
+  "slug": "doomsday",
+  "category": "math",
+  "subcategory": "calendar",
+  "difficulty": "intermediate",
+  "tags": [
+    "math",
+    "calendar",
+    "day-of-week",
+    "doomsday",
+    "date"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(1)",
+      "average": "O(1)",
+      "worst": "O(1)"
+    },
+    "space": "O(1)"
+  },
+  "stable": false,
+  "in_place": true,
+  "related": [],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "day_of_week.c",
+          "content": "char *day_of_week(int year, int month, int day) {\n    static char *names[] = {\n        \"Sunday\", \"Monday\", \"Tuesday\", \"Wednesday\",\n        \"Thursday\", \"Friday\", \"Saturday\"\n    };\n    static int offsets[] = {0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4};\n    int y = year;\n    if (month < 3) {\n        y--;\n    }\n    int index = (y + y / 4 - y / 100 + y / 400 + offsets[month - 1] + day) % 7;\n    return names[index];\n}\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "doomsday.cpp",
+          "content": "#include <iostream>\n#include <string>\n\nint dayOfWeek(int y, int m, int d){\n    int t[]={0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4};\n    y -= (m<3) ? 1 : 0;\n    return (y + y/4 - y/100 + y/400 + t[m-1] + d) % 7;\n}\n\nint main(int argc, char** argv){\n    if(argc != 4){\n        std::cout<<\"usage is: program YYYY MM DD\"<<std::endl;\n        return -1;\n    }\n    int year=std::stoi(argv[1]);\n    int month=std::stoi(argv[2]);\n    int day=std::stoi(argv[3]);\n    std::string days[7]={\"Sunday\", \"Monday\", \"Tuesday\", \"Wednesday\", \"Thursday\", \"Friday\", \"Saturday\"};\n    std::cout<<days[dayOfWeek(year, month, day)]<<std::endl;\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "Doomsday.cs",
+          "content": "using System;\n\nnamespace DD{\n    public class DoomsDay{\n        public static int DayOfWeek(int y, int m, int d){\n            int[] t = {0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4};\n            y -= (m<3) ? 1 : 0;\n            return (y + y/4 - y/100 + y/400 + t[m-1] + d) % 7;\n        }\n\n        public static void PrintDay(int y, int m, int d){\n            switch(DayOfWeek(y,m,d)){\n                case 0:\n                    Console.WriteLine(\"Sunday\");\n                    break;\n                case 1:\n                    Console.WriteLine(\"Monday\");\n                    break;\n                case 2:\n                    Console.WriteLine(\"Tuesday\");\n                    break;\n                case 3:\n                    Console.WriteLine(\"Wednesday\");\n                    break;\n                case 4:\n                    Console.WriteLine(\"Thursday\");\n                    break;\n                case 5:\n                    Console.WriteLine(\"Friday\");\n                    break;\n                case 6:\n                    Console.WriteLine(\"Saturday\");\n                    break;                \n                default:\n                    Console.WriteLine(\"Doomsday\");\n                    break;\n            }\n        }\n\n        public static void Main(){\n            PrintDay(1970, 1, 1);\n        }\n    }\n}"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "doomsday.go",
+          "content": "package main\n\nimport \"fmt\"\n\nfunc dayOfWeek(y, m, d int) int {\n\tt := []int{0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4}\n\tif m < 3 {\n\t\ty--\n\t}\n\treturn (y + y/4 - y/100 + y/400 + t[m-1] + d) % 7\n}\n\nfunc printDay(y, m, d int) {\n\tswitch dayOfWeek(y, m, d) {\n\tcase 0:\n\t\tfmt.Println(\"Sunday\")\n\t\tbreak\n\tcase 1:\n\t\tfmt.Println(\"Monday\")\n\t\tbreak\n\tcase 2:\n\t\tfmt.Println(\"Tuesday\")\n\t\tbreak\n\tcase 3:\n\t\tfmt.Println(\"Wednesday\")\n\t\tbreak\n\tcase 4:\n\t\tfmt.Println(\"Thursday\")\n\t\tbreak\n\tcase 5:\n\t\tfmt.Println(\"Friday\")\n\t\tbreak\n\tcase 6:\n\t\tfmt.Println(\"Saturday\")\n\t\tbreak\n\tdefault:\n\t\tfmt.Println(\"Doomsday\")\n\t\tbreak\n\t}\n}\n\nfunc main() {\n\tprintDay(1970, 1, 1)\n\tprintDay(1111, 11, 11)\n\tprintDay(2000, 1, 1)\n}\n"
+        },
+        {
+          "filename": "doomsday_test.go",
+          "content": "package main\n\nimport (\n\t\"testing\"\n\n\t\"github.com/stretchr/testify/assert\"\n)\n\nfunc TestDayOfWeek(t *testing.T) {\n\tassert.Equal(t, dayOfWeek(1970, 1, 1), 4, \"Should be a Thursday\")\n\tassert.Equal(t, dayOfWeek(1111, 11, 11), 6, \"Should be a Saturday\")\n\tassert.Equal(t, dayOfWeek(2000, 1, 1), 6, \"Should be a Saturday\")\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "Doomsday.java",
+          "content": "/**\n * Determines the day of the week.\n * \n * @author Atom\n *\n */\npublic class Doomsday {\n\tpublic static String dayOfWeek(int year, int month, int day) {\n\t\treturn dowS(year, month, day);\n\t}\n\t\n\t/**\n\t * Determines the day of the week using Tomohiko Sakamoto's Algorithm\n\t * to calculate Day of Week based on Gregorian calendar.\n\t * \n\t * @param y year\n\t * @param m month\n\t * @param d day\n\t * @return day of the week (0 = sunday, 6 = saturday)\n\t */\n\tpublic static int dow(int y, int m, int d) {\n\t\tfinal int[] t = { 0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4 };\n\t\ty -= (m < 3) ? 1 : 0;\n\t\treturn (y + y/4 - y/100 + y/400 + t[m-1] + d) % 7;\n\t}\n\t\n\t/**\n\t * Determines the day of the week using Tomohiko Sakamoto's Algorithm\n\t * to calculate Day of Week based on Gregorian calendar.\n\t * \n\t * @param y year\n\t * @param m month\n\t * @param d day\n\t * @return day of the week\n\t */\n\tpublic static String dowS(int y, int m, int d) {\n\t\tswitch (dow(y, m, d)) {\n\t\t\tcase 0: return \"Sunday\";\n\t\t\tcase 1: return \"Monday\";\n\t\t\tcase 2: return \"Tuesday\";\n\t\t\tcase 3: return \"Wednesday\";\n\t\t\tcase 4: return \"Thursday\";\n\t\t\tcase 5: return \"Friday\";\n\t\t\tcase 6: return \"Saturday\";\n\t\t\tdefault:\n\t\t\t\tSystem.out.println(\"Unknown dow\");\n\t\t}\n\t\treturn null;\n\t}\n\t\n\tpublic static void main(String[] args) {\n\t\tSystem.out.println(dow(1886, 5, 1) + \": \" + dowS(1886, 5, 1));\n\t\tSystem.out.println(dow(1948, 12, 10) + \": \" + dowS(1948, 12, 10));\n\t\tSystem.out.println(dow(2001, 1, 15) + \": \" + dowS(2001, 1, 15));\n\t\tSystem.out.println(dow(2017, 10, 10) + \": \" + dowS(2017, 10, 10));\n\t\tSystem.out.println(dow(2018, 1, 1) + \": \" + dowS(2018, 1, 1));\n\t\tSystem.out.println(dow(2018, 2, 16) + \": \" + dowS(2018, 2, 16));\n\t\tSystem.out.println(dow(2018, 5, 17) + \": \" + dowS(2018, 5, 17));\n\t}\n\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "Doomsday.kt",
+          "content": "fun dow(year: Int, month: Int, day: Int): Int {\n    var year = year\n    val t = intArrayOf(0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4)\n    year -= if (month < 3) 1 else 0\n    return (year + year / 4 - year / 100 + year / 400 + t[month - 1] + day) % 7\n}\n\nfun dowS(year: Int, month: Int, day: Int): String? {\n    when (dow(year, month, day)) {\n        0 -> return \"Sunday\"\n        1 -> return \"Monday\"\n        2 -> return \"Tuesday\"\n        3 -> return \"Wednesday\"\n        4 -> return \"Thursday\"\n        5 -> return \"Friday\"\n        6 -> return \"Saturday\"\n        else -> println(\"Unknown dow\")\n    }\n    return null\n}\n\nfun dayOfWeek(year: Int, month: Int, day: Int): String {\n    return dowS(year, month, day) ?: \"\"\n}\n\nfun main(args: Array<String>) {\n    println(dow(1886, 5, 1).toString() + \": \" + dowS(1886, 5, 1))\n    println(dow(1948, 12, 10).toString() + \": \" + dowS(1948, 12, 10))\n    println(dow(2001, 1, 15).toString() + \": \" + dowS(2001, 1, 15))\n    println(dow(2017, 10, 10).toString() + \": \" + dowS(2017, 10, 10))\n    println(dow(2018, 1, 1).toString() + \": \" + dowS(2018, 1, 1))\n    println(dow(2018, 2, 16).toString() + \": \" + dowS(2018, 2, 16))\n    println(dow(2018, 5, 17).toString() + \": \" + dowS(2018, 5, 17))\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "doomsday.py",
+          "content": "#!/usr/bin/env python3\n\n\ndef day_of_week(year, month, day):\n    t = [0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4]\n    year -= month < 3\n    return (year + int(year/4) - int(year/100) + int(year/400) + t[month-1] + day) % 7\n\n\ny = int(input(\"Enter Year: \"))\nm = int(input(\"Enter month: \"))\nd = int(input(\"Enter day: \"))\nn = (day_of_week(y, m, d))\n\n\nif n == 0:\n    print(\"Sunday\")\nelif n == 1:\n    print(\"Monday\")\nelif n == 2:\n    print(\"Tuesday\")\nelif n == 3:\n    print(\"Wednesday\")\nelif n == 4:\n    print(\"Thursday\")\nelif n == 5:\n    print(\"Friday\")\nelif n == 6:\n    print(\"Saturday\")\nelse:\n    print(\"Error\")\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "Doomsday.swift",
+          "content": "func dow(year: Int, month: Int, day: Int) -> Int {\n    var year = year\n    let t = [0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4]\n    year -= month < 3 ? 1 : 0\n    return (year + year / 4 - year / 100 + year / 400 + t[month - 1] + day) % 7\n}\n\nfunc dowS(year: Int, month: Int, day: Int) -> String {\n    switch (dow(year: year, month: month, day: day)) {\n        case 0: return \"Sunday\"\n        case 1: return \"Monday\"\n        case 2: return \"Tuesday\"\n        case 3: return \"Wednesday\"\n        case 4: return \"Thursday\"\n        case 5: return \"Friday\"\n        case 6: return \"Saturday\"\n        default: return \"Invalid ordinal\"\n    }\n}\n\nfunc dayOfWeek(_ year: Int, _ month: Int, _ day: Int) -> String {\n    dowS(year: year, month: month, day: day)\n}\n\nprint(\"\\(dow(year: 1886, month: 5, day: 1)): \\(dowS(year: 1886, month: 5, day: 1))\")\nprint(\"\\(dow(year: 1948, month: 12, day: 10)): \\(dowS(year: 1948, month: 12, day: 10))\")\nprint(\"\\(dow(year: 2001, month: 1, day: 15)): \\(dowS(year: 2001, month: 1, day: 15))\")\nprint(\"\\(dow(year: 2017, month: 10, day: 10)): \\(dowS(year: 2017, month: 10, day: 10))\")\nprint(\"\\(dow(year: 2018, month: 1, day: 1)): \\(dowS(year: 2018, month: 1, day: 1))\")\nprint(\"\\(dow(year: 2018, month: 2, day: 16)): \\(dowS(year: 2018, month: 2, day: 16))\")\nprint(\"\\(dow(year: 2018, month: 5, day: 17)): \\(dowS(year: 2018, month: 5, day: 17))\")\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "index.js",
+          "content": "function weekdayIndex(year, month, day) {\n  const offsets = [0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4];\n  let y = year;\n  if (month < 3) {\n    y -= 1;\n  }\n  return (y + Math.floor(y / 4) - Math.floor(y / 100) + Math.floor(y / 400) + offsets[month - 1] + day) % 7;\n}\n\nexport function dayOfWeek(year, month, day) {\n  return ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][weekdayIndex(year, month, day)];\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Doomsday Algorithm\n\n## Overview\n\nThe Doomsday Algorithm is a method for determining the day of the week for any given date. Devised by mathematician John Conway, it exploits the fact that certain easy-to-remember dates (called \"doomsdays\") always fall on the same day of the week within any given year. By anchoring calculations to these reference dates, the algorithm can compute the day of the week for any date in constant time.\n\nThe algorithm is elegant enough to be performed mentally with practice, making it a favorite party trick among mathematicians. It is also useful in software for date validation, calendar generation, and historical date analysis.\n\n## How It Works\n\nThe algorithm relies on the following observations: (1) The \"doomsday\" for a year is the day of the week on which certain dates fall (4/4, 6/6, 8/8, 10/10, 12/12, the last day of February, 7/11, 11/7, and others). (2) The anchor day for a century is computed from the century number. (3) The doomsday for a specific year is computed by adding the year-within-century contribution. (4) From the doomsday, any date's day can be found by counting the offset.\n\n### Example\n\nFinding the day of the week for **January 15, 2000:**\n\n**Step 1: Find the century anchor:**\n- Century 2000s: anchor = Tuesday (2)\n\n**Step 2: Find the year's doomsday:**\n- Year within century: y = 00\n- a = floor(00 / 12) = 0\n- b = 00 mod 12 = 0\n- c = floor(0 / 4) = 0\n- Doomsday = (2 + 0 + 0 + 0) mod 7 = 2 = Tuesday\n\n**Step 3: Find the closest doomsday reference date:**\n- January's reference: 1/3 (or 1/4 in leap year). 2000 is a leap year, so reference is 1/4.\n- 1/4 falls on Tuesday (doomsday).\n\n**Step 4: Count offset:**\n- January 15 - January 4 = 11 days\n- 11 mod 7 = 4\n- Tuesday + 4 = Saturday\n\nResult: **January 15, 2000 is a Saturday**\n\n**Another example: March 14, 2023:**\n\n| Step | Computation | Result |\n|------|------------|--------|\n| Century anchor | 2000s | Tuesday (2) |\n| y = 23 | a = 23/12 = 1, b = 23 mod 12 = 11, c = 11/4 = 2 | |\n| Doomsday | (2 + 1 + 11 + 2) mod 7 = 16 mod 7 = 2 | Tuesday |\n| Reference | 3/7 (doomsday in March) | Tuesday |\n| Offset | 14 - 7 = 7, 7 mod 7 = 0 | +0 |\n| Result | Tuesday + 0 | **Tuesday** |\n\n## Pseudocode\n\n```\nfunction doomsday(year, month, day):\n    // Century anchor days: 1800=Fri(5), 1900=Wed(3), 2000=Tue(2), 2100=Sun(0)\n    century = year / 100\n    anchor = (2 - (century mod 4) * 2 + 7) mod 7  // simplified formula\n\n    // Year's doomsday\n    y = year mod 100\n    doomsday = (anchor + y/12 + y mod 12 + (y mod 12)/4) mod 7\n\n    // Reference doomsdays for each month\n    // Jan: 3 (or 4 in leap year), Feb: 28 (or 29), Mar: 7, Apr: 4,\n    // May: 9, Jun: 6, Jul: 11, Aug: 8, Sep: 5, Oct: 10, Nov: 7, Dec: 12\n    ref = getDoomsdayReference(month, isLeapYear(year))\n\n    // Compute day of week\n    offset = (day - ref) mod 7\n    return (doomsday + offset + 7) mod 7\n```\n\nThe algorithm decomposes the calculation into century, year, and month components, each requiring simple arithmetic.\n\n## Complexity Analysis\n\n| Case    | Time | Space |\n|---------|------|-------|\n| Best    | O(1) | O(1)  |\n| Average | O(1) | O(1)  |\n| Worst   | O(1) | O(1)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(1):** The algorithm performs a fixed number of arithmetic operations (additions, divisions, modulo) regardless of the input date.\n\n- **Average Case -- O(1):** The same fixed number of operations is performed for any date. No loops or recursive calls are involved.\n\n- **Worst Case -- O(1):** The computation involves approximately 10-15 arithmetic operations. The complexity does not depend on the magnitude of the year or any other parameter.\n\n- **Space -- O(1):** Only a handful of intermediate variables are needed. A small lookup table for monthly doomsday references uses constant space.\n\n## When to Use\n\n- **Determining the day of the week:** For any date in the Gregorian calendar (or Julian calendar with modifications).\n- **Mental calculation:** The algorithm is designed to be performable in one's head with practice.\n- **Calendar generation:** Building calendars for any month/year.\n- **Historical date analysis:** Finding what day of the week historical events occurred.\n\n## When NOT to Use\n\n- **When a standard library function is available:** Most programming languages have built-in date functions that are simpler to use.\n- **Dates before the Gregorian calendar adoption:** Different calendars require different algorithms.\n- **When batch processing many dates:** A lookup table or precomputed calendar may be more efficient.\n- **Non-Gregorian calendars:** Islamic, Hebrew, and other calendars have different structures.\n\n## Comparison with Similar Algorithms\n\n| Algorithm       | Time | Space | Notes                                          |\n|----------------|------|-------|-------------------------------------------------|\n| Doomsday        | O(1) | O(1)  | Conway's method; mental math friendly            |\n| Zeller's Formula| O(1) | O(1)  | Direct formula; harder to memorize               |\n| Tomohiko Sakamoto| O(1)| O(1)  | Compact formula; popular in programming          |\n| Gauss's Method  | O(1) | O(1)  | Historical; for January 1 of a year              |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [doomsday.py](python/doomsday.py) |\n| Java       | [Doomsday.java](java/Doomsday.java) |\n| C++        | [doomsday.cpp](cpp/doomsday.cpp) |\n| Go         | [doomsday.go](go/doomsday.go) |\n| C#         | [Doomsday.cs](csharp/Doomsday.cs) |\n| TypeScript | [index.js](typescript/index.js) |\n| Kotlin     | [Doomsday.kt](kotlin/Doomsday.kt) |\n| Swift      | [Doomsday.swift](swift/Doomsday.swift) |\n\n## References\n\n- Conway, J. H. (1973). Tomorrow is the day after doomsday. *Eureka*, 36, 28-31.\n- Berlekamp, E. R., Conway, J. H., & Guy, R. K. (2004). *Winning Ways for your Mathematical Plays*. A K Peters. Volume 4, Chapter 24.\n- [Doomsday Rule -- Wikipedia](https://en.wikipedia.org/wiki/Doomsday_rule)\n"
+}

@@ -1,0 +1,24 @@
+algorithm: "longest-bitonic-subsequence"
+function_signature:
+  name: "longest_bitonic_subsequence"
+  input: [array_of_integers]
+  output: integer_length
+test_cases:
+  - name: "standard bitonic"
+    input: [[1, 3, 4, 2, 6, 1]]
+    expected: 5
+  - name: "all increasing"
+    input: [[1, 2, 3, 4, 5]]
+    expected: 5
+  - name: "all decreasing"
+    input: [[5, 4, 3, 2, 1]]
+    expected: 5
+  - name: "single element"
+    input: [[1]]
+    expected: 1
+  - name: "two elements increasing"
+    input: [[1, 2]]
+    expected: 2
+  - name: "peak in middle"
+    input: [[1, 2, 5, 3, 2]]
+    expected: 5

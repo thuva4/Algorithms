@@ -1,0 +1,21 @@
+name: "Robin-Karp Rolling Hash"
+slug: "robin-karp-rolling-hash"
+category: "strings"
+subcategory: "pattern-matching"
+difficulty: "intermediate"
+tags: [strings, hashing, rolling-hash, pattern-matching]
+complexity:
+  time:
+    best: "O(n + m)"
+    average: "O(n + m)"
+    worst: "O(n * m)"
+  space: "O(1)"
+stable: null
+in_place: false
+related: [rabin-karp, hash-table]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false
+patterns:
+  - sliding-window
+patternDifficulty: intermediate
+practiceOrder: 3

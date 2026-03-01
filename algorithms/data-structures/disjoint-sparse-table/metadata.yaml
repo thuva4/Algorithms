@@ -1,0 +1,17 @@
+name: "Disjoint Sparse Table"
+slug: "disjoint-sparse-table"
+category: "data-structures"
+subcategory: "range-query"
+difficulty: "advanced"
+tags: [data-structures, range-query, sparse-table, range-sum]
+complexity:
+  time:
+    best: "O(1)"
+    average: "O(1)"
+    worst: "O(1)"
+  space: "O(n log n)"
+stable: null
+in_place: false
+related: [sparse-table, segment-tree]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

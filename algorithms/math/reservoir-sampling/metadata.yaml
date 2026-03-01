@@ -1,0 +1,17 @@
+name: "Reservoir Sampling"
+slug: "reservoir-sampling"
+category: "math"
+subcategory: "randomization"
+difficulty: "intermediate"
+tags: [math, sampling, random, streaming, probability]
+complexity:
+  time:
+    best: "O(n)"
+    average: "O(n)"
+    worst: "O(n)"
+  space: "O(k)"
+stable: null
+in_place: false
+related: [fisher-yates-shuffle]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

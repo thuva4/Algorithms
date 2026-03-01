@@ -1,0 +1,134 @@
+{
+  "name": "Minimax",
+  "slug": "minimax",
+  "category": "backtracking",
+  "subcategory": "game-theory",
+  "difficulty": "intermediate",
+  "tags": [
+    "backtracking",
+    "game-theory",
+    "minimax",
+    "adversarial-search",
+    "decision-tree"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(b^d)",
+      "average": "O(b^d)",
+      "worst": "O(b^d)"
+    },
+    "space": "O(b * d)"
+  },
+  "stable": false,
+  "in_place": false,
+  "related": [
+    "min-max-ab-pruning"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "minimax.c",
+          "content": "#include <stdio.h>\n#include <math.h>\n\nstatic int max(int a, int b) { return a > b ? a : b; }\nstatic int min(int a, int b) { return a < b ? a : b; }\n\nstatic int minimax_impl(int depth, int nodeIndex, int isMax, int scores[], int h) {\n    if (depth == h)\n        return scores[nodeIndex];\n\n    if (isMax)\n        return max(minimax_impl(depth + 1, nodeIndex * 2, 0, scores, h),\n                   minimax_impl(depth + 1, nodeIndex * 2 + 1, 0, scores, h));\n    else\n        return min(minimax_impl(depth + 1, nodeIndex * 2, 1, scores, h),\n                   minimax_impl(depth + 1, nodeIndex * 2 + 1, 1, scores, h));\n}\n\nstatic int log2_int(int n) {\n    return (n == 1) ? 0 : 1 + log2_int(n / 2);\n}\n\nint minimax(int scores[], int depth, int isMax) {\n    if (depth < 0) {\n        return 0;\n    }\n    return minimax_impl(0, 0, isMax, scores, depth);\n}\n\nint main() {\n    int scores[] = {3, 5, 2, 9, 12, 5, 23, 23};\n    int n = sizeof(scores) / sizeof(scores[0]);\n    int h = log2_int(n);\n    int result = minimax(scores, h, 1);\n    printf(\"The optimal value is: %d\\n\", result);\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "minimax.cpp",
+          "content": "#include <algorithm>\n#include <vector>\n\nnamespace {\nint minimax_impl(int depth, int node_index, bool is_max, const std::vector<int>& scores, int max_depth) {\n    if (depth == max_depth) {\n        return scores[node_index];\n    }\n\n    int left = minimax_impl(depth + 1, node_index * 2, !is_max, scores, max_depth);\n    int right = minimax_impl(depth + 1, node_index * 2 + 1, !is_max, scores, max_depth);\n    return is_max ? std::max(left, right) : std::min(left, right);\n}\n}  // namespace\n\nint minimax(const std::vector<int>& tree_values, int depth, bool is_maximizing) {\n    if (tree_values.empty()) {\n        return 0;\n    }\n    if (depth <= 0 || tree_values.size() == 1) {\n        return tree_values.front();\n    }\n\n    std::vector<int> padded = tree_values;\n    int leaf_count = 1;\n    while (leaf_count < static_cast<int>(padded.size())) {\n        leaf_count <<= 1;\n    }\n    padded.resize(leaf_count, padded.back());\n\n    return minimax_impl(0, 0, is_maximizing, padded, depth);\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "Minimax.cs",
+          "content": "using System;\n\nclass Minimax\n{\n    static int MinimaxAlgo(int depth, int nodeIndex, bool isMax, int[] scores, int h)\n    {\n        if (depth == h)\n            return scores[nodeIndex];\n\n        if (isMax)\n            return Math.Max(\n                MinimaxAlgo(depth + 1, nodeIndex * 2, false, scores, h),\n                MinimaxAlgo(depth + 1, nodeIndex * 2 + 1, false, scores, h));\n        else\n            return Math.Min(\n                MinimaxAlgo(depth + 1, nodeIndex * 2, true, scores, h),\n                MinimaxAlgo(depth + 1, nodeIndex * 2 + 1, true, scores, h));\n    }\n\n    static void Main(string[] args)\n    {\n        int[] scores = { 3, 5, 2, 9, 12, 5, 23, 23 };\n        int h = (int)(Math.Log(scores.Length) / Math.Log(2));\n        int result = MinimaxAlgo(0, 0, true, scores, h);\n        Console.WriteLine(\"The optimal value is: \" + result);\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "minimax.go",
+          "content": "package minimax\n\n// Minimax for games with binary actions at each node\n// graph[nodeID] contains the next game states v from game state nodeID\nfunc Minimax(nodeID int, graph map[int][]int, scores map[int]int, isMax bool) int {\n\n\tif isMax {\n\t\t// return max\n\n\t\tfnd := false\n\t\tret := 0\n\n\t\tfor _, v := range graph[nodeID] {\n\t\t\tcur := Minimax(v, graph, scores, false)\n\t\t\tif !fnd {\n\t\t\t\tret = cur\n\t\t\t\tfnd = true\n\t\t\t}\n\n\t\t\tif cur > ret {\n\t\t\t\tret = cur\n\t\t\t}\n\t\t}\n\n\t\tif !fnd {\n\t\t\t// leaf node of game graph\n\t\t\tret = scores[nodeID]\n\t\t}\n\n\t\treturn ret\n\t}\n\n\t// return min\n\tfnd := false\n\tret := 0\n\n\tfor _, v := range graph[nodeID] {\n\t\tcur := Minimax(v, graph, scores, false)\n\t\tif !fnd {\n\t\t\tret = cur\n\t\t\tfnd = true\n\t\t}\n\n\t\tif cur < ret {\n\t\t\tret = cur\n\t\t}\n\t}\n\n\tif !fnd {\n\t\t// leaf node of game graph\n\t\tret = scores[nodeID]\n\t}\n\n\treturn ret\n}\n"
+        },
+        {
+          "filename": "minimax_test.go",
+          "content": "package minimax\n\nimport (\n\t\"testing\"\n\n\t\"github.com/stretchr/testify/assert\"\n)\n\nfunc TestMinimax(t *testing.T) {\n\ttests := []struct {\n\t\troot     int\n\t\tgraph    map[int][]int\n\t\tscores   map[int]int\n\t\texpected int\n\t}{\n\t\t{\n\t\t\troot: 1,\n\t\t\tgraph: map[int][]int{\n\t\t\t\t1: []int{2, 3, 4},\n\t\t\t\t4: []int{5},\n\t\t\t\t5: []int{6},\n\t\t\t},\n\t\t\tscores: map[int]int{\n\t\t\t\t2: -10,\n\t\t\t\t3: -20,\n\t\t\t\t6: 20,\n\t\t\t},\n\t\t\texpected: 20,\n\t\t},\n\t}\n\n\tfor _, u := range tests {\n\t\tassert.Equal(t, u.expected, Minimax(u.root, u.graph, u.scores, true))\n\t}\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "Minimax.java",
+          "content": "public class Minimax {\n    public static int minimax(int[] treeValues, int depth, boolean isMaximizing) {\n        if (treeValues == null || treeValues.length == 0) {\n            return 0;\n        }\n        return minimax(0, 0, isMaximizing, treeValues, depth);\n    }\n\n    public static int minimax(int depth, int nodeIndex, boolean isMax, int[] scores, int h) {\n        if (depth == h)\n            return scores[nodeIndex];\n\n        if (isMax)\n            return Math.max(\n                minimax(depth + 1, nodeIndex * 2, false, scores, h),\n                minimax(depth + 1, nodeIndex * 2 + 1, false, scores, h));\n        else\n            return Math.min(\n                minimax(depth + 1, nodeIndex * 2, true, scores, h),\n                minimax(depth + 1, nodeIndex * 2 + 1, true, scores, h));\n    }\n\n    public static void main(String[] args) {\n        int[] scores = {3, 5, 2, 9, 12, 5, 23, 23};\n        int h = (int) (Math.log(scores.length) / Math.log(2));\n        int result = minimax(0, 0, true, scores, h);\n        System.out.println(\"The optimal value is: \" + result);\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "Minimax.kt",
+          "content": "import kotlin.math.ln\nimport kotlin.math.max\nimport kotlin.math.min\n\nfun minimax(depth: Int, nodeIndex: Int, isMax: Boolean, scores: IntArray, h: Int): Int {\n    if (depth == h) return scores[nodeIndex]\n\n    return if (isMax)\n        max(minimax(depth + 1, nodeIndex * 2, false, scores, h),\n            minimax(depth + 1, nodeIndex * 2 + 1, false, scores, h))\n    else\n        min(minimax(depth + 1, nodeIndex * 2, true, scores, h),\n            minimax(depth + 1, nodeIndex * 2 + 1, true, scores, h))\n}\n\nfun main() {\n    val scores = intArrayOf(3, 5, 2, 9, 12, 5, 23, 23)\n    val h = (ln(scores.size.toDouble()) / ln(2.0)).toInt()\n    val result = minimax(0, 0, true, scores, h)\n    println(\"The optimal value is: $result\")\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "minimax.py",
+          "content": "import math\n\ndef minimax(depth, node_index, is_max, scores, h):\n    if depth == h:\n        return scores[node_index]\n\n    if is_max:\n        return max(\n            minimax(depth + 1, node_index * 2, False, scores, h),\n            minimax(depth + 1, node_index * 2 + 1, False, scores, h))\n    else:\n        return min(\n            minimax(depth + 1, node_index * 2, True, scores, h),\n            minimax(depth + 1, node_index * 2 + 1, True, scores, h))\n\n\nif __name__ == \"__main__\":\n    scores = [3, 5, 2, 9, 12, 5, 23, 23]\n    h = int(math.log2(len(scores)))\n    result = minimax(0, 0, True, scores, h)\n    print(f\"The optimal value is: {result}\")\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "minimax.rs",
+          "content": "use std::cmp;\n\nfn minimax(depth: usize, node_index: usize, is_max: bool, scores: &[i32], h: usize) -> i32 {\n    if depth == h {\n        return scores[node_index];\n    }\n\n    if is_max {\n        cmp::max(\n            minimax(depth + 1, node_index * 2, false, scores, h),\n            minimax(depth + 1, node_index * 2 + 1, false, scores, h),\n        )\n    } else {\n        cmp::min(\n            minimax(depth + 1, node_index * 2, true, scores, h),\n            minimax(depth + 1, node_index * 2 + 1, true, scores, h),\n        )\n    }\n}\n\nfn main() {\n    let scores = [3, 5, 2, 9, 12, 5, 23, 23];\n    let h = (scores.len() as f64).log2() as usize;\n    let result = minimax(0, 0, true, &scores, h);\n    println!(\"The optimal value is: {}\", result);\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "Minimax.scala",
+          "content": "object Minimax {\n  def minimax(depth: Int, nodeIndex: Int, isMax: Boolean, scores: Array[Int], h: Int): Int = {\n    if (depth == h) return scores(nodeIndex)\n\n    if (isMax)\n      math.max(\n        minimax(depth + 1, nodeIndex * 2, false, scores, h),\n        minimax(depth + 1, nodeIndex * 2 + 1, false, scores, h))\n    else\n      math.min(\n        minimax(depth + 1, nodeIndex * 2, true, scores, h),\n        minimax(depth + 1, nodeIndex * 2 + 1, true, scores, h))\n  }\n\n  def main(args: Array[String]): Unit = {\n    val scores = Array(3, 5, 2, 9, 12, 5, 23, 23)\n    val h = (math.log(scores.length) / math.log(2)).toInt\n    val result = minimax(0, 0, isMax = true, scores, h)\n    println(s\"The optimal value is: $result\")\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "Minimax.swift",
+          "content": "import Foundation\n\nfunc minimax(depth: Int, nodeIndex: Int, isMax: Bool, scores: [Int], h: Int) -> Int {\n    if depth == h {\n        return scores[nodeIndex]\n    }\n\n    if isMax {\n        return max(\n            minimax(depth: depth + 1, nodeIndex: nodeIndex * 2, isMax: false, scores: scores, h: h),\n            minimax(depth: depth + 1, nodeIndex: nodeIndex * 2 + 1, isMax: false, scores: scores, h: h))\n    } else {\n        return min(\n            minimax(depth: depth + 1, nodeIndex: nodeIndex * 2, isMax: true, scores: scores, h: h),\n            minimax(depth: depth + 1, nodeIndex: nodeIndex * 2 + 1, isMax: true, scores: scores, h: h))\n    }\n}\n\nlet scores = [3, 5, 2, 9, 12, 5, 23, 23]\nlet h = Int(log2(Double(scores.count)))\nlet result = minimax(depth: 0, nodeIndex: 0, isMax: true, scores: scores, h: h)\nprint(\"The optimal value is: \\(result)\")\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "minimax.ts",
+          "content": "function minimaxRecursive(depth: number, nodeIndex: number, isMax: boolean, scores: number[], h: number): number {\n    if (depth === h) return scores[nodeIndex];\n\n    if (isMax)\n        return Math.max(\n            minimaxRecursive(depth + 1, nodeIndex * 2, false, scores, h),\n            minimaxRecursive(depth + 1, nodeIndex * 2 + 1, false, scores, h));\n    else\n        return Math.min(\n            minimaxRecursive(depth + 1, nodeIndex * 2, true, scores, h),\n            minimaxRecursive(depth + 1, nodeIndex * 2 + 1, true, scores, h));\n}\n\nexport function minimax(treeValues: number[], depth: number, isMaximizing: boolean): number {\n    return minimaxRecursive(0, 0, isMaximizing, treeValues, depth);\n}\n\nconst scores = [3, 5, 2, 9, 12, 5, 23, 23];\nconst h = Math.log2(scores.length);\nconst result = minimax(scores, h, true);\nconsole.log(`The optimal value is: ${result}`);\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "readme": "# Minimax\n\n## Overview\n\nMinimax is a decision-making algorithm used in two-player, zero-sum games (such as Tic-Tac-Toe, Chess, and Checkers) to determine the optimal move for a player. The algorithm assumes both players play optimally: the \"maximizing\" player tries to maximize the score, while the \"minimizing\" player tries to minimize it. By exploring the complete game tree, minimax guarantees finding the best possible move.\n\nThe algorithm was formalized by John von Neumann in 1928 and is foundational to game theory and artificial intelligence. It is the basis for all modern game-playing programs, though in practice it is enhanced with alpha-beta pruning and other optimizations.\n\n## How It Works\n\nThe algorithm recursively builds a game tree from the current state. At each node, if it is the maximizing player's turn, the algorithm returns the maximum value among all children; if it is the minimizing player's turn, it returns the minimum value. Terminal states (game over) return the utility value (win, lose, or draw score). The recursion explores all possible game states to determine the optimal play.\n\n### Example\n\nA simple game tree (Tic-Tac-Toe-like scenario):\n\n```\n                    MAX\n                   / | \\\n                  /  |  \\\n               MIN  MIN  MIN\n              /  \\   |   / \\\n             3   5   2  9   1\n```\n\n**Evaluating from bottom up:**\n\n| Step | Node | Player | Children values | Chosen value | Reasoning |\n|------|------|--------|----------------|-------------|-----------|\n| 1 | Left MIN | MIN | {3, 5} | 3 | MIN picks minimum |\n| 2 | Center MIN | MIN | {2} | 2 | Only child |\n| 3 | Right MIN | MIN | {9, 1} | 1 | MIN picks minimum |\n| 4 | Root MAX | MAX | {3, 2, 1} | 3 | MAX picks maximum |\n\n```\n                    MAX = 3\n                   / | \\\n                  /  |  \\\n            MIN=3 MIN=2 MIN=1\n            /  \\    |    / \\\n           3   5    2   9   1\n```\n\nResult: MAX player should choose the **left branch**, guaranteeing a score of at least `3`.\n\n**Deeper example with alternating turns:**\n\n```\n              MAX\n             /   \\\n          MIN     MIN\n         / \\     / \\\n       MAX MAX MAX MAX\n       /\\  /\\  /\\  /\\\n      3 5 6 9 1 2 0 7\n```\n\n| Level | Node | Values considered | Result |\n|-------|------|------------------|--------|\n| Leaves | - | 3,5,6,9,1,2,0,7 | - |\n| MAX (level 2) | Nodes | {3,5}=5, {6,9}=9, {1,2}=2, {0,7}=7 | 5,9,2,7 |\n| MIN (level 1) | Nodes | {5,9}=5, {2,7}=2 | 5,2 |\n| MAX (root) | Root | {5,2}=5 | 5 |\n\n## Pseudocode\n\n```\nfunction minimax(state, depth, isMaximizing):\n    if depth == 0 or state is terminal:\n        return evaluate(state)\n\n    if isMaximizing:\n        maxEval = -infinity\n        for each child of state:\n            eval = minimax(child, depth - 1, false)\n            maxEval = max(maxEval, eval)\n        return maxEval\n    else:\n        minEval = +infinity\n        for each child of state:\n            eval = minimax(child, depth - 1, true)\n            minEval = min(minEval, eval)\n        return minEval\n```\n\nThe `evaluate` function assigns a numerical score to terminal or depth-limited states. Higher scores favor the maximizing player.\n\n## Complexity Analysis\n\n| Case    | Time   | Space   |\n|---------|--------|---------|\n| Best    | O(b^d) | O(b*d)  |\n| Average | O(b^d) | O(b*d)  |\n| Worst   | O(b^d) | O(b*d)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(b^d):** The algorithm always explores the entire game tree. With branching factor b and depth d, the total number of nodes is O(b^d). No pruning occurs in standard minimax.\n\n- **Average Case -- O(b^d):** Every node in the game tree is visited exactly once. Each node requires O(b) work to evaluate its children.\n\n- **Worst Case -- O(b^d):** The same as all cases. Standard minimax does not skip any nodes.\n\n- **Space -- O(b*d):** The recursion stack goes d levels deep, and at each level, the algorithm may need to store information about b children, giving O(b*d) space. If only the value is needed (not the entire path), O(d) suffices for the recursion stack alone.\n\n## When to Use\n\n- **Perfect-information, two-player games:** Games where both players can see the full game state (chess, checkers, tic-tac-toe).\n- **When the game tree is small enough to explore fully:** Tic-tac-toe (b ~= 4, d ~= 9) is easily handled.\n- **As a foundation for more advanced algorithms:** Minimax is the base algorithm that alpha-beta pruning, iterative deepening, and transposition tables optimize.\n- **When optimal play is required:** Minimax guarantees the best possible outcome against a perfect opponent.\n\n## When NOT to Use\n\n- **Games with large branching factors:** Chess (b ~= 35) at full depth is intractable. Use alpha-beta pruning or Monte Carlo Tree Search.\n- **Games with hidden information:** Poker, Battleship, and other imperfect-information games require different approaches (e.g., CFR, expectiminimax).\n- **Games with more than two players:** Multi-player minimax generalizations exist but are more complex.\n- **Real-time decisions under time constraints:** The exponential time complexity makes pure minimax unsuitable for time-limited scenarios.\n\n## Comparison with Similar Algorithms\n\n| Algorithm            | Time         | Space   | Notes                                        |\n|---------------------|-------------|---------|----------------------------------------------|\n| Minimax              | O(b^d)      | O(b*d)  | Explores full tree; guaranteed optimal        |\n| Alpha-Beta Pruning   | O(b^(d/2))* | O(b*d)  | *Best case; prunes unnecessary branches       |\n| Monte Carlo Tree Search| O(n)      | O(n)    | Sampling-based; good for large branching      |\n| Expectiminimax       | O(b^d)     | O(b*d)  | Handles chance nodes (dice, card draws)       |\n\n## Implementations\n\n| Language | File |\n|----------|------|\n| C++      | [minimax.cpp](cpp/minimax.cpp) |\n| Go       | [minimax.go](go/minimax.go) |\n\n## References\n\n- Von Neumann, J. (1928). Zur Theorie der Gesellschaftsspiele. *Mathematische Annalen*, 100(1), 295-320.\n- Russell, S., & Norvig, P. (2020). *Artificial Intelligence: A Modern Approach* (4th ed.). Pearson. Chapter 5: Adversarial Search.\n- [Minimax -- Wikipedia](https://en.wikipedia.org/wiki/Minimax)\n"
+}

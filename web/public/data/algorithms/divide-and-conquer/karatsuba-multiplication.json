@@ -1,0 +1,132 @@
+{
+  "name": "Karatsuba Multiplication",
+  "slug": "karatsuba-multiplication",
+  "category": "divide-and-conquer",
+  "subcategory": "multiplication",
+  "difficulty": "intermediate",
+  "tags": [
+    "divide-and-conquer",
+    "multiplication",
+    "karatsuba",
+    "math"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n^1.585)",
+      "average": "O(n^1.585)",
+      "worst": "O(n^1.585)"
+    },
+    "space": "O(n)"
+  },
+  "related": [
+    "strassens-matrix",
+    "counting-inversions"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "karatsuba.c",
+          "content": "#include \"karatsuba.h\"\n#include <math.h>\n\nstatic int num_digits(long long n) {\n    if (n == 0) return 1;\n    int count = 0;\n    if (n < 0) n = -n;\n    while (n > 0) { count++; n /= 10; }\n    return count;\n}\n\nstatic long long multiply(long long x, long long y) {\n    if (x < 10 || y < 10) return x * y;\n\n    int nx = num_digits(x);\n    int ny = num_digits(y);\n    int n = nx > ny ? nx : ny;\n    int half = n / 2;\n    long long power = 1;\n    for (int i = 0; i < half; i++) power *= 10;\n\n    long long x1 = x / power, x0 = x % power;\n    long long y1 = y / power, y0 = y % power;\n\n    long long z0 = multiply(x0, y0);\n    long long z2 = multiply(x1, y1);\n    long long z1 = multiply(x0 + x1, y0 + y1) - z0 - z2;\n\n    return z2 * power * power + z1 * power + z0;\n}\n\nint karatsuba(int* arr, int len) {\n    return (int)multiply(arr[0], arr[1]);\n}\n"
+        },
+        {
+          "filename": "karatsuba.h",
+          "content": "#ifndef KARATSUBA_H\n#define KARATSUBA_H\n\nint karatsuba(int* arr, int len);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "karatsuba.cpp",
+          "content": "#include <vector>\n#include <cmath>\n#include <string>\n\nusing namespace std;\n\nstatic long long multiply(long long x, long long y) {\n    if (x < 10 || y < 10) return x * y;\n\n    int n = max(to_string(abs(x)).length(), to_string(abs(y)).length());\n    int half = n / 2;\n    long long power = (long long)pow(10, half);\n\n    long long x1 = x / power, x0 = x % power;\n    long long y1 = y / power, y0 = y % power;\n\n    long long z0 = multiply(x0, y0);\n    long long z2 = multiply(x1, y1);\n    long long z1 = multiply(x0 + x1, y0 + y1) - z0 - z2;\n\n    return z2 * power * power + z1 * power + z0;\n}\n\nint karatsuba(vector<int> arr) {\n    return (int)multiply(arr[0], arr[1]);\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "Karatsuba.cs",
+          "content": "using System;\n\npublic class Karatsuba\n{\n    public static int Compute(int[] arr)\n    {\n        return (int)Multiply(arr[0], arr[1]);\n    }\n\n    private static long Multiply(long x, long y)\n    {\n        if (x < 10 || y < 10) return x * y;\n\n        int n = Math.Max(Math.Abs(x).ToString().Length, Math.Abs(y).ToString().Length);\n        int half = n / 2;\n        long power = (long)Math.Pow(10, half);\n\n        long x1 = x / power, x0 = x % power;\n        long y1 = y / power, y0 = y % power;\n\n        long z0 = Multiply(x0, y0);\n        long z2 = Multiply(x1, y1);\n        long z1 = Multiply(x0 + x1, y0 + y1) - z0 - z2;\n\n        return z2 * power * power + z1 * power + z0;\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "karatsuba.go",
+          "content": "package karatsuba\n\nimport (\n\t\"fmt\"\n\t\"math\"\n)\n\nfunc multiply(x, y int64) int64 {\n\tif x < 10 || y < 10 {\n\t\treturn x * y\n\t}\n\n\tnx := len(fmt.Sprintf(\"%d\", x))\n\tny := len(fmt.Sprintf(\"%d\", y))\n\tn := nx\n\tif ny > n {\n\t\tn = ny\n\t}\n\thalf := n / 2\n\tpower := int64(math.Pow(10, float64(half)))\n\n\tx1, x0 := x/power, x%power\n\ty1, y0 := y/power, y%power\n\n\tz0 := multiply(x0, y0)\n\tz2 := multiply(x1, y1)\n\tz1 := multiply(x0+x1, y0+y1) - z0 - z2\n\n\treturn z2*power*power + z1*power + z0\n}\n\nfunc Karatsuba(arr []int) int {\n\treturn int(multiply(int64(arr[0]), int64(arr[1])))\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "Karatsuba.java",
+          "content": "public class Karatsuba {\n\n    public static int karatsuba(int[] arr) {\n        return (int) multiply(arr[0], arr[1]);\n    }\n\n    private static long multiply(long x, long y) {\n        if (x < 10 || y < 10) return x * y;\n\n        int n = Math.max(Long.toString(Math.abs(x)).length(), Long.toString(Math.abs(y)).length());\n        int half = n / 2;\n        long power = (long) Math.pow(10, half);\n\n        long x1 = x / power, x0 = x % power;\n        long y1 = y / power, y0 = y % power;\n\n        long z0 = multiply(x0, y0);\n        long z2 = multiply(x1, y1);\n        long z1 = multiply(x0 + x1, y0 + y1) - z0 - z2;\n\n        return z2 * power * power + z1 * power + z0;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "Karatsuba.kt",
+          "content": "import kotlin.math.abs\nimport kotlin.math.max\nimport kotlin.math.pow\n\nfun karatsuba(arr: IntArray): Int {\n    fun multiply(x: Long, y: Long): Long {\n        if (x < 10 || y < 10) return x * y\n\n        val n = max(abs(x).toString().length, abs(y).toString().length)\n        val half = n / 2\n        val power = 10.0.pow(half).toLong()\n\n        val x1 = x / power; val x0 = x % power\n        val y1 = y / power; val y0 = y % power\n\n        val z0 = multiply(x0, y0)\n        val z2 = multiply(x1, y1)\n        val z1 = multiply(x0 + x1, y0 + y1) - z0 - z2\n\n        return z2 * power * power + z1 * power + z0\n    }\n\n    return multiply(arr[0].toLong(), arr[1].toLong()).toInt()\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "karatsuba.py",
+          "content": "def karatsuba(arr: list[int]) -> int:\n    a, b = arr[0], arr[1]\n\n    def multiply(x: int, y: int) -> int:\n        if x < 10 or y < 10:\n            return x * y\n\n        n = max(len(str(abs(x))), len(str(abs(y))))\n        half = n // 2\n        power = 10 ** half\n\n        x1, x0 = divmod(x, power)\n        y1, y0 = divmod(y, power)\n\n        z0 = multiply(x0, y0)\n        z2 = multiply(x1, y1)\n        z1 = multiply(x0 + x1, y0 + y1) - z0 - z2\n\n        return z2 * (power * power) + z1 * power + z0\n\n    return multiply(a, b)\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "karatsuba.rs",
+          "content": "fn num_digits(n: i64) -> u32 {\n    if n == 0 { return 1; }\n    let mut count = 0;\n    let mut val = n.abs();\n    while val > 0 {\n        count += 1;\n        val /= 10;\n    }\n    count\n}\n\nfn multiply(x: i64, y: i64) -> i64 {\n    if x < 10 || y < 10 {\n        return x * y;\n    }\n\n    let n = num_digits(x).max(num_digits(y));\n    let half = n / 2;\n    let power = 10i64.pow(half);\n\n    let (x1, x0) = (x / power, x % power);\n    let (y1, y0) = (y / power, y % power);\n\n    let z0 = multiply(x0, y0);\n    let z2 = multiply(x1, y1);\n    let z1 = multiply(x0 + x1, y0 + y1) - z0 - z2;\n\n    z2 * power * power + z1 * power + z0\n}\n\npub fn karatsuba(arr: &[i32]) -> i32 {\n    multiply(arr[0] as i64, arr[1] as i64) as i32\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "Karatsuba.scala",
+          "content": "object Karatsuba {\n\n  def karatsuba(arr: Array[Int]): Int = {\n    multiply(arr(0).toLong, arr(1).toLong).toInt\n  }\n\n  private def multiply(x: Long, y: Long): Long = {\n    if (x < 10 || y < 10) return x * y\n\n    val n = math.max(x.abs.toString.length, y.abs.toString.length)\n    val half = n / 2\n    val power = math.pow(10, half).toLong\n\n    val (x1, x0) = (x / power, x % power)\n    val (y1, y0) = (y / power, y % power)\n\n    val z0 = multiply(x0, y0)\n    val z2 = multiply(x1, y1)\n    val z1 = multiply(x0 + x1, y0 + y1) - z0 - z2\n\n    z2 * power * power + z1 * power + z0\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "Karatsuba.swift",
+          "content": "import Foundation\n\nfunc karatsuba(_ arr: [Int]) -> Int {\n    func multiply(_ x: Int, _ y: Int) -> Int {\n        if x < 10 || y < 10 { return x * y }\n\n        let nx = String(abs(x)).count\n        let ny = String(abs(y)).count\n        let n = max(nx, ny)\n        let half = n / 2\n        var power = 1\n        for _ in 0..<half { power *= 10 }\n\n        let x1 = x / power, x0 = x % power\n        let y1 = y / power, y0 = y % power\n\n        let z0 = multiply(x0, y0)\n        let z2 = multiply(x1, y1)\n        let z1 = multiply(x0 + x1, y0 + y1) - z0 - z2\n\n        return z2 * power * power + z1 * power + z0\n    }\n\n    return multiply(arr[0], arr[1])\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "karatsuba.ts",
+          "content": "export function karatsuba(arr: number[]): number {\n    function multiply(x: number, y: number): number {\n        if (x < 10 || y < 10) return x * y;\n\n        const n = Math.max(\n            Math.abs(x).toString().length,\n            Math.abs(y).toString().length\n        );\n        const half = Math.floor(n / 2);\n        const power = Math.pow(10, half);\n\n        const x1 = Math.floor(x / power);\n        const x0 = x % power;\n        const y1 = Math.floor(y / power);\n        const y0 = y % power;\n\n        const z0 = multiply(x0, y0);\n        const z2 = multiply(x1, y1);\n        const z1 = multiply(x0 + x1, y0 + y1) - z0 - z2;\n\n        return z2 * power * power + z1 * power + z0;\n    }\n\n    return multiply(arr[0], arr[1]);\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Karatsuba Multiplication\n\n## Overview\n\nKaratsuba multiplication is a fast multiplication algorithm that reduces the multiplication of two n-digit numbers to three multiplications of n/2-digit numbers, achieving O(n^1.585) time complexity instead of the naive O(n^2). Discovered by Anatoly Karatsuba in 1960 and published in 1962, it was the first algorithm to demonstrate that multiplication could be performed asymptotically faster than the schoolbook method. This breakthrough disproved Andrey Kolmogorov's conjecture that O(n^2) was optimal for multiplication, opening the door to an entire family of fast multiplication algorithms including Toom-Cook and Schonhage-Strassen.\n\n## How It Works\n\nThe key insight is that multiplying two n-digit numbers can be decomposed into three, rather than four, half-size multiplications by cleverly reusing intermediate results.\n\nGiven two numbers x and y, each with n digits:\n\n1. **Split** each number into two halves of approximately n/2 digits using a base B = 10^(n/2):\n   - x = x1 * B + x0 (x1 is the high half, x0 is the low half)\n   - y = y1 * B + y0\n\n2. **Compute three products** (instead of the four products that naive expansion requires):\n   - z0 = x0 * y0\n   - z2 = x1 * y1\n   - z1 = (x0 + x1) * (y0 + y1) - z0 - z2\n\n3. **Combine** the results:\n   - x * y = z2 * B^2 + z1 * B + z0\n\nThe trick is in computing z1: instead of computing x0*y1 + x1*y0 directly (which requires two multiplications), Karatsuba computes (x0+x1)*(y0+y1) - z0 - z2, which requires only one multiplication plus additions and subtractions. Since additions are O(n) while multiplications recurse, this saves significant work.\n\n## Worked Example\n\nMultiply **x = 1234** by **y = 5678** using Karatsuba:\n\n**Step 1: Split (B = 10^2 = 100)**\n- x1 = 12, x0 = 34\n- y1 = 56, y0 = 78\n\n**Step 2: Three recursive multiplications**\n- z0 = 34 * 78 = 2652\n- z2 = 12 * 56 = 672\n- z1 = (34 + 12) * (78 + 56) - z0 - z2 = 46 * 134 - 2652 - 672 = 6164 - 2652 - 672 = 2840\n\n**Step 3: Combine**\n- result = z2 * 100^2 + z1 * 100 + z0\n- result = 672 * 10000 + 2840 * 100 + 2652\n- result = 6720000 + 284000 + 2652\n- result = **7006652**\n\nVerification: 1234 * 5678 = 7006652.\n\n## Pseudocode\n\n```\nfunction karatsuba(x, y):\n    // Base case: use direct multiplication for small numbers\n    if x < 10 or y < 10:\n        return x * y\n\n    // Determine the size of the numbers\n    n = max(number_of_digits(x), number_of_digits(y))\n    half = floor(n / 2)\n    B = 10^half\n\n    // Split the digit sequences\n    x1 = floor(x / B)    // high digits\n    x0 = x mod B          // low digits\n    y1 = floor(y / B)\n    y0 = y mod B\n\n    // Three recursive multiplications\n    z0 = karatsuba(x0, y0)\n    z2 = karatsuba(x1, y1)\n    z1 = karatsuba(x0 + x1, y0 + y1) - z0 - z2\n\n    return z2 * B^2 + z1 * B + z0\n```\n\n## Complexity Analysis\n\n| Case    | Time       | Space |\n|---------|------------|-------|\n| Best    | O(n^1.585) | O(n)  |\n| Average | O(n^1.585) | O(n)  |\n| Worst   | O(n^1.585) | O(n)  |\n\n**Why these complexities?**\n\n- **Time -- O(n^log2(3)) = O(n^1.585):** The algorithm makes 3 recursive calls on inputs of half the size and performs O(n) work for additions and digit shifts. By the Master Theorem, T(n) = 3T(n/2) + O(n) gives T(n) = O(n^log2(3)).\n\n- **Space -- O(n):** Each level of recursion requires O(n) space for intermediate results. Since the recursion depth is O(log n) and intermediate results can be freed after use, total space is O(n) with careful implementation, or O(n log n) with naive storage.\n\n## When to Use\n\n- **Big integer multiplication:** When numbers exceed the native word size of the processor (e.g., cryptographic key computations with 1024+ bit integers).\n- **Polynomial multiplication:** The same splitting technique applies to multiplying polynomials with many coefficients.\n- **Cryptographic computations:** RSA, Diffie-Hellman, and elliptic curve operations require multiplying very large numbers.\n- **Scientific computing:** High-precision arithmetic in simulations or mathematical proofs.\n- **Medium-sized numbers:** For numbers with roughly 100 to 10,000 digits, Karatsuba provides a good balance of speed and implementation simplicity.\n\n## When NOT to Use\n\n- **Small numbers:** For numbers that fit in a single machine word (32 or 64 bits), hardware multiplication in O(1) is far faster. The overhead of recursion and splitting makes Karatsuba slower for small inputs.\n- **Extremely large numbers (millions of digits):** For very large numbers, the Schonhage-Strassen algorithm (O(n log n log log n)) or Harvey-Hoeven algorithm (O(n log n)) are asymptotically faster. Libraries like GMP switch from Karatsuba to Toom-Cook-3 to Schonhage-Strassen as number sizes increase.\n- **When simplicity is paramount:** The schoolbook O(n^2) algorithm is much simpler to implement and debug.\n\n## Comparison\n\n| Algorithm            | Time                | Space  | Notes                                    |\n|---------------------|---------------------|--------|------------------------------------------|\n| Schoolbook          | O(n^2)              | O(n)   | Simple; best for small n                 |\n| **Karatsuba**       | **O(n^1.585)**      | **O(n)** | **Good for medium n; easy to implement** |\n| Toom-Cook-3         | O(n^1.465)          | O(n)   | Splits into 3 parts; more complex        |\n| Schonhage-Strassen  | O(n log n log log n)| O(n)   | FFT-based; best for very large n         |\n| Harvey-Hoeven (2019)| O(n log n)           | O(n)   | Theoretically optimal; impractical       |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [karatsuba.py](python/karatsuba.py) |\n| Java       | [Karatsuba.java](java/Karatsuba.java) |\n| C++        | [karatsuba.cpp](cpp/karatsuba.cpp) |\n| C          | [karatsuba.c](c/karatsuba.c) |\n| Go         | [karatsuba.go](go/karatsuba.go) |\n| TypeScript | [karatsuba.ts](typescript/karatsuba.ts) |\n| Rust       | [karatsuba.rs](rust/karatsuba.rs) |\n| Kotlin     | [Karatsuba.kt](kotlin/Karatsuba.kt) |\n| Swift      | [Karatsuba.swift](swift/Karatsuba.swift) |\n| Scala      | [Karatsuba.scala](scala/Karatsuba.scala) |\n| C#         | [Karatsuba.cs](csharp/Karatsuba.cs) |\n\n## References\n\n- Karatsuba, A., & Ofman, Y. (1962). \"Multiplication of Many-Digital Numbers by Automatic Computers.\" *Proceedings of the USSR Academy of Sciences*, 145, 293-294.\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Section 30.1.\n- Knuth, D. E. (1997). *The Art of Computer Programming, Volume 2: Seminumerical Algorithms* (3rd ed.). Addison-Wesley. Section 4.3.3.\n- [Karatsuba Algorithm -- Wikipedia](https://en.wikipedia.org/wiki/Karatsuba_algorithm)\n"
+}

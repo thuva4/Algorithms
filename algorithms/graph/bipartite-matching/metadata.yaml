@@ -1,0 +1,17 @@
+name: "Bipartite Matching (Hopcroft-Karp)"
+slug: "bipartite-matching"
+category: "graph"
+subcategory: "matching"
+difficulty: "advanced"
+tags: [graph, matching, bipartite, hopcroft-karp, maximum-matching]
+complexity:
+  time:
+    best: "O(E * sqrt(V))"
+    average: "O(E * sqrt(V))"
+    worst: "O(E * sqrt(V))"
+  space: "O(V)"
+stable: null
+in_place: false
+related: [hungarian-algorithm, max-flow-min-cut, bipartite-check]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

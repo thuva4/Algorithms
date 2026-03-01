@@ -1,0 +1,30 @@
+algorithm: "simulated-annealing"
+function_signature:
+  name: "simulated_annealing"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "basic array"
+    input: [[5, 3, 8, 1, 2]]
+    expected: 1
+  - name: "single element"
+    input: [[42]]
+    expected: 42
+  - name: "already minimum first"
+    input: [[1, 5, 9, 3]]
+    expected: 1
+  - name: "negative numbers"
+    input: [[-3, 5, -1, 0, 2]]
+    expected: -3
+  - name: "all same"
+    input: [[7, 7, 7, 7]]
+    expected: 7
+  - name: "minimum at end"
+    input: [[10, 20, 30, 1]]
+    expected: 1
+  - name: "two elements"
+    input: [[9, 4]]
+    expected: 4
+  - name: "large range"
+    input: [[100, -100, 0, 50, -50]]
+    expected: -100

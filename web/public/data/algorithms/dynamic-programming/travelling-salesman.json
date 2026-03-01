@@ -1,0 +1,136 @@
+{
+  "name": "Travelling Salesman Problem",
+  "slug": "travelling-salesman",
+  "category": "dynamic-programming",
+  "subcategory": "bitmask-dp",
+  "difficulty": "advanced",
+  "tags": [
+    "dp",
+    "bitmask",
+    "tsp",
+    "graph",
+    "np-hard",
+    "optimization"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(2^n * n^2)",
+      "average": "O(2^n * n^2)",
+      "worst": "O(2^n * n^2)"
+    },
+    "space": "O(2^n * n)"
+  },
+  "stable": null,
+  "in_place": false,
+  "related": [
+    "hamiltonian-path",
+    "knapsack"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "travelling_salesman.c",
+          "content": "#include \"travelling_salesman.h\"\n#include <stdlib.h>\n#include <limits.h>\n\nint travelling_salesman(int* arr, int len) {\n    int n = arr[0];\n    if (n <= 1) return 0;\n    int INF = INT_MAX / 2;\n    int full = (1 << n) - 1;\n    int* dp = (int*)malloc((1 << n) * n * sizeof(int));\n    for (int i = 0; i < (1 << n) * n; i++) dp[i] = INF;\n    dp[1 * n + 0] = 0;\n\n    for (int mask = 1; mask <= full; mask++)\n        for (int i = 0; i < n; i++) {\n            if (dp[mask*n+i] >= INF || !(mask & (1<<i))) continue;\n            for (int j = 0; j < n; j++) {\n                if (mask & (1<<j)) continue;\n                int nm = mask | (1<<j);\n                int cost = dp[mask*n+i] + arr[1+i*n+j];\n                if (cost < dp[nm*n+j]) dp[nm*n+j] = cost;\n            }\n        }\n\n    int result = INF;\n    for (int i = 0; i < n; i++) {\n        int v = dp[full*n+i] + arr[1+i*n+0];\n        if (v < result) result = v;\n    }\n    free(dp);\n    return result;\n}\n"
+        },
+        {
+          "filename": "travelling_salesman.h",
+          "content": "#ifndef TRAVELLING_SALESMAN_H\n#define TRAVELLING_SALESMAN_H\n\nint travelling_salesman(int* arr, int len);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "travelling_salesman.cpp",
+          "content": "#include <vector>\n#include <algorithm>\n#include <climits>\n\nint travelling_salesman(std::vector<int> arr) {\n    int n = arr[0];\n    if (n <= 1) return 0;\n    std::vector<std::vector<int>> dist(n, std::vector<int>(n));\n    for (int i = 0; i < n; i++)\n        for (int j = 0; j < n; j++)\n            dist[i][j] = arr[1 + i*n + j];\n\n    int INF = INT_MAX / 2;\n    int full = (1 << n) - 1;\n    std::vector<std::vector<int>> dp(1 << n, std::vector<int>(n, INF));\n    dp[1][0] = 0;\n\n    for (int mask = 1; mask <= full; mask++)\n        for (int i = 0; i < n; i++) {\n            if (dp[mask][i] >= INF || !(mask & (1 << i))) continue;\n            for (int j = 0; j < n; j++) {\n                if (mask & (1 << j)) continue;\n                int nm = mask | (1 << j);\n                dp[nm][j] = std::min(dp[nm][j], dp[mask][i] + dist[i][j]);\n            }\n        }\n\n    int result = INF;\n    for (int i = 0; i < n; i++)\n        result = std::min(result, dp[full][i] + dist[i][0]);\n    return result;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "TravellingSalesman.cs",
+          "content": "using System;\n\npublic class TravellingSalesman\n{\n    public static int Run(int[] arr)\n    {\n        int n = arr[0];\n        if (n <= 1) return 0;\n        int[,] dist = new int[n, n];\n        for (int i = 0; i < n; i++)\n            for (int j = 0; j < n; j++)\n                dist[i, j] = arr[1 + i*n + j];\n        int INF = int.MaxValue / 2;\n        int full = (1 << n) - 1;\n        int[,] dp = new int[1 << n, n];\n        for (int i = 0; i < (1 << n); i++)\n            for (int j = 0; j < n; j++) dp[i, j] = INF;\n        dp[1, 0] = 0;\n        for (int mask = 1; mask <= full; mask++)\n            for (int i = 0; i < n; i++)\n            {\n                if (dp[mask, i] >= INF || (mask & (1 << i)) == 0) continue;\n                for (int j = 0; j < n; j++)\n                {\n                    if ((mask & (1 << j)) != 0) continue;\n                    int nm = mask | (1 << j);\n                    int cost = dp[mask, i] + dist[i, j];\n                    if (cost < dp[nm, j]) dp[nm, j] = cost;\n                }\n            }\n        int result = INF;\n        for (int i = 0; i < n; i++) result = Math.Min(result, dp[full, i] + dist[i, 0]);\n        return result;\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "travelling_salesman.go",
+          "content": "package travellingsalesman\n\nimport \"math\"\n\n// TravellingSalesman returns minimum cost Hamiltonian cycle using bitmask DP.\nfunc TravellingSalesman(arr []int) int {\n\tn := arr[0]\n\tif n <= 1 { return 0 }\n\tdist := make([][]int, n)\n\tfor i := 0; i < n; i++ {\n\t\tdist[i] = make([]int, n)\n\t\tfor j := 0; j < n; j++ {\n\t\t\tdist[i][j] = arr[1+i*n+j]\n\t\t}\n\t}\n\tINF := math.MaxInt32 / 2\n\tfull := (1 << uint(n)) - 1\n\tdp := make([][]int, 1<<uint(n))\n\tfor i := range dp {\n\t\tdp[i] = make([]int, n)\n\t\tfor j := range dp[i] { dp[i][j] = INF }\n\t}\n\tdp[1][0] = 0\n\tfor mask := 1; mask <= full; mask++ {\n\t\tfor i := 0; i < n; i++ {\n\t\t\tif dp[mask][i] >= INF || mask&(1<<uint(i)) == 0 { continue }\n\t\t\tfor j := 0; j < n; j++ {\n\t\t\t\tif mask&(1<<uint(j)) != 0 { continue }\n\t\t\t\tnm := mask | (1 << uint(j))\n\t\t\t\tcost := dp[mask][i] + dist[i][j]\n\t\t\t\tif cost < dp[nm][j] { dp[nm][j] = cost }\n\t\t\t}\n\t\t}\n\t}\n\tresult := INF\n\tfor i := 0; i < n; i++ {\n\t\tv := dp[full][i] + dist[i][0]\n\t\tif v < result { result = v }\n\t}\n\treturn result\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "TravellingSalesman.java",
+          "content": "import java.util.Arrays;\n\npublic class TravellingSalesman {\n    public static int travellingSalesman(int[] arr) {\n        int n = arr[0];\n        if (n <= 1) return 0;\n        int[][] dist = new int[n][n];\n        for (int i = 0; i < n; i++)\n            for (int j = 0; j < n; j++)\n                dist[i][j] = arr[1 + i * n + j];\n\n        int INF = Integer.MAX_VALUE / 2;\n        int[][] dp = new int[1 << n][n];\n        for (int[] row : dp) Arrays.fill(row, INF);\n        dp[1][0] = 0;\n\n        int full = (1 << n) - 1;\n        for (int mask = 1; mask <= full; mask++)\n            for (int i = 0; i < n; i++) {\n                if (dp[mask][i] >= INF || (mask & (1 << i)) == 0) continue;\n                for (int j = 0; j < n; j++) {\n                    if ((mask & (1 << j)) != 0) continue;\n                    int nm = mask | (1 << j);\n                    int cost = dp[mask][i] + dist[i][j];\n                    if (cost < dp[nm][j]) dp[nm][j] = cost;\n                }\n            }\n\n        int result = INF;\n        for (int i = 0; i < n; i++)\n            result = Math.min(result, dp[full][i] + dist[i][0]);\n        return result;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "TravellingSalesman.kt",
+          "content": "fun travellingSalesman(arr: IntArray): Int {\n    val n = arr[0]\n    if (n <= 1) return 0\n    val dist = Array(n) { i -> IntArray(n) { j -> arr[1 + i * n + j] } }\n    val INF = Int.MAX_VALUE / 2\n    val full = (1 shl n) - 1\n    val dp = Array(1 shl n) { IntArray(n) { INF } }\n    dp[1][0] = 0\n    for (mask in 1..full) for (i in 0 until n) {\n        if (dp[mask][i] >= INF || mask and (1 shl i) == 0) continue\n        for (j in 0 until n) {\n            if (mask and (1 shl j) != 0) continue\n            val nm = mask or (1 shl j)\n            val cost = dp[mask][i] + dist[i][j]\n            if (cost < dp[nm][j]) dp[nm][j] = cost\n        }\n    }\n    var result = INF\n    for (i in 0 until n) result = minOf(result, dp[full][i] + dist[i][0])\n    return result\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "travelling_salesman.py",
+          "content": "def travelling_salesman(arr: list[int]) -> int:\n    n = arr[0]\n    if n <= 1:\n        return 0\n    dist = [[0] * n for _ in range(n)]\n    for i in range(n):\n        for j in range(n):\n            dist[i][j] = arr[1 + i * n + j]\n\n    INF = float('inf')\n    dp = [[INF] * n for _ in range(1 << n)]\n    dp[1][0] = 0\n\n    for mask in range(1, 1 << n):\n        for i in range(n):\n            if dp[mask][i] == INF:\n                continue\n            if not (mask & (1 << i)):\n                continue\n            for j in range(n):\n                if mask & (1 << j):\n                    continue\n                new_mask = mask | (1 << j)\n                cost = dp[mask][i] + dist[i][j]\n                if cost < dp[new_mask][j]:\n                    dp[new_mask][j] = cost\n\n    full = (1 << n) - 1\n    result = INF\n    for i in range(n):\n        if dp[full][i] + dist[i][0] < result:\n            result = dp[full][i] + dist[i][0]\n\n    return int(result)\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "travelling_salesman.rs",
+          "content": "pub fn travelling_salesman(arr: &[i32]) -> i32 {\n    let n = arr[0] as usize;\n    if n <= 1 { return 0; }\n    let mut dist = vec![vec![0i32; n]; n];\n    for i in 0..n { for j in 0..n { dist[i][j] = arr[1 + i*n + j]; } }\n    let inf = i32::MAX / 2;\n    let full = (1usize << n) - 1;\n    let mut dp = vec![vec![inf; n]; 1 << n];\n    dp[1][0] = 0;\n    for mask in 1..=full {\n        for i in 0..n {\n            if dp[mask][i] >= inf || mask & (1 << i) == 0 { continue; }\n            for j in 0..n {\n                if mask & (1 << j) != 0 { continue; }\n                let nm = mask | (1 << j);\n                let cost = dp[mask][i] + dist[i][j];\n                if cost < dp[nm][j] { dp[nm][j] = cost; }\n            }\n        }\n    }\n    let mut result = inf;\n    for i in 0..n {\n        let v = dp[full][i] + dist[i][0];\n        if v < result { result = v; }\n    }\n    result\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "TravellingSalesman.scala",
+          "content": "object TravellingSalesman {\n  def travellingSalesman(arr: Array[Int]): Int = {\n    val n = arr(0)\n    if (n <= 1) return 0\n    val dist = Array.tabulate(n, n)((i, j) => arr(1 + i*n + j))\n    val INF = Int.MaxValue / 2\n    val full = (1 << n) - 1\n    val dp = Array.fill(1 << n, n)(INF)\n    dp(1)(0) = 0\n    for (mask <- 1 to full; i <- 0 until n if dp(mask)(i) < INF && (mask & (1 << i)) != 0; j <- 0 until n if (mask & (1 << j)) == 0) {\n      val nm = mask | (1 << j)\n      val cost = dp(mask)(i) + dist(i)(j)\n      if (cost < dp(nm)(j)) dp(nm)(j) = cost\n    }\n    var result = INF\n    for (i <- 0 until n) result = math.min(result, dp(full)(i) + dist(i)(0))\n    result\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "TravellingSalesman.swift",
+          "content": "func travellingSalesman(_ arr: [Int]) -> Int {\n    let n = arr[0]\n    if n <= 1 { return 0 }\n    var dist = [[Int]](repeating: [Int](repeating: 0, count: n), count: n)\n    for i in 0..<n { for j in 0..<n { dist[i][j] = arr[1 + i*n + j] } }\n    let INF = Int.max / 2\n    let full = (1 << n) - 1\n    var dp = [[Int]](repeating: [Int](repeating: INF, count: n), count: 1 << n)\n    dp[1][0] = 0\n    for mask in 1...full {\n        for i in 0..<n {\n            if dp[mask][i] >= INF || mask & (1 << i) == 0 { continue }\n            for j in 0..<n {\n                if mask & (1 << j) != 0 { continue }\n                let nm = mask | (1 << j)\n                let cost = dp[mask][i] + dist[i][j]\n                if cost < dp[nm][j] { dp[nm][j] = cost }\n            }\n        }\n    }\n    var result = INF\n    for i in 0..<n { result = min(result, dp[full][i] + dist[i][0]) }\n    return result\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "travellingSalesman.ts",
+          "content": "export function travellingSalesman(arr: number[]): number {\n    const n = arr[0];\n    if (n <= 1) return 0;\n    const dist: number[][] = Array.from({ length: n }, (_, i) =>\n        Array.from({ length: n }, (_, j) => arr[1 + i * n + j]));\n    const INF = Number.MAX_SAFE_INTEGER;\n    const full = (1 << n) - 1;\n    const dp: number[][] = Array.from({ length: 1 << n }, () => new Array(n).fill(INF));\n    dp[1][0] = 0;\n    for (let mask = 1; mask <= full; mask++)\n        for (let i = 0; i < n; i++) {\n            if (dp[mask][i] >= INF || !(mask & (1 << i))) continue;\n            for (let j = 0; j < n; j++) {\n                if (mask & (1 << j)) continue;\n                const nm = mask | (1 << j);\n                dp[nm][j] = Math.min(dp[nm][j], dp[mask][i] + dist[i][j]);\n            }\n        }\n    let result = INF;\n    for (let i = 0; i < n; i++) result = Math.min(result, dp[full][i] + dist[i][0]);\n    return result;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Travelling Salesman Problem (TSP)\n\n## Overview\n\nThe Travelling Salesman Problem asks for the minimum cost Hamiltonian cycle in a weighted graph -- that is, the shortest route that visits every city exactly once and returns to the starting city. This is one of the most studied problems in combinatorial optimization and is NP-hard. This implementation uses bitmask dynamic programming, known as the Held-Karp algorithm (1962), which provides an exact solution in O(2^n * n^2) time, a significant improvement over the O(n!) brute-force approach.\n\n## How It Works\n\n1. Represent the set of visited cities as a bitmask. `dp[mask][i]` stores the minimum cost to visit exactly the cities in `mask`, ending at city `i`, having started from city 0.\n2. Initialize `dp[1][0] = 0` (start at city 0, only city 0 visited).\n3. For each bitmask `mask` and each city `i` that is set in `mask`, try extending the path to each unvisited city `j`: `dp[mask | (1 << j)][j] = min(dp[mask | (1 << j)][j], dp[mask][i] + dist[i][j])`.\n4. The answer is the minimum over all cities `i` of `dp[(1 << n) - 1][i] + dist[i][0]`, which represents completing the cycle back to city 0.\n\nInput format: `[n, adj_matrix flattened row-major]` (n*n values).\n\n## Example\n\nConsider 4 cities with distance matrix:\n\n```\n     0    1    2    3\n0  [ 0,  10,  15,  20 ]\n1  [ 10,  0,  35,  25 ]\n2  [ 15,  35,  0,  30 ]\n3  [ 20,  25,  30,  0 ]\n```\n\n**Step-by-step (showing key DP transitions):**\n\nStarting state: `dp[0001][0] = 0` (at city 0, visited {0})\n\nExpand from city 0:\n- `dp[0011][1] = 0 + 10 = 10` (visit city 1, cost 10)\n- `dp[0101][2] = 0 + 15 = 15` (visit city 2, cost 15)\n- `dp[1001][3] = 0 + 20 = 20` (visit city 3, cost 20)\n\nExpand from city 1 (mask=0011):\n- `dp[0111][2] = 10 + 35 = 45` (visit city 2 via 0->1->2)\n- `dp[1011][3] = 10 + 25 = 35` (visit city 3 via 0->1->3)\n\nExpand from city 2 (mask=0101):\n- `dp[0111][1] = 15 + 35 = 50` -- but city 1 via 0->1 gave 45, so dp[0111][1] remains at a later-computed minimum\n- `dp[1101][3] = 15 + 30 = 45`\n\n...continuing for all states...\n\nFinal: minimum of `dp[1111][i] + dist[i][0]` for all i:\n- `dp[1111][1] + dist[1][0]` = 45 + 10 = 55 -- but need to verify actual dp[1111][1]\n\nThe optimal tour is: 0 -> 1 -> 3 -> 2 -> 0 with cost 10 + 25 + 30 + 15 = **80**.\n\n## Pseudocode\n\n```\nfunction tsp(dist, n):\n    INF = infinity\n    dp = 2D array [2^n][n], initialized to INF\n    dp[1][0] = 0    // start at city 0\n\n    for mask from 1 to 2^n - 1:\n        for i from 0 to n - 1:\n            if dp[mask][i] == INF: continue\n            if bit i not set in mask: continue\n            for j from 0 to n - 1:\n                if bit j set in mask: continue    // already visited\n                new_mask = mask | (1 << j)\n                dp[new_mask][j] = min(dp[new_mask][j], dp[mask][i] + dist[i][j])\n\n    // Close the cycle back to city 0\n    full_mask = (1 << n) - 1\n    result = INF\n    for i from 1 to n - 1:\n        result = min(result, dp[full_mask][i] + dist[i][0])\n\n    return result\n```\n\n## Complexity Analysis\n\n| Case    | Time          | Space       |\n|---------|---------------|-------------|\n| Best    | O(2^n * n^2)  | O(2^n * n)  |\n| Average | O(2^n * n^2)  | O(2^n * n)  |\n| Worst   | O(2^n * n^2)  | O(2^n * n)  |\n\n**Why O(2^n * n^2)?** There are 2^n possible subsets, each with up to n possible \"last city\" states. For each state, we try extending to up to n cities. This gives 2^n * n * n = O(2^n * n^2) total work. While still exponential, this is vastly better than the O(n!) brute-force: for n=20, 2^20 * 400 is about 400 million, while 20! is about 2.4 * 10^18.\n\n**Space:** The DP table has 2^n * n entries.\n\n## Applications\n\n- **Logistics and route optimization:** Planning delivery routes, garbage collection, and postal delivery.\n- **Circuit board drilling:** Minimizing the travel distance of a drill head visiting all drill points.\n- **DNA sequencing:** Finding the shortest superstring that contains all given fragments.\n- **Telescope observation scheduling:** Minimizing slew time between target observations.\n- **Vehicle routing:** The TSP is a building block for more complex vehicle routing problems (VRP).\n- **Genome assembly:** Ordering DNA fragments to reconstruct a genome.\n\n## When NOT to Use\n\n- **Large n (> 25):** The O(2^n) space and time make the Held-Karp algorithm impractical beyond about 25 cities. For larger instances, use heuristics or approximation algorithms.\n- **When an approximate solution suffices:** Algorithms like Christofides' (1.5-approximation for metric TSP), nearest-neighbor heuristic, or 2-opt local search are much faster and provide good solutions.\n- **Asymmetric or non-metric instances with special structure:** Certain special cases (e.g., Euclidean TSP, Bitonic TSP) have more efficient exact or approximate solutions.\n- **Online/dynamic settings:** If cities are added or removed over time, the entire DP must be recomputed.\n\n## Comparison\n\n| Algorithm           | Time           | Space       | Exact? | Notes                                |\n|---------------------|----------------|-------------|--------|--------------------------------------|\n| Held-Karp (this)    | O(2^n * n^2)   | O(2^n * n)  | Yes    | Best known exact for small n         |\n| Brute Force         | O(n!)          | O(n)        | Yes    | Impractical for n > 12              |\n| Branch and Bound    | O(2^n) avg     | O(n^2)      | Yes    | Practical with good bounds          |\n| Nearest Neighbor    | O(n^2)         | O(n)        | No     | Greedy; can be up to log(n) * OPT   |\n| Christofides        | O(n^3)         | O(n^2)      | No     | 1.5-approx for metric TSP           |\n| 2-opt               | O(n^2) per iter | O(n)       | No     | Local search; good in practice       |\n| Lin-Kernighan       | O(n^2.2)       | O(n)        | No     | State-of-the-art heuristic          |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [travelling_salesman.py](python/travelling_salesman.py) |\n| Java       | [TravellingSalesman.java](java/TravellingSalesman.java) |\n| C++        | [travelling_salesman.cpp](cpp/travelling_salesman.cpp) |\n| C          | [travelling_salesman.c](c/travelling_salesman.c) |\n| Go         | [travelling_salesman.go](go/travelling_salesman.go) |\n| TypeScript | [travellingSalesman.ts](typescript/travellingSalesman.ts) |\n| Rust       | [travelling_salesman.rs](rust/travelling_salesman.rs) |\n| Kotlin     | [TravellingSalesman.kt](kotlin/TravellingSalesman.kt) |\n| Swift      | [TravellingSalesman.swift](swift/TravellingSalesman.swift) |\n| Scala      | [TravellingSalesman.scala](scala/TravellingSalesman.scala) |\n| C#         | [TravellingSalesman.cs](csharp/TravellingSalesman.cs) |\n\n## References\n\n- Held, M., & Karp, R. M. (1962). \"A Dynamic Programming Approach to Sequencing Problems.\" *Journal of the Society for Industrial and Applied Mathematics*. 10(1): 196-210.\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 34: NP-Completeness (TSP as NP-hard).\n- [Travelling Salesman Problem -- Wikipedia](https://en.wikipedia.org/wiki/Travelling_salesman_problem)\n- [Held-Karp Algorithm -- Wikipedia](https://en.wikipedia.org/wiki/Held%E2%80%93Karp_algorithm)\n"
+}

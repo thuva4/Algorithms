@@ -1,0 +1,21 @@
+algorithm: "n-queens"
+function_signature:
+  name: "n_queens"
+  input: [integer]
+  output: integer
+test_cases:
+  - name: "n=0 (no board)"
+    input: [0]
+    expected: 0
+  - name: "n=1 (trivial)"
+    input: [1]
+    expected: 1
+  - name: "n=4"
+    input: [4]
+    expected: 2
+  - name: "n=5"
+    input: [5]
+    expected: 10
+  - name: "n=8 (classic)"
+    input: [8]
+    expected: 92

@@ -1,0 +1,130 @@
+{
+  "name": "Unary Coding",
+  "slug": "unary-coding",
+  "category": "bit-manipulation",
+  "subcategory": "encoding",
+  "difficulty": "beginner",
+  "tags": [
+    "bit-manipulation",
+    "encoding",
+    "unary",
+    "compression",
+    "prefix-code"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "average": "O(n)",
+      "worst": "O(n)"
+    },
+    "space": "O(n)"
+  },
+  "stable": false,
+  "in_place": false,
+  "related": [
+    "hamming-distance"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "UnaryCoding.c",
+          "content": "#include <stdio.h>\n#include <string.h>\n\nvoid unaryEncode(int n, char *result) {\n    int i;\n    for (i = 0; i < n; i++) {\n        result[i] = '1';\n    }\n    result[n] = '0';\n    result[n + 1] = '\\0';\n}\n\nint main() {\n    char result[100];\n\n    unaryEncode(0, result);\n    printf(\"Unary encoding of 0: %s\\n\", result);\n\n    unaryEncode(3, result);\n    printf(\"Unary encoding of 3: %s\\n\", result);\n\n    unaryEncode(5, result);\n    printf(\"Unary encoding of 5: %s\\n\", result);\n\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "UnaryCoding.cpp",
+          "content": "#include <iostream>\n#include <string>\n\nusing namespace std;\n\nint main() {\n\n\t// Declaring variables\n\tint n;\n\tstring code = \"0\";\n\t\n\t// Get the desired number to be encoded\n\tcout << \"Enter the desired number: \";\n\tcin >> n;\n\t\n\t// Appending the code string with 1's\n\tfor (int i = 0; i < n; i++) {\n\t\tcode = '1' + code;\n\t}\n\n\t// Print out the encoded string\n\tcout << code << endl;\n\n\treturn 0;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "UnaryCoding.cs",
+          "content": "using System;\n\nclass UnaryCoding\n{\n    static string UnaryEncode(int n)\n    {\n        return new string('1', n) + \"0\";\n    }\n\n    static void Main(string[] args)\n    {\n        Console.WriteLine(\"Unary encoding of 0: \" + UnaryEncode(0));\n        Console.WriteLine(\"Unary encoding of 3: \" + UnaryEncode(3));\n        Console.WriteLine(\"Unary encoding of 5: \" + UnaryEncode(5));\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "UnaryCoding.go",
+          "content": "package unarycoding\n\nimport \"strings\"\n\n// UnaryEncode encodes an integer n into unary representation.\nfunc UnaryEncode(n int) string {\n\treturn strings.Repeat(\"1\", n) + \"0\"\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "UnaryCoding.java",
+          "content": "/**\n * Unary coding\n * \n * @author Atom\n *\n */\npublic class UnaryCoding {\n\n\tpublic static final char UNARY_SYMBOL = '1';\n\tpublic static final char END_SYMBOL = '0';\n\t\n\t/**\n\t * Represents a natural number n by repeating n times an arbitrary symbol followed by another arbitrary symbol.\n\t * \n\t * @param x The number to be encoded\n\t * @return A string with the coded number\n\t */\n\tpublic static String unaryCoding(final int x) {\n\t\tStringBuilder sb = new StringBuilder();\n\t\tfor (int i = 0; i < x; i++) {\n\t\t\tsb.append(UNARY_SYMBOL);\n\t\t}\n\t\tsb.append(END_SYMBOL);\n\t\treturn sb.toString();\n\t}\n\n\tpublic static void main(String[] args) {\n\t\tfor (int i = 0; i < 15; i ++) {\n\t\t\tSystem.out.println(i + \": \" + unaryCoding(i));\n\t\t}\n\t}\n\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "UnaryCoding.kt",
+          "content": "fun unaryEncode(n: Int): String {\n    return \"1\".repeat(n) + \"0\"\n}\n\nfun main() {\n    println(\"Unary encoding of 0: ${unaryEncode(0)}\")\n    println(\"Unary encoding of 3: ${unaryEncode(3)}\")\n    println(\"Unary encoding of 5: ${unaryEncode(5)}\")\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "UnaryCoding.py",
+          "content": "\"\"\"\nUnary Coding\n\nEncodes a non-negative integer n as a string of n ones followed by\na single zero. For example, 5 is encoded as \"111110\" and 0 is\nencoded as \"0\". Unary coding is the simplest prefix-free code and\nis used as a building block in Elias gamma and delta codes.\n\"\"\"\n\n\ndef unaryCoding(number):\n    \"\"\"Encode a non-negative integer using unary coding.\n\n    Args:\n        number: A non-negative integer to encode.\n\n    Returns:\n        A string of `number` ones followed by a single zero.\n    \"\"\"\n    return ('1' * number) + '0'\n\n\nif __name__ == \"__main__\":\n    test_cases = [\n        (0, \"0\"),\n        (1, \"10\"),\n        (2, \"110\"),\n        (3, \"1110\"),\n        (5, \"111110\"),\n        (8, \"111111110\"),\n    ]\n    for value, expected in test_cases:\n        result = unaryCoding(value)\n        status = \"PASS\" if result == expected else \"FAIL\"\n        print(f\"[{status}] unaryCoding({value}) = {result} (expected {expected})\")\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "unary_coding.rs",
+          "content": "fn unary_encode(n: usize) -> String {\n    \"1\".repeat(n) + \"0\"\n}\n\nfn main() {\n    println!(\"Unary encoding of 0: {}\", unary_encode(0));\n    println!(\"Unary encoding of 3: {}\", unary_encode(3));\n    println!(\"Unary encoding of 5: {}\", unary_encode(5));\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "UnaryCoding.scala",
+          "content": "object UnaryCoding {\n  def unaryEncode(n: Int): String = {\n    \"1\" * n + \"0\"\n  }\n\n  def main(args: Array[String]): Unit = {\n    println(s\"Unary encoding of 0: ${unaryEncode(0)}\")\n    println(s\"Unary encoding of 3: ${unaryEncode(3)}\")\n    println(s\"Unary encoding of 5: ${unaryEncode(5)}\")\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "UnaryCoding.swift",
+          "content": "func unaryEncode(_ n: Int) -> String {\n    return String(repeating: \"1\", count: n) + \"0\"\n}\n\nprint(\"Unary encoding of 0: \\(unaryEncode(0))\")\nprint(\"Unary encoding of 3: \\(unaryEncode(3))\")\nprint(\"Unary encoding of 5: \\(unaryEncode(5))\")\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "index.js",
+          "content": "/**\n * Unary Coding\n *\n * Encodes a non-negative integer n as a string of n ones followed by\n * a single zero. For example, 5 is encoded as \"111110\" and 0 is\n * encoded as \"0\". Unary coding is the simplest prefix-free code and\n * is used as a building block in Elias gamma and delta codes.\n *\n * @param {number} number - A non-negative integer to encode\n * @returns {string} A string of `number` ones followed by a single zero\n */\nconst unaryCoding = (number) => {\n  return Array(number + 1).join('1') + '0';\n};\n\n/* Test cases */\nif (require.main === module) {\n  const testCases = [\n    [0, \"0\"],\n    [1, \"10\"],\n    [2, \"110\"],\n    [3, \"1110\"],\n    [5, \"111110\"],\n    [8, \"111111110\"],\n  ];\n  for (const [value, expected] of testCases) {\n    const result = unaryCoding(value);\n    const status = result === expected ? \"PASS\" : \"FAIL\";\n    console.log(`[${status}] unaryCoding(${value}) = ${result} (expected ${expected})`);\n  }\n}\n\nmodule.exports = { unaryCoding, unaryEncode: unaryCoding };\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Unary Coding\n\n## Overview\n\nUnary coding is one of the simplest entropy encoding schemes. It represents a non-negative integer n as a sequence of n ones followed by a zero (or equivalently, n zeros followed by a one). For example, 4 is encoded as \"11110\" and 0 is encoded as \"0\". Despite its simplicity, unary coding is optimal for the geometric distribution and serves as a building block for more sophisticated codes like Elias gamma and Golomb-Rice codes.\n\nUnary coding is used in data compression, information theory, and as a component of variable-length codes. It is space-efficient when small values are frequent (geometric distribution), but very wasteful for large values since the code length grows linearly with the value.\n\n## How It Works\n\n**Encoding:** To encode a non-negative integer n, output n one-bits followed by a single zero-bit. The total code length is n + 1 bits.\n\n**Decoding:** Read bits from the input until a zero-bit is encountered. The number of one-bits read before the zero is the decoded value.\n\n### Example\n\nEncoding several values:\n\n| Value | Unary Code | Code Length |\n|-------|-----------|-------------|\n| 0 | 0 | 1 bit |\n| 1 | 10 | 2 bits |\n| 2 | 110 | 3 bits |\n| 3 | 1110 | 4 bits |\n| 4 | 11110 | 5 bits |\n| 5 | 111110 | 6 bits |\n\n**Encoding a sequence [3, 1, 0, 4, 2]:**\n\n| Step | Value | Unary Code | Accumulated bitstream |\n|------|-------|-----------|----------------------|\n| 1 | 3 | 1110 | 1110 |\n| 2 | 1 | 10 | 111010 |\n| 3 | 0 | 0 | 1110100 |\n| 4 | 4 | 11110 | 111010011110 |\n| 5 | 2 | 110 | 111010011110110 |\n\n**Decoding the bitstream \"111010011110110\":**\n\n| Step | Bits read | Zero found at | Value | Remaining bits |\n|------|-----------|--------------|-------|----------------|\n| 1 | 111 | Position 4 | 3 | 10011110110 |\n| 2 | 1 | Position 2 | 1 | 011110110 |\n| 3 | - | Position 1 | 0 | 11110110 |\n| 4 | 1111 | Position 5 | 4 | 110 |\n| 5 | 11 | Position 3 | 2 | (empty) |\n\nDecoded: `[3, 1, 0, 4, 2]` -- matches the original.\n\n## Pseudocode\n\n```\nfunction encode(n):\n    code = \"\"\n    for i from 1 to n:\n        code = code + \"1\"\n    code = code + \"0\"\n    return code\n\nfunction decode(bitstream):\n    count = 0\n    for each bit in bitstream:\n        if bit == 1:\n            count = count + 1\n        else:\n            return count    // zero-bit terminates the code\n    return count\n```\n\nIn practice, encoding and decoding are done with bitwise operations rather than string manipulation for efficiency.\n\n## Complexity Analysis\n\n| Case    | Time | Space |\n|---------|------|-------|\n| Best    | O(n) | O(n)  |\n| Average | O(n) | O(n)  |\n| Worst   | O(n) | O(n)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(n):** For encoding a single value n, the algorithm must write n + 1 bits. For encoding a sequence of k values summing to S, the total output is S + k bits.\n\n- **Average Case -- O(n):** Each value requires linear time proportional to its magnitude. The total time for a sequence is proportional to the sum of all values plus the number of values.\n\n- **Worst Case -- O(n):** Encoding a large value n requires writing n + 1 bits. There is no way to represent it more compactly in unary.\n\n- **Space -- O(n):** The encoded representation of value n is n + 1 bits. For large values, this is very space-inefficient (e.g., 1000 requires 1001 bits).\n\n## When to Use\n\n- **Data following a geometric distribution:** Unary coding is the optimal prefix code when P(n) = (1/2)^(n+1), i.e., small values are exponentially more likely.\n- **As a building block for other codes:** Elias gamma coding combines unary with binary to encode integers efficiently.\n- **Very simple encoding needs:** When implementation simplicity is paramount and values are expected to be small.\n- **Thermometer coding in hardware:** Unary representation is used in digital-to-analog converters and priority encoders.\n\n## When NOT to Use\n\n- **Large values:** Encoding the value 1000 requires 1001 bits. Binary coding would use only 10 bits.\n- **Uniformly distributed data:** When all values are equally likely, fixed-length binary coding is more efficient.\n- **When space efficiency matters:** For most real-world data distributions, Huffman coding, arithmetic coding, or Elias codes are vastly more efficient.\n- **Negative numbers:** Unary coding only represents non-negative integers.\n\n## Comparison with Similar Algorithms\n\n| Encoding         | Code for n=10 | Length for n | Notes                                       |\n|-----------------|--------------|-------------|----------------------------------------------|\n| Unary            | 11111111110  | n + 1 bits  | Simplest; optimal for geometric distribution  |\n| Binary           | 1010         | log(n) bits | Fixed-length; optimal for uniform distribution|\n| Elias Gamma      | 0001011      | 2*floor(log n)+1 | Combines unary + binary; universal code  |\n| Golomb-Rice      | varies       | varies      | Parameterized; optimal for geometric w/ param |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [UnaryCoding.py](python/UnaryCoding.py) |\n| Java       | [UnaryCoding.java](java/UnaryCoding.java) |\n| C++        | [UnaryCoding.cpp](cpp/UnaryCoding.cpp) |\n| TypeScript | [index.js](typescript/index.js) |\n\n## References\n\n- Sayood, K. (2017). *Introduction to Data Compression* (5th ed.). Morgan Kaufmann. Chapter 3: Huffman Coding.\n- Cover, T. M., & Thomas, J. A. (2006). *Elements of Information Theory* (2nd ed.). Wiley. Chapter 5: Data Compression.\n- [Unary Coding -- Wikipedia](https://en.wikipedia.org/wiki/Unary_coding)\n"
+}

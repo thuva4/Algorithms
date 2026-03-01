@@ -1,0 +1,165 @@
+{
+  "name": "Connected Component Labeling",
+  "slug": "connected-component-labeling",
+  "category": "graph",
+  "subcategory": "connectivity",
+  "difficulty": "intermediate",
+  "tags": [
+    "graph",
+    "connectivity",
+    "components",
+    "union-find",
+    "labeling"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(V+E)",
+      "average": "O(V+E)",
+      "worst": "O(V+E)"
+    },
+    "space": "O(V)"
+  },
+  "stable": null,
+  "in_place": null,
+  "related": [
+    "breadth-first-search",
+    "depth-first-search",
+    "strongly-connected-graph"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "connected_components.c",
+          "content": "#include \"connected_components.h\"\n#include <stdlib.h>\n#include <stdio.h>\n#include <stdbool.h>\n\n#define MIN(a,b) (((a)<(b))?(a):(b))\n\ntypedef struct Node {\n    int to;\n    struct Node* next;\n} Node;\n\ntypedef struct {\n    Node** head;\n    int n;\n} Graph;\n\nstatic Graph* create_graph(int n) {\n    Graph* g = (Graph*)malloc(sizeof(Graph));\n    g->n = n;\n    g->head = (Node**)calloc(n, sizeof(Node*));\n    return g;\n}\n\nstatic void add_edge(Graph* g, int u, int v) {\n    Node* e1 = (Node*)malloc(sizeof(Node));\n    e1->to = v;\n    e1->next = g->head[u];\n    g->head[u] = e1;\n\n    Node* e2 = (Node*)malloc(sizeof(Node));\n    e2->to = u;\n    e2->next = g->head[v];\n    g->head[v] = e2;\n}\n\nstatic void free_graph(Graph* g) {\n    for (int i = 0; i < g->n; i++) {\n        Node* curr = g->head[i];\n        while (curr) {\n            Node* temp = curr;\n            curr = curr->next;\n            free(temp);\n        }\n    }\n    free(g->head);\n    free(g);\n}\n\ntypedef struct {\n    int* data;\n    int front, rear, capacity;\n} Queue;\n\nstatic Queue* create_queue(int capacity) {\n    Queue* q = (Queue*)malloc(sizeof(Queue));\n    q->data = (int*)malloc(capacity * sizeof(int));\n    q->front = 0;\n    q->rear = 0;\n    q->capacity = capacity;\n    return q;\n}\n\nstatic void enqueue(Queue* q, int val) {\n    q->data[q->rear++] = val;\n}\n\nstatic int dequeue(Queue* q) {\n    return q->data[q->front++];\n}\n\nstatic bool is_empty(Queue* q) {\n    return q->front == q->rear;\n}\n\nstatic void free_queue(Queue* q) {\n    free(q->data);\n    free(q);\n}\n\nvoid connected_components(int arr[], int size, int** result, int* result_size) {\n    if (size < 2) {\n        *result_size = 0;\n        return;\n    }\n    \n    int n = arr[0];\n    int m = arr[1];\n    \n    if (size < 2 + 2 * m) {\n        *result_size = 0;\n        return;\n    }\n    if (n == 0) {\n        *result_size = 0;\n        *result = NULL;\n        return;\n    }\n    \n    Graph* g = create_graph(n);\n    for (int i = 0; i < m; i++) {\n        int u = arr[2 + 2 * i];\n        int v = arr[2 + 2 * i + 1];\n        if (u >= 0 && u < n && v >= 0 && v < n) {\n            add_edge(g, u, v);\n        }\n    }\n    \n    int* labels = (int*)malloc(n * sizeof(int));\n    for (int i = 0; i < n; i++) labels[i] = -1;\n    \n    Queue* q = create_queue(n);\n    \n    for (int i = 0; i < n; i++) {\n        if (labels[i] == -1) {\n            int component_id = i; // Smallest index as ID\n            labels[i] = component_id;\n            enqueue(q, i);\n            \n            while (!is_empty(q)) {\n                int u = dequeue(q);\n                // Keep component_id as min seen? No, i is smallest because iterating 0..n-1\n                \n                for (Node* e = g->head[u]; e; e = e->next) {\n                    int v = e->to;\n                    if (labels[v] == -1) {\n                        labels[v] = component_id;\n                        enqueue(q, v);\n                    }\n                }\n            }\n            \n            q->front = q->rear = 0;\n        }\n    }\n    \n    free_queue(q);\n    free_graph(g);\n    \n    *result = labels;\n    *result_size = n;\n}\n"
+        },
+        {
+          "filename": "connected_components.h",
+          "content": "#ifndef CONNECTED_COMPONENTS_H\n#define CONNECTED_COMPONENTS_H\n\n// Caller must free result\nvoid connected_components(int arr[], int size, int** result, int* result_size);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "ConnectedComponents.cpp",
+          "content": "#include <iostream>\n#include <vector>\n#include <unordered_map>\n#include <unordered_set>\n\nusing namespace std;\n\n/**\n * Find all connected components in an undirected graph using DFS.\n */\nclass ConnectedComponents {\npublic:\n    static vector<vector<int>> findComponents(unordered_map<int, vector<int>>& adjList) {\n        unordered_set<int> visited;\n        vector<vector<int>> components;\n\n        int numNodes = adjList.size();\n        for (int i = 0; i < numNodes; i++) {\n            if (visited.find(i) == visited.end()) {\n                vector<int> component;\n                dfs(adjList, i, visited, component);\n                components.push_back(component);\n            }\n        }\n\n        return components;\n    }\n\nprivate:\n    static void dfs(unordered_map<int, vector<int>>& adjList, int node,\n                     unordered_set<int>& visited, vector<int>& component) {\n        visited.insert(node);\n        component.push_back(node);\n\n        for (int neighbor : adjList[node]) {\n            if (visited.find(neighbor) == visited.end()) {\n                dfs(adjList, neighbor, visited, component);\n            }\n        }\n    }\n};\n\nint main() {\n    unordered_map<int, vector<int>> adjList = {\n        {0, {1}},\n        {1, {0}},\n        {2, {3}},\n        {3, {2}}\n    };\n\n    auto components = ConnectedComponents::findComponents(adjList);\n\n    cout << \"Connected components:\" << endl;\n    for (const auto& comp : components) {\n        for (int node : comp) {\n            cout << node << \" \";\n        }\n        cout << endl;\n    }\n\n    return 0;\n}\n"
+        },
+        {
+          "filename": "connected_components.cpp",
+          "content": "#include \"connected_components.h\"\n#include <vector>\n#include <queue>\n#include <algorithm>\n\nstd::vector<int> connected_components(const std::vector<int>& arr) {\n    if (arr.size() < 2) return {};\n    \n    int n = arr[0];\n    int m = arr[1];\n    \n    if (arr.size() < 2 + 2 * m) return {};\n    if (n == 0) return {};\n    \n    std::vector<std::vector<int>> adj(n);\n    for (int i = 0; i < m; i++) {\n        int u = arr[2 + 2 * i];\n        int v = arr[2 + 2 * i + 1];\n        if (u >= 0 && u < n && v >= 0 && v < n) {\n            adj[u].push_back(v);\n            adj[v].push_back(u);\n        }\n    }\n    \n    std::vector<int> labels(n, -1);\n    std::queue<int> q;\n    \n    for (int i = 0; i < n; i++) {\n        if (labels[i] == -1) {\n            int component_id = i;\n            labels[i] = component_id;\n            q.push(i);\n            \n            while (!q.empty()) {\n                int u = q.front();\n                q.pop();\n                \n                for (int v : adj[u]) {\n                    if (labels[v] == -1) {\n                        labels[v] = component_id;\n                        q.push(v);\n                    }\n                }\n            }\n        }\n    }\n    \n    return labels;\n}\n"
+        },
+        {
+          "filename": "connected_components.h",
+          "content": "#ifndef CONNECTED_COMPONENTS_H\n#define CONNECTED_COMPONENTS_H\n\n#include <vector>\n\nstd::vector<int> connected_components(const std::vector<int>& arr);\n\n#endif\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "ConnectedComponents.cs",
+          "content": "using System;\nusing System.Collections.Generic;\n\nnamespace Algorithms.Graph.ConnectedComponentLabeling\n{\n    public class ConnectedComponents\n    {\n        public static int[] Solve(int[] arr)\n        {\n            if (arr == null || arr.Length < 2) return new int[0];\n\n            int n = arr[0];\n            int m = arr[1];\n\n            if (arr.Length < 2 + 2 * m) return new int[0];\n            if (n == 0) return new int[0];\n\n            List<int>[] adj = new List<int>[n];\n            for (int i = 0; i < n; i++) adj[i] = new List<int>();\n\n            for (int i = 0; i < m; i++)\n            {\n                int u = arr[2 + 2 * i];\n                int v = arr[2 + 2 * i + 1];\n                if (u >= 0 && u < n && v >= 0 && v < n)\n                {\n                    adj[u].Add(v);\n                    adj[v].Add(u);\n                }\n            }\n\n            int[] labels = new int[n];\n            for (int i = 0; i < n; i++) labels[i] = -1;\n\n            Queue<int> q = new Queue<int>();\n\n            for (int i = 0; i < n; i++)\n            {\n                if (labels[i] == -1)\n                {\n                    int componentId = i;\n                    labels[i] = componentId;\n                    q.Enqueue(i);\n\n                    while (q.Count > 0)\n                    {\n                        int u = q.Dequeue();\n\n                        foreach (int v in adj[u])\n                        {\n                            if (labels[v] == -1)\n                            {\n                                labels[v] = componentId;\n                                q.Enqueue(v);\n                            }\n                        }\n                    }\n                }\n            }\n\n            return labels;\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "ConnectedComponents.go",
+          "content": "package main\n\nimport \"fmt\"\n\n// connectedComponents finds all connected components using DFS.\nfunc connectedComponents(adjList map[int][]int) [][]int {\n\tvisited := make(map[int]bool)\n\tvar components [][]int\n\n\tnumNodes := len(adjList)\n\tfor i := 0; i < numNodes; i++ {\n\t\tif !visited[i] {\n\t\t\tcomponent := []int{}\n\t\t\tdfs(adjList, i, visited, &component)\n\t\t\tcomponents = append(components, component)\n\t\t}\n\t}\n\n\treturn components\n}\n\nfunc dfs(adjList map[int][]int, node int, visited map[int]bool, component *[]int) {\n\tvisited[node] = true\n\t*component = append(*component, node)\n\n\tfor _, neighbor := range adjList[node] {\n\t\tif !visited[neighbor] {\n\t\t\tdfs(adjList, neighbor, visited, component)\n\t\t}\n\t}\n}\n\nfunc main() {\n\tadjList := map[int][]int{\n\t\t0: {1},\n\t\t1: {0},\n\t\t2: {3},\n\t\t3: {2},\n\t}\n\n\tcomponents := connectedComponents(adjList)\n\tfmt.Println(\"Connected components:\")\n\tfor _, comp := range components {\n\t\tfmt.Println(comp)\n\t}\n}\n"
+        },
+        {
+          "filename": "connected_components.go",
+          "content": "package connectedcomponents\n\nfunc ConnectedComponents(arr []int) []int {\n\tif len(arr) < 2 {\n\t\treturn []int{}\n\t}\n\n\tn := arr[0]\n\tm := arr[1]\n\n\tif len(arr) < 2+2*m {\n\t\treturn []int{}\n\t}\n\tif n == 0 {\n\t\treturn []int{}\n\t}\n\n\tadj := make([][]int, n)\n\tfor i := 0; i < m; i++ {\n\t\tu := arr[2+2*i]\n\t\tv := arr[2+2*i+1]\n\t\tif u >= 0 && u < n && v >= 0 && v < n {\n\t\t\tadj[u] = append(adj[u], v)\n\t\t\tadj[v] = append(adj[v], u)\n\t\t}\n\t}\n\n\tlabels := make([]int, n)\n\tfor i := range labels {\n\t\tlabels[i] = -1\n\t}\n\n\tq := []int{}\n\n\tfor i := 0; i < n; i++ {\n\t\tif labels[i] == -1 {\n\t\t\tcomponentID := i\n\t\t\tlabels[i] = componentID\n\t\t\tq = append(q, i)\n\n\t\t\tfor len(q) > 0 {\n\t\t\t\tu := q[0]\n\t\t\t\tq = q[1:]\n\n\t\t\t\tfor _, v := range adj[u] {\n\t\t\t\t\tif labels[v] == -1 {\n\t\t\t\t\t\tlabels[v] = componentID\n\t\t\t\t\t\tq = append(q, v)\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\n\treturn labels\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "ConnectedComponents.java",
+          "content": "package algorithms.graph.connectedcomponentlabeling;\n\nimport java.util.ArrayList;\nimport java.util.Arrays;\nimport java.util.LinkedList;\nimport java.util.List;\nimport java.util.Queue;\n\npublic class ConnectedComponents {\n    public int[] solve(int[] arr) {\n        if (arr == null || arr.length < 2) return new int[0];\n\n        int n = arr[0];\n        int m = arr[1];\n\n        if (arr.length < 2 + 2 * m) return new int[0];\n        if (n == 0) return new int[0];\n\n        List<Integer>[] adj = new ArrayList[n];\n        for (int i = 0; i < n; i++) adj[i] = new ArrayList<>();\n\n        for (int i = 0; i < m; i++) {\n            int u = arr[2 + 2 * i];\n            int v = arr[2 + 2 * i + 1];\n            if (u >= 0 && u < n && v >= 0 && v < n) {\n                adj[u].add(v);\n                adj[v].add(u);\n            }\n        }\n\n        int[] labels = new int[n];\n        Arrays.fill(labels, -1);\n\n        Queue<Integer> q = new LinkedList<>();\n\n        for (int i = 0; i < n; i++) {\n            if (labels[i] == -1) {\n                int componentId = i;\n                labels[i] = componentId;\n                q.add(i);\n\n                while (!q.isEmpty()) {\n                    int u = q.poll();\n\n                    for (int v : adj[u]) {\n                        if (labels[v] == -1) {\n                            labels[v] = componentId;\n                            q.add(v);\n                        }\n                    }\n                }\n            }\n        }\n\n        return labels;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "ConnectedComponents.kt",
+          "content": "package algorithms.graph.connectedcomponentlabeling\n\nimport java.util.LinkedList\nimport java.util.Queue\n\nclass ConnectedComponents {\n    fun solve(arr: IntArray): IntArray {\n        if (arr.size < 2) return IntArray(0)\n\n        val n = arr[0]\n        val m = arr[1]\n\n        if (arr.size < 2 + 2 * m) return IntArray(0)\n        if (n == 0) return IntArray(0)\n\n        val adj = Array(n) { ArrayList<Int>() }\n        for (i in 0 until m) {\n            val u = arr[2 + 2 * i]\n            val v = arr[2 + 2 * i + 1]\n            if (u in 0 until n && v in 0 until n) {\n                adj[u].add(v)\n                adj[v].add(u)\n            }\n        }\n\n        val labels = IntArray(n) { -1 }\n        val q: Queue<Int> = LinkedList()\n\n        for (i in 0 until n) {\n            if (labels[i] == -1) {\n                val componentId = i\n                labels[i] = componentId\n                q.add(i)\n\n                while (!q.isEmpty()) {\n                    val u = q.poll()\n\n                    for (v in adj[u]) {\n                        if (labels[v] == -1) {\n                            labels[v] = componentId\n                            q.add(v)\n                        }\n                    }\n                }\n            }\n        }\n\n        return labels\n    }\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "ConnectedComponents.py",
+          "content": "\"\"\"\nFind all connected components in an undirected graph using DFS.\n\"\"\"\n\n\ndef connected_components(adj_list):\n    \"\"\"\n    Find all connected components.\n\n    Args:\n        adj_list: Adjacency list as a dict mapping node to list of neighbors\n\n    Returns:\n        List of lists, where each inner list is a connected component\n    \"\"\"\n    visited = set()\n    components = []\n\n    def dfs(node, component):\n        visited.add(node)\n        component.append(node)\n        for neighbor in adj_list.get(node, []):\n            if neighbor not in visited:\n                dfs(neighbor, component)\n\n    num_nodes = len(adj_list)\n    for i in range(num_nodes):\n        if i not in visited:\n            component = []\n            dfs(i, component)\n            components.append(component)\n\n    return components\n\n\nif __name__ == \"__main__\":\n    adj_list = {\n        0: [1],\n        1: [0],\n        2: [3],\n        3: [2],\n    }\n    result = connected_components(adj_list)\n    print(f\"Connected components: {result}\")\n"
+        },
+        {
+          "filename": "connected_components.py",
+          "content": "from collections import deque\n\ndef connected_components(arr):\n    if len(arr) < 2:\n        return []\n        \n    n = arr[0]\n    m = arr[1]\n    \n    if len(arr) < 2 + 2 * m:\n        return []\n    if n == 0:\n        return []\n        \n    adj = [[] for _ in range(n)]\n    for i in range(m):\n        u = arr[2 + 2 * i]\n        v = arr[2 + 2 * i + 1]\n        if 0 <= u < n and 0 <= v < n:\n            adj[u].append(v)\n            adj[v].append(u)\n            \n    labels = [-1] * n\n    q = deque()\n    \n    for i in range(n):\n        if labels[i] == -1:\n            component_id = i\n            labels[i] = component_id\n            q.append(i)\n            \n            while q:\n                u = q.popleft()\n                \n                for v in adj[u]:\n                    if labels[v] == -1:\n                        labels[v] = component_id\n                        q.append(v)\n                        \n    return labels\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "ConnectedComponents.rs",
+          "content": "use std::collections::{HashMap, HashSet};\n\n/// Find all connected components in an undirected graph using DFS.\nfn connected_components(adj_list: &HashMap<i32, Vec<i32>>) -> Vec<Vec<i32>> {\n    let mut visited = HashSet::new();\n    let mut components = Vec::new();\n\n    fn dfs(\n        adj_list: &HashMap<i32, Vec<i32>>,\n        node: i32,\n        visited: &mut HashSet<i32>,\n        component: &mut Vec<i32>,\n    ) {\n        visited.insert(node);\n        component.push(node);\n        if let Some(neighbors) = adj_list.get(&node) {\n            for &neighbor in neighbors {\n                if !visited.contains(&neighbor) {\n                    dfs(adj_list, neighbor, visited, component);\n                }\n            }\n        }\n    }\n\n    let num_nodes = adj_list.len() as i32;\n    for i in 0..num_nodes {\n        if !visited.contains(&i) {\n            let mut component = Vec::new();\n            dfs(adj_list, i, &mut visited, &mut component);\n            components.push(component);\n        }\n    }\n\n    components\n}\n\nfn main() {\n    let mut adj_list = HashMap::new();\n    adj_list.insert(0, vec![1]);\n    adj_list.insert(1, vec![0]);\n    adj_list.insert(2, vec![3]);\n    adj_list.insert(3, vec![2]);\n\n    let components = connected_components(&adj_list);\n    println!(\"Connected components: {:?}\", components);\n}\n"
+        },
+        {
+          "filename": "connected_components.rs",
+          "content": "use std::collections::VecDeque;\n\npub fn connected_components(arr: &[i32]) -> Vec<i32> {\n    if arr.len() < 2 {\n        return Vec::new();\n    }\n\n    let n = arr[0] as usize;\n    let m = arr[1] as usize;\n\n    if arr.len() < 2 + 2 * m {\n        return Vec::new();\n    }\n    if n == 0 {\n        return Vec::new();\n    }\n\n    let mut adj = vec![vec![]; n];\n    for i in 0..m {\n        let u = arr[2 + 2 * i] as usize;\n        let v = arr[2 + 2 * i + 1] as usize;\n        if u < n && v < n {\n            adj[u].push(v);\n            adj[v].push(u);\n        }\n    }\n\n    let mut labels = vec![-1; n];\n    let mut q = VecDeque::new();\n\n    for i in 0..n {\n        if labels[i] == -1 {\n            let component_id = i as i32;\n            labels[i] = component_id;\n            q.push_back(i);\n\n            while let Some(u) = q.pop_front() {\n                for &v in &adj[u] {\n                    if labels[v] == -1 {\n                        labels[v] = component_id;\n                        q.push_back(v);\n                    }\n                }\n            }\n        }\n    }\n\n    labels\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "ConnectedComponents.scala",
+          "content": "package algorithms.graph.connectedcomponentlabeling\n\nimport scala.collection.mutable\nimport java.util.LinkedList\nimport java.util.Queue\n\nobject ConnectedComponents {\n  def solve(arr: Array[Int]): Array[Int] = {\n    if (arr.length < 2) return Array.emptyIntArray\n\n    val n = arr(0)\n    val m = arr(1)\n\n    if (arr.length < 2 + 2 * m) return Array.emptyIntArray\n    if (n == 0) return Array.emptyIntArray\n\n    val adj = Array.fill(n)(new mutable.ListBuffer[Int])\n    for (i <- 0 until m) {\n      val u = arr(2 + 2 * i)\n      val v = arr(2 + 2 * i + 1)\n      if (u >= 0 && u < n && v >= 0 && v < n) {\n        adj(u).append(v)\n        adj(v).append(u)\n      }\n    }\n\n    val labels = Array.fill(n)(-1)\n    val q: Queue[Int] = new LinkedList()\n\n    for (i <- 0 until n) {\n      if (labels(i) == -1) {\n        val componentId = i\n        labels(i) = componentId\n        q.add(i)\n\n        while (!q.isEmpty) {\n          val u = q.poll()\n\n          for (v <- adj(u)) {\n            if (labels(v) == -1) {\n              labels(v) = componentId\n              q.add(v)\n            }\n          }\n        }\n      }\n    }\n\n    labels\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "ConnectedComponents.swift",
+          "content": "import Foundation\n\nclass ConnectedComponents {\n    static func solve(_ arr: [Int]) -> [Int] {\n        if arr.count < 2 { return [] }\n        \n        let n = arr[0]\n        let m = arr[1]\n        \n        if arr.count < 2 + 2 * m { return [] }\n        if n == 0 { return [] }\n        \n        var adj = [[Int]](repeating: [], count: n)\n        for i in 0..<m {\n            let u = arr[2 + 2 * i]\n            let v = arr[2 + 2 * i + 1]\n            if u >= 0 && u < n && v >= 0 && v < n {\n                adj[u].append(v)\n                adj[v].append(u)\n            }\n        }\n        \n        var labels = [Int](repeating: -1, count: n)\n        var q = [Int]()\n        \n        for i in 0..<n {\n            if labels[i] == -1 {\n                let componentId = i\n                labels[i] = componentId\n                q.append(i)\n                \n                var head = 0\n                while head < q.count {\n                    let u = q[head]\n                    head += 1\n                    \n                    for v in adj[u] {\n                        if labels[v] == -1 {\n                            labels[v] = componentId\n                            q.append(v)\n                        }\n                    }\n                }\n                q.removeAll()\n            }\n        }\n        \n        return labels\n    }\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "ConnectedComponents.ts",
+          "content": "export function connectedComponents(arr: number[]): number[] {\n  if (arr.length < 2) {\n    return [];\n  }\n\n  const n = arr[0];\n  const m = arr[1];\n  const adj: number[][] = Array.from({ length: n }, () => []);\n\n  for (let i = 0; i < m; i += 1) {\n    const u = arr[2 + 2 * i];\n    const v = arr[2 + 2 * i + 1];\n    adj[u].push(v);\n    adj[v].push(u);\n  }\n\n  const labels = new Array(n).fill(-1);\n  for (let start = 0; start < n; start += 1) {\n    if (labels[start] !== -1) {\n      continue;\n    }\n\n    const queue = [start];\n    labels[start] = start;\n    for (let head = 0; head < queue.length; head += 1) {\n      const node = queue[head];\n      for (const neighbor of adj[node]) {\n        if (labels[neighbor] === -1) {\n          labels[neighbor] = start;\n          queue.push(neighbor);\n        }\n      }\n    }\n  }\n\n  return labels;\n}\n"
+        },
+        {
+          "filename": "connected-components.ts",
+          "content": "export function connectedComponents(arr: number[]): number[] {\n  if (arr.length < 2) return [];\n\n  const n = arr[0];\n  const m = arr[1];\n\n  if (arr.length < 2 + 2 * m) return [];\n  if (n === 0) return [];\n\n  const adj: number[][] = Array.from({ length: n }, () => []);\n  for (let i = 0; i < m; i++) {\n    const u = arr[2 + 2 * i];\n    const v = arr[2 + 2 * i + 1];\n    if (u >= 0 && u < n && v >= 0 && v < n) {\n      adj[u].push(v);\n      adj[v].push(u);\n    }\n  }\n\n  const labels: number[] = new Array(n).fill(-1);\n  const q: number[] = [];\n\n  for (let i = 0; i < n; i++) {\n    if (labels[i] === -1) {\n      const componentId = i;\n      labels[i] = componentId;\n      q.push(i);\n\n      let head = 0;\n      while (head < q.length) {\n        const u = q[head++];\n\n        for (const v of adj[u]) {\n          if (labels[v] === -1) {\n            labels[v] = componentId;\n            q.push(v);\n          }\n        }\n      }\n      q.length = 0;\n    }\n  }\n\n  return labels;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "patterns": [
+    "tree-bfs"
+  ],
+  "patternDifficulty": "intermediate",
+  "practiceOrder": 4,
+  "readme": "# Connected Component Labeling\n\n## Overview\n\nConnected Component Labeling (CCL) is a graph algorithm that identifies and labels distinct connected components in a graph or grid. In image processing, it assigns a unique label to each group of connected pixels that share the same value, effectively segmenting the image into discrete regions. In general graph theory, it partitions vertices into groups where every vertex in a group can reach every other vertex in the same group via edges.\n\nCCL is fundamental in image analysis, computer vision, and pattern recognition. It can be implemented using DFS/BFS traversal, Union-Find (disjoint set), or the classical two-pass algorithm for 2D grids. The algorithm runs in O(V+E) time, making it efficient for processing even large images and graphs.\n\n## How It Works\n\nThe algorithm iterates through all vertices (or pixels). When an unlabeled vertex is found, it starts a BFS or DFS from that vertex, labeling all reachable vertices with the same component ID. The component counter is then incremented, and the scan continues. For grid-based images, the two-pass algorithm is commonly used: the first pass assigns provisional labels using Union-Find for equivalences, and the second pass replaces provisional labels with their final values.\n\n### Example\n\nConsider the following 5x5 binary grid (1 = foreground, 0 = background), with 4-connectivity:\n\n```\nInput Grid:              Labeled Output:\n1 1 0 0 1               1 1 0 0 2\n1 0 0 1 1               1 0 0 2 2\n0 0 1 1 0               0 0 3 3 0\n0 1 0 0 0               0 4 0 0 0\n1 1 0 1 1               4 4 0 5 5\n```\n\n**Step-by-step labeling:**\n\n| Step | Scan Position | Value | Action | Labels Assigned |\n|------|--------------|-------|--------|-----------------|\n| 1 | (0,0) | 1 | Unlabeled, start BFS. Label=1 | (0,0)=1, (0,1)=1, (1,0)=1 |\n| 2 | (0,4) | 1 | Unlabeled, start BFS. Label=2 | (0,4)=2, (1,3)=2, (1,4)=2 |\n| 3 | (2,2) | 1 | Unlabeled, start BFS. Label=3 | (2,2)=3, (2,3)=3 |\n| 4 | (3,1) | 1 | Unlabeled, start BFS. Label=4 | (3,1)=4, (4,0)=4, (4,1)=4 |\n| 5 | (4,3) | 1 | Unlabeled, start BFS. Label=5 | (4,3)=5, (4,4)=5 |\n\nResult: 5 connected components identified and labeled.\n\n## Pseudocode\n\n```\nfunction connectedComponentLabeling(grid, rows, cols):\n    labels = grid-sized matrix, initialized to 0\n    currentLabel = 0\n\n    for row from 0 to rows - 1:\n        for col from 0 to cols - 1:\n            if grid[row][col] == 1 and labels[row][col] == 0:\n                currentLabel += 1\n                bfs(grid, labels, row, col, currentLabel, rows, cols)\n\n    return labels, currentLabel\n\nfunction bfs(grid, labels, startRow, startCol, label, rows, cols):\n    queue = empty queue\n    queue.enqueue((startRow, startCol))\n    labels[startRow][startCol] = label\n\n    while queue is not empty:\n        (row, col) = queue.dequeue()\n\n        for each (dr, dc) in [(1,0), (-1,0), (0,1), (0,-1)]:\n            newRow = row + dr\n            newCol = col + dc\n            if inBounds(newRow, newCol, rows, cols)\n               and grid[newRow][newCol] == 1\n               and labels[newRow][newCol] == 0:\n                labels[newRow][newCol] = label\n                queue.enqueue((newRow, newCol))\n```\n\nThe two-pass algorithm with Union-Find is more efficient for very large images because it avoids the overhead of BFS/DFS function calls, but the BFS-based approach is simpler and equally correct.\n\n## Complexity Analysis\n\n| Case    | Time    | Space |\n|---------|---------|-------|\n| Best    | O(V+E) | O(V)  |\n| Average | O(V+E) | O(V)  |\n| Worst   | O(V+E) | O(V)  |\n\nWhere V is the number of vertices (or pixels) and E is the number of edges (or adjacency connections).\n\n**Why these complexities?**\n\n- **Best Case -- O(V+E):** Every vertex must be examined at least once to determine whether it belongs to a component. Every edge must be checked to establish connectivity. Even if all vertices are background (no components), scanning all V vertices takes O(V).\n\n- **Average Case -- O(V+E):** Each vertex is visited exactly once during the scan and at most once during BFS/DFS. Each edge is examined at most twice (once from each endpoint in an undirected graph). The total work is O(V+E).\n\n- **Worst Case -- O(V+E):** When all vertices are foreground and form a single large component, the BFS/DFS visits all V vertices and examines all E edges. For a 2D grid, E = O(V), so the complexity simplifies to O(V).\n\n- **Space -- O(V):** The label matrix requires O(V) space. The BFS queue or DFS stack can hold at most O(V) entries in the worst case (single large component).\n\n## When to Use\n\n- **Image segmentation:** Identifying distinct objects or regions in binary or grayscale images is the primary application of CCL.\n- **Blob detection:** Counting and measuring connected groups of pixels (blobs) in computer vision.\n- **Graph analysis:** Finding connected components in social networks, communication networks, or any undirected graph.\n- **Medical imaging:** Identifying tumors, cells, or anatomical structures in medical scans.\n- **Document analysis:** Separating characters, words, or paragraphs in scanned documents.\n\n## When NOT to Use\n\n- **Directed graphs:** CCL finds connected components in undirected graphs. For directed graphs, use Tarjan's or Kosaraju's algorithm to find strongly connected components.\n- **When only component count is needed:** If you just need to know how many components exist (not their labels), a simpler Union-Find approach may suffice.\n- **Weighted connectivity:** If connectivity depends on edge weights or thresholds, standard CCL needs modification.\n- **Very large 3D volumes:** For 3D volumetric data, memory-efficient streaming algorithms may be needed instead of storing the entire label volume.\n\n## Comparison with Similar Algorithms\n\n| Algorithm       | Time    | Space | Notes                                    |\n|-----------------|---------|-------|------------------------------------------|\n| CCL (BFS/DFS)   | O(V+E) | O(V)  | Simple; labels all components            |\n| CCL (Two-Pass)  | O(V)   | O(V)  | Uses Union-Find; efficient for grids     |\n| Flood Fill      | O(V)   | O(V)  | Fills one region; must call per component |\n| Union-Find      | O(V * alpha(V)) | O(V) | Near-linear; good for dynamic graphs   |\n| Tarjan's SCC    | O(V+E) | O(V)  | For directed graphs (strongly connected) |\n\n## Implementations\n\n| Language | File |\n|----------|------|\n| C        | [ConnectedComponentLabeling.cpp](c/ConnectedComponentLabeling.cpp) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 22: Elementary Graph Algorithms.\n- Shapiro, L. G., & Stockman, G. C. (2001). *Computer Vision*. Prentice Hall. Chapter 3: Binary Image Analysis.\n- [Connected-component Labeling -- Wikipedia](https://en.wikipedia.org/wiki/Connected-component_labeling)\n"
+}

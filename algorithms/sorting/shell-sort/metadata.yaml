@@ -1,0 +1,17 @@
+name: "Shell Sort"
+slug: "shell-sort"
+category: "sorting"
+subcategory: "comparison-based"
+difficulty: "intermediate"
+tags: [sorting, comparison, in-place, gap-sequence]
+complexity:
+  time:
+    best: "O(n log n)"
+    average: "O(n^(4/3))"
+    worst: "O(n^2)"
+  space: "O(1)"
+stable: false
+in_place: true
+related: [insertion-sort, bubble-sort]
+implementations: [cpp, java, python, typescript]
+visualization: true

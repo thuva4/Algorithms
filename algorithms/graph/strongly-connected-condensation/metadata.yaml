@@ -1,0 +1,17 @@
+name: "Strongly Connected Condensation"
+slug: "strongly-connected-condensation"
+category: "graph"
+subcategory: "connectivity"
+difficulty: "advanced"
+tags: [graph, directed, strongly-connected-components, condensation, dag]
+complexity:
+  time:
+    best: "O(V + E)"
+    average: "O(V + E)"
+    worst: "O(V + E)"
+  space: "O(V + E)"
+stable: null
+in_place: false
+related: [tarjans-scc, kosarajus-scc, topological-sort]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

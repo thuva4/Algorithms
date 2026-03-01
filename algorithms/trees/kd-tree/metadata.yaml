@@ -1,0 +1,17 @@
+name: "KD-Tree"
+slug: "kd-tree"
+category: "trees"
+subcategory: "spatial"
+difficulty: "intermediate"
+tags: [trees, kd-tree, spatial, nearest-neighbor, binary-space-partition]
+complexity:
+  time:
+    best: "O(log n)"
+    average: "O(log n)"
+    worst: "O(n)"
+  space: "O(n)"
+stable: null
+in_place: false
+related: [range-tree, closest-pair-of-points]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

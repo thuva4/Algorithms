@@ -1,0 +1,21 @@
+name: "Graph Cycle Detection (DFS Coloring)"
+slug: "graph-cycle-detection"
+category: "graph"
+subcategory: "cycle-detection"
+difficulty: "intermediate"
+tags: [graph, directed, cycle-detection, dfs, coloring]
+complexity:
+  time:
+    best: "O(V + E)"
+    average: "O(V + E)"
+    worst: "O(V + E)"
+  space: "O(V)"
+stable: null
+in_place: false
+related: [depth-first-search, topological-sort]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false
+patterns:
+  - fast-slow-pointers
+patternDifficulty: intermediate
+practiceOrder: 3

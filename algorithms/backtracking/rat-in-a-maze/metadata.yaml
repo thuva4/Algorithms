@@ -1,0 +1,21 @@
+name: "Rat in a Maze"
+slug: "rat-in-a-maze"
+category: "backtracking"
+subcategory: "pathfinding"
+difficulty: "intermediate"
+tags: [backtracking, maze, pathfinding, recursion, grid]
+complexity:
+  time:
+    best: "O(2^(n^2))"
+    average: "O(2^(n^2))"
+    worst: "O(2^(n^2))"
+  space: "O(n^2)"
+stable: null
+in_place: null
+related: [n-queens, permutations]
+implementations: [python, java, cpp, c, go, typescript, kotlin, rust, swift, scala, csharp]
+visualization: false
+patterns:
+  - tree-dfs
+patternDifficulty: intermediate
+practiceOrder: 5

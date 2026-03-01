@@ -1,0 +1,107 @@
+{
+  "name": "Swap Two Variables",
+  "slug": "swap-two-variables",
+  "category": "math",
+  "subcategory": "basic-operations",
+  "difficulty": "beginner",
+  "tags": [
+    "math",
+    "swap",
+    "variables",
+    "basic",
+    "temporary-variable"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(1)",
+      "average": "O(1)",
+      "worst": "O(1)"
+    },
+    "space": "O(1)"
+  },
+  "stable": false,
+  "in_place": true,
+  "related": [
+    "xor-swap"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "swap.c",
+          "content": "#include <stdio.h>\n\nint swap(int *a,int *b)\n{\n\tint temp=*a;\n\t*a=*b;\n\t*b=temp;\n}\n\nint main()\n{\n\tint a,b;\n\tprintf(\"Enter first number-\\n\");\n\tscanf(\"%d\",&a);\n\tprintf(\"Enter second number-\\n\");\n\tscanf(\"%d\",&b);\n\n\tswap(&a,&b);\n\tprintf(\"First number after swapping- %d\\n\",a);\n\tprintf(\"Second number after swapping- %d\\n\",b);\n\n\n}"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "swap.cpp",
+          "content": "#include <vector>\n\nstd::vector<int> swap(int a, int b) {\n    return {b, a};\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "swap.go",
+          "content": "package swap\n\nimport \"fmt\"\n\nfunc swap(x, y *int) {\n\t*x, *y = *y, *x\n}\n\nfunc main() {\n\tx := 3\n\ty := 2\n\tfmt.Println(x, y)\n\tswap(&x, &y)\n\tfmt.Println(x, y)\n}\n"
+        },
+        {
+          "filename": "swap_test.go",
+          "content": "package swap\n\nimport (\n\t\"testing\"\n\n\t\"github.com/stretchr/testify/assert\"\n)\n\nfunc TestSwap(t *testing.T) {\n\tx := 5\n\ty := 6\n\n\texpectedX := 6\n\texpectedY := 5\n\n\tswap(&x, &y)\n\tassert.Equal(t, x, expectedX, \"value should be equal\")\n\tassert.Equal(t, y, expectedY, \"value should be equal\")\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "SwapTwoVariables.java",
+          "content": "public class SwapTwoVariables {\n    public static int[] swap(int a, int b) {\n        return new int[]{b, a};\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "SwapTwoVariables.kt",
+          "content": "fun swap(a: Int, b: Int): IntArray {\n    return intArrayOf(b, a)\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "Swap.scala",
+          "content": "object Swap {\n\n  def swap(x: Int, y: Int) = {\n    (y,x)\n  }\n\n  def main(args: Array[String]): Unit = {\n    var (x, y) = (10,6)\n    var swapped = swap(x,y)\n    x = swapped._1\n    y = swapped._2\n    println(x, y)\n  }\n\n}\n\n\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "SwapTwoVariables.swift",
+          "content": "func swap(_ a: Int, _ b: Int) -> [Int] {\n    [b, a]\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "swap.js",
+          "content": "/**\n * Swaping two variables using a temporary variable\n * @param {Number} num1\n * @param {Number} num2\n * @return {Array} variables with swapped values in form of an array\n */\nconst swap = (num1, num2) => {\n  const temp = num1;\n  num1 = num2;\n  num2 = temp;\n  return [num1, num2];\n};\n\nmodule.exports = swap;\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Swap Two Variables\n\n## Overview\n\nSwapping two variables is one of the most fundamental operations in programming. Given two variables a and b, the goal is to exchange their values so that a holds the original value of b and vice versa. The standard approach uses a temporary variable, which is clear, portable, and efficient. Alternative methods include XOR swap and arithmetic swap, which avoid the temporary variable but come with caveats.\n\n## How It Works\n\n### Temporary Variable Method (Standard)\n\n1. Store the value of a in a temporary variable: temp = a.\n2. Assign the value of b to a: a = b.\n3. Assign the temporary value to b: b = temp.\n\n### XOR Swap (No Temporary Variable)\n\n1. a = a XOR b\n2. b = a XOR b  (now b has the original value of a)\n3. a = a XOR b  (now a has the original value of b)\n\n**Caveat:** Fails if a and b refer to the same memory location (both become 0).\n\n### Arithmetic Swap (No Temporary Variable)\n\n1. a = a + b\n2. b = a - b  (now b = original a)\n3. a = a - b  (now a = original b)\n\n**Caveat:** May overflow for large values.\n\n## Worked Example\n\nSwap a = 3 and b = 5 using the temporary variable method:\n\n| Step | a | b | temp |\n|------|---|---|------|\n| Initial | 3 | 5 | -- |\n| temp = a | 3 | 5 | 3 |\n| a = b | 5 | 5 | 3 |\n| b = temp | 5 | 3 | 3 |\n\nResult: a = **5**, b = **3**.\n\nXOR method with a = 3 (011), b = 5 (101):\n- a = 3 XOR 5 = 6 (110)\n- b = 6 XOR 5 = 3 (011)\n- a = 6 XOR 3 = 5 (101)\n\nResult: a = **5**, b = **3**.\n\n## Pseudocode\n\n```\n// Method 1: Temporary variable (recommended)\nfunction swap(a, b):\n    temp = a\n    a = b\n    b = temp\n    return (a, b)\n\n// Method 2: XOR swap\nfunction xorSwap(a, b):\n    a = a XOR b\n    b = a XOR b\n    a = a XOR b\n    return (a, b)\n\n// Method 3: Arithmetic swap\nfunction arithmeticSwap(a, b):\n    a = a + b\n    b = a - b\n    a = a - b\n    return (a, b)\n```\n\n## Complexity Analysis\n\n| Case    | Time | Space |\n|---------|------|-------|\n| Best    | O(1) | O(1)  |\n| Average | O(1) | O(1)  |\n| Worst   | O(1) | O(1)  |\n\n- **Time O(1):** All three methods perform a fixed number of operations (3 assignments).\n- **Space O(1):** The temporary variable method uses one extra variable; XOR and arithmetic methods use zero extra variables (but the temporary variable is typically register-allocated anyway).\n\n## Applications\n\n- **Sorting algorithms:** Nearly every comparison-based sort (bubble sort, quicksort, selection sort, heap sort) uses swap as a primitive operation.\n- **In-place algorithms:** Array reversal, rotation, and permutation algorithms rely on swapping elements.\n- **Memory-constrained environments:** XOR swap avoids allocating a temporary, useful in extremely memory-limited embedded systems (though modern compilers optimize the temp variable away).\n- **Language features:** Many languages provide built-in swap (C++ `std::swap`, Python tuple swap `a, b = b, a`, Go multiple assignment).\n\n## When NOT to Use\n\n- **XOR swap on same variable:** If a and b point to the same memory location, XOR swap zeros out the value. Always guard with `if (&a != &b)`.\n- **Arithmetic swap with overflow risk:** If a + b exceeds the integer range, arithmetic swap produces incorrect results. The temporary variable method has no such risk.\n- **When the language provides a built-in:** In Python (`a, b = b, a`), Rust (`std::mem::swap`), or C++ (`std::swap`), use the idiomatic built-in rather than writing manual swap code.\n- **Premature optimization:** Do not use XOR or arithmetic swap for \"performance.\" Modern compilers optimize the temporary variable method to the same (or better) machine code. The temp method is more readable and less error-prone.\n\n## Comparison\n\n| Method             | Extra space | Overflow risk? | Aliasing safe? | Readability |\n|--------------------|-------------|----------------|----------------|-------------|\n| Temporary variable | 1 variable  | No             | Yes            | Best        |\n| XOR swap           | 0           | No             | No             | Poor        |\n| Arithmetic swap    | 0           | Yes            | Yes            | Moderate    |\n| Language built-in  | 0*          | No             | Yes            | Best        |\n\n\\* Language built-ins may use a temporary internally.\n\n## References\n\n- Knuth, D. E. (1997). *The Art of Computer Programming, Vol. 1: Fundamental Algorithms* (3rd ed.). Addison-Wesley. Section 1.1.\n- [XOR swap algorithm -- Wikipedia](https://en.wikipedia.org/wiki/XOR_swap_algorithm)\n- [Swap (computer programming) -- Wikipedia](https://en.wikipedia.org/wiki/Swap_(computer_programming))\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| C          | [swap.c](c/swap.c) |\n| Go         | [swap.go](go/swap.go) |\n| TypeScript | [swap.js](typescript/swap.js) |\n| Scala      | [Swap.scala](scala/Swap.scala) |\n"
+}

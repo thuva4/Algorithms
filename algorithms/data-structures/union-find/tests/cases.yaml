@@ -1,0 +1,59 @@
+algorithm: "union-find"
+function_signature:
+  name: "union_find_operations"
+  input: [n, operations]
+  output: query_results
+test_cases:
+  - name: "basic union and find"
+    input:
+      n: 5
+      operations:
+        - type: "union"
+          a: 0
+          b: 1
+        - type: "find"
+          a: 0
+          b: 1
+    expected: [true]
+  - name: "disconnected components"
+    input:
+      n: 4
+      operations:
+        - type: "find"
+          a: 0
+          b: 1
+    expected: [false]
+  - name: "transitive union"
+    input:
+      n: 5
+      operations:
+        - type: "union"
+          a: 0
+          b: 1
+        - type: "union"
+          a: 1
+          b: 2
+        - type: "find"
+          a: 0
+          b: 2
+    expected: [true]
+  - name: "multiple components"
+    input:
+      n: 6
+      operations:
+        - type: "union"
+          a: 0
+          b: 1
+        - type: "union"
+          a: 2
+          b: 3
+        - type: "find"
+          a: 0
+          b: 3
+        - type: "union"
+          a: 1
+          b: 3
+        - type: "find"
+          a: 0
+          b: 3
+    expected: [false, true]

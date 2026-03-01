@@ -1,0 +1,137 @@
+{
+  "name": "Longest Palindromic Substring",
+  "slug": "longest-palindromic-substring",
+  "category": "strings",
+  "subcategory": "palindrome",
+  "difficulty": "intermediate",
+  "tags": [
+    "strings",
+    "palindrome",
+    "expand-around-center",
+    "dynamic-programming"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "average": "O(n^2)",
+      "worst": "O(n^2)"
+    },
+    "space": "O(1)"
+  },
+  "related": [
+    "manachers-algorithm",
+    "z-algorithm"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "longest_palindrome_subarray.c",
+          "content": "#include \"longest_palindrome_subarray.h\"\n\nstatic int expand(int arr[], int n, int l, int r) {\n    while (l >= 0 && r < n && arr[l] == arr[r]) {\n        l--;\n        r++;\n    }\n    return r - l - 1;\n}\n\nint longest_palindrome_subarray(int arr[], int n) {\n    if (n == 0) return 0;\n\n    int max_len = 1;\n    for (int i = 0; i < n; i++) {\n        int odd = expand(arr, n, i, i);\n        int even = expand(arr, n, i, i + 1);\n        if (odd > max_len) max_len = odd;\n        if (even > max_len) max_len = even;\n    }\n    return max_len;\n}\n"
+        },
+        {
+          "filename": "longest_palindrome_subarray.h",
+          "content": "#ifndef LONGEST_PALINDROME_SUBARRAY_H\n#define LONGEST_PALINDROME_SUBARRAY_H\n\nint longest_palindrome_subarray(int arr[], int n);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "longest_palindrome_subarray.cpp",
+          "content": "#include <vector>\n#include <algorithm>\nusing namespace std;\n\nstatic int expand(const vector<int>& arr, int l, int r) {\n    int n = (int)arr.size();\n    while (l >= 0 && r < n && arr[l] == arr[r]) {\n        l--;\n        r++;\n    }\n    return r - l - 1;\n}\n\nint longest_palindrome_subarray(vector<int> arr) {\n    int n = (int)arr.size();\n    if (n == 0) return 0;\n\n    int maxLen = 1;\n    for (int i = 0; i < n; i++) {\n        int odd = expand(arr, i, i);\n        int even = expand(arr, i, i + 1);\n        maxLen = max(maxLen, max(odd, even));\n    }\n    return maxLen;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "LongestPalindromeSubarray.cs",
+          "content": "using System;\n\npublic class LongestPalindromeSubarray\n{\n    public static int Solve(int[] arr)\n    {\n        int n = arr.Length;\n        if (n == 0) return 0;\n\n        int maxLen = 1;\n        for (int i = 0; i < n; i++)\n        {\n            int odd = Expand(arr, i, i);\n            int even = Expand(arr, i, i + 1);\n            maxLen = Math.Max(maxLen, Math.Max(odd, even));\n        }\n        return maxLen;\n    }\n\n    private static int Expand(int[] arr, int l, int r)\n    {\n        while (l >= 0 && r < arr.Length && arr[l] == arr[r])\n        {\n            l--;\n            r++;\n        }\n        return r - l - 1;\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "longest_palindrome_subarray.go",
+          "content": "package longestpalindromicsubstring\n\nfunc LongestPalindromeSubarray(arr []int) int {\n\tn := len(arr)\n\tif n == 0 {\n\t\treturn 0\n\t}\n\n\texpand := func(l, r int) int {\n\t\tfor l >= 0 && r < n && arr[l] == arr[r] {\n\t\t\tl--\n\t\t\tr++\n\t\t}\n\t\treturn r - l - 1\n\t}\n\n\tmaxLen := 1\n\tfor i := 0; i < n; i++ {\n\t\todd := expand(i, i)\n\t\teven := expand(i, i+1)\n\t\tif odd > maxLen {\n\t\t\tmaxLen = odd\n\t\t}\n\t\tif even > maxLen {\n\t\t\tmaxLen = even\n\t\t}\n\t}\n\treturn maxLen\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "LongestPalindromeSubarray.java",
+          "content": "public class LongestPalindromeSubarray {\n\n    public static int longestPalindromeSubarray(int[] arr) {\n        int n = arr.length;\n        if (n == 0) return 0;\n\n        int maxLen = 1;\n        for (int i = 0; i < n; i++) {\n            int odd = expand(arr, i, i);\n            int even = expand(arr, i, i + 1);\n            maxLen = Math.max(maxLen, Math.max(odd, even));\n        }\n        return maxLen;\n    }\n\n    private static int expand(int[] arr, int l, int r) {\n        while (l >= 0 && r < arr.length && arr[l] == arr[r]) {\n            l--;\n            r++;\n        }\n        return r - l - 1;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "LongestPalindromeSubarray.kt",
+          "content": "fun longestPalindromeSubarray(arr: IntArray): Int {\n    val n = arr.size\n    if (n == 0) return 0\n\n    fun expand(l: Int, r: Int): Int {\n        var left = l\n        var right = r\n        while (left >= 0 && right < n && arr[left] == arr[right]) {\n            left--\n            right++\n        }\n        return right - left - 1\n    }\n\n    var maxLen = 1\n    for (i in 0 until n) {\n        val odd = expand(i, i)\n        val even = expand(i, i + 1)\n        maxLen = maxOf(maxLen, odd, even)\n    }\n    return maxLen\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "longest_palindrome_subarray.py",
+          "content": "def longest_palindrome_subarray(arr: list[int]) -> int:\n    n = len(arr)\n    if n == 0:\n        return 0\n\n    def expand(l, r):\n        while l >= 0 and r < n and arr[l] == arr[r]:\n            l -= 1\n            r += 1\n        return r - l - 1\n\n    max_len = 1\n    for i in range(n):\n        odd = expand(i, i)\n        even = expand(i, i + 1)\n        max_len = max(max_len, odd, even)\n\n    return max_len\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "longest_palindrome_subarray.rs",
+          "content": "pub fn longest_palindrome_subarray(arr: &[i32]) -> i32 {\n    let n = arr.len();\n    if n == 0 { return 0; }\n\n    fn expand(arr: &[i32], mut l: isize, mut r: isize) -> i32 {\n        let n = arr.len() as isize;\n        while l >= 0 && r < n && arr[l as usize] == arr[r as usize] {\n            l -= 1;\n            r += 1;\n        }\n        (r - l - 1) as i32\n    }\n\n    let mut max_len = 1;\n    for i in 0..n {\n        let odd = expand(arr, i as isize, i as isize);\n        let even = expand(arr, i as isize, (i + 1) as isize);\n        max_len = max_len.max(odd).max(even);\n    }\n    max_len\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "LongestPalindromeSubarray.scala",
+          "content": "object LongestPalindromeSubarray {\n\n  def longestPalindromeSubarray(arr: Array[Int]): Int = {\n    val n = arr.length\n    if (n == 0) return 0\n\n    def expand(l: Int, r: Int): Int = {\n      var left = l\n      var right = r\n      while (left >= 0 && right < n && arr(left) == arr(right)) {\n        left -= 1\n        right += 1\n      }\n      right - left - 1\n    }\n\n    var maxLen = 1\n    for (i <- 0 until n) {\n      val odd = expand(i, i)\n      val even = expand(i, i + 1)\n      maxLen = math.max(maxLen, math.max(odd, even))\n    }\n    maxLen\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "LongestPalindromeSubarray.swift",
+          "content": "func longestPalindromeSubarray(_ arr: [Int]) -> Int {\n    let n = arr.count\n    if n == 0 { return 0 }\n\n    func expand(_ l: Int, _ r: Int) -> Int {\n        var left = l, right = r\n        while left >= 0 && right < n && arr[left] == arr[right] {\n            left -= 1\n            right += 1\n        }\n        return right - left - 1\n    }\n\n    var maxLen = 1\n    for i in 0..<n {\n        let odd = expand(i, i)\n        let even = expand(i, i + 1)\n        maxLen = max(maxLen, max(odd, even))\n    }\n    return maxLen\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "longestPalindromeSubarray.ts",
+          "content": "export function longestPalindromeSubarray(arr: number[]): number {\n    const n = arr.length;\n    if (n === 0) return 0;\n\n    function expand(l: number, r: number): number {\n        while (l >= 0 && r < n && arr[l] === arr[r]) { l--; r++; }\n        return r - l - 1;\n    }\n\n    let maxLen = 1;\n    for (let i = 0; i < n; i++) {\n        const odd = expand(i, i);\n        const even = expand(i, i + 1);\n        maxLen = Math.max(maxLen, odd, even);\n    }\n    return maxLen;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "patterns": [
+    "sliding-window"
+  ],
+  "patternDifficulty": "intermediate",
+  "practiceOrder": 5,
+  "readme": "# Longest Palindromic Substring\n\n## Overview\n\nThe Longest Palindromic Substring problem asks for the length of the longest contiguous subarray (or substring) that reads the same forwards and backwards. This implementation uses the expand-around-center approach: for each possible center position in the array, it expands outward as long as the palindrome condition holds, tracking the maximum length found. This is an intuitive O(n^2) method that uses O(1) extra space.\n\n## How It Works\n\n1. For each index `i` in the array, treat it as the center of an odd-length palindrome. Expand outward comparing elements at equal distances from `i`. Record the length.\n2. For each pair of adjacent indices `(i, i+1)`, treat the gap between them as the center of an even-length palindrome. Expand outward similarly.\n3. Track and return the maximum palindrome length found across all centers.\n\n## Worked Example\n\nGiven input: `[1, 2, 3, 2, 1]`\n\n**Odd-length expansions:**\n- Center at index 0: `[1]` -- length 1\n- Center at index 1: `[2]`, expand to `[1,2,3]` -- `1 != 3`, so length 1\n- Center at index 2: `[3]`, expand to `[2,3,2]` -- match, expand to `[1,2,3,2,1]` -- match, length 5\n- Center at index 3: `[2]`, expand to `[3,2,1]` -- `3 != 1`, so length 1\n- Center at index 4: `[1]` -- length 1\n\n**Even-length expansions:**\n- Centers (0,1): `1 != 2`, length 0\n- Centers (1,2): `2 != 3`, length 0\n- Centers (2,3): `3 != 2`, length 0\n- Centers (3,4): `2 != 1`, length 0\n\n**Result:** 5 (the entire array `[1, 2, 3, 2, 1]` is a palindrome)\n\n## Pseudocode\n\n```\nfunction longestPalindromicSubstring(arr):\n    n = length(arr)\n    if n == 0: return 0\n    maxLen = 1\n\n    function expandAroundCenter(left, right):\n        while left >= 0 and right < n and arr[left] == arr[right]:\n            left = left - 1\n            right = right + 1\n        return right - left - 1\n\n    for i from 0 to n - 1:\n        oddLen = expandAroundCenter(i, i)\n        evenLen = expandAroundCenter(i, i + 1)\n        maxLen = max(maxLen, oddLen, evenLen)\n\n    return maxLen\n```\n\n## Complexity Analysis\n\n| Case    | Time   | Space |\n|---------|--------|-------|\n| Best    | O(n)   | O(1)  |\n| Average | O(n^2) | O(1)  |\n| Worst   | O(n^2) | O(1)  |\n\n- **Best case O(n):** When no palindrome longer than 1 exists (all elements distinct), each expansion terminates immediately after one comparison.\n- **Average/Worst case O(n^2):** Each of the O(n) centers can expand up to O(n) positions. The worst case occurs with inputs like `[a, a, a, ..., a]` where every center expands fully.\n- **Space O(1):** Only a few variables are needed beyond the input array.\n\n## When to Use\n\n- Finding palindromic substrings in text or genomic data\n- DNA sequence analysis where palindromic regions have biological significance\n- Text processing and computational linguistics\n- When simplicity of implementation is valued over optimal time complexity\n- When space is limited (this approach uses O(1) extra space)\n- Interview problems and competitive programming\n\n## When NOT to Use\n\n- **When linear time is required:** For large inputs, use Manacher's algorithm which solves the same problem in O(n) time and O(n) space.\n- **When you need all palindromic substrings:** Use Eertree (palindromic tree) to enumerate all distinct palindromic substrings efficiently.\n- **When matching palindromes across two strings:** Use dynamic programming or suffix-based methods instead.\n- **Very large inputs (n > 100,000):** The O(n^2) worst case becomes too slow; Manacher's algorithm is the better choice.\n\n## Comparison\n\n| Algorithm             | Time   | Space | Notes                                     |\n|-----------------------|--------|-------|-------------------------------------------|\n| Expand Around Center  | O(n^2) | O(1)  | Simple, practical, no extra space          |\n| Manacher's Algorithm  | O(n)   | O(n)  | Optimal time, more complex to implement    |\n| Dynamic Programming   | O(n^2) | O(n^2)| Stores full DP table, high memory usage    |\n| Suffix Array + LCP    | O(n log n) | O(n) | Powerful but complex; overkill for this  |\n\nThe expand-around-center approach is the best choice when simplicity matters and input sizes are moderate. For competitive programming or large-scale applications, Manacher's algorithm is preferred for its guaranteed O(n) performance.\n\n## References\n\n- Manacher, G. (1975). \"A New Linear-Time 'On-Line' Algorithm for Finding the Smallest Initial Palindrome of a String.\" *Journal of the ACM*, 22(3), 346-351.\n- Gusfield, D. (1997). *Algorithms on Strings, Trees, and Sequences*. Cambridge University Press.\n- Cormen, T.H., Leiserson, C.E., Rivest, R.L., and Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press.\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [longest_palindrome_subarray.py](python/longest_palindrome_subarray.py) |\n| Java       | [LongestPalindromeSubarray.java](java/LongestPalindromeSubarray.java) |\n| C++        | [longest_palindrome_subarray.cpp](cpp/longest_palindrome_subarray.cpp) |\n| C          | [longest_palindrome_subarray.c](c/longest_palindrome_subarray.c) |\n| Go         | [longest_palindrome_subarray.go](go/longest_palindrome_subarray.go) |\n| TypeScript | [longestPalindromeSubarray.ts](typescript/longestPalindromeSubarray.ts) |\n| Rust       | [longest_palindrome_subarray.rs](rust/longest_palindrome_subarray.rs) |\n| Kotlin     | [LongestPalindromeSubarray.kt](kotlin/LongestPalindromeSubarray.kt) |\n| Swift      | [LongestPalindromeSubarray.swift](swift/LongestPalindromeSubarray.swift) |\n| Scala      | [LongestPalindromeSubarray.scala](scala/LongestPalindromeSubarray.scala) |\n| C#         | [LongestPalindromeSubarray.cs](csharp/LongestPalindromeSubarray.cs) |\n"
+}

@@ -1,0 +1,135 @@
+{
+  "name": "Greatest Common Divisor",
+  "slug": "greatest-common-divisor",
+  "category": "math",
+  "subcategory": "number-theory",
+  "difficulty": "beginner",
+  "tags": [
+    "math",
+    "gcd",
+    "euclidean",
+    "number-theory",
+    "divisor"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(1)",
+      "average": "O(log(min(a,b)))",
+      "worst": "O(log(min(a,b)))"
+    },
+    "space": "O(1)"
+  },
+  "stable": false,
+  "in_place": true,
+  "related": [
+    "binary-gcd",
+    "extended-euclidean"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "EuclideanGCD.c",
+          "content": "#include<stdio.h>\n\n// Function to calculate GCD\nint gcd(int a, int b)\n{\n    int temp;\n    while (b != 0)\n    {\n        temp = a % b;\n        a = b;\n        b = temp;\n    }\n    return a;\n}\n//Driver function\nint main() {\n\tint a,b;\n        // Input the numbers\n\tscanf(\"%d %d\",&a,&b);\n\tprintf(\"%d\\n\", gcd(a,b));\n}\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "GreatestCommonDivisior.cpp",
+          "content": "#include<iostream>\nusing namespace std;\n//Recursive Function to calculate GCD \nint gcd(int a,int b)\n{\n\t if(b==0)\n\t \treturn a;\n\t else\n\t \treturn gcd(b,(a%b));\n}\n//Driver program \nint main()\n{\n\tint a,b;\n\tcout << \"Enter the two numbers to calculate gcd\" << endl;\n\tcin >> a >>b;\n\tcout <<\"Gcd of \" << a << \" \" << b << \"is \"<< gcd(a,b)<< endl;\n\treturn 0;\n}"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "GCD.cs",
+          "content": "﻿using System;\r\n\r\nnamespace C_\r\n{\r\n    class Program\r\n    {\r\n        static int EuclideanGCD(int a, int b)\r\n        {\r\n            while (b != 0)\r\n            {\r\n                var temp = b;\r\n                b = a % b;\r\n                a = temp;\r\n            }\r\n            return a;\r\n        }\r\n\r\n        static void Main(string[] args)\r\n        {\r\n            var rnd = new Random();\r\n\r\n            Console.WriteLine($\"a: 10, b: 5, gcd: {EuclideanGCD(10,5)}\");\r\n            Console.WriteLine($\"a: 5, b: 10, gcd: {EuclideanGCD(5,10)}\");\r\n            Console.WriteLine($\"a: 7, b: 11, gcd: {EuclideanGCD(7,11)}\");\r\n            Console.WriteLine($\"a: 5000, b: 1200, gcd: {EuclideanGCD(5000,1200)}\");\r\n\r\n            for (var i = 0; i < 3; i++)\r\n            {\r\n                var a = rnd.Next(1, 9999);\r\n                var b = rnd.Next(1, 9999);\r\n                Console.WriteLine($\"a: {a}, b: {b}, gcd: {EuclideanGCD(a,b)}\");\r\n            }\r\n        }\r\n    }\r\n}\r\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "GCDEuclidean.go",
+          "content": "package math\n\n// GCDEuclidean\nfunc GCDEuclidean(num1, num2 int) int {\n\tfor num1 != num2 {\n\t\tif num1 > num2 {\n\t\t\tnum1 -= num2\n\t\t} else {\n\t\t\tnum2 -= num1\n\t\t}\n\t}\n\n\treturn num1\n}"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "EuclideanGCD.java",
+          "content": "\n\npublic class EuclideanGCD {\n\n\t/**\n\t * Calculates the greatest common divisor of two natural numbers using the Euclidean algorithm.\n\t * \n\t * @param a natural number\n\t * @param b natural number\n\t * @return the largest natural number that divides a and b without leaving a remainder\n\t */\n\tpublic static int gcd(int a, int b) {\n\t\twhile (b != 0) {\n\t\t\tint temp = b;\n\t\t\tb = a % b;\n\t\t\ta = temp;\n\t\t}\n\t\treturn a;\n\t}\n\t\n\tpublic static void main(String[] args) {\n\t\tSystem.out.println(gcd(10, 5));\n\t\tSystem.out.println(gcd(5, 10));\n\t\tSystem.out.println(gcd(10, 8));\n\t\tSystem.out.println(gcd(8, 2));\n\t\tSystem.out.println(gcd(7000, 2000));\n\t\tSystem.out.println(gcd(2000, 7000));\n\t\tSystem.out.println(gcd(10, 11));\n\t\tSystem.out.println(gcd(11, 7));\n\t\tSystem.out.println(gcd(239, 293));\n\t}\n\n}\n"
+        },
+        {
+          "filename": "GCD.java",
+          "content": "public class GCD {\n    public static int gcd(int a, int b) {\n        int temp, remainder;\n        // The larger value will always be assigned to the int a.\n        if (b > a) {\n            temp = a;\n            a = b;\n            b = a;\n        }\n        while (b != 0) {\n            remainder = a % b;\n            a = b;\n            b = remainder;\n        }\n        return a;\n    }\n}"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "EuclideanGCD.kt",
+          "content": "/**\n * Calculates the greatest common divisor of two natural numbers.\n *\n * @author Sarah Khan\n */\n\n/**\n * Calculates the greatest common divisor of two natural numbers using the Euclidean algorithm.\n *\n * @param num1 natural number\n * @param num2 natural number\n * @return the largest natural number that divides a and b without leaving a remainder\n */\nfun gcd(num1: Int, num2: Int): Int {\n    var a = num1\n    var b = num2\n    while (b != 0) {\n        val temp = b\n        b = a % b\n        a = temp\n    }\n    return a\n}\n\nfun main(args: Array<String>) {\n    println(gcd(10, 5)) // gcd is 5\n    println(gcd(5, 10)) // gcd is 5\n    println(gcd(10, 8)) // gcd is 2\n    println(gcd(8, 2)) // gcd is 2\n    println(gcd(7000, 2000)) // gcd is 1000\n    println(gcd(2000, 7000)) // gcd is 1000\n    println(gcd(10, 11)) // gcd is 1\n    println(gcd(11, 7)) // gcd is 1\n    println(gcd(239, 293)) // gcd is 1\n}"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "GCD.py",
+          "content": "\"\"\"\nThis code is for GCD of two numbers in O(log(n)) time.\nThis code is compatible with python 2 as well as python3\n\"\"\"\ntry:\n\tinput = raw_input\nexcept:\n\tpass\ndef gcd(a, b):\n\tif b == 0:\n\t\treturn a\n\treturn gcd(b , a%b)\t    \n\nif __name__ == \"__main__\":\n\ta,b = tuple(map(int , input(\"Enter two numbers separated by spaces for gcd: \").split(\" \")))\n\tprint(a,b)\n\tprint(\"GCD of \",a,\" and \",b,\"is\",gcd(a,b))    \n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "gcd.rs",
+          "content": "fn gcd(a: i64, b: i64) -> i64 {\n    if b == 0 {\n        return a;\n    }\n    gcd(b, a % b)\n}\n\nfn main() {\n    println!(\"GCD of 48 and 18 is {}\", gcd(48, 18));\n    println!(\"GCD of 7 and 13 is {}\", gcd(7, 13));\n    println!(\"GCD of 0 and 5 is {}\", gcd(0, 5));\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "GCD.scala",
+          "content": "object GCD {\n\n  def main(args: Array[String]): Unit = {\n    println(gcd(10,70))\n  }\n\n  def gcd(x: Int, y: Int) : Int = if (y==0) x else gcd(y, x%y)\n}"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "GCD.swift",
+          "content": "func gcd(_ a: Int, _ b: Int) -> Int {\n    if b == 0 {\n        return a\n    }\n    return gcd(b, a % b)\n}\n\nprint(\"GCD of 48 and 18 is \\(gcd(48, 18))\")\nprint(\"GCD of 7 and 13 is \\(gcd(7, 13))\")\nprint(\"GCD of 0 and 5 is \\(gcd(0, 5))\")\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "index.js",
+          "content": "/* eslint-disable require-jsdoc */\nfunction greatestCommonDivisor(a, b) {\n  if (!isNaN(a) && !isNaN(b)) {\n    return (b === 0)? a : greatestCommonDivisor(b, a%b);\n  }\n  return null;\n}\n\nmodule.exports = greatestCommonDivisor;\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Greatest Common Divisor\n\n## Overview\n\nThe Greatest Common Divisor (GCD) of two integers is the largest positive integer that divides both numbers without a remainder. The Euclidean algorithm, one of the oldest known algorithms (dating back to 300 BC), computes the GCD efficiently by repeatedly replacing the larger number with the remainder of dividing the larger by the smaller. For example, GCD(48, 18) = 6.\n\nThe GCD is fundamental to number theory and has applications in simplifying fractions, cryptography (RSA depends on computing GCDs), modular arithmetic, and solving Diophantine equations. The Euclidean algorithm is remarkably efficient, running in O(log(min(a, b))) time.\n\n## How It Works\n\nThe algorithm is based on the principle that GCD(a, b) = GCD(b, a mod b). Starting with two numbers, we repeatedly replace (a, b) with (b, a mod b) until b becomes 0. At that point, a holds the GCD. This works because any common divisor of a and b must also divide (a mod b), and vice versa.\n\n### Example\n\nComputing `GCD(252, 105)`:\n\n| Step | a | b | a mod b | Action |\n|------|-----|-----|---------|--------|\n| 1 | 252 | 105 | 252 mod 105 = 42 | Replace (252, 105) with (105, 42) |\n| 2 | 105 | 42 | 105 mod 42 = 21 | Replace (105, 42) with (42, 21) |\n| 3 | 42 | 21 | 42 mod 21 = 0 | Replace (42, 21) with (21, 0) |\n| 4 | 21 | 0 | - | b = 0, return a = 21 |\n\nResult: `GCD(252, 105) = 21`\n\n**Verification:** 252 = 21 * 12, 105 = 21 * 5. Both divide evenly by 21, and no larger number divides both.\n\n## Pseudocode\n\n```\nfunction gcd(a, b):\n    while b != 0:\n        temp = b\n        b = a mod b\n        a = temp\n    return a\n```\n\nRecursive version:\n\n```\nfunction gcd(a, b):\n    if b == 0:\n        return a\n    return gcd(b, a mod b)\n```\n\nThe Euclidean algorithm reduces the problem size by at least half every two steps (since a mod b < a/2 when b <= a/2), guaranteeing logarithmic convergence.\n\n## Complexity Analysis\n\n| Case    | Time              | Space |\n|---------|-------------------|-------|\n| Best    | O(1)              | O(1)  |\n| Average | O(log(min(a,b)))  | O(1)  |\n| Worst   | O(log(min(a,b)))  | O(1)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(1):** When one number divides the other evenly (e.g., GCD(10, 5)), the first modulo operation gives 0, and the algorithm terminates in a single step.\n\n- **Average Case -- O(log(min(a,b))):** On average, each step reduces the larger number by roughly a factor of the golden ratio phi, giving approximately log_phi(min(a,b)) steps.\n\n- **Worst Case -- O(log(min(a,b))):** The worst case occurs when the inputs are consecutive Fibonacci numbers (e.g., GCD(F(n), F(n-1))), which require the most steps. Even in this case, the number of steps is proportional to log(min(a,b)).\n\n- **Space -- O(1):** The iterative version uses only a constant number of variables. The recursive version uses O(log(min(a,b))) stack space.\n\n## When to Use\n\n- **Simplifying fractions:** Divide numerator and denominator by their GCD to get the simplest form.\n- **Cryptography (RSA):** Checking coprimality and computing modular inverses rely on GCD.\n- **Solving Diophantine equations:** The extended Euclidean algorithm (based on GCD) solves ax + by = gcd(a, b).\n- **Computing LCM:** LCM(a, b) = a * b / GCD(a, b).\n- **When efficiency matters:** The Euclidean algorithm is vastly superior to trial division for computing GCD.\n\n## When NOT to Use\n\n- **GCD of more than two numbers:** Extend by computing GCD iteratively: GCD(a, b, c) = GCD(GCD(a, b), c). This is still efficient.\n- **When you also need the Bezout coefficients:** Use the Extended Euclidean Algorithm, which computes GCD along with x and y such that ax + by = GCD(a, b).\n- **Very large numbers in performance-critical code:** The Binary GCD (Stein's algorithm) avoids division operations, which can be faster on hardware.\n- **Floating-point numbers:** GCD is defined for integers. Approximate GCD for real numbers requires different approaches.\n\n## Comparison with Similar Algorithms\n\n| Algorithm           | Time               | Space | Notes                                         |\n|--------------------|-------------------|-------|-----------------------------------------------|\n| Euclidean GCD       | O(log(min(a,b)))  | O(1)  | Simple division-based; most common              |\n| Binary GCD (Stein)  | O(log(min(a,b))^2)| O(1)  | Uses only subtraction and bit shifts            |\n| Extended Euclidean   | O(log(min(a,b)))  | O(1)  | Also computes Bezout coefficients               |\n| Trial Division       | O(sqrt(min(a,b))) | O(1)  | Naive; checks all divisors up to sqrt           |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [GCD.py](python/GCD.py) |\n| Java       | [EuclideanGCD.java](java/EuclideanGCD.java) |\n| C++        | [GreatestCommonDivisior.cpp](cpp/GreatestCommonDivisior.cpp) |\n| C          | [EuclideanGCD.c](c/EuclideanGCD.c) |\n| Go         | [GCDEuclidean.go](go/GCDEuclidean.go) |\n| TypeScript | [index.js](typescript/index.js) |\n| Kotlin     | [EuclideanGCD.kt](kotlin/EuclideanGCD.kt) |\n| C#         | [GCD.cs](csharp/GCD.cs) |\n| Scala      | [GCD.scala](scala/GCD.scala) |\n\n## References\n\n- Knuth, D. E. (1997). *The Art of Computer Programming, Volume 2: Seminumerical Algorithms* (3rd ed.). Addison-Wesley. Section 4.5.2: The Greatest Common Divisor.\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 31.2: Greatest Common Divisor.\n- [Euclidean Algorithm -- Wikipedia](https://en.wikipedia.org/wiki/Euclidean_algorithm)\n"
+}

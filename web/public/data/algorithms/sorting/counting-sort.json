@@ -1,0 +1,152 @@
+{
+  "name": "Counting Sort",
+  "slug": "counting-sort",
+  "category": "sorting",
+  "subcategory": "distribution-based",
+  "difficulty": "intermediate",
+  "tags": [
+    "sorting",
+    "distribution",
+    "non-comparison",
+    "stable",
+    "integer"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n + k)",
+      "average": "O(n + k)",
+      "worst": "O(n + k)"
+    },
+    "space": "O(k)"
+  },
+  "stable": true,
+  "in_place": false,
+  "related": [
+    "bucket-sort",
+    "radix-sort",
+    "pigeonhole-sort"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "counting_sort.c",
+          "content": "#include \"counting_sort.h\"\n#include <stdlib.h>\n#include <string.h>\n\nvoid counting_sort(int arr[], int n) {\n    if (n <= 1) return;\n\n    int min_val = arr[0];\n    int max_val = arr[0];\n\n    for (int i = 1; i < n; i++) {\n        if (arr[i] < min_val) min_val = arr[i];\n        if (arr[i] > max_val) max_val = arr[i];\n    }\n\n    int range = max_val - min_val + 1;\n    int *count = (int *)calloc(range, sizeof(int));\n    int *output = (int *)malloc(n * sizeof(int));\n\n    if (!count || !output) {\n        free(count);\n        free(output);\n        return;\n    }\n\n    for (int i = 0; i < n; i++) {\n        count[arr[i] - min_val]++;\n    }\n\n    for (int i = 1; i < range; i++) {\n        count[i] += count[i - 1];\n    }\n\n    for (int i = n - 1; i >= 0; i--) {\n        output[count[arr[i] - min_val] - 1] = arr[i];\n        count[arr[i] - min_val]--;\n    }\n\n    memcpy(arr, output, n * sizeof(int));\n\n    free(count);\n    free(output);\n}\n"
+        },
+        {
+          "filename": "counting_sort.h",
+          "content": "#ifndef COUNTING_SORT_H\n#define COUNTING_SORT_H\n\n/**\n * Counting Sort implementation.\n * Efficient for sorting integers with a known small range.\n * @param arr the input array (modified in-place)\n * @param n the number of elements in the array\n */\nvoid counting_sort(int arr[], int n);\n\n#endif\n"
+        },
+        {
+          "filename": "countingsort.c",
+          "content": "#include <stdio.h>\n#include <stdlib.h>\n\nvoid countingSort(int arr[], int n) {\n    if (n <= 0) return;\n\n    int min = arr[0], max = arr[0];\n    for (int i = 1; i < n; i++) {\n        if (arr[i] < min) min = arr[i];\n        if (arr[i] > max) max = arr[i];\n    }\n\n    int range = max - min + 1;\n    int *count = (int *)calloc(range, sizeof(int));\n    int *output = (int *)malloc(n * sizeof(int));\n\n    for (int i = 0; i < n; i++) {\n        count[arr[i] - min]++;\n    }\n\n    for (int i = 1; i < range; i++) {\n        count[i] += count[i - 1];\n    }\n\n    for (int i = n - 1; i >= 0; i--) {\n        output[count[arr[i] - min] - 1] = arr[i];\n        count[arr[i] - min]--;\n    }\n\n    for (int i = 0; i < n; i++) {\n        arr[i] = output[i];\n    }\n\n    free(count);\n    free(output);\n}\n\nint main() {\n    int arr[] = {5, 3, 8, 1, 2, -3, 0};\n    int n = sizeof(arr) / sizeof(arr[0]);\n\n    countingSort(arr, n);\n\n    printf(\"Sorted array: \");\n    for (int i = 0; i < n; i++) {\n        printf(\"%d \", arr[i]);\n    }\n    printf(\"\\n\");\n\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "CountingSort.cpp",
+          "content": "#include <iostream>\n#include <stdio.h>\n#include <string>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n\n#define RANGE 256\n\nvoid counting_sort(vector<int> &vec) {\n\t// The vector containing the result.\n\tvector<int> output(vec.size(), 0);\n\t\n\t// The count vector.\n\tvector<int> count(RANGE, 0);\n\t\n\tfor (int i = 0; i < int(vec.size()); i++) {\n\t\tcount[vec[i]]++;\n\t}\n\t\n\t// Make count[i] contain the start position of the element in the output vector.\n\tfor (int i = 1; i < int(count.size()); i++) {\n\t\tcount[i] += count[i-1];\n\t}\n\t\n\t// Build the output vector.\n\tfor (int i = 0; i < int(vec.size()); i++) {\n\t\toutput[count[vec[i]] - 1] = vec[i];\n\t\tcount[vec[i]]--;\n\t}\n\t\n\tfor (int i = 0; i < int(vec.size()); i++) {\n\t\tvec[i] = output[i];\n\t}\n}\n\nvoid print(vector<int> test_vec) {\n\tcout << \"{ \";\n\tfor (int i = 0; i < int(test_vec.size()); i++) {\n\t\tcout << test_vec[i] << \" \";\n\t\t\n\t}\n\tcout << \"}\" << endl;\n}\n\nint main() {\n\t// Testing.\n\tvector<int> test_vec = {99, 122, 11, 2, 2, 3, 44, 33, 9, 0, 0};\n\t\n\tcout << \"The vector before sorting: \";\n\tprint(test_vec);\n\t\n\tcounting_sort(test_vec);\n\t\n\tcout << \"The sorted vector: \";\n\tprint(test_vec);\n\t\n\treturn 0;\n}\n"
+        },
+        {
+          "filename": "counting_sort.cpp",
+          "content": "#include <vector>\n#include <algorithm>\n\n/**\n * Counting Sort implementation.\n * Efficient for sorting integers with a known small range.\n * @param arr the input vector\n * @returns a sorted copy of the vector\n */\nstd::vector<int> counting_sort(const std::vector<int>& arr) {\n    if (arr.empty()) {\n        return {};\n    }\n\n    int min_val = *std::min_element(arr.begin(), arr.end());\n    int max_val = *std::max_element(arr.begin(), arr.end());\n    int range = max_val - min_val + 1;\n\n    std::vector<int> count(range, 0);\n    std::vector<int> output(arr.size());\n\n    for (int x : arr) {\n        count[x - min_val]++;\n    }\n\n    for (int i = 1; i < range; ++i) {\n        count[i] += count[i - 1];\n    }\n\n    for (int i = static_cast<int>(arr.size()) - 1; i >= 0; --i) {\n        output[count[arr[i] - min_val] - 1] = arr[i];\n        count[arr[i] - min_val]--;\n    }\n\n    return output;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "CountingSort.cs",
+          "content": "using System;\nusing System.Linq;\n\nnamespace Algorithms.Sorting.Counting\n{\n    /**\n     * Counting Sort implementation.\n     * Efficient for sorting integers with a known small range.\n     */\n    public static class CountingSort\n    {\n        public static int[] Sort(int[] arr)\n        {\n            if (arr == null || arr.Length == 0)\n            {\n                return new int[0];\n            }\n\n            int minVal = arr.Min();\n            int maxVal = arr.Max();\n            int range = maxVal - minVal + 1;\n\n            int[] count = new int[range];\n            int[] output = new int[arr.Length];\n\n            for (int i = 0; i < arr.Length; i++)\n            {\n                count[arr[i] - minVal]++;\n            }\n\n            for (int i = 1; i < range; i++)\n            {\n                count[i] += count[i - 1];\n            }\n\n            for (int i = arr.Length - 1; i >= 0; i--)\n            {\n                output[count[arr[i] - minVal] - 1] = arr[i];\n                count[arr[i] - minVal]--;\n            }\n\n            return output;\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "CountingSort.go",
+          "content": "package main\n\nimport \"fmt\"\n\nfunc CountingSort(arr []int) []int {\n\tif len(arr) <= 1 {\n\t\treturn arr\n\t}\n\n\tmin, max := arr[0], arr[0]\n\tfor _, v := range arr {\n\t\tif v < min {\n\t\t\tmin = v\n\t\t}\n\t\tif v > max {\n\t\t\tmax = v\n\t\t}\n\t}\n\n\trangeSize := max - min + 1\n\tcount := make([]int, rangeSize)\n\toutput := make([]int, len(arr))\n\n\tfor _, v := range arr {\n\t\tcount[v-min]++\n\t}\n\n\tfor i := 1; i < rangeSize; i++ {\n\t\tcount[i] += count[i-1]\n\t}\n\n\tfor i := len(arr) - 1; i >= 0; i-- {\n\t\toutput[count[arr[i]-min]-1] = arr[i]\n\t\tcount[arr[i]-min]--\n\t}\n\n\tcopy(arr, output)\n\treturn arr\n}\n\nfunc main() {\n\tarr := []int{5, 3, 8, 1, 2, -3, 0}\n\tfmt.Println(CountingSort(arr))\n}\n"
+        },
+        {
+          "filename": "counting_sort.go",
+          "content": "package countingsort\n\n/**\n * CountingSort implementation.\n * Efficient for sorting integers with a known small range.\n * It returns a new sorted slice without modifying the original input.\n */\nfunc CountingSort(arr []int) []int {\n\tif len(arr) == 0 {\n\t\treturn []int{}\n\t}\n\n\tminVal, maxVal := arr[0], arr[0]\n\tfor _, v := range arr {\n\t\tif v < minVal {\n\t\t\tminVal = v\n\t\t}\n\t\tif v > maxVal {\n\t\t\tmaxVal = v\n\t\t}\n\t}\n\n\trangeVal := maxVal - minVal + 1\n\tcount := make([]int, rangeVal)\n\toutput := make([]int, len(arr))\n\n\tfor _, v := range arr {\n\t\tcount[v-minVal]++\n\t}\n\n\tfor i := 1; i < len(count); i++ {\n\t\tcount[i] += count[i-1]\n\t}\n\n\tfor i := len(arr) - 1; i >= 0; i-- {\n\t\toutput[count[arr[i]-minVal]-1] = arr[i]\n\t\tcount[arr[i]-minVal]--\n\t}\n\n\treturn output\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "CountingSort.java",
+          "content": "import java.util.Arrays;\n\npublic class CountingSort {\n    /**\n     * Counting Sort implementation.\n     * Efficient for sorting integers with a known small range.\n     * @param arr the input array\n     * @return a sorted copy of the array\n     */\n    public static int[] sort(int[] arr) {\n        if (arr == null || arr.length == 0) {\n            return new int[0];\n        }\n\n        int n = arr.length;\n        int min = arr[0];\n        int max = arr[0];\n\n        for (int i = 1; i < n; i++) {\n            if (arr[i] < min) min = arr[i];\n            if (arr[i] > max) max = arr[i];\n        }\n\n        int range = max - min + 1;\n        int[] count = new int[range];\n        int[] output = new int[n];\n\n        for (int i = 0; i < n; i++) {\n            count[arr[i] - min]++;\n        }\n\n        for (int i = 1; i < range; i++) {\n            count[i] += count[i - 1];\n        }\n\n        for (int i = n - 1; i >= 0; i--) {\n            output[count[arr[i] - min] - 1] = arr[i];\n            count[arr[i] - min]--;\n        }\n\n        return output;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "CountingSort.kt",
+          "content": "package algorithms.sorting.counting\n\n/**\n * Counting Sort implementation.\n * Efficient for sorting integers with a known small range.\n */\nobject CountingSort {\n    fun sort(arr: IntArray): IntArray {\n        if (arr.isEmpty()) {\n            return IntArray(0)\n        }\n\n        var min = arr[0]\n        var max = arr[0]\n\n        for (i in 1 until arr.size) {\n            if (arr[i] < min) min = arr[i]\n            if (arr[i] > max) max = arr[i]\n        }\n\n        val range = max - min + 1\n        val count = IntArray(range)\n        val output = IntArray(arr.size)\n\n        for (x in arr) {\n            count[x - min]++\n        }\n\n        for (i in 1 until count.size) {\n            count[i] += count[i - 1]\n        }\n\n        for (i in arr.size - 1 downTo 0) {\n            output[count[arr[i] - min] - 1] = arr[i]\n            count[arr[i] - min]--\n        }\n\n        return output\n    }\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "counting_sort.py",
+          "content": "def counting_sort(arr: list[int]) -> list[int]:\n    \"\"\"\n    Counting Sort implementation.\n    Efficient for sorting integers with a known small range.\n    \"\"\"\n    if not arr:\n        return []\n\n    min_val = min(arr)\n    max_val = max(arr)\n    range_val = max_val - min_val + 1\n\n    count = [0] * range_val\n    output = [0] * len(arr)\n\n    # Store count of each character\n    for i in range(len(arr)):\n        count[arr[i] - min_val] += 1\n\n    # Change count[i] so that count[i] now contains actual\n    # position of this character in output array\n    for i in range(1, len(count)):\n        count[i] += count[i - 1]\n\n    # Build the output character array\n    for i in range(len(arr) - 1, -1, -1):\n        output[count[arr[i] - min_val] - 1] = arr[i]\n        count[arr[i] - min_val] -= 1\n\n    return output\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "counting_sort.rs",
+          "content": "/**\n * Counting Sort implementation.\n * Efficient for sorting integers with a known small range.\n */\npub fn counting_sort(arr: &[i32]) -> Vec<i32> {\n    if arr.is_empty() {\n        return Vec::new();\n    }\n\n    let min_val = *arr.iter().min().unwrap();\n    let max_val = *arr.iter().max().unwrap();\n    let range = (max_val - min_val + 1) as usize;\n\n    let mut count = vec![0; range];\n    let mut output = vec![0; arr.len()];\n\n    for &x in arr {\n        count[(x - min_val) as usize] += 1;\n    }\n\n    for i in 1..range {\n        count[i] += count[i - 1];\n    }\n\n    for &x in arr.iter().rev() {\n        let index = (x - min_val) as usize;\n        output[count[index] - 1] = x;\n        count[index] -= 1;\n    }\n\n    output\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "CountingSort.scala",
+          "content": "package algorithms.sorting.counting\n\n/**\n * Counting Sort implementation.\n * Efficient for sorting integers with a known small range.\n */\nobject CountingSort {\n  def sort(arr: Array[Int]): Array[Int] = {\n    if (arr.isEmpty) {\n      return Array.empty[Int]\n    }\n\n    val minVal = arr.min\n    val maxVal = arr.max\n    val range = maxVal - minVal + 1\n\n    val count = new Array[Int](range)\n    val output = new Array[Int](arr.length)\n\n    for (x <- arr) {\n      count(x - minVal) += 1\n    }\n\n    for (i <- 1 until range) {\n      count(i) += count(i - 1)\n    }\n\n    for (i <- arr.indices.reverse) {\n      output(count(arr(i) - minVal) - 1) = arr(i)\n      count(arr(i) - minVal) -= 1\n    }\n\n    output\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "CountingSort.swift",
+          "content": "/**\n * Counting Sort implementation.\n * Efficient for sorting integers with a known small range.\n */\npublic class CountingSort {\n    public static func sort(_ arr: [Int]) -> [Int] {\n        guard !arr.isEmpty else {\n            return []\n        }\n\n        let minVal = arr.min()!\n        let maxVal = arr.max()!\n        let range = maxVal - minVal + 1\n\n        var count = [Int](repeating: 0, count: range)\n        var output = [Int](repeating: 0, count: arr.count)\n\n        for x in arr {\n            count[x - minVal] += 1\n        }\n\n        for i in 1..<range {\n            count[i] += count[i - 1]\n        }\n\n        for x in arr.reversed() {\n            output[count[x - minVal] - 1] = x\n            count[x - minVal] -= 1\n        }\n\n        return output\n    }\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "countingSort.ts",
+          "content": "/**\n * Counting Sort implementation.\n * Efficient for sorting integers with a known small range.\n * @param arr the input array\n * @returns a sorted copy of the array\n */\nexport function countingSort(arr: number[]): number[] {\n    if (arr.length === 0) {\n        return [];\n    }\n\n    let min = arr[0];\n    let max = arr[0];\n\n    for (let i = 1; i < arr.length; i++) {\n        if (arr[i] < min) min = arr[i];\n        if (arr[i] > max) max = arr[i];\n    }\n\n    const range = max - min + 1;\n    const count = new Array(range).fill(0);\n    const output = new Array(arr.length);\n\n    for (let i = 0; i < arr.length; i++) {\n        count[arr[i] - min]++;\n    }\n\n    for (let i = 1; i < count.length; i++) {\n        count[i] += count[i - 1];\n    }\n\n    for (let i = arr.length - 1; i >= 0; i--) {\n        output[count[arr[i] - min] - 1] = arr[i];\n        count[arr[i] - min]--;\n    }\n\n    return output;\n}\n"
+        },
+        {
+          "filename": "index.js",
+          "content": "/* eslint-disable require-jsdoc */\nfunction countingSort(array) {\n  const high = highestElement(array);\n  const auxArray = new Array(high-1);\n  const finalArray = new Array(array.length);\n  for (let i = 0; i < auxArray.length; i++) {\n    auxArray[i] = 0;\n  }\n  for (let j = 0; j < auxArray.length; j++) {\n    auxArray[array[j]] = auxArray[array[j]-1] + 1;\n  }\n  for (let i = 1; i<high; i++) {\n    auxArray[i] = auxArray[i] + auxArray[i-1];\n  }\n  for (let j = array.length; j>0; j-- ) {\n    finalArray[auxArray[array[j]-1]-1] = array[j];\n    auxArray[array[j]]--;\n  }\n}\n\nfunction highestElement(array) {\n  let high = 0;\n  for (const i in array) {\n    if (array[i] > high) {\n      high = array[i];\n    }\n  }\n  return high;\n}\n\nmodule.exports = {countingSort};\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "readme": "# Counting Sort\n\n## Overview\n\nCounting Sort is an efficient, non-comparison-based sorting algorithm that sorts elements by counting the number of occurrences of each distinct value in the input. It operates by determining, for each element, the number of elements that are less than it, and uses this information to place each element directly into its correct output position. The algorithm achieves linear time complexity O(n + k), where n is the number of elements and k is the range of input values.\n\nUnlike comparison-based sorts which are bounded by O(n log n), Counting Sort breaks this barrier by not comparing elements against each other. However, it is only practical when the range of input values (k) is not significantly larger than the number of elements (n).\n\n## How It Works\n\nCounting Sort works in three phases. First, it counts the occurrences of each value in the input array using a count array indexed by the element values. Second, it computes cumulative counts so that each position in the count array reflects the number of elements less than or equal to that value. Third, it iterates through the original array in reverse order, placing each element at the position indicated by the cumulative count array and decrementing the count. Iterating in reverse preserves the relative order of equal elements, making the algorithm stable.\n\n### Example\n\nGiven input: `[4, 2, 2, 8, 3, 3, 1]`\n\n**Phase 1: Count Occurrences**\n\n| Value | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |\n|-------|---|---|---|---|---|---|---|---|---|\n| Count | 0 | 1 | 2 | 2 | 1 | 0 | 0 | 0 | 1 |\n\n**Phase 2: Compute Cumulative Counts**\n\n| Step | Action | Cumulative Count Array |\n|------|--------|----------------------|\n| 1 | count[1] += count[0] | `[0, 1, 2, 2, 1, 0, 0, 0, 1]` |\n| 2 | count[2] += count[1] | `[0, 1, 3, 2, 1, 0, 0, 0, 1]` |\n| 3 | count[3] += count[2] | `[0, 1, 3, 5, 1, 0, 0, 0, 1]` |\n| 4 | count[4] += count[3] | `[0, 1, 3, 5, 6, 0, 0, 0, 1]` |\n| 5 | count[5] += count[4] | `[0, 1, 3, 5, 6, 6, 0, 0, 1]` |\n| 6 | count[6] += count[5] | `[0, 1, 3, 5, 6, 6, 6, 0, 1]` |\n| 7 | count[7] += count[6] | `[0, 1, 3, 5, 6, 6, 6, 6, 1]` |\n| 8 | count[8] += count[7] | `[0, 1, 3, 5, 6, 6, 6, 6, 7]` |\n\n**Phase 3: Build Output Array** (iterate input in reverse for stability)\n\n| Step | Element | Count Value | Output Position | Output Array | Updated Count |\n|------|---------|-------------|-----------------|-------------|---------------|\n| 1 | `1` | count[1] = 1 | index 0 | `[_, _, _, _, _, _, _]` -> place at 0 | count[1] = 0 |\n| 2 | `3` | count[3] = 5 | index 4 | `[1, _, _, _, 3, _, _]` | count[3] = 4 |\n| 3 | `3` | count[3] = 4 | index 3 | `[1, _, _, 3, 3, _, _]` | count[3] = 3 |\n| 4 | `8` | count[8] = 7 | index 6 | `[1, _, _, 3, 3, _, 8]` | count[8] = 6 |\n| 5 | `2` | count[2] = 3 | index 2 | `[1, _, 2, 3, 3, _, 8]` | count[2] = 2 |\n| 6 | `2` | count[2] = 2 | index 1 | `[1, 2, 2, 3, 3, _, 8]` | count[2] = 1 |\n| 7 | `4` | count[4] = 6 | index 5 | `[1, 2, 2, 3, 3, 4, 8]` | count[4] = 5 |\n\nResult: `[1, 2, 2, 3, 3, 4, 8]`\n\n## Pseudocode\n\n```\nfunction countingSort(array, maxValue):\n    n = length(array)\n\n    // Phase 1: Count occurrences\n    count = array of size (maxValue + 1), initialized to 0\n    for i from 0 to n - 1:\n        count[array[i]] = count[array[i]] + 1\n\n    // Phase 2: Compute cumulative counts\n    for i from 1 to maxValue:\n        count[i] = count[i] + count[i - 1]\n\n    // Phase 3: Build output array (iterate in reverse for stability)\n    output = array of size n\n    for i from n - 1 down to 0:\n        output[count[array[i]] - 1] = array[i]\n        count[array[i]] = count[array[i]] - 1\n\n    return output\n```\n\nThe reverse iteration in Phase 3 is critical for stability: when two elements have the same value, the one appearing later in the input will be placed at a higher index in the output, preserving their original relative order.\n\n## Complexity Analysis\n\n| Case    | Time    | Space   |\n|---------|---------|---------|\n| Best    | O(n+k)  | O(n+k)  |\n| Average | O(n+k)  | O(n+k)  |\n| Worst   | O(n+k)  | O(n+k)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(n+k):** Even in the best case, Counting Sort must iterate through the input array to count occurrences (O(n)), iterate through the count array to compute cumulative sums (O(k)), and iterate through the input again to build the output (O(n)). The total is always O(n + k).\n\n- **Average Case -- O(n+k):** The algorithm performs the same three passes regardless of the input distribution: counting (O(n)), cumulating (O(k)), and placing (O(n)). There is no variation based on input order.\n\n- **Worst Case -- O(n+k):** Counting Sort always performs exactly the same operations regardless of the input arrangement. The worst case arises not from element order but from a large value range k. If k is much larger than n (e.g., sorting 10 elements with values up to 1,000,000), the O(k) term dominates, making the algorithm impractical.\n\n- **Space -- O(n+k):** The algorithm requires an output array of size n and a count array of size k + 1. Both are necessary and cannot be eliminated in the standard stable version of Counting Sort.\n\n## When to Use\n\n- **Integer data with a small, known range:** Counting Sort is ideal when sorting integers (or data that can be mapped to integers) where the range k is on the order of n. For example, sorting exam scores (0-100) for a class of students.\n- **When linear-time sorting is needed:** Counting Sort achieves O(n + k) time, which is faster than any comparison-based algorithm's O(n log n) lower bound when k = O(n).\n- **As a subroutine in Radix Sort:** Counting Sort's stability makes it the preferred subroutine for sorting individual digits in Radix Sort.\n- **When stability is required with non-comparison sorting:** Counting Sort is one of the few non-comparison sorts that is naturally stable.\n\n## When NOT to Use\n\n- **Large value ranges:** When k is much larger than n (e.g., sorting floating-point numbers or arbitrary 64-bit integers), the count array becomes prohibitively large. Use comparison-based algorithms instead.\n- **Non-integer data:** Counting Sort requires discrete, bounded values to index the count array. It cannot directly sort floating-point numbers, strings, or complex objects.\n- **When space is limited:** Counting Sort requires O(n + k) extra space, which may be prohibitive for large datasets or embedded systems.\n- **Negative numbers without preprocessing:** The standard algorithm assumes non-negative values. Handling negatives requires shifting all values, adding complexity.\n\n## Comparison with Similar Algorithms\n\n| Algorithm      | Time (avg)  | Space    | Stable | Notes                                       |\n|----------------|------------|----------|--------|---------------------------------------------|\n| Counting Sort  | O(n+k)    | O(n+k)   | Yes    | Linear time; limited to small integer ranges |\n| Radix Sort     | O(nk)     | O(n+k)   | Yes    | Uses Counting Sort per digit; handles larger ranges |\n| Bucket Sort    | O(n+k)    | O(n+k)   | Yes    | Distributes into buckets; works with floats  |\n| Quick Sort     | O(n log n)| O(log n) | No     | Comparison-based; general purpose            |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [counting_sort.py](python/counting_sort.py) |\n| Java       | [CountingSort.java](java/CountingSort.java) |\n| C++        | [counting_sort.cpp](cpp/counting_sort.cpp) |\n| C          | [counting_sort.c](c/counting_sort.c) |\n| Go         | [counting_sort.go](go/counting_sort.go) |\n| TypeScript | [countingSort.ts](typescript/countingSort.ts) |\n| Kotlin     | [CountingSort.kt](kotlin/CountingSort.kt) |\n| Rust       | [counting_sort.rs](rust/counting_sort.rs) |\n| Swift      | [CountingSort.swift](swift/CountingSort.swift) |\n| Scala      | [CountingSort.scala](scala/CountingSort.scala) |\n| C#         | [CountingSort.cs](csharp/CountingSort.cs) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 8: Sorting in Linear Time (Section 8.2: Counting Sort).\n- Knuth, D. E. (1998). *The Art of Computer Programming, Volume 3: Sorting and Searching* (2nd ed.). Addison-Wesley. Section 5.2: Internal Sorting.\n- [Counting Sort -- Wikipedia](https://en.wikipedia.org/wiki/Counting_sort)\n"
+}

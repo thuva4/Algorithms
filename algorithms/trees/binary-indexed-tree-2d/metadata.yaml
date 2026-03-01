@@ -1,0 +1,17 @@
+name: "2D Binary Indexed Tree"
+slug: "binary-indexed-tree-2d"
+category: "trees"
+subcategory: "range-query"
+difficulty: "advanced"
+tags: [trees, fenwick-tree, binary-indexed-tree, 2d, prefix-sum]
+complexity:
+  time:
+    best: "O(log(R) * log(C))"
+    average: "O(log(R) * log(C))"
+    worst: "O(log(R) * log(C))"
+  space: "O(R * C)"
+stable: null
+in_place: false
+related: [fenwick-tree, segment-tree]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

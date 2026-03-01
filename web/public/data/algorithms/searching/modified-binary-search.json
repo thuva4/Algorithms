@@ -1,0 +1,165 @@
+{
+  "name": "Modified Binary Search",
+  "slug": "modified-binary-search",
+  "category": "searching",
+  "subcategory": "binary",
+  "difficulty": "intermediate",
+  "tags": [
+    "searching",
+    "binary",
+    "divide-and-conquer",
+    "sorted",
+    "variation"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(1)",
+      "average": "O(log n)",
+      "worst": "O(log n)"
+    },
+    "space": "O(1)"
+  },
+  "stable": null,
+  "in_place": null,
+  "related": [
+    "binary-search",
+    "ternary-search",
+    "linear-search"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "modified_binary_search.c",
+          "content": "#include \"modified_binary_search.h\"\n#include <stdbool.h>\n\nint modified_binary_search(int arr[], int n, int target) {\n    if (n == 0) return -1;\n    \n    int start = 0;\n    int end = n - 1;\n    \n    bool isAscending = arr[start] <= arr[end];\n    \n    while (start <= end) {\n        int mid = start + (end - start) / 2;\n        \n        if (arr[mid] == target)\n            return mid;\n            \n        if (isAscending) {\n            if (target < arr[mid])\n                end = mid - 1;\n            else\n                start = mid + 1;\n        } else {\n            if (target > arr[mid])\n                end = mid - 1;\n            else\n                start = mid + 1;\n        }\n    }\n    return -1;\n}\n"
+        },
+        {
+          "filename": "modified_binary_search.h",
+          "content": "#ifndef MODIFIED_BINARY_SEARCH_H\n#define MODIFIED_BINARY_SEARCH_H\n\nint modified_binary_search(int arr[], int n, int target);\n\n#endif\n"
+        },
+        {
+          "filename": "modifiedbinarysearch.c",
+          "content": "#include <stdio.h>\n\nint modified_binary_search(int arr[], int n, int target) {\n    int low = 0;\n    int high = n - 1;\n    int result = -1;\n\n    while (low <= high) {\n        int mid = low + (high - low) / 2;\n        if (arr[mid] == target) {\n            result = mid;\n            high = mid - 1;\n        } else if (arr[mid] < target) {\n            low = mid + 1;\n        } else {\n            high = mid - 1;\n        }\n    }\n\n    return result;\n}\n\nint main() {\n    int arr[] = {1, 3, 5, 7, 9, 11};\n    int n = 6;\n    int target = 7;\n    int result = modified_binary_search(arr, n, target);\n    printf(\"Index of %d is %d\\n\", target, result);\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "lower_bound.cpp",
+          "content": "\n#include <iostream>\nusing namespace std;\n//Modified Binary Search to find the lower bound of a key if present in the array\n//Lower bound is the index of the first occurrence of a given key\n// if a[]={1,2,2,3,4,5,5,6}\n// lower_bound for key 2 is 1\n// lower_bound for key 5 is 5\n\nint lower_bound(int low,int high,int key)\n{\n    int result=-1;\n// result is to keep track of the previous index found if any\n\n    while(low<=high)\n    {\n        int mid=(low + high)/2;\n\n        if(a[mid]==key)\n        {\n            result=mid;\n            high=mid-1;\n\n        }\n        else if(a[mid]< key)\n        {\n            low=mid +1;\n        }\n        else if(a[mid]>key)\n        {\n            high=mid-1;\n        }\n\n    }\n    return result;\n}\n\nint main()\n{   \n    int n;\n    cin>>n;\n    \n    for(int i=0;i<n;i++)\n        cin>>a[i];\n        int x;\n        cin>>x;\n    cout<<lower_bound(0,n-1,x);\n}\n"
+        },
+        {
+          "filename": "modified_binary_search.cpp",
+          "content": "#include \"modified_binary_search.h\"\n#include <vector>\n\nint modified_binary_search(const std::vector<int>& arr, int target) {\n    if (arr.empty()) return -1;\n    \n    int start = 0;\n    int end = arr.size() - 1;\n    \n    bool isAscending = arr[start] <= arr[end];\n    \n    while (start <= end) {\n        int mid = start + (end - start) / 2;\n        \n        if (arr[mid] == target)\n            return mid;\n            \n        if (isAscending) {\n            if (target < arr[mid])\n                end = mid - 1;\n            else\n                start = mid + 1;\n        } else {\n            if (target > arr[mid])\n                end = mid - 1;\n            else\n                start = mid + 1;\n        }\n    }\n    return -1;\n}\n"
+        },
+        {
+          "filename": "modified_binary_search.h",
+          "content": "#ifndef MODIFIED_BINARY_SEARCH_H\n#define MODIFIED_BINARY_SEARCH_H\n\n#include <vector>\n\nint modified_binary_search(const std::vector<int>& arr, int target);\n\n#endif\n"
+        },
+        {
+          "filename": "upper_bound.cpp",
+          "content": "\n#include <iostream>\nusing namespace std;\n//Modified Binary Search to find the upper bound of a key if present in the array\n//Upper bound is the index of the last occurrence of a given key\n// if a[]={1,2,2,3,4,5,5,6}\n// upper_bound for key 2 is 2\n// upper_bound for key 5 is 6\nint a[100];\nint upper_bound(int low,int high,int key)\n{\n    int result=-1;\n// result is to keep track of the previous index found if any\n\n    while(low<=high)\n    {\n        int mid=(low + high)/2;\n\n        if(a[mid]==key)\n        {\n            result=mid;\n            low=mid+1;\n\n        }\n        else if(a[mid]< key)\n        {\n            low=mid +1;\n        }\n        else if(a[mid]>key)\n        {\n            high=mid-1;\n        }\n\n    }\n    return result;\n}\n\nint main()\n{\n    int n;\n    cin>>n;\n\n    for(int i=0;i<n;i++)\n        cin>>a[i];\n        int x;\n        cin>>x;\n    cout<<upper_bound(0,n-1,x);\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "ModifiedBinarySearch.cs",
+          "content": "namespace Algorithms.Searching.ModifiedBinarySearch\n{\n    public class ModifiedBinarySearch\n    {\n        public static int Search(int[] arr, int target)\n        {\n            if (arr == null || arr.Length == 0) return -1;\n            \n            int start = 0;\n            int end = arr.Length - 1;\n            \n            bool isAscending = arr[start] <= arr[end];\n            \n            while (start <= end)\n            {\n                int mid = start + (end - start) / 2;\n                \n                if (arr[mid] == target)\n                    return mid;\n                    \n                if (isAscending)\n                {\n                    if (target < arr[mid])\n                        end = mid - 1;\n                    else\n                        start = mid + 1;\n                }\n                else\n                {\n                    if (target > arr[mid])\n                        end = mid - 1;\n                    else\n                        start = mid + 1;\n                }\n            }\n            return -1;\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "ModifiedBinarySearch.go",
+          "content": "package main\n\nfunc ModifiedBinarySearch(arr []int, target int) int {\n\tlow := 0\n\thigh := len(arr) - 1\n\tresult := -1\n\n\tfor low <= high {\n\t\tmid := low + (high-low)/2\n\t\tif arr[mid] == target {\n\t\t\tresult = mid\n\t\t\thigh = mid - 1\n\t\t} else if arr[mid] < target {\n\t\t\tlow = mid + 1\n\t\t} else {\n\t\t\thigh = mid - 1\n\t\t}\n\t}\n\n\treturn result\n}\n\nfunc main() {}\n"
+        },
+        {
+          "filename": "modified_binary_search.go",
+          "content": "package modifiedbinarysearch\n\nfunc ModifiedBinarySearch(arr []int, target int) int {\n\tif len(arr) == 0 {\n\t\treturn -1\n\t}\n\n\tstart := 0\n\tend := len(arr) - 1\n\n\tisAscending := arr[start] <= arr[end]\n\n\tfor start <= end {\n\t\tmid := start + (end-start)/2\n\n\t\tif arr[mid] == target {\n\t\t\treturn mid\n\t\t}\n\n\t\tif isAscending {\n\t\t\tif target < arr[mid] {\n\t\t\t\tend = mid - 1\n\t\t\t} else {\n\t\t\t\tstart = mid + 1\n\t\t\t}\n\t\t} else {\n\t\t\tif target > arr[mid] {\n\t\t\t\tend = mid - 1\n\t\t\t} else {\n\t\t\t\tstart = mid + 1\n\t\t\t}\n\t\t}\n\t}\n\treturn -1\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "ModifiedBinarySearch.java",
+          "content": "package algorithms.searching.modifiedbinarysearch;\n\npublic class ModifiedBinarySearch {\n    public static int search(int[] arr, int target) {\n        if (arr == null || arr.length == 0) return -1;\n        \n        int start = 0;\n        int end = arr.length - 1;\n        \n        boolean isAscending = arr[start] <= arr[end];\n        \n        while (start <= end) {\n            int mid = start + (end - start) / 2;\n            \n            if (arr[mid] == target)\n                return mid;\n                \n            if (isAscending) {\n                if (target < arr[mid])\n                    end = mid - 1;\n                else\n                    start = mid + 1;\n            } else {\n                if (target > arr[mid])\n                    end = mid - 1;\n                else\n                    start = mid + 1;\n            }\n        }\n        return -1;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "ModifiedBinarySearch.kt",
+          "content": "package algorithms.searching.modifiedbinarysearch\n\nclass ModifiedBinarySearch {\n    fun search(arr: IntArray, target: Int): Int {\n        if (arr.isEmpty()) return -1\n        \n        var start = 0\n        var end = arr.size - 1\n        \n        val isAscending = arr[start] <= arr[end]\n        \n        while (start <= end) {\n            val mid = start + (end - start) / 2\n            \n            if (arr[mid] == target)\n                return mid\n                \n            if (isAscending) {\n                if (target < arr[mid])\n                    end = mid - 1\n                else\n                    start = mid + 1\n            } else {\n                if (target > arr[mid])\n                    end = mid - 1\n                else\n                    start = mid + 1\n            }\n        }\n        return -1\n    }\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "modified_binary_search.py",
+          "content": "def modified_binary_search(arr, target):\n    if not arr:\n        return -1\n        \n    start = 0\n    end = len(arr) - 1\n    \n    is_ascending = arr[start] <= arr[end]\n    \n    while start <= end:\n        mid = start + (end - start) // 2\n        \n        if arr[mid] == target:\n            return mid\n            \n        if is_ascending:\n            if target < arr[mid]:\n                end = mid - 1\n            else:\n                start = mid + 1\n        else:\n            if target > arr[mid]:\n                end = mid - 1\n            else:\n                start = mid + 1\n                \n    return -1\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "modified_binary_search.rs",
+          "content": "pub fn modified_binary_search(arr: &[i32], target: i32) -> i32 {\n    let n = arr.len();\n    if n == 0 {\n        return -1;\n    }\n    \n    let mut start = 0;\n    let mut end = n - 1;\n    \n    let is_ascending = arr[start] <= arr[end];\n    \n    while start <= end {\n        let mid = start + (end - start) / 2;\n        \n        if arr[mid] == target {\n            return mid as i32;\n        }\n        \n        if is_ascending {\n            if target < arr[mid] {\n                if mid == 0 { break; } // prevent underflow if end becomes 0-1\n                end = mid - 1;\n            } else {\n                start = mid + 1;\n            }\n        } else {\n            if target > arr[mid] {\n                if mid == 0 { break; }\n                end = mid - 1;\n            } else {\n                start = mid + 1;\n            }\n        }\n    }\n    -1\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "ModifiedBinarySearch.scala",
+          "content": "object ModifiedBinarySearch {\n  def search(arr: Array[Int], target: Int): Int = {\n    if (arr.isEmpty) return -1\n    \n    var start = 0\n    var end = arr.length - 1\n    \n    val isAscending = arr(start) <= arr(end)\n    \n    while (start <= end) {\n      val mid = start + (end - start) / 2\n      \n      if (arr(mid) == target)\n        return mid\n        \n      if (isAscending) {\n        if (target < arr(mid))\n          end = mid - 1\n        else\n          start = mid + 1\n      } else {\n        if (target > arr(mid))\n          end = mid - 1\n        else\n          start = mid + 1\n      }\n    }\n    -1\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "ModifiedBinarySearch.swift",
+          "content": "class ModifiedBinarySearch {\n    static func search(_ arr: [Int], _ target: Int) -> Int {\n        if arr.isEmpty { return -1 }\n        \n        var start = 0\n        var end = arr.count - 1\n        \n        let isAscending = arr[start] <= arr[end]\n        \n        while start <= end {\n            let mid = start + (end - start) / 2\n            \n            if arr[mid] == target {\n                return mid\n            }\n            \n            if isAscending {\n                if target < arr[mid] {\n                    end = mid - 1\n                } else {\n                    start = mid + 1\n                }\n            } else {\n                if target > arr[mid] {\n                    end = mid - 1\n                } else {\n                    start = mid + 1\n                }\n            }\n        }\n        return -1\n    }\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "modified-binary-search.ts",
+          "content": "export function modifiedBinarySearch(arr: number[], target: number): number {\n  if (arr.length === 0) return -1;\n  \n  let start = 0;\n  let end = arr.length - 1;\n  \n  const isAscending = arr[start] <= arr[end];\n  \n  while (start <= end) {\n    const mid = start + Math.floor((end - start) / 2);\n    \n    if (arr[mid] === target) {\n      return mid;\n    }\n    \n    if (isAscending) {\n      if (target < arr[mid]) {\n        end = mid - 1;\n      } else {\n        start = mid + 1;\n      }\n    } else {\n      if (target > arr[mid]) {\n        end = mid - 1;\n      } else {\n        start = mid + 1;\n      }\n    }\n  }\n  return -1;\n}\n"
+        },
+        {
+          "filename": "modifiedBinarySearch.ts",
+          "content": "export function modifiedBinarySearch(arr: number[], target: number): number {\n    let low = 0;\n    let high = arr.length - 1;\n    let result = -1;\n\n    while (low <= high) {\n        const mid = low + Math.floor((high - low) / 2);\n        if (arr[mid] === target) {\n            result = mid;\n            high = mid - 1;\n        } else if (arr[mid] < target) {\n            low = mid + 1;\n        } else {\n            high = mid - 1;\n        }\n    }\n\n    return result;\n}\n\nconst arr = [1, 3, 5, 7, 9, 11];\nconst target = 7;\nconst res = modifiedBinarySearch(arr, target);\nconsole.log(`Index of ${target} is ${res}`);\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "patterns": [
+    "modified-binary-search"
+  ],
+  "patternDifficulty": "intermediate",
+  "practiceOrder": 2,
+  "readme": "# Modified Binary Search\n\n## Overview\n\nModified Binary Search refers to variations of the standard Binary Search algorithm that adapt the core divide-and-conquer approach to solve problems beyond simple element lookup. The two most common variants are Lower Bound (finding the first position where a value could be inserted to maintain sorted order) and Upper Bound (finding the position just past the last occurrence of a value). These operations are fundamental building blocks in computational geometry, database querying, and competitive programming.\n\nThese modifications maintain the O(log n) efficiency of standard Binary Search while extending its applicability to range queries, counting occurrences, and finding insertion points in sorted arrays.\n\n## How It Works\n\n**Lower Bound** finds the first index where the value is greater than or equal to the target. It returns the leftmost position where the target could be inserted without breaking the sorted order.\n\n**Upper Bound** finds the first index where the value is strictly greater than the target. It returns the position just after the last occurrence of the target.\n\nTogether, `upper_bound - lower_bound` gives the count of elements equal to the target.\n\n### Example: Lower Bound\n\nGiven sorted input: `[1, 3, 3, 5, 7, 7, 7, 9]`, target = `7`\n\n| Step | low | high | mid | array[mid] | Comparison | Action |\n|------|-----|------|-----|-----------|------------|--------|\n| 1 | 0 | 8 | 4 | `7` | `7 >= 7` | result = 4, high = 3 |\n| 2 | 0 | 3 | 1 | `3` | `3 < 7` | low = 2 |\n| 3 | 2 | 3 | 2 | `3` | `3 < 7` | low = 3 |\n| 4 | 3 | 3 | 3 | `5` | `5 < 7` | low = 4 |\n| 5 | 4 | 3 | -- | -- | `low > high` | Return result = 4 |\n\nResult: Lower bound of `7` is index `4` (the first occurrence of 7).\n\n### Example: Upper Bound\n\nGiven sorted input: `[1, 3, 3, 5, 7, 7, 7, 9]`, target = `7`\n\n| Step | low | high | mid | array[mid] | Comparison | Action |\n|------|-----|------|-----|-----------|------------|--------|\n| 1 | 0 | 8 | 4 | `7` | `7 <= 7` | low = 5 |\n| 2 | 5 | 8 | 6 | `7` | `7 <= 7` | low = 7 |\n| 3 | 7 | 8 | 7 | `9` | `9 > 7` | result = 7, high = 6 |\n| 4 | 7 | 6 | -- | -- | `low > high` | Return result = 7 |\n\nResult: Upper bound of `7` is index `7`. Count of 7s = upper_bound - lower_bound = 7 - 4 = 3.\n\n## Pseudocode\n\n```\nfunction lowerBound(array, target):\n    low = 0\n    high = length(array) - 1\n    result = length(array)\n\n    while low <= high:\n        mid = low + (high - low) / 2\n\n        if array[mid] >= target:\n            result = mid\n            high = mid - 1\n        else:\n            low = mid + 1\n\n    return result\n\nfunction upperBound(array, target):\n    low = 0\n    high = length(array) - 1\n    result = length(array)\n\n    while low <= high:\n        mid = low + (high - low) / 2\n\n        if array[mid] > target:\n            result = mid\n            high = mid - 1\n        else:\n            low = mid + 1\n\n    return result\n```\n\nThe key difference between the two functions is a single comparison operator: `>=` for lower bound and `>` for upper bound. This subtle change shifts the boundary from \"first element >= target\" to \"first element > target\".\n\n## Complexity Analysis\n\n| Case    | Time     | Space |\n|---------|----------|-------|\n| Best    | O(1)     | O(1)  |\n| Average | O(log n) | O(1)  |\n| Worst   | O(log n) | O(1)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(1):** The boundary is found at the first midpoint checked. This happens when the array structure causes the first mid to be the answer, though both functions always run to completion to guarantee correctness (making O(log n) a more honest best case for some implementations).\n\n- **Average Case -- O(log n):** Like standard Binary Search, each iteration halves the search space. The algorithm requires log2(n) iterations regardless of target position, since it must narrow the range to a single element to determine the exact boundary.\n\n- **Worst Case -- O(log n):** The algorithm always performs exactly floor(log2(n)) + 1 iterations because it must fully narrow the search range, unlike standard Binary Search which can terminate early on a match.\n\n- **Space -- O(1):** Only a constant number of variables (`low`, `high`, `mid`, `result`) are used, independent of input size.\n\n## When to Use\n\n- **Counting occurrences in a sorted array:** `upper_bound(x) - lower_bound(x)` gives the count of element x in O(log n) time.\n- **Finding insertion points:** Lower bound gives the correct insertion index to maintain sorted order.\n- **Range queries:** Finding all elements in a range [a, b] can be done using `lower_bound(a)` and `upper_bound(b)`.\n- **Binary search on the answer:** Many optimization problems reduce to finding the boundary where a predicate changes from false to true.\n- **Competitive programming:** Modified binary search is a fundamental technique for solving a wide variety of problems efficiently.\n\n## When NOT to Use\n\n- **Unsorted data:** Like standard Binary Search, these variants require the array to be sorted.\n- **When exact match is sufficient:** If you only need to know whether an element exists, standard Binary Search is simpler and equally fast.\n- **Linked lists or non-random-access containers:** These algorithms require O(1) random access to be efficient.\n- **Dynamically changing data:** If the data changes frequently, maintaining sorted order is expensive. Consider balanced BSTs or skip lists instead.\n\n## Comparison with Similar Algorithms\n\n| Algorithm               | Time (avg) | Space | Notes                                    |\n|-------------------------|-----------|-------|------------------------------------------|\n| Standard Binary Search  | O(log n)  | O(1)  | Finds any occurrence; may terminate early |\n| Lower Bound             | O(log n)  | O(1)  | Finds first occurrence / insertion point  |\n| Upper Bound             | O(log n)  | O(1)  | Finds position past last occurrence       |\n| Linear Scan             | O(n)      | O(1)  | Works on unsorted data; much slower       |\n| std::lower_bound (C++)  | O(log n)  | O(1)  | STL implementation; highly optimized      |\n\n## Implementations\n\n| Language | File |\n|----------|------|\n| C++      | [lower_bound.cpp](cpp/lower_bound.cpp) |\n| C++      | [upper_bound.cpp](cpp/upper_bound.cpp) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 2: Getting Started.\n- Knuth, D. E. (1998). *The Art of Computer Programming, Volume 3: Sorting and Searching* (2nd ed.). Addison-Wesley. Section 6.2.1: Searching an Ordered Table.\n- [Binary Search Algorithm -- Wikipedia](https://en.wikipedia.org/wiki/Binary_search_algorithm)\n- [Upper and Lower Bound -- C++ Reference](https://en.cppreference.com/w/cpp/algorithm/lower_bound)\n"
+}

@@ -1,0 +1,21 @@
+algorithm: "binary-tree"
+function_signature:
+  name: "level_order_traversal"
+  input: [tree_as_array]
+  output: array_of_level_order_values
+test_cases:
+  - name: "complete binary tree"
+    input: [[1, 2, 3, 4, 5, 6, 7]]
+    expected: [1, 2, 3, 4, 5, 6, 7]
+  - name: "single node"
+    input: [[1]]
+    expected: [1]
+  - name: "left-skewed tree"
+    input: [[1, 2, null, 3]]
+    expected: [1, 2, 3]
+  - name: "right-skewed tree"
+    input: [[1, null, 2, null, null, null, 3]]
+    expected: [1, 2, 3]
+  - name: "empty tree"
+    input: [[]]
+    expected: []

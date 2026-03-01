@@ -1,0 +1,17 @@
+name: "Luhn Algorithm"
+slug: "luhn"
+category: "math"
+subcategory: "checksum"
+difficulty: "beginner"
+tags: [math, luhn, checksum, validation, credit-card]
+complexity:
+  time:
+    best: "O(n)"
+    average: "O(n)"
+    worst: "O(n)"
+  space: "O(1)"
+stable: false
+in_place: true
+related: []
+implementations: [python]
+visualization: false

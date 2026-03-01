@@ -1,0 +1,158 @@
+{
+  "name": "Linear Search",
+  "slug": "linear-search",
+  "category": "searching",
+  "subcategory": "linear",
+  "difficulty": "beginner",
+  "tags": [
+    "searching",
+    "linear",
+    "sequential",
+    "unsorted"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(1)",
+      "average": "O(n)",
+      "worst": "O(n)"
+    },
+    "space": "O(1)"
+  },
+  "stable": null,
+  "in_place": null,
+  "related": [
+    "binary-search",
+    "ternary-search"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "LinearSearch.c",
+          "content": "#include \"stdlib.h\"\nint LinearSearch(int *array, int len, int key){\n\tint i;\n\n\tif(array == NULL){\n\t\treturn -1;\n\t}\n\n\tfor(i = 0; i < len; i++){\n\t\tif(array[i] == key){\n\t\t\treturn i;\n\t\t}\n\t}\n\n\treturn -1;\n}"
+        },
+        {
+          "filename": "linear_search.c",
+          "content": "#include \"linear_search.h\"\n\nint linear_search(int arr[], int n, int target) {\n    for (int i = 0; i < n; i++) {\n        if (arr[i] == target)\n            return i;\n    }\n    return -1;\n}\n"
+        },
+        {
+          "filename": "linear_search.h",
+          "content": "#ifndef LINEAR_SEARCH_H\n#define LINEAR_SEARCH_H\n\nint linear_search(int arr[], int n, int target);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "LinearSearch.cpp",
+          "content": "#include <bits/stdc++.h>\nusing namespace std;\n// Linearly search x in arr[].  If x is present then return its\n// location,  otherwise return -1\nint search(int arr[], int n, int x)\n{\n    int i;\n    for (i=0; i<n; i++)\n        if (arr[i] == x)\n         return i;\n    return -1;\n}\n\nint main()\n{\n    int a[10]={97,45,32,54,66,29,19,8,87,22};\n    int x;\n    int position;\n    cout<<\"Enter the element to search for\"<<endl;\n    cin>>x;\n    position=search(a,10,x);\n    if(position==-1)\n    {\n        cout<<x<<\" is not present in the array \"<<endl;\n    }\n    else\n    {\n        cout<<x<<\" is present at position \"<<position<<endl;\n    }\n    return 0;\n}\n"
+        },
+        {
+          "filename": "linear_search.cpp",
+          "content": "#include \"linear_search.h\"\n#include <vector>\n\nint linear_search(const std::vector<int>& arr, int target) {\n    for (int i = 0; i < arr.size(); i++) {\n        if (arr[i] == target)\n            return i;\n    }\n    return -1;\n}\n"
+        },
+        {
+          "filename": "linear_search.h",
+          "content": "#ifndef LINEAR_SEARCH_H\n#define LINEAR_SEARCH_H\n\n#include <vector>\n\nint linear_search(const std::vector<int>& arr, int target);\n\n#endif\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "LinearSearch.cs",
+          "content": "namespace Algorithms.Searching.LinearSearch\n{\n    public class LinearSearch\n    {\n        public static int Search(int[] arr, int target)\n        {\n            if (arr == null) return -1;\n            \n            for (int i = 0; i < arr.Length; i++)\n            {\n                if (arr[i] == target)\n                    return i;\n            }\n            return -1;\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "linear_search.go",
+          "content": "package linearsearch\n\n// LinearSearch searches for a target value in an array.\n// Returns the index of the target if found, otherwise -1.\nfunc LinearSearch(arr []int, target int) int {\n\tfor i, v := range arr {\n\t\tif v == target {\n\t\t\treturn i\n\t\t}\n\t}\n\treturn -1\n}\n"
+        },
+        {
+          "filename": "linear_search_test.go",
+          "content": "package search\n\nimport \"testing\"\n\nfunc TestLinearSearch(t *testing.T) {\n\tvar tests = []struct {\n\t\tinput  []int\n\t\tkey    int\n\t\toutput int\n\t}{\n\t\t{\n\t\t\tinput:  []int{1, 2, 3, 4, 5},\n\t\t\tkey:    3,\n\t\t\toutput: 2,\n\t\t},\n\t\t{\n\t\t\tinput:  []int{-1, 0, 100, 33, 44},\n\t\t\tkey:    -2,\n\t\t\toutput: -1,\n\t\t},\n\t\t{\n\t\t\tinput:  []int{},\n\t\t\toutput: -1,\n\t\t},\n\t}\n\n\tfor _, test := range tests {\n\t\tresult := LinearSearch(test.input, test.key)\n\n\t\tif result != test.output {\n\t\t\tt.Errorf(\"LinearSearch(%v, %v) => %v, want %v\",\n\t\t\t\ttest.input, test.key, result, test.output)\n\t\t}\n\t}\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "LinearSearch.java",
+          "content": "package algorithms.searching.linearsearch;\n\npublic class LinearSearch {\n    public static int search(int[] arr, int target) {\n        if (arr == null) return -1;\n        \n        for (int i = 0; i < arr.length; i++) {\n            if (arr[i] == target)\n                return i;\n        }\n        return -1;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "LinearSearch.kt",
+          "content": "package algorithms.searching.linearsearch\n\nclass LinearSearch {\n    fun search(arr: IntArray, target: Int): Int {\n        for (i in arr.indices) {\n            if (arr[i] == target)\n                return i\n        }\n        return -1\n    }\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "Python.py",
+          "content": "def linear_search(list, target):\n    for i, num in enumerate(list):\n        if num == target:\n            return i\n\n    return -1\n\n"
+        },
+        {
+          "filename": "linear_search.py",
+          "content": "def linear_search(arr, target):\n    for i in range(len(arr)):\n        if arr[i] == target:\n            return i\n    return -1\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "linear_search.rs",
+          "content": "pub fn linear_search(arr: &[i32], target: i32) -> i32 {\n    for (i, &item) in arr.iter().enumerate() {\n        if item == target {\n            return i as i32;\n        }\n    }\n    -1\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "LinearSearch.scala",
+          "content": "object LinearSearch {\n  def search(arr: Array[Int], target: Int): Int = {\n    for (i <- arr.indices) {\n      if (arr(i) == target)\n        return i\n    }\n    -1\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "LinearSearch.swift",
+          "content": "class LinearSearch {\n    static func search(_ arr: [Int], _ target: Int) -> Int {\n        for (index, value) in arr.enumerated() {\n            if value == target {\n                return index\n            }\n        }\n        return -1\n    }\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "LinearSearch.js",
+          "content": "/* eslint-disable require-jsdoc */\nfunction linearSearch(array, target) {\n  for (let i = 0; i < array.length; i++) {\n    if (array[i] === target) {\n      return i;\n    }\n  }\n  return -1;\n}\n\nmodule.exports = {linearSearch};\n\n"
+        },
+        {
+          "filename": "linear-search.ts",
+          "content": "export function linearSearch(arr: number[], target: number): number {\n  for (let i = 0; i < arr.length; i++) {\n    if (arr[i] === target) {\n      return i;\n    }\n  }\n  return -1;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "readme": "# Linear Search\n\n## Overview\n\nLinear Search (also known as Sequential Search) is the simplest searching algorithm. It works by sequentially checking each element of a list until the target value is found or the entire list has been traversed. Because it requires no preprocessing or sorting, Linear Search is applicable to any collection of data, whether sorted or unsorted.\n\nWhile Linear Search is not efficient for large datasets, it is often the best choice for small or unsorted collections where the overhead of more advanced algorithms would outweigh their benefits.\n\n## How It Works\n\nLinear Search works by starting at the first element of the array and comparing each element to the target value one by one. If the current element matches the target, the algorithm returns its index. If the end of the array is reached without finding the target, the algorithm returns -1 (or a similar sentinel value) to indicate the target is not present.\n\n### Example\n\nGiven input: `[4, 7, 2, 9, 1, 5, 3]`, target = `9`\n\n| Step | Index | Element | Comparison | Result |\n|------|-------|---------|------------|--------|\n| 1 | 0 | `4` | `4 == 9`? | No, continue |\n| 2 | 1 | `7` | `7 == 9`? | No, continue |\n| 3 | 2 | `2` | `2 == 9`? | No, continue |\n| 4 | 3 | `9` | `9 == 9`? | Yes, return index 3 |\n\nResult: Target `9` found at index `3` after 4 comparisons.\n\n**Example where target is not found:**\n\nGiven input: `[4, 7, 2, 9, 1, 5, 3]`, target = `8`\n\nAll 7 elements are checked, none match. Return `-1`.\n\n## Pseudocode\n\n```\nfunction linearSearch(array, target):\n    for i from 0 to length(array) - 1:\n        if array[i] == target:\n            return i\n\n    return -1  // target not found\n```\n\nThe simplicity of Linear Search is its greatest strength -- there is virtually no setup, no requirement for sorted data, and the logic is trivially correct.\n\n## Complexity Analysis\n\n| Case    | Time | Space |\n|---------|------|-------|\n| Best    | O(1) | O(1)  |\n| Average | O(n) | O(1)  |\n| Worst   | O(n) | O(1)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(1):** The target element is the first element in the array. Only one comparison is needed, so the algorithm terminates immediately.\n\n- **Average Case -- O(n):** On average, the target element is somewhere in the middle of the array. The algorithm performs approximately n/2 comparisons, which simplifies to O(n).\n\n- **Worst Case -- O(n):** The target element is the last element in the array, or it is not present at all. The algorithm must check every single element, performing exactly n comparisons.\n\n- **Space -- O(1):** Linear Search operates in-place and only requires a single index variable to iterate through the array. No additional data structures are needed regardless of input size.\n\n## When to Use\n\n- **Unsorted data:** Linear Search is the only option when the data is not sorted and sorting it would be too expensive.\n- **Small datasets (fewer than ~100 elements):** The overhead of binary search setup (sorting, maintaining order) is not worth it for tiny collections.\n- **Searching linked lists:** Binary search requires random access, which linked lists do not provide efficiently. Linear Search is the natural choice.\n- **One-time searches:** If you only need to search a collection once, sorting it first (O(n log n)) just to do a binary search (O(log n)) is slower than a single linear scan (O(n)).\n- **When simplicity matters:** Linear Search is trivial to implement and virtually impossible to get wrong.\n\n## When NOT to Use\n\n- **Large sorted datasets:** Binary Search is vastly superior on sorted data, reducing O(n) to O(log n). For example, searching 1 million elements takes at most 20 comparisons with binary search vs. up to 1 million with linear search.\n- **Frequent searches on the same data:** If you search the same collection many times, sorting it once and using binary search amortizes the sorting cost quickly.\n- **Performance-critical applications:** When low latency matters, O(n) search time on large datasets is unacceptable.\n- **When data has exploitable structure:** If the data is sorted, hashed, or stored in a tree, specialized search algorithms will always outperform linear search.\n\n## Comparison with Similar Algorithms\n\n| Algorithm     | Time (avg) | Space | Requires Sorted Data | Notes                                    |\n|---------------|-----------|-------|---------------------|------------------------------------------|\n| Linear Search | O(n)      | O(1)  | No                  | Simple; works on any collection          |\n| Binary Search | O(log n)  | O(1)  | Yes                 | Much faster on sorted data               |\n| Ternary Search| O(log3 n) | O(1)  | Yes                 | Similar to binary search; rarely faster  |\n| Hash Table    | O(1) avg  | O(n)  | No                  | Fastest lookup; requires extra space     |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| C          | [LinearSearch.c](c/LinearSearch.c) |\n| C++        | [LinearSearch.cpp](cpp/LinearSearch.cpp) |\n| C#         | [LinearSearch.cs](csharp/LinearSearch.cs) |\n| Go         | [linear_search.go](go/linear_search.go) |\n| Java       | [LinearSearch.java](java/LinearSearch.java) |\n| Kotlin     | [LinearSearch.kt](kotlin/LinearSearch.kt) |\n| Python     | [Python.py](python/Python.py) |\n| Rust       | [linear_search.rs](rust/linear_search.rs) |\n| Scala      | [LinearSearch.scala](scala/LinearSearch.scala) |\n| Swift      | [LinearSearch.swift](swift/LinearSearch.swift) |\n| TypeScript | [LinearSearch.js](typescript/LinearSearch.js) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 2: Getting Started.\n- Knuth, D. E. (1998). *The Art of Computer Programming, Volume 3: Sorting and Searching* (2nd ed.). Addison-Wesley. Section 6.1: Sequential Searching.\n- [Linear Search -- Wikipedia](https://en.wikipedia.org/wiki/Linear_search)\n"
+}

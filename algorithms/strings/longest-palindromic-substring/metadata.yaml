@@ -1,0 +1,19 @@
+name: "Longest Palindromic Substring"
+slug: "longest-palindromic-substring"
+category: "strings"
+subcategory: "palindrome"
+difficulty: "intermediate"
+tags: [strings, palindrome, expand-around-center, dynamic-programming]
+complexity:
+  time:
+    best: "O(n)"
+    average: "O(n^2)"
+    worst: "O(n^2)"
+  space: "O(1)"
+related: [manachers-algorithm, z-algorithm]
+implementations: [python, java, cpp, c, go, typescript, kotlin, rust, swift, scala, csharp]
+visualization: true
+patterns:
+  - sliding-window
+patternDifficulty: intermediate
+practiceOrder: 5

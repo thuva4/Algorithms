@@ -1,0 +1,136 @@
+{
+  "name": "Ford-Fulkerson",
+  "slug": "ford-fulkerson",
+  "category": "graph",
+  "subcategory": "network-flow",
+  "difficulty": "advanced",
+  "tags": [
+    "graph",
+    "network-flow",
+    "max-flow",
+    "dfs",
+    "ford-fulkerson"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(E * max_flow)",
+      "average": "O(E * max_flow)",
+      "worst": "O(E * max_flow)"
+    },
+    "space": "O(V^2)"
+  },
+  "stable": null,
+  "in_place": false,
+  "related": [
+    "max-flow-min-cut",
+    "dinic",
+    "depth-first-search"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "ford_fulkerson.c",
+          "content": "#include \"ford_fulkerson.h\"\n#include <stdlib.h>\n#include <stdbool.h>\n#include <limits.h>\n\nstatic int* g_cap_ff;\nstatic int g_n_ff;\n\nstatic int dfs_ff(int u, int sink, int flow, bool* visited) {\n    if (u == sink) return flow;\n    visited[u] = true;\n    for (int v = 0; v < g_n_ff; v++) {\n        if (!visited[v] && g_cap_ff[u*g_n_ff+v] > 0) {\n            int f = flow < g_cap_ff[u*g_n_ff+v] ? flow : g_cap_ff[u*g_n_ff+v];\n            int d = dfs_ff(v, sink, f, visited);\n            if (d > 0) { g_cap_ff[u*g_n_ff+v] -= d; g_cap_ff[v*g_n_ff+u] += d; return d; }\n        }\n    }\n    return 0;\n}\n\nint ford_fulkerson(int* arr, int len) {\n    g_n_ff = arr[0]; int m = arr[1]; int src = arr[2]; int sink = arr[3];\n    g_cap_ff = (int*)calloc(g_n_ff * g_n_ff, sizeof(int));\n    for (int i = 0; i < m; i++) g_cap_ff[arr[4+3*i]*g_n_ff + arr[5+3*i]] += arr[6+3*i];\n    int maxFlow = 0;\n    while (1) {\n        bool* visited = (bool*)calloc(g_n_ff, sizeof(bool));\n        int flow = dfs_ff(src, sink, INT_MAX, visited);\n        free(visited);\n        if (flow == 0) break;\n        maxFlow += flow;\n    }\n    free(g_cap_ff);\n    return maxFlow;\n}\n"
+        },
+        {
+          "filename": "ford_fulkerson.h",
+          "content": "#ifndef FORD_FULKERSON_H\n#define FORD_FULKERSON_H\n\nint ford_fulkerson(int* arr, int len);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "ford_fulkerson.cpp",
+          "content": "#include <vector>\n#include <algorithm>\n#include <climits>\n\nstatic int n_ff;\nstatic std::vector<std::vector<int>> cap_ff;\n\nstatic int dfs(int u, int sink, int flow, std::vector<bool>& visited) {\n    if (u == sink) return flow;\n    visited[u] = true;\n    for (int v = 0; v < n_ff; v++) {\n        if (!visited[v] && cap_ff[u][v] > 0) {\n            int d = dfs(v, sink, std::min(flow, cap_ff[u][v]), visited);\n            if (d > 0) { cap_ff[u][v] -= d; cap_ff[v][u] += d; return d; }\n        }\n    }\n    return 0;\n}\n\nint ford_fulkerson(std::vector<int> arr) {\n    n_ff = arr[0]; int m = arr[1]; int src = arr[2]; int sink = arr[3];\n    cap_ff.assign(n_ff, std::vector<int>(n_ff, 0));\n    for (int i = 0; i < m; i++) cap_ff[arr[4+3*i]][arr[5+3*i]] += arr[6+3*i];\n    int maxFlow = 0;\n    while (true) {\n        std::vector<bool> visited(n_ff, false);\n        int flow = dfs(src, sink, INT_MAX, visited);\n        if (flow == 0) break;\n        maxFlow += flow;\n    }\n    return maxFlow;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "FordFulkerson.cs",
+          "content": "using System;\n\npublic class FordFulkerson\n{\n    private static int[,] capF;\n    private static int nF;\n\n    private static int DfsF(int u, int sink, int flow, bool[] visited)\n    {\n        if (u == sink) return flow;\n        visited[u] = true;\n        for (int v = 0; v < nF; v++)\n        {\n            if (!visited[v] && capF[u, v] > 0)\n            {\n                int d = DfsF(v, sink, Math.Min(flow, capF[u, v]), visited);\n                if (d > 0) { capF[u, v] -= d; capF[v, u] += d; return d; }\n            }\n        }\n        return 0;\n    }\n\n    public static int Run(int[] arr)\n    {\n        nF = arr[0]; int m = arr[1]; int src = arr[2]; int sink = arr[3];\n        capF = new int[nF, nF];\n        for (int i = 0; i < m; i++) capF[arr[4+3*i], arr[5+3*i]] += arr[6+3*i];\n        int maxFlow = 0;\n        while (true)\n        {\n            bool[] visited = new bool[nF];\n            int flow = DfsF(src, sink, int.MaxValue, visited);\n            if (flow == 0) break;\n            maxFlow += flow;\n        }\n        return maxFlow;\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "ford_fulkerson.go",
+          "content": "package fordfulkerson\n\nvar capFF [][]int\nvar nFF int\n\nfunc dfsFF(u, sink, flow int, visited []bool) int {\n\tif u == sink { return flow }\n\tvisited[u] = true\n\tfor v := 0; v < nFF; v++ {\n\t\tif !visited[v] && capFF[u][v] > 0 {\n\t\t\tf := flow\n\t\t\tif capFF[u][v] < f { f = capFF[u][v] }\n\t\t\td := dfsFF(v, sink, f, visited)\n\t\t\tif d > 0 { capFF[u][v] -= d; capFF[v][u] += d; return d }\n\t\t}\n\t}\n\treturn 0\n}\n\n// FordFulkerson computes max flow using DFS-based Ford-Fulkerson.\nfunc FordFulkerson(arr []int) int {\n\tnFF = arr[0]; m := arr[1]; src := arr[2]; sink := arr[3]\n\tcapFF = make([][]int, nFF)\n\tfor i := range capFF { capFF[i] = make([]int, nFF) }\n\tfor i := 0; i < m; i++ { capFF[arr[4+3*i]][arr[5+3*i]] += arr[6+3*i] }\n\tmaxFlow := 0\n\tfor {\n\t\tvisited := make([]bool, nFF)\n\t\tflow := dfsFF(src, sink, int(^uint(0)>>1), visited)\n\t\tif flow == 0 { break }\n\t\tmaxFlow += flow\n\t}\n\treturn maxFlow\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "FordFulkerson.java",
+          "content": "public class FordFulkerson {\n    private static int[][] cap;\n    private static int n;\n\n    private static int dfs(int u, int sink, int flow, boolean[] visited) {\n        if (u == sink) return flow;\n        visited[u] = true;\n        for (int v = 0; v < n; v++) {\n            if (!visited[v] && cap[u][v] > 0) {\n                int d = dfs(v, sink, Math.min(flow, cap[u][v]), visited);\n                if (d > 0) { cap[u][v] -= d; cap[v][u] += d; return d; }\n            }\n        }\n        return 0;\n    }\n\n    public static int fordFulkerson(int[] arr) {\n        n = arr[0]; int m = arr[1]; int src = arr[2]; int sink = arr[3];\n        cap = new int[n][n];\n        for (int i = 0; i < m; i++) cap[arr[4+3*i]][arr[5+3*i]] += arr[6+3*i];\n        int maxFlow = 0;\n        while (true) {\n            boolean[] visited = new boolean[n];\n            int flow = dfs(src, sink, Integer.MAX_VALUE, visited);\n            if (flow == 0) break;\n            maxFlow += flow;\n        }\n        return maxFlow;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "FordFulkerson.kt",
+          "content": "private lateinit var capFK: Array<IntArray>\nprivate var nFK = 0\n\nprivate fun dfsFK(u: Int, sink: Int, flow: Int, visited: BooleanArray): Int {\n    if (u == sink) return flow\n    visited[u] = true\n    for (v in 0 until nFK) {\n        if (!visited[v] && capFK[u][v] > 0) {\n            val d = dfsFK(v, sink, minOf(flow, capFK[u][v]), visited)\n            if (d > 0) { capFK[u][v] -= d; capFK[v][u] += d; return d }\n        }\n    }\n    return 0\n}\n\nfun fordFulkerson(arr: IntArray): Int {\n    nFK = arr[0]; val m = arr[1]; val src = arr[2]; val sink = arr[3]\n    capFK = Array(nFK) { IntArray(nFK) }\n    for (i in 0 until m) capFK[arr[4+3*i]][arr[5+3*i]] += arr[6+3*i]\n    var maxFlow = 0\n    while (true) {\n        val visited = BooleanArray(nFK)\n        val flow = dfsFK(src, sink, Int.MAX_VALUE, visited)\n        if (flow == 0) break\n        maxFlow += flow\n    }\n    return maxFlow\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "ford_fulkerson.py",
+          "content": "def ford_fulkerson(arr: list[int]) -> int:\n    n = arr[0]\n    m = arr[1]\n    src = arr[2]\n    sink = arr[3]\n    cap = [[0] * n for _ in range(n)]\n    for i in range(m):\n        cap[arr[4 + 3 * i]][arr[5 + 3 * i]] += arr[6 + 3 * i]\n\n    def dfs(u, t, flow, visited):\n        if u == t:\n            return flow\n        visited[u] = True\n        for v in range(n):\n            if not visited[v] and cap[u][v] > 0:\n                d = dfs(v, t, min(flow, cap[u][v]), visited)\n                if d > 0:\n                    cap[u][v] -= d\n                    cap[v][u] += d\n                    return d\n        return 0\n\n    max_flow = 0\n    while True:\n        visited = [False] * n\n        flow = dfs(src, sink, float('inf'), visited)\n        if flow == 0:\n            break\n        max_flow += flow\n    return max_flow\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "ford_fulkerson.rs",
+          "content": "fn dfs_ff(u: usize, sink: usize, flow: i32, visited: &mut Vec<bool>, cap: &mut Vec<Vec<i32>>, n: usize) -> i32 {\n    if u == sink { return flow; }\n    visited[u] = true;\n    for v in 0..n {\n        if !visited[v] && cap[u][v] > 0 {\n            let d = dfs_ff(v, sink, flow.min(cap[u][v]), visited, cap, n);\n            if d > 0 { cap[u][v] -= d; cap[v][u] += d; return d; }\n        }\n    }\n    0\n}\n\npub fn ford_fulkerson(arr: &[i32]) -> i32 {\n    let n = arr[0] as usize; let m = arr[1] as usize;\n    let src = arr[2] as usize; let sink = arr[3] as usize;\n    let mut cap = vec![vec![0i32; n]; n];\n    for i in 0..m { cap[arr[4+3*i] as usize][arr[5+3*i] as usize] += arr[6+3*i]; }\n    let mut max_flow = 0;\n    loop {\n        let mut visited = vec![false; n];\n        let flow = dfs_ff(src, sink, i32::MAX, &mut visited, &mut cap, n);\n        if flow == 0 { break; }\n        max_flow += flow;\n    }\n    max_flow\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "FordFulkerson.scala",
+          "content": "object FordFulkerson {\n  private var capS: Array[Array[Int]] = _\n  private var nS: Int = 0\n\n  private def dfsS(u: Int, sink: Int, flow: Int, visited: Array[Boolean]): Int = {\n    if (u == sink) return flow\n    visited(u) = true\n    for (v <- 0 until nS) {\n      if (!visited(v) && capS(u)(v) > 0) {\n        val d = dfsS(v, sink, math.min(flow, capS(u)(v)), visited)\n        if (d > 0) { capS(u)(v) -= d; capS(v)(u) += d; return d }\n      }\n    }\n    0\n  }\n\n  def fordFulkerson(arr: Array[Int]): Int = {\n    nS = arr(0); val m = arr(1); val src = arr(2); val sink = arr(3)\n    capS = Array.ofDim[Int](nS, nS)\n    for (i <- 0 until m) capS(arr(4+3*i))(arr(5+3*i)) += arr(6+3*i)\n    var maxFlow = 0\n    var continue_ = true\n    while (continue_) {\n      val visited = new Array[Boolean](nS)\n      val flow = dfsS(src, sink, Int.MaxValue, visited)\n      if (flow == 0) continue_ = false\n      else maxFlow += flow\n    }\n    maxFlow\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "FordFulkerson.swift",
+          "content": "private var capSFF: [[Int]] = []\nprivate var nSFF = 0\n\nprivate func dfsSFF(_ u: Int, _ sink: Int, _ flow: Int, _ visited: inout [Bool]) -> Int {\n    if u == sink { return flow }\n    visited[u] = true\n    for v in 0..<nSFF {\n        if !visited[v] && capSFF[u][v] > 0 {\n            let d = dfsSFF(v, sink, min(flow, capSFF[u][v]), &visited)\n            if d > 0 { capSFF[u][v] -= d; capSFF[v][u] += d; return d }\n        }\n    }\n    return 0\n}\n\nfunc fordFulkerson(_ arr: [Int]) -> Int {\n    nSFF = arr[0]; let m = arr[1]; let src = arr[2]; let sink = arr[3]\n    capSFF = [[Int]](repeating: [Int](repeating: 0, count: nSFF), count: nSFF)\n    for i in 0..<m { capSFF[arr[4+3*i]][arr[5+3*i]] += arr[6+3*i] }\n    var maxFlow = 0\n    while true {\n        var visited = [Bool](repeating: false, count: nSFF)\n        let flow = dfsSFF(src, sink, Int.max, &visited)\n        if flow == 0 { break }\n        maxFlow += flow\n    }\n    return maxFlow\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "fordFulkerson.ts",
+          "content": "let capFF: number[][];\nlet nFF: number;\n\nfunction dfsFF(u: number, sink: number, flow: number, visited: boolean[]): number {\n    if (u === sink) return flow;\n    visited[u] = true;\n    for (let v = 0; v < nFF; v++) {\n        if (!visited[v] && capFF[u][v] > 0) {\n            const d = dfsFF(v, sink, Math.min(flow, capFF[u][v]), visited);\n            if (d > 0) { capFF[u][v] -= d; capFF[v][u] += d; return d; }\n        }\n    }\n    return 0;\n}\n\nexport function fordFulkerson(arr: number[]): number {\n    nFF = arr[0]; const m = arr[1]; const src = arr[2]; const sink = arr[3];\n    capFF = Array.from({ length: nFF }, () => new Array(nFF).fill(0));\n    for (let i = 0; i < m; i++) capFF[arr[4+3*i]][arr[5+3*i]] += arr[6+3*i];\n    let maxFlow = 0;\n    while (true) {\n        const visited = new Array(nFF).fill(false);\n        const flow = dfsFF(src, sink, Infinity, visited);\n        if (flow === 0) break;\n        maxFlow += flow;\n    }\n    return maxFlow;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Ford-Fulkerson\n\n## Overview\n\nThe Ford-Fulkerson method computes maximum flow using DFS to find augmenting paths in the residual graph.\n\n## How It Works\n\n1. While there exists an augmenting path from source to sink (found by DFS):\n   - Find the bottleneck capacity along the path.\n   - Update residual capacities.\n   - Add the bottleneck to total flow.\n\nInput: `[n, m, src, sink, u1, v1, cap1, u2, v2, cap2, ...]`\n\n## Worked Example\n\nConsider a flow network with 4 vertices (source=0, sink=3):\n\n```\n       10       10\n  0 -------> 1 -------> 3\n  |                      ^\n  | 10                   | 10\n  v                      |\n  2 -------------------->\n```\n\nEdges: 0->1(10), 0->2(10), 1->3(10), 2->3(10).\n\n**Iteration 1 -- DFS finds path 0->1->3:**\n- Bottleneck = min(10, 10) = 10\n- Push 10 units. Residual: 0->1(0), 1->0(10), 1->3(0), 3->1(10).\n\n**Iteration 2 -- DFS finds path 0->2->3:**\n- Bottleneck = min(10, 10) = 10\n- Push 10 units. Residual: 0->2(0), 2->0(10), 2->3(0), 3->2(10).\n\n**Iteration 3 -- DFS finds no more augmenting paths from 0 to 3.**\n\n**Maximum flow = 10 + 10 = 20.**\n\n## Pseudocode\n\n```\nfunction fordFulkerson(graph, source, sink):\n    // Build residual graph (adjacency matrix or adjacency list)\n    residual = copy of capacity graph\n    totalFlow = 0\n\n    while true:\n        // Find augmenting path using DFS\n        visited = array of size V, initialized to false\n        parent = array of size V, initialized to -1\n        pathFlow = dfs(source, sink, INFINITY, visited, parent, residual)\n\n        if pathFlow == 0:\n            break   // no more augmenting paths\n\n        totalFlow += pathFlow\n\n    return totalFlow\n\nfunction dfs(u, sink, flow, visited, parent, residual):\n    if u == sink:\n        return flow\n\n    visited[u] = true\n    for each vertex v:\n        if not visited[v] AND residual[u][v] > 0:\n            bottleneck = dfs(v, sink, min(flow, residual[u][v]), visited, parent, residual)\n            if bottleneck > 0:\n                residual[u][v] -= bottleneck\n                residual[v][u] += bottleneck\n                return bottleneck\n\n    return 0\n```\n\n## Complexity Analysis\n\n| Case    | Time             | Space  |\n|---------|------------------|--------|\n| Best    | O(E * max_flow)  | O(V^2) |\n| Average | O(E * max_flow)  | O(V^2) |\n| Worst   | O(E * max_flow)  | O(V^2) |\n\nThe time depends on the max flow value, making it pseudo-polynomial. With integer capacities, it always terminates. With irrational capacities, it may not converge.\n\n## When to Use\n\n- **Simple max flow problems with small capacities**: When the max flow value is small relative to the graph size\n- **Educational purposes**: The algorithm is conceptually simple and illustrates augmenting paths clearly\n- **Integer capacities with small values**: The pseudo-polynomial bound is acceptable when max_flow is small\n- **Graphs with few augmenting paths**: When the number of iterations is naturally small\n\n## When NOT to Use\n\n- **Large capacity values**: The runtime depends on the max flow value; for large capacities, use Dinic's or push-relabel instead\n- **Irrational capacities**: Ford-Fulkerson may not terminate with irrational edge capacities\n- **Performance-critical applications**: For production use, Dinic's algorithm (O(V^2 * E)) or push-relabel (O(V^3)) provide strongly polynomial bounds\n- **Unit-capacity networks**: Dinic's runs in O(E * sqrt(V)) on unit-capacity networks, much faster\n\n## Comparison\n\n| Algorithm | Time | Strongly Polynomial | Notes |\n|-----------|------|-------------------|-------|\n| Ford-Fulkerson (DFS) | O(E * max_flow) | No | Pseudo-polynomial; simplest |\n| Edmonds-Karp (BFS) | O(V * E^2) | Yes | BFS guarantees polynomial time |\n| Dinic's | O(V^2 * E) | Yes | Blocking flows on level graphs |\n| Push-Relabel (FIFO) | O(V^3) | Yes | Best for dense graphs |\n| Capacity Scaling | O(E^2 * log(max_cap)) | Yes | Good when capacities vary widely |\n\n## References\n\n- Ford, L. R., & Fulkerson, D. R. (1956). \"Maximal flow through a network.\" Canadian Journal of Mathematics, 8, 399-404.\n- [Ford-Fulkerson algorithm -- Wikipedia](https://en.wikipedia.org/wiki/Ford%E2%80%93Fulkerson_algorithm)\n- Cormen, T. H., et al. (2009). *Introduction to Algorithms* (3rd ed.), Chapter 26.\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [ford_fulkerson.py](python/ford_fulkerson.py) |\n| Java       | [FordFulkerson.java](java/FordFulkerson.java) |\n| C++        | [ford_fulkerson.cpp](cpp/ford_fulkerson.cpp) |\n| C          | [ford_fulkerson.c](c/ford_fulkerson.c) |\n| Go         | [ford_fulkerson.go](go/ford_fulkerson.go) |\n| TypeScript | [fordFulkerson.ts](typescript/fordFulkerson.ts) |\n| Rust       | [ford_fulkerson.rs](rust/ford_fulkerson.rs) |\n| Kotlin     | [FordFulkerson.kt](kotlin/FordFulkerson.kt) |\n| Swift      | [FordFulkerson.swift](swift/FordFulkerson.swift) |\n| Scala      | [FordFulkerson.scala](scala/FordFulkerson.scala) |\n| C#         | [FordFulkerson.cs](csharp/FordFulkerson.cs) |\n"
+}

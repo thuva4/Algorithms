@@ -1,0 +1,187 @@
+{
+  "name": "Bridges (Cut Edges)",
+  "slug": "bridges",
+  "category": "graph",
+  "subcategory": "connectivity",
+  "difficulty": "advanced",
+  "tags": [
+    "graph",
+    "undirected",
+    "bridges",
+    "cut-edges",
+    "dfs",
+    "biconnectivity"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(V + E)",
+      "average": "O(V + E)",
+      "worst": "O(V + E)"
+    },
+    "space": "O(V)"
+  },
+  "related": [
+    "articulation-points",
+    "tarjans-scc",
+    "depth-first-search"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "bridges.c",
+          "content": "#include \"bridges.h\"\n#include <stdlib.h>\n#include <stdio.h>\n#include <stdbool.h>\n\n#define MIN(a,b) (((a)<(b))?(a):(b))\n\ntypedef struct Edge {\n    int to;\n    struct Edge* next;\n} Edge;\n\ntypedef struct {\n    Edge** head;\n    int n;\n} Graph;\n\nstatic Graph* create_graph(int n) {\n    Graph* g = (Graph*)malloc(sizeof(Graph));\n    g->n = n;\n    g->head = (Edge**)calloc(n, sizeof(Edge*));\n    return g;\n}\n\nstatic void add_edge(Graph* g, int u, int v) {\n    Edge* e1 = (Edge*)malloc(sizeof(Edge));\n    e1->to = v;\n    e1->next = g->head[u];\n    g->head[u] = e1;\n\n    Edge* e2 = (Edge*)malloc(sizeof(Edge));\n    e2->to = u;\n    e2->next = g->head[v];\n    g->head[v] = e2;\n}\n\nstatic void free_graph(Graph* g) {\n    for (int i = 0; i < g->n; i++) {\n        Edge* curr = g->head[i];\n        while (curr) {\n            Edge* temp = curr;\n            curr = curr->next;\n            free(temp);\n        }\n    }\n    free(g->head);\n    free(g);\n}\n\nstatic int timer;\nstatic int* dfn;\nstatic int* low;\nstatic int bridge_count;\n\nstatic void dfs(Graph* g, int u, int p) {\n    dfn[u] = low[u] = ++timer;\n\n    for (Edge* e = g->head[u]; e; e = e->next) {\n        int v = e->to;\n        if (v == p) continue;\n\n        if (dfn[v]) {\n            low[u] = MIN(low[u], dfn[v]);\n        } else {\n            dfs(g, v, u);\n            low[u] = MIN(low[u], low[v]);\n            if (low[v] > dfn[u]) {\n                bridge_count++;\n            }\n        }\n    }\n}\n\nint count_bridges(int arr[], int size) {\n    if (size < 2) return 0;\n    int n = arr[0];\n    int m = arr[1];\n    \n    if (size < 2 + 2 * m) return 0;\n\n    Graph* g = create_graph(n);\n    for (int i = 0; i < m; i++) {\n        int u = arr[2 + 2 * i];\n        int v = arr[2 + 2 * i + 1];\n        if (u >= 0 && u < n && v >= 0 && v < n) {\n            add_edge(g, u, v);\n        }\n    }\n\n    timer = 0;\n    bridge_count = 0;\n    dfn = (int*)calloc(n, sizeof(int));\n    low = (int*)calloc(n, sizeof(int));\n\n    for (int i = 0; i < n; i++) {\n        if (!dfn[i]) dfs(g, i, -1);\n    }\n\n    free(dfn);\n    free(low);\n    free_graph(g);\n\n    return bridge_count;\n}\n"
+        },
+        {
+          "filename": "bridges.h",
+          "content": "#ifndef BRIDGES_H\n#define BRIDGES_H\n\nint count_bridges(int arr[], int size);\n\n#endif\n"
+        },
+        {
+          "filename": "count_bridges.c",
+          "content": "#include \"count_bridges.h\"\n#include <string.h>\n\n#define MAX_V 1000\n\nstatic int adj_list[MAX_V][MAX_V], adj_cnt[MAX_V];\nstatic int disc_arr[MAX_V], low_arr[MAX_V], par_arr[MAX_V];\nstatic int timer_val, bridge_cnt;\n\nstatic void dfs(int u) {\n    disc_arr[u] = timer_val;\n    low_arr[u] = timer_val;\n    timer_val++;\n\n    for (int i = 0; i < adj_cnt[u]; i++) {\n        int v = adj_list[u][i];\n        if (disc_arr[v] == -1) {\n            par_arr[v] = u;\n            dfs(v);\n            if (low_arr[v] < low_arr[u]) low_arr[u] = low_arr[v];\n            if (low_arr[v] > disc_arr[u]) bridge_cnt++;\n        } else if (v != par_arr[u]) {\n            if (disc_arr[v] < low_arr[u]) low_arr[u] = disc_arr[v];\n        }\n    }\n}\n\nint count_bridges(int arr[], int size) {\n    int n = arr[0];\n    int m = arr[1];\n\n    memset(adj_cnt, 0, sizeof(int) * n);\n    memset(disc_arr, -1, sizeof(int) * n);\n    memset(par_arr, -1, sizeof(int) * n);\n    timer_val = 0;\n    bridge_cnt = 0;\n\n    for (int i = 0; i < m; i++) {\n        int u = arr[2 + 2 * i];\n        int v = arr[2 + 2 * i + 1];\n        adj_list[u][adj_cnt[u]++] = v;\n        adj_list[v][adj_cnt[v]++] = u;\n    }\n\n    for (int i = 0; i < n; i++) {\n        if (disc_arr[i] == -1) dfs(i);\n    }\n\n    return bridge_cnt;\n}\n"
+        },
+        {
+          "filename": "count_bridges.h",
+          "content": "#ifndef COUNT_BRIDGES_H\n#define COUNT_BRIDGES_H\n\nint count_bridges(int arr[], int size);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "bridges.cpp",
+          "content": "#include \"bridges.h\"\n#include <vector>\n#include <algorithm>\n\nstatic std::vector<std::vector<int>> adj;\nstatic std::vector<int> dfn, low;\nstatic int timer;\nstatic int bridge_cnt;\n\nstatic void dfs(int u, int p = -1) {\n    dfn[u] = low[u] = ++timer;\n\n    for (int v : adj[u]) {\n        if (v == p) continue;\n        if (dfn[v]) {\n            low[u] = std::min(low[u], dfn[v]);\n        } else {\n            dfs(v, u);\n            low[u] = std::min(low[u], low[v]);\n            if (low[v] > dfn[u]) {\n                bridge_cnt++;\n            }\n        }\n    }\n}\n\nint count_bridges(const std::vector<int>& arr) {\n    if (arr.size() < 2) return 0;\n    int n = arr[0];\n    int m = arr[1];\n    \n    if (arr.size() < 2 + 2 * m) return 0;\n\n    adj.assign(n, std::vector<int>());\n    dfn.assign(n, 0);\n    low.assign(n, 0);\n    timer = 0;\n    bridge_cnt = 0;\n\n    for (int i = 0; i < m; i++) {\n        int u = arr[2 + 2 * i];\n        int v = arr[2 + 2 * i + 1];\n        if (u >= 0 && u < n && v >= 0 && v < n) {\n            adj[u].push_back(v);\n            adj[v].push_back(u);\n        }\n    }\n\n    for (int i = 0; i < n; i++) {\n        if (!dfn[i]) dfs(i);\n    }\n\n    return bridge_cnt;\n}\n"
+        },
+        {
+          "filename": "bridges.h",
+          "content": "#ifndef BRIDGES_H\n#define BRIDGES_H\n\n#include <vector>\n\nint count_bridges(const std::vector<int>& arr);\n\n#endif\n"
+        },
+        {
+          "filename": "count_bridges.cpp",
+          "content": "#include <vector>\n#include <algorithm>\nusing namespace std;\n\nstatic int timer_val, bridge_count;\nstatic vector<int> disc_val, low_val, par;\nstatic vector<vector<int>> adj;\n\nstatic void dfs(int u) {\n    disc_val[u] = timer_val;\n    low_val[u] = timer_val;\n    timer_val++;\n\n    for (int v : adj[u]) {\n        if (disc_val[v] == -1) {\n            par[v] = u;\n            dfs(v);\n            low_val[u] = min(low_val[u], low_val[v]);\n            if (low_val[v] > disc_val[u]) bridge_count++;\n        } else if (v != par[u]) {\n            low_val[u] = min(low_val[u], disc_val[v]);\n        }\n    }\n}\n\nint count_bridges(vector<int> arr) {\n    int n = arr[0];\n    int m = arr[1];\n    adj.assign(n, vector<int>());\n    for (int i = 0; i < m; i++) {\n        int u = arr[2 + 2 * i];\n        int v = arr[2 + 2 * i + 1];\n        adj[u].push_back(v);\n        adj[v].push_back(u);\n    }\n\n    disc_val.assign(n, -1);\n    low_val.assign(n, 0);\n    par.assign(n, -1);\n    timer_val = 0;\n    bridge_count = 0;\n\n    for (int i = 0; i < n; i++) {\n        if (disc_val[i] == -1) dfs(i);\n    }\n\n    return bridge_count;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "Bridges.cs",
+          "content": "using System;\nusing System.Collections.Generic;\n\nnamespace Algorithms.Graph.Bridges\n{\n    public class Bridges\n    {\n        private static List<int>[] adj;\n        private static int[] dfn, low;\n        private static int timer, bridgeCount;\n\n        public static int Solve(int[] arr)\n        {\n            if (arr == null || arr.Length < 2) return 0;\n            int n = arr[0];\n            int m = arr[1];\n\n            if (arr.Length < 2 + 2 * m) return 0;\n\n            adj = new List<int>[n];\n            for (int i = 0; i < n; i++) adj[i] = new List<int>();\n\n            for (int i = 0; i < m; i++)\n            {\n                int u = arr[2 + 2 * i];\n                int v = arr[2 + 2 * i + 1];\n                if (u >= 0 && u < n && v >= 0 && v < n)\n                {\n                    adj[u].Add(v);\n                    adj[v].Add(u);\n                }\n            }\n\n            dfn = new int[n];\n            low = new int[n];\n            timer = 0;\n            bridgeCount = 0;\n\n            for (int i = 0; i < n; i++)\n            {\n                if (dfn[i] == 0) Dfs(i, -1);\n            }\n\n            return bridgeCount;\n        }\n\n        private static void Dfs(int u, int p)\n        {\n            dfn[u] = low[u] = ++timer;\n\n            foreach (int v in adj[u])\n            {\n                if (v == p) continue;\n                if (dfn[v] != 0)\n                {\n                    low[u] = Math.Min(low[u], dfn[v]);\n                }\n                else\n                {\n                    Dfs(v, u);\n                    low[u] = Math.Min(low[u], low[v]);\n                    if (low[v] > dfn[u])\n                    {\n                        bridgeCount++;\n                    }\n                }\n            }\n        }\n    }\n}\n"
+        },
+        {
+          "filename": "CountBridges.cs",
+          "content": "using System;\nusing System.Collections.Generic;\n\npublic class CountBridges\n{\n    private static int timer, bridgeCount;\n    private static int[] disc, low, parent;\n    private static List<int>[] adj;\n\n    public static int Solve(int[] arr)\n    {\n        int n = arr[0];\n        int m = arr[1];\n        adj = new List<int>[n];\n        for (int i = 0; i < n; i++) adj[i] = new List<int>();\n        for (int i = 0; i < m; i++)\n        {\n            int u = arr[2 + 2 * i];\n            int v = arr[2 + 2 * i + 1];\n            adj[u].Add(v);\n            adj[v].Add(u);\n        }\n\n        disc = new int[n];\n        low = new int[n];\n        parent = new int[n];\n        for (int i = 0; i < n; i++) { disc[i] = -1; parent[i] = -1; }\n        timer = 0;\n        bridgeCount = 0;\n\n        for (int i = 0; i < n; i++)\n            if (disc[i] == -1) Dfs(i);\n\n        return bridgeCount;\n    }\n\n    private static void Dfs(int u)\n    {\n        disc[u] = timer;\n        low[u] = timer;\n        timer++;\n\n        foreach (int v in adj[u])\n        {\n            if (disc[v] == -1)\n            {\n                parent[v] = u;\n                Dfs(v);\n                low[u] = Math.Min(low[u], low[v]);\n                if (low[v] > disc[u]) bridgeCount++;\n            }\n            else if (v != parent[u])\n            {\n                low[u] = Math.Min(low[u], disc[v]);\n            }\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "bridges.go",
+          "content": "package bridges\n\nimport \"math\"\n\nfunc CountBridges(arr []int) int {\n\tif len(arr) < 2 {\n\t\treturn 0\n\t}\n\tn := arr[0]\n\tm := arr[1]\n\n\tif len(arr) < 2+2*m {\n\t\treturn 0\n\t}\n\n\tadj := make([][]int, n)\n\tfor i := 0; i < m; i++ {\n\t\tu := arr[2+2*i]\n\t\tv := arr[2+2*i+1]\n\t\tif u >= 0 && u < n && v >= 0 && v < n {\n\t\t\tadj[u] = append(adj[u], v)\n\t\t\tadj[v] = append(adj[v], u)\n\t\t}\n\t}\n\n\tdfn := make([]int, n)\n\tlow := make([]int, n)\n\ttimer := 0\n\tbridgeCount := 0\n\n\tvar dfs func(int, int)\n\tdfs = func(u, p int) {\n\t\ttimer++\n\t\tdfn[u] = timer\n\t\tlow[u] = timer\n\n\t\tfor _, v := range adj[u] {\n\t\t\tif v == p {\n\t\t\t\tcontinue\n\t\t\t}\n\t\t\tif dfn[v] != 0 {\n\t\t\t\tlow[u] = int(math.Min(float64(low[u]), float64(dfn[v])))\n\t\t\t} else {\n\t\t\t\tdfs(v, u)\n\t\t\t\tlow[u] = int(math.Min(float64(low[u]), float64(low[v])))\n\t\t\t\tif low[v] > dfn[u] {\n\t\t\t\t\tbridgeCount++\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\n\tfor i := 0; i < n; i++ {\n\t\tif dfn[i] == 0 {\n\t\t\tdfs(i, -1)\n\t\t}\n\t}\n\n\treturn bridgeCount\n}\n"
+        },
+        {
+          "filename": "count_bridges.go",
+          "content": "package bridges\n\nfunc CountBridges(arr []int) int {\n\tn := arr[0]\n\tm := arr[1]\n\tadj := make([][]int, n)\n\tfor i := 0; i < n; i++ {\n\t\tadj[i] = []int{}\n\t}\n\tfor i := 0; i < m; i++ {\n\t\tu := arr[2+2*i]\n\t\tv := arr[2+2*i+1]\n\t\tadj[u] = append(adj[u], v)\n\t\tadj[v] = append(adj[v], u)\n\t}\n\n\tdisc := make([]int, n)\n\tlow := make([]int, n)\n\tparent := make([]int, n)\n\tfor i := 0; i < n; i++ {\n\t\tdisc[i] = -1\n\t\tparent[i] = -1\n\t}\n\ttimer := 0\n\tbridgeCount := 0\n\n\tvar dfs func(u int)\n\tdfs = func(u int) {\n\t\tdisc[u] = timer\n\t\tlow[u] = timer\n\t\ttimer++\n\n\t\tfor _, v := range adj[u] {\n\t\t\tif disc[v] == -1 {\n\t\t\t\tparent[v] = u\n\t\t\t\tdfs(v)\n\t\t\t\tif low[v] < low[u] {\n\t\t\t\t\tlow[u] = low[v]\n\t\t\t\t}\n\t\t\t\tif low[v] > disc[u] {\n\t\t\t\t\tbridgeCount++\n\t\t\t\t}\n\t\t\t} else if v != parent[u] {\n\t\t\t\tif disc[v] < low[u] {\n\t\t\t\t\tlow[u] = disc[v]\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\n\tfor i := 0; i < n; i++ {\n\t\tif disc[i] == -1 {\n\t\t\tdfs(i)\n\t\t}\n\t}\n\n\treturn bridgeCount\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "Bridges.java",
+          "content": "package algorithms.graph.bridges;\n\nimport java.util.ArrayList;\nimport java.util.List;\n\npublic class Bridges {\n    private List<Integer>[] adj;\n    private int[] dfn, low;\n    private int timer, bridgeCount;\n\n    public int solve(int[] arr) {\n        if (arr == null || arr.length < 2) return 0;\n        int n = arr[0];\n        int m = arr[1];\n\n        if (arr.length < 2 + 2 * m) return 0;\n\n        adj = new ArrayList[n];\n        for (int i = 0; i < n; i++) adj[i] = new ArrayList<>();\n\n        for (int i = 0; i < m; i++) {\n            int u = arr[2 + 2 * i];\n            int v = arr[2 + 2 * i + 1];\n            if (u >= 0 && u < n && v >= 0 && v < n) {\n                adj[u].add(v);\n                adj[v].add(u);\n            }\n        }\n\n        dfn = new int[n];\n        low = new int[n];\n        timer = 0;\n        bridgeCount = 0;\n\n        for (int i = 0; i < n; i++) {\n            if (dfn[i] == 0) dfs(i, -1);\n        }\n\n        return bridgeCount;\n    }\n\n    private void dfs(int u, int p) {\n        dfn[u] = low[u] = ++timer;\n\n        for (int v : adj[u]) {\n            if (v == p) continue;\n            if (dfn[v] != 0) {\n                low[u] = Math.min(low[u], dfn[v]);\n            } else {\n                dfs(v, u);\n                low[u] = Math.min(low[u], low[v]);\n                if (low[v] > dfn[u]) {\n                    bridgeCount++;\n                }\n            }\n        }\n    }\n}\n"
+        },
+        {
+          "filename": "CountBridges.java",
+          "content": "import java.util.*;\n\npublic class CountBridges {\n\n    private static int timer;\n    private static int bridgeCount;\n    private static int[] disc, low, parent;\n    private static List<List<Integer>> adj;\n\n    public static int countBridges(int[] arr) {\n        int n = arr[0];\n        int m = arr[1];\n        adj = new ArrayList<>();\n        for (int i = 0; i < n; i++) adj.add(new ArrayList<>());\n        for (int i = 0; i < m; i++) {\n            int u = arr[2 + 2 * i];\n            int v = arr[2 + 2 * i + 1];\n            adj.get(u).add(v);\n            adj.get(v).add(u);\n        }\n\n        disc = new int[n];\n        low = new int[n];\n        parent = new int[n];\n        Arrays.fill(disc, -1);\n        Arrays.fill(parent, -1);\n        timer = 0;\n        bridgeCount = 0;\n\n        for (int i = 0; i < n; i++) {\n            if (disc[i] == -1) dfs(i);\n        }\n\n        return bridgeCount;\n    }\n\n    private static void dfs(int u) {\n        disc[u] = timer;\n        low[u] = timer;\n        timer++;\n\n        for (int v : adj.get(u)) {\n            if (disc[v] == -1) {\n                parent[v] = u;\n                dfs(v);\n                low[u] = Math.min(low[u], low[v]);\n                if (low[v] > disc[u]) bridgeCount++;\n            } else if (v != parent[u]) {\n                low[u] = Math.min(low[u], disc[v]);\n            }\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "Bridges.kt",
+          "content": "package algorithms.graph.bridges\n\nimport kotlin.math.min\n\nclass Bridges {\n    private lateinit var adj: Array<ArrayList<Int>>\n    private lateinit var dfn: IntArray\n    private lateinit var low: IntArray\n    private var timer = 0\n    private var bridgeCount = 0\n\n    fun solve(arr: IntArray): Int {\n        if (arr.size < 2) return 0\n        val n = arr[0]\n        val m = arr[1]\n\n        if (arr.size < 2 + 2 * m) return 0\n\n        adj = Array(n) { ArrayList<Int>() }\n        for (i in 0 until m) {\n            val u = arr[2 + 2 * i]\n            val v = arr[2 + 2 * i + 1]\n            if (u in 0 until n && v in 0 until n) {\n                adj[u].add(v)\n                adj[v].add(u)\n            }\n        }\n\n        dfn = IntArray(n)\n        low = IntArray(n)\n        timer = 0\n        bridgeCount = 0\n\n        for (i in 0 until n) {\n            if (dfn[i] == 0) dfs(i, -1)\n        }\n\n        return bridgeCount\n    }\n\n    private fun dfs(u: Int, p: Int) {\n        timer++\n        dfn[u] = timer\n        low[u] = timer\n\n        for (v in adj[u]) {\n            if (v == p) continue\n            if (dfn[v] != 0) {\n                low[u] = min(low[u], dfn[v])\n            } else {\n                dfs(v, u)\n                low[u] = min(low[u], low[v])\n                if (low[v] > dfn[u]) {\n                    bridgeCount++\n                }\n            }\n        }\n    }\n}\n"
+        },
+        {
+          "filename": "CountBridges.kt",
+          "content": "fun countBridges(arr: IntArray): Int {\n    val n = arr[0]\n    val m = arr[1]\n    val adj = Array(n) { mutableListOf<Int>() }\n    for (i in 0 until m) {\n        val u = arr[2 + 2 * i]\n        val v = arr[2 + 2 * i + 1]\n        adj[u].add(v)\n        adj[v].add(u)\n    }\n\n    val disc = IntArray(n) { -1 }\n    val low = IntArray(n)\n    val parent = IntArray(n) { -1 }\n    var timer = 0\n    var bridgeCount = 0\n\n    fun dfs(u: Int) {\n        disc[u] = timer\n        low[u] = timer\n        timer++\n\n        for (v in adj[u]) {\n            if (disc[v] == -1) {\n                parent[v] = u\n                dfs(v)\n                low[u] = minOf(low[u], low[v])\n                if (low[v] > disc[u]) bridgeCount++\n            } else if (v != parent[u]) {\n                low[u] = minOf(low[u], disc[v])\n            }\n        }\n    }\n\n    for (i in 0 until n) {\n        if (disc[i] == -1) dfs(i)\n    }\n\n    return bridgeCount\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "bridges.py",
+          "content": "import sys\n\n# Increase recursion depth\nsys.setrecursionlimit(1000000)\n\ndef count_bridges(arr):\n    if len(arr) < 2:\n        return 0\n    n = arr[0]\n    m = arr[1]\n    \n    if len(arr) < 2 + 2 * m:\n        return 0\n        \n    adj = [[] for _ in range(n)]\n    for i in range(m):\n        u = arr[2 + 2 * i]\n        v = arr[2 + 2 * i + 1]\n        if 0 <= u < n and 0 <= v < n:\n            adj[u].append(v)\n            adj[v].append(u)\n            \n    dfn = [0] * n\n    low = [0] * n\n    timer = 0\n    bridge_cnt = 0\n    \n    def dfs(u, p):\n        nonlocal timer, bridge_cnt\n        timer += 1\n        dfn[u] = low[u] = timer\n        \n        for v in adj[u]:\n            if v == p:\n                continue\n            if dfn[v]:\n                low[u] = min(low[u], dfn[v])\n            else:\n                dfs(v, u)\n                low[u] = min(low[u], low[v])\n                if low[v] > dfn[u]:\n                    bridge_cnt += 1\n                    \n    for i in range(n):\n        if not dfn[i]:\n            dfs(i, -1)\n            \n    return bridge_cnt\n"
+        },
+        {
+          "filename": "count_bridges.py",
+          "content": "def count_bridges(arr: list[int]) -> int:\n    n = arr[0]\n    m = arr[1]\n    adj = [[] for _ in range(n)]\n    for i in range(m):\n        u = arr[2 + 2 * i]\n        v = arr[2 + 2 * i + 1]\n        adj[u].append(v)\n        adj[v].append(u)\n\n    disc = [-1] * n\n    low = [0] * n\n    parent = [-1] * n\n    timer = [0]\n    bridge_count = [0]\n\n    def dfs(u):\n        disc[u] = timer[0]\n        low[u] = timer[0]\n        timer[0] += 1\n\n        for v in adj[u]:\n            if disc[v] == -1:\n                parent[v] = u\n                dfs(v)\n                low[u] = min(low[u], low[v])\n                if low[v] > disc[u]:\n                    bridge_count[0] += 1\n            elif v != parent[u]:\n                low[u] = min(low[u], disc[v])\n\n    for i in range(n):\n        if disc[i] == -1:\n            dfs(i)\n\n    return bridge_count[0]\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "bridges.rs",
+          "content": "use std::cmp::min;\n\nstruct DfsContext {\n    timer: usize,\n    dfn: Vec<usize>,\n    low: Vec<usize>,\n    bridge_count: i32,\n}\n\nimpl DfsContext {\n    fn new(n: usize) -> Self {\n        DfsContext {\n            timer: 0,\n            dfn: vec![0; n],\n            low: vec![0; n],\n            bridge_count: 0,\n        }\n    }\n}\n\nfn dfs(u: usize, p: isize, adj: &Vec<Vec<usize>>, ctx: &mut DfsContext) {\n    ctx.timer += 1;\n    ctx.dfn[u] = ctx.timer;\n    ctx.low[u] = ctx.timer;\n\n    for &v in &adj[u] {\n        if v as isize == p {\n            continue;\n        }\n        if ctx.dfn[v] != 0 {\n            ctx.low[u] = min(ctx.low[u], ctx.dfn[v]);\n        } else {\n            dfs(v, u as isize, adj, ctx);\n            ctx.low[u] = min(ctx.low[u], ctx.low[v]);\n            if ctx.low[v] > ctx.dfn[u] {\n                ctx.bridge_count += 1;\n            }\n        }\n    }\n}\n\npub fn count_bridges(arr: &[i32]) -> i32 {\n    if arr.len() < 2 {\n        return 0;\n    }\n    let n = arr[0] as usize;\n    let m = arr[1] as usize;\n\n    if arr.len() < 2 + 2 * m {\n        return 0;\n    }\n\n    let mut adj = vec![vec![]; n];\n    for i in 0..m {\n        let u = arr[2 + 2 * i] as usize;\n        let v = arr[2 + 2 * i + 1] as usize;\n        if u < n && v < n {\n            adj[u].push(v);\n            adj[v].push(u);\n        }\n    }\n\n    let mut ctx = DfsContext::new(n);\n\n    for i in 0..n {\n        if ctx.dfn[i] == 0 {\n            dfs(i, -1, &adj, &mut ctx);\n        }\n    }\n\n    ctx.bridge_count\n}\n"
+        },
+        {
+          "filename": "count_bridges.rs",
+          "content": "pub fn count_bridges(arr: &[i32]) -> i32 {\n    let n = arr[0] as usize;\n    let m = arr[1] as usize;\n    let mut adj = vec![vec![]; n];\n    for i in 0..m {\n        let u = arr[2 + 2 * i] as usize;\n        let v = arr[2 + 2 * i + 1] as usize;\n        adj[u].push(v);\n        adj[v].push(u);\n    }\n\n    let mut disc = vec![-1i32; n];\n    let mut low = vec![0i32; n];\n    let mut parent = vec![-1i32; n];\n    let mut timer: i32 = 0;\n    let mut bridge_count: i32 = 0;\n\n    fn dfs(\n        u: usize, adj: &Vec<Vec<usize>>, disc: &mut Vec<i32>, low: &mut Vec<i32>,\n        parent: &mut Vec<i32>, timer: &mut i32, bridge_count: &mut i32,\n    ) {\n        disc[u] = *timer;\n        low[u] = *timer;\n        *timer += 1;\n\n        for &v in &adj[u] {\n            if disc[v] == -1 {\n                parent[v] = u as i32;\n                dfs(v, adj, disc, low, parent, timer, bridge_count);\n                low[u] = low[u].min(low[v]);\n                if low[v] > disc[u] { *bridge_count += 1; }\n            } else if v as i32 != parent[u] {\n                low[u] = low[u].min(disc[v]);\n            }\n        }\n    }\n\n    for i in 0..n {\n        if disc[i] == -1 {\n            dfs(i, &adj, &mut disc, &mut low, &mut parent, &mut timer, &mut bridge_count);\n        }\n    }\n\n    bridge_count\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "Bridges.scala",
+          "content": "package algorithms.graph.bridges\n\nimport scala.collection.mutable\nimport scala.math.min\n\nobject Bridges {\n  def solve(arr: Array[Int]): Int = {\n    if (arr.length < 2) return 0\n    val n = arr(0)\n    val m = arr(1)\n\n    if (arr.length < 2 + 2 * m) return 0\n\n    val adj = Array.fill(n)(new mutable.ListBuffer[Int])\n    for (i <- 0 until m) {\n      val u = arr(2 + 2 * i)\n      val v = arr(2 + 2 * i + 1)\n      if (u >= 0 && u < n && v >= 0 && v < n) {\n        adj(u).append(v)\n        adj(v).append(u)\n      }\n    }\n\n    val dfn = new Array[Int](n)\n    val low = new Array[Int](n)\n    var timer = 0\n    var bridgeCount = 0\n\n    def dfs(u: Int, p: Int): Unit = {\n      timer += 1\n      dfn(u) = timer\n      low(u) = timer\n\n      for (v <- adj(u)) {\n        if (v != p) {\n          if (dfn(v) != 0) {\n            low(u) = min(low(u), dfn(v))\n          } else {\n            dfs(v, u)\n            low(u) = min(low(u), low(v))\n            if (low(v) > dfn(u)) {\n              bridgeCount += 1\n            }\n          }\n        }\n      }\n    }\n\n    for (i <- 0 until n) {\n      if (dfn(i) == 0) dfs(i, -1)\n    }\n\n    bridgeCount\n  }\n}\n"
+        },
+        {
+          "filename": "CountBridges.scala",
+          "content": "object CountBridges {\n\n  def countBridges(arr: Array[Int]): Int = {\n    val n = arr(0)\n    val m = arr(1)\n    val adj = Array.fill(n)(scala.collection.mutable.ListBuffer[Int]())\n    for (i <- 0 until m) {\n      val u = arr(2 + 2 * i)\n      val v = arr(2 + 2 * i + 1)\n      adj(u) += v\n      adj(v) += u\n    }\n\n    val disc = Array.fill(n)(-1)\n    val low = Array.fill(n)(0)\n    val parent = Array.fill(n)(-1)\n    var timer = 0\n    var bridgeCount = 0\n\n    def dfs(u: Int): Unit = {\n      disc(u) = timer\n      low(u) = timer\n      timer += 1\n\n      for (v <- adj(u)) {\n        if (disc(v) == -1) {\n          parent(v) = u\n          dfs(v)\n          low(u) = math.min(low(u), low(v))\n          if (low(v) > disc(u)) bridgeCount += 1\n        } else if (v != parent(u)) {\n          low(u) = math.min(low(u), disc(v))\n        }\n      }\n    }\n\n    for (i <- 0 until n) {\n      if (disc(i) == -1) dfs(i)\n    }\n\n    bridgeCount\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "Bridges.swift",
+          "content": "class Bridges {\n    static func solve(_ arr: [Int]) -> Int {\n        if arr.count < 2 { return 0 }\n        let n = arr[0]\n        let m = arr[1]\n        \n        if arr.count < 2 + 2 * m { return 0 }\n        \n        var adj = [[Int]](repeating: [], count: n)\n        for i in 0..<m {\n            let u = arr[2 + 2 * i]\n            let v = arr[2 + 2 * i + 1]\n            if u >= 0 && u < n && v >= 0 && v < n {\n                adj[u].append(v)\n                adj[v].append(u)\n            }\n        }\n        \n        var dfn = [Int](repeating: 0, count: n)\n        var low = [Int](repeating: 0, count: n)\n        var timer = 0\n        var bridgeCount = 0\n        \n        func dfs(_ u: Int, _ p: Int) {\n            timer += 1\n            dfn[u] = timer\n            low[u] = timer\n            \n            for v in adj[u] {\n                if v == p { continue }\n                if dfn[v] != 0 {\n                    low[u] = min(low[u], dfn[v])\n                } else {\n                    dfs(v, u)\n                    low[u] = min(low[u], low[v])\n                    if low[v] > dfn[u] {\n                        bridgeCount += 1\n                    }\n                }\n            }\n        }\n        \n        for i in 0..<n {\n            if dfn[i] == 0 {\n                dfs(i, -1)\n            }\n        }\n        \n        return bridgeCount\n    }\n}\n"
+        },
+        {
+          "filename": "CountBridges.swift",
+          "content": "func countBridges(_ arr: [Int]) -> Int {\n    let n = arr[0]\n    let m = arr[1]\n    var adj = [[Int]](repeating: [], count: n)\n    for i in 0..<m {\n        let u = arr[2 + 2 * i]\n        let v = arr[2 + 2 * i + 1]\n        adj[u].append(v)\n        adj[v].append(u)\n    }\n\n    var disc = [Int](repeating: -1, count: n)\n    var low = [Int](repeating: 0, count: n)\n    var parent = [Int](repeating: -1, count: n)\n    var timer = 0\n    var bridgeCount = 0\n\n    func dfs(_ u: Int) {\n        disc[u] = timer\n        low[u] = timer\n        timer += 1\n\n        for v in adj[u] {\n            if disc[v] == -1 {\n                parent[v] = u\n                dfs(v)\n                low[u] = min(low[u], low[v])\n                if low[v] > disc[u] { bridgeCount += 1 }\n            } else if v != parent[u] {\n                low[u] = min(low[u], disc[v])\n            }\n        }\n    }\n\n    for i in 0..<n {\n        if disc[i] == -1 { dfs(i) }\n    }\n\n    return bridgeCount\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "bridges.ts",
+          "content": "export function countBridges(arr: number[]): number {\n  if (arr.length < 2) return 0;\n  const n = arr[0];\n  const m = arr[1];\n\n  if (arr.length < 2 + 2 * m) return 0;\n\n  const adj: number[][] = Array.from({ length: n }, () => []);\n  for (let i = 0; i < m; i++) {\n    const u = arr[2 + 2 * i];\n    const v = arr[2 + 2 * i + 1];\n    if (u >= 0 && u < n && v >= 0 && v < n) {\n      adj[u].push(v);\n      adj[v].push(u);\n    }\n  }\n\n  const dfn: number[] = new Array(n).fill(0);\n  const low: number[] = new Array(n).fill(0);\n  let timer = 0;\n  let bridgeCount = 0;\n\n  function dfs(u: number, p: number): void {\n    timer++;\n    dfn[u] = low[u] = timer;\n\n    for (const v of adj[u]) {\n      if (v === p) continue;\n      if (dfn[v] !== 0) {\n        low[u] = Math.min(low[u], dfn[v]);\n      } else {\n        dfs(v, u);\n        low[u] = Math.min(low[u], low[v]);\n        if (low[v] > dfn[u]) {\n          bridgeCount++;\n        }\n      }\n    }\n  }\n\n  for (let i = 0; i < n; i++) {\n    if (dfn[i] === 0) dfs(i, -1);\n  }\n\n  return bridgeCount;\n}\n"
+        },
+        {
+          "filename": "countBridges.ts",
+          "content": "export function countBridges(arr: number[]): number {\n    const n = arr[0];\n    const m = arr[1];\n    const adj: number[][] = Array.from({ length: n }, () => []);\n    for (let i = 0; i < m; i++) {\n        const u = arr[2 + 2 * i];\n        const v = arr[2 + 2 * i + 1];\n        adj[u].push(v);\n        adj[v].push(u);\n    }\n\n    const disc = new Array(n).fill(-1);\n    const low = new Array(n).fill(0);\n    const parent = new Array(n).fill(-1);\n    let timer = 0;\n    let bridgeCount = 0;\n\n    function dfs(u: number): void {\n        disc[u] = timer;\n        low[u] = timer;\n        timer++;\n\n        for (const v of adj[u]) {\n            if (disc[v] === -1) {\n                parent[v] = u;\n                dfs(v);\n                low[u] = Math.min(low[u], low[v]);\n                if (low[v] > disc[u]) bridgeCount++;\n            } else if (v !== parent[u]) {\n                low[u] = Math.min(low[u], disc[v]);\n            }\n        }\n    }\n\n    for (let i = 0; i < n; i++) {\n        if (disc[i] === -1) dfs(i);\n    }\n\n    return bridgeCount;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "readme": "# Bridges (Cut Edges)\n\n## Overview\n\nA bridge (or cut edge) in an undirected graph is an edge whose removal disconnects the graph (or increases the number of connected components). The algorithm uses a DFS-based approach similar to finding articulation points, utilizing discovery times and low-link values.\n\n## How It Works\n\n1. Perform a DFS traversal assigning discovery times and computing low-link values.\n2. An edge (u, v) is a bridge if and only if low[v] > disc[u], meaning there is no back edge from the subtree rooted at v to u or any of its ancestors.\n\n### Example\n\nGiven input: `[5, 5, 0,1, 1,2, 2,0, 1,3, 3,4]`\n\nEdges 1-3 and 3-4 are bridges. Result: 2\n\n## Complexity Analysis\n\n| Case    | Time     | Space |\n|---------|----------|-------|\n| Best    | O(V + E) | O(V)  |\n| Average | O(V + E) | O(V)  |\n| Worst   | O(V + E) | O(V)  |\n\n## Pseudocode\n\n```\nfunction findBridges(graph, n):\n    disc = array of size n, initialized to -1\n    low = array of size n\n    parent = array of size n, initialized to -1\n    bridgeCount = 0\n    timer = 0\n\n    function dfs(u):\n        disc[u] = low[u] = timer++\n\n        for each neighbor v of u:\n            if disc[v] == -1:             // tree edge\n                parent[v] = u\n                dfs(v)\n                low[u] = min(low[u], low[v])\n\n                // Bridge condition: no back edge from subtree of v\n                // reaches u or above\n                if low[v] > disc[u]:\n                    bridgeCount++\n\n            else if v != parent[u]:       // back edge\n                low[u] = min(low[u], disc[v])\n\n    for i = 0 to n-1:\n        if disc[i] == -1:\n            dfs(i)\n\n    return bridgeCount\n```\n\n## Applications\n\n- Finding critical connections in networks\n- Identifying vulnerable links in communication networks\n- Network reliability analysis\n- Decomposing graphs into 2-edge-connected components\n- Internet backbone analysis (identifying single points of failure)\n\n## When NOT to Use\n\n- **Directed graphs**: Bridges are defined for undirected graphs; for directed graphs, use strong connectivity analysis\n- **Vertex vulnerability**: If you need critical vertices rather than edges, use articulation point detection instead\n- **Weighted reliability**: If edges have different failure probabilities, use network reliability models rather than simple bridge detection\n- **Multigraphs**: If parallel edges exist between the same pair of vertices, none of them is a bridge; the algorithm needs modification to handle multi-edges\n\n## Comparison\n\n| Algorithm | Purpose | Time | Space |\n|-----------|---------|------|-------|\n| Bridge Detection (Tarjan) | Find cut edges | O(V + E) | O(V) |\n| Articulation Points (Tarjan) | Find cut vertices | O(V + E) | O(V) |\n| Chain Decomposition | Find bridges + 2-edge-connected components | O(V + E) | O(V + E) |\n| Edge Connectivity (max flow) | Find minimum edge cut | O(V * E) | O(V^2) |\n\n## References\n\n- Tarjan, R. E. (1974). \"A note on finding the bridges of a graph.\" Information Processing Letters, 2(6), 160-161.\n- [Bridge (graph theory) -- Wikipedia](https://en.wikipedia.org/wiki/Bridge_(graph_theory))\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [count_bridges.py](python/count_bridges.py) |\n| Java       | [CountBridges.java](java/CountBridges.java) |\n| C++        | [count_bridges.cpp](cpp/count_bridges.cpp) |\n| C          | [count_bridges.c](c/count_bridges.c) |\n| Go         | [count_bridges.go](go/count_bridges.go) |\n| TypeScript | [countBridges.ts](typescript/countBridges.ts) |\n| Rust       | [count_bridges.rs](rust/count_bridges.rs) |\n| Kotlin     | [CountBridges.kt](kotlin/CountBridges.kt) |\n| Swift      | [CountBridges.swift](swift/CountBridges.swift) |\n| Scala      | [CountBridges.scala](scala/CountBridges.scala) |\n| C#         | [CountBridges.cs](csharp/CountBridges.cs) |\n"
+}

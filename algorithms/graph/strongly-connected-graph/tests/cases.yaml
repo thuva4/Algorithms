@@ -1,0 +1,33 @@
+algorithm: "strongly-connected-graph"
+function_signature:
+  name: "find_sccs"
+  input: [adjacency_list]
+  output: list_of_sccs
+test_cases:
+  - name: "simple two SCCs"
+    input: [{"0": [1], "1": [2], "2": [0, 3], "3": [4], "4": [3]}]
+    expected: [[0, 1, 2], [3, 4]]
+    note: "Order within and between SCCs may vary"
+  - name: "single node"
+    input: [{"0": []}]
+    expected: [[0]]
+  - name: "single SCC - all connected"
+    input: [{"0": [1], "1": [2], "2": [0]}]
+    expected: [[0, 1, 2]]
+  - name: "no edges - each node is its own SCC"
+    input: [{"0": [], "1": [], "2": []}]
+    expected: [[0], [1], [2]]
+  - name: "two nodes in a cycle"
+    input: [{"0": [1], "1": [0]}]
+    expected: [[0, 1]]
+  - name: "two nodes no cycle"
+    input: [{"0": [1], "1": []}]
+    expected: [[0], [1]]
+  - name: "three SCCs"
+    input: [{"0": [1], "1": [0], "2": [3], "3": [2], "4": [5], "5": [4]}]
+    expected: [[0, 1], [2, 3], [4, 5]]
+    note: "Order between SCCs may vary"
+  - name: "complex graph with chain of SCCs"
+    input: [{"0": [1], "1": [2], "2": [0, 3], "3": [4], "4": [5], "5": [3]}]
+    expected: [[0, 1, 2], [3, 4, 5]]
+    note: "SCC {0,1,2} connects to SCC {3,4,5}"

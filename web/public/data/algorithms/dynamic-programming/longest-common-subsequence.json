@@ -1,0 +1,135 @@
+{
+  "name": "Longest Common Subsequence",
+  "slug": "longest-common-subsequence",
+  "category": "dynamic-programming",
+  "subcategory": "sequences",
+  "difficulty": "intermediate",
+  "tags": [
+    "dynamic-programming",
+    "sequences",
+    "string",
+    "tabulation"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(mn)",
+      "average": "O(mn)",
+      "worst": "O(mn)"
+    },
+    "space": "O(mn)"
+  },
+  "stable": null,
+  "in_place": null,
+  "related": [
+    "longest-increasing-subsequence",
+    "edit-distance",
+    "sequence-alignment"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "LCS.c",
+          "content": "/* A Naive recursive implementation of LCS problem */\n#include<stdio.h>\n#include<string.h>\n \nint max(int a, int b);\n \n/* Returns length of LCS for X[0..m-1], Y[0..n-1] */\nint lcs( char *X, char *Y, int m, int n )\n{\n   if (m == 0 || n == 0)\n     return 0;\n   if (X[m-1] == Y[n-1])\n     return 1 + lcs(X, Y, m-1, n-1);\n   else\n     return max(lcs(X, Y, m, n-1), lcs(X, Y, m-1, n));\n}\n \n/* Utility function to get max of 2 integers */\nint max(int a, int b)\n{\n    return (a > b)? a : b;\n}\n \n/* Driver program to test above function */\nint main()\n{\n  char X[] = \"AGGTAB\";\n  char Y[] = \"GXTXAYB\";\n \n  int m = strlen(X);\n  int n = strlen(Y);\n \n  printf(\"Length of LCS is %dn\", lcs( X, Y, m, n ) );\n \n  return 0;\n}"
+        },
+        {
+          "filename": "LCSv2.c",
+          "content": "\nint max(int p , int q)\n{\n    return (p > q) ? p : q;\n}\n\nint lcs( char *a, char *b, int m, int n )    // a and b are the character arrays \n                                            // m and n are their sizes respectively\n {\n    if (m == 0 || n == 0)\n      return 0;\n    if (a[m-1] == b[n-1])\n      return 1 + lcs(a, b, m-1, n-1);\n    else\n      return max(lcs(a, b, m, n-1), lcs(a, b, m-1, n));\n }\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "LCS.cpp",
+          "content": "/* A Naive recursive implementation of LCS problem */\n#include<bits/stdc++.h>\n \nint max(int a, int b);\n \n/* Returns length of LCS for X[0..m-1], Y[0..n-1] */\nint lcs( char *X, char *Y, int m, int n )\n{\n   if (m == 0 || n == 0)\n     return 0;\n   if (X[m-1] == Y[n-1])\n     return 1 + lcs(X, Y, m-1, n-1);\n   else\n     return max(lcs(X, Y, m, n-1), lcs(X, Y, m-1, n));\n}\n \n/* Utility function to get max of 2 integers */\nint max(int a, int b)\n{\n    return (a > b)? a : b;\n}\n \n/* Driver program to test above function */\nint main()\n{\n  char X[] = \"AGGTAB\";\n  char Y[] = \"GXTXAYB\";\n \n  int m = strlen(X);\n  int n = strlen(Y);\n \n  printf(\"Length of LCS is %dn\", lcs( X, Y, m, n ) );\n \n  return 0;\n}"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "LCS.cs",
+          "content": "using System;\n\npublic class LCS\n{\n    public static int Lcs(string x, string y)\n    {\n        int m = x.Length;\n        int n = y.Length;\n        int[,] dp = new int[m + 1, n + 1];\n\n        for (int i = 1; i <= m; i++)\n        {\n            for (int j = 1; j <= n; j++)\n            {\n                if (x[i - 1] == y[j - 1])\n                    dp[i, j] = dp[i - 1, j - 1] + 1;\n                else\n                    dp[i, j] = Math.Max(dp[i - 1, j], dp[i, j - 1]);\n            }\n        }\n\n        return dp[m, n];\n    }\n\n    static void Main(string[] args)\n    {\n        Console.WriteLine(Lcs(\"ABCBDAB\", \"BDCAB\")); // 4\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "LCS.go",
+          "content": "package main\n\nimport \"fmt\"\n\nfunc max(a, b int) int {\n\tif a > b {\n\t\treturn a\n\t}\n\treturn b\n}\n\nfunc lcs(x, y string) int {\n\tm := len(x)\n\tn := len(y)\n\n\tdp := make([][]int, m+1)\n\tfor i := range dp {\n\t\tdp[i] = make([]int, n+1)\n\t}\n\n\tfor i := 1; i <= m; i++ {\n\t\tfor j := 1; j <= n; j++ {\n\t\t\tif x[i-1] == y[j-1] {\n\t\t\t\tdp[i][j] = dp[i-1][j-1] + 1\n\t\t\t} else {\n\t\t\t\tdp[i][j] = max(dp[i-1][j], dp[i][j-1])\n\t\t\t}\n\t\t}\n\t}\n\n\treturn dp[m][n]\n}\n\nfunc main() {\n\tfmt.Println(lcs(\"ABCBDAB\", \"BDCAB\")) // 4\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "LCS.java",
+          "content": "public class LCS\n{\n    public static int lcs(String a, String b)\n    {\n        int m = a.length();\n        int n = b.length();\n        int[][] dp = new int[m + 1][n + 1];\n        for (int i = 1; i <= m; i++)\n        {\n            for (int j = 1; j <= n; j++)\n            {\n                if (a.charAt(i - 1) == b.charAt(j - 1))\n                    dp[i][j] = dp[i - 1][j - 1] + 1;\n                else\n                    dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);\n            }\n        }\n        return dp[m][n];\n    }\n\n    // Returns length of LCS for X[0..m-1], Y[0..n-1]\n    public static void lcs(String X, String Y, int m, int n)\n    {\n        int[][] L = new int[m+1][n+1];\n  \n        // Following steps build L[m+1][n+1] in bottom up fashion. Note\n        // that L[i][j] contains length of LCS of X[0..i-1] and Y[0..j-1] \n        for (int i=0; i<=m; i++)\n        {\n            for (int j=0; j<=n; j++)\n            {\n                if (i == 0 || j == 0)\n                    L[i][j] = 0;\n                else if (X.charAt(i-1) == Y.charAt(j-1))\n                    L[i][j] = L[i-1][j-1] + 1;\n                else\n                    L[i][j] = Math.max(L[i-1][j], L[i][j-1]);\n            }\n        }\n  \n        // Following code is used to print LCS\n        int index = L[m][n];\n        int temp = index;\n  \n        // Create a character array to store the lcs string\n        char[] lcs = new char[index+1];\n        lcs[index] = '\\0'; // Set the terminating character\n  \n        // Start from the right-most-bottom-most corner and\n        // one by one store characters in lcs[]\n        int i = m, j = n;\n        while (i > 0 && j > 0)\n        {\n            // If current character in X[] and Y are same, then\n            // current character is part of LCS\n            if (X.charAt(i-1) == Y.charAt(j-1))\n            {\n                // Put current character in result\n                lcs[index-1] = X.charAt(i-1); \n                 \n                // reduce values of i, j and index\n                i--; \n                j--; \n                index--;     \n            }\n  \n            // If not same, then find the larger of two and\n            // go in the direction of larger value\n            else if (L[i-1][j] > L[i][j-1])\n                i--;\n            else\n                j--;\n        }\n  \n        // Print the lcs\n        System.out.print(\"LCS of \"+X+\" and \"+Y+\" is \");\n        for(int k=0;k<=temp;k++)\n            System.out.print(lcs[k]);\n    }\n     \n    // driver program\n    public static void main (String[] args) \n    {\n        String X = \"AGGTAB\";\n        String Y = \"GXTXAYB\";\n        int m = X.length();\n        int n = Y.length();\n        lcs(X, Y, m, n);\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "LCS.kt",
+          "content": "fun lcs(x: String, y: String): Int {\n    val m = x.length\n    val n = y.length\n    val dp = Array(m + 1) { IntArray(n + 1) }\n\n    for (i in 1..m) {\n        for (j in 1..n) {\n            if (x[i - 1] == y[j - 1]) {\n                dp[i][j] = dp[i - 1][j - 1] + 1\n            } else {\n                dp[i][j] = maxOf(dp[i - 1][j], dp[i][j - 1])\n            }\n        }\n    }\n\n    return dp[m][n]\n}\n\nfun main() {\n    println(lcs(\"ABCBDAB\", \"BDCAB\")) // 4\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "Longest_increasing _subsequence.py",
+          "content": "# A naive Python implementation of LIS problem\n\n\"\"\" To make use of recursive calls, this function must return\n two things:\n 1) Length of LIS ending with element arr[n-1]. We use\n max_ending_here for this purpose\n 2) Overall maximum as the LIS may end with an element\n before arr[n-1] max_ref is used this purpose.\n The value of LIS of full array of size n is stored in\n *max_ref which is our final result \"\"\"\n\n# global variable to store the maximum\nglobal maximum\n\ndef _lis(arr , n ):\n\n    # to allow the access of global variable\n    global maximum\n\n    # Base Case\n    if n == 1 :\n        return 1\n\n    # maxEndingHere is the length of LIS ending with arr[n-1]\n    maxEndingHere = 1\n\n    \"\"\"Recursively get all LIS ending with arr[0], arr[1]..arr[n-2]\n       IF arr[n-1] is maller than arr[n-1], and max ending with\n       arr[n-1] needs to be updated, then update it\"\"\"\n    for i in xrange(1, n):\n        res = _lis(arr , i)\n        if arr[i-1] < arr[n-1] and res+1 > maxEndingHere:\n            maxEndingHere = res +1\n\n    # Compare maxEndingHere with overall maximum. And\n    # update the overall maximum if needed\n    maximum = max(maximum , maxEndingHere)\n\n    return maxEndingHere\n\ndef lis(arr):\n\n    # to allow the access of global variable\n    global maximum\n\n    # lenght of arr\n    n = len(arr)\n\n    # maximum variable holds the result\n    maximum = 1\n\n    # The function _lis() stores its result in maximum\n    _lis(arr , n)\n\n    return maximum\n\n# Driver program to test the above function\narr = [10 , 22 , 9 , 33 , 21 , 50 , 41 , 60]\nn = len(arr)\nprint \"Length of lis is \", lis(arr)\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "lcs.rs",
+          "content": "use std::cmp;\n\npub fn lcs(x: &str, y: &str) -> usize {\n    let m = x.len();\n    let n = y.len();\n    let x_bytes = x.as_bytes();\n    let y_bytes = y.as_bytes();\n\n    let mut dp = vec![vec![0usize; n + 1]; m + 1];\n\n    for i in 1..=m {\n        for j in 1..=n {\n            if x_bytes[i - 1] == y_bytes[j - 1] {\n                dp[i][j] = dp[i - 1][j - 1] + 1;\n            } else {\n                dp[i][j] = cmp::max(dp[i - 1][j], dp[i][j - 1]);\n            }\n        }\n    }\n\n    dp[m][n]\n}\n\nfn main() {\n    println!(\"{}\", lcs(\"ABCBDAB\", \"BDCAB\")); // 4\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "LCS.scala",
+          "content": "object LCS {\n\n  def lcs(x: String, y: String): Int = {\n    val m = x.length\n    val n = y.length\n    val dp = Array.ofDim[Int](m + 1, n + 1)\n\n    for (i <- 1 to m) {\n      for (j <- 1 to n) {\n        if (x(i - 1) == y(j - 1)) {\n          dp(i)(j) = dp(i - 1)(j - 1) + 1\n        } else {\n          dp(i)(j) = math.max(dp(i - 1)(j), dp(i)(j - 1))\n        }\n      }\n    }\n\n    dp(m)(n)\n  }\n\n  def main(args: Array[String]): Unit = {\n    println(lcs(\"ABCBDAB\", \"BDCAB\")) // 4\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "LCS.swift",
+          "content": "func lcs(_ x: String, _ y: String) -> Int {\n    let xArr = Array(x)\n    let yArr = Array(y)\n    let m = xArr.count\n    let n = yArr.count\n\n    var dp = Array(repeating: Array(repeating: 0, count: n + 1), count: m + 1)\n\n    for i in 1...max(m, 1) {\n        guard m > 0 else { break }\n        for j in 1...max(n, 1) {\n            guard n > 0 else { break }\n            if xArr[i - 1] == yArr[j - 1] {\n                dp[i][j] = dp[i - 1][j - 1] + 1\n            } else {\n                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])\n            }\n        }\n    }\n\n    return dp[m][n]\n}\n\nprint(lcs(\"ABCBDAB\", \"BDCAB\")) // 4\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "index.js",
+          "content": "const lcs = (string1, string2) => {\n  if (!string1 || !string2) return 0;\n\n  const string1Array = string1.split('');\n  const string2Array = string2.split('');\n\n  const dpArray = [];\n\n  string1Array.forEach(() => {\n    dpArray.push([]);\n  });\n\n  for (let i = 0; i< string1Array.length; i += 1) {\n    for (let j = 0; j< string2Array.length; j += 1) {\n      if (string1Array[i] === string2Array[j]) {\n        dpArray[i][j] = 1 + (dpArray[i-1]?.[j-1] ? dpArray[i-1][j-1] : 0);\n      } else {\n        dpArray[i][j] = Math.max(\n          dpArray[i-1]?.[j] ? dpArray[i-1][j] : 0,\n          dpArray[i]?.[j-1] ? dpArray[i][j-1] : 0);\n      }\n    }\n  }\n  return dpArray[string1Array.length-1][string2Array.length-1];\n};\n\nmodule.exports = {lcs};\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "readme": "# Longest Common Subsequence\n\n## Overview\n\nThe Longest Common Subsequence (LCS) algorithm finds the longest subsequence that is common to two sequences. Unlike substrings, subsequences do not need to occupy consecutive positions in the original sequences -- they only need to maintain their relative order. For example, the LCS of \"ABCBDAB\" and \"BDCAB\" is \"BCAB\" with length 4.\n\nLCS is a foundational dynamic programming problem with applications in bioinformatics (DNA sequence comparison), version control systems (diff tools), and natural language processing. It serves as the basis for more complex algorithms like edit distance and sequence alignment.\n\n## How It Works\n\nThe algorithm builds a 2D table where `dp[i][j]` represents the length of the LCS of the first `i` characters of string X and the first `j` characters of string Y. For each cell, if the characters match, the value is one plus the diagonal value; otherwise, it is the maximum of the cell above or to the left. The actual subsequence can be recovered by backtracking through the table.\n\n### Example\n\nGiven `X = \"ABCB\"` and `Y = \"BDCAB\"`:\n\n**Building the DP table:**\n\n|   |   | B | D | C | A | B |\n|---|---|---|---|---|---|---|\n|   | 0 | 0 | 0 | 0 | 0 | 0 |\n| A | 0 | 0 | 0 | 0 | 1 | 1 |\n| B | 0 | 1 | 1 | 1 | 1 | 1 |\n| C | 0 | 1 | 1 | 2 | 2 | 2 |\n| B | 0 | 1 | 1 | 2 | 2 | 3 |\n\n**Filling process (key cells):**\n\n| Step | Cell (i,j) | X[i] vs Y[j] | Action | Value |\n|------|-----------|---------------|--------|-------|\n| 1 | (1,1) | A vs B | No match, max(0,0) | 0 |\n| 2 | (1,4) | A vs A | Match, dp[0][3]+1 | 1 |\n| 3 | (2,1) | B vs B | Match, dp[1][0]+1 | 1 |\n| 4 | (3,3) | C vs C | Match, dp[2][2]+1 | 2 |\n| 5 | (4,5) | B vs B | Match, dp[3][4]+1 | 3 |\n\n**Backtracking to find the LCS:** Starting from dp[4][5] = 3, trace back through matching characters: B, C, B -- the LCS is \"BCB\" with length 3.\n\nResult: LCS = `\"BCB\"`, Length = `3`\n\n## Pseudocode\n\n```\nfunction lcs(X, Y):\n    m = length(X)\n    n = length(Y)\n    dp = 2D array of size (m + 1) x (n + 1), initialized to 0\n\n    for i from 1 to m:\n        for j from 1 to n:\n            if X[i - 1] == Y[j - 1]:\n                dp[i][j] = dp[i - 1][j - 1] + 1\n            else:\n                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])\n\n    return dp[m][n]\n```\n\nThe table is filled row by row. When characters match, we extend the LCS found so far by one. When they do not match, we take the best LCS achievable by either excluding the current character from X or from Y.\n\n## Complexity Analysis\n\n| Case    | Time   | Space  |\n|---------|--------|--------|\n| Best    | O(mn)  | O(mn)  |\n| Average | O(mn)  | O(mn)  |\n| Worst   | O(mn)  | O(mn)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(mn):** The algorithm always fills the entire m x n table regardless of the input. Even if the strings are identical, every cell must be computed.\n\n- **Average Case -- O(mn):** Each cell requires O(1) work (a comparison and a max operation), and there are m * n cells to fill.\n\n- **Worst Case -- O(mn):** The same as the average case. The algorithm performs exactly m * n iterations with constant work per iteration.\n\n- **Space -- O(mn):** The algorithm maintains a 2D table of dimensions (m+1) x (n+1). If only the length is needed (not the actual subsequence), space can be optimized to O(min(m, n)) by keeping only two rows of the table.\n\n## When to Use\n\n- **Comparing two sequences for similarity:** LCS measures how similar two sequences are by finding their longest shared subsequence.\n- **Diff tools and version control:** Tools like `diff` and `git diff` use LCS to identify unchanged lines between file versions.\n- **Bioinformatics:** Comparing DNA, RNA, or protein sequences to find evolutionary relationships.\n- **When you need the actual common subsequence:** Unlike edit distance, LCS directly gives the shared elements.\n\n## When NOT to Use\n\n- **When you need contiguous matches:** Use Longest Common Substring instead, which requires consecutive matching characters.\n- **Very long sequences with memory constraints:** The O(mn) space can be prohibitive for sequences with millions of characters. Consider Hirschberg's algorithm for O(min(m,n)) space.\n- **When approximate matching is sufficient:** Hashing-based or sampling approaches may be faster for large-scale approximate comparisons.\n- **Real-time applications with very long strings:** The quadratic time complexity makes it impractical for very large inputs in time-sensitive scenarios.\n\n## Comparison with Similar Algorithms\n\n| Algorithm                  | Time     | Space    | Notes                                            |\n|---------------------------|---------|----------|--------------------------------------------------|\n| LCS (standard DP)         | O(mn)   | O(mn)    | Classic approach; can recover subsequence          |\n| LCS (space-optimized)     | O(mn)   | O(min(m,n)) | Only computes length, not the subsequence       |\n| Hirschberg's Algorithm     | O(mn)   | O(min(m,n)) | Recovers subsequence with linear space          |\n| Edit Distance              | O(mn)   | O(mn)    | Counts operations to transform one string to another |\n| Longest Common Substring   | O(mn)   | O(mn)    | Requires contiguous matches                       |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| C          | [LCS.c](c/LCS.c) |\n| C++        | [LCS.cpp](cpp/LCS.cpp) |\n| Java       | [LCS.java](java/LCS.java) |\n| TypeScript | [index.js](typescript/index.js) |\n| Python     | [Longest_increasing _subsequence.py](python/Longest_increasing _subsequence.py) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 15.4: Longest Common Subsequence.\n- Hirschberg, D. S. (1975). A linear space algorithm for computing maximal common subsequences. *Communications of the ACM*, 18(6), 341-343.\n- [Longest Common Subsequence Problem -- Wikipedia](https://en.wikipedia.org/wiki/Longest_common_subsequence_problem)\n"
+}

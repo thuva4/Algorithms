@@ -1,0 +1,24 @@
+algorithm: "primality-tests"
+function_signature:
+  name: "is_prime"
+  input: [n]
+  output: boolean
+test_cases:
+  - name: "two is prime"
+    input: [2]
+    expected: true
+  - name: "large prime"
+    input: [104729]
+    expected: true
+  - name: "large non-prime"
+    input: [104730]
+    expected: false
+  - name: "carmichael number"
+    input: [561]
+    expected: false
+  - name: "mersenne prime"
+    input: [127]
+    expected: true
+  - name: "one is not prime"
+    input: [1]
+    expected: false

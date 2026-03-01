@@ -1,0 +1,142 @@
+{
+  "name": "All-Pairs Shortest Path",
+  "slug": "all-pairs-shortest-path",
+  "category": "graph",
+  "subcategory": "shortest-path",
+  "difficulty": "advanced",
+  "tags": [
+    "graph",
+    "shortest-path",
+    "floyd-warshall",
+    "dynamic-programming"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(V^3)",
+      "average": "O(V^3)",
+      "worst": "O(V^3)"
+    },
+    "space": "O(V^2)"
+  },
+  "stable": null,
+  "in_place": false,
+  "related": [
+    "dijkstras",
+    "bellman-ford"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "all_pairs_shortest_path.c",
+          "content": "#include \"all_pairs_shortest_path.h\"\n#include <stdlib.h>\n#include <limits.h>\n\n#define INF 1000000000 // Use a safe infinity to avoid overflow during addition\n\nint all_pairs_shortest_path(int arr[], int size) {\n    if (size < 2) return -1;\n    \n    int n = arr[0];\n    int m = arr[1];\n    \n    if (size < 2 + 3 * m) return -1;\n    if (n <= 0) return -1;\n    if (n == 1) return 0; // 0 to 0 is 0\n\n    // Allocate matrix\n    int** dist = (int**)malloc(n * sizeof(int*));\n    for (int i = 0; i < n; i++) {\n        dist[i] = (int*)malloc(n * sizeof(int));\n        for (int j = 0; j < n; j++) {\n            if (i == j) dist[i][j] = 0;\n            else dist[i][j] = INF;\n        }\n    }\n\n    // Initialize edges\n    for (int i = 0; i < m; i++) {\n        int u = arr[2 + 3 * i];\n        int v = arr[2 + 3 * i + 1];\n        int w = arr[2 + 3 * i + 2];\n        \n        if (u >= 0 && u < n && v >= 0 && v < n) {\n            // Keep the smallest weight if multiple edges\n            if (w < dist[u][v]) {\n                dist[u][v] = w;\n            }\n        }\n    }\n\n    // Floyd-Warshall\n    for (int k = 0; k < n; k++) {\n        for (int i = 0; i < n; i++) {\n            for (int j = 0; j < n; j++) {\n                if (dist[i][k] != INF && dist[k][j] != INF) {\n                    if (dist[i][k] + dist[k][j] < dist[i][j]) {\n                        dist[i][j] = dist[i][k] + dist[k][j];\n                    }\n                }\n            }\n        }\n    }\n\n    int result = dist[0][n - 1];\n    \n    // Cleanup\n    for (int i = 0; i < n; i++) {\n        free(dist[i]);\n    }\n    free(dist);\n\n    return (result == INF) ? -1 : result;\n}\n"
+        },
+        {
+          "filename": "all_pairs_shortest_path.h",
+          "content": "#ifndef ALL_PAIRS_SHORTEST_PATH_H\n#define ALL_PAIRS_SHORTEST_PATH_H\n\nint all_pairs_shortest_path(int arr[], int size);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "all_pairs_shortest_path.cpp",
+          "content": "#include \"all_pairs_shortest_path.h\"\n#include <vector>\n#include <algorithm>\n\nconst int INF = 1000000000;\n\nint all_pairs_shortest_path(const std::vector<int>& arr) {\n    if (arr.size() < 2) return -1;\n    \n    int n = arr[0];\n    int m = arr[1];\n    \n    if (arr.size() < 2 + 3 * m) return -1;\n    if (n <= 0) return -1;\n    if (n == 1) return 0;\n\n    std::vector<std::vector<int>> dist(n, std::vector<int>(n, INF));\n\n    for (int i = 0; i < n; i++) dist[i][i] = 0;\n\n    for (int i = 0; i < m; i++) {\n        int u = arr[2 + 3 * i];\n        int v = arr[2 + 3 * i + 1];\n        int w = arr[2 + 3 * i + 2];\n        \n        if (u >= 0 && u < n && v >= 0 && v < n) {\n            dist[u][v] = std::min(dist[u][v], w);\n        }\n    }\n\n    for (int k = 0; k < n; k++) {\n        for (int i = 0; i < n; i++) {\n            for (int j = 0; j < n; j++) {\n                if (dist[i][k] != INF && dist[k][j] != INF) {\n                    dist[i][j] = std::min(dist[i][j], dist[i][k] + dist[k][j]);\n                }\n            }\n        }\n    }\n\n    return (dist[0][n - 1] == INF) ? -1 : dist[0][n - 1];\n}\n"
+        },
+        {
+          "filename": "all_pairs_shortest_path.h",
+          "content": "#ifndef ALL_PAIRS_SHORTEST_PATH_H\n#define ALL_PAIRS_SHORTEST_PATH_H\n\n#include <vector>\n\nint all_pairs_shortest_path(const std::vector<int>& arr);\n\n#endif\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "AllPairsShortestPath.cs",
+          "content": "using System;\n\nnamespace Algorithms.Graph.AllPairsShortestPath\n{\n    public class AllPairsShortestPath\n    {\n        private const int INF = 1000000000;\n\n        public static int Solve(int[] arr)\n        {\n            if (arr == null || arr.Length < 2) return -1;\n\n            int n = arr[0];\n            int m = arr[1];\n\n            if (arr.Length < 2 + 3 * m) return -1;\n            if (n <= 0) return -1;\n            if (n == 1) return 0;\n\n            int[,] dist = new int[n, n];\n            for (int i = 0; i < n; i++)\n            {\n                for (int j = 0; j < n; j++)\n                {\n                    if (i == j) dist[i, j] = 0;\n                    else dist[i, j] = INF;\n                }\n            }\n\n            for (int i = 0; i < m; i++)\n            {\n                int u = arr[2 + 3 * i];\n                int v = arr[2 + 3 * i + 1];\n                int w = arr[2 + 3 * i + 2];\n\n                if (u >= 0 && u < n && v >= 0 && v < n)\n                {\n                    if (w < dist[u, v])\n                    {\n                        dist[u, v] = w;\n                    }\n                }\n            }\n\n            for (int k = 0; k < n; k++)\n            {\n                for (int i = 0; i < n; i++)\n                {\n                    for (int j = 0; j < n; j++)\n                    {\n                        if (dist[i, k] != INF && dist[k, j] != INF)\n                        {\n                            if (dist[i, k] + dist[k, j] < dist[i, j])\n                            {\n                                dist[i, j] = dist[i, k] + dist[k, j];\n                            }\n                        }\n                    }\n                }\n            }\n\n            int result = dist[0, n - 1];\n            return (result == INF) ? -1 : result;\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "all_pairs_shortest_path.go",
+          "content": "package allpairsshortestpath\n\nconst INF = 1000000000\n\nfunc AllPairsShortestPath(arr []int) int {\n\tif len(arr) < 2 {\n\t\treturn -1\n\t}\n\n\tn := arr[0]\n\tm := arr[1]\n\n\tif len(arr) < 2+3*m {\n\t\treturn -1\n\t}\n\tif n <= 0 {\n\t\treturn -1\n\t}\n\tif n == 1 {\n\t\treturn 0\n\t}\n\n\tdist := make([][]int, n)\n\tfor i := range dist {\n\t\tdist[i] = make([]int, n)\n\t\tfor j := range dist[i] {\n\t\t\tif i == j {\n\t\t\t\tdist[i][j] = 0\n\t\t\t} else {\n\t\t\t\tdist[i][j] = INF\n\t\t\t}\n\t\t}\n\t}\n\n\tfor i := 0; i < m; i++ {\n\t\tu := arr[2+3*i]\n\t\tv := arr[2+3*i+1]\n\t\tw := arr[2+3*i+2]\n\n\t\tif u >= 0 && u < n && v >= 0 && v < n {\n\t\t\tif w < dist[u][v] {\n\t\t\t\tdist[u][v] = w\n\t\t\t}\n\t\t}\n\t}\n\n\tfor k := 0; k < n; k++ {\n\t\tfor i := 0; i < n; i++ {\n\t\t\tfor j := 0; j < n; j++ {\n\t\t\t\tif dist[i][k] != INF && dist[k][j] != INF {\n\t\t\t\t\tif dist[i][k]+dist[k][j] < dist[i][j] {\n\t\t\t\t\t\tdist[i][j] = dist[i][k] + dist[k][j]\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\n\tresult := dist[0][n-1]\n\tif result == INF {\n\t\treturn -1\n\t}\n\treturn result\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "AllPairsShortestPath.java",
+          "content": "package algorithms.graph.allpairsshortestpath;\n\nimport java.util.Arrays;\n\npublic class AllPairsShortestPath {\n    private static final int INF = 1000000000;\n\n    public int solve(int[] arr) {\n        if (arr == null || arr.length < 2) return -1;\n\n        int n = arr[0];\n        int m = arr[1];\n\n        if (arr.length < 2 + 3 * m) return -1;\n        if (n <= 0) return -1;\n        if (n == 1) return 0;\n\n        int[][] dist = new int[n][n];\n        for (int i = 0; i < n; i++) {\n            Arrays.fill(dist[i], INF);\n            dist[i][i] = 0;\n        }\n\n        for (int i = 0; i < m; i++) {\n            int u = arr[2 + 3 * i];\n            int v = arr[2 + 3 * i + 1];\n            int w = arr[2 + 3 * i + 2];\n\n            if (u >= 0 && u < n && v >= 0 && v < n) {\n                dist[u][v] = Math.min(dist[u][v], w);\n            }\n        }\n\n        for (int k = 0; k < n; k++) {\n            for (int i = 0; i < n; i++) {\n                for (int j = 0; j < n; j++) {\n                    if (dist[i][k] != INF && dist[k][j] != INF) {\n                        dist[i][j] = Math.min(dist[i][j], dist[i][k] + dist[k][j]);\n                    }\n                }\n            }\n        }\n\n        return (dist[0][n - 1] == INF) ? -1 : dist[0][n - 1];\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "AllPairsShortestPath.kt",
+          "content": "package algorithms.graph.allpairsshortestpath\n\nimport kotlin.math.min\n\nclass AllPairsShortestPath {\n    private val INF = 1000000000\n\n    fun solve(arr: IntArray): Int {\n        if (arr.size < 2) return -1\n\n        val n = arr[0]\n        val m = arr[1]\n\n        if (arr.size < 2 + 3 * m) return -1\n        if (n <= 0) return -1\n        if (n == 1) return 0\n\n        val dist = Array(n) { IntArray(n) { INF } }\n        for (i in 0 until n) dist[i][i] = 0\n\n        for (i in 0 until m) {\n            val u = arr[2 + 3 * i]\n            val v = arr[2 + 3 * i + 1]\n            val w = arr[2 + 3 * i + 2]\n\n            if (u in 0 until n && v in 0 until n) {\n                dist[u][v] = min(dist[u][v], w)\n            }\n        }\n\n        for (k in 0 until n) {\n            for (i in 0 until n) {\n                for (j in 0 until n) {\n                    if (dist[i][k] != INF && dist[k][j] != INF) {\n                        dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j])\n                    }\n                }\n            }\n        }\n\n        return if (dist[0][n - 1] == INF) -1 else dist[0][n - 1]\n    }\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "all_pairs_shortest_path.py",
+          "content": "def all_pairs_shortest_path(arr):\n    if len(arr) < 2:\n        return -1\n        \n    n = arr[0]\n    m = arr[1]\n    \n    if len(arr) < 2 + 3 * m:\n        return -1\n    if n <= 0:\n        return -1\n    if n == 1:\n        return 0\n        \n    INF = 1000000000\n    dist = [[INF] * n for _ in range(n)]\n    \n    for i in range(n):\n        dist[i][i] = 0\n        \n    for i in range(m):\n        u = arr[2 + 3 * i]\n        v = arr[2 + 3 * i + 1]\n        w = arr[2 + 3 * i + 2]\n        \n        if 0 <= u < n and 0 <= v < n:\n            dist[u][v] = min(dist[u][v], w)\n            \n    for k in range(n):\n        for i in range(n):\n            for j in range(n):\n                if dist[i][k] != INF and dist[k][j] != INF:\n                    dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j])\n                    \n    return -1 if dist[0][n-1] == INF else dist[0][n-1]\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "all_pairs_shortest_path.rs",
+          "content": "const INF: i32 = 1000000000;\n\npub fn all_pairs_shortest_path(arr: &[i32]) -> i32 {\n    if arr.len() < 2 {\n        return -1;\n    }\n\n    let n = arr[0] as usize;\n    let m = arr[1] as usize;\n\n    if arr.len() < 2 + 3 * m {\n        return -1;\n    }\n    if n == 0 {\n        return -1;\n    }\n    if n == 1 {\n        return 0;\n    }\n\n    let mut dist = vec![vec![INF; n]; n];\n    for i in 0..n {\n        dist[i][i] = 0;\n    }\n\n    for i in 0..m {\n        let u = arr[2 + 3 * i] as usize;\n        let v = arr[2 + 3 * i + 1] as usize;\n        let w = arr[2 + 3 * i + 2];\n\n        if u < n && v < n {\n            if w < dist[u][v] {\n                dist[u][v] = w;\n            }\n        }\n    }\n\n    for k in 0..n {\n        for i in 0..n {\n            for j in 0..n {\n                if dist[i][k] != INF && dist[k][j] != INF {\n                    if dist[i][k] + dist[k][j] < dist[i][j] {\n                        dist[i][j] = dist[i][k] + dist[k][j];\n                    }\n                }\n            }\n        }\n    }\n\n    if dist[0][n - 1] == INF {\n        -1\n    } else {\n        dist[0][n - 1]\n    }\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "AllPairsShortestPath.scala",
+          "content": "package algorithms.graph.allpairsshortestpath\n\nimport scala.math.min\n\nobject AllPairsShortestPath {\n  private val INF = 1000000000\n\n  def solve(arr: Array[Int]): Int = {\n    if (arr.length < 2) return -1\n\n    val n = arr(0)\n    val m = arr(1)\n\n    if (arr.length < 2 + 3 * m) return -1\n    if (n <= 0) return -1\n    if (n == 1) return 0\n\n    val dist = Array.fill(n, n)(INF)\n    for (i <- 0 until n) dist(i)(i) = 0\n\n    for (i <- 0 until m) {\n      val u = arr(2 + 3 * i)\n      val v = arr(2 + 3 * i + 1)\n      val w = arr(2 + 3 * i + 2)\n\n      if (u >= 0 && u < n && v >= 0 && v < n) {\n        dist(u)(v) = min(dist(u)(v), w)\n      }\n    }\n\n    for (k <- 0 until n) {\n      for (i <- 0 until n) {\n        for (j <- 0 until n) {\n          if (dist(i)(k) != INF && dist(k)(j) != INF) {\n            dist(i)(j) = min(dist(i)(j), dist(i)(k) + dist(k)(j))\n          }\n        }\n      }\n    }\n\n    if (dist(0)(n - 1) == INF) -1 else dist(0)(n - 1)\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "AllPairsShortestPath.swift",
+          "content": "class AllPairsShortestPath {\n    static let INF = 1000000000\n\n    static func solve(_ arr: [Int]) -> Int {\n        if arr.count < 2 { return -1 }\n        \n        let n = arr[0]\n        let m = arr[1]\n        \n        if arr.count < 2 + 3 * m { return -1 }\n        if n <= 0 { return -1 }\n        if n == 1 { return 0 }\n        \n        var dist = [[Int]](repeating: [Int](repeating: INF, count: n), count: n)\n        for i in 0..<n {\n            dist[i][i] = 0\n        }\n        \n        for i in 0..<m {\n            let u = arr[2 + 3 * i]\n            let v = arr[2 + 3 * i + 1]\n            let w = arr[2 + 3 * i + 2]\n            \n            if u >= 0 && u < n && v >= 0 && v < n {\n                dist[u][v] = min(dist[u][v], w)\n            }\n        }\n        \n        for k in 0..<n {\n            for i in 0..<n {\n                for j in 0..<n {\n                    if dist[i][k] != INF && dist[k][j] != INF {\n                        dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j])\n                    }\n                }\n            }\n        }\n        \n        return dist[0][n - 1] == INF ? -1 : dist[0][n - 1]\n    }\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "all-pairs-shortest-path.ts",
+          "content": "const INF = 1000000000;\n\nexport function allPairsShortestPath(arr: number[]): number {\n  if (arr.length < 2) return -1;\n\n  const n = arr[0];\n  const m = arr[1];\n\n  if (arr.length < 2 + 3 * m) return -1;\n  if (n <= 0) return -1;\n  if (n === 1) return 0;\n\n  const dist: number[][] = Array.from({ length: n }, () => Array(n).fill(INF));\n  for (let i = 0; i < n; i++) {\n    dist[i][i] = 0;\n  }\n\n  for (let i = 0; i < m; i++) {\n    const u = arr[2 + 3 * i];\n    const v = arr[2 + 3 * i + 1];\n    const w = arr[2 + 3 * i + 2];\n\n    if (u >= 0 && u < n && v >= 0 && v < n) {\n      dist[u][v] = Math.min(dist[u][v], w);\n    }\n  }\n\n  for (let k = 0; k < n; k++) {\n    for (let i = 0; i < n; i++) {\n      for (let j = 0; j < n; j++) {\n        if (dist[i][k] !== INF && dist[k][j] !== INF) {\n          dist[i][j] = Math.min(dist[i][j], dist[i][k] + dist[k][j]);\n        }\n      }\n    }\n  }\n\n  return dist[0][n - 1] === INF ? -1 : dist[0][n - 1];\n}\n"
+        },
+        {
+          "filename": "allPairsShortestPath.ts",
+          "content": "export function allPairsShortestPath(arr: number[]): number {\n    let idx = 0;\n    const n = arr[idx++];\n    const m = arr[idx++];\n\n    const INF = 1000000000;\n    const dist: number[][] = Array.from({ length: n }, (_, i) =>\n        Array.from({ length: n }, (_, j) => i === j ? 0 : INF)\n    );\n\n    for (let e = 0; e < m; e++) {\n        const u = arr[idx++], v = arr[idx++], w = arr[idx++];\n        if (w < dist[u][v]) dist[u][v] = w;\n    }\n\n    for (let k = 0; k < n; k++)\n        for (let i = 0; i < n; i++)\n            for (let j = 0; j < n; j++)\n                if (dist[i][k] + dist[k][j] < dist[i][j])\n                    dist[i][j] = dist[i][k] + dist[k][j];\n\n    return dist[0][n - 1] >= INF ? -1 : dist[0][n - 1];\n}\n\nconsole.log(allPairsShortestPath([3, 3, 0, 1, 1, 1, 2, 2, 0, 2, 10]));\nconsole.log(allPairsShortestPath([2, 1, 0, 1, 5]));\nconsole.log(allPairsShortestPath([4, 5, 0, 1, 3, 0, 2, 8, 1, 2, 2, 1, 3, 5, 2, 3, 1]));\nconsole.log(allPairsShortestPath([3, 1, 1, 2, 4]));\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# All-Pairs Shortest Path\n\n## Overview\n\nComputes the shortest paths between all pairs of vertices using the Floyd-Warshall algorithm. This dynamic programming approach considers each vertex as a potential intermediate node.\n\n## How It Works\n\n1. Initialize a distance matrix from the edge weights.\n2. For each intermediate vertex k, for each pair (i, j), update dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]).\n\nInput format: `[n, m, u1, v1, w1, u2, v2, w2, ...]`\nOutput: shortest distance from vertex 0 to vertex n-1 (or -1 if unreachable).\n\n## Complexity Analysis\n\n| Case    | Time    | Space   |\n|---------|---------|---------|\n| Best    | O(V^3)  | O(V^2)  |\n| Average | O(V^3)  | O(V^2)  |\n| Worst   | O(V^3)  | O(V^2)  |\n\n## Worked Example\n\nConsider a directed weighted graph with 4 vertices (0-3):\n\n```\nEdges: 0->1 (3), 0->3 (7), 1->0 (8), 1->2 (2), 2->0 (5), 2->3 (1), 3->0 (2)\n```\n\n**Initial distance matrix:**\n\n|   | 0 | 1 | 2 | 3 |\n|---|---|---|---|---|\n| 0 | 0 | 3 | INF | 7 |\n| 1 | 8 | 0 | 2 | INF |\n| 2 | 5 | INF | 0 | 1 |\n| 3 | 2 | INF | INF | 0 |\n\n**After k=0 (considering vertex 0 as intermediate):**\n\n- dist[1][3] = min(INF, dist[1][0]+dist[0][3]) = min(INF, 8+7) = 15\n- dist[2][1] = min(INF, dist[2][0]+dist[0][1]) = min(INF, 5+3) = 8\n- dist[3][1] = min(INF, dist[3][0]+dist[0][1]) = min(INF, 2+3) = 5\n\n**After k=1 (considering vertex 1):**\n\n- dist[0][2] = min(INF, dist[0][1]+dist[1][2]) = min(INF, 3+2) = 5\n\n**After k=2 (considering vertex 2):**\n\n- dist[0][3] = min(7, dist[0][2]+dist[2][3]) = min(7, 5+1) = 6\n- dist[1][3] = min(15, dist[1][2]+dist[2][3]) = min(15, 2+1) = 3\n\n**After k=3 (considering vertex 3):**\n\n- dist[1][0] = min(8, dist[1][3]+dist[3][0]) = min(8, 3+2) = 5\n\n**Final distance matrix:**\n\n|   | 0 | 1 | 2 | 3 |\n|---|---|---|---|---|\n| 0 | 0 | 3 | 5 | 6 |\n| 1 | 5 | 0 | 2 | 3 |\n| 2 | 3 | 6 | 0 | 1 |\n| 3 | 2 | 5 | 7 | 0 |\n\n## Pseudocode\n\n```\nfunction floydWarshall(n, edges):\n    // Initialize distance matrix\n    dist = matrix of size n x n, filled with INFINITY\n    for i = 0 to n-1:\n        dist[i][i] = 0\n\n    for each edge (u, v, w) in edges:\n        dist[u][v] = w\n\n    // Main triple loop\n    for k = 0 to n-1:          // intermediate vertex\n        for i = 0 to n-1:      // source\n            for j = 0 to n-1:  // destination\n                if dist[i][k] + dist[k][j] < dist[i][j]:\n                    dist[i][j] = dist[i][k] + dist[k][j]\n\n    // Check for negative cycles: if dist[i][i] < 0 for any i\n    return dist\n```\n\n## Applications\n\n- Network routing (finding shortest paths between all routers)\n- Transitive closure (reachability between all pairs)\n- Detecting negative cycles (diagonal entries become negative)\n- Computing the diameter of a graph\n- Finding the center vertex of a graph\n\n## When NOT to Use\n\n- **Sparse graphs**: For sparse graphs, running Dijkstra's from each vertex gives O(V * E log V) which is much better than O(V^3) when E is much less than V^2\n- **Single-source queries**: If you only need shortest paths from one source, Dijkstra's or Bellman-Ford is more efficient\n- **Very large graphs**: The O(V^3) time and O(V^2) space make this impractical for graphs with thousands of vertices\n- **Graphs with only non-negative weights**: Dijkstra's algorithm from each source is faster in this case\n\n## Comparison\n\n| Algorithm | Time | Space | Negative Weights | All Pairs |\n|-----------|------|-------|-----------------|-----------|\n| Floyd-Warshall | O(V^3) | O(V^2) | Yes (detects negative cycles) | Yes |\n| Dijkstra (from each vertex) | O(V * E log V) | O(V + E) | No | Yes (repeated) |\n| Bellman-Ford (from each vertex) | O(V^2 * E) | O(V + E) | Yes | Yes (repeated) |\n| Johnson's Algorithm | O(V * E log V) | O(V + E) | Yes (with reweighting) | Yes |\n\n## References\n\n- Floyd, R. W. (1962). \"Algorithm 97: Shortest Path.\" Communications of the ACM, 5(6), 345.\n- Warshall, S. (1962). \"A Theorem on Boolean Matrices.\" Journal of the ACM, 9(1), 11-12.\n- [Floyd-Warshall Algorithm -- Wikipedia](https://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm)\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [all_pairs_shortest_path.py](python/all_pairs_shortest_path.py) |\n| Java       | [AllPairsShortestPath.java](java/AllPairsShortestPath.java) |\n| C++        | [all_pairs_shortest_path.cpp](cpp/all_pairs_shortest_path.cpp) |\n| C          | [all_pairs_shortest_path.c](c/all_pairs_shortest_path.c) |\n| Go         | [all_pairs_shortest_path.go](go/all_pairs_shortest_path.go) |\n| TypeScript | [allPairsShortestPath.ts](typescript/allPairsShortestPath.ts) |\n| Rust       | [all_pairs_shortest_path.rs](rust/all_pairs_shortest_path.rs) |\n| Kotlin     | [AllPairsShortestPath.kt](kotlin/AllPairsShortestPath.kt) |\n| Swift      | [AllPairsShortestPath.swift](swift/AllPairsShortestPath.swift) |\n| Scala      | [AllPairsShortestPath.scala](scala/AllPairsShortestPath.scala) |\n| C#         | [AllPairsShortestPath.cs](csharp/AllPairsShortestPath.cs) |\n"
+}

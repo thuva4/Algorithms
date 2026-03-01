@@ -1,0 +1,138 @@
+{
+  "name": "Postman Sort",
+  "slug": "postman-sort",
+  "category": "sorting",
+  "subcategory": "distribution",
+  "difficulty": "intermediate",
+  "tags": [
+    "sorting",
+    "non-comparison",
+    "stable",
+    "distribution"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "average": "O(n*k)",
+      "worst": "O(n*k)"
+    },
+    "space": "O(n+k)"
+  },
+  "stable": true,
+  "in_place": false,
+  "related": [
+    "radix-sort",
+    "counting-sort"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "postman_sort.c",
+          "content": "#include \"postman_sort.h\"\n#include <stdlib.h>\n#include <stdio.h>\n\nstatic int get_max(int arr[], int n) {\n    int max = arr[0];\n    for (int i = 1; i < n; i++) {\n        if (arr[i] > max)\n            max = arr[i];\n    }\n    return max;\n}\n\nstatic int get_min(int arr[], int n) {\n    int min = arr[0];\n    for (int i = 1; i < n; i++) {\n        if (arr[i] < min)\n            min = arr[i];\n    }\n    return min;\n}\n\nstatic void count_sort(int arr[], int n, int exp) {\n    int* output = (int*)malloc(n * sizeof(int));\n    if (output == NULL) return; // Allocation failed\n    \n    int count[10] = {0};\n    int i;\n\n    for (i = 0; i < n; i++)\n        count[(arr[i] / exp) % 10]++;\n\n    for (i = 1; i < 10; i++)\n        count[i] += count[i - 1];\n\n    for (i = n - 1; i >= 0; i--) {\n        output[count[(arr[i] / exp) % 10] - 1] = arr[i];\n        count[(arr[i] / exp) % 10]--;\n    }\n\n    for (i = 0; i < n; i++)\n        arr[i] = output[i];\n        \n    free(output);\n}\n\nvoid postman_sort(int arr[], int n) {\n    if (n <= 0) return;\n\n    int min_val = get_min(arr, n);\n    int offset = 0;\n    \n    if (min_val < 0) {\n        offset = -min_val;\n        for (int i = 0; i < n; i++) {\n            arr[i] += offset;\n        }\n    }\n    \n    int max_val = get_max(arr, n);\n    \n    for (int exp = 1; max_val / exp > 0; exp *= 10) {\n        count_sort(arr, n, exp);\n    }\n    \n    if (offset > 0) {\n        for (int i = 0; i < n; i++) {\n            arr[i] -= offset;\n        }\n    }\n}\n"
+        },
+        {
+          "filename": "postman_sort.h",
+          "content": "#ifndef POSTMAN_SORT_H\n#define POSTMAN_SORT_H\n\nvoid postman_sort(int arr[], int n);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "postman_sort.cpp",
+          "content": "#include \"postman_sort.h\"\n#include <vector>\n#include <algorithm>\n#include <cmath>\n\nstatic int get_max(const std::vector<int>& arr) {\n    if (arr.empty()) return 0;\n    int max_val = arr[0];\n    for (int x : arr) {\n        if (x > max_val) max_val = x;\n    }\n    return max_val;\n}\n\nstatic int get_min(const std::vector<int>& arr) {\n    if (arr.empty()) return 0;\n    int min_val = arr[0];\n    for (int x : arr) {\n        if (x < min_val) min_val = x;\n    }\n    return min_val;\n}\n\nvoid postman_sort(std::vector<int>& arr) {\n    if (arr.empty()) return;\n    \n    int min_val = get_min(arr);\n    int offset = 0;\n    \n    if (min_val < 0) {\n        offset = -min_val;\n        for (size_t i = 0; i < arr.size(); i++) {\n            arr[i] += offset;\n        }\n    }\n    \n    int max_val = get_max(arr);\n    int n = arr.size();\n    \n    for (int exp = 1; max_val / exp > 0; exp *= 10) {\n        std::vector<int> output(n);\n        int count[10] = {0};\n        \n        for (int i = 0; i < n; i++)\n            count[(arr[i] / exp) % 10]++;\n            \n        for (int i = 1; i < 10; i++)\n            count[i] += count[i - 1];\n            \n        for (int i = n - 1; i >= 0; i--) {\n            output[count[(arr[i] / exp) % 10] - 1] = arr[i];\n            count[(arr[i] / exp) % 10]--;\n        }\n        \n        for (int i = 0; i < n; i++)\n            arr[i] = output[i];\n    }\n    \n    if (offset > 0) {\n        for (size_t i = 0; i < arr.size(); i++) {\n            arr[i] -= offset;\n        }\n    }\n}\n"
+        },
+        {
+          "filename": "postman_sort.h",
+          "content": "#ifndef POSTMAN_SORT_H\n#define POSTMAN_SORT_H\n\n#include <vector>\n\nvoid postman_sort(std::vector<int>& arr);\n\n#endif\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "PostmanSort.cs",
+          "content": "using System;\nusing System.Collections.Generic;\nusing System.Linq;\n\nnamespace Algorithms.Sorting.PostmanSort\n{\n    public class PostmanSort\n    {\n        public static void Sort(int[] arr)\n        {\n            if (arr == null || arr.Length == 0)\n                return;\n\n            int minVal = arr.Min();\n            int offset = 0;\n            \n            if (minVal < 0)\n            {\n                offset = Math.Abs(minVal);\n                for (int i = 0; i < arr.Length; i++)\n                    arr[i] += offset;\n            }\n\n            int maxVal = arr.Max();\n            \n            for (int exp = 1; maxVal / exp > 0; exp *= 10)\n            {\n                CountSort(arr, exp);\n            }\n            \n            if (offset > 0)\n            {\n                for (int i = 0; i < arr.Length; i++)\n                    arr[i] -= offset;\n            }\n        }\n\n        private static void CountSort(int[] arr, int exp)\n        {\n            int n = arr.Length;\n            int[] output = new int[n];\n            int[] count = new int[10];\n\n            for (int i = 0; i < n; i++)\n                count[(arr[i] / exp) % 10]++;\n\n            for (int i = 1; i < 10; i++)\n                count[i] += count[i - 1];\n\n            for (int i = n - 1; i >= 0; i--)\n            {\n                output[count[(arr[i] / exp) % 10] - 1] = arr[i];\n                count[(arr[i] / exp) % 10]--;\n            }\n\n            for (int i = 0; i < n; i++)\n                arr[i] = output[i];\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "postman_sort.go",
+          "content": "package postmansort\n\n// PostmanSort sorts an array of integers using the Postman Sort algorithm.\nfunc PostmanSort(arr []int) {\n\tif len(arr) == 0 {\n\t\treturn\n\t}\n\n\tminVal := getMin(arr)\n\toffset := 0\n\n\tif minVal < 0 {\n\t\toffset = -minVal\n\t\tfor i := range arr {\n\t\t\tarr[i] += offset\n\t\t}\n\t}\n\n\tmaxVal := getMax(arr)\n\n\tfor exp := 1; maxVal/exp > 0; exp *= 10 {\n\t\tcountSort(arr, exp)\n\t}\n\n\tif offset > 0 {\n\t\tfor i := range arr {\n\t\t\tarr[i] -= offset\n\t\t}\n\t}\n}\n\nfunc getMin(arr []int) int {\n\tmin := arr[0]\n\tfor _, v := range arr {\n\t\tif v < min {\n\t\t\tmin = v\n\t\t}\n\t}\n\treturn min\n}\n\nfunc getMax(arr []int) int {\n\tmax := arr[0]\n\tfor _, v := range arr {\n\t\tif v > max {\n\t\t\tmax = v\n\t\t}\n\t}\n\treturn max\n}\n\nfunc countSort(arr []int, exp int) {\n\tn := len(arr)\n\toutput := make([]int, n)\n\tcount := make([]int, 10)\n\n\tfor i := 0; i < n; i++ {\n\t\tcount[(arr[i]/exp)%10]++\n\t}\n\n\tfor i := 1; i < 10; i++ {\n\t\tcount[i] += count[i-1]\n\t}\n\n\tfor i := n - 1; i >= 0; i-- {\n\t\toutput[count[(arr[i]/exp)%10]-1] = arr[i]\n\t\tcount[(arr[i]/exp)%10]--\n\t}\n\n\tfor i := 0; i < n; i++ {\n\t\tarr[i] = output[i]\n\t}\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "PostmanSort.java",
+          "content": "package algorithms.sorting.postmansort;\n\nimport java.util.Arrays;\n\npublic class PostmanSort {\n    public static void sort(int[] arr) {\n        if (arr == null || arr.length == 0) {\n            return;\n        }\n\n        int min = Arrays.stream(arr).min().getAsInt();\n        int offset = 0;\n        \n        if (min < 0) {\n            offset = Math.abs(min);\n            for (int i = 0; i < arr.length; i++) {\n                arr[i] += offset;\n            }\n        }\n\n        int max = Arrays.stream(arr).max().getAsInt();\n\n        for (int exp = 1; max / exp > 0; exp *= 10) {\n            countSort(arr, exp);\n        }\n        \n        if (offset > 0) {\n            for (int i = 0; i < arr.length; i++) {\n                arr[i] -= offset;\n            }\n        }\n    }\n\n    private static void countSort(int[] arr, int exp) {\n        int n = arr.length;\n        int[] output = new int[n];\n        int[] count = new int[10];\n\n        for (int i = 0; i < n; i++) {\n            count[(arr[i] / exp) % 10]++;\n        }\n\n        for (int i = 1; i < 10; i++) {\n            count[i] += count[i - 1];\n        }\n\n        for (int i = n - 1; i >= 0; i--) {\n            output[count[(arr[i] / exp) % 10] - 1] = arr[i];\n            count[(arr[i] / exp) % 10]--;\n        }\n\n        System.arraycopy(output, 0, arr, 0, n);\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "PostmanSort.kt",
+          "content": "package algorithms.sorting.postmansort\n\nimport kotlin.math.abs\n\nclass PostmanSort {\n    fun sort(arr: IntArray) {\n        if (arr.isEmpty()) return\n\n        val min = arr.minOrNull() ?: return\n        var offset = 0\n        \n        if (min < 0) {\n            offset = abs(min)\n            for (i in arr.indices) {\n                arr[i] += offset\n            }\n        }\n\n        val max = arr.maxOrNull() ?: return // Max changed after offset\n\n        var exp = 1\n        while (max / exp > 0) {\n            countSort(arr, exp)\n            exp *= 10\n        }\n        \n        if (offset > 0) {\n            for (i in arr.indices) {\n                arr[i] -= offset\n            }\n        }\n    }\n\n    private fun countSort(arr: IntArray, exp: Int) {\n        val n = arr.size\n        val output = IntArray(n)\n        val count = IntArray(10)\n\n        for (i in 0 until n) {\n            count[(arr[i] / exp) % 10]++\n        }\n\n        for (i in 1 until 10) {\n            count[i] += count[i - 1]\n        }\n\n        for (i in n - 1 downTo 0) {\n            output[count[(arr[i] / exp) % 10] - 1] = arr[i]\n            count[(arr[i] / exp) % 10]--\n        }\n\n        for (i in 0 until n) {\n            arr[i] = output[i]\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "postman_sort.py",
+          "content": "def postman_sort(arr):\n    if not arr:\n        return arr\n        \n    min_val = min(arr)\n    offset = 0\n    \n    if min_val < 0:\n        offset = abs(min_val)\n        for i in range(len(arr)):\n            arr[i] += offset\n            \n    max_val = max(arr)\n    \n    exp = 1\n    while max_val // exp > 0:\n        counting_sort(arr, exp)\n        exp *= 10\n    \n    if offset > 0:\n        for i in range(len(arr)):\n            arr[i] -= offset\n            \n    return arr\n\ndef counting_sort(arr, exp):\n    n = len(arr)\n    output = [0] * n\n    count = [0] * 10\n    \n    for i in range(n):\n        index = (arr[i] // exp)\n        count[index % 10] += 1\n        \n    for i in range(1, 10):\n        count[i] += count[i - 1]\n        \n    i = n - 1\n    while i >= 0:\n        index = (arr[i] // exp)\n        output[count[index % 10] - 1] = arr[i]\n        count[index % 10] -= 1\n        i -= 1\n        \n    for i in range(n):\n        arr[i] = output[i]\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "postman_sort.rs",
+          "content": "pub fn postman_sort(arr: &mut [i32]) {\n    if arr.is_empty() {\n        return;\n    }\n\n    let min = *arr.iter().min().unwrap();\n    let mut offset = 0;\n    \n    if min < 0 {\n        offset = min.abs();\n        for x in arr.iter_mut() {\n            *x += offset;\n        }\n    }\n\n    let max = *arr.iter().max().unwrap();\n    let mut exp = 1;\n\n    while max / exp > 0 {\n        counting_sort(arr, exp);\n        exp *= 10;\n    }\n    \n    if offset > 0 {\n        for x in arr.iter_mut() {\n            *x -= offset;\n        }\n    }\n}\n\nfn counting_sort(arr: &mut [i32], exp: i32) {\n    let n = arr.len();\n    let mut output = vec![0; n];\n    let mut count = [0; 10];\n\n    for &x in arr.iter() {\n        count[((x / exp) % 10) as usize] += 1;\n    }\n\n    for i in 1..10 {\n        count[i] += count[i - 1];\n    }\n\n    for &x in arr.iter().rev() {\n        let idx = ((x / exp) % 10) as usize;\n        output[count[idx] - 1] = x;\n        count[idx] -= 1;\n    }\n\n    arr.copy_from_slice(&output);\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "PostmanSort.scala",
+          "content": "object PostmanSort {\n  def sort(arr: Array[Int]): Unit = {\n    if (arr.isEmpty) return\n    \n    val min = arr.min\n    var offset = 0\n    \n    if (min < 0) {\n      offset = Math.abs(min)\n      for (i <- arr.indices) {\n        arr(i) += offset\n      }\n    }\n    \n    val max = arr.max\n    var exp = 1\n    \n    while (max / exp > 0) {\n      countSort(arr, exp)\n      exp *= 10\n    }\n    \n    if (offset > 0) {\n      for (i <- arr.indices) {\n        arr(i) -= offset\n      }\n    }\n  }\n  \n  private def countSort(arr: Array[Int], exp: Int): Unit = {\n    val n = arr.length\n    val output = new Array[Int](n)\n    val count = new Array[Int](10)\n    \n    for (i <- 0 until n) {\n      count((arr(i) / exp) % 10) += 1\n    }\n    \n    for (i <- 1 until 10) {\n      count(i) += count(i - 1)\n    }\n    \n    for (i <- n - 1 to 0 by -1) {\n      output(count((arr(i) / exp) % 10) - 1) = arr(i)\n      count((arr(i) / exp) % 10) -= 1\n    }\n    \n    for (i <- 0 until n) {\n      arr(i) = output(i)\n    }\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "PostmanSort.swift",
+          "content": "class PostmanSort {\n    static func sort(_ arr: inout [Int]) {\n        guard !arr.isEmpty else { return }\n        \n        guard let min = arr.min() else { return }\n        var offset = 0\n        \n        if min < 0 {\n            offset = abs(min)\n            for i in 0..<arr.count {\n                arr[i] += offset\n            }\n        }\n        \n        guard let max = arr.max() else { return }\n        \n        var exp = 1\n        while max / exp > 0 {\n            countSort(&arr, exp)\n            exp *= 10\n        }\n        \n        if offset > 0 {\n            for i in 0..<arr.count {\n                arr[i] -= offset\n            }\n        }\n    }\n    \n    private static func countSort(_ arr: inout [Int], _ exp: Int) {\n        let n = arr.count\n        var output = Array(repeating: 0, count: n)\n        var count = Array(repeating: 0, count: 10)\n        \n        for i in 0..<n {\n            count[(arr[i] / exp) % 10] += 1\n        }\n        \n        for i in 1..<10 {\n            count[i] += count[i - 1]\n        }\n        \n        var i = n - 1\n        while i >= 0 {\n            let index = (arr[i] / exp) % 10\n            output[count[index] - 1] = arr[i]\n            count[index] -= 1\n            i -= 1\n        }\n        \n        for i in 0..<n {\n            arr[i] = output[i]\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "postman-sort.ts",
+          "content": "export function postmanSort(arr: number[]): number[] {\n  if (arr.length === 0) return arr;\n  \n  const min = Math.min(...arr);\n  let offset = 0;\n  \n  if (min < 0) {\n    offset = Math.abs(min);\n    for (let i = 0; i < arr.length; i++) {\n      arr[i] += offset;\n    }\n  }\n  \n  const max = Math.max(...arr);\n  let exp = 1;\n  \n  while (Math.floor(max / exp) > 0) {\n    countingSort(arr, exp);\n    exp *= 10;\n  }\n  \n  if (offset > 0) {\n    for (let i = 0; i < arr.length; i++) {\n      arr[i] -= offset;\n    }\n  }\n  \n  return arr;\n}\n\nfunction countingSort(arr: number[], exp: number): void {\n  const n = arr.length;\n  const output = new Array(n).fill(0);\n  const count = new Array(10).fill(0);\n  \n  for (let i = 0; i < n; i++) {\n    count[Math.floor(arr[i] / exp) % 10]++;\n  }\n  \n  for (let i = 1; i < 10; i++) {\n    count[i] += count[i - 1];\n  }\n  \n  for (let i = n - 1; i >= 0; i--) {\n    const index = Math.floor(arr[i] / exp) % 10;\n    output[count[index] - 1] = arr[i];\n    count[index]--;\n  }\n  \n  for (let i = 0; i < n; i++) {\n    arr[i] = output[i];\n  }\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "readme": "# Postman Sort\n\n## Overview\n\nPostman Sort (also known as Postman's Sort or Mailbox Sort) is a non-comparison sorting algorithm inspired by the way postal workers sort mail. Just as a mail carrier sorts letters first by country, then by city, then by street, and finally by house number, Postman Sort processes elements by examining their digits (or characters) from the most significant to the least significant position. It is a variant of radix sort that uses the Most Significant Digit (MSD) first approach, distributing elements into buckets based on each digit position and recursively sorting within each bucket.\n\nThe algorithm is particularly well-suited for sorting strings, postal codes, fixed-length numeric keys, and other data that can be decomposed into a hierarchy of digit positions.\n\n## How It Works\n\n1. **Determine the maximum number of digits** (or character positions) across all elements.\n2. **Starting from the most significant digit (MSD):**\n   - Distribute all elements into buckets (0-9 for decimal digits, or 0-25 for lowercase letters, etc.) based on the current digit position.\n   - Recursively sort each non-empty bucket by the next digit position.\n3. **Concatenate** the sorted buckets to produce the final result.\n4. Elements that have no digit at the current position (shorter elements) are placed in a special \"empty\" bucket that comes first.\n\n## Example\n\nGiven input: `[423, 125, 432, 215, 312, 123, 421, 213]`\n\n**Pass 1 -- Sort by most significant digit (hundreds):**\n\n| Bucket (100s) | Elements |\n|--------------|----------|\n| 1 | `[125, 123]` |\n| 2 | `[215, 213]` |\n| 3 | `[312]` |\n| 4 | `[423, 432, 421]` |\n\n**Pass 2 -- Sort each bucket by tens digit:**\n\nBucket 1 (hundreds = 1):\n| Bucket (10s) | Elements |\n|--------------|----------|\n| 2 | `[125, 123]` |\n\nBucket 2 (hundreds = 2):\n| Bucket (10s) | Elements |\n|--------------|----------|\n| 1 | `[215, 213]` |\n\nBucket 4 (hundreds = 4):\n| Bucket (10s) | Elements |\n|--------------|----------|\n| 2 | `[423, 421]` |\n| 3 | `[432]` |\n\n**Pass 3 -- Sort each sub-bucket by units digit:**\n\n`[125, 123]` by units: `[123, 125]`\n`[215, 213]` by units: `[213, 215]`\n`[423, 421]` by units: `[421, 423]`\n\n**Concatenation:** `[123, 125, 213, 215, 312, 421, 423, 432]`\n\nResult: `[123, 125, 213, 215, 312, 421, 423, 432]`\n\n## Pseudocode\n\n```\nfunction postmanSort(array, digitPosition, maxDigits):\n    if length(array) <= 1 or digitPosition >= maxDigits:\n        return array\n\n    // Create buckets (e.g., 10 for decimal digits)\n    buckets = array of 10 empty lists\n\n    // Distribute elements into buckets based on current digit\n    for each element in array:\n        digit = getDigit(element, digitPosition)\n        buckets[digit].append(element)\n\n    // Recursively sort each bucket by the next digit position\n    result = []\n    for bucket in buckets:\n        if length(bucket) > 0:\n            sorted_bucket = postmanSort(bucket, digitPosition + 1, maxDigits)\n            result.extend(sorted_bucket)\n\n    return result\n\nfunction getDigit(number, position):\n    // Extract digit at given position (0 = most significant)\n    divisor = 10^(maxDigits - position - 1)\n    return (number / divisor) mod 10\n```\n\n## Complexity Analysis\n\n| Case    | Time       | Space     |\n|---------|------------|-----------|\n| Best    | O(n * d)   | O(n + b*d) |\n| Average | O(n * d)   | O(n + b*d) |\n| Worst   | O(n * d)   | O(n + b*d) |\n\nWhere n = number of elements, d = number of digit positions (key length), b = bucket count (base, e.g., 10 for decimal).\n\n**Why these complexities?**\n\n- **Time -- O(n * d):** Each element is examined once per digit position, and there are d positions. Distribution into buckets and concatenation are both O(n) per pass. Since there are d passes, the total is O(n * d).\n\n- **Space -- O(n + b*d):** The algorithm needs O(n) space for the elements across all buckets at any level, plus O(b) buckets at each of the d recursion levels, giving O(b*d) overhead for the bucket structure.\n\n## When to Use\n\n- **Fixed-length keys:** Postal codes, phone numbers, IP addresses, social security numbers, or any data with a fixed number of digit positions.\n- **String sorting:** Sorting words or strings lexicographically, where each character position serves as a digit.\n- **Hierarchical data:** Data that naturally decomposes into levels of significance (like dates: year/month/day).\n- **When the key length d is small relative to log n:** Postman Sort achieves O(n * d) which beats O(n log n) comparison sorts when d < log n.\n- **Large datasets with short keys:** Scales linearly with data size for fixed-length keys.\n\n## When NOT to Use\n\n- **Variable-length keys with large range:** When keys vary greatly in length, the algorithm may waste effort on empty buckets and require complex padding logic.\n- **Small datasets:** The overhead of bucket management makes it slower than simple comparison sorts for small inputs.\n- **When d >> log n:** If keys are very long relative to the number of elements, a comparison-based O(n log n) sort is faster.\n- **Limited memory:** The bucket structure requires significant extra memory compared to in-place sorting algorithms.\n\n## Comparison\n\n| Algorithm | Type | Time | Space | Stable | Approach |\n|-----------|------|------|-------|--------|----------|\n| Postman Sort (MSD Radix) | Non-comparison | O(n * d) | O(n + b*d) | Yes | Most significant digit first |\n| LSD Radix Sort | Non-comparison | O(n * d) | O(n + b) | Yes | Least significant digit first |\n| Counting Sort | Non-comparison | O(n + k) | O(k) | Yes | Single key range |\n| Bucket Sort | Non-comparison | O(n + k) | O(n + k) | Yes | Uniform distribution |\n| Quick Sort | Comparison | O(n log n) | O(log n) | No | Divide and conquer |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Java       | [PostmanSort.java](java/PostmanSort.java) |\n| C++        | [postman_sort.cpp](cpp/postman_sort.cpp) |\n| C          | [postman_sort.c](c/postman_sort.c) |\n\n## References\n\n- Knuth, D. E. (1998). *The Art of Computer Programming, Volume 3: Sorting and Searching* (2nd ed.). Addison-Wesley. Section 5.2.5: Sorting by Distribution.\n- McIlroy, P. M., Bostic, K., & McIlroy, M. D. (1993). \"Engineering Radix Sort.\" *Computing Systems*, 6(1), 5-27.\n- [Radix Sort -- Wikipedia](https://en.wikipedia.org/wiki/Radix_sort)\n"
+}

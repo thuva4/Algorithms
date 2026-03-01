@@ -1,0 +1,27 @@
+algorithm: "jump-search"
+function_signature:
+  name: "jump_search"
+  input: [array_of_integers, integer]
+  output: integer
+test_cases:
+  - name: "found in array"
+    input: [[1, 3, 5, 7, 9, 11, 13, 15], 9]
+    expected: 4
+  - name: "not found"
+    input: [[2, 4, 6], 5]
+    expected: -1
+  - name: "single element found"
+    input: [[1], 1]
+    expected: 0
+  - name: "single element not found"
+    input: [[1], 2]
+    expected: -1
+  - name: "first element"
+    input: [[1, 3, 5, 7], 1]
+    expected: 0
+  - name: "last element"
+    input: [[1, 3, 5, 7], 7]
+    expected: 3
+  - name: "empty array"
+    input: [[], 5]
+    expected: -1

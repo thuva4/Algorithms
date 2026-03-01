@@ -1,0 +1,24 @@
+algorithm: "luhn"
+function_signature:
+  name: "luhn_check"
+  input: [number_string]
+  output: boolean
+test_cases:
+  - name: "valid credit card number"
+    input: ["79927398713"]
+    expected: true
+  - name: "invalid number"
+    input: ["79927398710"]
+    expected: false
+  - name: "valid simple"
+    input: ["0"]
+    expected: true
+  - name: "valid number"
+    input: ["49927398716"]
+    expected: true
+  - name: "invalid single digit"
+    input: ["1"]
+    expected: false
+  - name: "valid two digits"
+    input: ["18"]
+    expected: true

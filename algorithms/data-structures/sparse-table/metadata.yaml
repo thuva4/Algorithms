@@ -1,0 +1,17 @@
+name: "Sparse Table"
+slug: "sparse-table"
+category: "data-structures"
+subcategory: "range-query"
+difficulty: "intermediate"
+tags: [data-structures, range-query, rmq, sparse-table, static]
+complexity:
+  time:
+    best: "O(1)"
+    average: "O(1)"
+    worst: "O(1)"
+  space: "O(n log n)"
+stable: null
+in_place: false
+related: [segment-tree, fenwick-tree]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

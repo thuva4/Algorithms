@@ -1,0 +1,135 @@
+{
+  "name": "Planarity Testing (Euler's Formula)",
+  "slug": "planarity-testing",
+  "category": "graph",
+  "subcategory": "properties",
+  "difficulty": "advanced",
+  "tags": [
+    "graph",
+    "planar",
+    "euler-formula",
+    "planarity",
+    "simple-graph"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(V + E)",
+      "average": "O(V + E)",
+      "worst": "O(V + E)"
+    },
+    "space": "O(V + E)"
+  },
+  "stable": null,
+  "in_place": false,
+  "related": [
+    "bridges",
+    "articulation-points"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "planarity_testing.c",
+          "content": "#include \"planarity_testing.h\"\n#include <string.h>\n\n#define MAX_V 1000\n\n/* Simple adjacency matrix to count unique edges */\nint planarity_testing(int arr[], int size) {\n    int n = arr[0], m = arr[1];\n    if (n < 3) return 1;\n\n    /* Count unique edges using a simple method */\n    /* For small n, use adjacency matrix */\n    static int seen[MAX_V][MAX_V];\n    memset(seen, 0, sizeof(seen));\n    int e = 0;\n    for (int i = 0; i < m; i++) {\n        int u = arr[2+2*i], v = arr[2+2*i+1];\n        if (u == v) continue;\n        int a = u < v ? u : v;\n        int b = u < v ? v : u;\n        if (!seen[a][b]) {\n            seen[a][b] = 1;\n            e++;\n        }\n    }\n\n    return e <= 3 * n - 6 ? 1 : 0;\n}\n"
+        },
+        {
+          "filename": "planarity_testing.h",
+          "content": "#ifndef PLANARITY_TESTING_H\n#define PLANARITY_TESTING_H\n\nint planarity_testing(int arr[], int size);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "planarity_testing.cpp",
+          "content": "#include <vector>\n#include <set>\n#include <algorithm>\nusing namespace std;\n\nint planarity_testing(vector<int> arr) {\n    int n = arr[0], m = arr[1];\n    set<pair<int,int>> edges;\n    for (int i = 0; i < m; i++) {\n        int u = arr[2+2*i], v = arr[2+2*i+1];\n        if (u != v) edges.insert({min(u,v), max(u,v)});\n    }\n    int e = (int)edges.size();\n    if (n < 3) return 1;\n    return e <= 3 * n - 6 ? 1 : 0;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "PlanarityTesting.cs",
+          "content": "using System;\nusing System.Collections.Generic;\n\npublic class PlanarityTesting\n{\n    public static int Solve(int[] arr)\n    {\n        int n = arr[0], m = arr[1];\n        var edges = new HashSet<long>();\n        for (int i = 0; i < m; i++)\n        {\n            int u = arr[2+2*i], v = arr[2+2*i+1];\n            if (u != v)\n            {\n                int a = Math.Min(u, v), b = Math.Max(u, v);\n                edges.Add((long)a * n + b);\n            }\n        }\n        int e = edges.Count;\n        if (n < 3) return 1;\n        return e <= 3 * n - 6 ? 1 : 0;\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "planarity_testing.go",
+          "content": "package planaritytesting\n\nfunc PlanarityTesting(arr []int) int {\n\tn := arr[0]; m := arr[1]\n\ttype edge struct{ a, b int }\n\tedges := make(map[edge]bool)\n\tfor i := 0; i < m; i++ {\n\t\tu, v := arr[2+2*i], arr[2+2*i+1]\n\t\tif u != v {\n\t\t\ta, b := u, v\n\t\t\tif a > b { a, b = b, a }\n\t\t\tedges[edge{a, b}] = true\n\t\t}\n\t}\n\te := len(edges)\n\tif n < 3 { return 1 }\n\tif e <= 3*n-6 { return 1 }\n\treturn 0\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "PlanarityTesting.java",
+          "content": "import java.util.*;\n\npublic class PlanarityTesting {\n\n    public static int planarityTesting(int[] arr) {\n        int n = arr[0], m = arr[1];\n        Set<Long> edges = new HashSet<>();\n        for (int i = 0; i < m; i++) {\n            int u = arr[2 + 2 * i], v = arr[2 + 2 * i + 1];\n            if (u != v) {\n                int a = Math.min(u, v), b = Math.max(u, v);\n                edges.add((long) a * n + b);\n            }\n        }\n        int e = edges.size();\n        if (n < 3) return 1;\n        return e <= 3 * n - 6 ? 1 : 0;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "PlanarityTesting.kt",
+          "content": "fun planarityTesting(arr: IntArray): Int {\n    val n = arr[0]; val m = arr[1]\n    val edges = mutableSetOf<Long>()\n    for (i in 0 until m) {\n        val u = arr[2+2*i]; val v = arr[2+2*i+1]\n        if (u != v) {\n            val a = minOf(u, v); val b = maxOf(u, v)\n            edges.add(a.toLong() * n + b)\n        }\n    }\n    val e = edges.size\n    if (n < 3) return 1\n    return if (e <= 3 * n - 6) 1 else 0\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "planarity_testing.py",
+          "content": "def planarity_testing(arr: list[int]) -> int:\n    n = arr[0]\n    m = arr[1]\n    if n <= 4 and m <= 6:\n        # For very small graphs, count unique edges\n        edges = set()\n        for i in range(m):\n            u = arr[2 + 2 * i]\n            v = arr[2 + 2 * i + 1]\n            if u != v:\n                edges.add((min(u, v), max(u, v)))\n        e = len(edges)\n        if n < 3:\n            return 1\n        return 1 if e <= 3 * n - 6 else 0\n\n    edges = set()\n    for i in range(m):\n        u = arr[2 + 2 * i]\n        v = arr[2 + 2 * i + 1]\n        if u != v:\n            edges.add((min(u, v), max(u, v)))\n    e = len(edges)\n\n    if n < 3:\n        return 1\n    if e > 3 * n - 6:\n        return 0\n    return 1\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "planarity_testing.rs",
+          "content": "use std::collections::HashSet;\n\npub fn planarity_testing(arr: &[i32]) -> i32 {\n    let n = arr[0] as usize;\n    let m = arr[1] as usize;\n    let mut edges = HashSet::new();\n    for i in 0..m {\n        let u = arr[2 + 2 * i] as usize;\n        let v = arr[2 + 2 * i + 1] as usize;\n        if u != v {\n            let a = u.min(v);\n            let b = u.max(v);\n            edges.insert((a, b));\n        }\n    }\n    let e = edges.len();\n    if n < 3 { return 1; }\n    if e <= 3 * n - 6 { 1 } else { 0 }\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "PlanarityTesting.scala",
+          "content": "object PlanarityTesting {\n\n  def planarityTesting(arr: Array[Int]): Int = {\n    val n = arr(0); val m = arr(1)\n    val edges = scala.collection.mutable.Set[(Int, Int)]()\n    for (i <- 0 until m) {\n      val u = arr(2+2*i); val v = arr(2+2*i+1)\n      if (u != v) {\n        val a = math.min(u, v); val b = math.max(u, v)\n        edges += ((a, b))\n      }\n    }\n    val e = edges.size\n    if (n < 3) return 1\n    if (e <= 3 * n - 6) 1 else 0\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "PlanarityTesting.swift",
+          "content": "func planarityTesting(_ arr: [Int]) -> Int {\n    let n = arr[0]; let m = arr[1]\n    var edges = Set<Int>()\n    for i in 0..<m {\n        let u = arr[2+2*i], v = arr[2+2*i+1]\n        if u != v {\n            let a = min(u, v), b = max(u, v)\n            edges.insert(a * n + b)\n        }\n    }\n    let e = edges.count\n    if n < 3 { return 1 }\n    return e <= 3 * n - 6 ? 1 : 0\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "planarityTesting.ts",
+          "content": "export function planarityTesting(arr: number[]): number {\n    const n = arr[0], m = arr[1];\n    const edges = new Set<string>();\n    for (let i = 0; i < m; i++) {\n        const u = arr[2+2*i], v = arr[2+2*i+1];\n        if (u !== v) {\n            const a = Math.min(u, v), b = Math.max(u, v);\n            edges.add(`${a},${b}`);\n        }\n    }\n    const e = edges.size;\n    if (n < 3) return 1;\n    return e <= 3 * n - 6 ? 1 : 0;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Planarity Testing (Euler's Formula)\n\n## Overview\n\nThis is a simplified planarity test for simple connected graphs using Euler's formula for planar graphs. A planar graph is one that can be drawn on a plane without any edges crossing. For any simple connected planar graph: E <= 3V - 6 (and E <= 2V - 4 for triangle-free/bipartite graphs). If this necessary condition is violated, the graph is definitely non-planar. This is a one-sided test: passing does not guarantee planarity, but failing guarantees non-planarity.\n\nFor a complete test, algorithms like the Boyer-Myrvold or Left-Right planarity test are needed, but this Euler-based check is a practical and efficient first filter.\n\n## How It Works\n\n1. Parse the graph and remove duplicate edges and self-loops (ensure simple graph).\n2. Check if the graph has n >= 3 (graphs with fewer than 3 vertices are always planar).\n3. Apply the necessary condition: if E > 3V - 6, the graph is not planar.\n4. Otherwise, report it as planar (note: this is a necessary but not sufficient condition).\n\nInput format: [n, m, u1, v1, ...]. Output: 1 if planar (passes the test), 0 otherwise.\n\n## Worked Example\n\n**Example 1: Complete graph K4 (planar)**\n```\nVertices: 4, Edges: 6\nEdges: 0-1, 0-2, 0-3, 1-2, 1-3, 2-3\n\nCheck: E = 6, 3V - 6 = 3(4) - 6 = 6\n6 <= 6? Yes -> Passes test (K4 is indeed planar)\n```\n\n**Example 2: Complete graph K5 (non-planar)**\n```\nVertices: 5, Edges: 10\nEdges: all pairs among {0, 1, 2, 3, 4}\n\nCheck: E = 10, 3V - 6 = 3(5) - 6 = 9\n10 <= 9? No -> Fails test (K5 is non-planar by Kuratowski's theorem)\n```\n\n**Example 3: Petersen graph (non-planar but passes the test)**\n```\nVertices: 10, Edges: 15\n\nCheck: E = 15, 3V - 6 = 3(10) - 6 = 24\n15 <= 24? Yes -> Passes test\nBut the Petersen graph is actually non-planar (contains K3,3 subdivision).\nThis shows the test is necessary but not sufficient.\n```\n\n## Pseudocode\n\n```\nfunction isPlanar(n, edges):\n    // Remove self-loops and duplicate edges\n    edgeSet = empty set\n    for each edge (u, v) in edges:\n        if u == v: continue\n        if u > v: swap(u, v)\n        edgeSet.add((u, v))\n\n    E = |edgeSet|\n\n    if n < 3:\n        return true     // trivially planar\n\n    if E > 3 * n - 6:\n        return false    // violates Euler's formula bound\n\n    return true         // passes necessary condition\n```\n\n## Complexity Analysis\n\n| Case    | Time     | Space    |\n|---------|----------|----------|\n| Best    | O(V + E) | O(V + E) |\n| Average | O(V + E) | O(V + E) |\n| Worst   | O(V + E) | O(V + E) |\n\nThe algorithm processes each edge once to remove duplicates, then performs a constant-time comparison. Linear in the input size.\n\n## When to Use\n\n- As a fast pre-filter before running a full planarity test\n- When you need to quickly reject obviously non-planar graphs\n- In graph theory courses to illustrate Euler's formula\n- In circuit layout tools as a first pass before detailed embedding\n- When analyzing graph density relative to planarity bounds\n\n## When NOT to Use\n\n- When you need a definitive planarity test -- this test has false positives (e.g., the Petersen graph passes but is non-planar). Use Boyer-Myrvold or the Left-Right planarity test instead.\n- When you need the actual planar embedding -- this test only provides a yes/no answer.\n- For disconnected graphs without modification -- the formula applies to connected graphs.\n- When precision matters more than speed -- a full O(V) planarity test (Boyer-Myrvold) is still linear time.\n\n## Comparison\n\n| Algorithm | Time | Definitive? | Notes |\n|-----------|------|-------------|-------|\n| Euler's Formula (this) | O(V + E) | No (necessary only) | Fast filter; rejects dense non-planar graphs |\n| Boyer-Myrvold | O(V) | Yes | Full planarity test; produces embedding |\n| Left-Right Planarity | O(V) | Yes | Full planarity test; elegant DFS-based |\n| Kuratowski Subdivision | O(V^2) or more | Yes | Finds K5 or K3,3 subdivision; mainly theoretical |\n| de Fraysseix-Rosenstiehl | O(V) | Yes | Produces straight-line embedding |\n\n## References\n\n- [Planar graph -- Wikipedia](https://en.wikipedia.org/wiki/Planar_graph)\n- Euler, L. (1758). \"Elementa doctrinae solidorum\". *Novi Commentarii academiae scientiarum Petropolitanae*.\n- Boyer, J. M., & Myrvold, W. J. (2004). \"On the cutting edge: simplified O(n) planarity by edge addition.\" *Journal of Graph Algorithms and Applications*, 8(3), 241-273.\n- Kuratowski, K. (1930). \"Sur le probleme des courbes gauches en Topologie.\" *Fundamenta Mathematicae*, 15(1), 271-283.\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [planarity_testing.py](python/planarity_testing.py) |\n| Java       | [PlanarityTesting.java](java/PlanarityTesting.java) |\n| C++        | [planarity_testing.cpp](cpp/planarity_testing.cpp) |\n| C          | [planarity_testing.c](c/planarity_testing.c) |\n| Go         | [planarity_testing.go](go/planarity_testing.go) |\n| TypeScript | [planarityTesting.ts](typescript/planarityTesting.ts) |\n| Rust       | [planarity_testing.rs](rust/planarity_testing.rs) |\n| Kotlin     | [PlanarityTesting.kt](kotlin/PlanarityTesting.kt) |\n| Swift      | [PlanarityTesting.swift](swift/PlanarityTesting.swift) |\n| Scala      | [PlanarityTesting.scala](scala/PlanarityTesting.scala) |\n| C#         | [PlanarityTesting.cs](csharp/PlanarityTesting.cs) |\n"
+}

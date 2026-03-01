@@ -1,0 +1,134 @@
+{
+  "name": "Knuth's Optimization",
+  "slug": "knuth-optimization",
+  "category": "dynamic-programming",
+  "subcategory": "interval-dp",
+  "difficulty": "advanced",
+  "tags": [
+    "dynamic-programming",
+    "interval-dp",
+    "optimization",
+    "optimal-bst"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n^2)",
+      "average": "O(n^2)",
+      "worst": "O(n^2)"
+    },
+    "space": "O(n^2)"
+  },
+  "stable": null,
+  "in_place": false,
+  "related": [
+    "matrix-chain-multiplication",
+    "optimal-bst"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "knuth_optimization.c",
+          "content": "#include <stdio.h>\n#include <stdlib.h>\n#include <limits.h>\n#include \"knuth_optimization.h\"\n\nint knuth_optimization(int n, const int* freq) {\n    int** dp = (int**)malloc(n * sizeof(int*));\n    int** opt = (int**)malloc(n * sizeof(int*));\n    int* prefix = (int*)calloc(n + 1, sizeof(int));\n\n    for (int i = 0; i < n; i++) {\n        dp[i] = (int*)calloc(n, sizeof(int));\n        opt[i] = (int*)calloc(n, sizeof(int));\n        prefix[i + 1] = prefix[i] + freq[i];\n    }\n\n    for (int i = 0; i < n; i++) {\n        dp[i][i] = freq[i];\n        opt[i][i] = i;\n    }\n\n    for (int len = 2; len <= n; len++) {\n        for (int i = 0; i <= n - len; i++) {\n            int j = i + len - 1;\n            dp[i][j] = INT_MAX;\n            int cost_sum = prefix[j + 1] - prefix[i];\n            int lo = opt[i][j - 1];\n            int hi = (i + 1 <= j) ? opt[i + 1][j] : j;\n            for (int k = lo; k <= hi; k++) {\n                int left = (k > i) ? dp[i][k - 1] : 0;\n                int right = (k < j) ? dp[k + 1][j] : 0;\n                int val = left + right + cost_sum;\n                if (val < dp[i][j]) {\n                    dp[i][j] = val;\n                    opt[i][j] = k;\n                }\n            }\n        }\n    }\n\n    int result = dp[0][n - 1];\n    for (int i = 0; i < n; i++) { free(dp[i]); free(opt[i]); }\n    free(dp); free(opt); free(prefix);\n    return result;\n}\n\nint main(void) {\n    int n;\n    scanf(\"%d\", &n);\n    int* freq = (int*)malloc(n * sizeof(int));\n    for (int i = 0; i < n; i++) scanf(\"%d\", &freq[i]);\n    printf(\"%d\\n\", knuth_optimization(n, freq));\n    free(freq);\n    return 0;\n}\n"
+        },
+        {
+          "filename": "knuth_optimization.h",
+          "content": "#ifndef KNUTH_OPTIMIZATION_H\n#define KNUTH_OPTIMIZATION_H\n\nint knuth_optimization(int n, const int* freq);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "knuth_optimization.cpp",
+          "content": "#include <iostream>\n#include <vector>\n#include <climits>\nusing namespace std;\n\nint knuth_optimization(int n, const vector<int>& freq) {\n    vector<vector<int>> dp(n, vector<int>(n, 0));\n    vector<vector<int>> opt(n, vector<int>(n, 0));\n    vector<int> prefix(n + 1, 0);\n    for (int i = 0; i < n; i++) prefix[i + 1] = prefix[i] + freq[i];\n\n    for (int i = 0; i < n; i++) {\n        dp[i][i] = freq[i];\n        opt[i][i] = i;\n    }\n\n    for (int len = 2; len <= n; len++) {\n        for (int i = 0; i <= n - len; i++) {\n            int j = i + len - 1;\n            dp[i][j] = INT_MAX;\n            int cost_sum = prefix[j + 1] - prefix[i];\n            int lo = opt[i][j - 1];\n            int hi = (i + 1 <= j) ? opt[i + 1][j] : j;\n            for (int k = lo; k <= hi; k++) {\n                int left = (k > i) ? dp[i][k - 1] : 0;\n                int right = (k < j) ? dp[k + 1][j] : 0;\n                int val = left + right + cost_sum;\n                if (val < dp[i][j]) {\n                    dp[i][j] = val;\n                    opt[i][j] = k;\n                }\n            }\n        }\n    }\n    return dp[0][n - 1];\n}\n\nint main() {\n    int n;\n    cin >> n;\n    vector<int> freq(n);\n    for (int i = 0; i < n; i++) cin >> freq[i];\n    cout << knuth_optimization(n, freq) << endl;\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "KnuthOptimization.cs",
+          "content": "using System;\n\npublic class KnuthOptimization\n{\n    public static int Solve(int n, int[] freq)\n    {\n        if (n == 0) return 0;\n        int[,] dp = new int[n, n];\n        int[,] opt = new int[n, n];\n        int[] prefix = new int[n + 1];\n        for (int i = 0; i < n; i++) prefix[i + 1] = prefix[i] + freq[i];\n\n        for (int i = 0; i < n; i++)\n        {\n            dp[i, i] = freq[i];\n            opt[i, i] = i;\n        }\n\n        for (int len = 2; len <= n; len++)\n        {\n            for (int i = 0; i <= n - len; i++)\n            {\n                int j = i + len - 1;\n                dp[i, j] = int.MaxValue;\n                int costSum = prefix[j + 1] - prefix[i];\n                int lo = opt[i, j - 1];\n                int hi = (i + 1 <= j) ? opt[i + 1, j] : j;\n                for (int k = lo; k <= hi; k++)\n                {\n                    int left = (k > i) ? dp[i, k - 1] : 0;\n                    int right = (k < j) ? dp[k + 1, j] : 0;\n                    int val = left + right + costSum;\n                    if (val < dp[i, j])\n                    {\n                        dp[i, j] = val;\n                        opt[i, j] = k;\n                    }\n                }\n            }\n        }\n        return dp[0, n - 1];\n    }\n\n    public static void Main(string[] args)\n    {\n        string[] tokens = Console.ReadLine().Trim().Split();\n        int n = int.Parse(tokens[0]);\n        int[] freq = new int[n];\n        for (int i = 0; i < n; i++) freq[i] = int.Parse(tokens[i + 1]);\n        Console.WriteLine(Solve(n, freq));\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "knuth_optimization.go",
+          "content": "package main\n\nimport \"fmt\"\n\nfunc knuthOptimization(n int, freq []int) int {\n\tdp := make([][]int, n)\n\topt := make([][]int, n)\n\tprefix := make([]int, n+1)\n\tfor i := 0; i < n; i++ {\n\t\tdp[i] = make([]int, n)\n\t\topt[i] = make([]int, n)\n\t\tprefix[i+1] = prefix[i] + freq[i]\n\t}\n\n\tfor i := 0; i < n; i++ {\n\t\tdp[i][i] = freq[i]\n\t\topt[i][i] = i\n\t}\n\n\tfor length := 2; length <= n; length++ {\n\t\tfor i := 0; i <= n-length; i++ {\n\t\t\tj := i + length - 1\n\t\t\tdp[i][j] = 1<<31 - 1\n\t\t\tcostSum := prefix[j+1] - prefix[i]\n\t\t\tlo := opt[i][j-1]\n\t\t\thi := j\n\t\t\tif i+1 <= j {\n\t\t\t\thi = opt[i+1][j]\n\t\t\t}\n\t\t\tfor k := lo; k <= hi; k++ {\n\t\t\t\tleft := 0\n\t\t\t\tif k > i {\n\t\t\t\t\tleft = dp[i][k-1]\n\t\t\t\t}\n\t\t\t\tright := 0\n\t\t\t\tif k < j {\n\t\t\t\t\tright = dp[k+1][j]\n\t\t\t\t}\n\t\t\t\tval := left + right + costSum\n\t\t\t\tif val < dp[i][j] {\n\t\t\t\t\tdp[i][j] = val\n\t\t\t\t\topt[i][j] = k\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\treturn dp[0][n-1]\n}\n\nfunc main() {\n\tvar n int\n\tfmt.Scan(&n)\n\tfreq := make([]int, n)\n\tfor i := 0; i < n; i++ {\n\t\tfmt.Scan(&freq[i])\n\t}\n\tfmt.Println(knuthOptimization(n, freq))\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "KnuthOptimization.java",
+          "content": "import java.util.Scanner;\n\npublic class KnuthOptimization {\n\n    public static int knuthOptimization(int n, int[] freq) {\n        int[][] dp = new int[n][n];\n        int[][] opt = new int[n][n];\n        int[] prefix = new int[n + 1];\n        for (int i = 0; i < n; i++) {\n            prefix[i + 1] = prefix[i] + freq[i];\n        }\n\n        for (int i = 0; i < n; i++) {\n            dp[i][i] = freq[i];\n            opt[i][i] = i;\n        }\n\n        for (int len = 2; len <= n; len++) {\n            for (int i = 0; i <= n - len; i++) {\n                int j = i + len - 1;\n                dp[i][j] = Integer.MAX_VALUE;\n                int costSum = prefix[j + 1] - prefix[i];\n                int lo = opt[i][j - 1];\n                int hi = (i + 1 <= j) ? opt[i + 1][j] : j;\n                for (int k = lo; k <= hi; k++) {\n                    int left = (k > i) ? dp[i][k - 1] : 0;\n                    int right = (k < j) ? dp[k + 1][j] : 0;\n                    int val = left + right + costSum;\n                    if (val < dp[i][j]) {\n                        dp[i][j] = val;\n                        opt[i][j] = k;\n                    }\n                }\n            }\n        }\n        return dp[0][n - 1];\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int[] freq = new int[n];\n        for (int i = 0; i < n; i++) freq[i] = sc.nextInt();\n        System.out.println(knuthOptimization(n, freq));\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "KnuthOptimization.kt",
+          "content": "fun knuthOptimization(n: Int, freq: IntArray): Int {\n    if (n == 0) return 0\n    val dp = Array(n) { IntArray(n) }\n    val opt = Array(n) { IntArray(n) }\n    val prefix = IntArray(n + 1)\n    for (i in 0 until n) prefix[i + 1] = prefix[i] + freq[i]\n\n    for (i in 0 until n) {\n        dp[i][i] = freq[i]\n        opt[i][i] = i\n    }\n\n    for (len in 2..n) {\n        for (i in 0..n - len) {\n            val j = i + len - 1\n            dp[i][j] = Int.MAX_VALUE\n            val costSum = prefix[j + 1] - prefix[i]\n            val lo = opt[i][j - 1]\n            val hi = if (i + 1 <= j) opt[i + 1][j] else j\n            for (k in lo..hi) {\n                val left = if (k > i) dp[i][k - 1] else 0\n                val right = if (k < j) dp[k + 1][j] else 0\n                val v = left + right + costSum\n                if (v < dp[i][j]) {\n                    dp[i][j] = v\n                    opt[i][j] = k\n                }\n            }\n        }\n    }\n    return dp[0][n - 1]\n}\n\nfun main() {\n    val input = System.`in`.bufferedReader().readText().trim().split(\"\\\\s+\".toRegex()).map { it.toInt() }\n    val n = input[0]\n    val freq = input.subList(1, 1 + n).toIntArray()\n    println(knuthOptimization(n, freq))\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "knuth_optimization.py",
+          "content": "import sys\n\n\ndef knuth_optimization(n, freq):\n    \"\"\"Compute optimal BST cost using Knuth's optimization.\"\"\"\n    INF = float('inf')\n    dp = [[0] * n for _ in range(n)]\n    opt = [[0] * n for _ in range(n)]\n    prefix = [0] * (n + 1)\n    for i in range(n):\n        prefix[i + 1] = prefix[i] + freq[i]\n\n    for i in range(n):\n        dp[i][i] = freq[i]\n        opt[i][i] = i\n\n    for length in range(2, n + 1):\n        for i in range(n - length + 1):\n            j = i + length - 1\n            dp[i][j] = INF\n            cost_sum = prefix[j + 1] - prefix[i]\n            lo = opt[i][j - 1]\n            hi = opt[i + 1][j] if i + 1 <= j else j\n            for k in range(lo, hi + 1):\n                left = dp[i][k - 1] if k > i else 0\n                right = dp[k + 1][j] if k < j else 0\n                val = left + right + cost_sum\n                if val < dp[i][j]:\n                    dp[i][j] = val\n                    opt[i][j] = k\n\n    return dp[0][n - 1]\n\n\nif __name__ == \"__main__\":\n    data = sys.stdin.read().split()\n    idx = 0\n    n = int(data[idx]); idx += 1\n    freq = [int(data[idx + i]) for i in range(n)]\n    print(knuth_optimization(n, freq))\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "knuth_optimization.rs",
+          "content": "use std::io::{self, Read};\n\nfn knuth_optimization(n: usize, freq: &[i64]) -> i64 {\n    if n == 0 { return 0; }\n    let mut dp = vec![vec![0i64; n]; n];\n    let mut opt = vec![vec![0usize; n]; n];\n    let mut prefix = vec![0i64; n + 1];\n    for i in 0..n { prefix[i + 1] = prefix[i] + freq[i]; }\n\n    for i in 0..n {\n        dp[i][i] = freq[i];\n        opt[i][i] = i;\n    }\n\n    for len in 2..=n {\n        for i in 0..=n - len {\n            let j = i + len - 1;\n            dp[i][j] = i64::MAX;\n            let cost_sum = prefix[j + 1] - prefix[i];\n            let lo = opt[i][j - 1];\n            let hi = if i + 1 <= j { opt[i + 1][j] } else { j };\n            for k in lo..=hi {\n                let left = if k > i { dp[i][k - 1] } else { 0 };\n                let right = if k < j { dp[k + 1][j] } else { 0 };\n                let val = left + right + cost_sum;\n                if val < dp[i][j] {\n                    dp[i][j] = val;\n                    opt[i][j] = k;\n                }\n            }\n        }\n    }\n    dp[0][n - 1]\n}\n\nfn main() {\n    let mut input = String::new();\n    io::stdin().read_to_string(&mut input).unwrap();\n    let nums: Vec<i64> = input.split_whitespace().map(|x| x.parse().unwrap()).collect();\n    let n = nums[0] as usize;\n    let freq: Vec<i64> = nums[1..1 + n].to_vec();\n    println!(\"{}\", knuth_optimization(n, &freq));\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "KnuthOptimization.scala",
+          "content": "object KnuthOptimization {\n\n  def knuthOptimization(n: Int, freq: Array[Int]): Int = {\n    if (n == 0) return 0\n    val dp = Array.ofDim[Int](n, n)\n    val opt = Array.ofDim[Int](n, n)\n    val prefix = new Array[Int](n + 1)\n    for (i <- 0 until n) prefix(i + 1) = prefix(i) + freq(i)\n\n    for (i <- 0 until n) {\n      dp(i)(i) = freq(i)\n      opt(i)(i) = i\n    }\n\n    for (len <- 2 to n) {\n      for (i <- 0 to n - len) {\n        val j = i + len - 1\n        dp(i)(j) = Int.MaxValue\n        val costSum = prefix(j + 1) - prefix(i)\n        val lo = opt(i)(j - 1)\n        val hi = if (i + 1 <= j) opt(i + 1)(j) else j\n        for (k <- lo to hi) {\n          val left = if (k > i) dp(i)(k - 1) else 0\n          val right = if (k < j) dp(k + 1)(j) else 0\n          val v = left + right + costSum\n          if (v < dp(i)(j)) {\n            dp(i)(j) = v\n            opt(i)(j) = k\n          }\n        }\n      }\n    }\n    dp(0)(n - 1)\n  }\n\n  def main(args: Array[String]): Unit = {\n    val input = scala.io.StdIn.readLine().trim.split(\"\\\\s+\").map(_.toInt)\n    val n = input(0)\n    val freq = input.slice(1, 1 + n)\n    println(knuthOptimization(n, freq))\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "KnuthOptimization.swift",
+          "content": "import Foundation\n\nfunc knuthOptimization(_ n: Int, _ freq: [Int]) -> Int {\n    if n == 0 { return 0 }\n    var dp = Array(repeating: Array(repeating: 0, count: n), count: n)\n    var opt = Array(repeating: Array(repeating: 0, count: n), count: n)\n    var prefix = Array(repeating: 0, count: n + 1)\n    for i in 0..<n { prefix[i + 1] = prefix[i] + freq[i] }\n\n    for i in 0..<n {\n        dp[i][i] = freq[i]\n        opt[i][i] = i\n    }\n\n    if n >= 2 {\n        for len in 2...n {\n            for i in 0...(n - len) {\n                let j = i + len - 1\n                dp[i][j] = Int.max\n                let costSum = prefix[j + 1] - prefix[i]\n                let lo = opt[i][j - 1]\n                let hi = (i + 1 <= j) ? opt[i + 1][j] : j\n                for k in lo...hi {\n                    let left = k > i ? dp[i][k - 1] : 0\n                    let right = k < j ? dp[k + 1][j] : 0\n                    let val = left + right + costSum\n                    if val < dp[i][j] {\n                        dp[i][j] = val\n                        opt[i][j] = k\n                    }\n                }\n            }\n        }\n    }\n    return dp[0][n - 1]\n}\n\nlet data = readLine()!.split(separator: \" \").map { Int($0)! }\nlet n = data[0]\nvar freq = [Int]()\nif data.count > 1 {\n    freq = Array(data[1...n])\n} else {\n    let line = readLine()!.split(separator: \" \").map { Int($0)! }\n    freq = line\n}\nprint(knuthOptimization(n, freq))\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "knuthOptimization.ts",
+          "content": "export function knuthOptimization(n: number, freq: number[]): number {\n    const dp: number[][] = Array.from({ length: n }, () => new Array(n).fill(0));\n    const opt: number[][] = Array.from({ length: n }, () => new Array(n).fill(0));\n    const prefix: number[] = new Array(n + 1).fill(0);\n    for (let i = 0; i < n; i++) prefix[i + 1] = prefix[i] + freq[i];\n\n    for (let i = 0; i < n; i++) {\n        dp[i][i] = freq[i];\n        opt[i][i] = i;\n    }\n\n    for (let len = 2; len <= n; len++) {\n        for (let i = 0; i <= n - len; i++) {\n            const j = i + len - 1;\n            dp[i][j] = Number.MAX_SAFE_INTEGER;\n            const costSum = prefix[j + 1] - prefix[i];\n            const lo = opt[i][j - 1];\n            const hi = i + 1 <= j ? opt[i + 1][j] : j;\n            for (let k = lo; k <= hi; k++) {\n                const left = k > i ? dp[i][k - 1] : 0;\n                const right = k < j ? dp[k + 1][j] : 0;\n                const val = left + right + costSum;\n                if (val < dp[i][j]) {\n                    dp[i][j] = val;\n                    opt[i][j] = k;\n                }\n            }\n        }\n    }\n    return dp[0][n - 1];\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Knuth's Optimization\n\n## Overview\n\nKnuth's Optimization reduces an O(n^3) interval DP recurrence to O(n^2) by exploiting the monotonicity of optimal split points. It applies when the cost function satisfies the quadrangle inequality, meaning the optimal split point opt[i][j] is monotone: `opt[i][j-1] <= opt[i][j] <= opt[i+1][j]`. This was first described by Donald Knuth in 1971 for the Optimal Binary Search Tree problem and later generalized by Yao (1980) to a broader class of problems.\n\nThe technique is demonstrated here with the Optimal Binary Search Tree problem: given n keys with search frequencies, construct a BST that minimizes the expected total search cost.\n\n## How It Works\n\nGiven n keys with search frequencies, we want to build a BST minimizing total search cost. The standard DP is:\n\n```\ndp[i][j] = min over i <= k < j of (dp[i][k] + dp[k+1][j] + sum(freq[i..j]))\n```\n\nWithout optimization, trying all k for each (i,j) pair takes O(n^3). Knuth's insight is that the optimal k for dp[i][j] is bounded:\n\n```\nopt[i][j-1] <= opt[i][j] <= opt[i+1][j]\n```\n\nBy restricting the search range for k, the total work across all intervals of the same length sums to O(n), giving O(n^2) overall.\n\n**Why does the quadrangle inequality hold?** For the OBST problem, the cost function w(i,j) = sum(freq[i..j]) satisfies:\n- Monotonicity: w(a,c) <= w(b,d) if a <= b <= c <= d\n- Quadrangle inequality: w(a,c) + w(b,d) <= w(a,d) + w(b,c) for a <= b <= c <= d\n\nThese properties guarantee the monotonicity of optimal split points.\n\n## Worked Example\n\n**Keys with frequencies:** keys = [1, 2, 3, 4], freq = [4, 2, 6, 3]\n\n**Prefix sums:** sum[0..0]=4, sum[0..1]=6, sum[0..2]=12, sum[0..3]=15\n\n**DP computation (filling by interval length):**\n\nLength 1 (single keys): dp[i][i] = freq[i], opt[i][i] = i\n- dp[0][0] = 4, opt[0][0] = 0\n- dp[1][1] = 2, opt[1][1] = 1\n- dp[2][2] = 6, opt[2][2] = 2\n- dp[3][3] = 3, opt[3][3] = 3\n\nLength 2:\n- dp[0][1]: try k in [opt[0][0]..opt[1][1]] = [0..1]\n  - k=0: dp[0][-1] + dp[1][1] + sum(0..1) = 0 + 2 + 6 = 8\n  - k=1: dp[0][0] + dp[2][1] + sum(0..1) = 4 + 0 + 6 = 10\n  - dp[0][1] = 8, opt[0][1] = 0\n- dp[1][2]: try k in [opt[1][1]..opt[2][2]] = [1..2]\n  - k=1: 0 + 6 + 8 = 14\n  - k=2: 2 + 0 + 8 = 10\n  - dp[1][2] = 10, opt[1][2] = 2\n- dp[2][3]: try k in [opt[2][2]..opt[3][3]] = [2..3]\n  - k=2: 0 + 3 + 9 = 12\n  - k=3: 6 + 0 + 9 = 15\n  - dp[2][3] = 12, opt[2][3] = 2\n\nLength 3:\n- dp[0][2]: try k in [opt[0][1]..opt[1][2]] = [0..2]\n  - k=0: 0 + 10 + 12 = 22\n  - k=1: 4 + 6 + 12 = 22\n  - k=2: 8 + 0 + 12 = 20\n  - dp[0][2] = 20, opt[0][2] = 2\n\nLength 4:\n- dp[0][3]: try k in [opt[0][2]..opt[1][3]] = restricted range\n  - Compute to get the final answer.\n\n**Answer: dp[0][3] = minimum expected search cost for the optimal BST.**\n\n## Pseudocode\n\n```\nfunction knuthOptimization(freq, n):\n    dp = 2D array of size n x n, initialized to 0\n    opt = 2D array of size n x n\n    prefixSum = prefix sum array of freq\n\n    // Base case: single keys\n    for i = 0 to n-1:\n        dp[i][i] = freq[i]\n        opt[i][i] = i\n\n    // Fill by increasing interval length\n    for len = 2 to n:\n        for i = 0 to n - len:\n            j = i + len - 1\n            dp[i][j] = infinity\n            w = prefixSum[j+1] - prefixSum[i]    // sum of freq[i..j]\n\n            // Knuth's optimization: restrict k range\n            for k = opt[i][j-1] to opt[i+1][j]:\n                cost = dp[i][k-1] + dp[k+1][j] + w\n                // (treat dp[i][i-1] = 0 and dp[j+1][j] = 0)\n                if cost < dp[i][j]:\n                    dp[i][j] = cost\n                    opt[i][j] = k\n\n    return dp[0][n-1]\n```\n\n## Complexity Analysis\n\n| Case    | Time    | Space  |\n|---------|---------|--------|\n| Best    | O(n^2)  | O(n^2) |\n| Average | O(n^2)  | O(n^2) |\n| Worst   | O(n^2)  | O(n^2) |\n\n**Why these complexities?**\n\n- **Time -- O(n^2):** For a fixed interval length L, the sum of search ranges across all (i, j) pairs telescopes. Specifically, for intervals of length L, the total number of k values tried is at most O(n). Since there are n possible lengths, the total is O(n^2). This is a significant improvement over the naive O(n^3).\n\n- **Space -- O(n^2):** Both the dp table and the opt table require n^2 entries.\n\n## When to Use\n\n- **Optimal Binary Search Tree:** The original application -- constructing a BST with minimum expected search cost given known access frequencies.\n- **Optimal paragraph breaking:** Knuth's TeX line-breaking algorithm uses a similar optimization for minimizing the cost of paragraph formatting.\n- **Matrix chain multiplication variants:** When the cost function satisfies the quadrangle inequality.\n- **Any interval DP with monotone optimal splits:** The technique applies whenever you can prove opt[i][j-1] <= opt[i][j] <= opt[i+1][j].\n- **Stone merging problem:** Merging n piles of stones where adjacent piles can be merged, and the cost is the sum of merged pile sizes.\n\n## When NOT to Use\n\n- **When the quadrangle inequality does not hold:** The optimization is incorrect if the cost function does not satisfy the required monotonicity property. Always verify the conditions before applying.\n- **Non-interval DP problems:** This technique is specific to interval (range) DP recurrences of the form dp[i][j] = min over k of (dp[i][k] + dp[k+1][j] + w(i,j)).\n- **When n is small:** For small n (< 100), the naive O(n^3) approach is simple and fast enough. The optimization adds implementation complexity.\n- **When the cost function is not efficiently computable:** If computing w(i,j) is expensive, the overhead may negate the benefit.\n\n## Comparison\n\n| Algorithm              | Time    | Space  | Notes                                        |\n|-----------------------|---------|--------|----------------------------------------------|\n| Naive Interval DP      | O(n^3)  | O(n^2) | Try all split points for each interval       |\n| **Knuth's Optimization** | **O(n^2)** | **O(n^2)** | **Requires quadrangle inequality**         |\n| Divide and Conquer Opt.| O(n log n) | O(n) | For 1D DP with monotone optimal decisions    |\n| Convex Hull Trick       | O(n log n) | O(n) | For linear cost functions; different structure|\n| Hu-Shing Algorithm      | O(n log n) | O(n) | Specific to matrix chain multiplication      |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [knuth_optimization.py](python/knuth_optimization.py) |\n| Java       | [KnuthOptimization.java](java/KnuthOptimization.java) |\n| C++        | [knuth_optimization.cpp](cpp/knuth_optimization.cpp) |\n| C          | [knuth_optimization.c](c/knuth_optimization.c) |\n| Go         | [knuth_optimization.go](go/knuth_optimization.go) |\n| TypeScript | [knuthOptimization.ts](typescript/knuthOptimization.ts) |\n| Rust       | [knuth_optimization.rs](rust/knuth_optimization.rs) |\n| Kotlin     | [KnuthOptimization.kt](kotlin/KnuthOptimization.kt) |\n| Swift      | [KnuthOptimization.swift](swift/KnuthOptimization.swift) |\n| Scala      | [KnuthOptimization.scala](scala/KnuthOptimization.scala) |\n| C#         | [KnuthOptimization.cs](csharp/KnuthOptimization.cs) |\n\n## References\n\n- Knuth, D. E. (1971). \"Optimum Binary Search Trees.\" *Acta Informatica*, 1(1), 14-25.\n- Yao, F. F. (1980). \"Efficient Dynamic Programming Using Quadrangle Inequalities.\" *Proceedings of the 12th ACM STOC*, 429-435.\n- Cormen, T. H., et al. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Section 15.5: Optimal Binary Search Trees.\n- [Knuth's Optimization -- CP-Algorithms](https://cp-algorithms.com/dynamic_programming/knuth-optimization.html)\n"
+}

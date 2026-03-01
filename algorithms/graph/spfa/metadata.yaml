@@ -1,0 +1,17 @@
+name: "SPFA (Shortest Path Faster Algorithm)"
+slug: "spfa"
+category: "graph"
+subcategory: "shortest-path"
+difficulty: "intermediate"
+tags: [graph, shortest-path, bellman-ford, queue, optimization]
+complexity:
+  time:
+    best: "O(E)"
+    average: "O(E)"
+    worst: "O(VE)"
+  space: "O(V)"
+stable: null
+in_place: false
+related: [bellman-ford, dijkstras]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

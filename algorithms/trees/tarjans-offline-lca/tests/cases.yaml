@@ -1,0 +1,24 @@
+algorithm: "tarjans-offline-lca"
+function_signature:
+  name: "offline_lca"
+  input: [n, edges, queries]
+  output: lca_results
+test_cases:
+  - name: "simple tree LCA"
+    input:
+      n: 5
+      edges: [[0, 1], [0, 2], [1, 3], [1, 4]]
+      queries: [[3, 4], [3, 2]]
+    expected: [1, 0]
+  - name: "root is LCA"
+    input:
+      n: 3
+      edges: [[0, 1], [0, 2]]
+      queries: [[1, 2]]
+    expected: [0]
+  - name: "same node query"
+    input:
+      n: 3
+      edges: [[0, 1], [0, 2]]
+      queries: [[1, 1]]
+    expected: [1]

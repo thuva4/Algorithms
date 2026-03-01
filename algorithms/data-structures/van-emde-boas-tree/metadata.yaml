@@ -1,0 +1,17 @@
+name: "van Emde Boas Tree"
+slug: "van-emde-boas-tree"
+category: "data-structures"
+subcategory: "integer-set"
+difficulty: "advanced"
+tags: [data-structures, van-emde-boas, integer-set, predecessor, successor]
+complexity:
+  time:
+    best: "O(1)"
+    average: "O(log log U)"
+    worst: "O(log log U)"
+  space: "O(U)"
+stable: null
+in_place: false
+related: [b-tree, priority-queue]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

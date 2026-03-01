@@ -1,0 +1,17 @@
+name: "Hamiltonian Path"
+slug: "hamiltonian-path"
+category: "graph"
+subcategory: "traversal"
+difficulty: "advanced"
+tags: [graph, hamiltonian, dp, bitmask, np-hard]
+complexity:
+  time:
+    best: "O(2^n * n^2)"
+    average: "O(2^n * n^2)"
+    worst: "O(2^n * n^2)"
+  space: "O(2^n * n)"
+stable: null
+in_place: false
+related: [euler-path, travelling-salesman]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

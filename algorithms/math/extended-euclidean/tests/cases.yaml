@@ -1,0 +1,24 @@
+algorithm: "extended-euclidean"
+function_signature:
+  name: "extended_gcd"
+  input: [a, b]
+  output: [gcd, x, y]
+test_cases:
+  - name: "basic case"
+    input: [30, 20]
+    expected: [10, 1, -1]
+  - name: "coprime numbers"
+    input: [35, 15]
+    expected: [5, 1, -2]
+  - name: "one is zero"
+    input: [0, 5]
+    expected: [5, 0, 1]
+  - name: "equal numbers"
+    input: [6, 6]
+    expected: [6, 1, 0]
+  - name: "small coprime"
+    input: [3, 7]
+    expected: [1, -2, 1]
+  - name: "larger values"
+    input: [240, 46]
+    expected: [2, -9, 47]

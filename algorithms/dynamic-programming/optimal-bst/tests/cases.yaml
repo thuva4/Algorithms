@@ -1,0 +1,18 @@
+algorithm: "optimal-bst"
+function_signature:
+  name: "optimal_bst"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "three keys"
+    input: [[3, 34, 8, 50]]
+    expected: 142
+  - name: "four keys"
+    input: [[4, 3, 4, 1, 2]]
+    expected: 17
+  - name: "single key"
+    input: [[1, 10]]
+    expected: 10
+  - name: "two keys"
+    input: [[2, 10, 20]]
+    expected: 40

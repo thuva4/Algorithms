@@ -1,0 +1,21 @@
+name: "Permutations"
+slug: "permutations"
+category: "backtracking"
+subcategory: "combinatorics"
+difficulty: "intermediate"
+tags: [backtracking, permutations, recursion, combinatorics, brute-force]
+complexity:
+  time:
+    best: "O(n!)"
+    average: "O(n!)"
+    worst: "O(n!)"
+  space: "O(n)"
+stable: false
+in_place: false
+related: [combination, factorial]
+implementations: [python, cpp, typescript]
+visualization: true
+patterns:
+  - subsets
+patternDifficulty: beginner
+practiceOrder: 1

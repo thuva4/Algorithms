@@ -1,0 +1,135 @@
+{
+  "name": "Coin Change",
+  "slug": "coin-change",
+  "category": "dynamic-programming",
+  "subcategory": "optimization",
+  "difficulty": "intermediate",
+  "tags": [
+    "dynamic-programming",
+    "optimization",
+    "greedy",
+    "combinatorial"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(nS)",
+      "average": "O(nS)",
+      "worst": "O(nS)"
+    },
+    "space": "O(S)"
+  },
+  "stable": null,
+  "in_place": null,
+  "related": [
+    "knapsack",
+    "rod-cutting-algorithm"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "coinchange.c",
+          "content": "#include <stdio.h>\n#include <limits.h>\n\nint coin_change(int coins[], int num_coins, int amount) {\n    if (amount == 0) return 0;\n\n    int dp[amount + 1];\n    dp[0] = 0;\n\n    for (int i = 1; i <= amount; i++)\n        dp[i] = INT_MAX;\n\n    for (int i = 1; i <= amount; i++) {\n        for (int j = 0; j < num_coins; j++) {\n            if (coins[j] <= i && dp[i - coins[j]] != INT_MAX) {\n                int val = dp[i - coins[j]] + 1;\n                if (val < dp[i])\n                    dp[i] = val;\n            }\n        }\n    }\n\n    return dp[amount] == INT_MAX ? -1 : dp[amount];\n}\n\nint main() {\n    int coins[] = {1, 5, 10, 25};\n    int n = sizeof(coins) / sizeof(coins[0]);\n    printf(\"%d\\n\", coin_change(coins, n, 30)); // 2\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "CoinChange.cpp",
+          "content": "#include <algorithm>\n#include <limits>\n#include <vector>\n\nint coin_change(const std::vector<int>& coins, int amount) {\n    if (amount < 0) {\n        return -1;\n    }\n\n    const int unreachable = std::numeric_limits<int>::max() / 4;\n    std::vector<int> dp(static_cast<std::size_t>(amount) + 1, unreachable);\n    dp[0] = 0;\n\n    for (int value = 1; value <= amount; ++value) {\n        for (int coin : coins) {\n            if (coin > 0 && coin <= value && dp[value - coin] != unreachable) {\n                dp[value] = std::min(dp[value], dp[value - coin] + 1);\n            }\n        }\n    }\n\n    return dp[amount] == unreachable ? -1 : dp[amount];\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "CoinChange.cs",
+          "content": "using System;\n\npublic class CoinChange\n{\n    public static int Solve(int[] coins, int amount)\n    {\n        if (amount == 0) return 0;\n\n        int[] dp = new int[amount + 1];\n        for (int i = 1; i <= amount; i++)\n            dp[i] = int.MaxValue;\n\n        for (int i = 1; i <= amount; i++)\n        {\n            foreach (int coin in coins)\n            {\n                if (coin <= i && dp[i - coin] != int.MaxValue)\n                {\n                    dp[i] = Math.Min(dp[i], dp[i - coin] + 1);\n                }\n            }\n        }\n\n        return dp[amount] == int.MaxValue ? -1 : dp[amount];\n    }\n\n    static void Main(string[] args)\n    {\n        int[] coins = { 1, 5, 10, 25 };\n        Console.WriteLine(Solve(coins, 30)); // 2\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "CoinChange.go",
+          "content": "package main\n\nimport (\n\t\"fmt\"\n\t\"math\"\n)\n\nfunc coinChange(coins []int, amount int) int {\n\tif amount == 0 {\n\t\treturn 0\n\t}\n\n\tdp := make([]int, amount+1)\n\tfor i := 1; i <= amount; i++ {\n\t\tdp[i] = math.MaxInt32\n\t}\n\n\tfor i := 1; i <= amount; i++ {\n\t\tfor _, coin := range coins {\n\t\t\tif coin <= i && dp[i-coin] != math.MaxInt32 {\n\t\t\t\tval := dp[i-coin] + 1\n\t\t\t\tif val < dp[i] {\n\t\t\t\t\tdp[i] = val\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\n\tif dp[amount] == math.MaxInt32 {\n\t\treturn -1\n\t}\n\treturn dp[amount]\n}\n\nfunc main() {\n\tcoins := []int{1, 5, 10, 25}\n\tfmt.Println(coinChange(coins, 30)) // 2\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "CoinChange.java",
+          "content": "import java.util.Arrays;\n\npublic class CoinChange {\n\n    public static int coinChange(int[] coins, int amount) {\n        if (amount == 0) return 0;\n\n        int[] dp = new int[amount + 1];\n        Arrays.fill(dp, Integer.MAX_VALUE);\n        dp[0] = 0;\n\n        for (int i = 1; i <= amount; i++) {\n            for (int coin : coins) {\n                if (coin <= i && dp[i - coin] != Integer.MAX_VALUE) {\n                    dp[i] = Math.min(dp[i], dp[i - coin] + 1);\n                }\n            }\n        }\n\n        return dp[amount] == Integer.MAX_VALUE ? -1 : dp[amount];\n    }\n\n    public static void main(String[] args) {\n        int[] coins = {1, 5, 10, 25};\n        System.out.println(coinChange(coins, 30)); // 2\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "CoinChange.kt",
+          "content": "fun coinChange(coins: IntArray, amount: Int): Int {\n    if (amount == 0) return 0\n\n    val dp = IntArray(amount + 1) { Int.MAX_VALUE }\n    dp[0] = 0\n\n    for (i in 1..amount) {\n        for (coin in coins) {\n            if (coin <= i && dp[i - coin] != Int.MAX_VALUE) {\n                dp[i] = minOf(dp[i], dp[i - coin] + 1)\n            }\n        }\n    }\n\n    return if (dp[amount] == Int.MAX_VALUE) -1 else dp[amount]\n}\n\nfun main() {\n    println(coinChange(intArrayOf(1, 5, 10, 25), 30)) // 2\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "coin_change.py",
+          "content": "def coin_change(coins, amount):\n    if amount == 0:\n        return 0\n\n    dp = [float('inf')] * (amount + 1)\n    dp[0] = 0\n\n    for i in range(1, amount + 1):\n        for coin in coins:\n            if coin <= i and dp[i - coin] + 1 < dp[i]:\n                dp[i] = dp[i - coin] + 1\n\n    return dp[amount] if dp[amount] != float('inf') else -1\n\n\nif __name__ == \"__main__\":\n    coins = [1, 5, 10, 25]\n    print(coin_change(coins, 30))  # 2\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "coin_change.rs",
+          "content": "use std::cmp;\n\npub fn coin_change(coins: &[i32], amount: usize) -> i32 {\n    if amount == 0 {\n        return 0;\n    }\n\n    let mut dp = vec![i32::MAX; amount + 1];\n    dp[0] = 0;\n\n    for i in 1..=amount {\n        for &coin in coins {\n            let c = coin as usize;\n            if c <= i && dp[i - c] != i32::MAX {\n                dp[i] = cmp::min(dp[i], dp[i - c] + 1);\n            }\n        }\n    }\n\n    if dp[amount] == i32::MAX { -1 } else { dp[amount] }\n}\n\nfn main() {\n    let coins = vec![1, 5, 10, 25];\n    println!(\"{}\", coin_change(&coins, 30)); // 2\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "CoinChange.scala",
+          "content": "object CoinChange {\n\n  def coinChange(coins: Array[Int], amount: Int): Int = {\n    if (amount == 0) return 0\n\n    val dp = Array.fill(amount + 1)(Int.MaxValue)\n    dp(0) = 0\n\n    for (i <- 1 to amount) {\n      for (coin <- coins) {\n        if (coin <= i && dp(i - coin) != Int.MaxValue) {\n          dp(i) = math.min(dp(i), dp(i - coin) + 1)\n        }\n      }\n    }\n\n    if (dp(amount) == Int.MaxValue) -1 else dp(amount)\n  }\n\n  def main(args: Array[String]): Unit = {\n    println(coinChange(Array(1, 5, 10, 25), 30)) // 2\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "CoinChange.swift",
+          "content": "func coinChange(_ coins: [Int], _ amount: Int) -> Int {\n    if amount == 0 { return 0 }\n\n    var dp = Array(repeating: Int.max, count: amount + 1)\n    dp[0] = 0\n\n    for i in 1...amount {\n        for coin in coins {\n            if coin <= i && dp[i - coin] != Int.max {\n                dp[i] = min(dp[i], dp[i - coin] + 1)\n            }\n        }\n    }\n\n    return dp[amount] == Int.max ? -1 : dp[amount]\n}\n\nprint(coinChange([1, 5, 10, 25], 30)) // 2\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "coinChange.ts",
+          "content": "export function coinChange(coins: number[], amount: number): number {\n    if (amount === 0) return 0;\n\n    const dp: number[] = new Array(amount + 1).fill(Infinity);\n    dp[0] = 0;\n\n    for (let i = 1; i <= amount; i++) {\n        for (const coin of coins) {\n            if (coin <= i && dp[i - coin] + 1 < dp[i]) {\n                dp[i] = dp[i - coin] + 1;\n            }\n        }\n    }\n\n    return dp[amount] === Infinity ? -1 : dp[amount];\n}\n\nconsole.log(coinChange([1, 5, 10, 25], 30)); // 2\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "patterns": [
+    "knapsack-dp"
+  ],
+  "patternDifficulty": "intermediate",
+  "practiceOrder": 2,
+  "readme": "# Coin Change\n\n## Overview\n\nThe Coin Change problem asks for the minimum number of coins needed to make a given amount of money, using coins of specified denominations. Each coin denomination can be used an unlimited number of times. For example, given coins [1, 5, 10, 25] and amount 36, the minimum is 3 coins (25 + 10 + 1). If it is impossible to make the amount with the given denominations, the algorithm returns -1.\n\nThis is a foundational dynamic programming problem that models many real-world optimization scenarios, including making change, resource allocation, and integer partition problems. The greedy approach (always using the largest coin) does not always yield the optimal solution, making DP necessary.\n\n## How It Works\n\nThe algorithm builds a 1D table where `dp[s]` represents the minimum number of coins needed to make amount `s`. Starting from the base case `dp[0] = 0` (zero coins for zero amount), for each amount from 1 to S, we try every coin denomination and take the minimum result. If a coin fits (its value does not exceed the current amount), we check whether using it leads to fewer total coins.\n\n### Example\n\nGiven coins `[1, 3, 4]` and amount `S = 6`:\n\n**Building the DP table:**\n\n| Amount | Try coin 1 | Try coin 3 | Try coin 4 | dp[amount] |\n|--------|-----------|-----------|-----------|------------|\n| 0 | - | - | - | 0 (base) |\n| 1 | dp[0]+1=1 | - | - | 1 |\n| 2 | dp[1]+1=2 | - | - | 2 |\n| 3 | dp[2]+1=3 | dp[0]+1=1 | - | 1 |\n| 4 | dp[3]+1=2 | dp[1]+1=2 | dp[0]+1=1 | 1 |\n| 5 | dp[4]+1=2 | dp[2]+1=3 | dp[1]+1=2 | 2 |\n| 6 | dp[5]+1=3 | dp[3]+1=2 | dp[2]+1=3 | 2 |\n\nResult: Minimum coins = `2` (coins 3 + 3, or coins 4 + 2 is not valid, so 3 + 3)\n\nNote: At amount 6, using coin 3 twice gives 2 coins, which is optimal. The greedy approach of using coin 4 first would give 4 + 1 + 1 = 3 coins, which is suboptimal.\n\n## Pseudocode\n\n```\nfunction coinChange(coins, S):\n    dp = array of size (S + 1), initialized to infinity\n    dp[0] = 0\n\n    for amount from 1 to S:\n        for each coin in coins:\n            if coin <= amount and dp[amount - coin] + 1 < dp[amount]:\n                dp[amount] = dp[amount - coin] + 1\n\n    if dp[S] == infinity:\n        return -1    // impossible to make amount S\n    return dp[S]\n```\n\nThe key insight is that the optimal solution for amount `s` can be built from the optimal solution for `s - coin` for some coin. By trying all coins and taking the minimum, we guarantee optimality.\n\n## Complexity Analysis\n\n| Case    | Time   | Space |\n|---------|--------|-------|\n| Best    | O(nS)  | O(S)  |\n| Average | O(nS)  | O(S)  |\n| Worst   | O(nS)  | O(S)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(nS):** The algorithm iterates over all amounts from 1 to S, and for each amount, checks all n coin denominations. There is no early termination.\n\n- **Average Case -- O(nS):** Each of the S amounts requires checking n coins, with O(1) work per check. Total work is exactly n * S constant-time operations.\n\n- **Worst Case -- O(nS):** Same as all cases. The algorithm structure is uniform regardless of input values.\n\n- **Space -- O(S):** The algorithm uses a 1D array of size S + 1. This is optimal since we need to store the result for every amount from 0 to S.\n\n## When to Use\n\n- **Making change optimally:** When the greedy approach fails (e.g., coins [1, 3, 4] and amount 6), DP guarantees the minimum number of coins.\n- **When coin denominations are arbitrary:** Unlike standard currency systems designed for greedy optimality, arbitrary denominations require DP.\n- **Counting the number of ways to make change:** A slight modification counts all possible combinations instead of the minimum.\n- **Resource allocation with discrete units:** Problems where resources come in fixed sizes and must be combined to meet a target.\n\n## When NOT to Use\n\n- **Standard currency systems:** For well-designed currency denominations (e.g., US coins), the greedy approach is correct and faster at O(n).\n- **Very large target amounts:** When S is extremely large (billions), the O(nS) approach is impractical. Consider mathematical approaches or approximation.\n- **When items cannot be reused:** Use the 0/1 Knapsack formulation instead.\n- **Continuous amounts:** This algorithm works only with integer amounts and denominations.\n\n## Comparison with Similar Algorithms\n\n| Algorithm        | Time    | Space | Notes                                        |\n|-----------------|--------|-------|----------------------------------------------|\n| Coin Change (DP) | O(nS)  | O(S)  | Finds minimum coins; handles any denominations|\n| Greedy Change    | O(n)   | O(1)  | Fast but only correct for canonical systems   |\n| 0/1 Knapsack     | O(nW)  | O(nW) | Each item used at most once                   |\n| Unbounded Knapsack| O(nW) | O(W)  | Same structure; maximizes value                |\n| Rod Cutting      | O(n^2) | O(n)  | Special case with sequential piece sizes       |\n\n## Implementations\n\n| Language | File |\n|----------|------|\n| C++      | [CoinChange.cpp](cpp/CoinChange.cpp) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 15: Dynamic Programming.\n- Kleinberg, J., & Tardos, E. (2006). *Algorithm Design*. Pearson. Chapter 6: Dynamic Programming.\n- [Change-making Problem -- Wikipedia](https://en.wikipedia.org/wiki/Change-making_problem)\n"
+}

@@ -1,0 +1,22 @@
+name: "Quick Select"
+slug: "quick-select"
+category: "searching"
+subcategory: "linear"
+difficulty: "intermediate"
+tags: [searching, selection, partition, kth-element]
+complexity:
+  time:
+    best: "O(n)"
+    average: "O(n)"
+    worst: "O(n^2)"
+  space: "O(1)"
+stable: null
+in_place: null
+related: [binary-search, linear-search]
+implementations: [go, java, python, typescript]
+visualization: true
+patterns:
+  - two-pointers
+  - top-k-elements
+patternDifficulty: intermediate
+practiceOrder: 4

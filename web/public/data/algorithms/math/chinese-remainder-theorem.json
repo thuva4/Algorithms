@@ -1,0 +1,134 @@
+{
+  "name": "Chinese Remainder Theorem",
+  "slug": "chinese-remainder-theorem",
+  "category": "math",
+  "subcategory": "number-theory",
+  "difficulty": "advanced",
+  "tags": [
+    "math",
+    "number-theory",
+    "crt",
+    "modular-arithmetic",
+    "congruences"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n log M)",
+      "average": "O(n log M)",
+      "worst": "O(n log M)"
+    },
+    "space": "O(1)"
+  },
+  "related": [
+    "extended-euclidean",
+    "modular-exponentiation",
+    "greatest-common-divisor"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "chinese_remainder.c",
+          "content": "#include \"chinese_remainder.h\"\n\nstatic long long ext_gcd(long long a, long long b, long long *x, long long *y) {\n    if (a == 0) { *x = 0; *y = 1; return b; }\n    long long x1, y1;\n    long long g = ext_gcd(b % a, a, &x1, &y1);\n    *x = y1 - (b / a) * x1;\n    *y = x1;\n    return g;\n}\n\nint chinese_remainder(int arr[], int size) {\n    int n = arr[0];\n    long long r = arr[1];\n    long long m = arr[2];\n\n    for (int i = 1; i < n; i++) {\n        long long r2 = arr[1 + 2 * i];\n        long long m2 = arr[2 + 2 * i];\n        long long p, q;\n        long long g = ext_gcd(m, m2, &p, &q);\n        long long lcm = m / g * m2;\n        r = (r + m * (((r2 - r) / g) % (m2 / g)) * p) % lcm;\n        if (r < 0) r += lcm;\n        m = lcm;\n    }\n\n    return (int)(r % m);\n}\n"
+        },
+        {
+          "filename": "chinese_remainder.h",
+          "content": "#ifndef CHINESE_REMAINDER_H\n#define CHINESE_REMAINDER_H\n\nint chinese_remainder(int arr[], int size);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "chinese_remainder.cpp",
+          "content": "#include <vector>\nusing namespace std;\n\nstatic long long extGcd(long long a, long long b, long long &x, long long &y) {\n    if (a == 0) { x = 0; y = 1; return b; }\n    long long x1, y1;\n    long long g = extGcd(b % a, a, x1, y1);\n    x = y1 - (b / a) * x1;\n    y = x1;\n    return g;\n}\n\nint chinese_remainder(vector<int> arr) {\n    int n = arr[0];\n    long long r = arr[1];\n    long long m = arr[2];\n\n    for (int i = 1; i < n; i++) {\n        long long r2 = arr[1 + 2 * i];\n        long long m2 = arr[2 + 2 * i];\n        long long p, q;\n        long long g = extGcd(m, m2, p, q);\n        long long lcm = m / g * m2;\n        r = (r + m % lcm * ((r2 - r) / g % (m2 / g)) % lcm * p % lcm) % lcm;\n        if (r < 0) r += lcm;\n        m = lcm;\n    }\n\n    return (int)(r % m);\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "ChineseRemainder.cs",
+          "content": "using System;\n\npublic class ChineseRemainder\n{\n    public static int Solve(int[] arr)\n    {\n        int n = arr[0];\n        long r = arr[1];\n        long m = arr[2];\n\n        for (int i = 1; i < n; i++)\n        {\n            long r2 = arr[1 + 2 * i];\n            long m2 = arr[2 + 2 * i];\n            long p, q;\n            long g = ExtGcd(m, m2, out p, out q);\n            long lcm = m / g * m2;\n            r = (r + m * ((r2 - r) / g) * p) % lcm;\n            if (r < 0) r += lcm;\n            m = lcm;\n        }\n\n        return (int)(r % m);\n    }\n\n    private static long ExtGcd(long a, long b, out long x, out long y)\n    {\n        if (a == 0) { x = 0; y = 1; return b; }\n        long x1, y1;\n        long g = ExtGcd(b % a, a, out x1, out y1);\n        x = y1 - (b / a) * x1;\n        y = x1;\n        return g;\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "chinese_remainder.go",
+          "content": "package chineseremaindertheorem\n\nfunc extGcd(a, b int64) (int64, int64, int64) {\n\tif a == 0 {\n\t\treturn b, 0, 1\n\t}\n\tg, x1, y1 := extGcd(b%a, a)\n\treturn g, y1 - (b/a)*x1, x1\n}\n\nfunc ChineseRemainder(arr []int) int {\n\tn := arr[0]\n\tr := int64(arr[1])\n\tm := int64(arr[2])\n\n\tfor i := 1; i < n; i++ {\n\t\tr2 := int64(arr[1+2*i])\n\t\tm2 := int64(arr[2+2*i])\n\t\tg, p, _ := extGcd(m, m2)\n\t\tlcm := m / g * m2\n\t\tr = (r + m*((r2-r)/g)*p) % lcm\n\t\tif r < 0 {\n\t\t\tr += lcm\n\t\t}\n\t\tm = lcm\n\t}\n\n\treturn int(r % m)\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "ChineseRemainder.java",
+          "content": "public class ChineseRemainder {\n\n    public static int chineseRemainder(int[] arr) {\n        int n = arr[0];\n        long r = arr[1];\n        long m = arr[2];\n\n        for (int i = 1; i < n; i++) {\n            long r2 = arr[1 + 2 * i];\n            long m2 = arr[2 + 2 * i];\n            long[] gcd = extGcd(m, m2);\n            long g = gcd[0], p = gcd[1];\n            long lcm = m / g * m2;\n            r = (r + m * ((r2 - r) / g % (m2 / g)) * p) % lcm;\n            if (r < 0) r += lcm;\n            m = lcm;\n        }\n\n        return (int) (r % m);\n    }\n\n    private static long[] extGcd(long a, long b) {\n        if (a == 0) return new long[]{b, 0, 1};\n        long[] res = extGcd(b % a, a);\n        return new long[]{res[0], res[2] - (b / a) * res[1], res[1]};\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "ChineseRemainder.kt",
+          "content": "fun extGcd(a: Long, b: Long): Triple<Long, Long, Long> {\n    if (a == 0L) return Triple(b, 0L, 1L)\n    val (g, x1, y1) = extGcd(b % a, a)\n    return Triple(g, y1 - (b / a) * x1, x1)\n}\n\nfun chineseRemainder(arr: IntArray): Int {\n    val n = arr[0]\n    var r = arr[1].toLong()\n    var m = arr[2].toLong()\n\n    for (i in 1 until n) {\n        val r2 = arr[1 + 2 * i].toLong()\n        val m2 = arr[2 + 2 * i].toLong()\n        val (g, p, _) = extGcd(m, m2)\n        val lcm = m / g * m2\n        r = (r + m * ((r2 - r) / g) * p) % lcm\n        if (r < 0) r += lcm\n        m = lcm\n    }\n\n    return (r % m).toInt()\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "chinese_remainder.py",
+          "content": "def chinese_remainder(arr: list[int]) -> int:\n    n = arr[0]\n    remainders = []\n    moduli = []\n    for i in range(n):\n        remainders.append(arr[1 + 2 * i])\n        moduli.append(arr[2 + 2 * i])\n\n    def extended_gcd(a, b):\n        if a == 0:\n            return b, 0, 1\n        g, x1, y1 = extended_gcd(b % a, a)\n        return g, y1 - (b // a) * x1, x1\n\n    r = remainders[0]\n    m = moduli[0]\n\n    for i in range(1, n):\n        r2 = remainders[i]\n        m2 = moduli[i]\n        g, p, _ = extended_gcd(m, m2)\n        lcm = m * m2 // g\n        r = (r + m * ((r2 - r) // g) * p) % lcm\n        m = lcm\n\n    return r % m if m > 0 else r\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "chinese_remainder.rs",
+          "content": "fn ext_gcd(a: i64, b: i64) -> (i64, i64, i64) {\n    if a == 0 {\n        return (b, 0, 1);\n    }\n    let (g, x1, y1) = ext_gcd(b % a, a);\n    (g, y1 - (b / a) * x1, x1)\n}\n\npub fn chinese_remainder(arr: &[i32]) -> i32 {\n    let n = arr[0] as usize;\n    let mut r = arr[1] as i64;\n    let mut m = arr[2] as i64;\n\n    for i in 1..n {\n        let r2 = arr[1 + 2 * i] as i64;\n        let m2 = arr[2 + 2 * i] as i64;\n        let (g, p, _) = ext_gcd(m, m2);\n        let lcm = m / g * m2;\n        r = (r + m * ((r2 - r) / g) * p) % lcm;\n        if r < 0 { r += lcm; }\n        m = lcm;\n    }\n\n    (r % m) as i32\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "ChineseRemainder.scala",
+          "content": "object ChineseRemainder {\n\n  private def extGcd(a: Long, b: Long): (Long, Long, Long) = {\n    if (a == 0) return (b, 0L, 1L)\n    val (g, x1, y1) = extGcd(b % a, a)\n    (g, y1 - (b / a) * x1, x1)\n  }\n\n  def chineseRemainder(arr: Array[Int]): Int = {\n    val n = arr(0)\n    var r = arr(1).toLong\n    var m = arr(2).toLong\n\n    for (i <- 1 until n) {\n      val r2 = arr(1 + 2 * i).toLong\n      val m2 = arr(2 + 2 * i).toLong\n      val (g, p, _) = extGcd(m, m2)\n      val lcm = m / g * m2\n      r = (r + m * ((r2 - r) / g) * p) % lcm\n      if (r < 0) r += lcm\n      m = lcm\n    }\n\n    (r % m).toInt\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "ChineseRemainder.swift",
+          "content": "func extGcd(_ a: Int, _ b: Int) -> (Int, Int, Int) {\n    if a == 0 { return (b, 0, 1) }\n    let (g, x1, y1) = extGcd(b % a, a)\n    return (g, y1 - (b / a) * x1, x1)\n}\n\nfunc chineseRemainder(_ arr: [Int]) -> Int {\n    let n = arr[0]\n    var r = arr[1]\n    var m = arr[2]\n\n    for i in 1..<n {\n        let r2 = arr[1 + 2 * i]\n        let m2 = arr[2 + 2 * i]\n        let (g, p, _) = extGcd(m, m2)\n        let lcm = m / g * m2\n        r = (r + m * ((r2 - r) / g) * p) % lcm\n        if r < 0 { r += lcm }\n        m = lcm\n    }\n\n    return r % m\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "chineseRemainder.ts",
+          "content": "function extGcd(a: number, b: number): [number, number, number] {\n    if (a === 0) return [b, 0, 1];\n    const [g, x1, y1] = extGcd(b % a, a);\n    return [g, y1 - Math.floor(b / a) * x1, x1];\n}\n\nexport function chineseRemainder(arr: number[]): number {\n    const n = arr[0];\n    let r = arr[1];\n    let m = arr[2];\n\n    for (let i = 1; i < n; i++) {\n        const r2 = arr[1 + 2 * i];\n        const m2 = arr[2 + 2 * i];\n        const [g, p] = extGcd(m, m2);\n        const lcm = Math.floor(m / g) * m2;\n        r = ((r + m * Math.floor((r2 - r) / g) * p) % lcm + lcm) % lcm;\n        m = lcm;\n    }\n\n    return r % m;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "readme": "# Chinese Remainder Theorem\n\n## Overview\n\nThe Chinese Remainder Theorem (CRT) finds the smallest non-negative integer x that satisfies a system of simultaneous congruences: x = r_i (mod m_i) for pairwise coprime moduli. The algorithm uses the extended Euclidean algorithm to combine congruences two at a time.\n\nThe theorem dates back to the 3rd century CE, attributed to the Chinese mathematician Sun Tzu (Sunzi), who posed the problem: \"Find a number that leaves remainder 2 when divided by 3, remainder 3 when divided by 5, and remainder 2 when divided by 7.\" The CRT guarantees a unique solution modulo the product of all moduli when the moduli are pairwise coprime.\n\n## How It Works\n\n1. Start with the first congruence x = r1 (mod m1).\n2. For each subsequent congruence x = ri (mod mi), combine using the extended GCD to find x satisfying both congruences simultaneously.\n3. The result is the smallest non-negative x satisfying all congruences.\n\nInput format: `[n, r1, m1, r2, m2, ..., rn, mn]`\n\nThe combination step works as follows: given x = a (mod M) and x = r (mod m), use the extended Euclidean algorithm to find coefficients u, v such that u*M + v*m = gcd(M, m) = 1 (since M and m are coprime). Then x = a + M * (r - a) * u (mod M*m).\n\n## Worked Example\n\nGiven input: `[3, 2, 3, 3, 5, 2, 7]`\n\nFind x such that x = 2 (mod 3), x = 3 (mod 5), x = 2 (mod 7).\n\n**Step 1:** Start with x = 2 (mod 3). So x = 2, M = 3.\n\n**Step 2:** Combine with x = 3 (mod 5).\n- Use extended GCD: find u, v such that 3u + 5v = 1. We get u = 2, v = -1.\n- x = 2 + 3 * (3 - 2) * 2 = 2 + 6 = 8\n- M = 3 * 5 = 15\n- x = 8 (mod 15)\n- Verify: 8 mod 3 = 2, 8 mod 5 = 3.\n\n**Step 3:** Combine with x = 2 (mod 7).\n- Use extended GCD: find u, v such that 15u + 7v = 1. We get u = 1, v = -2.\n- x = 8 + 15 * (2 - 8) * 1 = 8 + 15 * (-6) = 8 - 90 = -82\n- M = 15 * 7 = 105\n- x = -82 mod 105 = 23\n- Verify: 23 mod 3 = 2, 23 mod 5 = 3, 23 mod 7 = 2.\n\nResult: x = 23.\n\n## Pseudocode\n\n```\nfunction chineseRemainder(remainders[], moduli[], n):\n    x = remainders[0]\n    M = moduli[0]\n\n    for i = 1 to n-1:\n        r = remainders[i]\n        m = moduli[i]\n        (g, u, v) = extendedGCD(M, m)\n        // g should be 1 since moduli are pairwise coprime\n        x = x + M * ((r - x) * u mod m)\n        M = M * m\n        x = x mod M\n\n    return ((x mod M) + M) mod M    // ensure non-negative\n\nfunction extendedGCD(a, b):\n    if b == 0:\n        return (a, 1, 0)\n    (g, x1, y1) = extendedGCD(b, a mod b)\n    return (g, y1, x1 - (a / b) * y1)\n```\n\n## Complexity Analysis\n\n| Case    | Time       | Space |\n|---------|------------|-------|\n| Best    | O(n log M) | O(1)  |\n| Average | O(n log M) | O(1)  |\n| Worst   | O(n log M) | O(1)  |\n\nWhere n is the number of congruences and M is the product of all moduli.\n\n**Why these complexities?**\n\n- **Time -- O(n log M):** For each of the n congruences, we perform an extended GCD computation. The extended GCD of two numbers a and b runs in O(log(min(a, b))) time. Since the combined modulus grows toward M, the total work across all iterations is O(n log M).\n- **Space -- O(1):** Only the running solution x and combined modulus M are maintained, plus temporary variables for the extended GCD.\n\n## Applications\n\n- **RSA decryption optimization:** CRT allows RSA decryption to be performed modulo p and q separately, then combined, yielding a 4x speedup over direct modular exponentiation.\n- **Calendar calculations:** Finding dates that satisfy multiple cyclic constraints (e.g., day of week, day of month).\n- **Scheduling and resource allocation:** Finding time slots satisfying periodic constraints with different periods.\n- **Signal processing:** Reconstructing signals from residues in the Residue Number System (RNS).\n- **Secret sharing:** Mignotte's and Asmuth-Bloom secret sharing schemes are based on CRT.\n- **Large number arithmetic:** CRT enables parallel computation by decomposing operations across smaller moduli.\n\n## When NOT to Use\n\n- **When moduli are not pairwise coprime:** The standard CRT requires gcd(m_i, m_j) = 1 for all i != j. For non-coprime moduli, the generalized CRT is needed, and a solution may not exist.\n- **When the product of moduli is too large:** The solution x can be as large as the product of all moduli minus 1. If this exceeds your integer type's range, big-integer arithmetic is required.\n- **When only one congruence exists:** A single congruence x = r (mod m) is trivially solved without CRT.\n- **When approximate solutions suffice:** If an exact solution is not required, numerical methods may be simpler.\n\n## Comparison with Related Methods\n\n| Method               | Requirements            | Time       | Notes                                    |\n|---------------------|-------------------------|------------|------------------------------------------|\n| CRT (iterative)     | Pairwise coprime moduli | O(n log M) | Combines two congruences at a time       |\n| CRT (constructive)  | Pairwise coprime moduli | O(n log M) | Uses M_i = M/m_i and inverses directly   |\n| Generalized CRT     | Any moduli              | O(n log M) | Checks compatibility; may have no solution|\n| Garner's Algorithm   | Pairwise coprime moduli | O(n^2)     | Mixed-radix representation; avoids large products |\n| Brute Force         | Any moduli              | O(M)       | Checks all values up to M; impractical for large M |\n\nThe iterative CRT approach used here is simple to implement and efficient. Garner's algorithm is preferred when the intermediate products would overflow, as it avoids computing the full product M directly.\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [chinese_remainder.py](python/chinese_remainder.py) |\n| Java       | [ChineseRemainder.java](java/ChineseRemainder.java) |\n| C++        | [chinese_remainder.cpp](cpp/chinese_remainder.cpp) |\n| C          | [chinese_remainder.c](c/chinese_remainder.c) |\n| Go         | [chinese_remainder.go](go/chinese_remainder.go) |\n| TypeScript | [chineseRemainder.ts](typescript/chineseRemainder.ts) |\n| Rust       | [chinese_remainder.rs](rust/chinese_remainder.rs) |\n| Kotlin     | [ChineseRemainder.kt](kotlin/ChineseRemainder.kt) |\n| Swift      | [ChineseRemainder.swift](swift/ChineseRemainder.swift) |\n| Scala      | [ChineseRemainder.scala](scala/ChineseRemainder.scala) |\n| C#         | [ChineseRemainder.cs](csharp/ChineseRemainder.cs) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Section 31.5: The Chinese remainder theorem.\n- Shoup, V. (2009). *A Computational Introduction to Number Theory and Algebra* (2nd ed.). Cambridge University Press. Chapter 2.6.\n- Knuth, D. E. (1997). *The Art of Computer Programming, Volume 2: Seminumerical Algorithms* (3rd ed.). Addison-Wesley. Section 4.3.2.\n- [Chinese Remainder Theorem -- Wikipedia](https://en.wikipedia.org/wiki/Chinese_remainder_theorem)\n"
+}

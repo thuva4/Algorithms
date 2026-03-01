@@ -1,0 +1,74 @@
+{
+  "name": "Josephus Problem",
+  "slug": "josephus-problem",
+  "category": "math",
+  "subcategory": "combinatorics",
+  "difficulty": "intermediate",
+  "tags": [
+    "math",
+    "josephus",
+    "circular",
+    "elimination",
+    "recursion"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "average": "O(n)",
+      "worst": "O(n)"
+    },
+    "space": "O(1)"
+  },
+  "stable": false,
+  "in_place": true,
+  "related": [],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "josephus.c",
+          "content": "int josephus(int n, int k) {\n    int survivor = 0;\n    for (int i = 1; i <= n; i++) {\n        survivor = (survivor + k) % i;\n    }\n    return survivor;\n}\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "josephus_problem.cpp",
+          "content": "// Problem statement - Consider a game where there are n children(numbered 1,\n// 2,…, n) in a circle.During the game, every second child is removed from the\n// circle, until there are no children left.In which order will the children be\n// removed?\n\n// problem link - https://cses.fi/problemset/task/2162/\n\n#include <bits/stdc++.h>\n#define ll long long\nusing namespace std;\n\nvoid solve() {\n    ll n;\n    cin >> n;\n    set<ll> s;\n    for (int i = 1; i <= n; i++) s.insert(i);\n    auto it = s.begin();\n    ll c = 0;\n    ll cnt = n;\n    while (cnt != 1) {\n        --cnt;\n        if (c < 1) {\n            ++c;\n            ++it;\n        }\n        if (it == s.end())\n            it = s.begin();\n        if (c) {\n            cout << *it << \" \";\n\n            s.erase(it++);\n            if (it == s.end())\n                it = s.begin();\n            c = 0;\n            if (it == s.end())\n                it = s.begin();\n        }\n    }\n    cout << *s.begin() << endl;\n}\n//----------------------Main----------------------------//\n\nint main() {\n    FIO;\n\n    // test case - 7\n    // output - 2 4 6 1 5 3 7\n\n    solve();\n\n    return 0;\n}"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "JosephusProblem.java",
+          "content": "public class JosephusProblem {\n    public static int josephus(int n, int k) {\n        if (n <= 0 || k <= 0) {\n            return 0;\n        }\n        int result = 0;\n        for (int size = 2; size <= n; size++) {\n            result = (result + k) % size;\n        }\n        return result;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "JosephusProblem.kt",
+          "content": "fun josephus(n: Int, k: Int): Int {\n    var survivor = 0\n    for (size in 1..n) {\n        survivor = (survivor + k) % size\n    }\n    return survivor\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "JosephusProblem.swift",
+          "content": "func josephus(_ n: Int, _ k: Int) -> Int {\n    if n <= 0 || k <= 0 { return 0 }\n    var result = 0\n    if n == 1 { return 0 }\n    for size in 2...n {\n        result = (result + k) % size\n    }\n    return result\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Josephus Problem\n\n## Overview\n\nThe Josephus Problem is a theoretical problem in mathematics and computer science. In the classic formulation, n people stand in a circle and every k-th person is eliminated, proceeding around the circle, until only one person remains. The problem asks for the position of the last survivor. For example, with n = 7 people and k = 3, the elimination order is 3, 6, 2, 7, 5, 1, and person 4 survives.\n\nNamed after the historian Flavius Josephus, who reportedly used a variant of this problem to survive a Roman siege, the Josephus problem has applications in computer science (circular buffer management, process scheduling), cryptography, and recreational mathematics. The dynamic programming solution computes the answer in O(n) time.\n\n## How It Works\n\nThe key recurrence relation is: J(n, k) = (J(n-1, k) + k) mod n, with base case J(1, k) = 0 (using 0-indexed positions). This works because after eliminating the k-th person, the problem reduces to a circle of n-1 people, but with the positions shifted by k. The recurrence unshifts the positions to map the solution of the smaller problem back to the original circle.\n\n### Example\n\n`n = 7` people (positions 1 through 7), every `k = 3` eliminated:\n\n**Simulation of the elimination process:**\n\n```\nCircle: 1  2  3  4  5  6  7\n                ^\nStep 1: Count 3 from start, eliminate 3\nCircle: 1  2  _  4  5  6  7\n                   ^\nStep 2: Count 3 from 4, eliminate 6\nCircle: 1  2  _  4  5  _  7\n                            ^\nStep 3: Count 3 from 7, eliminate 2\nCircle: 1  _  _  4  5  _  7\n                      ^\nStep 4: Count 3 from 4, eliminate 7\nCircle: 1  _  _  4  5  _  _\n               ^\nStep 5: Count 3 from 1, eliminate 5\nCircle: 1  _  _  4  _  _  _\n               ^\nStep 6: Count 3 from 1, eliminate 1\nCircle: _  _  _  4  _  _  _\n\nSurvivor: 4\n```\n\n**Using the recurrence formula (0-indexed):**\n\n| n | J(n, 3) = (J(n-1, 3) + 3) mod n | Position (1-indexed) |\n|---|----------------------------------|---------------------|\n| 1 | 0 (base case) | 1 |\n| 2 | (0 + 3) mod 2 = 1 | 2 |\n| 3 | (1 + 3) mod 3 = 1 | 2 |\n| 4 | (1 + 3) mod 4 = 0 | 1 |\n| 5 | (0 + 3) mod 5 = 3 | 4 |\n| 6 | (3 + 3) mod 6 = 0 | 1 |\n| 7 | (0 + 3) mod 7 = 3 | 4 |\n\nResult: Survivor is at position `4` (1-indexed)\n\n## Pseudocode\n\n```\nfunction josephus(n, k):\n    // 0-indexed position of the survivor\n    position = 0\n\n    for i from 2 to n:\n        position = (position + k) mod i\n\n    return position + 1    // convert to 1-indexed\n```\n\nFor the special case k = 2, there is a closed-form solution: J(n) = 2 * L + 1, where n = 2^m + L and 0 <= L < 2^m. This can be computed in O(log n) time using bit manipulation.\n\n## Complexity Analysis\n\n| Case    | Time | Space |\n|---------|------|-------|\n| Best    | O(n) | O(1)  |\n| Average | O(n) | O(1)  |\n| Worst   | O(n) | O(1)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(n):** The recurrence builds up from J(1) to J(n), requiring exactly n - 1 iterations regardless of k.\n\n- **Average Case -- O(n):** Each iteration performs one addition and one modulo operation in O(1) time. Total: n - 1 constant-time operations.\n\n- **Worst Case -- O(n):** The computation is uniform for all values of n and k. No input causes worse performance.\n\n- **Space -- O(1):** Only a single position variable is maintained and updated iteratively. No array or recursion stack is needed.\n\n## When to Use\n\n- **Determining the survivor in circular elimination games:** The direct application of the problem.\n- **Circular buffer or scheduling analysis:** Understanding which elements survive a round-robin elimination process.\n- **Mathematical puzzles and competitions:** The Josephus problem frequently appears in programming contests.\n- **When k = 2:** The closed-form solution allows O(log n) computation using the highest set bit.\n\n## When NOT to Use\n\n- **When you need the full elimination order:** The recurrence only finds the survivor. Simulating the full process requires O(n*k) or O(n log n) with a balanced BST.\n- **When n is very large and k is also large:** While the recurrence is O(n), for very large n, even linear time may be insufficient. Logarithmic-time algorithms exist for certain k values.\n- **When the circle is not homogeneous:** If people have different skip counts or conditional elimination rules, the simple recurrence does not apply.\n\n## Comparison with Similar Algorithms\n\n| Method              | Time       | Space | Notes                                        |\n|--------------------|-----------|-------|----------------------------------------------|\n| DP Recurrence       | O(n)      | O(1)  | Finds survivor only; optimal for general k    |\n| Simulation (list)   | O(n*k)    | O(n)  | Full elimination order; slow for large k      |\n| Simulation (BST)    | O(n log n)| O(n)  | Full order; balanced BST for O(log n) removal |\n| Closed form (k=2)   | O(log n)  | O(1)  | Special case only; uses bit manipulation      |\n\n## Implementations\n\n| Language | File |\n|----------|------|\n| C++      | [josephus_problem.cpp](cpp/josephus_problem.cpp) |\n\n## References\n\n- Graham, R. L., Knuth, D. E., & Patashnik, O. (1994). *Concrete Mathematics* (2nd ed.). Addison-Wesley. Chapter 1.3: The Josephus Problem.\n- Josephus, F. (c. 75 AD). *The Jewish War*. Book III, Chapter 8.\n- [Josephus Problem -- Wikipedia](https://en.wikipedia.org/wiki/Josephus_problem)\n"
+}

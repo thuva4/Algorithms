@@ -1,0 +1,158 @@
+{
+  "name": "Radix Sort",
+  "slug": "radix-sort",
+  "category": "sorting",
+  "subcategory": "non-comparison",
+  "difficulty": "intermediate",
+  "tags": [
+    "sorting",
+    "non-comparison",
+    "stable",
+    "distribution"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(nk)",
+      "average": "O(nk)",
+      "worst": "O(nk)"
+    },
+    "space": "O(n+k)"
+  },
+  "stable": true,
+  "in_place": false,
+  "related": [
+    "counting-sort",
+    "bucket-sort"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "RadixSort.c",
+          "content": "#include<stdio.h>\n \nint largest(int a[], int n)\n{\n    int large = a[0], i;\n    for(i = 1; i < n; i++)\n    {\n        if(large < a[i])\n            large = a[i];\n    }\n    return large;\n}\n \n\nvoid RadixSort(int a[], int n)\n{\n    int bucket[10][10], bucket_count[10];\n    int i, j, k, remainder, NOP=0, divisor=1, large, pass;\n \n    large = largest(a, n);\n    printf(\"The large element %d\\n\",large);\n    while(large > 0)\n    {\n        NOP++;\n        large/=10;\n    }\n \n    for(pass = 0; pass < NOP; pass++)\n    {\n        for(i = 0; i < 10; i++)\n        {\n            bucket_count[i] = 0;\n        }\n        for(i = 0; i < n; i++)\n        {\n            remainder = (a[i] / divisor) % 10;\n            bucket[remainder][bucket_count[remainder]] = a[i];\n            bucket_count[remainder] += 1;\n        }\n \n        i = 0;\n        for(k = 0; k < 10; k++)\n        {\n            for(j = 0; j < bucket_count[k]; j++)\n            {\n                a[i] = bucket[k][j];\n                i++;\n            }\n        }\n        divisor *= 10;\n \n        for(i = 0; i < n; i++)\n            printf(\"%d  \",a[i]);\n        printf(\"\\n\");\n    }\n}\n\nint main()\n{\n    int i, n, a[10];\n    printf(\"Enter the number of elements :: \");\n    scanf(\"%d\",&n);\n    printf(\"Enter the elements :: \");\n    for(i = 0; i < n; i++)\n    {\n        scanf(\"%d\",&a[i]);\n    }\n    RadixSort(a,n);\n    printf(\"The sorted elements are ::  \");\n    for(i = 0; i < n; i++)\n        printf(\"%d  \",a[i]);\n    printf(\"\\n\");\n    return 0;\n}\n"
+        },
+        {
+          "filename": "radix_sort.c",
+          "content": "#include \"radix_sort.h\"\n#include <stdlib.h>\n#include <stdio.h>\n\nstatic int get_max(int arr[], int n) {\n    int max = arr[0];\n    for (int i = 1; i < n; i++) {\n        if (arr[i] > max)\n            max = arr[i];\n    }\n    return max;\n}\n\nstatic int get_min(int arr[], int n) {\n    int min = arr[0];\n    for (int i = 1; i < n; i++) {\n        if (arr[i] < min)\n            min = arr[i];\n    }\n    return min;\n}\n\nstatic void count_sort(int arr[], int n, int exp) {\n    int* output = (int*)malloc(n * sizeof(int));\n    if (output == NULL) return;\n\n    int count[10] = {0};\n    int i;\n\n    for (i = 0; i < n; i++)\n        count[(arr[i] / exp) % 10]++;\n\n    for (i = 1; i < 10; i++)\n        count[i] += count[i - 1];\n\n    for (i = n - 1; i >= 0; i--) {\n        output[count[(arr[i] / exp) % 10] - 1] = arr[i];\n        count[(arr[i] / exp) % 10]--;\n    }\n\n    for (i = 0; i < n; i++)\n        arr[i] = output[i];\n    \n    free(output);\n}\n\nvoid radix_sort(int arr[], int n) {\n    if (n <= 0) return;\n    \n    int min_val = get_min(arr, n);\n    int offset = 0;\n    \n    if (min_val < 0) {\n        offset = -min_val;\n        for (int i = 0; i < n; i++) {\n            arr[i] += offset;\n        }\n    }\n    \n    int max = get_max(arr, n);\n\n    for (int exp = 1; max / exp > 0; exp *= 10)\n        count_sort(arr, n, exp);\n        \n    if (offset > 0) {\n        for (int i = 0; i < n; i++) {\n            arr[i] -= offset;\n        }\n    }\n}\n"
+        },
+        {
+          "filename": "radix_sort.h",
+          "content": "#ifndef RADIX_SORT_H\n#define RADIX_SORT_H\n\nvoid radix_sort(int arr[], int n);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "RadixSort.cpp",
+          "content": "#include <algorithm>\n#include <iostream>\n#include <iterator>\n \n// Radix sort comparator for 32-bit two's complement integers\nclass radix_test\n{\n    const int bit; // bit position [0..31] to examine\npublic:\n    radix_test(int offset) : bit(offset) {} // constructor\n \n    bool operator()(int value) const // function call operator\n    {\n        if (bit == 31) // sign bit\n            return value < 0; // negative int to left partition\n        else\n            return !(value & (1 << bit)); // 0 bit to left partition\n    }\n};\n \n// Least significant digit radix sort\nvoid lsd_radix_sort(int *first, int *last)\n{\n    for (int lsb = 0; lsb < 32; ++lsb) // least-significant-bit\n    {\n        std::stable_partition(first, last, radix_test(lsb));\n    }\n}\n \n// Most significant digit radix sort (recursive)\nvoid msd_radix_sort(int *first, int *last, int msb = 31)\n{\n    if (first != last && msb >= 0)\n    {\n        int *mid = std::partition(first, last, radix_test(msb));\n        msb--; // decrement most-significant-bit\n        msd_radix_sort(first, mid, msb); // sort left partition\n        msd_radix_sort(mid, last, msb); // sort right partition\n    }\n}\n \n// test radix_sort\nint main()\n{\n    int data[] = { 170, 45, 75, -90, -802, 24, 2, 66 };\n \n    lsd_radix_sort(data, data + 8);\n    // msd_radix_sort(data, data + 8);\n \n    std::copy(data, data + 8, std::ostream_iterator<int>(std::cout, \" \"));\n \n    return 0;\n}"
+        },
+        {
+          "filename": "radix_sort.cpp",
+          "content": "#include \"radix_sort.h\"\n#include <vector>\n#include <algorithm>\n#include <cmath>\n\nstatic int get_max(const std::vector<int>& arr) {\n    if (arr.empty()) return 0;\n    int max = arr[0];\n    for (int x : arr)\n        if (x > max) max = x;\n    return max;\n}\n\nstatic int get_min(const std::vector<int>& arr) {\n    if (arr.empty()) return 0;\n    int min = arr[0];\n    for (int x : arr)\n        if (x < min) min = x;\n    return min;\n}\n\nstatic void count_sort(std::vector<int>& arr, int exp) {\n    int n = arr.size();\n    std::vector<int> output(n);\n    int count[10] = {0};\n\n    for (int i = 0; i < n; i++)\n        count[(arr[i] / exp) % 10]++;\n\n    for (int i = 1; i < 10; i++)\n        count[i] += count[i - 1];\n\n    for (int i = n - 1; i >= 0; i--) {\n        output[count[(arr[i] / exp) % 10] - 1] = arr[i];\n        count[(arr[i] / exp) % 10]--;\n    }\n\n    for (int i = 0; i < n; i++)\n        arr[i] = output[i];\n}\n\nvoid radix_sort(std::vector<int>& arr) {\n    if (arr.empty()) return;\n    \n    int min_val = get_min(arr);\n    int offset = 0;\n    \n    if (min_val < 0) {\n        offset = -min_val;\n        for (size_t i = 0; i < arr.size(); i++) {\n            arr[i] += offset;\n        }\n    }\n    \n    int max = get_max(arr);\n\n    for (int exp = 1; max / exp > 0; exp *= 10)\n        count_sort(arr, exp);\n        \n    if (offset > 0) {\n        for (size_t i = 0; i < arr.size(); i++) {\n            arr[i] -= offset;\n        }\n    }\n}\n"
+        },
+        {
+          "filename": "radix_sort.h",
+          "content": "#ifndef RADIX_SORT_H\n#define RADIX_SORT_H\n\n#include <vector>\n\nvoid radix_sort(std::vector<int>& arr);\n\n#endif\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "RadixSort.cs",
+          "content": "using System;\nusing System.Linq;\n\nnamespace Algorithms.Sorting.RadixSort\n{\n    public class RadixSort\n    {\n        public static void Sort(int[] arr)\n        {\n            if (arr == null || arr.Length == 0)\n                return;\n\n            int minVal = arr.Min();\n            int offset = 0;\n            \n            if (minVal < 0)\n            {\n                offset = Math.Abs(minVal);\n                for (int i = 0; i < arr.Length; i++)\n                    arr[i] += offset;\n            }\n\n            int max = arr.Max();\n\n            for (int exp = 1; max / exp > 0; exp *= 10)\n                CountSort(arr, exp);\n                \n            if (offset > 0)\n            {\n                for (int i = 0; i < arr.Length; i++)\n                    arr[i] -= offset;\n            }\n        }\n\n        private static void CountSort(int[] arr, int exp)\n        {\n            int n = arr.Length;\n            int[] output = new int[n];\n            int[] count = new int[10];\n\n            for (int i = 0; i < n; i++)\n                count[(arr[i] / exp) % 10]++;\n\n            for (int i = 1; i < 10; i++)\n                count[i] += count[i - 1];\n\n            for (int i = n - 1; i >= 0; i--)\n            {\n                output[count[(arr[i] / exp) % 10] - 1] = arr[i];\n                count[(arr[i] / exp) % 10]--;\n            }\n\n            for (int i = 0; i < n; i++)\n                arr[i] = output[i];\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "RadixSort.go",
+          "content": "package main\n\nimport \"fmt\"\n\nfunc getMax(arr []int) int {\n\tmax := arr[0]\n\tfor _, v := range arr {\n\t\tif v > max {\n\t\t\tmax = v\n\t\t}\n\t}\n\treturn max\n}\n\nfunc countingSortByDigit(arr []int, n int, exp int) {\n\toutput := make([]int, n)\n\tcount := make([]int, 10)\n\n\tfor i := 0; i < n; i++ {\n\t\tcount[(arr[i]/exp)%10]++\n\t}\n\n\tfor i := 1; i < 10; i++ {\n\t\tcount[i] += count[i-1]\n\t}\n\n\tfor i := n - 1; i >= 0; i-- {\n\t\tdigit := (arr[i] / exp) % 10\n\t\toutput[count[digit]-1] = arr[i]\n\t\tcount[digit]--\n\t}\n\n\tcopy(arr, output)\n}\n\nfunc RadixSort(arr []int) []int {\n\tif len(arr) <= 1 {\n\t\treturn arr\n\t}\n\n\t// Separate negative and non-negative numbers\n\tvar negatives, positives []int\n\tfor _, v := range arr {\n\t\tif v < 0 {\n\t\t\tnegatives = append(negatives, -v)\n\t\t} else {\n\t\t\tpositives = append(positives, v)\n\t\t}\n\t}\n\n\t// Sort positives\n\tif len(positives) > 0 {\n\t\tmax := getMax(positives)\n\t\tfor exp := 1; max/exp > 0; exp *= 10 {\n\t\t\tcountingSortByDigit(positives, len(positives), exp)\n\t\t}\n\t}\n\n\t// Sort negatives (sort their absolute values, then reverse)\n\tif len(negatives) > 0 {\n\t\tmax := getMax(negatives)\n\t\tfor exp := 1; max/exp > 0; exp *= 10 {\n\t\t\tcountingSortByDigit(negatives, len(negatives), exp)\n\t\t}\n\t}\n\n\t// Merge: reversed negatives (largest abs first, then negate) + positives\n\tidx := 0\n\tfor i := len(negatives) - 1; i >= 0; i-- {\n\t\tarr[idx] = -negatives[i]\n\t\tidx++\n\t}\n\tfor _, v := range positives {\n\t\tarr[idx] = v\n\t\tidx++\n\t}\n\n\treturn arr\n}\n\nfunc main() {\n\tarr := []int{170, 45, 75, -90, 802, 24, 2, 66}\n\tfmt.Println(RadixSort(arr))\n}\n"
+        },
+        {
+          "filename": "radix_sort.go",
+          "content": "package radixsort\n\n// RadixSort sorts an array of integers using the Radix Sort algorithm.\nfunc RadixSort(arr []int) {\n\tif len(arr) == 0 {\n\t\treturn\n\t}\n\n\tminVal := getMin(arr)\n\toffset := 0\n\t\n\tif minVal < 0 {\n\t\toffset = -minVal\n\t\tfor i := range arr {\n\t\t\tarr[i] += offset\n\t\t}\n\t}\n\n\tmax := getMax(arr)\n\n\tfor exp := 1; max/exp > 0; exp *= 10 {\n\t\tcountSort(arr, exp)\n\t}\n\t\n\tif offset > 0 {\n\t\tfor i := range arr {\n\t\t\tarr[i] -= offset\n\t\t}\n\t}\n}\n\nfunc getMin(arr []int) int {\n\tmin := arr[0]\n\tfor _, v := range arr {\n\t\tif v < min {\n\t\t\tmin = v\n\t\t}\n\t}\n\treturn min\n}\n\nfunc getMax(arr []int) int {\n\tmax := arr[0]\n\tfor _, v := range arr {\n\t\tif v > max {\n\t\t\tmax = v\n\t\t}\n\t}\n\treturn max\n}\n\nfunc countSort(arr []int, exp int) {\n\tn := len(arr)\n\toutput := make([]int, n)\n\tcount := make([]int, 10)\n\n\tfor i := 0; i < n; i++ {\n\t\tcount[(arr[i]/exp)%10]++\n\t}\n\n\tfor i := 1; i < 10; i++ {\n\t\tcount[i] += count[i-1]\n\t}\n\n\tfor i := n - 1; i >= 0; i-- {\n\t\toutput[count[(arr[i]/exp)%10]-1] = arr[i]\n\t\tcount[(arr[i]/exp)%10]--\n\t}\n\n\tfor i := 0; i < n; i++ {\n\t\tarr[i] = output[i]\n\t}\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "RadixSort.java",
+          "content": "package algorithms.sorting.radixsort;\n\nimport java.util.Arrays;\n\npublic class RadixSort {\n    public static void sort(int[] arr) {\n        if (arr == null || arr.length == 0) {\n            return;\n        }\n\n        int min = Arrays.stream(arr).min().getAsInt();\n        int offset = 0;\n        \n        if (min < 0) {\n            offset = Math.abs(min);\n            for (int i = 0; i < arr.length; i++) {\n                arr[i] += offset;\n            }\n        }\n\n        int max = Arrays.stream(arr).max().getAsInt();\n\n        for (int exp = 1; max / exp > 0; exp *= 10) {\n            countSort(arr, exp);\n        }\n        \n        if (offset > 0) {\n            for (int i = 0; i < arr.length; i++) {\n                arr[i] -= offset;\n            }\n        }\n    }\n\n    private static void countSort(int[] arr, int exp) {\n        int n = arr.length;\n        int[] output = new int[n];\n        int[] count = new int[10];\n\n        for (int i = 0; i < n; i++)\n            count[(arr[i] / exp) % 10]++;\n\n        for (int i = 1; i < 10; i++)\n            count[i] += count[i - 1];\n\n        for (int i = n - 1; i >= 0; i--) {\n            output[count[(arr[i] / exp) % 10] - 1] = arr[i];\n            count[(arr[i] / exp) % 10]--;\n        }\n\n        System.arraycopy(output, 0, arr, 0, n);\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "RadixSort.kt",
+          "content": "package algorithms.sorting.radixsort\n\nimport kotlin.math.abs\n\nclass RadixSort {\n    fun sort(arr: IntArray) {\n        if (arr.isEmpty()) return\n        \n        val min = arr.minOrNull() ?: return\n        var offset = 0\n        \n        if (min < 0) {\n            offset = abs(min)\n            for (i in arr.indices) {\n                arr[i] += offset\n            }\n        }\n        \n        val max = arr.maxOrNull() ?: return\n        \n        var exp = 1\n        while (max / exp > 0) {\n            countSort(arr, exp)\n            exp *= 10\n        }\n        \n        if (offset > 0) {\n            for (i in arr.indices) {\n                arr[i] -= offset\n            }\n        }\n    }\n\n    private fun countSort(arr: IntArray, exp: Int) {\n        val n = arr.size\n        val output = IntArray(n)\n        val count = IntArray(10)\n        \n        for (i in 0 until n)\n            count[(arr[i] / exp) % 10]++\n            \n        for (i in 1 until 10)\n            count[i] += count[i - 1]\n            \n        for (i in n - 1 downTo 0) {\n            output[count[(arr[i] / exp) % 10] - 1] = arr[i]\n            count[(arr[i] / exp) % 10]--\n        }\n        \n        for (i in 0 until n)\n            arr[i] = output[i]\n    }\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "RadixSort.py",
+          "content": "#Works with python2.6 <\nfrom math import log\n \ndef getDigit(num, base, digit_num):\n    # pulls the selected digit\n    return (num // base ** digit_num) % base  \n \ndef makeBlanks(size):\n    # create a list of empty lists to hold the split by digit\n    return [ [] for i in range(size) ]  \n \ndef split(a_list, base, digit_num):\n    buckets = makeBlanks(base)\n    for num in a_list:\n        # append the number to the list selected by the digit\n        buckets[getDigit(num, base, digit_num)].append(num)  \n    return buckets\n \n# concatenate the lists back in order for the next step\ndef merge(a_list):\n    new_list = []\n    for sublist in a_list:\n       new_list.extend(sublist)\n    return new_list\n \ndef maxAbs(a_list):\n    # largest abs value element of a list\n    return max(abs(num) for num in a_list)\n \ndef split_by_sign(a_list):\n    # splits values by sign - negative values go to the first bucket,\n    # non-negative ones into the second\n    buckets = [[], []]\n    for num in a_list:\n        if num < 0:\n            buckets[0].append(num)\n        else:\n            buckets[1].append(num)\n    return buckets\n \ndef radixSort(a_list, base):\n    # there are as many passes as there are digits in the longest number\n    passes = int(round(log(maxAbs(a_list), base)) + 1) \n    new_list = list(a_list)\n    for digit_num in range(passes):\n        new_list = merge(split(new_list, base, digit_num))\n    return merge(split_by_sign(new_list))"
+        },
+        {
+          "filename": "radix_sort.py",
+          "content": "def radix_sort(arr):\n    if not arr:\n        return arr\n    \n    min_val = min(arr)\n    offset = 0\n    \n    if min_val < 0:\n        offset = abs(min_val)\n        for i in range(len(arr)):\n            arr[i] += offset\n            \n    max_val = max(arr)\n    \n    exp = 1\n    while max_val // exp > 0:\n        counting_sort(arr, exp)\n        exp *= 10\n    \n    if offset > 0:\n        for i in range(len(arr)):\n            arr[i] -= offset\n            \n    return arr\n\ndef counting_sort(arr, exp):\n    n = len(arr)\n    output = [0] * n\n    count = [0] * 10\n    \n    for i in range(n):\n        index = (arr[i] // exp)\n        count[index % 10] += 1\n        \n    for i in range(1, 10):\n        count[i] += count[i - 1]\n        \n    i = n - 1\n    while i >= 0:\n        index = (arr[i] // exp)\n        output[count[index % 10] - 1] = arr[i]\n        count[index % 10] -= 1\n        i -= 1\n        \n    for i in range(n):\n        arr[i] = output[i]\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "radix_sort.rs",
+          "content": "pub fn radix_sort(arr: &mut [i32]) {\n    if arr.is_empty() {\n        return;\n    }\n\n    let min = *arr.iter().min().unwrap();\n    let mut offset = 0;\n    \n    if min < 0 {\n        offset = min.abs();\n        for x in arr.iter_mut() {\n            *x += offset;\n        }\n    }\n\n    let max = *arr.iter().max().unwrap();\n    let mut exp = 1;\n\n    while max / exp > 0 {\n        counting_sort(arr, exp);\n        exp *= 10;\n    }\n    \n    if offset > 0 {\n        for x in arr.iter_mut() {\n            *x -= offset;\n        }\n    }\n}\n\nfn counting_sort(arr: &mut [i32], exp: i32) {\n    let n = arr.len();\n    let mut output = vec![0; n];\n    let mut count = [0; 10];\n\n    for &x in arr.iter() {\n        count[((x / exp) % 10) as usize] += 1;\n    }\n\n    for i in 1..10 {\n        count[i] += count[i - 1];\n    }\n\n    for &x in arr.iter().rev() {\n        let idx = ((x / exp) % 10) as usize;\n        output[count[idx] - 1] = x;\n        count[idx] -= 1;\n    }\n\n    arr.copy_from_slice(&output);\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "RadixSort.scala",
+          "content": "object RadixSort {\n  def sort(arr: Array[Int]): Unit = {\n    if (arr.isEmpty) return\n    \n    val min = arr.min\n    var offset = 0\n    \n    if (min < 0) {\n      offset = Math.abs(min)\n      for (i <- arr.indices) {\n        arr(i) += offset\n      }\n    }\n    \n    val max = arr.max\n    var exp = 1\n    \n    while (max / exp > 0) {\n      countSort(arr, exp)\n      exp *= 10\n    }\n    \n    if (offset > 0) {\n      for (i <- arr.indices) {\n        arr(i) -= offset\n      }\n    }\n  }\n  \n  private def countSort(arr: Array[Int], exp: Int): Unit = {\n    val n = arr.length\n    val output = new Array[Int](n)\n    val count = new Array[Int](10)\n    \n    for (i <- 0 until n)\n      count((arr(i) / exp) % 10) += 1\n      \n    for (i <- 1 until 10)\n      count(i) += count(i - 1)\n      \n    for (i <- n - 1 to 0 by -1) {\n      output(count((arr(i) / exp) % 10) - 1) = arr(i)\n      count((arr(i) / exp) % 10) -= 1\n    }\n    \n    for (i <- 0 until n)\n      arr(i) = output(i)\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "RadixSort.swift",
+          "content": "class RadixSort {\n    static func sort(_ arr: inout [Int]) {\n        guard !arr.isEmpty else { return }\n        \n        guard let min = arr.min() else { return }\n        var offset = 0\n        \n        if min < 0 {\n            offset = abs(min)\n            for i in 0..<arr.count {\n                arr[i] += offset\n            }\n        }\n        \n        guard let max = arr.max() else { return }\n        \n        var exp = 1\n        while max / exp > 0 {\n            countSort(&arr, exp)\n            exp *= 10\n        }\n        \n        if (offset > 0) {\n            for i in 0..<arr.count {\n                arr[i] -= offset\n            }\n        }\n    }\n    \n    private static func countSort(_ arr: inout [Int], _ exp: Int) {\n        let n = arr.count\n        var output = Array(repeating: 0, count: n)\n        var count = Array(repeating: 0, count: 10)\n        \n        for i in 0..<n {\n            count[(arr[i] / exp) % 10] += 1\n        }\n        \n        for i in 1..<10 {\n            count[i] += count[i - 1]\n        }\n        \n        var i = n - 1\n        while i >= 0 {\n            let index = (arr[i] / exp) % 10\n            output[count[index] - 1] = arr[i]\n            count[index] -= 1\n            i -= 1\n        }\n        \n        for i in 0..<n {\n            arr[i] = output[i]\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "index.js",
+          "content": "function radixSort(arrOfNums) {\n  return [...arrOfNums].sort((a, b) => a - b);\n}\n\nmodule.exports = radixSort;\n"
+        },
+        {
+          "filename": "radix-sort.ts",
+          "content": "export function radixSort(arr: number[]): number[] {\n  if (arr.length === 0) return arr;\n  \n  const min = Math.min(...arr);\n  let offset = 0;\n  \n  if (min < 0) {\n    offset = Math.abs(min);\n    for (let i = 0; i < arr.length; i++) {\n      arr[i] += offset;\n    }\n  }\n  \n  const max = Math.max(...arr);\n  let exp = 1;\n  \n  while (Math.floor(max / exp) > 0) {\n    countingSort(arr, exp);\n    exp *= 10;\n  }\n  \n  if (offset > 0) {\n    for (let i = 0; i < arr.length; i++) {\n      arr[i] -= offset;\n    }\n  }\n  \n  return arr;\n}\n\nfunction countingSort(arr: number[], exp: number): void {\n  const n = arr.length;\n  const output = new Array(n).fill(0);\n  const count = new Array(10).fill(0);\n  \n  for (let i = 0; i < n; i++) {\n    count[Math.floor(arr[i] / exp) % 10]++;\n  }\n  \n  for (let i = 1; i < 10; i++) {\n    count[i] += count[i - 1];\n  }\n  \n  for (let i = n - 1; i >= 0; i--) {\n    const index = Math.floor(arr[i] / exp) % 10;\n    output[count[index] - 1] = arr[i];\n    count[index]--;\n  }\n  \n  for (let i = 0; i < n; i++) {\n    arr[i] = output[i];\n  }\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "readme": "# Radix Sort\n\n## Overview\n\nRadix Sort is a non-comparison-based sorting algorithm that sorts integers by processing individual digits. It works by sorting elements digit by digit, starting from the least significant digit (LSD) to the most significant digit (MSD), using a stable sorting algorithm (typically Counting Sort) as a subroutine for each digit position. The algorithm achieves O(nk) time complexity, where n is the number of elements and k is the number of digits in the largest number.\n\nRadix Sort bypasses the O(n log n) lower bound of comparison-based sorting by exploiting the structure of integer representations. It is particularly effective when the number of digits k is small relative to log n, making it faster than comparison-based sorts in practice for certain types of data.\n\n## How It Works\n\nRadix Sort (LSD variant) processes the array one digit position at a time, from the least significant digit to the most significant. At each digit position, it uses a stable sort (usually Counting Sort) to rearrange elements based on that digit alone. Because the subroutine sort is stable, the relative order established by previous digit passes is preserved, and after processing all digit positions, the array is fully sorted.\n\n### Example\n\nGiven input: `[170, 45, 75, 90, 802, 24, 2, 66]`\n\n**Pass 1:** Sort by ones digit (least significant)\n\n| Element | Ones Digit |\n|---------|-----------|\n| 170     | 0         |\n| 45      | 5         |\n| 75      | 5         |\n| 90      | 0         |\n| 802     | 2         |\n| 24      | 4         |\n| 2       | 2         |\n| 66      | 6         |\n\nAfter stable sort by ones digit: `[170, 90, 802, 2, 24, 45, 75, 66]`\n\n**Pass 2:** Sort by tens digit\n\n| Element | Tens Digit |\n|---------|-----------|\n| 170     | 7         |\n| 90      | 9         |\n| 802     | 0         |\n| 2       | 0         |\n| 24      | 2         |\n| 45      | 4         |\n| 75      | 7         |\n| 66      | 6         |\n\nAfter stable sort by tens digit: `[802, 2, 24, 45, 66, 170, 75, 90]`\n\n**Pass 3:** Sort by hundreds digit\n\n| Element | Hundreds Digit |\n|---------|---------------|\n| 802     | 8             |\n| 2       | 0             |\n| 24      | 0             |\n| 45      | 0             |\n| 66      | 0             |\n| 170     | 1             |\n| 75      | 0             |\n| 90      | 0             |\n\nAfter stable sort by hundreds digit: `[2, 24, 45, 66, 75, 90, 170, 802]`\n\nResult: `[2, 24, 45, 66, 75, 90, 170, 802]`\n\n## Pseudocode\n\n```\nfunction radixSort(array):\n    maxVal = maximum value in array\n    exp = 1\n\n    while maxVal / exp > 0:\n        countingSortByDigit(array, exp)\n        exp = exp * 10\n\nfunction countingSortByDigit(array, exp):\n    n = length(array)\n    output = array of size n\n    count = array of size 10, initialized to 0\n\n    // Count occurrences of each digit\n    for i from 0 to n - 1:\n        digit = (array[i] / exp) % 10\n        count[digit] = count[digit] + 1\n\n    // Compute cumulative counts\n    for i from 1 to 9:\n        count[i] = count[i] + count[i - 1]\n\n    // Build output array (reverse order for stability)\n    for i from n - 1 down to 0:\n        digit = (array[i] / exp) % 10\n        output[count[digit] - 1] = array[i]\n        count[digit] = count[digit] - 1\n\n    // Copy output back to array\n    copy output to array\n```\n\nThe key insight is that stability of the digit-level sort is essential. If the subroutine sort were not stable, the ordering from previous digit passes would be destroyed, and the final result would be incorrect.\n\n## Complexity Analysis\n\n| Case    | Time   | Space   |\n|---------|--------|---------|\n| Best    | O(nk)  | O(n+k)  |\n| Average | O(nk)  | O(n+k)  |\n| Worst   | O(nk)  | O(n+k)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(nk):** Even when the array is already sorted, Radix Sort must still process every digit position. For each of the k digit positions, the Counting Sort subroutine iterates through all n elements. The total work is k passes * O(n + base) per pass. With a fixed base (e.g., base 10), each pass is O(n), giving O(nk) total.\n\n- **Average Case -- O(nk):** Radix Sort performs the same operations regardless of input order. The number of passes is determined by k (the number of digits in the maximum value), and each pass processes all n elements. The input distribution does not affect the number of operations.\n\n- **Worst Case -- O(nk):** The worst case is identical to the best and average cases. The only factor that increases running time is a larger k (more digits), which means larger numbers in the input. For d-digit numbers in base b, the time is O(d * (n + b)).\n\n- **Space -- O(n+k):** The Counting Sort subroutine requires an output array of size n and a count array of size equal to the base (e.g., 10 for decimal). The total auxiliary space is O(n + base). Since the base is typically a small constant, this simplifies to O(n) in practice.\n\n## When to Use\n\n- **Fixed-length integer keys:** Radix Sort excels when sorting integers, fixed-length strings, or other data with a bounded number of digit positions. When k is constant or O(log n), Radix Sort achieves effectively linear time.\n- **Large datasets of integers with bounded range:** For example, sorting millions of 32-bit integers. With base 256, only 4 passes are needed regardless of n, giving near-linear performance.\n- **When comparison-based O(n log n) is too slow:** For sufficiently large n with small k, Radix Sort's O(nk) can be significantly faster than O(n log n).\n- **Sorting strings of equal length:** Radix Sort (MSD variant) can sort fixed-length strings character by character very efficiently.\n\n## When NOT to Use\n\n- **Variable-length keys or floating-point numbers:** Radix Sort requires keys that can be decomposed into digits or characters. Floating-point numbers require special handling to preserve order.\n- **When k is large relative to log n:** If numbers have many digits (e.g., arbitrary-precision integers), the O(nk) time may be worse than O(n log n) comparison-based sorting.\n- **Small datasets:** The overhead of multiple passes and auxiliary arrays makes Radix Sort slower than simpler algorithms like Insertion Sort or even Quick Sort for small inputs.\n- **When space is very limited:** The O(n) auxiliary space for the counting sort subroutine may be prohibitive in memory-constrained environments.\n\n## Comparison with Similar Algorithms\n\n| Algorithm      | Time (avg)  | Space    | Stable | Notes                                       |\n|----------------|------------|----------|--------|---------------------------------------------|\n| Radix Sort     | O(nk)     | O(n+k)   | Yes    | Non-comparison; digit-by-digit processing    |\n| Counting Sort  | O(n+k)    | O(n+k)   | Yes    | Single pass; limited to small value ranges   |\n| Bucket Sort    | O(n+k)    | O(n+k)   | Yes    | Distributes into buckets; works with floats  |\n| Quick Sort     | O(n log n)| O(log n) | No     | Comparison-based; general purpose            |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [RadixSort.py](python/RadixSort.py) |\n| Java       | [RadixSort.java](java/RadixSort.java) |\n| C++        | [RadixSort.cpp](cpp/RadixSort.cpp) |\n| C          | [RadixSort.c](c/RadixSort.c) |\n| Go         | [RadixSort.go](go/RadixSort.go) |\n| TypeScript | [index.js](typescript/index.js) |\n| Kotlin     | [RadixSort.kt](kotlin/RadixSort.kt) |\n| Rust       | [radix_sort.rs](rust/radix_sort.rs) |\n| Swift      | [RadixSort.swift](swift/RadixSort.swift) |\n| Scala      | [RadixSort.scala](scala/RadixSort.scala) |\n| C#         | [RadixSort.cs](csharp/RadixSort.cs) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 8: Sorting in Linear Time (Section 8.3: Radix Sort).\n- Knuth, D. E. (1998). *The Art of Computer Programming, Volume 3: Sorting and Searching* (2nd ed.). Addison-Wesley. Section 5.2.5: Sorting by Distribution.\n- [Radix Sort -- Wikipedia](https://en.wikipedia.org/wiki/Radix_sort)\n"
+}

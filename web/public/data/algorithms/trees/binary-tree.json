@@ -1,0 +1,136 @@
+{
+  "name": "Binary Tree",
+  "slug": "binary-tree",
+  "category": "trees",
+  "subcategory": "binary-trees",
+  "difficulty": "beginner",
+  "tags": [
+    "trees",
+    "binary-tree",
+    "traversal",
+    "level-order",
+    "bfs"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "average": "O(n)",
+      "worst": "O(n)"
+    },
+    "space": "O(n)"
+  },
+  "stable": false,
+  "in_place": false,
+  "related": [
+    "segment-tree",
+    "fenwick-tree"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "BinaryTree.c",
+          "content": "#include <stdio.h>\n#include <stdlib.h>\n\n/* Level order traversal from array representation of a binary tree.\n   null values are represented by -1 in the input array. */\n\nvoid levelOrderTraversal(int arr[], int n) {\n    if (n == 0) return;\n\n    int *queue = (int *)malloc(n * sizeof(int));\n    int front = 0, back = 0;\n    queue[back++] = 0;\n\n    while (front < back) {\n        int idx = queue[front++];\n        if (idx < n && arr[idx] != -1) {\n            printf(\"%d \", arr[idx]);\n            int left = 2 * idx + 1;\n            int right = 2 * idx + 2;\n            if (left < n && arr[left] != -1) queue[back++] = left;\n            if (right < n && arr[right] != -1) queue[back++] = right;\n        }\n    }\n    printf(\"\\n\");\n    free(queue);\n}\n\nint main() {\n    int arr[] = {1, 2, 3, 4, 5, 6, 7};\n    int n = sizeof(arr) / sizeof(arr[0]);\n    printf(\"Level order: \");\n    levelOrderTraversal(arr, n);\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "BinaryTree_LevelOrder.cpp",
+          "content": "/* Binary Tree Level Order Traversal Input and Output\n * @author : Ravi Anand\n * @date : 2 October 2020\n */\n\n#include<iostream>\n#include<queue>\nusing namespace std;\n\ntemplate<class T>\nclass BinaryTreeNode{               // template class for Binary Tree Node\npublic:\n\tT data;                         // data of T type according to the argument of template\n\tBinaryTreeNode<T> *left;        // left pointer to point to the left children of node\n\tBinaryTreeNode<T> *right;       // right pointer to point to the right children of node\n\n\texplicit BinaryTreeNode(T val){          // constructor to intialize value of data members\n\t\tthis->data = val;\n\t\tleft = nullptr;\n\t\tright = nullptr;\n\t}\n};\n\n\ntemplate<class T>\nBinaryTreeNode<T>* takeInputLevelOrder(){          // template function to take input of tree in level order until entered '-1'\n\n\tT data;\n\tcout<<\"Enter the root data\"<<endl;             // data of root node is entered\n\tcin>>data;\n\t\n\tif(data == -1)return nullptr;                  // if data is -1 then return there is no children of the node\n\t\n\tBinaryTreeNode<T> *root = new BinaryTreeNode<T>(data);\n\tqueue<BinaryTreeNode<T>*> *totakeInput = new queue<BinaryTreeNode<T>*>();    // A queue is created of BinaryTreeNode pointer type to store Binary Tree Node to take input level wise by using FIFO technique of Queue\n\ttotakeInput->push(root);\n\n\twhile(!totakeInput->empty()){\n\t\tBinaryTreeNode<T> *temp = totakeInput->front();             // front element of queue is stored in temp variable \n\t\ttotakeInput->pop();                                         // front element is popped from the queue\n\n\t\tcout<<\"Enter the left node of \"<<temp->data<<endl;          // data of left node is entered\n\t\tcin>>data;\n\t\t\n\t\tif(data != -1){\n\t\tBinaryTreeNode<T> *leftnode = new BinaryTreeNode<T>(data);   // left node is created \n\t\ttemp->left = leftnode;                                       // leftnode is linked to the temp node popped from queue by pointing left pointer to it\n\t\ttotakeInput->push(leftnode);                                 // left node is pushed in the queue to take input of it when it is at front position in the queue\n\t\t}\n\n\t\tcout<<\"Enter the right node of \"<<temp->data<<endl;          // same as left node\n\t\tcin>>data;\n\t\tif(data != -1){\n\t\tBinaryTreeNode<T> *rightnode = new BinaryTreeNode<T>(data);\n\t\ttemp->right = rightnode;\n\t\ttotakeInput->push(rightnode);\n\t\t}\n\t}\n\treturn root;\n}\n\ntemplate<typename T>\nvoid printLevelOrder(BinaryTreeNode<T> *root){                      // template function to print Binary Tree level wise\n\t\n\tif(root == nullptr)return;                                       // if root is null then return as the tree is empty\n\t\n  queue<BinaryTreeNode<T>*> *qu = new queue<BinaryTreeNode<T>*>();    // queue is created to store BinaryTreeNode pointers to print level wise using FIFO technique\n  qu->push(root);\n\n  while(!qu->empty()){\n\t  \n    BinaryTreeNode<T> *node = qu->front();                           // front node is stored in node variable\n    qu->pop();                                                       // front element is popped\n    \n    if(node != nullptr)cout<<node->data<<\" \";                       // node is printed\n    \n    if(node->left != nullptr)qu->push(node->left);\n    \n    if(node->right != nullptr)qu->push(node->right);\n    }\n  }\n\n}\n\ntemplate<class T>\nvoid PreOrder_Traversal(BinaryTreeNode<T> *root){         // template PreOrder traversal function using recursion\n\t  if(root == nullptr)return;\n\t  \n\t  cout<<root->data<<\" \";\n\t  PreOrder_Traversal(root->left);\n\t  PreOrder_Traversal(root->right);\n\t}\n\ntemplate<class T>\nvoid PostOrder_Traversal(BinaryTreeNode<T> *root){       // template PostOrder traversal function using recursion \n\tif(root == nullptr)return;\n\t\n\tPostOrder_Traversal(root->left);\n\tPostOrder_Traversal(root->right);\n\tcout<<root->data<<\" \";\n\t}\n\t\ntemplate<class T>\nvoid InOrder_Traversal(BinaryTreeNode<T> *root){         //  template InOrder traversal function using recursion \n\tif(root == nullptr)return;\n\t\n\tInOrder_Traversal(root->left);\n\tcout<<root->data<<\" \";\n\tInOrder_Traversal(root->right);\n\t}\n\t\nint main(){\n\t BinaryTreeNode<int> *root = takeInputLevelOrder<int>();\n\t \n\t cout<<\"Level Order : \"; printLevelOrder(root); cout<<endl;\t  \n\t cout<<\" PreOrder : \"; PreOrder_Traversal(root); cout<<endl;\n\t cout<<\" PostOrder : \"; PostOrder_Traversal(root); cout<<endl;\n\t cout<<\" InOrder : \"; InOrder_Traversal(root);\n\t}\n\n/*\nEnter the root data\n1\nEnter the left node of 1\n2\nEnter the right node of 1\n3\nEnter the left node of 2\n4\nEnter the right node of 2\n-1\nEnter the left node of 3\n-1\nEnter the right node of 3\n-1\nEnter the left node of 4\n-1\nEnter the right node of 4\n5\nEnter the left node of 5\n-1\nEnter the right node of 5\n-1\n* Level Order : 1 2 3 4 5  \n* PreOrder : 1 2 4 5 3 \n  PostOrder : 5 4 2 3 1 \n  InOrder : 4 5 2 1 3 \n\n\n           1\n          / \\\n         2   3\n        /\n       4\n        \\\n         5\n         \n         \n   */\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "BinaryTree.cs",
+          "content": "using System;\nusing System.Collections.Generic;\n\nclass TreeNode\n{\n    public int Val;\n    public TreeNode Left, Right;\n    public TreeNode(int val) { Val = val; }\n}\n\nclass BinaryTree\n{\n    static TreeNode BuildTree(int?[] arr)\n    {\n        if (arr.Length == 0 || arr[0] == null) return null;\n\n        var root = new TreeNode(arr[0].Value);\n        var queue = new Queue<TreeNode>();\n        queue.Enqueue(root);\n        int i = 1;\n\n        while (queue.Count > 0 && i < arr.Length)\n        {\n            var node = queue.Dequeue();\n            if (i < arr.Length && arr[i] != null)\n            {\n                node.Left = new TreeNode(arr[i].Value);\n                queue.Enqueue(node.Left);\n            }\n            i++;\n            if (i < arr.Length && arr[i] != null)\n            {\n                node.Right = new TreeNode(arr[i].Value);\n                queue.Enqueue(node.Right);\n            }\n            i++;\n        }\n        return root;\n    }\n\n    static List<int> LevelOrderTraversal(int?[] arr)\n    {\n        var result = new List<int>();\n        var root = BuildTree(arr);\n        if (root == null) return result;\n\n        var queue = new Queue<TreeNode>();\n        queue.Enqueue(root);\n\n        while (queue.Count > 0)\n        {\n            var node = queue.Dequeue();\n            result.Add(node.Val);\n            if (node.Left != null) queue.Enqueue(node.Left);\n            if (node.Right != null) queue.Enqueue(node.Right);\n        }\n        return result;\n    }\n\n    static void Main(string[] args)\n    {\n        int?[] arr = { 1, 2, 3, 4, 5, 6, 7 };\n        var result = LevelOrderTraversal(arr);\n        Console.WriteLine(\"Level order: [\" + string.Join(\", \", result) + \"]\");\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "BinaryTree.go",
+          "content": "package binarytree\n\n// LevelOrderTraversal performs level order traversal on a binary tree\n// represented as an array. Nil values are represented as -1.\nfunc LevelOrderTraversal(arr []int) []int {\n\tif len(arr) == 0 {\n\t\treturn []int{}\n\t}\n\n\tresult := []int{}\n\tqueue := []int{0}\n\n\tfor len(queue) > 0 {\n\t\tidx := queue[0]\n\t\tqueue = queue[1:]\n\n\t\tif idx < len(arr) && arr[idx] != -1 {\n\t\t\tresult = append(result, arr[idx])\n\t\t\tleft := 2*idx + 1\n\t\t\tright := 2*idx + 2\n\t\t\tif left < len(arr) && arr[left] != -1 {\n\t\t\t\tqueue = append(queue, left)\n\t\t\t}\n\t\t\tif right < len(arr) && arr[right] != -1 {\n\t\t\t\tqueue = append(queue, right)\n\t\t\t}\n\t\t}\n\t}\n\treturn result\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "BinaryTree.java",
+          "content": "import java.util.*;\n\npublic class BinaryTree {\n\n    static class TreeNode {\n        int val;\n        TreeNode left, right;\n        TreeNode(int val) { this.val = val; }\n    }\n\n    public static List<Integer> levelOrderTraversal(Integer[] arr) {\n        List<Integer> result = new ArrayList<>();\n        if (arr == null || arr.length == 0 || arr[0] == null) return result;\n\n        TreeNode root = buildTree(arr);\n        if (root == null) return result;\n\n        Queue<TreeNode> queue = new LinkedList<>();\n        queue.add(root);\n\n        while (!queue.isEmpty()) {\n            TreeNode node = queue.poll();\n            result.add(node.val);\n            if (node.left != null) queue.add(node.left);\n            if (node.right != null) queue.add(node.right);\n        }\n        return result;\n    }\n\n    private static TreeNode buildTree(Integer[] arr) {\n        if (arr.length == 0 || arr[0] == null) return null;\n\n        TreeNode root = new TreeNode(arr[0]);\n        Queue<TreeNode> queue = new LinkedList<>();\n        queue.add(root);\n        int i = 1;\n\n        while (!queue.isEmpty() && i < arr.length) {\n            TreeNode node = queue.poll();\n            if (i < arr.length && arr[i] != null) {\n                node.left = new TreeNode(arr[i]);\n                queue.add(node.left);\n            }\n            i++;\n            if (i < arr.length && arr[i] != null) {\n                node.right = new TreeNode(arr[i]);\n                queue.add(node.right);\n            }\n            i++;\n        }\n        return root;\n    }\n\n    public static void main(String[] args) {\n        Integer[] arr = {1, 2, 3, 4, 5, 6, 7};\n        System.out.println(\"Level order: \" + levelOrderTraversal(arr));\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "BinaryTree.kt",
+          "content": "import java.util.LinkedList\n\nclass TreeNode(val value: Int) {\n    var left: TreeNode? = null\n    var right: TreeNode? = null\n}\n\nfun buildTree(arr: Array<Int?>): TreeNode? {\n    if (arr.isEmpty() || arr[0] == null) return null\n\n    val nodes = Array<TreeNode?>(arr.size) { index ->\n        arr[index]?.let { TreeNode(it) }\n    }\n\n    for (i in nodes.indices) {\n        val node = nodes[i] ?: continue\n        val leftIndex = 2 * i + 1\n        val rightIndex = 2 * i + 2\n        node.left = if (leftIndex < nodes.size) nodes[leftIndex] else null\n        node.right = if (rightIndex < nodes.size) nodes[rightIndex] else null\n    }\n\n    return nodes[0]\n}\n\nfun levelOrderTraversal(arr: Array<Int?>): List<Int> {\n    val root = buildTree(arr) ?: return emptyList()\n    val result = mutableListOf<Int>()\n    val queue = LinkedList<TreeNode>()\n    queue.add(root)\n\n    while (queue.isNotEmpty()) {\n        val node = queue.poll()\n        result.add(node.value)\n        node.left?.let { queue.add(it) }\n        node.right?.let { queue.add(it) }\n    }\n    return result\n}\n\nfun main() {\n    val arr = arrayOf<Int?>(1, 2, 3, 4, 5, 6, 7)\n    println(\"Level order: ${levelOrderTraversal(arr)}\")\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "BinaryTree.py",
+          "content": "from collections import deque\n\n\nclass TreeNode:\n    def __init__(self, val):\n        self.val = val\n        self.left = None\n        self.right = None\n\n\ndef build_tree(arr):\n    if not arr or arr[0] is None:\n        return None\n\n    root = TreeNode(arr[0])\n    queue = deque([root])\n    i = 1\n\n    while queue and i < len(arr):\n        node = queue.popleft()\n        if i < len(arr) and arr[i] is not None:\n            node.left = TreeNode(arr[i])\n            queue.append(node.left)\n        i += 1\n        if i < len(arr) and arr[i] is not None:\n            node.right = TreeNode(arr[i])\n            queue.append(node.right)\n        i += 1\n\n    return root\n\n\ndef level_order_traversal(arr):\n    root = build_tree(arr)\n    if root is None:\n        return []\n\n    result = []\n    queue = deque([root])\n\n    while queue:\n        node = queue.popleft()\n        result.append(node.val)\n        if node.left:\n            queue.append(node.left)\n        if node.right:\n            queue.append(node.right)\n\n    return result\n\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 4, 5, 6, 7]\n    print(\"Level order:\", level_order_traversal(arr))\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "binary_tree.rs",
+          "content": "use std::collections::VecDeque;\n\nstruct TreeNode {\n    val: i32,\n    left: Option<Box<TreeNode>>,\n    right: Option<Box<TreeNode>>,\n}\n\nimpl TreeNode {\n    fn new(val: i32) -> Self {\n        TreeNode { val, left: None, right: None }\n    }\n}\n\nfn build_tree(arr: &[Option<i32>]) -> Option<Box<TreeNode>> {\n    if arr.is_empty() || arr[0].is_none() {\n        return None;\n    }\n\n    let mut root = Box::new(TreeNode::new(arr[0].unwrap()));\n    let mut queue: VecDeque<*mut TreeNode> = VecDeque::new();\n    queue.push_back(&mut *root as *mut TreeNode);\n    let mut i = 1;\n\n    while let Some(node_ptr) = queue.pop_front() {\n        let node = unsafe { &mut *node_ptr };\n        if i < arr.len() {\n            if let Some(val) = arr[i] {\n                node.left = Some(Box::new(TreeNode::new(val)));\n                queue.push_back(&mut **node.left.as_mut().unwrap() as *mut TreeNode);\n            }\n        }\n        i += 1;\n        if i < arr.len() {\n            if let Some(val) = arr[i] {\n                node.right = Some(Box::new(TreeNode::new(val)));\n                queue.push_back(&mut **node.right.as_mut().unwrap() as *mut TreeNode);\n            }\n        }\n        i += 1;\n    }\n    Some(root)\n}\n\nfn level_order_traversal(arr: &[Option<i32>]) -> Vec<i32> {\n    let root = match build_tree(arr) {\n        Some(r) => r,\n        None => return vec![],\n    };\n\n    let mut result = Vec::new();\n    let mut queue: VecDeque<&TreeNode> = VecDeque::new();\n    queue.push_back(&root);\n\n    while let Some(node) = queue.pop_front() {\n        result.push(node.val);\n        if let Some(ref left) = node.left {\n            queue.push_back(left);\n        }\n        if let Some(ref right) = node.right {\n            queue.push_back(right);\n        }\n    }\n    result\n}\n\nfn main() {\n    let arr = vec![Some(1), Some(2), Some(3), Some(4), Some(5), Some(6), Some(7)];\n    println!(\"Level order: {:?}\", level_order_traversal(&arr));\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "BinaryTree.scala",
+          "content": "import scala.collection.mutable\n\nobject BinaryTree {\n  class TreeNode(val value: Int) {\n    var left: TreeNode = _\n    var right: TreeNode = _\n  }\n\n  def buildTree(arr: Array[Option[Int]]): Option[TreeNode] = {\n    if (arr.isEmpty || arr(0).isEmpty) return None\n\n    val root = new TreeNode(arr(0).get)\n    val queue = mutable.Queue[TreeNode](root)\n    var i = 1\n\n    while (queue.nonEmpty && i < arr.length) {\n      val node = queue.dequeue()\n      if (i < arr.length && arr(i).isDefined) {\n        node.left = new TreeNode(arr(i).get)\n        queue.enqueue(node.left)\n      }\n      i += 1\n      if (i < arr.length && arr(i).isDefined) {\n        node.right = new TreeNode(arr(i).get)\n        queue.enqueue(node.right)\n      }\n      i += 1\n    }\n    Some(root)\n  }\n\n  def levelOrderTraversal(arr: Array[Option[Int]]): List[Int] = {\n    buildTree(arr) match {\n      case None => List.empty\n      case Some(root) =>\n        val result = mutable.ListBuffer[Int]()\n        val queue = mutable.Queue[TreeNode](root)\n        while (queue.nonEmpty) {\n          val node = queue.dequeue()\n          result += node.value\n          if (node.left != null) queue.enqueue(node.left)\n          if (node.right != null) queue.enqueue(node.right)\n        }\n        result.toList\n    }\n  }\n\n  def main(args: Array[String]): Unit = {\n    val arr = Array[Option[Int]](Some(1), Some(2), Some(3), Some(4), Some(5), Some(6), Some(7))\n    println(s\"Level order: ${levelOrderTraversal(arr)}\")\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "BinaryTree.swift",
+          "content": "class TreeNode {\n    var val: Int\n    var left: TreeNode?\n    var right: TreeNode?\n\n    init(_ val: Int) {\n        self.val = val\n    }\n}\n\nfunc buildTree(_ arr: [Int?]) -> TreeNode? {\n    if arr.isEmpty || arr[0] == nil { return nil }\n\n    let root = TreeNode(arr[0]!)\n    var queue = [root]\n    var i = 1\n\n    while !queue.isEmpty && i < arr.count {\n        let node = queue.removeFirst()\n        if i < arr.count, let val = arr[i] {\n            node.left = TreeNode(val)\n            queue.append(node.left!)\n        }\n        i += 1\n        if i < arr.count, let val = arr[i] {\n            node.right = TreeNode(val)\n            queue.append(node.right!)\n        }\n        i += 1\n    }\n    return root\n}\n\nfunc levelOrderTraversal(_ arr: [Int?]) -> [Int] {\n    guard let root = buildTree(arr) else { return [] }\n\n    var result = [Int]()\n    var queue = [root]\n\n    while !queue.isEmpty {\n        let node = queue.removeFirst()\n        result.append(node.val)\n        if let left = node.left { queue.append(left) }\n        if let right = node.right { queue.append(right) }\n    }\n    return result\n}\n\nlet arr: [Int?] = [1, 2, 3, 4, 5, 6, 7]\nprint(\"Level order: \\(levelOrderTraversal(arr))\")\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "BinaryTree.ts",
+          "content": "class BinaryTreeNode {\n    val: number;\n    left: BinaryTreeNode | null = null;\n    right: BinaryTreeNode | null = null;\n\n    constructor(val: number) {\n        this.val = val;\n    }\n}\n\nfunction buildTree(arr: (number | null)[]): BinaryTreeNode | null {\n    if (arr.length === 0 || arr[0] === null) return null;\n    const nodes = arr.map((value) => value === null ? null : new BinaryTreeNode(value));\n\n    for (let i = 0; i < nodes.length; i++) {\n        const node = nodes[i];\n        if (!node) continue;\n\n        const leftIndex = 2 * i + 1;\n        const rightIndex = 2 * i + 2;\n        node.left = leftIndex < nodes.length ? nodes[leftIndex] : null;\n        node.right = rightIndex < nodes.length ? nodes[rightIndex] : null;\n    }\n\n    return nodes[0];\n}\n\nexport function levelOrderTraversal(arr: (number | null)[]): number[] {\n    const root = buildTree(arr);\n    if (!root) return [];\n\n    const result: number[] = [];\n    const queue: BinaryTreeNode[] = [root];\n\n    while (queue.length > 0) {\n        const node = queue.shift()!;\n        result.push(node.val);\n        if (node.left) queue.push(node.left);\n        if (node.right) queue.push(node.right);\n    }\n    return result;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "patterns": [
+    "tree-bfs"
+  ],
+  "patternDifficulty": "beginner",
+  "practiceOrder": 5,
+  "readme": "# Binary Tree\n\n## Overview\n\nA Binary Tree is a hierarchical data structure in which each node has at most two children, referred to as the left child and the right child. Binary trees are the foundation for many advanced data structures and algorithms, including binary search trees, heaps, and expression trees. The level-order traversal (also known as breadth-first traversal) visits all nodes level by level from top to bottom and left to right.\n\nBinary trees are ubiquitous in computer science: they model hierarchical relationships, enable efficient searching and sorting, and form the basis for expression parsing, decision trees, and Huffman coding.\n\n## How It Works\n\nA binary tree is built by linking nodes, where each node contains a value and pointers to its left and right children. Level-order traversal uses a queue to visit nodes level by level. Starting with the root, we dequeue a node, process it, then enqueue its left and right children. This continues until the queue is empty.\n\n### Example\n\nGiven the following binary tree:\n\n```\n        1\n       / \\\n      2   3\n     / \\   \\\n    4   5   6\n   /\n  7\n```\n\n**Level-order traversal:**\n\n| Step | Dequeue | Process | Enqueue | Queue State |\n|------|---------|---------|---------|-------------|\n| 0 | - | - | 1 | [1] |\n| 1 | 1 | Visit 1 | 2, 3 | [2, 3] |\n| 2 | 2 | Visit 2 | 4, 5 | [3, 4, 5] |\n| 3 | 3 | Visit 3 | 6 | [4, 5, 6] |\n| 4 | 4 | Visit 4 | 7 | [5, 6, 7] |\n| 5 | 5 | Visit 5 | - | [6, 7] |\n| 6 | 6 | Visit 6 | - | [7] |\n| 7 | 7 | Visit 7 | - | [] |\n\nResult: Level-order output = `[1, 2, 3, 4, 5, 6, 7]`\n\n**Other common traversals of the same tree:**\n- **In-order (left, root, right):** `[7, 4, 2, 5, 1, 3, 6]`\n- **Pre-order (root, left, right):** `[1, 2, 4, 7, 5, 3, 6]`\n- **Post-order (left, right, root):** `[7, 4, 5, 2, 6, 3, 1]`\n\n## Pseudocode\n\n```\nfunction levelOrderTraversal(root):\n    if root is null:\n        return\n\n    queue = empty queue\n    queue.enqueue(root)\n\n    while queue is not empty:\n        node = queue.dequeue()\n        visit(node)\n\n        if node.left is not null:\n            queue.enqueue(node.left)\n        if node.right is not null:\n            queue.enqueue(node.right)\n```\n\nThe queue ensures nodes are processed in the correct order: all nodes at depth d are processed before any node at depth d + 1. This is the same mechanism used in breadth-first search on graphs.\n\n## Complexity Analysis\n\n| Case    | Time | Space |\n|---------|------|-------|\n| Best    | O(n) | O(n)  |\n| Average | O(n) | O(n)  |\n| Worst   | O(n) | O(n)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(n):** Every node must be visited exactly once during traversal. Even in a perfectly balanced tree, all n nodes are processed.\n\n- **Average Case -- O(n):** Each node is enqueued and dequeued exactly once, with O(1) work per node. Total work is proportional to the number of nodes.\n\n- **Worst Case -- O(n):** The traversal visits all n nodes regardless of tree shape.\n\n- **Space -- O(n):** The queue can hold at most the number of nodes at the widest level of the tree. In a complete binary tree, the last level has up to n/2 nodes, so the queue size is O(n). For a skewed tree (essentially a linked list), the queue holds at most 1 node, giving O(1) space, but the recursion stack for other traversals would be O(n).\n\n## When to Use\n\n- **Level-by-level processing:** When you need to process nodes in order of their depth (e.g., printing a tree by levels, finding level averages).\n- **Finding the shortest path in unweighted trees:** BFS/level-order naturally finds the shallowest occurrence of a value.\n- **Serialization and deserialization:** Level-order traversal provides a natural format for serializing binary trees.\n- **When tree depth is moderate:** Level-order traversal avoids the risk of stack overflow that recursive traversals face on deep trees.\n\n## When NOT to Use\n\n- **When you need sorted order:** Use in-order traversal on a BST instead.\n- **When you need to process children before parents:** Use post-order traversal instead.\n- **Memory-constrained environments with very wide trees:** The queue can be as large as the widest level.\n- **When the tree is extremely deep but narrow:** Depth-first traversals (in-order, pre-order, post-order) use less memory for deep, narrow trees.\n\n## Comparison with Similar Algorithms\n\n| Traversal   | Time | Space        | Notes                                          |\n|-------------|------|--------------|-------------------------------------------------|\n| Level-order | O(n) | O(w) (width) | BFS-based; visits level by level                 |\n| In-order    | O(n) | O(h) (height)| DFS; gives sorted order for BSTs                 |\n| Pre-order   | O(n) | O(h) (height)| DFS; useful for tree copying/serialization        |\n| Post-order  | O(n) | O(h) (height)| DFS; useful for deletion and expression evaluation|\n| Morris      | O(n) | O(1)         | In-order without recursion or stack; modifies tree|\n\n## Implementations\n\n| Language | File |\n|----------|------|\n| C++      | [BinaryTree_LevelOrder.cpp](cpp/BinaryTree_LevelOrder.cpp) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 10: Elementary Data Structures, Chapter 12: Binary Search Trees.\n- Knuth, D. E. (1997). *The Art of Computer Programming, Volume 1: Fundamental Algorithms* (3rd ed.). Addison-Wesley. Section 2.3: Trees.\n- [Binary Tree -- Wikipedia](https://en.wikipedia.org/wiki/Binary_tree)\n"
+}

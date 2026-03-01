@@ -1,0 +1,188 @@
+{
+  "name": "Binary Search",
+  "slug": "binary-search",
+  "category": "searching",
+  "subcategory": "binary",
+  "difficulty": "intermediate",
+  "tags": [
+    "searching",
+    "binary",
+    "divide-and-conquer",
+    "sorted"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(1)",
+      "average": "O(log n)",
+      "worst": "O(log n)"
+    },
+    "space": "O(1)"
+  },
+  "stable": null,
+  "in_place": null,
+  "related": [
+    "linear-search",
+    "ternary-search",
+    "modified-binary-search"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "BinarySearch.c",
+          "content": "\n#include <stdio.h>\n \nint main()\n{\n   int first, last, n=10, array[10],mid,search,; //n is the number of input elements\n \n   int array[10] //Array to store the input elements  \n\n   printf(\"Enter value to find\\n\");\n   scanf(\"%d\", &search);\n \n   first = 0;\n   last = n - 1;\n   mid = (first+last)/2;\n \n   while (first <= last) {\n      if (array[mid] < search)\n         first = mid + 1;    \n      else if (array[mid] == search) {\n         printf(\"%d found at location %d.\\n\", search, mid+1);\n         break;\n      }\n      else\n         last = mid - 1;\n \n      mid = (first + last)/2;\n   }\n   if (first > last)\n      printf(\"Not found! %d is not present in the list.\\n\", search);\n \n   return 0;   \n}"
+        },
+        {
+          "filename": "binary_search.c",
+          "content": "#include \"binary_search.h\"\n\nint binary_search(int arr[], int n, int target) {\n    int left = 0;\n    int right = n - 1;\n    \n    while (left <= right) {\n        int mid = left + (right - left) / 2;\n        \n        if (arr[mid] == target)\n            return mid;\n            \n        if (arr[mid] < target)\n            left = mid + 1;\n        else\n            right = mid - 1;\n    }\n    \n    return -1;\n}\n"
+        },
+        {
+          "filename": "binary_search.h",
+          "content": "#ifndef BINARY_SEARCH_H\n#define BINARY_SEARCH_H\n\nint binary_search(int arr[], int n, int target);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "BinarySearch - (recursive).cpp",
+          "content": "\n#include <bits/stdc++.h>\n\n#define ll long long\n\nusing namespace std;\n\n//simple recursive binary Search\n//'low' is the lower index & 'high' is the upper index & 'key' is the value to be searched\n\nint binarySearch(int low,int high,int key)\n{\n   if(low<=high)\n   {\n     int mid = low +  (high - low ) / 2;\n\n     if(a[mid] == key)\n        return mid          // returns the index if key is found.\n\n     if(a[mid] < key)\n     {\n         return binarySearch(mid + 1, high, key);\n     }\n     else\n     {\n         return binarySearch(low, mid-1, key);\n     }\n\n   }\n   return -1;                //key not found\n }\n"
+        },
+        {
+          "filename": "BinarySearch-(iterative).cpp",
+          "content": "\n#include <bits/stdc++.h>\n\n#define ll long long\n\nusing namespace std;\n\n//simple binary Search\n//'low' is the lower index & 'high' is the upper index & 'key' is the value to be searched\nint binarySearch(int low,int high,int key) \n{\n   while(low<=high)\n   {\n     int mid = low+(high-low)/2;\n     if(a[mid] < key)\n     {\n         low = mid + 1;\n     }\n     else if(a[mid] > key)\n     {\n         high = mid - 1;\n     }\n     else\n     {\n         return mid; // returns the index if key is found.\n     }\n   }\n   return -1;                //key not found\n }\n"
+        },
+        {
+          "filename": "binary_search.cpp",
+          "content": "#include \"binary_search.h\"\n#include <vector>\n\nint binary_search(const std::vector<int>& arr, int target) {\n    int left = 0;\n    int right = arr.size() - 1;\n    \n    while (left <= right) {\n        int mid = left + (right - left) / 2;\n        \n        if (arr[mid] == target)\n            return mid;\n            \n        if (arr[mid] < target)\n            left = mid + 1;\n        else\n            right = mid - 1;\n    }\n    \n    return -1;\n}\n"
+        },
+        {
+          "filename": "binary_search.h",
+          "content": "#ifndef BINARY_SEARCH_H\n#define BINARY_SEARCH_H\n\n#include <vector>\n\nint binary_search(const std::vector<int>& arr, int target);\n\n#endif\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "BinarySearch.cs",
+          "content": "namespace Algorithms.Searching.BinarySearch\n{\n    public class BinarySearch\n    {\n        public static int Search(int[] arr, int target)\n        {\n            if (arr == null) return -1;\n            \n            int left = 0;\n            int right = arr.Length - 1;\n\n            while (left <= right)\n            {\n                int mid = left + (right - left) / 2;\n\n                if (arr[mid] == target)\n                    return mid;\n\n                if (arr[mid] < target)\n                    left = mid + 1;\n                else\n                    right = mid - 1;\n            }\n\n            return -1;\n        }\n    }\n}\n"
+        },
+        {
+          "filename": "binSearchAlgo.cs",
+          "content": "using System;\nusing System.Collections.Generic;\nusing System.Linq;\nusing System.Text.RegularExpressions;\n\nnamespace BinSearchAlgo\n{\n    public class Program\n    {            \n        // Returns index of searchValue in sorted array x, or -1 if not found\n        public static int BinSearch(int[] x, int searchValue)\n        {\n            var low = 0;\n            var high = x.Length - 1;\n            return binarySearch(x, searchValue, low, high);\n        }\n\n        public static int binarySearch(int[] x, int searchValue, int low, int high)\n        {\n            if (high < low)\n            {\n                return -1;\n            }\n            var mid = (low + high) / 2;\n            if (searchValue > x[mid])\n            {\n                return binarySearch(x, searchValue, mid + 1, high);\n            }\n            else if (searchValue < x[mid])\n            {\n                return binarySearch(x, searchValue, low, mid - 1);\n            }\n            else\n            {\n                return mid;\n            }\n        }\n        \n        //Setting up a random array and search value\n        public static void Main(string[] args)\n        {\n            var rnd = new Random();\n            \n            var rndList = new List<int>();\n            \n            for(var i = 0; i < 10; i++)\n            {\n                var num = rnd.Next(0, 999);\n                while (rndList.Contains(num))\n                {\n                    num = rnd.Next(0, 999);\n                }\n                rndList.Add(num);\n            }\n            \n            rndList.Sort();\n            \n            Console.WriteLine(String.Join(\",\", rndList));\n                        \n            var arr = rndList.ToArray();\n\n            var searchItem = arr[rnd.Next(0, 10)];\n            Console.WriteLine(\"Search Item: \" + searchItem);\n            \n            Console.WriteLine(\"Index:\" + BinSearch(arr, searchItem));\n            Console.WriteLine(\"Index:\" + BinSearch(arr, 99999));\n        }\n    }\n}"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "BinarySearch.go",
+          "content": "package main\n\nimport \"fmt\"\n\nfunc main() {\n\tarr := []int{1, 2, 3, 4, 5}\n\tfmt.Println(BinarySearch(arr, 5))\n}\n\n// Returns -1 If element not found\nfunc BinarySearch(arr []int, k int) int {\n\tlo, hi, mid := 0, len(arr)-1, 0\n\tfor hi >= lo {\n\t\tmid = (lo + hi) / 2\n\t\tif arr[mid] == k {\n\t\t\treturn mid\n\t\t} else if arr[mid] > k {\n\t\t\thi = mid - 1\n\t\t} else {\n\t\t\tlo = mid + 1\n\t\t}\n\t}\n\treturn -1\n}\n"
+        },
+        {
+          "filename": "binary_search.go",
+          "content": "package binarysearch\n\n// BinarySearch searches for a target value in a sorted array.\n// Returns the index of the target if found, otherwise -1.\nfunc BinarySearch(arr []int, target int) int {\n\tleft, right := 0, len(arr)-1\n\t\n\tfor left <= right {\n\t\tmid := left + (right-left)/2\n\t\t\n\t\tif arr[mid] == target {\n\t\t\treturn mid\n\t\t}\n\t\t\n\t\tif arr[mid] < target {\n\t\t\tleft = mid + 1\n\t\t} else {\n\t\t\tright = mid - 1\n\t\t}\n\t}\n\t\n\treturn -1\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "BinarySearch.java",
+          "content": "package algorithms.searching.binarysearch;\n\npublic class BinarySearch {\n    public static int search(int[] arr, int target) {\n        if (arr == null) return -1;\n        \n        int left = 0;\n        int right = arr.length - 1;\n        \n        while (left <= right) {\n            int mid = left + (right - left) / 2;\n            \n            if (arr[mid] == target)\n                return mid;\n                \n            if (arr[mid] < target)\n                left = mid + 1;\n            else\n                right = mid - 1;\n        }\n        \n        return -1;\n    }\n}\n"
+        },
+        {
+          "filename": "BinarySearchRecursive.java",
+          "content": "/**\n * Recursive binary search algorithm.\n *  \n * @author Atom\n *\n */\npublic class BinarySearchRecursive {\n\t\n\t/**\n\t * A recursive binary search function.\n\t * \n\t * @param array Sorted array\n\t * @param low\n\t * @param high\n\t * @param element\n\t * @return If found, returns the position of the element in the array, -1 otherwise\n\t */\n\tpublic static int binarySearch(int[] array, int low, int high, int element) {\n\t\t// test final condition\n\t\tif (low > high) { return -1; } \n\t\t\n\t\tint mid = (high - low) / 2 + low;\n\t\tif (element < array[mid]) {\n\t\t\treturn binarySearch(array, low, mid - 1, element);\n\t\t} else if (element > array[mid]) {\n\t\t\treturn binarySearch(array, mid + 1, high, element);\n\t\t} else { return mid; }\n\t}\n\t\n\tpublic static void main(String[] args) {\n\t\t// sorted array\n\t\tfinal int[] sortedArray = { -2, -1, 0, 1, 2 };\n\t\t\n\t\tfor (int i = -5; i <= 5; i++) {\n\t\t\tint pos = binarySearch(sortedArray, 0, sortedArray.length - 1, i);\n\t\t\tSystem.out.println(\n\t\t\t\t\t\"Searching for item \" + i + \": \" + (pos == -1 ? \"Item not found\" : (\"Item found at position \" + pos)));\n\t\t}\n\t}\n\t\n}\n"
+        },
+        {
+          "filename": "binarySerach.java",
+          "content": "package algorithms.searching.binarysearch;\n\npublic class binarySerach {\n    public static int search(int[] inputArray, int x) {\n        return BinarySearch.search(inputArray, x);\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "BinarySearch.kt",
+          "content": "package algorithms.searching.binarysearch\n\nclass BinarySearch {\n    fun search(arr: IntArray, target: Int): Int {\n        var left = 0\n        var right = arr.size - 1\n        \n        while (left <= right) {\n            val mid = left + (right - left) / 2\n            \n            if (arr[mid] == target)\n                return mid\n                \n            if (arr[mid] < target)\n                left = mid + 1\n            else\n                right = mid - 1\n        }\n        \n        return -1\n    }\n}\n"
+        },
+        {
+          "filename": "BinarySearchRecursive.kt",
+          "content": "fun IntArray.binarySearch(lowerIndex: Int, upperIndex: Int, x: Int): Int {\n    val arr = this\n    if (upperIndex >= lowerIndex) {\n        val mid = lowerIndex + (upperIndex - lowerIndex) / 2\n\n        // If the element is found\n        if (arr[mid] == x)\n            return mid\n\n        /* If the element is smaller than mid, then it can only be present in left subarray\n        else the element can only be present in right subarray */\n        return if (arr[mid] > x) binarySearch(lowerIndex, mid - 1, x)\n        else binarySearch(mid + 1, upperIndex, x)\n    }\n    // We reach here only when the element is not present in array\n    return -1\n}\n\nfun main(args: Array<String>) {\n    println(\"Enter the size of array:\")\n    val n = readLine()!!.toInt()\n    println(\"Enter the elements of array:\")\n    var arr = IntArray(n) { readLine()!!.toInt() }\n    println(\"Enter a number to search:\")\n    val x = readLine()!!.toInt()\n    arr = arr.sortedArray() // Sorting the array in ascending order\n    println(\"Array in ascending order: \")\n    for (l in arr)\n        print(\"$l \")\n    println()\n    val result = arr.binarySearch(0, n - 1, x)\n    if (result == -1)\n        println(\"Element not present\")\n    else\n        println(\"Element found at index $result\")\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "BinarySearch(iterative).py",
+          "content": "# Search the value 'value' in the dataset 'l'.\n# If succesful, returns the index in wich l[index]==value.\n# Else returns -1.\n\ndef binary_search(l, value):\n    low = 0\n    high = len(l)-1\n    while low <= high: \n        mid = (low+high)//2\n        if l[mid] > value: high = mid-1\n        elif l[mid] < value: low = mid+1\n        else: return mid\n    return -1\n"
+        },
+        {
+          "filename": "BinarySearch(recursive).py",
+          "content": "#inputArray is the input dataset\n#x is the searching integer in the array\ndef binarySearch(inputArray,x):\n\tif (inputArray[-1] > x):\n\t\tmid = len(inputArray)//2 # get the mid index of the inputArray\n\t\tif (inputArray[mid] == x): #check it the with the searching number\n\t\t\treturn true \t\t\t#if yes return true\n\t\tif (inputArray[mid] > x): \n\t\t\treturn binarySearch(inputArray[:mid],x)\n\n\t\treturn binarySearch(inputArray[mid:],x)\n\telse:\n\t\treturn false\n"
+        },
+        {
+          "filename": "binary_search.py",
+          "content": "def binary_search(arr, target):\n    left, right = 0, len(arr) - 1\n    \n    while left <= right:\n        mid = left + (right - left) // 2\n        \n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            left = mid + 1\n        else:\n            right = mid - 1\n            \n    return -1\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "binary_search.rs",
+          "content": "pub fn binary_search(arr: &[i32], target: i32) -> i32 {\n    let mut left = 0;\n    let mut right = arr.len() as isize - 1;\n\n    while left <= right {\n        let mid = left + (right - left) / 2;\n        let mid_idx = mid as usize;\n\n        if arr[mid_idx] == target {\n            return mid_idx as i32;\n        }\n\n        if arr[mid_idx] < target {\n            left = mid + 1;\n        } else {\n            right = mid - 1;\n        }\n    }\n\n    -1\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "BinarySearch.scala",
+          "content": "object BinarySearch {\n  def search(arr: Array[Int], target: Int): Int = {\n    var left = 0\n    var right = arr.length - 1\n    \n    while (left <= right) {\n      val mid = left + (right - left) / 2\n      \n      if (arr(mid) == target)\n        return mid\n      \n      if (arr(mid) < target)\n        left = mid + 1\n      else\n        right = mid - 1\n    }\n    \n    -1\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "BinarySearch.swift",
+          "content": "class BinarySearch {\n    static func search(_ arr: [Int], _ target: Int) -> Int {\n        var left = 0\n        var right = arr.count - 1\n        \n        while left <= right {\n            let mid = left + (right - left) / 2\n            \n            if arr[mid] == target {\n                return mid\n            }\n            \n            if arr[mid] < target {\n                left = mid + 1\n            } else {\n                right = mid - 1\n            }\n        }\n        \n        return -1\n    }\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "binary-search.ts",
+          "content": "export function binarySearch(arr: number[], target: number): number {\n  let left = 0;\n  let right = arr.length - 1;\n  \n  while (left <= right) {\n    const mid = left + Math.floor((right - left) / 2);\n    \n    if (arr[mid] === target) {\n      return mid;\n    }\n    \n    if (arr[mid] < target) {\n      left = mid + 1;\n    } else {\n      right = mid - 1;\n    }\n  }\n  \n  return -1;\n}\n"
+        },
+        {
+          "filename": "index.js",
+          "content": "const binarySearch = (arr, k) => {\n  let start = 0;\n  let end = arr.length - 1;\n  while (start <= end) {\n    const cur = Math.floor((start + end) /2);\n    if (arr[cur] === k) {\n      return true;\n    } else if (arr[cur] < k) {\n      start = cur + 1;\n    } else {\n      end = cur-1;\n    }\n  }\n  return false;\n};\n\nmodule.exports = binarySearch;\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "patterns": [
+    "modified-binary-search"
+  ],
+  "patternDifficulty": "beginner",
+  "practiceOrder": 1,
+  "readme": "# Binary Search\n\n## Overview\n\nBinary Search is an efficient divide-and-conquer searching algorithm that works on sorted arrays. It repeatedly divides the search interval in half by comparing the target value to the middle element of the array. If the target matches the middle element, the search is complete. Otherwise, the search continues in the half where the target must lie, eliminating the other half entirely.\n\nBinary Search is one of the most fundamental algorithms in computer science, reducing the search space by half with each comparison and achieving O(log n) time complexity -- a dramatic improvement over linear search for large datasets.\n\n## How It Works\n\nBinary Search maintains two pointers, `low` and `high`, that define the current search range. At each step, it computes the middle index, compares the middle element with the target, and narrows the range accordingly. If the middle element equals the target, the index is returned. If the target is smaller, the search continues in the left half. If the target is larger, the search continues in the right half. The process repeats until the target is found or the range is empty.\n\n### Example\n\nGiven sorted input: `[1, 3, 5, 7, 9, 11, 13, 15]`, target = `7`\n\n| Step | low | high | mid | array[mid] | Comparison | Action |\n|------|-----|------|-----|-----------|------------|--------|\n| 1 | 0 | 7 | 3 | `7` | `7 == 7`? | Yes, return index 3 |\n\nResult: Target `7` found at index `3` in just 1 comparison.\n\n**Example requiring multiple steps:**\n\nGiven sorted input: `[1, 3, 5, 7, 9, 11, 13, 15]`, target = `13`\n\n| Step | low | high | mid | array[mid] | Comparison | Action |\n|------|-----|------|-----|-----------|------------|--------|\n| 1 | 0 | 7 | 3 | `7` | `13 > 7` | Search right half: low = 4 |\n| 2 | 4 | 7 | 5 | `11` | `13 > 11` | Search right half: low = 6 |\n| 3 | 6 | 7 | 6 | `13` | `13 == 13` | Yes, return index 6 |\n\nResult: Target `13` found at index `6` after 3 comparisons (vs. 7 with linear search).\n\n## Pseudocode\n\n```\nfunction binarySearch(array, target):\n    low = 0\n    high = length(array) - 1\n\n    while low <= high:\n        mid = low + (high - low) / 2    // avoids integer overflow\n\n        if array[mid] == target:\n            return mid\n        else if array[mid] < target:\n            low = mid + 1\n        else:\n            high = mid - 1\n\n    return -1  // target not found\n```\n\nNote: Using `low + (high - low) / 2` instead of `(low + high) / 2` prevents potential integer overflow when `low` and `high` are large values.\n\n## Complexity Analysis\n\n| Case    | Time     | Space |\n|---------|----------|-------|\n| Best    | O(1)     | O(1)  |\n| Average | O(log n) | O(1)  |\n| Worst   | O(log n) | O(1)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(1):** The target element happens to be at the middle of the array on the first comparison. The algorithm finds it immediately and returns.\n\n- **Average Case -- O(log n):** On average, the algorithm halves the search space with each comparison. Starting with n elements, after k comparisons the search space is n/2^k. The search ends when the space contains 1 element, so n/2^k = 1, giving k = log2(n) comparisons.\n\n- **Worst Case -- O(log n):** The target is not in the array, or it is found only after the search space has been reduced to a single element. This requires exactly floor(log2(n)) + 1 comparisons. For example, searching 1 billion elements requires at most 30 comparisons.\n\n- **Space -- O(1):** The iterative version uses only a constant number of variables (`low`, `high`, `mid`). The recursive version uses O(log n) space due to the call stack, but the iterative approach is preferred in practice.\n\n## When to Use\n\n- **Sorted arrays with frequent searches:** Binary Search shines when you search the same sorted dataset many times, amortizing any initial sorting cost.\n- **Large datasets:** The logarithmic time complexity makes Binary Search practical even for billions of elements.\n- **Finding boundaries:** Variations of binary search can efficiently find the first/last occurrence of a value, or the insertion point for a new value.\n- **Answering \"is X present?\" queries on static data:** Databases and search engines use binary search on indexes extensively.\n- **Numerical methods:** Binary search on the answer space (also called \"bisection method\") solves many optimization and root-finding problems.\n\n## When NOT to Use\n\n- **Unsorted data:** Binary Search requires sorted input. If the data is unsorted and you only search once, linear search (O(n)) is faster than sorting (O(n log n)) + binary search (O(log n)).\n- **Linked lists:** Binary Search requires O(1) random access to compute the middle element. On a linked list, finding the middle takes O(n), negating the advantage.\n- **Frequently changing data:** If insertions and deletions are common, maintaining sorted order is expensive. Consider a balanced BST or hash table instead.\n- **Very small datasets:** For arrays with fewer than ~10 elements, linear search may be faster due to lower overhead and better cache behavior.\n\n## Comparison with Similar Algorithms\n\n| Algorithm        | Time (avg) | Space | Requires Sorted Data | Notes                                    |\n|------------------|-----------|-------|---------------------|------------------------------------------|\n| Binary Search    | O(log n)  | O(1)  | Yes                 | Efficient; the standard for sorted data  |\n| Linear Search    | O(n)      | O(1)  | No                  | Simple but slow on large datasets        |\n| Ternary Search   | O(log3 n) | O(1)  | Yes                 | More comparisons per step; rarely better |\n| Interpolation Search | O(log log n) avg | O(1) | Yes (uniform) | Faster if data is uniformly distributed |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| C          | [BinarySearch.c](c/BinarySearch.c) |\n| C++        | [BinarySearch - (recursive).cpp](cpp/BinarySearch%20-%20(recursive).cpp) |\n| C++        | [BinarySearch-(iterative).cpp](cpp/BinarySearch-(iterative).cpp) |\n| C#         | [binSearchAlgo.cs](csharp/binSearchAlgo.cs) |\n| Go         | [BinarySearch.go](go/BinarySearch.go) |\n| Java       | [BinarySearchRecursive.java](java/BinarySearchRecursive.java) |\n| Java       | [binarySerach.java](java/binarySerach.java) |\n| Kotlin     | [BinarySearchRecursive.kt](kotlin/BinarySearchRecursive.kt) |\n| Python     | [BinarySearch(iterative).py](python/BinarySearch(iterative).py) |\n| Python     | [BinarySearch(recursive).py](python/BinarySearch(recursive).py) |\n| Swift      | [BinarySearch.swift](swift/BinarySearch.swift) |\n| TypeScript | [index.js](typescript/index.js) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 2: Getting Started (Exercise 2.3-5).\n- Knuth, D. E. (1998). *The Art of Computer Programming, Volume 3: Sorting and Searching* (2nd ed.). Addison-Wesley. Section 6.2.1: Searching an Ordered Table.\n- [Binary Search Algorithm -- Wikipedia](https://en.wikipedia.org/wiki/Binary_search_algorithm)\n"
+}

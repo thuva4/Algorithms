@@ -1,0 +1,17 @@
+name: "Prim's Algorithm"
+slug: "prims"
+category: "graph"
+subcategory: "minimum-spanning-tree"
+difficulty: "intermediate"
+tags: [graph, minimum-spanning-tree, greedy, priority-queue, weighted]
+complexity:
+  time:
+    best: "O(E log V)"
+    average: "O(E log V)"
+    worst: "O(E log V)"
+  space: "O(V)"
+stable: null
+in_place: null
+related: [kruskals-algorithm, dijkstras]
+implementations: [cpp]
+visualization: true

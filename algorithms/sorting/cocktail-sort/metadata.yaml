@@ -1,0 +1,17 @@
+name: "Cocktail Sort"
+slug: "cocktail-sort"
+category: "sorting"
+subcategory: "comparison-based"
+difficulty: "beginner"
+tags: [sorting, comparison, stable, in-place, adaptive]
+complexity:
+  time:
+    best: "O(n)"
+    average: "O(n^2)"
+    worst: "O(n^2)"
+  space: "O(1)"
+stable: true
+in_place: true
+related: [bubble-sort, insertion-sort, selection-sort]
+implementations: [python, java, cpp, c, go, typescript, kotlin, rust, swift, scala, csharp]
+visualization: true

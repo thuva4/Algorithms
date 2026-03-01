@@ -1,0 +1,137 @@
+{
+  "name": "Max Flow (Edmonds-Karp)",
+  "slug": "max-flow-min-cut",
+  "category": "graph",
+  "subcategory": "network-flow",
+  "difficulty": "advanced",
+  "tags": [
+    "graph",
+    "network-flow",
+    "max-flow",
+    "min-cut",
+    "bfs",
+    "edmonds-karp"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(VE^2)",
+      "average": "O(VE^2)",
+      "worst": "O(VE^2)"
+    },
+    "space": "O(V^2)"
+  },
+  "stable": null,
+  "in_place": false,
+  "related": [
+    "ford-fulkerson",
+    "dinic",
+    "breadth-first-search"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "max_flow_min_cut.c",
+          "content": "#include \"max_flow_min_cut.h\"\n#include <stdlib.h>\n#include <limits.h>\n#include <stdbool.h>\n#include <string.h>\n\nint max_flow_min_cut(int* arr, int len) {\n    int n = arr[0], m = arr[1], src = arr[2], sink = arr[3];\n    int* cap = (int*)calloc(n * n, sizeof(int));\n    for (int i = 0; i < m; i++) cap[arr[4+3*i]*n + arr[5+3*i]] += arr[6+3*i];\n    int maxFlow = 0;\n    int* parent = (int*)malloc(n * sizeof(int));\n    int* queue = (int*)malloc(n * sizeof(int));\n    while (1) {\n        memset(parent, -1, n * sizeof(int));\n        parent[src] = src;\n        int front = 0, back = 0;\n        queue[back++] = src;\n        while (front < back && parent[sink] == -1) {\n            int u = queue[front++];\n            for (int v = 0; v < n; v++)\n                if (parent[v] == -1 && cap[u*n+v] > 0) { parent[v] = u; queue[back++] = v; }\n        }\n        if (parent[sink] == -1) break;\n        int flow = INT_MAX;\n        for (int v = sink; v != src; v = parent[v]) {\n            int c = cap[parent[v]*n+v];\n            if (c < flow) flow = c;\n        }\n        for (int v = sink; v != src; v = parent[v]) {\n            cap[parent[v]*n+v] -= flow;\n            cap[v*n+parent[v]] += flow;\n        }\n        maxFlow += flow;\n    }\n    free(cap); free(parent); free(queue);\n    return maxFlow;\n}\n"
+        },
+        {
+          "filename": "max_flow_min_cut.h",
+          "content": "#ifndef MAX_FLOW_MIN_CUT_H\n#define MAX_FLOW_MIN_CUT_H\n\nint max_flow_min_cut(int* arr, int len);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "max_flow_min_cut.cpp",
+          "content": "#include <vector>\n#include <queue>\n#include <algorithm>\n#include <climits>\n#include <cstring>\n\nint max_flow_min_cut(std::vector<int> arr) {\n    int n = arr[0], m = arr[1], src = arr[2], sink = arr[3];\n    std::vector<std::vector<int>> cap(n, std::vector<int>(n, 0));\n    for (int i = 0; i < m; i++) cap[arr[4+3*i]][arr[5+3*i]] += arr[6+3*i];\n    int maxFlow = 0;\n    std::vector<int> parent(n);\n    while (true) {\n        std::fill(parent.begin(), parent.end(), -1);\n        parent[src] = src;\n        std::queue<int> q;\n        q.push(src);\n        while (!q.empty() && parent[sink] == -1) {\n            int u = q.front(); q.pop();\n            for (int v = 0; v < n; v++)\n                if (parent[v] == -1 && cap[u][v] > 0) { parent[v] = u; q.push(v); }\n        }\n        if (parent[sink] == -1) break;\n        int flow = INT_MAX;\n        for (int v = sink; v != src; v = parent[v]) flow = std::min(flow, cap[parent[v]][v]);\n        for (int v = sink; v != src; v = parent[v]) { cap[parent[v]][v] -= flow; cap[v][parent[v]] += flow; }\n        maxFlow += flow;\n    }\n    return maxFlow;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "MaxFlowMinCut.cs",
+          "content": "using System;\nusing System.Collections.Generic;\n\npublic class MaxFlowMinCut\n{\n    public static int Run(int[] arr)\n    {\n        int n = arr[0], m = arr[1], src = arr[2], sink = arr[3];\n        int[,] cap = new int[n, n];\n        for (int i = 0; i < m; i++) cap[arr[4+3*i], arr[5+3*i]] += arr[6+3*i];\n        int maxFlow = 0;\n        while (true)\n        {\n            int[] parent = new int[n];\n            for (int i = 0; i < n; i++) parent[i] = -1;\n            parent[src] = src;\n            Queue<int> queue = new Queue<int>();\n            queue.Enqueue(src);\n            while (queue.Count > 0 && parent[sink] == -1)\n            {\n                int u = queue.Dequeue();\n                for (int v = 0; v < n; v++)\n                    if (parent[v] == -1 && cap[u, v] > 0) { parent[v] = u; queue.Enqueue(v); }\n            }\n            if (parent[sink] == -1) break;\n            int flow = int.MaxValue;\n            for (int v = sink; v != src; v = parent[v]) flow = Math.Min(flow, cap[parent[v], v]);\n            for (int v = sink; v != src; v = parent[v]) { cap[parent[v], v] -= flow; cap[v, parent[v]] += flow; }\n            maxFlow += flow;\n        }\n        return maxFlow;\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "max_flow_min_cut.go",
+          "content": "package maxflowmincut\n\n// MaxFlowMinCut computes max flow using Edmonds-Karp (BFS-based Ford-Fulkerson).\nfunc MaxFlowMinCut(arr []int) int {\n\tn, m, src, sink := arr[0], arr[1], arr[2], arr[3]\n\tcap := make([][]int, n)\n\tfor i := range cap { cap[i] = make([]int, n) }\n\tfor i := 0; i < m; i++ { cap[arr[4+3*i]][arr[5+3*i]] += arr[6+3*i] }\n\tmaxFlow := 0\n\tfor {\n\t\tparent := make([]int, n)\n\t\tfor i := range parent { parent[i] = -1 }\n\t\tparent[src] = src\n\t\tqueue := []int{src}\n\t\tfor len(queue) > 0 && parent[sink] == -1 {\n\t\t\tu := queue[0]; queue = queue[1:]\n\t\t\tfor v := 0; v < n; v++ {\n\t\t\t\tif parent[v] == -1 && cap[u][v] > 0 { parent[v] = u; queue = append(queue, v) }\n\t\t\t}\n\t\t}\n\t\tif parent[sink] == -1 { break }\n\t\tflow := int(^uint(0) >> 1)\n\t\tfor v := sink; v != src; v = parent[v] { if cap[parent[v]][v] < flow { flow = cap[parent[v]][v] } }\n\t\tfor v := sink; v != src; v = parent[v] { cap[parent[v]][v] -= flow; cap[v][parent[v]] += flow }\n\t\tmaxFlow += flow\n\t}\n\treturn maxFlow\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "MaxFlowMinCut.java",
+          "content": "import java.util.*;\n\npublic class MaxFlowMinCut {\n    public static int maxFlowMinCut(int[] arr) {\n        int n = arr[0], m = arr[1], src = arr[2], sink = arr[3];\n        int[][] cap = new int[n][n];\n        for (int i = 0; i < m; i++) cap[arr[4+3*i]][arr[5+3*i]] += arr[6+3*i];\n        int maxFlow = 0;\n        int[] parent = new int[n];\n        while (true) {\n            Arrays.fill(parent, -1);\n            parent[src] = src;\n            Queue<Integer> q = new LinkedList<>();\n            q.add(src);\n            while (!q.isEmpty() && parent[sink] == -1) {\n                int u = q.poll();\n                for (int v = 0; v < n; v++) {\n                    if (parent[v] == -1 && cap[u][v] > 0) {\n                        parent[v] = u;\n                        q.add(v);\n                    }\n                }\n            }\n            if (parent[sink] == -1) break;\n            int flow = Integer.MAX_VALUE;\n            for (int v = sink; v != src; v = parent[v]) flow = Math.min(flow, cap[parent[v]][v]);\n            for (int v = sink; v != src; v = parent[v]) {\n                cap[parent[v]][v] -= flow;\n                cap[v][parent[v]] += flow;\n            }\n            maxFlow += flow;\n        }\n        return maxFlow;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "MaxFlowMinCut.kt",
+          "content": "fun maxFlowMinCut(arr: IntArray): Int {\n    val n = arr[0]; val m = arr[1]; val src = arr[2]; val sink = arr[3]\n    val cap = Array(n) { IntArray(n) }\n    for (i in 0 until m) cap[arr[4+3*i]][arr[5+3*i]] += arr[6+3*i]\n    var maxFlow = 0\n    while (true) {\n        val parent = IntArray(n) { -1 }\n        parent[src] = src\n        val queue = ArrayDeque<Int>()\n        queue.addLast(src)\n        while (queue.isNotEmpty() && parent[sink] == -1) {\n            val u = queue.removeFirst()\n            for (v in 0 until n) if (parent[v] == -1 && cap[u][v] > 0) { parent[v] = u; queue.addLast(v) }\n        }\n        if (parent[sink] == -1) break\n        var flow = Int.MAX_VALUE\n        var v = sink\n        while (v != src) { flow = minOf(flow, cap[parent[v]][v]); v = parent[v] }\n        v = sink\n        while (v != src) { cap[parent[v]][v] -= flow; cap[v][parent[v]] += flow; v = parent[v] }\n        maxFlow += flow\n    }\n    return maxFlow\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "max_flow_min_cut.py",
+          "content": "from collections import deque\n\ndef max_flow_min_cut(arr: list[int]) -> int:\n    n = arr[0]\n    m = arr[1]\n    src = arr[2]\n    sink = arr[3]\n    cap = [[0] * n for _ in range(n)]\n    for i in range(m):\n        u = arr[4 + 3 * i]\n        v = arr[5 + 3 * i]\n        c = arr[6 + 3 * i]\n        cap[u][v] += c\n\n    def bfs(parent):\n        visited = [False] * n\n        visited[src] = True\n        queue = deque([src])\n        while queue:\n            u = queue.popleft()\n            for v in range(n):\n                if not visited[v] and cap[u][v] > 0:\n                    visited[v] = True\n                    parent[v] = u\n                    if v == sink:\n                        return True\n                    queue.append(v)\n        return False\n\n    max_flow = 0\n    parent = [-1] * n\n    while bfs(parent):\n        path_flow = float('inf')\n        v = sink\n        while v != src:\n            u = parent[v]\n            path_flow = min(path_flow, cap[u][v])\n            v = u\n        v = sink\n        while v != src:\n            u = parent[v]\n            cap[u][v] -= path_flow\n            cap[v][u] += path_flow\n            v = u\n        max_flow += path_flow\n        parent = [-1] * n\n\n    return max_flow\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "max_flow_min_cut.rs",
+          "content": "use std::collections::VecDeque;\n\npub fn max_flow_min_cut(arr: &[i32]) -> i32 {\n    let n = arr[0] as usize;\n    let m = arr[1] as usize;\n    let src = arr[2] as usize;\n    let sink = arr[3] as usize;\n    let mut cap = vec![vec![0i32; n]; n];\n    for i in 0..m { cap[arr[4+3*i] as usize][arr[5+3*i] as usize] += arr[6+3*i]; }\n    let mut max_flow = 0;\n    loop {\n        let mut parent = vec![-1i32; n];\n        parent[src] = src as i32;\n        let mut q = VecDeque::new();\n        q.push_back(src);\n        while let Some(u) = q.pop_front() {\n            if parent[sink] != -1 { break; }\n            for v in 0..n {\n                if parent[v] == -1 && cap[u][v] > 0 { parent[v] = u as i32; q.push_back(v); }\n            }\n        }\n        if parent[sink] == -1 { break; }\n        let mut flow = i32::MAX;\n        let mut v = sink;\n        while v != src { let u = parent[v] as usize; flow = flow.min(cap[u][v]); v = u; }\n        v = sink;\n        while v != src { let u = parent[v] as usize; cap[u][v] -= flow; cap[v][u] += flow; v = u; }\n        max_flow += flow;\n    }\n    max_flow\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "MaxFlowMinCut.scala",
+          "content": "object MaxFlowMinCut {\n  def maxFlowMinCut(arr: Array[Int]): Int = {\n    val n = arr(0); val m = arr(1); val src = arr(2); val sink = arr(3)\n    val cap = Array.ofDim[Int](n, n)\n    for (i <- 0 until m) cap(arr(4+3*i))(arr(5+3*i)) += arr(6+3*i)\n    var maxFlow = 0\n    var continue_ = true\n    while (continue_) {\n      val parent = Array.fill(n)(-1)\n      parent(src) = src\n      val queue = scala.collection.mutable.Queue[Int]()\n      queue.enqueue(src)\n      while (queue.nonEmpty && parent(sink) == -1) {\n        val u = queue.dequeue()\n        for (v <- 0 until n) if (parent(v) == -1 && cap(u)(v) > 0) { parent(v) = u; queue.enqueue(v) }\n      }\n      if (parent(sink) == -1) { continue_ = false }\n      else {\n        var flow = Int.MaxValue\n        var v = sink\n        while (v != src) { flow = math.min(flow, cap(parent(v))(v)); v = parent(v) }\n        v = sink\n        while (v != src) { cap(parent(v))(v) -= flow; cap(v)(parent(v)) += flow; v = parent(v) }\n        maxFlow += flow\n      }\n    }\n    maxFlow\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "MaxFlowMinCut.swift",
+          "content": "func maxFlowMinCut(_ arr: [Int]) -> Int {\n    let n = arr[0], m = arr[1], src = arr[2], sink = arr[3]\n    var cap = [[Int]](repeating: [Int](repeating: 0, count: n), count: n)\n    for i in 0..<m { cap[arr[4+3*i]][arr[5+3*i]] += arr[6+3*i] }\n    var maxFlow = 0\n    while true {\n        var parent = [Int](repeating: -1, count: n)\n        parent[src] = src\n        var queue = [src]\n        var front = 0\n        while front < queue.count && parent[sink] == -1 {\n            let u = queue[front]; front += 1\n            for v in 0..<n {\n                if parent[v] == -1 && cap[u][v] > 0 { parent[v] = u; queue.append(v) }\n            }\n        }\n        if parent[sink] == -1 { break }\n        var flow = Int.max\n        var v = sink\n        while v != src { flow = min(flow, cap[parent[v]][v]); v = parent[v] }\n        v = sink\n        while v != src { cap[parent[v]][v] -= flow; cap[v][parent[v]] += flow; v = parent[v] }\n        maxFlow += flow\n    }\n    return maxFlow\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "maxFlowMinCut.ts",
+          "content": "export function maxFlowMinCut(arr: number[]): number {\n    const n = arr[0], m = arr[1], src = arr[2], sink = arr[3];\n    const cap: number[][] = Array.from({ length: n }, () => new Array(n).fill(0));\n    for (let i = 0; i < m; i++) cap[arr[4+3*i]][arr[5+3*i]] += arr[6+3*i];\n    let maxFlow = 0;\n    while (true) {\n        const parent = new Array(n).fill(-1);\n        parent[src] = src;\n        const queue = [src];\n        let front = 0;\n        while (front < queue.length && parent[sink] === -1) {\n            const u = queue[front++];\n            for (let v = 0; v < n; v++)\n                if (parent[v] === -1 && cap[u][v] > 0) { parent[v] = u; queue.push(v); }\n        }\n        if (parent[sink] === -1) break;\n        let flow = Infinity;\n        for (let v = sink; v !== src; v = parent[v]) flow = Math.min(flow, cap[parent[v]][v]);\n        for (let v = sink; v !== src; v = parent[v]) { cap[parent[v]][v] -= flow; cap[v][parent[v]] += flow; }\n        maxFlow += flow;\n    }\n    return maxFlow;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Max Flow (Edmonds-Karp)\n\n## Overview\n\nThe Edmonds-Karp algorithm computes the maximum flow in a flow network using BFS to find augmenting paths. It is a specific implementation of the Ford-Fulkerson method that guarantees polynomial time complexity by always choosing the shortest augmenting path (in terms of number of edges). The Max-Flow Min-Cut Theorem states that the maximum flow from source to sink equals the minimum cut capacity separating them.\n\n## How It Works\n\n1. Initialize all flows to zero. Build a residual graph with forward edges (remaining capacity) and backward edges (flow that can be cancelled).\n2. Use BFS to find the shortest augmenting path from source to sink in the residual graph.\n3. Find the bottleneck capacity along the path (minimum residual capacity).\n4. Update residual capacities: subtract bottleneck from forward edges, add to backward edges.\n5. Add the bottleneck to total flow.\n6. Repeat until no augmenting path exists.\n7. Return the total max flow.\n\nInput: `[n, m, src, sink, u1, v1, cap1, u2, v2, cap2, ...]`\n\n## Worked Example\n\n```\nGraph with 4 vertices, source=0, sink=3:\n    0 --(10)--> 1\n    0 --(10)--> 2\n    1 --(4)---> 2\n    1 --(8)---> 3\n    2 --(9)---> 3\n```\n\n**Iteration 1:** BFS finds path 0 -> 1 -> 3, bottleneck = min(10, 8) = 8. Flow = 8.\n**Iteration 2:** BFS finds path 0 -> 2 -> 3, bottleneck = min(10, 9) = 9. Flow = 8 + 9 = 17.\n**Iteration 3:** BFS finds path 0 -> 1 -> 2 -> 3, bottleneck = min(2, 4, 0) = 0. No more augmenting paths with positive capacity after adjusting.\n\nActually, let us trace more carefully:\n\nAfter iteration 1: residual capacities: 0->1: 2, 1->3: 0, 1->0: 8, 3->1: 8\nAfter iteration 2: residual capacities: 0->2: 1, 2->3: 0, 2->0: 9, 3->2: 9\nIteration 3: BFS finds 0 -> 1 -> 2 -> 3, bottleneck = min(2, 4, 0). 2->3 has 0 capacity remaining.\nSo BFS finds no more augmenting paths.\n\n**Maximum flow = 17.**\n\nThe minimum cut separates {0, 1} from {2, 3} with edges 1->2 (cap 4 unused partly) and 0->2 (cap 10) and 1->3 (cap 8), but the minimum cut is actually {0} vs {1,2,3} with capacity 10+10 = 20 or the actual min-cut matching the flow of 17.\n\n## Pseudocode\n\n```\nfunction edmondsKarp(capacity, source, sink, n):\n    flow = 0\n    residual = copy of capacity matrix\n\n    while true:\n        // BFS to find augmenting path\n        parent = array of size n, all -1\n        parent[source] = source\n        queue = [source]\n\n        while queue is not empty and parent[sink] == -1:\n            u = queue.dequeue()\n            for v = 0 to n-1:\n                if parent[v] == -1 and residual[u][v] > 0:\n                    parent[v] = u\n                    queue.enqueue(v)\n\n        if parent[sink] == -1:\n            break   // no augmenting path\n\n        // Find bottleneck\n        bottleneck = INF\n        v = sink\n        while v != source:\n            u = parent[v]\n            bottleneck = min(bottleneck, residual[u][v])\n            v = u\n\n        // Update residual graph\n        v = sink\n        while v != source:\n            u = parent[v]\n            residual[u][v] -= bottleneck\n            residual[v][u] += bottleneck\n            v = u\n\n        flow += bottleneck\n\n    return flow\n```\n\n## Complexity Analysis\n\n| Case    | Time     | Space  |\n|---------|----------|--------|\n| Best    | O(VE)    | O(V^2) |\n| Average | O(VE^2)  | O(V^2) |\n| Worst   | O(VE^2)  | O(V^2) |\n\nEach BFS takes O(E) time. The number of augmenting paths is bounded by O(VE) because each shortest path length can increase at most V times, and at each distance level there are at most E augmenting paths.\n\n## When to Use\n\n- Network bandwidth optimization\n- Bipartite matching (reduction to max-flow)\n- Project selection and scheduling\n- Image segmentation (graph cuts)\n- Transportation and logistics flow planning\n- Baseball elimination problem\n\n## When NOT to Use\n\n- When the graph is very large and dense -- Dinic's algorithm or Push-Relabel are faster in practice.\n- When you need minimum cost flow -- use MCMF algorithms (Successive Shortest Paths, etc.).\n- When the capacities are very large integers -- the algorithm may be slow; consider scaling-based approaches.\n- For simple bipartite matching -- Hopcroft-Karp is more efficient than reducing to max-flow.\n\n## Comparison\n\n| Algorithm | Time | Notes |\n|-----------|------|-------|\n| Edmonds-Karp (this) | O(VE^2) | BFS-based; simple to implement |\n| Ford-Fulkerson (DFS) | O(E * maxFlow) | Not polynomial; can be slow with large capacities |\n| Dinic's | O(V^2 * E) | Faster in practice using level graphs and blocking flows |\n| Push-Relabel | O(V^2 * E) or O(V^3) | Best for dense graphs; good practical performance |\n| Capacity Scaling | O(E^2 * log(maxCap)) | Good when capacities vary widely |\n\n## References\n\n- Edmonds, J., & Karp, R. M. (1972). \"Theoretical improvements in algorithmic efficiency for network flow problems.\" *Journal of the ACM*, 19(2), 248-264.\n- Ford, L. R., & Fulkerson, D. R. (1956). \"Maximal flow through a network.\" *Canadian Journal of Mathematics*, 8, 399-404.\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 26.\n- [Edmonds-Karp algorithm -- Wikipedia](https://en.wikipedia.org/wiki/Edmonds%E2%80%93Karp_algorithm)\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [max_flow_min_cut.py](python/max_flow_min_cut.py) |\n| Java       | [MaxFlowMinCut.java](java/MaxFlowMinCut.java) |\n| C++        | [max_flow_min_cut.cpp](cpp/max_flow_min_cut.cpp) |\n| C          | [max_flow_min_cut.c](c/max_flow_min_cut.c) |\n| Go         | [max_flow_min_cut.go](go/max_flow_min_cut.go) |\n| TypeScript | [maxFlowMinCut.ts](typescript/maxFlowMinCut.ts) |\n| Rust       | [max_flow_min_cut.rs](rust/max_flow_min_cut.rs) |\n| Kotlin     | [MaxFlowMinCut.kt](kotlin/MaxFlowMinCut.kt) |\n| Swift      | [MaxFlowMinCut.swift](swift/MaxFlowMinCut.swift) |\n| Scala      | [MaxFlowMinCut.scala](scala/MaxFlowMinCut.scala) |\n| C#         | [MaxFlowMinCut.cs](csharp/MaxFlowMinCut.cs) |\n"
+}

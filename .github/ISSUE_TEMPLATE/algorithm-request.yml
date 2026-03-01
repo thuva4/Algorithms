@@ -1,0 +1,77 @@
+name: Algorithm Request
+description: Request a new algorithm to be added to the repository
+title: "[Algorithm Request] "
+labels: ["algorithm-request"]
+body:
+  - type: input
+    id: algorithm-name
+    attributes:
+      label: Algorithm Name
+      description: The name of the algorithm you'd like added
+      placeholder: e.g., Tarjan's Bridge Finding Algorithm
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      description: Which category does this algorithm belong to?
+      options:
+        - sorting
+        - searching
+        - graph
+        - dynamic-programming
+        - trees
+        - strings
+        - math
+        - greedy
+        - backtracking
+        - divide-and-conquer
+        - bit-manipulation
+        - geometry
+        - cryptography
+        - data-structures
+    validations:
+      required: true
+
+  - type: dropdown
+    id: difficulty
+    attributes:
+      label: Difficulty
+      description: How difficult is this algorithm to implement?
+      options:
+        - beginner
+        - intermediate
+        - advanced
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Describe the algorithm and what problem it solves
+      placeholder: Explain what this algorithm does, its use cases, and why it should be included.
+    validations:
+      required: true
+
+  - type: input
+    id: related-algorithms
+    attributes:
+      label: Related Algorithms
+      description: Any related algorithms already in the repository?
+      placeholder: e.g., dijkstra, bellman-ford
+    validations:
+      required: false
+
+  - type: textarea
+    id: references
+    attributes:
+      label: References
+      description: Links to papers, textbooks, or articles about this algorithm
+      placeholder: |
+        - https://en.wikipedia.org/wiki/...
+        - Introduction to Algorithms, Chapter X
+    validations:
+      required: false

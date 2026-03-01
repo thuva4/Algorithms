@@ -1,0 +1,17 @@
+name: "Cycle Sort"
+slug: "cycle-sort"
+category: "sorting"
+subcategory: "comparison-based"
+difficulty: "intermediate"
+tags: [sorting, comparison, in-place, unstable, optimal-writes]
+complexity:
+  time:
+    best: "O(n^2)"
+    average: "O(n^2)"
+    worst: "O(n^2)"
+  space: "O(1)"
+stable: false
+in_place: true
+related: [selection-sort, heap-sort]
+implementations: [python, java, cpp, c, go, typescript, kotlin, rust, swift, scala, csharp]
+visualization: true

@@ -1,0 +1,27 @@
+algorithm: "bipartite-matching"
+function_signature:
+  name: "hopcroft_karp"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "simple matching"
+    input: [3, 3, 3, 0, 0, 1, 1, 2, 2]
+    expected: 3
+  - name: "complete bipartite K2,2"
+    input: [2, 2, 4, 0, 0, 0, 1, 1, 0, 1, 1]
+    expected: 2
+  - name: "single edge"
+    input: [1, 1, 1, 0, 0]
+    expected: 1
+  - name: "no edges"
+    input: [3, 3, 0]
+    expected: 0
+  - name: "unbalanced with bottleneck"
+    input: [3, 2, 4, 0, 0, 1, 0, 1, 1, 2, 1]
+    expected: 2
+  - name: "augmenting path needed"
+    input: [3, 3, 4, 0, 0, 0, 1, 1, 0, 2, 2]
+    expected: 3
+  - name: "star from left"
+    input: [1, 4, 4, 0, 0, 0, 1, 0, 2, 0, 3]
+    expected: 1

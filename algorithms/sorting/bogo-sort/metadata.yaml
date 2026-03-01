@@ -1,0 +1,17 @@
+name: "Bogo Sort"
+slug: "bogo-sort"
+category: "sorting"
+subcategory: "comparison-based"
+difficulty: "beginner"
+tags: [sorting, random, inefficient, educational]
+complexity:
+  time:
+    best: "O(n)"
+    average: "O((n+1)!)"
+    worst: "O(infinity)"
+  space: "O(1)"
+stable: false
+in_place: true
+related: [bubble-sort]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

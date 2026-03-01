@@ -1,0 +1,21 @@
+name: "Selection Sort"
+slug: "selection-sort"
+category: "sorting"
+subcategory: "comparison-based"
+difficulty: "beginner"
+tags: [sorting, comparison, in-place]
+complexity:
+  time:
+    best: "O(n^2)"
+    average: "O(n^2)"
+    worst: "O(n^2)"
+  space: "O(1)"
+stable: false
+in_place: true
+related: [bubble-sort, insertion-sort, heap-sort]
+implementations: [c, cpp, csharp, go, java, python, rust, scala, typescript]
+visualization: true
+patterns:
+  - two-pointers
+patternDifficulty: beginner
+practiceOrder: 2

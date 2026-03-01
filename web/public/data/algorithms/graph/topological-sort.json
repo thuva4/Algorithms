@@ -1,0 +1,142 @@
+{
+  "name": "Topological Sort",
+  "slug": "topological-sort",
+  "category": "graph",
+  "subcategory": "traversal",
+  "difficulty": "intermediate",
+  "tags": [
+    "graph",
+    "traversal",
+    "dag",
+    "ordering",
+    "scheduling"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(V+E)",
+      "average": "O(V+E)",
+      "worst": "O(V+E)"
+    },
+    "space": "O(V)"
+  },
+  "stable": null,
+  "in_place": null,
+  "related": [
+    "depth-first-search",
+    "longest-path",
+    "kruskals-algorithm"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "TopologicalSort.c",
+          "content": "#include <stdio.h>\n#include <stdlib.h>\n#include <stdbool.h>\n\n#define MAX_NODES 1000\n\nint adjList[MAX_NODES][MAX_NODES];\nint adjCount[MAX_NODES];\nbool visited[MAX_NODES];\nint stack[MAX_NODES];\nint stackTop;\n\nvoid dfs(int node) {\n    visited[node] = true;\n\n    for (int i = adjCount[node] - 1; i >= 0; i--) {\n        int neighbor = adjList[node][i];\n        if (!visited[neighbor]) {\n            dfs(neighbor);\n        }\n    }\n\n    stack[stackTop++] = node;\n}\n\n/**\n * Topological sort of a directed acyclic graph.\n * Uses DFS-based approach.\n * Stores result in result[], returns number of nodes.\n */\nint topologicalSort(int numNodes, int result[]) {\n    stackTop = 0;\n\n    for (int i = 0; i < numNodes; i++) {\n        visited[i] = false;\n    }\n\n    for (int i = numNodes - 1; i >= 0; i--) {\n        if (!visited[i]) {\n            dfs(i);\n        }\n    }\n\n    // Reverse the stack to get topological order\n    int count = 0;\n    for (int i = stackTop - 1; i >= 0; i--) {\n        result[count++] = stack[i];\n    }\n    return count;\n}\n\nint main() {\n    // Example: {\"0\": [1, 2], \"1\": [3], \"2\": [3], \"3\": []}\n    int numNodes = 4;\n    adjCount[0] = 2; adjList[0][0] = 1; adjList[0][1] = 2;\n    adjCount[1] = 1; adjList[1][0] = 3;\n    adjCount[2] = 1; adjList[2][0] = 3;\n    adjCount[3] = 0;\n\n    int result[MAX_NODES];\n    int count = topologicalSort(numNodes, result);\n\n    printf(\"Topological order: \");\n    for (int i = 0; i < count; i++) {\n        printf(\"%d \", result[i]);\n    }\n    printf(\"\\n\");\n\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "topo_sort.cpp",
+          "content": "/*\n* @author Abhishek Datta\n* @github_id abdatta\n* @since 15th October, 2017\n*\n* The following algroithm creates a directed acyclic graph\n* and displays the topological order of its vertices\n* \n* Topological sorting for Directed Acyclic Graph (DAG) is a\n* linear ordering of vertices such that for every directed\n* edge uv, vertex u comes before v in the ordering.\n*/\n\n#include <iostream>\n#include <list>\nusing namespace std;\n\n// This class represents a directed graph using adjacency list representation\nclass Graph\n{\n\tint V; // No. of vertices\n\tlist<int> *adj; // Pointer to an array containing adjacency lists\n\tlist<int> sorted_list; // The list of vertices sorted in topological order\n\n\tpublic:\n\t\tGraph(int V) // Contsructor\n\t\t{\n\t\t\tthis->V = V;\n\t\t\tthis->adj = new list<int>[V];\n\t\t}\n\n\t\tvoid addEdge(int from, int to) // Function to add an edge to the graph\n\t\t{\n\t\t\tthis->adj[from].push_back(to); // Add 'to' to the adjecency list of 'from'\n\t\t}\n\n\t\tvoid dfs_explore(bool *visited, int start) // Starts performing DFS from the given 'start' vertex\n\t\t{\n\t\t\tvisited[start] = true; // Mark this vertex as visited\n\n\t\t\t// iterate over all the adjecent vertices and perform DFS on them if they are not visited yet\n\t\t\tfor (list<int>::iterator i = this->adj[start].begin(); i != this->adj[start].end(); ++i)\n\t\t\t{\n\t\t\t\tif(!visited[*i]) // if not yet visited\n\t\t\t\t{\n\t\t\t\t\tdfs_explore(visited, *i); // perform DFS\n\t\t\t\t}\n\t\t\t}\n\n\t\t\t// This is the most important part of topological sort\n\t\t\t// The first vertex to finish exploration will be the last vertex in the topological sort\n\t\t\t// So ordering the vertices in the reverse of their finished order will give us the sorted list\n\t\t\tthis->sorted_list.push_front(start);\n\t\t}\n\n\t\tvoid dfs()\n\t\t{\n\t\t\tbool *visited = new bool[this->V]; // variable to keep track of visited vertices\n\t\t\tfor(int i = 0; i<this->V; i++)\n\t\t\t\tvisited[i] = false; // initialise all vertices as not visited yet\n\n\t\t\tfor (int i = 0; i < this->V; ++i) // iterate through all vertices\n\t\t\t{\n\t\t\t\tif(!visited[i]) // if a vertiex is not yet visited\n\t\t\t\t{\n\t\t\t\t\tdfs_explore(visited, i); // perform DFS on it\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\n\t\tvoid topo_sort()\n\t\t{\n\t\t\tdfs(); // perform dfs to create the sorted_list\n\n\t\t\t// iterate over the sorted_list to display them in order\n\t\t\tfor (std::list<int>::iterator i = this->sorted_list.begin(); i != this->sorted_list.end(); ++i)\n\t\t\t{\n\t\t\t\tcout<<*i<<\" \";\n\t\t\t}\n\t\t\tcout<<endl;\n\t\t}\n};\n\n// main method to try the topological sort\nint main()\n{\n\t// create a graph of 8 vertices\n\tGraph g(8);\n\t// add edges to it\n    g.addEdge(0, 1);\t/*    0  ----------   2          */\n    g.addEdge(0, 2);\t/*      \\          /  |  \\       */\n    g.addEdge(1, 4);\t/*        1 --- 4 --- 3    6     */\n    g.addEdge(4, 2);\t/*      /          \\  |  /       */\n    g.addEdge(4, 5);\t/*    7  ----------   5          */\n    g.addEdge(2, 3);\n    g.addEdge(3, 5);\n    g.addEdge(2, 6);\n\tg.addEdge(5, 6);\n\tg.addEdge(7, 5);\n\n    g.topo_sort();\n    return 0;\n}"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "TopologicalSort.cs",
+          "content": "using System;\nusing System.Collections.Generic;\n\n/// <summary>\n/// Topological sort of a directed acyclic graph using DFS.\n/// </summary>\npublic class TopologicalSort\n{\n    public static List<int> Sort(Dictionary<int, List<int>> adjList)\n    {\n        var visited = new HashSet<int>();\n        var stack = new Stack<int>();\n\n        // Process all nodes in order\n        int numNodes = adjList.Count;\n        for (int i = 0; i < numNodes; i++)\n        {\n            if (!visited.Contains(i))\n            {\n                Dfs(adjList, i, visited, stack);\n            }\n        }\n\n        return new List<int>(stack);\n    }\n\n    private static void Dfs(Dictionary<int, List<int>> adjList, int node,\n        HashSet<int> visited, Stack<int> stack)\n    {\n        visited.Add(node);\n\n        foreach (int neighbor in adjList[node])\n        {\n            if (!visited.Contains(neighbor))\n            {\n                Dfs(adjList, neighbor, visited, stack);\n            }\n        }\n\n        stack.Push(node);\n    }\n\n    public static void Main(string[] args)\n    {\n        var adjList = new Dictionary<int, List<int>>\n        {\n            { 0, new List<int> { 1, 2 } },\n            { 1, new List<int> { 3 } },\n            { 2, new List<int> { 3 } },\n            { 3, new List<int>() }\n        };\n\n        var result = Sort(adjList);\n        Console.WriteLine(\"Topological order: \" + string.Join(\", \", result));\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "TopologicalSort.go",
+          "content": "package main\n\nimport \"fmt\"\n\n// topologicalSort performs a topological sort on a directed acyclic graph.\n// Returns a slice of nodes in topological order.\nfunc topologicalSort(adjList map[int][]int) []int {\n\tvisited := make(map[int]bool)\n\tstack := []int{}\n\n\tvar dfs func(node int)\n\tdfs = func(node int) {\n\t\tvisited[node] = true\n\n\t\tfor _, neighbor := range adjList[node] {\n\t\t\tif !visited[neighbor] {\n\t\t\t\tdfs(neighbor)\n\t\t\t}\n\t\t}\n\n\t\tstack = append(stack, node)\n\t}\n\n\t// Process all nodes in order\n\tnumNodes := len(adjList)\n\tfor i := 0; i < numNodes; i++ {\n\t\tif !visited[i] {\n\t\t\tdfs(i)\n\t\t}\n\t}\n\n\t// Reverse the stack\n\tresult := make([]int, len(stack))\n\tfor i, v := range stack {\n\t\tresult[len(stack)-1-i] = v\n\t}\n\treturn result\n}\n\nfunc main() {\n\tadjList := map[int][]int{\n\t\t0: {1, 2},\n\t\t1: {3},\n\t\t2: {3},\n\t\t3: {},\n\t}\n\n\tresult := topologicalSort(adjList)\n\tfmt.Println(\"Topological order:\", result)\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "TopologicalSort.java",
+          "content": "import java.io.*;\nimport java.util.*;\n\n// This class represents a directed graph using adjacency\n// list representation\nclass Graph\n{\n\tprivate int V; // No. of vertices\n\tprivate LinkedList<Integer> adj[]; // Adjacency List\n\n\t//Constructor\n\tGraph(int v)\n\t{\n\t\tV = v;\n\t\tadj = new LinkedList[v];\n\t\tfor (int i=0; i<v; ++i)\n\t\t\tadj[i] = new LinkedList();\n\t}\n\n\t// Function to add an edge into the graph\n\tvoid addEdge(int v,int w) { adj[v].add(w); }\n\n\t// A recursive function used by topologicalSort\n\tvoid topologicalSortUtil(int v, boolean visited[],\n\t\t\t\t\t\t\tStack stack)\n\t{\n\t\t// Mark the current node as visited.\n\t\tvisited[v] = true;\n\t\tInteger i;\n\n\t\t// Recur for all the vertices adjacent to this\n\t\tIterator<Integer> it = adj[v].iterator();\n\t\twhile (it.hasNext())\n\t\t{\n\t\t\ti = it.next();\n\t\t\tif (!visited[i])\n\t\t\t\ttopologicalSortUtil(i, visited, stack);\n\t\t}\n\n\t\t// Push current vertex to stack which stores result\n\t\tstack.push(new Integer(v));\n\t}\n\n\t// The function to do Topological Sort. It uses\n\t// recursive topologicalSortUtil()\n\tvoid topologicalSort()\n\t{\n\t\tStack stack = new Stack();\n\n\t\t// Mark all the vertices as not visited\n\t\tboolean visited[] = new boolean[V];\n\t\tfor (int i = 0; i < V; i++)\n\t\t\tvisited[i] = false;\n\n\t\t// Call the recursive helper function to store\n\t\t// Topological Sort starting from all vertices\n\t\t// one by one\n\t\tfor (int i = 0; i < V; i++)\n\t\t\tif (visited[i] == false)\n\t\t\t\ttopologicalSortUtil(i, visited, stack);\n\n\t\t// Print contents of stack\n\t\twhile (stack.empty()==false)\n\t\t\tSystem.out.print(stack.pop() + \" \");\n\t}\n\n\t// Driver method\n\tpublic static void main(String args[])\n\t{\n\t\t// Create a graph given in the above diagram\n\t\tGraph g = new Graph(6);\n\t\tg.addEdge(5, 2);\n\t\tg.addEdge(5, 0);\n\t\tg.addEdge(4, 0);\n\t\tg.addEdge(4, 1);\n\t\tg.addEdge(2, 3);\n\t\tg.addEdge(3, 1);\n\n\t\tSystem.out.println(\"Following is a Topological \" +\n\t\t\t\t\t\t\"sort of the given graph\");\n\t\tg.topologicalSort();\n\t}\n}"
+        },
+        {
+          "filename": "TopologicalSortHarness.java",
+          "content": "import java.util.ArrayDeque;\nimport java.util.ArrayList;\nimport java.util.List;\nimport java.util.Map;\nimport java.util.PriorityQueue;\n\npublic class TopologicalSortHarness {\n    public static int[] topologicalSort(Map<Integer, List<Integer>> adjacencyList) {\n        int n = 0;\n        for (Map.Entry<Integer, List<Integer>> entry : adjacencyList.entrySet()) {\n            n = Math.max(n, entry.getKey() + 1);\n            for (int next : entry.getValue()) {\n                n = Math.max(n, next + 1);\n            }\n        }\n\n        int[] indegree = new int[n];\n        for (List<Integer> neighbors : adjacencyList.values()) {\n            for (int next : neighbors) {\n                indegree[next]++;\n            }\n        }\n\n        PriorityQueue<Integer> ready = new PriorityQueue<>();\n        for (int i = 0; i < n; i++) {\n            if (indegree[i] == 0) {\n                ready.add(i);\n            }\n        }\n\n        List<Integer> order = new ArrayList<>();\n        while (!ready.isEmpty()) {\n            int node = ready.poll();\n            order.add(node);\n            for (int next : adjacencyList.getOrDefault(node, java.util.Collections.emptyList())) {\n                indegree[next]--;\n                if (indegree[next] == 0) {\n                    ready.add(next);\n                }\n            }\n        }\n\n        int[] result = new int[order.size()];\n        for (int i = 0; i < order.size(); i++) {\n            result[i] = order.get(i);\n        }\n        return result;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "TopologicalSort.kt",
+          "content": "import java.util.PriorityQueue\n\n/**\n * Topological sort of a directed acyclic graph.\n * Returns the lexicographically smallest valid order to keep tests deterministic.\n */\nfun topologicalSort(adjList: Map<Int, List<Int>>): List<Int> {\n    val nodeCount = adjList.size\n    val inDegree = IntArray(nodeCount)\n\n    for (neighbors in adjList.values) {\n        for (neighbor in neighbors) {\n            if (neighbor in 0 until nodeCount) {\n                inDegree[neighbor]++\n            }\n        }\n    }\n\n    val available = PriorityQueue<Int>()\n    for (node in 0 until nodeCount) {\n        if (inDegree[node] == 0) {\n            available.add(node)\n        }\n    }\n\n    val order = mutableListOf<Int>()\n    while (available.isNotEmpty()) {\n        val node = available.poll()\n        order.add(node)\n\n        for (neighbor in adjList[node] ?: emptyList()) {\n            if (neighbor !in 0 until nodeCount) {\n                continue\n            }\n            inDegree[neighbor]--\n            if (inDegree[neighbor] == 0) {\n                available.add(neighbor)\n            }\n        }\n    }\n\n    return order\n}\n\nfun main() {\n    val adjList = mapOf(\n        0 to listOf(1, 2),\n        1 to listOf(3),\n        2 to listOf(3),\n        3 to emptyList()\n    )\n\n    val result = topologicalSort(adjList)\n    println(\"Topological order: $result\")\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "TopologicalSort.py",
+          "content": "#!usr/bin/env python3\n\n\ndef Topological_Sort(vertices, edges):\n    def recursive_add(node):\n        if (node in ans):\n            return\n\n        if (edges[node] != []):\n            for edged_node in edges[node]:\n                recursive_add(edged_node)\n        ans.append(node)\n        # Memoizing this node, as all children have been covered\n        edges[node] = []\n\n    ans = []\n    while len(vertices) > 0:\n        node = vertices.pop()\n        recursive_add(node)\n\n    return ans[::-1]\n\n\ndef run():\n    # Keep in mind that there are mutiple possbile solutions for this given example\n    vertices = [5, 7, 3, 11, 2, 8, 9, 10]\n    edges = {\n        5: [11],\n        7: [11, 8],\n        3: [8, 10],\n        11: [2, 9, 10],\n        8: [9],\n        2: [],\n        9: [],\n        10: [],\n    }\n\n    print(Topological_Sort(vertices, edges))\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "TopologicalSort.rs",
+          "content": "use std::collections::{HashMap, HashSet};\n\n/// Topological sort of a directed acyclic graph using DFS.\n/// Returns a vector of nodes in topological order.\nfn topological_sort(adj_list: &HashMap<i32, Vec<i32>>) -> Vec<i32> {\n    let mut visited = HashSet::new();\n    let mut stack = Vec::new();\n\n    fn dfs(\n        node: i32,\n        adj_list: &HashMap<i32, Vec<i32>>,\n        visited: &mut HashSet<i32>,\n        stack: &mut Vec<i32>,\n    ) {\n        visited.insert(node);\n\n        if let Some(neighbors) = adj_list.get(&node) {\n            for &neighbor in neighbors {\n                if !visited.contains(&neighbor) {\n                    dfs(neighbor, adj_list, visited, stack);\n                }\n            }\n        }\n\n        stack.push(node);\n    }\n\n    let num_nodes = adj_list.len() as i32;\n    for i in 0..num_nodes {\n        if !visited.contains(&i) {\n            dfs(i, adj_list, &mut visited, &mut stack);\n        }\n    }\n\n    stack.reverse();\n    stack\n}\n\nfn main() {\n    let mut adj_list = HashMap::new();\n    adj_list.insert(0, vec![1, 2]);\n    adj_list.insert(1, vec![3]);\n    adj_list.insert(2, vec![3]);\n    adj_list.insert(3, vec![]);\n\n    let result = topological_sort(&adj_list);\n    println!(\"Topological order: {:?}\", result);\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "TopologicalSort.scala",
+          "content": "import scala.collection.mutable\n\n/**\n * Topological sort of a directed acyclic graph using DFS.\n * Returns a list of nodes in topological order.\n */\nobject TopologicalSort {\n  def topologicalSort(adjList: Map[Int, List[Int]]): List[Int] = {\n    val visited = mutable.Set[Int]()\n    val stack = mutable.ListBuffer[Int]()\n\n    def dfs(node: Int): Unit = {\n      visited.add(node)\n\n      for (neighbor <- adjList.getOrElse(node, List.empty)) {\n        if (!visited.contains(neighbor)) {\n          dfs(neighbor)\n        }\n      }\n\n      stack += node\n    }\n\n    // Process all nodes in order\n    for (i <- 0 until adjList.size) {\n      if (!visited.contains(i)) {\n        dfs(i)\n      }\n    }\n\n    stack.toList.reverse\n  }\n\n  def main(args: Array[String]): Unit = {\n    val adjList = Map(\n      0 -> List(1, 2),\n      1 -> List(3),\n      2 -> List(3),\n      3 -> List()\n    )\n\n    val result = topologicalSort(adjList)\n    println(s\"Topological order: $result\")\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "TopologicalSort.swift",
+          "content": "/// Topological sort of a directed acyclic graph using DFS.\n/// Returns an array of nodes in topological order.\nfunc topologicalSort(adjList: [Int: [Int]]) -> [Int] {\n    var visited = Set<Int>()\n    var stack = [Int]()\n\n    func dfs(_ node: Int) {\n        visited.insert(node)\n\n        if let neighbors = adjList[node] {\n            for neighbor in neighbors.reversed() {\n                if !visited.contains(neighbor) {\n                    dfs(neighbor)\n                }\n            }\n        }\n\n        stack.append(node)\n    }\n\n    // Process all nodes in order\n    for i in stride(from: adjList.count - 1, through: 0, by: -1) {\n        if !visited.contains(i) {\n            dfs(i)\n        }\n    }\n\n    return stack.reversed()\n}\n\n// Example usage\nlet adjList: [Int: [Int]] = [\n    0: [1, 2],\n    1: [3],\n    2: [3],\n    3: []\n]\n\nlet result = topologicalSort(adjList: adjList)\nprint(\"Topological order: \\(result)\")\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "TopologicalSort.ts",
+          "content": "export function topologicalSort(adjList: Record<string, number[]>): number[] {\n    const nodes = Object.keys(adjList).map(Number).sort((a, b) => a - b);\n    const inDegree = new Map<number, number>();\n\n    for (const node of nodes) {\n        inDegree.set(node, 0);\n    }\n\n    for (const node of nodes) {\n        for (const neighbor of adjList[node.toString()] || []) {\n            inDegree.set(neighbor, (inDegree.get(neighbor) ?? 0) + 1);\n        }\n    }\n\n    const queue = nodes.filter((node) => (inDegree.get(node) ?? 0) === 0);\n    const order: number[] = [];\n\n    while (queue.length > 0) {\n        queue.sort((a, b) => a - b);\n        const node = queue.shift()!;\n        order.push(node);\n\n        for (const neighbor of adjList[node.toString()] || []) {\n            const nextDegree = (inDegree.get(neighbor) ?? 0) - 1;\n            inDegree.set(neighbor, nextDegree);\n            if (nextDegree === 0) {\n                queue.push(neighbor);\n            }\n        }\n    }\n\n    return order;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "patterns": [
+    "tree-dfs",
+    "topological-sort"
+  ],
+  "patternDifficulty": "intermediate",
+  "practiceOrder": 6,
+  "readme": "# Topological Sort\n\n## Overview\n\nTopological Sort is a linear ordering of vertices in a Directed Acyclic Graph (DAG) such that for every directed edge (u, v), vertex u comes before vertex v in the ordering. It is not possible to topologically sort a graph that contains a cycle. Topological sorting is essential for scheduling tasks with dependencies, resolving symbol dependencies in compilers, and determining the order of operations in build systems.\n\nThere are two primary approaches to topological sorting: DFS-based (recording vertices in reverse finish order) and BFS-based (Kahn's algorithm, repeatedly removing vertices with zero in-degree). Both produce valid topological orderings in O(V+E) time.\n\n## How It Works\n\nThe DFS-based approach performs a depth-first search on the graph. When a vertex finishes (all its descendants have been fully explored), it is pushed onto a stack. At the end, the stack contains vertices in topological order. Kahn's algorithm (BFS-based) starts with all vertices that have no incoming edges, removes them from the graph, updates in-degrees, and repeats until all vertices are processed.\n\n### Example\n\nConsider the following DAG representing course prerequisites:\n\n```\n    A -----> C -----> E\n    |        ^        |\n    |        |        |\n    v        |        v\n    B -----> D -----> F\n```\n\nAdjacency list:\n```\nA: [B, C]\nB: [D]\nC: [E]\nD: [C, F]\nE: [F]\nF: []\n```\n\n**Kahn's Algorithm (BFS-based):**\n\nInitial in-degrees: `A=0, B=1, C=2, D=1, E=1, F=2`\n\n| Step | Zero In-Degree Queue | Remove | Update In-Degrees | Result So Far |\n|------|---------------------|--------|-------------------|---------------|\n| 1 | `[A]` | `A` | B: 1->0, C: 2->1 | `[A]` |\n| 2 | `[B]` | `B` | D: 1->0 | `[A, B]` |\n| 3 | `[D]` | `D` | C: 1->0, F: 2->1 | `[A, B, D]` |\n| 4 | `[C]` | `C` | E: 1->0 | `[A, B, D, C]` |\n| 5 | `[E]` | `E` | F: 1->0 | `[A, B, D, C, E]` |\n| 6 | `[F]` | `F` | -- | `[A, B, D, C, E, F]` |\n\nResult: Topological order: `A, B, D, C, E, F`\n\nThis means: Take course A first, then B, then D, then C (which requires both A and D), then E, then F.\n\nNote: Multiple valid topological orderings may exist. For example, `A, C, B, D, E, F` would not be valid because C depends on D.\n\n## Pseudocode\n\n```\n// DFS-based Topological Sort\nfunction topologicalSort(graph, V):\n    visited = empty set\n    stack = empty stack\n\n    for each vertex v in graph:\n        if v not in visited:\n            dfs(graph, v, visited, stack)\n\n    return stack  // pop elements for topological order\n\nfunction dfs(graph, v, visited, stack):\n    visited.add(v)\n\n    for each neighbor u of v:\n        if u not in visited:\n            dfs(graph, u, visited, stack)\n\n    stack.push(v)  // push after all descendants are processed\n\n// Kahn's Algorithm (BFS-based)\nfunction kahnTopologicalSort(graph, V):\n    inDegree = compute in-degree for each vertex\n    queue = all vertices with inDegree == 0\n    result = empty list\n\n    while queue is not empty:\n        v = queue.dequeue()\n        result.add(v)\n\n        for each neighbor u of v:\n            inDegree[u] -= 1\n            if inDegree[u] == 0:\n                queue.enqueue(u)\n\n    if length(result) != V:\n        report \"Graph has a cycle\"\n\n    return result\n```\n\nKahn's algorithm has the added benefit of detecting cycles: if the result contains fewer than V vertices, the graph has a cycle.\n\n## Complexity Analysis\n\n| Case    | Time    | Space |\n|---------|---------|-------|\n| Best    | O(V+E) | O(V)  |\n| Average | O(V+E) | O(V)  |\n| Worst   | O(V+E) | O(V)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(V+E):** Even in the simplest DAG, every vertex must be visited and every edge must be examined to compute in-degrees or perform DFS. This gives a minimum of O(V+E) work.\n\n- **Average Case -- O(V+E):** Each vertex is processed exactly once (either through DFS or when its in-degree reaches zero), and each edge is examined exactly once. The total work is proportional to the graph size.\n\n- **Worst Case -- O(V+E):** The algorithm systematically processes every vertex and edge regardless of graph topology. The time complexity is always linear in the size of the graph.\n\n- **Space -- O(V):** The visited set (DFS) or in-degree array (Kahn's) requires O(V) space. The stack or result list also requires O(V) space. The queue in Kahn's algorithm holds at most V vertices.\n\n## When to Use\n\n- **Task scheduling with dependencies:** When tasks have prerequisite relationships and must be ordered such that all prerequisites are completed first.\n- **Build systems:** Tools like Make, Gradle, and Bazel use topological sort to determine the order of compilation and linking.\n- **Course planning:** Determining a valid order to take courses given prerequisite requirements.\n- **Dependency resolution:** Package managers (npm, pip, apt) resolve dependency graphs using topological sorting.\n- **Spreadsheet cell evaluation:** Cells that depend on other cells must be evaluated in a topologically sorted order.\n\n## When NOT to Use\n\n- **Graphs with cycles:** Topological sort is undefined for graphs containing cycles. First check for cycles, or use Kahn's algorithm which detects them automatically.\n- **Undirected graphs:** Topological sort applies only to directed graphs. Undirected graphs do not have a notion of direction for ordering.\n- **When you need the shortest/longest path directly:** While topological sort is a prerequisite for certain shortest/longest path algorithms on DAGs, it is not a pathfinding algorithm by itself.\n\n## Comparison with Similar Algorithms\n\n| Algorithm       | Time    | Space | Detects Cycles | Notes                                    |\n|-----------------|---------|-------|---------------|------------------------------------------|\n| Topological Sort (DFS) | O(V+E) | O(V) | Yes (with modification) | Uses reverse DFS finish order |\n| Kahn's Algorithm | O(V+E) | O(V)  | Yes           | BFS-based; natural cycle detection       |\n| DFS             | O(V+E) | O(V)  | Yes           | Foundation for DFS-based topological sort |\n| BFS             | O(V+E) | O(V)  | No            | Does not produce topological order       |\n\n## Implementations\n\n| Language | File |\n|----------|------|\n| C++      | [topo_sort.cpp](cpp/topo_sort.cpp) |\n| Java     | [TopologicalSort.java](java/TopologicalSort.java) |\n| Python   | [TopologicalSort.py](python/TopologicalSort.py) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 22: Elementary Graph Algorithms (Section 22.4: Topological Sort).\n- Kahn, A. B. (1962). \"Topological sorting of large networks\". *Communications of the ACM*. 5(11): 558-562.\n- [Topological Sorting -- Wikipedia](https://en.wikipedia.org/wiki/Topological_sorting)\n"
+}

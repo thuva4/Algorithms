@@ -1,0 +1,17 @@
+name: "Prufer Code"
+slug: "prufer-code"
+category: "trees"
+subcategory: "tree-encoding"
+difficulty: "intermediate"
+tags: [trees, encoding, prufer-sequence, labeled-tree, bijection]
+complexity:
+  time:
+    best: "O(n log n)"
+    average: "O(n log n)"
+    worst: "O(n log n)"
+  space: "O(n)"
+stable: false
+in_place: false
+related: [binary-tree]
+implementations: [cpp]
+visualization: false

@@ -1,0 +1,24 @@
+algorithm: "josephus-problem"
+function_signature:
+  name: "josephus"
+  input: [n, k]
+  output: survivor_position
+test_cases:
+  - name: "classic example"
+    input: [7, 3]
+    expected: 3
+  - name: "two people step 1"
+    input: [2, 1]
+    expected: 1
+  - name: "single person"
+    input: [1, 1]
+    expected: 0
+  - name: "step equals n"
+    input: [5, 5]
+    expected: 1
+  - name: "step of 2"
+    input: [6, 2]
+    expected: 4
+  - name: "larger circle"
+    input: [10, 3]
+    expected: 3

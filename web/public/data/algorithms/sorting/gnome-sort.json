@@ -1,0 +1,135 @@
+{
+  "name": "Gnome Sort",
+  "slug": "gnome-sort",
+  "category": "sorting",
+  "subcategory": "comparison-based",
+  "difficulty": "beginner",
+  "tags": [
+    "sorting",
+    "comparison",
+    "in-place",
+    "stable",
+    "simple"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "average": "O(n^2)",
+      "worst": "O(n^2)"
+    },
+    "space": "O(1)"
+  },
+  "stable": true,
+  "in_place": true,
+  "related": [
+    "insertion-sort",
+    "bubble-sort"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "gnome_sort.c",
+          "content": "#include \"gnome_sort.h\"\n\nvoid gnome_sort(int arr[], int n) {\n    if (n <= 1) {\n        return;\n    }\n\n    int index = 1;\n    while (index < n) {\n        if (index == 0) {\n            index++;\n        } else if (arr[index] >= arr[index - 1]) {\n            index++;\n        } else {\n            int temp = arr[index];\n            arr[index] = arr[index - 1];\n            arr[index - 1] = temp;\n            index--;\n        }\n    }\n}\n"
+        },
+        {
+          "filename": "gnome_sort.h",
+          "content": "#ifndef GNOME_SORT_H\n#define GNOME_SORT_H\n\n/**\n * Gnome Sort implementation.\n * A sorting algorithm which is similar to insertion sort in that it works with one item at a time\n * but gets the item to the proper place by a series of swaps, similar to a bubble sort.\n * @param arr the input array (modified in-place)\n * @param n the number of elements in the array\n */\nvoid gnome_sort(int arr[], int n);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "gnome_sort.cpp",
+          "content": "#include <vector>\n#include <algorithm>\n\n/**\n * Gnome Sort implementation.\n * A sorting algorithm which is similar to insertion sort in that it works with one item at a time\n * but gets the item to the proper place by a series of swaps, similar to a bubble sort.\n * @param arr the input vector\n * @returns a sorted copy of the vector\n */\nstd::vector<int> gnome_sort(std::vector<int> arr) {\n    int n = static_cast<int>(arr.size());\n    int index = 0;\n\n    while (index < n) {\n        if (index == 0) {\n            index++;\n        }\n        if (arr[index] >= arr[index - 1]) {\n            index++;\n        } else {\n            std::swap(arr[index], arr[index - 1]);\n            index--;\n        }\n    }\n\n    return arr;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "GnomeSort.cs",
+          "content": "using System;\n\nnamespace Algorithms.Sorting.Gnome\n{\n    /**\n     * Gnome Sort implementation.\n     * A sorting algorithm which is similar to insertion sort in that it works with one item at a time\n     * but gets the item to the proper place by a series of swaps, similar to a bubble sort.\n     */\n    public static class GnomeSort\n    {\n        public static int[] Sort(int[] arr)\n        {\n            if (arr == null)\n            {\n                return new int[0];\n            }\n\n            int[] result = (int[])arr.Clone();\n            int n = result.Length;\n            int index = 0;\n\n            while (index < n)\n            {\n                if (index == 0)\n                {\n                    index++;\n                }\n                if (result[index] >= result[index - 1])\n                {\n                    index++;\n                }\n                else\n                {\n                    int temp = result[index];\n                    result[index] = result[index - 1];\n                    result[index - 1] = temp;\n                    index--;\n                }\n            }\n\n            return result;\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "gnome_sort.go",
+          "content": "package gnomesort\n\n/**\n * GnomeSort implementation.\n * A sorting algorithm which is similar to insertion sort in that it works with one item at a time\n * but gets the item to the proper place by a series of swaps, similar to a bubble sort.\n * It returns a new sorted slice without modifying the original input.\n */\nfunc GnomeSort(arr []int) []int {\n\tn := len(arr)\n\tif n <= 1 {\n\t\treturn append([]int{}, arr...)\n\t}\n\n\tresult := make([]int, n)\n\tcopy(result, arr)\n\n\tindex := 0\n\tfor index < n {\n\t\tif index == 0 {\n\t\t\tindex++\n\t\t}\n\t\tif result[index] >= result[index-1] {\n\t\t\tindex++\n\t\t} else {\n\t\t\tresult[index], result[index-1] = result[index-1], result[index]\n\t\t\tindex--\n\t\t}\n\t}\n\n\treturn result\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "GnomeSort.java",
+          "content": "import java.util.Arrays;\n\npublic class GnomeSort {\n    /**\n     * Gnome Sort implementation.\n     * A sorting algorithm which is similar to insertion sort in that it works with one item at a time\n     * but gets the item to the proper place by a series of swaps, similar to a bubble sort.\n     * @param arr the input array\n     * @return a sorted copy of the array\n     */\n    public static int[] sort(int[] arr) {\n        if (arr == null) {\n            return new int[0];\n        }\n\n        int[] result = Arrays.copyOf(arr, arr.length);\n        int n = result.length;\n        if (n < 2) {\n            return result;\n        }\n        int index = 0;\n\n        while (index < n) {\n            if (index == 0) {\n                index++;\n            }\n            if (result[index] >= result[index - 1]) {\n                index++;\n            } else {\n                int temp = result[index];\n                result[index] = result[index - 1];\n                result[index - 1] = temp;\n                index--;\n            }\n        }\n\n        return result;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "GnomeSort.kt",
+          "content": "package algorithms.sorting.gnome\n\n/**\n * Gnome Sort implementation.\n * A sorting algorithm which is similar to insertion sort in that it works with one item at a time\n * but gets the item to the proper place by a series of swaps, similar to a bubble sort.\n */\nobject GnomeSort {\n    fun sort(arr: IntArray): IntArray {\n        val result = arr.copyOf()\n        val n = result.size\n        var index = 0\n\n        while (index < n) {\n            if (index == 0) {\n                index++\n                continue\n            }\n            if (result[index] >= result[index - 1]) {\n                index++\n            } else {\n                val temp = result[index]\n                result[index] = result[index - 1]\n                result[index - 1] = temp\n                index--\n            }\n        }\n\n        return result\n    }\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "gnome_sort.py",
+          "content": "def gnome_sort(arr: list[int]) -> list[int]:\n    \"\"\"\n    Gnome Sort implementation.\n    A sorting algorithm which is similar to insertion sort in that it works with one item at a time\n    but gets the item to the proper place by a series of swaps, similar to a bubble sort.\n    \"\"\"\n    result = list(arr)\n    n = len(result)\n    index = 0\n\n    while index < n:\n        if index == 0:\n            index += 1\n        if result[index] >= result[index - 1]:\n            index += 1\n        else:\n            result[index], result[index - 1] = result[index - 1], result[index]\n            index -= 1\n\n    return result\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "gnome_sort.rs",
+          "content": "/**\n * Gnome Sort implementation.\n * A sorting algorithm which is similar to insertion sort in that it works with one item at a time\n * but gets the item to the proper place by a series of swaps, similar to a bubble sort.\n */\npub fn gnome_sort(arr: &[i32]) -> Vec<i32> {\n    let mut result = arr.to_vec();\n    let n = result.len();\n    let mut index = 0;\n\n    while index < n {\n        if index == 0 {\n            index += 1;\n        }\n        if result[index] >= result[index - 1] {\n            index += 1;\n        } else {\n            result.swap(index, index - 1);\n            index -= 1;\n        }\n    }\n\n    result\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "GnomeSort.scala",
+          "content": "package algorithms.sorting.gnome\n\n/**\n * Gnome Sort implementation.\n * A sorting algorithm which is similar to insertion sort in that it works with one item at a time\n * but gets the item to the proper place by a series of swaps, similar to a bubble sort.\n */\nobject GnomeSort {\n  def sort(arr: Array[Int]): Array[Int] = {\n    val result = arr.clone()\n    val n = result.length\n    var index = 0\n\n    while (index < n) {\n      if (index == 0) {\n        index += 1\n      }\n      if (result(index) >= result(index - 1)) {\n        index += 1\n      } else {\n        val temp = result(index)\n        result(index) = result(index - 1)\n        result(index - 1) = temp\n        index -= 1\n      }\n    }\n\n    result\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "GnomeSort.swift",
+          "content": "/**\n * Gnome Sort implementation.\n * A sorting algorithm which is similar to insertion sort in that it works with one item at a time\n * but gets the item to the proper place by a series of swaps, similar to a bubble sort.\n */\npublic class GnomeSort {\n    public static func sort(_ arr: [Int]) -> [Int] {\n        var result = arr\n        let n = result.count\n        if n < 2 {\n            return result\n        }\n        var index = 0\n\n        while index < n {\n            if index == 0 {\n                index += 1\n            }\n            if result[index] >= result[index - 1] {\n                index += 1\n            } else {\n                result.swapAt(index, index - 1)\n                index -= 1\n            }\n        }\n\n        return result\n    }\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "gnomeSort.ts",
+          "content": "/**\n * Gnome Sort implementation.\n * A sorting algorithm which is similar to insertion sort in that it works with one item at a time\n * but gets the item to the proper place by a series of swaps, similar to a bubble sort.\n * @param arr the input array\n * @returns a sorted copy of the array\n */\nexport function gnomeSort(arr: number[]): number[] {\n    const result = [...arr];\n    let index = 1;\n\n    while (index < result.length) {\n        if (index === 0 || result[index] >= result[index - 1]) {\n            index += 1;\n        } else {\n            [result[index], result[index - 1]] = [result[index - 1], result[index]];\n            index -= 1;\n        }\n    }\n\n    return result;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "readme": "# Gnome Sort\n\n## Overview\n\nGnome Sort (also called Stupid Sort) is a simple comparison-based sorting algorithm that is conceptually similar to Insertion Sort but uses a different mechanism to move elements to their correct positions. It is named after the behavior of a garden gnome sorting flower pots: the gnome looks at the pot next to him and the one before, swaps them if they are out of order and steps one position back, or moves forward if they are in order.\n\nThe algorithm was first described by Hamid Sarbazi-Azad in 2000. Despite its simplicity, Gnome Sort has O(n^2) average and worst-case time complexity and is rarely used in practice. Its main value is educational: it demonstrates that sorting can be achieved with an extremely simple control flow.\n\n## How It Works\n\n1. Start at position 0.\n2. If the current position is 0, or the current element is greater than or equal to the previous element, move forward one position.\n3. Otherwise, swap the current element with the previous one and move backward one position.\n4. Repeat until the position is past the end of the array.\n\n## Worked Example\n\nGiven input: `[5, 3, 1, 4]`\n\n| Step | Position | Comparison         | Action                | Array State    |\n|------|----------|--------------------|----------------------|----------------|\n| 1    | 0        | (pos == 0)         | Move forward         | [5, 3, 1, 4]  |\n| 2    | 1        | 3 < 5              | Swap, move back      | [3, 5, 1, 4]  |\n| 3    | 0        | (pos == 0)         | Move forward         | [3, 5, 1, 4]  |\n| 4    | 1        | 5 >= 3             | Move forward         | [3, 5, 1, 4]  |\n| 5    | 2        | 1 < 5              | Swap, move back      | [3, 1, 5, 4]  |\n| 6    | 1        | 1 < 3              | Swap, move back      | [1, 3, 5, 4]  |\n| 7    | 0        | (pos == 0)         | Move forward         | [1, 3, 5, 4]  |\n| 8    | 1        | 3 >= 1             | Move forward         | [1, 3, 5, 4]  |\n| 9    | 2        | 5 >= 3             | Move forward         | [1, 3, 5, 4]  |\n| 10   | 3        | 4 < 5              | Swap, move back      | [1, 3, 4, 5]  |\n| 11   | 2        | 4 >= 3             | Move forward         | [1, 3, 4, 5]  |\n| 12   | 3        | 5 >= 4             | Move forward         | [1, 3, 4, 5]  |\n| 13   | 4        | (past end)         | Done                 | [1, 3, 4, 5]  |\n\nResult: `[1, 3, 4, 5]`\n\n## Pseudocode\n\n```\nfunction gnomeSort(array):\n    n = length(array)\n    pos = 0\n\n    while pos < n:\n        if pos == 0 or array[pos] >= array[pos - 1]:\n            pos = pos + 1\n        else:\n            swap(array[pos], array[pos - 1])\n            pos = pos - 1\n\n    return array\n```\n\n## Complexity Analysis\n\n| Case    | Time   | Space |\n|---------|--------|-------|\n| Best    | O(n)   | O(1)  |\n| Average | O(n^2) | O(1)  |\n| Worst   | O(n^2) | O(1)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(n):** When the array is already sorted, the algorithm simply moves forward through every position without ever swapping. It makes n-1 comparisons and finishes in O(n) time.\n\n- **Average Case -- O(n^2):** On average, each element needs to be moved back roughly half the distance to its correct position. The total number of swaps and comparisons is proportional to the sum of distances, which is O(n^2).\n\n- **Worst Case -- O(n^2):** When the array is sorted in reverse order, each element must be swapped all the way back to the beginning. The total number of swaps is 1 + 2 + ... + (n-1) = n(n-1)/2, which is O(n^2).\n\n- **Space -- O(1):** Gnome Sort is an in-place algorithm. It only uses a single position variable and a temporary for swapping.\n\n## When to Use\n\n- **Educational purposes:** Gnome Sort is one of the simplest sorting algorithms to understand and implement. It is useful for teaching basic sorting concepts.\n- **Extremely small arrays:** For very tiny inputs (fewer than 10 elements), the simplicity of Gnome Sort can be an advantage.\n- **Nearly sorted data:** Like Insertion Sort, Gnome Sort performs well on data that is already nearly sorted, approaching O(n) time.\n- **When minimal code is required:** The algorithm can be implemented in very few lines of code.\n\n## When NOT to Use\n\n- **Large datasets:** With O(n^2) average performance, Gnome Sort is impractical for arrays larger than a few hundred elements.\n- **Performance-critical applications:** O(n log n) algorithms are vastly superior for any significant data volume.\n- **When stability matters and a better stable sort exists:** While Gnome Sort is stable, Insertion Sort is generally faster in practice for the same use cases.\n- **Production code:** There is no practical scenario where Gnome Sort should be preferred over Insertion Sort.\n\n## Comparison with Similar Algorithms\n\n| Algorithm      | Time (avg) | Space | Stable | Notes                                          |\n|----------------|-----------|-------|--------|-------------------------------------------------|\n| Gnome Sort     | O(n^2)    | O(1)  | Yes    | Very simple; similar to Insertion Sort           |\n| Insertion Sort | O(n^2)    | O(1)  | Yes    | Faster in practice; fewer total operations       |\n| Bubble Sort    | O(n^2)    | O(1)  | Yes    | Also simple; uses adjacent swaps                 |\n| Selection Sort | O(n^2)    | O(1)  | No     | Fewer swaps but more comparisons                 |\n| Shell Sort     | O(n^(4/3))| O(1)  | No     | Gap-based; much faster on large inputs           |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [gnome_sort.py](python/gnome_sort.py) |\n| Java       | [GnomeSort.java](java/GnomeSort.java) |\n| C++        | [gnome_sort.cpp](cpp/gnome_sort.cpp) |\n| C          | [gnome_sort.c](c/gnome_sort.c) |\n| Go         | [gnome_sort.go](go/gnome_sort.go) |\n| TypeScript | [gnomeSort.ts](typescript/gnomeSort.ts) |\n| Kotlin     | [GnomeSort.kt](kotlin/GnomeSort.kt) |\n| Rust       | [gnome_sort.rs](rust/gnome_sort.rs) |\n| Swift      | [GnomeSort.swift](swift/GnomeSort.swift) |\n| Scala      | [GnomeSort.scala](scala/GnomeSort.scala) |\n| C#         | [GnomeSort.cs](csharp/GnomeSort.cs) |\n\n## References\n\n- Sarbazi-Azad, H. (2000). \"Stupid sort: A new sorting algorithm.\" *Newsletter of the Computer Science Department, Sharif University of Technology*.\n- [Gnome Sort -- Wikipedia](https://en.wikipedia.org/wiki/Gnome_sort)\n"
+}

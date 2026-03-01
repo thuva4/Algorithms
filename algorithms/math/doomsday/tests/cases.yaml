@@ -1,0 +1,21 @@
+algorithm: "doomsday"
+function_signature:
+  name: "day_of_week"
+  input: [year, month, day]
+  output: day_name
+test_cases:
+  - name: "known date - Jan 1 2000"
+    input: [2000, 1, 1]
+    expected: "Saturday"
+  - name: "known date - July 4 1776"
+    input: [1776, 7, 4]
+    expected: "Thursday"
+  - name: "known date - Sep 11 2001"
+    input: [2001, 9, 11]
+    expected: "Tuesday"
+  - name: "known date - Dec 25 2020"
+    input: [2020, 12, 25]
+    expected: "Friday"
+  - name: "known date - Jan 1 2024"
+    input: [2024, 1, 1]
+    expected: "Monday"

@@ -1,0 +1,17 @@
+name: "Bidirectional A*"
+slug: "a-star-bidirectional"
+category: "graph"
+subcategory: "shortest-path"
+difficulty: "advanced"
+tags: [graph, shortest-path, heuristic, bidirectional, pathfinding, grid]
+complexity:
+  time:
+    best: "O(E)"
+    average: "O(E)"
+    worst: "O(E)"
+  space: "O(V)"
+stable: null
+in_place: false
+related: [a-star-search, bidirectional-bfs]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

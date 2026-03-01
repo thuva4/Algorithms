@@ -1,0 +1,17 @@
+name: "Digit DP"
+slug: "digit-dp"
+category: "dynamic-programming"
+subcategory: "counting"
+difficulty: "advanced"
+tags: [dynamic-programming, digit-dp, counting, number-theory]
+complexity:
+  time:
+    best: "O(D * S * 2)"
+    average: "O(D * S * 2)"
+    worst: "O(D * S * 2)"
+  space: "O(D * S * 2)"
+stable: null
+in_place: false
+related: [coin-change, knapsack]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

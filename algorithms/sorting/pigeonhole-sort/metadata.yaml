@@ -1,0 +1,17 @@
+name: "Pigeonhole Sort"
+slug: "pigeonhole-sort"
+category: "sorting"
+subcategory: "distribution-based"
+difficulty: "intermediate"
+tags: [sorting, distribution, non-comparison, integer]
+complexity:
+  time:
+    best: "O(n + k)"
+    average: "O(n + k)"
+    worst: "O(n + k)"
+  space: "O(n + k)"
+stable: true
+in_place: false
+related: [counting-sort, bucket-sort]
+implementations: [python, java, cpp, c, go, typescript, kotlin, rust, swift, scala, csharp]
+visualization: true

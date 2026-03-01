@@ -1,0 +1,17 @@
+name: "Red-Black Tree"
+slug: "red-black-tree"
+category: "trees"
+subcategory: "balanced-trees"
+difficulty: "advanced"
+tags: [trees, balanced, self-balancing, binary-search-tree, red-black]
+complexity:
+  time:
+    best: "O(n log n)"
+    average: "O(n log n)"
+    worst: "O(n log n)"
+  space: "O(n)"
+stable: null
+in_place: null
+related: [avl-tree, binary-tree]
+implementations: [python, java, cpp, c, go, typescript, kotlin, rust, swift, scala, csharp]
+visualization: false

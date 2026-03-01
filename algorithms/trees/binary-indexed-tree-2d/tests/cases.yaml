@@ -1,0 +1,37 @@
+algorithm: "binary-indexed-tree-2d"
+description: "2D point update and prefix sum query"
+function_signature:
+  name: "binary_indexed_tree_2d"
+  input: "rows, cols, matrix values, operations"
+  output: "query answers"
+input_format: "rows, cols, matrix row by row, q, type r c v (type=1: add v at (r,c), type=2: prefix sum (0,0) to (r,c))"
+output_format: "answers for type=2 queries"
+test_cases:
+  - name: "simple prefix sum"
+    input:
+      rows: 3
+      cols: 3
+      matrix: [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+      operations: [[2, 2, 2, 0]]
+    expected: [45]
+  - name: "update then query"
+    input:
+      rows: 2
+      cols: 2
+      matrix: [[1, 1], [1, 1]]
+      operations: [[1, 0, 0, 5], [2, 1, 1, 0]]
+    expected: [9]
+  - name: "corner queries"
+    input:
+      rows: 2
+      cols: 2
+      matrix: [[1, 2], [3, 4]]
+      operations: [[2, 0, 0, 0], [2, 0, 1, 0], [2, 1, 0, 0], [2, 1, 1, 0]]
+    expected: [1, 3, 4, 10]
+  - name: "single cell"
+    input:
+      rows: 1
+      cols: 1
+      matrix: [[42]]
+      operations: [[2, 0, 0, 0], [1, 0, 0, 8], [2, 0, 0, 0]]
+    expected: [42, 50]

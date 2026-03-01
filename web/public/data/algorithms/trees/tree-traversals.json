@@ -1,0 +1,141 @@
+{
+  "name": "Tree Traversals",
+  "slug": "tree-traversals",
+  "category": "trees",
+  "subcategory": "traversal",
+  "difficulty": "beginner",
+  "tags": [
+    "tree",
+    "traversal",
+    "inorder",
+    "preorder",
+    "postorder",
+    "level-order"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "average": "O(n)",
+      "worst": "O(n)"
+    },
+    "space": "O(n)"
+  },
+  "stable": null,
+  "in_place": false,
+  "related": [
+    "binary-tree",
+    "binary-search-tree"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "tree_traversals.c",
+          "content": "#include \"tree_traversals.h\"\n#include <stdlib.h>\n\nstatic void inorder(int* arr, int n, int i, int* result, int* idx) {\n    if (i >= n || arr[i] == -1) return;\n    inorder(arr, n, 2 * i + 1, result, idx);\n    result[(*idx)++] = arr[i];\n    inorder(arr, n, 2 * i + 2, result, idx);\n}\n\nint* tree_traversals(int* arr, int n, int* out_size) {\n    int* result = (int*)malloc(n * sizeof(int));\n    int idx = 0;\n    inorder(arr, n, 0, result, &idx);\n    *out_size = idx;\n    return result;\n}\n"
+        },
+        {
+          "filename": "tree_traversals.h",
+          "content": "#ifndef TREE_TRAVERSALS_H\n#define TREE_TRAVERSALS_H\n\nint* tree_traversals(int* arr, int n, int* out_size);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "tree_traversals.cpp",
+          "content": "#include <vector>\n\nstatic void inorder(const std::vector<int>& arr, int i, std::vector<int>& result) {\n    if (i >= (int)arr.size() || arr[i] == -1) return;\n    inorder(arr, 2 * i + 1, result);\n    result.push_back(arr[i]);\n    inorder(arr, 2 * i + 2, result);\n}\n\nstd::vector<int> tree_traversals(std::vector<int> arr) {\n    std::vector<int> result;\n    inorder(arr, 0, result);\n    return result;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "TreeTraversals.cs",
+          "content": "using System.Collections.Generic;\n\npublic class TreeTraversals\n{\n    private static void Inorder(int[] arr, int i, List<int> result)\n    {\n        if (i >= arr.Length || arr[i] == -1) return;\n        Inorder(arr, 2 * i + 1, result);\n        result.Add(arr[i]);\n        Inorder(arr, 2 * i + 2, result);\n    }\n\n    public static int[] Run(int[] arr)\n    {\n        List<int> result = new List<int>();\n        Inorder(arr, 0, result);\n        return result.ToArray();\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "tree_traversals.go",
+          "content": "package treetraversals\n\nfunc inorderHelper(arr []int, i int, result *[]int) {\n\tif i >= len(arr) || arr[i] == -1 {\n\t\treturn\n\t}\n\tinorderHelper(arr, 2*i+1, result)\n\t*result = append(*result, arr[i])\n\tinorderHelper(arr, 2*i+2, result)\n}\n\n// TreeTraversals returns inorder traversal of a level-order binary tree array.\nfunc TreeTraversals(arr []int) []int {\n\tresult := []int{}\n\tinorderHelper(arr, 0, &result)\n\treturn result\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "TreeTraversals.java",
+          "content": "import java.util.*;\n\npublic class TreeTraversals {\n    private static void inorder(int[] arr, int i, List<Integer> result) {\n        if (i >= arr.length || arr[i] == -1) return;\n        inorder(arr, 2 * i + 1, result);\n        result.add(arr[i]);\n        inorder(arr, 2 * i + 2, result);\n    }\n\n    public static int[] treeTraversals(int[] arr) {\n        List<Integer> result = new ArrayList<>();\n        inorder(arr, 0, result);\n        return result.stream().mapToInt(Integer::intValue).toArray();\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "TreeTraversals.kt",
+          "content": "private fun inorderHelper(arr: IntArray, i: Int, result: MutableList<Int>) {\n    if (i >= arr.size || arr[i] == -1) return\n    inorderHelper(arr, 2 * i + 1, result)\n    result.add(arr[i])\n    inorderHelper(arr, 2 * i + 2, result)\n}\n\nfun treeTraversals(arr: IntArray): IntArray {\n    val result = mutableListOf<Int>()\n    inorderHelper(arr, 0, result)\n    return result.toIntArray()\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "tree_traversals.py",
+          "content": "def tree_traversals(arr: list[int]) -> list[int]:\n    result = []\n    def inorder(i):\n        if i >= len(arr) or arr[i] == -1:\n            return\n        inorder(2 * i + 1)\n        result.append(arr[i])\n        inorder(2 * i + 2)\n    inorder(0)\n    return result\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "tree_traversals.rs",
+          "content": "fn inorder_helper(arr: &[i32], i: usize, result: &mut Vec<i32>) {\n    if i >= arr.len() || arr[i] == -1 { return; }\n    inorder_helper(arr, 2 * i + 1, result);\n    result.push(arr[i]);\n    inorder_helper(arr, 2 * i + 2, result);\n}\n\npub fn tree_traversals(arr: &[i32]) -> Vec<i32> {\n    let mut result = Vec::new();\n    inorder_helper(arr, 0, &mut result);\n    result\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "TreeTraversals.scala",
+          "content": "object TreeTraversals {\n  private def inorderHelper(arr: Array[Int], i: Int, result: scala.collection.mutable.ArrayBuffer[Int]): Unit = {\n    if (i >= arr.length || arr(i) == -1) return\n    inorderHelper(arr, 2 * i + 1, result)\n    result += arr(i)\n    inorderHelper(arr, 2 * i + 2, result)\n  }\n\n  def treeTraversals(arr: Array[Int]): Array[Int] = {\n    val result = scala.collection.mutable.ArrayBuffer[Int]()\n    inorderHelper(arr, 0, result)\n    result.toArray\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "TreeTraversals.swift",
+          "content": "private func inorderHelper(_ arr: [Int], _ i: Int, _ result: inout [Int]) {\n    if i >= arr.count || arr[i] == -1 { return }\n    inorderHelper(arr, 2 * i + 1, &result)\n    result.append(arr[i])\n    inorderHelper(arr, 2 * i + 2, &result)\n}\n\nfunc treeTraversals(_ arr: [Int]) -> [Int] {\n    var result: [Int] = []\n    inorderHelper(arr, 0, &result)\n    return result\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "treeTraversals.ts",
+          "content": "function inorderHelper(arr: number[], i: number, result: number[]): void {\n    if (i >= arr.length || arr[i] === -1) return;\n    inorderHelper(arr, 2 * i + 1, result);\n    result.push(arr[i]);\n    inorderHelper(arr, 2 * i + 2, result);\n}\n\nexport function treeTraversals(arr: number[]): number[] {\n    const result: number[] = [];\n    inorderHelper(arr, 0, result);\n    return result;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "patterns": [
+    "tree-dfs"
+  ],
+  "patternDifficulty": "beginner",
+  "practiceOrder": 2,
+  "readme": "# Tree Traversals\n\n## Overview\n\nTree traversals are systematic methods for visiting every node in a tree exactly once. The four main traversal orders are:\n\n- **Inorder (Left, Root, Right):** Visits nodes in sorted order for a BST. Used for expression evaluation and producing sorted output.\n- **Preorder (Root, Left, Right):** Visits the root before its children. Used for copying trees, serialization, and prefix expression generation.\n- **Postorder (Left, Right, Root):** Visits the root after its children. Used for deleting trees, postfix expression generation, and computing subtree properties.\n- **Level-order (BFS):** Visits nodes level by level from top to bottom, left to right. Used for breadth-first search, finding the shortest path in unweighted trees, and printing trees by level.\n\nThis implementation returns the inorder traversal of a binary tree given as a level-order array representation.\n\n## How It Works\n\nGiven a level-order array representation of a binary tree (using -1 for null nodes):\n- For a node at index `i`, its left child is at `2i + 1` and its right child is at `2i + 2`.\n- **Inorder traversal** recursively visits the left subtree, then the current node, then the right subtree.\n- **Preorder traversal** visits the current node first, then left and right subtrees.\n- **Postorder traversal** visits left and right subtrees first, then the current node.\n- **Level-order traversal** uses a queue: enqueue the root, then repeatedly dequeue a node, process it, and enqueue its children.\n\n## Example\n\n**Binary tree:**\n```\n        4\n       / \\\n      2    6\n     / \\  / \\\n    1  3  5  7\n```\n\nLevel-order array: `[4, 2, 6, 1, 3, 5, 7]`\n\n**Inorder traversal (Left, Root, Right):**\n- Visit left subtree of 4: visit left of 2 (node 1), then 2, then right of 2 (node 3).\n- Visit root 4.\n- Visit right subtree of 4: visit left of 6 (node 5), then 6, then right of 6 (node 7).\n- **Result: [1, 2, 3, 4, 5, 6, 7]** (sorted order for BST).\n\n**Preorder traversal (Root, Left, Right):**\n- Visit 4, then left subtree (2, 1, 3), then right subtree (6, 5, 7).\n- **Result: [4, 2, 1, 3, 6, 5, 7]**\n\n**Postorder traversal (Left, Right, Root):**\n- Visit left subtree (1, 3, 2), then right subtree (5, 7, 6), then root 4.\n- **Result: [1, 3, 2, 5, 7, 6, 4]**\n\n**Level-order traversal (BFS):**\n- Level 0: 4. Level 1: 2, 6. Level 2: 1, 3, 5, 7.\n- **Result: [4, 2, 6, 1, 3, 5, 7]**\n\n**Expression tree example:**\n```\n        *\n       / \\\n      +    -\n     / \\  / \\\n    3  4  8  2\n```\n\n- Inorder: `3 + 4 * 8 - 2` (infix expression, needs parentheses for correctness)\n- Preorder: `* + 3 4 - 8 2` (prefix/Polish notation)\n- Postorder: `3 4 + 8 2 - *` (postfix/Reverse Polish notation)\n\n## Pseudocode\n\n```\n// Recursive traversals (linked tree)\nfunction INORDER(node):\n    if node is NULL: return\n    INORDER(node.left)\n    visit(node)\n    INORDER(node.right)\n\nfunction PREORDER(node):\n    if node is NULL: return\n    visit(node)\n    PREORDER(node.left)\n    PREORDER(node.right)\n\nfunction POSTORDER(node):\n    if node is NULL: return\n    POSTORDER(node.left)\n    POSTORDER(node.right)\n    visit(node)\n\nfunction LEVEL_ORDER(root):\n    if root is NULL: return\n    queue = [root]\n    while queue is not empty:\n        node = queue.dequeue()\n        visit(node)\n        if node.left is not NULL: queue.enqueue(node.left)\n        if node.right is not NULL: queue.enqueue(node.right)\n\n// Array-based inorder traversal (level-order array)\nfunction INORDER_ARRAY(arr, index, result):\n    if index >= len(arr) or arr[index] == -1:\n        return\n    INORDER_ARRAY(arr, 2 * index + 1, result)   // left child\n    result.append(arr[index])\n    INORDER_ARRAY(arr, 2 * index + 2, result)   // right child\n\n// Iterative inorder using explicit stack (Morris traversal avoids stack)\nfunction INORDER_ITERATIVE(root):\n    stack = []\n    current = root\n    result = []\n    while current is not NULL or stack is not empty:\n        while current is not NULL:\n            stack.push(current)\n            current = current.left\n        current = stack.pop()\n        result.append(current.value)\n        current = current.right\n    return result\n\n// Morris inorder traversal (O(1) space, O(n) time)\nfunction MORRIS_INORDER(root):\n    current = root\n    result = []\n    while current is not NULL:\n        if current.left is NULL:\n            result.append(current.value)\n            current = current.right\n        else:\n            predecessor = current.left\n            while predecessor.right != NULL and predecessor.right != current:\n                predecessor = predecessor.right\n            if predecessor.right is NULL:\n                predecessor.right = current   // create thread\n                current = current.left\n            else:\n                predecessor.right = NULL      // remove thread\n                result.append(current.value)\n                current = current.right\n    return result\n```\n\n## Complexity Analysis\n\n| Traversal | Time | Space (recursive) | Space (iterative/stack) | Space (Morris) |\n|-----------|------|-------------------|------------------------|----------------|\n| Inorder   | O(n) | O(h) stack        | O(h) explicit stack    | O(1)           |\n| Preorder  | O(n) | O(h) stack        | O(h) explicit stack    | O(1)           |\n| Postorder | O(n) | O(h) stack        | O(h) explicit stack    | O(1)           |\n| Level-order | O(n) | N/A             | O(w) queue             | N/A            |\n\nWhere n is the number of nodes, h is the height of the tree (O(log n) for balanced, O(n) for skewed), and w is the maximum width of the tree (up to n/2 for the last level of a complete tree).\n\n## When to Use\n\n- **Inorder:** Retrieving BST elements in sorted order; in-place BST validation; expression tree evaluation (infix).\n- **Preorder:** Serialization/deserialization of trees; creating a copy of the tree; generating prefix expressions.\n- **Postorder:** Safely deleting/freeing all nodes (children before parent); computing subtree aggregates (sizes, heights); generating postfix expressions.\n- **Level-order:** Shortest path in unweighted tree; printing tree by levels; finding the minimum depth; connecting nodes at the same level.\n\n## When NOT to Use\n\n- **When only a subset of nodes is needed:** If you need to find a specific node, use targeted search (BST search, DFS with pruning) instead of a full traversal.\n- **Very deep trees (recursive):** Recursive traversals may cause stack overflow on trees with height > ~10,000. Use iterative versions or Morris traversal.\n- **Level-order on very wide trees:** The queue can grow to O(n/2) for the last level of a complete tree. If memory is constrained, use DFS-based traversals.\n- **Graph traversal:** Tree traversals assume a tree structure (no cycles). For general graphs, use BFS/DFS with visited tracking.\n\n## Comparison\n\n| Feature | Inorder | Preorder | Postorder | Level-order |\n|---------|---------|----------|-----------|-------------|\n| Visit order | Left, Root, Right | Root, Left, Right | Left, Right, Root | Level by level |\n| BST sorted output | Yes | No | No | No |\n| Serialization | With structure info | Natural | With structure info | Natural (for complete trees) |\n| Stack-based (iterative) | Yes | Yes | Yes (2 stacks or flag) | No (uses queue) |\n| Morris (O(1) space) | Yes | Yes | Yes (complex) | Not applicable |\n| Tree reconstruction | Needs preorder or postorder pair | With inorder gives unique tree | With inorder gives unique tree | Alone for complete trees |\n| Expression notation | Infix | Prefix (Polish) | Postfix (RPN) | N/A |\n\n## References\n\n- Knuth, D. E. (1997). *The Art of Computer Programming, Volume 1: Fundamental Algorithms*, 3rd ed. Addison-Wesley. Section 2.3.1: Traversing Binary Trees.\n- Cormen, T. H.; Leiserson, C. E.; Rivest, R. L.; Stein, C. (2009). *Introduction to Algorithms*, 3rd ed. MIT Press. Section 12.1: What is a binary search tree?\n- Morris, J. H. (1979). \"Traversing binary trees simply and cheaply.\" *Information Processing Letters*, 9(5), 197-200.\n- Sedgewick, R.; Wayne, K. (2011). *Algorithms*, 4th ed. Addison-Wesley. Section 3.2.\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [tree_traversals.py](python/tree_traversals.py) |\n| Java       | [TreeTraversals.java](java/TreeTraversals.java) |\n| C++        | [tree_traversals.cpp](cpp/tree_traversals.cpp) |\n| C          | [tree_traversals.c](c/tree_traversals.c) |\n| Go         | [tree_traversals.go](go/tree_traversals.go) |\n| TypeScript | [treeTraversals.ts](typescript/treeTraversals.ts) |\n| Rust       | [tree_traversals.rs](rust/tree_traversals.rs) |\n| Kotlin     | [TreeTraversals.kt](kotlin/TreeTraversals.kt) |\n| Swift      | [TreeTraversals.swift](swift/TreeTraversals.swift) |\n| Scala      | [TreeTraversals.scala](scala/TreeTraversals.scala) |\n| C#         | [TreeTraversals.cs](csharp/TreeTraversals.cs) |\n"
+}

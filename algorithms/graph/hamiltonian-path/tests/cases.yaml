@@ -1,0 +1,18 @@
+algorithm: "hamiltonian-path"
+function_signature:
+  name: "hamiltonian_path"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "complete graph K4"
+    input: [[4, 6, 0,1, 0,2, 0,3, 1,2, 1,3, 2,3]]
+    expected: 1
+  - name: "path graph"
+    input: [[4, 3, 0,1, 1,2, 2,3]]
+    expected: 1
+  - name: "disconnected"
+    input: [[4, 2, 0,1, 2,3]]
+    expected: 0
+  - name: "single vertex"
+    input: [[1, 0]]
+    expected: 1

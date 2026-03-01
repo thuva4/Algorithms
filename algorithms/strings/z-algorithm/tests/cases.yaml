@@ -1,0 +1,15 @@
+algorithm: "z-algorithm"
+function_signature:
+  name: "z_function"
+  input: [array_of_integers]
+  output: array_of_integers
+test_cases:
+  - name: "repeated pattern"
+    input: [[1, 1, 2, 1, 1, 2, 1]]
+    expected: [0, 1, 0, 4, 1, 0, 1]
+  - name: "all distinct"
+    input: [[1, 2, 3]]
+    expected: [0, 0, 0]
+  - name: "all same"
+    input: [[1, 1, 1]]
+    expected: [0, 2, 1]

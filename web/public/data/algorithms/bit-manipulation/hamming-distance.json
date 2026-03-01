@@ -1,0 +1,140 @@
+{
+  "name": "Hamming Distance",
+  "slug": "hamming-distance",
+  "category": "bit-manipulation",
+  "subcategory": "bitwise-operations",
+  "difficulty": "beginner",
+  "tags": [
+    "bit-manipulation",
+    "hamming",
+    "distance",
+    "xor",
+    "error-detection"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(1)",
+      "average": "O(1)",
+      "worst": "O(1)"
+    },
+    "space": "O(1)"
+  },
+  "stable": false,
+  "in_place": true,
+  "related": [
+    "xor-swap",
+    "unary-coding"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "HammingDistance.c",
+          "content": "#include <stdio.h>\n\nint HammingDistance(int a, int b) {\n    unsigned int value = (unsigned int)(a ^ b);\n    int distance = 0;\n    while (value != 0U) {\n        distance += (int)(value & 1U);\n        value >>= 1U;\n    }\n    return distance;\n}\n\nint hamming_distance(int a, int b) {\n    return HammingDistance(a, b);\n}\n\nint main(void) {\n    printf(\"%d\\n\", HammingDistance(1, 4));\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "HammingDistance.cpp",
+          "content": "#include <iostream>\n\nint hamming_distance(int a, int b) {\n    int value = a ^ b;\n    int distance = 0;\n\n    while (value != 0) {\n        distance += value & 1;\n        value >>= 1;\n    }\n\n    return distance;\n}\n\nint main() {\n    int a = 0;\n    int b = 0;\n    std::cin >> a >> b;\n    std::cout << hamming_distance(a, b) << std::endl;\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "HammingDistance.cs",
+          "content": "using System;\n\nclass HammingDistance\n{\n    static int ComputeHammingDistance(int a, int b)\n    {\n        int xor = a ^ b;\n        int distance = 0;\n        while (xor != 0)\n        {\n            distance += xor & 1;\n            xor >>= 1;\n        }\n        return distance;\n    }\n\n    static void Main(string[] args)\n    {\n        Console.WriteLine(\"Hamming distance between 1 and 4: \" + ComputeHammingDistance(1, 4));\n        Console.WriteLine(\"Hamming distance between 7 and 8: \" + ComputeHammingDistance(7, 8));\n        Console.WriteLine(\"Hamming distance between 93 and 73: \" + ComputeHammingDistance(93, 73));\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "hammingDistance.go",
+          "content": "package hammingDistance\n\nfunc HammingDistance(a, b string) int {\n\tif len(a) != len(b) {\n\t\tpanic(\"The two strings must have equal length\")\n\t}\n\taRunes := []rune(a)\n\tbRunes := []rune(b)\n\tdistance := 0\n\tfor i, r := range aRunes {\n\t\tif r != bRunes[i] {\n\t\t\tdistance++\n\t\t}\n\t}\n\treturn distance\n}\n"
+        },
+        {
+          "filename": "hammingDistance_test.go",
+          "content": "package hammingDistance\n\nimport \"testing\"\n\nfunc TestHammingDistance(t *testing.T) {\n\t// \"karolin\" => \"kathrin\" is 3 according to Wikipedia\n\tif HammingDistance(\"karolin\", \"kathrin\") != 3 {\n\t\tt.Fail()\n\t}\n}"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "HammingDistance.java",
+          "content": "/**\n * Calculate the number of positions at which the corresponding symbols are different.\n * \n * @author Atom\n * @see <a href=\"https://en.wikipedia.org/wiki/Hamming_distance\">Hamming distance</a>\n */\npublic class HammingDistance {\n\n\tpublic static int hammingDistance(String s1, String s2) {\n\t\tif (s1.length() != s2.length()) \n\t\t\tthrow new IllegalArgumentException(\"The two strings must be the same length.\");\n\t\t\n\t\tint distance = 0;\n\t\tfinal int LEN = s1.length();\n\t\tfor (int i = 0; i < LEN; i++) {\n\t\t\tif (s1.charAt(i) != s2.charAt(i)) \n\t\t\t\tdistance++;\n\t\t}\n\n\t\treturn distance;\n\t}\n\n\tpublic static int hammingDistanceIgnoreCase(String s1, String s2) {\n\t\treturn hammingDistance(s1.toLowerCase(), s2.toLowerCase());\n\t}\n\t\n\tpublic static int hammingDistance(final int x, final int y) {\n\t\treturn Integer.bitCount(x ^ y);\n\t}\n\t\n\tpublic static int hammingDistance(final long x, final long y) {\n\t\treturn Long.bitCount(x ^ y);\n\t}\n\t\n\tpublic static void main(String[] args) {\n\t\tSystem.out.println(hammingDistance(\"five\", \"five\")); // => 0\n\t\tSystem.out.println(hammingDistance(\"five\", \"four\")); // => 3\n\t\tSystem.out.println(hammingDistance(\"five\", \"FIVE\")); // => 4\n\t\tSystem.out.println(hammingDistanceIgnoreCase(\"five\", \"FIVE\")); // => 0\n\t\tSystem.out.println();\n\t\tSystem.out.println(hammingDistance(1, 1)); // => 0\n\t\tSystem.out.println(hammingDistance(1, 2)); // => 2\n\t\tSystem.out.println(hammingDistance(1, 3)); // => 1\n\t\tSystem.out.println(hammingDistance(1, 4)); // => 2\n\t\tSystem.out.println(hammingDistance(1, 5)); // => 1\n\t\tSystem.out.println();\n\t\tSystem.out.println(hammingDistance(1L, 1L)); // => 0\n\t\tSystem.out.println(hammingDistance(1L, 2L)); // => 2\n\t\tSystem.out.println(hammingDistance(1L, 3L)); // => 1\n\t\tSystem.out.println(hammingDistance(1L, 4L)); // => 2\n\t\tSystem.out.println(hammingDistance(1L, 5L)); // => 1\n\t}\n\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "HammingDistance.kt",
+          "content": "fun hammingDistance(a: Int, b: Int): Int {\n    return Integer.bitCount(a xor b)\n}\n\nfun main() {\n    println(\"Hamming distance between 1 and 4: ${hammingDistance(1, 4)}\")\n    println(\"Hamming distance between 7 and 8: ${hammingDistance(7, 8)}\")\n    println(\"Hamming distance between 93 and 73: ${hammingDistance(93, 73)}\")\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "HammingDistance.py",
+          "content": "import unittest\n\ndef HammingDistance(s1, s2):\n\tif len(s1) != len(s2):\n\t\traise ValueError(\"ERROR: Strings must have the same length\")\n\treturn sum(c1 != c2 for c1, c2 in zip(s1, s2))\n\nclass TestSuite(unittest.TestCase):\n\tdef test_hammingDistance(self):\n\t\tself.assertEqual(1, HammingDistance(\"110\", \"111\"))\n\t\tself.assertEqual(0, HammingDistance(\"110\", \"110\"))\n\t\tself.assertEqual(2, HammingDistance(\"11001\", \"11111\"))\n\nif __name__ == \"__main__\":\n\tunittest.main()"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "hamming_distance.rs",
+          "content": "fn hamming_distance(a: i32, b: i32) -> u32 {\n    (a ^ b).count_ones()\n}\n\nfn main() {\n    println!(\"Hamming distance between 1 and 4: {}\", hamming_distance(1, 4));\n    println!(\"Hamming distance between 7 and 8: {}\", hamming_distance(7, 8));\n    println!(\"Hamming distance between 93 and 73: {}\", hamming_distance(93, 73));\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "HammingDistance.scala",
+          "content": "object HammingDistance {\n  def hammingDistance(a: Int, b: Int): Int = {\n    Integer.bitCount(a ^ b)\n  }\n\n  def main(args: Array[String]): Unit = {\n    println(s\"Hamming distance between 1 and 4: ${hammingDistance(1, 4)}\")\n    println(s\"Hamming distance between 7 and 8: ${hammingDistance(7, 8)}\")\n    println(s\"Hamming distance between 93 and 73: ${hammingDistance(93, 73)}\")\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "HammingDistance.swift",
+          "content": "func hammingDistance(_ a: Int, _ b: Int) -> Int {\n    var xor = a ^ b\n    var distance = 0\n    while xor != 0 {\n        distance += xor & 1\n        xor >>= 1\n    }\n    return distance\n}\n\nprint(\"Hamming distance between 1 and 4: \\(hammingDistance(1, 4))\")\nprint(\"Hamming distance between 7 and 8: \\(hammingDistance(7, 8))\")\nprint(\"Hamming distance between 93 and 73: \\(hammingDistance(93, 73))\")\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "index.js",
+          "content": "export function hammingDistance(a, b) {\n  let xor = a ^ b;\n  let distance = 0;\n\n  while (xor !== 0) {\n    distance += xor & 1;\n    xor >>>= 1;\n  }\n\n  return distance;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "patterns": [
+    "bitwise-xor"
+  ],
+  "patternDifficulty": "intermediate",
+  "practiceOrder": 3,
+  "readme": "# Hamming Distance\n\n## Overview\n\nThe Hamming distance between two integers (or binary strings of equal length) is the number of positions at which the corresponding bits differ. For example, the Hamming distance between 1 (001) and 4 (100) is 2, because they differ in two bit positions. The concept was introduced by Richard Hamming in 1950 in the context of error-detecting and error-correcting codes.\n\nHamming distance is fundamental to information theory, coding theory, and telecommunications. It is used in error correction (Hamming codes), DNA sequence comparison, and similarity measurement between binary feature vectors in machine learning.\n\n## How It Works\n\nThe algorithm computes the XOR of the two numbers, which produces a number where each 1-bit represents a position where the inputs differ. Then it counts the number of 1-bits (the population count or popcount) in the XOR result. The most efficient method for counting set bits uses Brian Kernighan's technique: repeatedly clearing the lowest set bit using `n = n & (n - 1)`.\n\n### Example\n\nComputing Hamming distance between `93` and `73`:\n\n**Step 1: XOR the two numbers:**\n```\n93 in binary:  1 0 1 1 1 0 1\n73 in binary:  1 0 0 1 0 0 1\nXOR result:    0 0 1 0 1 0 0 = 20\n```\n\n**Step 2: Count 1-bits in 20 using Kernighan's method:**\n\n| Step | n (binary) | n - 1 (binary) | n & (n-1) | Bits counted |\n|------|-----------|----------------|-----------|-------------|\n| 1 | 10100 | 10011 | 10000 | 1 |\n| 2 | 10000 | 01111 | 00000 | 2 |\n| 3 | 00000 | - | Done | 2 |\n\nResult: Hamming distance = `2`\n\n**Another example: distance between 7 (0111) and 14 (1110):**\n```\nXOR: 0111 ^ 1110 = 1001 (decimal 9)\nPopcount of 9: two 1-bits\n```\n\nHamming distance = `2`\n\n## Pseudocode\n\n```\nfunction hammingDistance(a, b):\n    xor = a XOR b\n    count = 0\n\n    while xor != 0:\n        xor = xor AND (xor - 1)    // clear lowest set bit\n        count = count + 1\n\n    return count\n```\n\nBrian Kernighan's bit-counting trick iterates only as many times as there are set bits, making it faster than checking each bit position individually.\n\n## Complexity Analysis\n\n| Case    | Time | Space |\n|---------|------|-------|\n| Best    | O(1) | O(1)  |\n| Average | O(1) | O(1)  |\n| Worst   | O(1) | O(1)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(1):** If the two numbers are identical, the XOR is 0, and the loop does not execute. The computation requires only a single XOR operation.\n\n- **Average Case -- O(1):** For fixed-width integers (32-bit or 64-bit), the loop runs at most 32 or 64 times, which is constant. On modern CPUs, a single POPCNT instruction computes the answer.\n\n- **Worst Case -- O(1):** Even when all bits differ (e.g., comparing 0 and 2^32-1), the loop runs at most 32 times for 32-bit integers. This is O(1) with respect to the input magnitude.\n\n- **Space -- O(1):** Only the XOR result and a counter variable are needed.\n\n## When to Use\n\n- **Error detection/correction:** Measuring how many bits were corrupted during transmission.\n- **Similarity measurement:** Comparing binary feature vectors, hash codes, or fingerprints.\n- **DNA analysis:** Measuring point mutations between aligned DNA sequences (when encoded as binary).\n- **Network coding:** Determining the minimum number of bit flips needed to convert one codeword to another.\n- **Locality-sensitive hashing:** Hamming distance on hash codes approximates true similarity.\n\n## When NOT to Use\n\n- **Strings of different lengths:** Hamming distance requires equal-length inputs. Use edit distance for unequal lengths.\n- **When the semantic distance matters more than bit distance:** Euclidean or cosine distance may be more appropriate for real-valued data.\n- **Large binary data:** For very long bitstrings (megabytes), specialized hardware-accelerated routines may be needed.\n- **When insertions/deletions are possible:** Hamming distance only considers substitutions (bit flips), not insertions or deletions.\n\n## Comparison with Similar Algorithms\n\n| Distance Metric | Time | Space | Notes                                          |\n|----------------|------|-------|-------------------------------------------------|\n| Hamming Distance| O(1) | O(1)  | Counts differing bits; equal-length only         |\n| Edit Distance   | O(mn)| O(mn) | Handles insertions, deletions, substitutions     |\n| Jaccard Distance| O(n) | O(n)  | Set-based similarity measure                     |\n| Euclidean Distance| O(n)| O(1) | For real-valued vectors                          |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [HammingDistance.py](python/HammingDistance.py) |\n| Java       | [HammingDistance.java](java/HammingDistance.java) |\n| C++        | [HammingDistance.cpp](cpp/HammingDistance.cpp) |\n| C          | [HammingDistance.c](c/HammingDistance.c) |\n| Go         | [hammingDistance.go](go/hammingDistance.go) |\n| TypeScript | [index.js](typescript/index.js) |\n\n## References\n\n- Hamming, R. W. (1950). Error detecting and error correcting codes. *Bell System Technical Journal*, 29(2), 147-160.\n- Knuth, D. E. (2009). *The Art of Computer Programming, Volume 4A: Combinatorial Algorithms* (1st ed.). Addison-Wesley. Section 7.1.3.\n- [Hamming Distance -- Wikipedia](https://en.wikipedia.org/wiki/Hamming_distance)\n"
+}

@@ -1,0 +1,17 @@
+name: "Max 1D Range Sum"
+slug: "dynamic-programming"
+category: "dynamic-programming"
+subcategory: "sequences"
+difficulty: "beginner"
+tags: [dynamic-programming, sequences, range-sum, maximum-sum]
+complexity:
+  time:
+    best: "O(n)"
+    average: "O(n)"
+    worst: "O(n)"
+  space: "O(1)"
+stable: null
+in_place: null
+related: [kadanes]
+implementations: [java]
+visualization: true

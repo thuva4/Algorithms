@@ -1,0 +1,15 @@
+name: "Kosaraju's Strongly Connected Components"
+slug: "kosarajus-scc"
+category: "graph"
+subcategory: "connectivity"
+difficulty: "advanced"
+tags: [graph, directed, strongly-connected-components, dfs, kosaraju]
+complexity:
+  time:
+    best: "O(V + E)"
+    average: "O(V + E)"
+    worst: "O(V + E)"
+  space: "O(V + E)"
+related: [tarjans-scc, depth-first-search, topological-sort]
+implementations: [python, java, cpp, c, go, typescript, kotlin, rust, swift, scala, csharp]
+visualization: true

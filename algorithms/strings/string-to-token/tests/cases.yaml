@@ -1,0 +1,21 @@
+algorithm: "string-to-token"
+function_signature:
+  name: "tokenize"
+  input: [string, delimiter]
+  output: array_of_tokens
+test_cases:
+  - name: "space-separated words"
+    input: ["hello world foo", " "]
+    expected: ["hello", "world", "foo"]
+  - name: "comma-separated values"
+    input: ["a,b,c,d", ","]
+    expected: ["a", "b", "c", "d"]
+  - name: "single token"
+    input: ["hello", " "]
+    expected: ["hello"]
+  - name: "empty string"
+    input: ["", " "]
+    expected: []
+  - name: "multiple delimiters"
+    input: ["one--two--three", "--"]
+    expected: ["one", "two", "three"]

@@ -1,0 +1,129 @@
+{
+  "name": "Word Break",
+  "slug": "word-break",
+  "category": "dynamic-programming",
+  "subcategory": "optimization",
+  "difficulty": "intermediate",
+  "tags": [
+    "dynamic-programming",
+    "strings",
+    "memoization"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "average": "O(n^2)",
+      "worst": "O(n^2)"
+    },
+    "space": "O(n)"
+  },
+  "stable": null,
+  "in_place": null,
+  "related": [
+    "coin-change",
+    "knapsack"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "can_sum.c",
+          "content": "#include <stdio.h>\n\n/**\n * Determine if target can be formed by summing elements from arr\n * with repetition allowed.\n *\n * arr: array of positive integers (available elements)\n * num_elems: number of elements in arr\n * target: the target sum to reach\n * Returns: 1 if target is achievable, 0 otherwise\n */\nint can_sum(int arr[], int num_elems, int target) {\n    if (target == 0) return 1;\n\n    int dp[target + 1];\n    int i, j;\n\n    dp[0] = 1;\n    for (i = 1; i <= target; i++)\n        dp[i] = 0;\n\n    for (i = 1; i <= target; i++) {\n        for (j = 0; j < num_elems; j++) {\n            if (arr[j] <= i && dp[i - arr[j]]) {\n                dp[i] = 1;\n                break;\n            }\n        }\n    }\n\n    return dp[target];\n}\n\nint main() {\n    int a1[] = {2, 3};\n    printf(\"%d\\n\", can_sum(a1, 2, 7));   /* 1 */\n\n    int a2[] = {5, 3};\n    printf(\"%d\\n\", can_sum(a2, 2, 8));   /* 1 */\n\n    int a3[] = {2, 4};\n    printf(\"%d\\n\", can_sum(a3, 2, 7));   /* 0 */\n\n    int a4[] = {1};\n    printf(\"%d\\n\", can_sum(a4, 1, 5));   /* 1 */\n\n    int a5[] = {7};\n    printf(\"%d\\n\", can_sum(a5, 1, 3));   /* 0 */\n\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "can_sum.cpp",
+          "content": "#include <iostream>\n#include <vector>\nusing namespace std;\n\n/**\n * Determine if target can be formed by summing elements from arr\n * with repetition allowed.\n *\n * arr: vector of positive integers (available elements)\n * target: the target sum to reach\n * Returns: 1 if target is achievable, 0 otherwise\n */\nint canSum(const vector<int>& arr, int target) {\n    if (target == 0) return 1;\n\n    vector<bool> dp(target + 1, false);\n    dp[0] = true;\n\n    for (int i = 1; i <= target; i++) {\n        for (int elem : arr) {\n            if (elem <= i && dp[i - elem]) {\n                dp[i] = true;\n                break;\n            }\n        }\n    }\n\n    return dp[target] ? 1 : 0;\n}\n\nint main() {\n    cout << canSum({2, 3}, 7) << endl;   // 1\n    cout << canSum({5, 3}, 8) << endl;   // 1\n    cout << canSum({2, 4}, 7) << endl;   // 0\n    cout << canSum({1}, 5) << endl;      // 1\n    cout << canSum({7}, 3) << endl;      // 0\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "WordBreak.cs",
+          "content": "using System;\n\npublic class WordBreak\n{\n    /// <summary>\n    /// Determine if target can be formed by summing elements from arr\n    /// with repetition allowed.\n    /// </summary>\n    /// <param name=\"arr\">Array of positive integers (available elements)</param>\n    /// <param name=\"target\">The target sum to reach</param>\n    /// <returns>1 if target is achievable, 0 otherwise</returns>\n    public static int CanSum(int[] arr, int target)\n    {\n        if (target == 0) return 1;\n\n        bool[] dp = new bool[target + 1];\n        dp[0] = true;\n\n        for (int i = 1; i <= target; i++)\n        {\n            foreach (int elem in arr)\n            {\n                if (elem <= i && dp[i - elem])\n                {\n                    dp[i] = true;\n                    break;\n                }\n            }\n        }\n\n        return dp[target] ? 1 : 0;\n    }\n\n    static void Main(string[] args)\n    {\n        Console.WriteLine(CanSum(new int[] { 2, 3 }, 7));   // 1\n        Console.WriteLine(CanSum(new int[] { 5, 3 }, 8));   // 1\n        Console.WriteLine(CanSum(new int[] { 2, 4 }, 7));   // 0\n        Console.WriteLine(CanSum(new int[] { 1 }, 5));      // 1\n        Console.WriteLine(CanSum(new int[] { 7 }, 3));      // 0\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "CanSum.go",
+          "content": "package main\n\nimport \"fmt\"\n\n// CanSum determines if target can be formed by summing elements\n// from arr with repetition allowed.\n// Returns 1 if target is achievable, 0 otherwise.\nfunc CanSum(arr []int, target int) int {\n\tif target == 0 {\n\t\treturn 1\n\t}\n\n\tdp := make([]bool, target+1)\n\tdp[0] = true\n\n\tfor i := 1; i <= target; i++ {\n\t\tfor _, elem := range arr {\n\t\t\tif elem <= i && dp[i-elem] {\n\t\t\t\tdp[i] = true\n\t\t\t\tbreak\n\t\t\t}\n\t\t}\n\t}\n\n\tif dp[target] {\n\t\treturn 1\n\t}\n\treturn 0\n}\n\nfunc main() {\n\tfmt.Println(CanSum([]int{2, 3}, 7))   // 1\n\tfmt.Println(CanSum([]int{5, 3}, 8))   // 1\n\tfmt.Println(CanSum([]int{2, 4}, 7))   // 0\n\tfmt.Println(CanSum([]int{1}, 5))      // 1\n\tfmt.Println(CanSum([]int{7}, 3))      // 0\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "WordBreak.java",
+          "content": "public class WordBreak {\n\n    /**\n     * Determine if target can be formed by summing elements from arr\n     * with repetition allowed.\n     *\n     * @param arr    array of positive integers (available elements)\n     * @param target the target sum to reach\n     * @return 1 if target is achievable, 0 otherwise\n     */\n    public static int canSum(int[] arr, int target) {\n        if (target == 0) return 1;\n\n        boolean[] dp = new boolean[target + 1];\n        dp[0] = true;\n\n        for (int i = 1; i <= target; i++) {\n            for (int elem : arr) {\n                if (elem <= i && dp[i - elem]) {\n                    dp[i] = true;\n                    break;\n                }\n            }\n        }\n\n        return dp[target] ? 1 : 0;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(canSum(new int[]{2, 3}, 7));   // 1\n        System.out.println(canSum(new int[]{5, 3}, 8));   // 1\n        System.out.println(canSum(new int[]{2, 4}, 7));   // 0\n        System.out.println(canSum(new int[]{1}, 5));      // 1\n        System.out.println(canSum(new int[]{7}, 3));      // 0\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "WordBreak.kt",
+          "content": "/**\n * Determine if target can be formed by summing elements from arr\n * with repetition allowed.\n *\n * @param arr array of positive integers (available elements)\n * @param target the target sum to reach\n * @return 1 if target is achievable, 0 otherwise\n */\nfun canSum(arr: IntArray, target: Int): Int {\n    if (target == 0) return 1\n\n    val dp = BooleanArray(target + 1)\n    dp[0] = true\n\n    for (i in 1..target) {\n        for (elem in arr) {\n            if (elem <= i && dp[i - elem]) {\n                dp[i] = true\n                break\n            }\n        }\n    }\n\n    return if (dp[target]) 1 else 0\n}\n\nfun main() {\n    println(canSum(intArrayOf(2, 3), 7))   // 1\n    println(canSum(intArrayOf(5, 3), 8))   // 1\n    println(canSum(intArrayOf(2, 4), 7))   // 0\n    println(canSum(intArrayOf(1), 5))      // 1\n    println(canSum(intArrayOf(7), 3))      // 0\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "can_sum.py",
+          "content": "def can_sum(arr, target):\n    \"\"\"\n    Determine if target can be formed by summing elements from arr\n    with repetition allowed.\n\n    arr: list of positive integers (available elements)\n    target: the target sum to reach\n    Returns: 1 if target is achievable, 0 otherwise\n    \"\"\"\n    if target == 0:\n        return 1\n\n    dp = [False] * (target + 1)\n    dp[0] = True\n\n    for i in range(1, target + 1):\n        for elem in arr:\n            if elem <= i and dp[i - elem]:\n                dp[i] = True\n                break\n\n    return 1 if dp[target] else 0\n\n\nif __name__ == \"__main__\":\n    print(can_sum([2, 3], 7))   # 1 (2+2+3)\n    print(can_sum([5, 3], 8))   # 1 (3+5)\n    print(can_sum([2, 4], 7))   # 0\n    print(can_sum([1], 5))      # 1 (1+1+1+1+1)\n    print(can_sum([7], 3))      # 0\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "can_sum.rs",
+          "content": "/// Determine if target can be formed by summing elements from arr\n/// with repetition allowed.\n///\n/// # Arguments\n/// * `arr` - slice of positive integers (available elements)\n/// * `target` - the target sum to reach\n///\n/// # Returns\n/// 1 if target is achievable, 0 otherwise\npub fn can_sum(arr: &[i32], target: i32) -> i32 {\n    if target == 0 {\n        return 1;\n    }\n\n    let t = target as usize;\n    let mut dp = vec![false; t + 1];\n    dp[0] = true;\n\n    for i in 1..=t {\n        for &elem in arr {\n            let e = elem as usize;\n            if e <= i && dp[i - e] {\n                dp[i] = true;\n                break;\n            }\n        }\n    }\n\n    if dp[t] { 1 } else { 0 }\n}\n\nfn main() {\n    println!(\"{}\", can_sum(&[2, 3], 7));   // 1\n    println!(\"{}\", can_sum(&[5, 3], 8));   // 1\n    println!(\"{}\", can_sum(&[2, 4], 7));   // 0\n    println!(\"{}\", can_sum(&[1], 5));      // 1\n    println!(\"{}\", can_sum(&[7], 3));      // 0\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "WordBreak.scala",
+          "content": "object WordBreak {\n\n  /**\n   * Determine if target can be formed by summing elements from arr\n   * with repetition allowed.\n   *\n   * @param arr    array of positive integers (available elements)\n   * @param target the target sum to reach\n   * @return 1 if target is achievable, 0 otherwise\n   */\n  def canSum(arr: Array[Int], target: Int): Int = {\n    if (target == 0) return 1\n\n    val dp = Array.fill(target + 1)(false)\n    dp(0) = true\n\n    for (i <- 1 to target) {\n      for (elem <- arr) {\n        if (elem <= i && dp(i - elem)) {\n          dp(i) = true\n        }\n      }\n    }\n\n    if (dp(target)) 1 else 0\n  }\n\n  def main(args: Array[String]): Unit = {\n    println(canSum(Array(2, 3), 7))   // 1\n    println(canSum(Array(5, 3), 8))   // 1\n    println(canSum(Array(2, 4), 7))   // 0\n    println(canSum(Array(1), 5))      // 1\n    println(canSum(Array(7), 3))      // 0\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "WordBreak.swift",
+          "content": "/// Determine if target can be formed by summing elements from arr\n/// with repetition allowed.\n///\n/// - Parameter arr: array of positive integers (available elements)\n/// - Parameter target: the target sum to reach\n/// - Returns: 1 if target is achievable, 0 otherwise\nfunc canSum(_ arr: [Int], _ target: Int) -> Int {\n    if target == 0 { return 1 }\n\n    var dp = Array(repeating: false, count: target + 1)\n    dp[0] = true\n\n    for i in 1...target {\n        for elem in arr {\n            if elem <= i && dp[i - elem] {\n                dp[i] = true\n                break\n            }\n        }\n    }\n\n    return dp[target] ? 1 : 0\n}\n\nprint(canSum([2, 3], 7))   // 1\nprint(canSum([5, 3], 8))   // 1\nprint(canSum([2, 4], 7))   // 0\nprint(canSum([1], 5))      // 1\nprint(canSum([7], 3))      // 0\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "canSum.ts",
+          "content": "/**\n * Determine if target can be formed by summing elements from arr\n * with repetition allowed.\n *\n * @param arr - array of positive integers (available elements)\n * @param target - the target sum to reach\n * @returns 1 if target is achievable, 0 otherwise\n */\nexport function canSum(arr: number[], target: number): number {\n    if (target === 0) return 1;\n\n    const dp: boolean[] = new Array(target + 1).fill(false);\n    dp[0] = true;\n\n    for (let i = 1; i <= target; i++) {\n        for (const elem of arr) {\n            if (elem <= i && dp[i - elem]) {\n                dp[i] = true;\n                break;\n            }\n        }\n    }\n\n    return dp[target] ? 1 : 0;\n}\n\nconsole.log(canSum([2, 3], 7));   // 1\nconsole.log(canSum([5, 3], 8));   // 1\nconsole.log(canSum([2, 4], 7));   // 0\nconsole.log(canSum([1], 5));      // 1\nconsole.log(canSum([7], 3));      // 0\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Word Break (Can Sum)\n\n## Overview\n\nThe Word Break problem, implemented here as the \"Can Sum\" numeric variant, determines whether a target value can be formed by summing any combination of elements from a given array. Elements may be used multiple times (with repetition). The function returns 1 if the target is achievable and 0 otherwise.\n\nThis is structurally equivalent to the classic Word Break problem from string processing: given a string and a dictionary of words, determine whether the string can be segmented into a space-separated sequence of dictionary words. In both cases, we ask whether a \"whole\" can be decomposed into \"parts\" drawn from a fixed set, with reuse allowed.\n\nFor example, given the array [2, 3] and target 7, the answer is 1 (yes) because 7 = 2 + 2 + 3. Given [2, 4] and target 7, the answer is 0 (no) because no combination of 2s and 4s sums to 7.\n\n## How It Works\n\nThe algorithm uses a bottom-up dynamic programming approach with a 1D boolean table.\n\n1. **Initialize:** Create a boolean array `dp` of size `target + 1`, initialized to false. Set `dp[0] = true` (base case: a target of 0 is always achievable with no elements).\n2. **Fill the table:** For each value i from 1 to target, check each element in the array. If the element is no greater than i and `dp[i - element]` is true, then set `dp[i] = true`.\n3. **Result:** `dp[target]` indicates whether the target is achievable. Return 1 if true, 0 if false.\n\n### Example\n\nGiven arr = [2, 3] and target = 7:\n\n**Building the DP table:**\n\n| i | Check elem 2       | Check elem 3       | dp[i] |\n|---|---------------------|---------------------|-------|\n| 0 | -                   | -                   | true (base) |\n| 1 | dp[1-2]? no         | dp[1-3]? no         | false |\n| 2 | dp[2-2]=dp[0]=true  | -                   | true  |\n| 3 | dp[3-2]=dp[1]=false | dp[3-3]=dp[0]=true  | true  |\n| 4 | dp[4-2]=dp[2]=true  | -                   | true  |\n| 5 | dp[5-2]=dp[3]=true  | -                   | true  |\n| 6 | dp[6-2]=dp[4]=true  | -                   | true  |\n| 7 | dp[7-2]=dp[5]=true  | -                   | true  |\n\nResult: dp[7] = true, so return **1**.\n\nFor arr = [2, 4] and target = 7: all odd positions remain false because both 2 and 4 are even, and the sum of even numbers is always even. So dp[7] = false, return **0**.\n\n## Pseudocode\n\n```\nfunction canSum(arr, target):\n    dp = boolean array of size (target + 1), initialized to false\n    dp[0] = true\n\n    for i from 1 to target:\n        for each elem in arr:\n            if elem <= i and dp[i - elem] is true:\n                dp[i] = true\n                break   // no need to check further elements\n\n    return 1 if dp[target] is true, else 0\n```\n\n## Complexity Analysis\n\n| Case    | Time     | Space |\n|---------|----------|-------|\n| Best    | O(n)     | O(n)  |\n| Average | O(n*m)   | O(n)  |\n| Worst   | O(n*m)   | O(n)  |\n\nWhere n = target and m = number of elements in the array.\n\n**Why these complexities?**\n\n- **Best Case -- O(n):** If the array contains 1, then every value from 1 to target is immediately reachable in one check per position, giving O(n) total.\n\n- **Average/Worst Case -- O(n*m):** For each of the n positions (1 to target), we may check up to m elements. With early termination when a position is found reachable, the average case can be significantly faster than the worst case in practice.\n\n- **Space -- O(n):** The algorithm uses a single 1D array of size target + 1.\n\n## Applications\n\n- **String segmentation:** The classic Word Break problem in natural language processing determines if a string can be broken into valid dictionary words.\n- **Change-making feasibility:** Determining if an exact amount can be formed from given denominations (without counting minimum coins).\n- **Resource allocation:** Checking if a resource requirement can be met exactly with available unit sizes.\n- **Subset sum variants:** Problems asking whether a particular total is achievable from a multiset of values.\n- **Knapsack feasibility:** Determining if a knapsack of exact capacity can be filled.\n\n## When NOT to Use\n\n- **When you need the minimum count:** Use Coin Change instead, which finds the minimum number of elements needed.\n- **When you need all decompositions:** Use backtracking or Word Break II to enumerate all valid segmentations.\n- **Without repetition:** If each element can be used at most once, this becomes the Subset Sum problem, requiring a different DP formulation.\n- **Very large targets with large elements:** When the target is extremely large, the O(n) space and time may be prohibitive.\n\n## Comparison with Similar Algorithms\n\n| Algorithm           | Time     | Space | Notes                                      |\n|---------------------|----------|-------|--------------------------------------------|\n| Can Sum / Word Break| O(n*m)   | O(n)  | Feasibility check with repetition          |\n| Coin Change         | O(n*m)   | O(n)  | Finds minimum count                        |\n| Subset Sum (0/1)    | O(n*m)   | O(n)  | No repetition; each element used at most once |\n| Unbounded Knapsack  | O(n*W)   | O(W)  | Maximizes value with repetition            |\n| Word Break II       | O(2^n)   | O(2^n)| Enumerates all valid segmentations         |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [can_sum.py](python/can_sum.py) |\n| Java       | [WordBreak.java](java/WordBreak.java) |\n| TypeScript | [canSum.ts](typescript/canSum.ts) |\n| C++        | [can_sum.cpp](cpp/can_sum.cpp) |\n| C          | [can_sum.c](c/can_sum.c) |\n| Go         | [CanSum.go](go/CanSum.go) |\n| Rust       | [can_sum.rs](rust/can_sum.rs) |\n| Kotlin     | [WordBreak.kt](kotlin/WordBreak.kt) |\n| Swift      | [WordBreak.swift](swift/WordBreak.swift) |\n| Scala      | [WordBreak.scala](scala/WordBreak.scala) |\n| C#         | [WordBreak.cs](csharp/WordBreak.cs) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 15: Dynamic Programming.\n- [Word Break Problem -- Wikipedia](https://en.wikipedia.org/wiki/Word_break_problem)\n- [LeetCode 139: Word Break](https://leetcode.com/problems/word-break/)\n- [LeetCode 322: Coin Change](https://leetcode.com/problems/coin-change/) (related problem)\n"
+}

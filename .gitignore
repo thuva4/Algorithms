@@ -1,8 +1,53 @@
+# Dependencies
+node_modules/
+
+# Build output
+web/dist/
+web/.vite/
+
+# IDE
 .idea/
 .vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Python
 venv/
-.DS_store
-algorithms/JavaScript/node_modules/
-_site
-.jekyll-cache
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Java
+*.class
+target/
+build/
+
+# C/C++
+*.o
+*.out
+*.exe
+a.out
+
+# Rust
+**/target/
+
+# Go
+bin/
+
+# Jekyll (legacy)
+_site/
+.jekyll-cache/
 .jekyll-metadata
+
+# Environment
+.env
+.env.local
+
+.cache
+docs 
+.bsp
+.scala-build

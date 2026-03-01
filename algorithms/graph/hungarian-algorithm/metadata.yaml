@@ -1,0 +1,17 @@
+name: "Hungarian Algorithm"
+slug: "hungarian-algorithm"
+category: "graph"
+subcategory: "matching"
+difficulty: "advanced"
+tags: [graph, matching, assignment-problem, bipartite, optimization]
+complexity:
+  time:
+    best: "O(n^3)"
+    average: "O(n^3)"
+    worst: "O(n^3)"
+  space: "O(n^2)"
+stable: null
+in_place: false
+related: [bipartite-matching, max-flow-min-cut]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

@@ -1,0 +1,21 @@
+name: "Fibonacci Heap"
+slug: "fibonacci-heap"
+category: "data-structures"
+subcategory: "heap"
+difficulty: "advanced"
+tags: [data-structures, heap, fibonacci-heap, priority-queue, amortized]
+complexity:
+  time:
+    best: "O(1)"
+    average: "O(1) insert / O(log n) extract-min"
+    worst: "O(n) extract-min"
+  space: "O(n)"
+stable: null
+in_place: false
+related: [heap-operations, priority-queue]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false
+patterns:
+  - two-heaps
+patternDifficulty: advanced
+practiceOrder: 3

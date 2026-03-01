@@ -1,0 +1,17 @@
+name: "Inverse Fast Fourier Transform"
+slug: "inverse-fast-fourier-transform"
+category: "math"
+subcategory: "signal-processing"
+difficulty: "advanced"
+tags: [math, ifft, fourier, signal-processing, inverse-transform]
+complexity:
+  time:
+    best: "O(n log n)"
+    average: "O(n log n)"
+    worst: "O(n log n)"
+  space: "O(n)"
+stable: false
+in_place: false
+related: [fast-fourier-transform]
+implementations: [cpp]
+visualization: false

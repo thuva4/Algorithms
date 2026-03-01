@@ -1,0 +1,18 @@
+algorithm: "splay-tree"
+function_signature:
+  name: "splay_tree"
+  input: [array_of_integers]
+  output: array_of_integers
+test_cases:
+  - name: "basic insertion"
+    input: [[5, 3, 8, 1, 2]]
+    expected: [1, 2, 3, 5, 8]
+  - name: "already sorted"
+    input: [[1, 2, 3, 4, 5]]
+    expected: [1, 2, 3, 4, 5]
+  - name: "reverse order"
+    input: [[10, 8, 6, 4, 2]]
+    expected: [2, 4, 6, 8, 10]
+  - name: "single element"
+    input: [[99]]
+    expected: [99]

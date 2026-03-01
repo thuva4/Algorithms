@@ -1,0 +1,142 @@
+{
+  "name": "Counting Triangles",
+  "slug": "counting-triangles",
+  "category": "graph",
+  "subcategory": "analysis",
+  "difficulty": "intermediate",
+  "tags": [
+    "graph",
+    "triangle",
+    "counting",
+    "adjacency-matrix",
+    "undirected"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(V^3)",
+      "average": "O(V^3)",
+      "worst": "O(V^3)"
+    },
+    "space": "O(V^2)"
+  },
+  "stable": null,
+  "in_place": false,
+  "related": [
+    "graph-coloring"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "counting_triangles.c",
+          "content": "#include \"counting_triangles.h\"\n#include <stdlib.h>\n#include <stdbool.h>\n\nint counting_triangles(int arr[], int size) {\n    if (size < 2) return 0;\n    int n = arr[0];\n    int m = arr[1];\n    \n    if (size < 2 + 2 * m) return 0;\n    if (n < 3) return 0;\n    \n    // Adjacency Matrix\n    bool** adj = (bool**)malloc(n * sizeof(bool*));\n    for (int i = 0; i < n; i++) {\n        adj[i] = (bool*)calloc(n, sizeof(bool));\n    }\n    \n    for (int i = 0; i < m; i++) {\n        int u = arr[2 + 2 * i];\n        int v = arr[2 + 2 * i + 1];\n        if (u >= 0 && u < n && v >= 0 && v < n) {\n            adj[u][v] = true;\n            adj[v][u] = true;\n        }\n    }\n    \n    int count = 0;\n    for (int i = 0; i < n; i++) {\n        for (int j = i + 1; j < n; j++) {\n            if (adj[i][j]) {\n                for (int k = j + 1; k < n; k++) {\n                    if (adj[j][k] && adj[k][i]) {\n                        count++;\n                    }\n                }\n            }\n        }\n    }\n    \n    for (int i = 0; i < n; i++) {\n        free(adj[i]);\n    }\n    free(adj);\n    \n    return count;\n}\n"
+        },
+        {
+          "filename": "counting_triangles.h",
+          "content": "#ifndef COUNTING_TRIANGLES_H\n#define COUNTING_TRIANGLES_H\n\nint counting_triangles(int arr[], int size);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "counting_triangles.cpp",
+          "content": "#include \"counting_triangles.h\"\n#include <vector>\n\nint counting_triangles(const std::vector<int>& arr) {\n    if (arr.size() < 2) return 0;\n    int n = arr[0];\n    int m = arr[1];\n    \n    if (arr.size() < 2 + 2 * m) return 0;\n    if (n < 3) return 0;\n    \n    std::vector<std::vector<bool>> adj(n, std::vector<bool>(n, false));\n    for (int i = 0; i < m; i++) {\n        int u = arr[2 + 2 * i];\n        int v = arr[2 + 2 * i + 1];\n        if (u >= 0 && u < n && v >= 0 && v < n) {\n            adj[u][v] = true;\n            adj[v][u] = true;\n        }\n    }\n    \n    int count = 0;\n    for (int i = 0; i < n; i++) {\n        for (int j = i + 1; j < n; j++) {\n            if (adj[i][j]) {\n                for (int k = j + 1; k < n; k++) {\n                    if (adj[j][k] && adj[k][i]) {\n                        count++;\n                    }\n                }\n            }\n        }\n    }\n    \n    return count;\n}\n"
+        },
+        {
+          "filename": "counting_triangles.h",
+          "content": "#ifndef COUNTING_TRIANGLES_H\n#define COUNTING_TRIANGLES_H\n\n#include <vector>\n\nint counting_triangles(const std::vector<int>& arr);\n\n#endif\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "CountingTriangles.cs",
+          "content": "namespace Algorithms.Graph.CountingTriangles\n{\n    public class CountingTriangles\n    {\n        public static int Solve(int[] arr)\n        {\n            if (arr == null || arr.Length < 2) return 0;\n            int n = arr[0];\n            int m = arr[1];\n\n            if (arr.Length < 2 + 2 * m) return 0;\n            if (n < 3) return 0;\n\n            bool[,] adj = new bool[n, n];\n            for (int i = 0; i < m; i++)\n            {\n                int u = arr[2 + 2 * i];\n                int v = arr[2 + 2 * i + 1];\n                if (u >= 0 && u < n && v >= 0 && v < n)\n                {\n                    adj[u, v] = true;\n                    adj[v, u] = true;\n                }\n            }\n\n            int count = 0;\n            for (int i = 0; i < n; i++)\n            {\n                for (int j = i + 1; j < n; j++)\n                {\n                    if (adj[i, j])\n                    {\n                        for (int k = j + 1; k < n; k++)\n                        {\n                            if (adj[j, k] && adj[k, i])\n                            {\n                                count++;\n                            }\n                        }\n                    }\n                }\n            }\n\n            return count;\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "counting_triangles.go",
+          "content": "package countingtriangles\n\nfunc CountingTriangles(arr []int) int {\n\tif len(arr) < 2 {\n\t\treturn 0\n\t}\n\tn := arr[0]\n\tm := arr[1]\n\n\tif len(arr) < 2+2*m {\n\t\treturn 0\n\t}\n\tif n < 3 {\n\t\treturn 0\n\t}\n\n\tadj := make([][]bool, n)\n\tfor i := range adj {\n\t\tadj[i] = make([]bool, n)\n\t}\n\n\tfor i := 0; i < m; i++ {\n\t\tu := arr[2+2*i]\n\t\tv := arr[2+2*i+1]\n\t\tif u >= 0 && u < n && v >= 0 && v < n {\n\t\t\tadj[u][v] = true\n\t\t\tadj[v][u] = true\n\t\t}\n\t}\n\n\tcount := 0\n\tfor i := 0; i < n; i++ {\n\t\tfor j := i + 1; j < n; j++ {\n\t\t\tif adj[i][j] {\n\t\t\t\tfor k := j + 1; k < n; k++ {\n\t\t\t\t\tif adj[j][k] && adj[k][i] {\n\t\t\t\t\t\tcount++\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\n\treturn count\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "CountingTriangles.java",
+          "content": "package algorithms.graph.countingtriangles;\n\npublic class CountingTriangles {\n    public int solve(int[] arr) {\n        if (arr == null || arr.length < 2) return 0;\n        int n = arr[0];\n        int m = arr[1];\n\n        if (arr.length < 2 + 2 * m) return 0;\n        if (n < 3) return 0;\n\n        boolean[][] adj = new boolean[n][n];\n        for (int i = 0; i < m; i++) {\n            int u = arr[2 + 2 * i];\n            int v = arr[2 + 2 * i + 1];\n            if (u >= 0 && u < n && v >= 0 && v < n) {\n                adj[u][v] = true;\n                adj[v][u] = true;\n            }\n        }\n\n        int count = 0;\n        for (int i = 0; i < n; i++) {\n            for (int j = i + 1; j < n; j++) {\n                if (adj[i][j]) {\n                    for (int k = j + 1; k < n; k++) {\n                        if (adj[j][k] && adj[k][i]) {\n                            count++;\n                        }\n                    }\n                }\n            }\n        }\n\n        return count;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "CountingTriangles.kt",
+          "content": "package algorithms.graph.countingtriangles\n\nclass CountingTriangles {\n    fun solve(arr: IntArray): Int {\n        if (arr.size < 2) return 0\n        val n = arr[0]\n        val m = arr[1]\n\n        if (arr.size < 2 + 2 * m) return 0\n        if (n < 3) return 0\n\n        val adj = Array(n) { BooleanArray(n) }\n        for (i in 0 until m) {\n            val u = arr[2 + 2 * i]\n            val v = arr[2 + 2 * i + 1]\n            if (u in 0 until n && v in 0 until n) {\n                adj[u][v] = true\n                adj[v][u] = true\n            }\n        }\n\n        var count = 0\n        for (i in 0 until n) {\n            for (j in i + 1 until n) {\n                if (adj[i][j]) {\n                    for (k in j + 1 until n) {\n                        if (adj[j][k] && adj[k][i]) {\n                            count++\n                        }\n                    }\n                }\n            }\n        }\n\n        return count\n    }\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "counting_triangles.py",
+          "content": "def counting_triangles(arr):\n    if len(arr) < 2:\n        return 0\n    n = arr[0]\n    m = arr[1]\n    \n    if len(arr) < 2 + 2 * m:\n        return 0\n    if n < 3:\n        return 0\n        \n    adj = [[False] * n for _ in range(n)]\n    for i in range(m):\n        u = arr[2 + 2 * i]\n        v = arr[2 + 2 * i + 1]\n        if 0 <= u < n and 0 <= v < n:\n            adj[u][v] = True\n            adj[v][u] = True\n            \n    count = 0\n    for i in range(n):\n        for j in range(i + 1, n):\n            if adj[i][j]:\n                for k in range(j + 1, n):\n                    if adj[j][k] and adj[k][i]:\n                        count += 1\n                        \n    return count\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "counting_triangles.rs",
+          "content": "pub fn counting_triangles(arr: &[i32]) -> i32 {\n    if arr.len() < 2 {\n        return 0;\n    }\n    let n = arr[0] as usize;\n    let m = arr[1] as usize;\n\n    if arr.len() < 2 + 2 * m {\n        return 0;\n    }\n    if n < 3 {\n        return 0;\n    }\n\n    let mut adj = vec![vec![false; n]; n];\n    for i in 0..m {\n        let u = arr[2 + 2 * i] as usize;\n        let v = arr[2 + 2 * i + 1] as usize;\n        if u < n && v < n {\n            adj[u][v] = true;\n            adj[v][u] = true;\n        }\n    }\n\n    let mut count = 0;\n    for i in 0..n {\n        for j in i + 1..n {\n            if adj[i][j] {\n                for k in j + 1..n {\n                    if adj[j][k] && adj[k][i] {\n                        count += 1;\n                    }\n                }\n            }\n        }\n    }\n\n    count\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "CountingTriangles.scala",
+          "content": "package algorithms.graph.countingtriangles\n\nobject CountingTriangles {\n  def solve(arr: Array[Int]): Int = {\n    if (arr.length < 2) return 0\n    val n = arr(0)\n    val m = arr(1)\n\n    if (arr.length < 2 + 2 * m) return 0\n    if (n < 3) return 0\n\n    val adj = Array.ofDim[Boolean](n, n)\n    for (i <- 0 until m) {\n      val u = arr(2 + 2 * i)\n      val v = arr(2 + 2 * i + 1)\n      if (u >= 0 && u < n && v >= 0 && v < n) {\n        adj(u)(v) = true\n        adj(v)(u) = true\n      }\n    }\n\n    var count = 0\n    for (i <- 0 until n) {\n      for (j <- i + 1 until n) {\n        if (adj(i)(j)) {\n          for (k <- j + 1 until n) {\n            if (adj(j)(k) && adj(k)(i)) {\n              count += 1\n            }\n          }\n        }\n      }\n    }\n\n    count\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "CountingTriangles.swift",
+          "content": "class CountingTriangles {\n    static func solve(_ arr: [Int]) -> Int {\n        if arr.count < 2 { return 0 }\n        let n = arr[0]\n        let m = arr[1]\n        \n        if arr.count < 2 + 2 * m { return 0 }\n        if n < 3 { return 0 }\n        \n        var adj = [[Bool]](repeating: [Bool](repeating: false, count: n), count: n)\n        for i in 0..<m {\n            let u = arr[2 + 2 * i]\n            let v = arr[2 + 2 * i + 1]\n            if u >= 0 && u < n && v >= 0 && v < n {\n                adj[u][v] = true\n                adj[v][u] = true\n            }\n        }\n        \n        var count = 0\n        for i in 0..<n {\n            for j in i+1..<n {\n                if adj[i][j] {\n                    for k in j+1..<n {\n                        if adj[j][k] && adj[k][i] {\n                            count += 1\n                        }\n                    }\n                }\n            }\n        }\n        \n        return count\n    }\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "counting-triangles.ts",
+          "content": "export function countingTriangles(arr: number[]): number {\n  if (arr.length < 2) return 0;\n  const n = arr[0];\n  const m = arr[1];\n\n  if (arr.length < 2 + 2 * m) return 0;\n  if (n < 3) return 0;\n\n  const adj: boolean[][] = Array.from({ length: n }, () => Array(n).fill(false));\n  for (let i = 0; i < m; i++) {\n    const u = arr[2 + 2 * i];\n    const v = arr[2 + 2 * i + 1];\n    if (u >= 0 && u < n && v >= 0 && v < n) {\n      adj[u][v] = true;\n      adj[v][u] = true;\n    }\n  }\n\n  let count = 0;\n  for (let i = 0; i < n; i++) {\n    for (let j = i + 1; j < n; j++) {\n      if (adj[i][j]) {\n        for (let k = j + 1; k < n; k++) {\n          if (adj[j][k] && adj[k][i]) {\n            count++;\n          }\n        }\n      }\n    }\n  }\n\n  return count;\n}\n"
+        },
+        {
+          "filename": "countingTriangles.ts",
+          "content": "export function countingTriangles(data: number[]): number {\n    const n = data[0];\n    const m = data[1];\n\n    const adj: boolean[][] = Array.from({ length: n }, () => new Array(n).fill(false));\n    let idx = 2;\n    for (let e = 0; e < m; e++) {\n        const u = data[idx], v = data[idx + 1];\n        adj[u][v] = true;\n        adj[v][u] = true;\n        idx += 2;\n    }\n\n    let count = 0;\n    for (let i = 0; i < n; i++) {\n        for (let j = i + 1; j < n; j++) {\n            if (adj[i][j]) {\n                for (let k = j + 1; k < n; k++) {\n                    if (adj[j][k] && adj[i][k]) {\n                        count++;\n                    }\n                }\n            }\n        }\n    }\n\n    return count;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Counting Triangles\n\n## Overview\n\nCounting Triangles determines the number of triangles (3-cliques) in an undirected graph. A triangle is a set of three vertices that are all mutually connected. This problem has applications in social network analysis, clustering coefficient computation, and graph structure analysis.\n\n## How It Works\n\n1. Build an adjacency matrix from the edge list.\n2. For every triple of vertices (i, j, k) where i < j < k:\n   - Check if edges (i,j), (j,k), and (i,k) all exist.\n   - If so, increment the triangle count.\n3. Return the total count.\n\nInput format: [n, m, u1, v1, u2, v2, ...] where n = nodes, m = edges, followed by m pairs of edges (0-indexed).\n\n## Complexity Analysis\n\n| Case    | Time   | Space  |\n|---------|--------|--------|\n| Best    | O(V^3) | O(V^2) |\n| Average | O(V^3) | O(V^2) |\n| Worst   | O(V^3) | O(V^2) |\n\n## Worked Example\n\nConsider a graph with 5 vertices and 7 edges:\n\n```\n    0 --- 1\n    |\\ /|\n    | X  |\n    |/ \\|\n    2 --- 3\n     \\  /\n      4\n```\n\nEdges: 0-1, 0-2, 0-3, 1-2, 1-3, 2-3, 2-4.\n\n**Check all triples (i < j < k):**\n\n| Triple | (i,j)? | (j,k)? | (i,k)? | Triangle? |\n|--------|--------|--------|--------|-----------|\n| (0,1,2) | 0-1 yes | 1-2 yes | 0-2 yes | Yes |\n| (0,1,3) | 0-1 yes | 1-3 yes | 0-3 yes | Yes |\n| (0,1,4) | 0-1 yes | 1-4 no | -- | No |\n| (0,2,3) | 0-2 yes | 2-3 yes | 0-3 yes | Yes |\n| (0,2,4) | 0-2 yes | 2-4 yes | 0-4 no | No |\n| (0,3,4) | 0-3 yes | 3-4 no | -- | No |\n| (1,2,3) | 1-2 yes | 2-3 yes | 1-3 yes | Yes |\n| (1,2,4) | 1-2 yes | 2-4 yes | 1-4 no | No |\n| (1,3,4) | 1-3 yes | 3-4 no | -- | No |\n| (2,3,4) | 2-3 yes | 3-4 no | -- | No |\n\n**Total triangles = 4**: {0,1,2}, {0,1,3}, {0,2,3}, {1,2,3}.\n\n## Pseudocode\n\n```\nfunction countTriangles(n, edges):\n    // Build adjacency matrix\n    adj = n x n matrix, initialized to false\n    for each edge (u, v) in edges:\n        adj[u][v] = true\n        adj[v][u] = true\n\n    count = 0\n    for i = 0 to n-2:\n        for j = i+1 to n-1:\n            if not adj[i][j]: continue\n            for k = j+1 to n-1:\n                if adj[j][k] AND adj[i][k]:\n                    count++\n\n    return count\n```\n\n## When to Use\n\n- **Social network analysis**: Computing the clustering coefficient of a network, which measures the tendency of nodes to cluster together\n- **Community detection**: Triangles indicate tightly-knit communities in networks\n- **Spam detection**: In web link graphs, spam farms tend to have unusual triangle density\n- **Network motif analysis**: Triangles are the simplest non-trivial motif in network science\n- **Small to medium graphs**: When the graph fits in memory as an adjacency matrix\n\n## When NOT to Use\n\n- **Very large sparse graphs**: The O(V^3) brute-force approach is too slow; use matrix multiplication-based methods (O(V^(2.373))) or edge-iterator methods (O(E^(3/2)))\n- **Approximate counts suffice**: For very large graphs, sampling-based approximation (e.g., Doulion or TRIEST) provides estimates much faster\n- **Streaming graphs**: For graphs arriving as edge streams, use streaming triangle counting algorithms\n- **Directed graphs**: This algorithm counts triangles in undirected graphs; directed triangle counting requires tracking edge directions\n\n## Comparison\n\n| Algorithm | Time | Space | Notes |\n|-----------|------|-------|-------|\n| Brute-force triple check (this) | O(V^3) | O(V^2) | Simple, uses adjacency matrix |\n| Edge-iterator | O(E * sqrt(E)) | O(V + E) | Better for sparse graphs |\n| Matrix multiplication | O(V^(2.373)) | O(V^2) | Theoretically fastest, large constants |\n| Node-iterator (sorted by degree) | O(E * d_max) | O(V + E) | Practical for power-law graphs |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [counting_triangles.py](python/counting_triangles.py) |\n| Java       | [CountingTriangles.java](java/CountingTriangles.java) |\n| C++        | [counting_triangles.cpp](cpp/counting_triangles.cpp) |\n| C          | [counting_triangles.c](c/counting_triangles.c) |\n| Go         | [counting_triangles.go](go/counting_triangles.go) |\n| TypeScript | [countingTriangles.ts](typescript/countingTriangles.ts) |\n| Rust       | [counting_triangles.rs](rust/counting_triangles.rs) |\n| Kotlin     | [CountingTriangles.kt](kotlin/CountingTriangles.kt) |\n| Swift      | [CountingTriangles.swift](swift/CountingTriangles.swift) |\n| Scala      | [CountingTriangles.scala](scala/CountingTriangles.scala) |\n| C#         | [CountingTriangles.cs](csharp/CountingTriangles.cs) |\n\n## References\n\n- [Triangle-free graph -- Wikipedia](https://en.wikipedia.org/wiki/Triangle-free_graph)\n"
+}

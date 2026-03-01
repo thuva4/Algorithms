@@ -1,0 +1,130 @@
+{
+  "name": "Dungeon Game",
+  "slug": "dungeon-game",
+  "category": "dynamic-programming",
+  "subcategory": "grid",
+  "difficulty": "advanced",
+  "tags": [
+    "dynamic-programming",
+    "grid",
+    "pathfinding",
+    "bottom-up"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(mn)",
+      "average": "O(mn)",
+      "worst": "O(mn)"
+    },
+    "space": "O(mn)"
+  },
+  "stable": null,
+  "in_place": null,
+  "related": [
+    "knapsack",
+    "edit-distance"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "dungeongame.c",
+          "content": "#include <stdio.h>\n#include <stdlib.h>\n\nint min(int a, int b) { return (a < b) ? a : b; }\nint max(int a, int b) { return (a > b) ? a : b; }\n\nint dungeon_game(int **grid, int m, int n) {\n    int **dp = (int **)malloc(m * sizeof(int *));\n    for (int i = 0; i < m; i++)\n        dp[i] = (int *)malloc(n * sizeof(int));\n\n    for (int i = m - 1; i >= 0; i--) {\n        for (int j = n - 1; j >= 0; j--) {\n            if (i == m - 1 && j == n - 1) {\n                dp[i][j] = min(0, grid[i][j]);\n            } else if (i == m - 1) {\n                dp[i][j] = min(0, grid[i][j] + dp[i][j + 1]);\n            } else if (j == n - 1) {\n                dp[i][j] = min(0, grid[i][j] + dp[i + 1][j]);\n            } else {\n                dp[i][j] = min(0, grid[i][j] + max(dp[i][j + 1], dp[i + 1][j]));\n            }\n        }\n    }\n\n    int result = abs(dp[0][0]) + 1;\n\n    for (int i = 0; i < m; i++)\n        free(dp[i]);\n    free(dp);\n\n    return result;\n}\n\nint main() {\n    int rows = 3, cols = 3;\n    int data[3][3] = {{-2, -3, 3}, {-5, -10, 1}, {10, 30, -5}};\n\n    int **grid = (int **)malloc(rows * sizeof(int *));\n    for (int i = 0; i < rows; i++) {\n        grid[i] = (int *)malloc(cols * sizeof(int));\n        for (int j = 0; j < cols; j++)\n            grid[i][j] = data[i][j];\n    }\n\n    printf(\"%d\\n\", dungeon_game(grid, rows, cols)); // 7\n\n    for (int i = 0; i < rows; i++)\n        free(grid[i]);\n    free(grid);\n\n    return 0;\n}\n\nint dungeonGame(int arr[], int size) {\n    if (size <= 0) {\n        return 1;\n    }\n\n    int rows = 1;\n    int cols = size;\n    for (int candidate = 1; candidate * candidate <= size; candidate++) {\n        if (size % candidate == 0) {\n            rows = candidate;\n            cols = size / candidate;\n        }\n    }\n\n    int **grid = (int **)malloc(rows * sizeof(int *));\n    if (!grid) {\n        return 1;\n    }\n\n    for (int i = 0; i < rows; i++) {\n        grid[i] = (int *)malloc(cols * sizeof(int));\n        if (!grid[i]) {\n            for (int j = 0; j < i; j++) {\n                free(grid[j]);\n            }\n            free(grid);\n            return 1;\n        }\n        for (int j = 0; j < cols; j++) {\n            grid[i][j] = arr[(i * cols) + j];\n        }\n    }\n\n    int result = dungeon_game(grid, rows, cols);\n\n    for (int i = 0; i < rows; i++) {\n        free(grid[i]);\n    }\n    free(grid);\n\n    return result;\n}\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "DungeonGame.cpp",
+          "content": "//Dynamic Programming approach\n//Time complexity: O(m*n)\n//Space complexity: O(m*n)\n//bottom-up DP approach\n\n#include<bits/stdc++.h> \nusing namespace std;\n\nint dungeonGame(vector<vector<int>> dungeon) \n{\n    int m = dungeon.size();\n    if(m==0)                //empty dungeon\n        return 0;\n\n    int n = dungeon[0].size();\n        \n    //dp[i][j] --> min health req to reach the princess with starting cell as (i,j) -1\n    vector<vector<int> > dp(m, vector<int>(n));\n\n    for (int i = m-1; i>=0; i--)          //traversing the array from bottom\n    {\n        for (int j = n-1; j>=0; j--)\n        {\n            //if starting from last cell, \n            //if value at last cell is -ve, health req. is 1+abs(value)\n            //if value at last cell is +ve, health req. is 0+1\n            if (i == m-1 && j == n-1)     \n            {\n                dp[i][j] = min(0, dungeon[i][j]);\n            }\n\n            //if starting from last row,\n            //total health req. is sum of curr cell value and health req. at next cell\n            //if the sum is +ve, health req. is 0+1\n            //if the sum is -ve, health req. is 1+abs(sum)\n            else if (i == m-1)\n            {\n                dp[i][j] = min(0, dungeon[i][j]+dp[i][j+1]);\n            }\n\n            //if starting from last column,\n            //total health req. is sum of curr cell value and health req. at next cell\n            //if the sum is +ve, health req. is 0+1\n            //if the sum is -ve, health req. is 1+abs(sum)\n            else if (j == n-1)\n            {\n                dp[i][j] = min(0, dungeon[i][j]+dp[i+1][j]);\n            }\n\n            //if starting from any other cell,\n            //make a choice to go to the cell with less req. health(more positive dp value) after the curr cell\n            //the req. health is either 0 or sum of the curr cell value and health req. at next chosen cell\n            else\n            {\n                dp[i][j] = min(0, dungeon[i][j]+max(dp[i][j+1],dp[i+1][j]));\n            }\n        }\n    }\n    //actual starting point is (0,0), so return abs(dp(0,0))+1\n    //1 is added because the knight needs to have atleast 1 health to survive, else he will die\n    return abs(dp[0][0])+1;\n}\n\nint main() \n{ \n    int m, n;     //No.of rows and columns in dungeon\n    cin>>m>>n;\n\n    vector<vector<int>> dungeon;\n    for(int i=0; i<m; i++)\n        for(int j=0; j<n; j++)\n            cin>>dungeon[i][j];\n    \n    cout << \"Minimum health required = \"<< dungeonGame(dungeon); \n    return 0; \n} \n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "DungeonGame.cs",
+          "content": "using System;\n\npublic class DungeonGame\n{\n    public static int Solve(int[][] grid)\n    {\n        int m = grid.Length;\n        if (m == 0) return 0;\n        int n = grid[0].Length;\n\n        int[][] dp = new int[m][];\n        for (int i = 0; i < m; i++)\n            dp[i] = new int[n];\n\n        for (int i = m - 1; i >= 0; i--)\n        {\n            for (int j = n - 1; j >= 0; j--)\n            {\n                if (i == m - 1 && j == n - 1)\n                    dp[i][j] = Math.Min(0, grid[i][j]);\n                else if (i == m - 1)\n                    dp[i][j] = Math.Min(0, grid[i][j] + dp[i][j + 1]);\n                else if (j == n - 1)\n                    dp[i][j] = Math.Min(0, grid[i][j] + dp[i + 1][j]);\n                else\n                    dp[i][j] = Math.Min(0, grid[i][j] + Math.Max(dp[i][j + 1], dp[i + 1][j]));\n            }\n        }\n\n        return Math.Abs(dp[0][0]) + 1;\n    }\n\n    static void Main(string[] args)\n    {\n        int[][] grid = new int[][] {\n            new int[] {-2, -3, 3},\n            new int[] {-5, -10, 1},\n            new int[] {10, 30, -5}\n        };\n        Console.WriteLine(Solve(grid)); // 7\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "DungeonGame.go",
+          "content": "package main\n\nimport \"fmt\"\n\nfunc min(a, b int) int {\n\tif a < b {\n\t\treturn a\n\t}\n\treturn b\n}\n\nfunc max(a, b int) int {\n\tif a > b {\n\t\treturn a\n\t}\n\treturn b\n}\n\nfunc abs(a int) int {\n\tif a < 0 {\n\t\treturn -a\n\t}\n\treturn a\n}\n\nfunc dungeonGame(grid [][]int) int {\n\tm := len(grid)\n\tif m == 0 {\n\t\treturn 0\n\t}\n\tn := len(grid[0])\n\n\tdp := make([][]int, m)\n\tfor i := range dp {\n\t\tdp[i] = make([]int, n)\n\t}\n\n\tfor i := m - 1; i >= 0; i-- {\n\t\tfor j := n - 1; j >= 0; j-- {\n\t\t\tif i == m-1 && j == n-1 {\n\t\t\t\tdp[i][j] = min(0, grid[i][j])\n\t\t\t} else if i == m-1 {\n\t\t\t\tdp[i][j] = min(0, grid[i][j]+dp[i][j+1])\n\t\t\t} else if j == n-1 {\n\t\t\t\tdp[i][j] = min(0, grid[i][j]+dp[i+1][j])\n\t\t\t} else {\n\t\t\t\tdp[i][j] = min(0, grid[i][j]+max(dp[i][j+1], dp[i+1][j]))\n\t\t\t}\n\t\t}\n\t}\n\n\treturn abs(dp[0][0]) + 1\n}\n\nfunc main() {\n\tgrid := [][]int{\n\t\t{-2, -3, 3},\n\t\t{-5, -10, 1},\n\t\t{10, 30, -5},\n\t}\n\tfmt.Println(dungeonGame(grid)) // 7\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "DungeonGame.java",
+          "content": "public class DungeonGame {\n\n    public static int dungeonGame(int[][] grid) {\n        int m = grid.length;\n        if (m == 0) return 0;\n        int n = grid[0].length;\n\n        int[][] dp = new int[m][n];\n\n        for (int i = m - 1; i >= 0; i--) {\n            for (int j = n - 1; j >= 0; j--) {\n                if (i == m - 1 && j == n - 1) {\n                    dp[i][j] = Math.min(0, grid[i][j]);\n                } else if (i == m - 1) {\n                    dp[i][j] = Math.min(0, grid[i][j] + dp[i][j + 1]);\n                } else if (j == n - 1) {\n                    dp[i][j] = Math.min(0, grid[i][j] + dp[i + 1][j]);\n                } else {\n                    dp[i][j] = Math.min(0, grid[i][j] + Math.max(dp[i][j + 1], dp[i + 1][j]));\n                }\n            }\n        }\n\n        return Math.abs(dp[0][0]) + 1;\n    }\n\n    public static void main(String[] args) {\n        int[][] grid = {\n            {-2, -3, 3},\n            {-5, -10, 1},\n            {10, 30, -5}\n        };\n        System.out.println(dungeonGame(grid)); // 7\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "DungeonGame.kt",
+          "content": "import kotlin.math.abs\nimport kotlin.math.max\nimport kotlin.math.min\n\nfun dungeonGame(grid: Array<IntArray>): Int {\n    val m = grid.size\n    if (m == 0) return 0\n    val n = grid[0].size\n\n    val dp = Array(m) { IntArray(n) }\n\n    for (i in m - 1 downTo 0) {\n        for (j in n - 1 downTo 0) {\n            dp[i][j] = when {\n                i == m - 1 && j == n - 1 -> min(0, grid[i][j])\n                i == m - 1 -> min(0, grid[i][j] + dp[i][j + 1])\n                j == n - 1 -> min(0, grid[i][j] + dp[i + 1][j])\n                else -> min(0, grid[i][j] + max(dp[i][j + 1], dp[i + 1][j]))\n            }\n        }\n    }\n\n    return abs(dp[0][0]) + 1\n}\n\nfun main() {\n    val grid = arrayOf(\n        intArrayOf(-2, -3, 3),\n        intArrayOf(-5, -10, 1),\n        intArrayOf(10, 30, -5)\n    )\n    println(dungeonGame(grid)) // 7\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "dungeon_game.py",
+          "content": "def dungeon_game(grid):\n    m = len(grid)\n    if m == 0:\n        return 0\n    n = len(grid[0])\n\n    dp = [[0] * n for _ in range(m)]\n\n    for i in range(m - 1, -1, -1):\n        for j in range(n - 1, -1, -1):\n            if i == m - 1 and j == n - 1:\n                dp[i][j] = min(0, grid[i][j])\n            elif i == m - 1:\n                dp[i][j] = min(0, grid[i][j] + dp[i][j + 1])\n            elif j == n - 1:\n                dp[i][j] = min(0, grid[i][j] + dp[i + 1][j])\n            else:\n                dp[i][j] = min(0, grid[i][j] + max(dp[i][j + 1], dp[i + 1][j]))\n\n    return abs(dp[0][0]) + 1\n\n\nif __name__ == \"__main__\":\n    grid = [[-2, -3, 3], [-5, -10, 1], [10, 30, -5]]\n    print(dungeon_game(grid))  # 7\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "dungeon_game.rs",
+          "content": "use std::cmp;\n\npub fn dungeon_game(grid: &Vec<Vec<i32>>) -> i32 {\n    let m = grid.len();\n    if m == 0 {\n        return 0;\n    }\n    let n = grid[0].len();\n\n    let mut dp = vec![vec![0i32; n]; m];\n\n    for i in (0..m).rev() {\n        for j in (0..n).rev() {\n            if i == m - 1 && j == n - 1 {\n                dp[i][j] = cmp::min(0, grid[i][j]);\n            } else if i == m - 1 {\n                dp[i][j] = cmp::min(0, grid[i][j] + dp[i][j + 1]);\n            } else if j == n - 1 {\n                dp[i][j] = cmp::min(0, grid[i][j] + dp[i + 1][j]);\n            } else {\n                dp[i][j] = cmp::min(0, grid[i][j] + cmp::max(dp[i][j + 1], dp[i + 1][j]));\n            }\n        }\n    }\n\n    dp[0][0].abs() + 1\n}\n\nfn main() {\n    let grid = vec![\n        vec![-2, -3, 3],\n        vec![-5, -10, 1],\n        vec![10, 30, -5],\n    ];\n    println!(\"{}\", dungeon_game(&grid)); // 7\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "DungeonGame.scala",
+          "content": "object DungeonGame {\n\n  def dungeonGame(grid: Array[Array[Int]]): Int = {\n    val m = grid.length\n    if (m == 0) return 0\n    val n = grid(0).length\n\n    val dp = Array.ofDim[Int](m, n)\n\n    for (i <- (0 until m).reverse) {\n      for (j <- (0 until n).reverse) {\n        if (i == m - 1 && j == n - 1) {\n          dp(i)(j) = math.min(0, grid(i)(j))\n        } else if (i == m - 1) {\n          dp(i)(j) = math.min(0, grid(i)(j) + dp(i)(j + 1))\n        } else if (j == n - 1) {\n          dp(i)(j) = math.min(0, grid(i)(j) + dp(i + 1)(j))\n        } else {\n          dp(i)(j) = math.min(0, grid(i)(j) + math.max(dp(i)(j + 1), dp(i + 1)(j)))\n        }\n      }\n    }\n\n    math.abs(dp(0)(0)) + 1\n  }\n\n  def main(args: Array[String]): Unit = {\n    val grid = Array(\n      Array(-2, -3, 3),\n      Array(-5, -10, 1),\n      Array(10, 30, -5)\n    )\n    println(dungeonGame(grid)) // 7\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "DungeonGame.swift",
+          "content": "func dungeonGame(_ grid: [[Int]]) -> Int {\n    let m = grid.count\n    if m == 0 { return 0 }\n    let n = grid[0].count\n\n    var dp = Array(repeating: Array(repeating: 0, count: n), count: m)\n\n    for i in stride(from: m - 1, through: 0, by: -1) {\n        for j in stride(from: n - 1, through: 0, by: -1) {\n            if i == m - 1 && j == n - 1 {\n                dp[i][j] = min(0, grid[i][j])\n            } else if i == m - 1 {\n                dp[i][j] = min(0, grid[i][j] + dp[i][j + 1])\n            } else if j == n - 1 {\n                dp[i][j] = min(0, grid[i][j] + dp[i + 1][j])\n            } else {\n                dp[i][j] = min(0, grid[i][j] + max(dp[i][j + 1], dp[i + 1][j]))\n            }\n        }\n    }\n\n    return abs(dp[0][0]) + 1\n}\n\nlet grid = [[-2, -3, 3], [-5, -10, 1], [10, 30, -5]]\nprint(dungeonGame(grid)) // 7\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "dungeonGame.ts",
+          "content": "export function dungeonGame(grid: number[][]): number {\n    const m = grid.length;\n    if (m === 0) return 0;\n    const n = grid[0].length;\n\n    const dp: number[][] = Array.from({ length: m }, () => Array(n).fill(0));\n\n    for (let i = m - 1; i >= 0; i--) {\n        for (let j = n - 1; j >= 0; j--) {\n            if (i === m - 1 && j === n - 1) {\n                dp[i][j] = Math.min(0, grid[i][j]);\n            } else if (i === m - 1) {\n                dp[i][j] = Math.min(0, grid[i][j] + dp[i][j + 1]);\n            } else if (j === n - 1) {\n                dp[i][j] = Math.min(0, grid[i][j] + dp[i + 1][j]);\n            } else {\n                dp[i][j] = Math.min(0, grid[i][j] + Math.max(dp[i][j + 1], dp[i + 1][j]));\n            }\n        }\n    }\n\n    return Math.abs(dp[0][0]) + 1;\n}\n\nconst grid = [[-2, -3, 3], [-5, -10, 1], [10, 30, -5]];\nconsole.log(dungeonGame(grid)); // 7\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "readme": "# Dungeon Game\n\n## Overview\n\nThe Dungeon Game is a dynamic programming problem where a knight must travel from the top-left corner to the bottom-right corner of an m x n grid (dungeon). Each cell contains an integer representing either health gained (positive) or damage taken (negative). The knight starts with some initial health points and must maintain at least 1 health point at all times. The goal is to determine the minimum initial health required for the knight to reach the destination alive.\n\nThis problem is notable because it requires bottom-up DP processing from the destination back to the start, rather than the more common top-down direction. A forward approach fails because the minimum health depends on future cells, not just past ones.\n\n## How It Works\n\nThe algorithm builds a 2D table where `dp[i][j]` represents the minimum health the knight needs when entering cell (i, j) to be able to reach the destination. Starting from the bottom-right corner and working backward, at each cell we determine how much health is needed to survive the current cell and have enough to proceed. The knight can only move right or down.\n\n### Example\n\nGiven dungeon grid:\n\n```\n+-------+-------+-------+\n| -2(S) |  -3   |   3   |\n+-------+-------+-------+\n|  -5   | -10   |   1   |\n+-------+-------+-------+\n|  10   |  30   | -5(P) |\n+-------+-------+-------+\n```\n(S = Start, P = Princess/destination)\n\n**Building the DP table (right-to-left, bottom-to-top):**\n\n| Step | Cell | Grid Value | Min from right | Min from below | Need here | dp[i][j] |\n|------|------|-----------|---------------|---------------|-----------|----------|\n| 1 | (2,2) | -5 | - | - | 1-(-5)=6 | 6 |\n| 2 | (2,1) | 30 | 6 | - | 6-30=-24, min 1 | 1 |\n| 3 | (2,0) | 10 | 1 | - | 1-10=-9, min 1 | 1 |\n| 4 | (1,2) | 1 | - | 6 | 6-1=5 | 5 |\n| 5 | (1,1) | -10 | 5 | 1 | min(5,1)+10=11 | 11 |\n| 6 | (1,0) | -5 | 11 | 1 | min(11,1)+5=6 | 6 |\n| 7 | (0,2) | 3 | - | 5 | 5-3=2 | 2 |\n| 8 | (0,1) | -3 | 2 | 11 | min(2,11)+3=5 | 5 |\n| 9 | (0,0) | -2 | 5 | 6 | min(5,6)+2=7 | 7 |\n\n**DP table result:**\n\n|  7 |  5 | 2 |\n|----|----|----|\n|  6 | 11 | 5 |\n|  1 |  1 | 6 |\n\nResult: Minimum initial health = `7`\n\n**Verification:** Path (0,0) -> (1,0) -> (2,0) -> (2,1) -> (2,2):\n- Start: 7, cell -2: 7-2=5, cell -5: 5-5=0... That fails. Best path: (0,0) -> (0,1) -> (0,2) -> (1,2) -> (2,2):\n- Start: 7, cell -2: 5, cell -3: 2, cell 3: 5, cell 1: 6, cell -5: 1. Survives with 1 HP.\n\n## Pseudocode\n\n```\nfunction dungeonGame(dungeon):\n    m = rows(dungeon)\n    n = cols(dungeon)\n    dp = 2D array of size m x n\n\n    // Base case: destination cell\n    dp[m-1][n-1] = max(1 - dungeon[m-1][n-1], 1)\n\n    // Last column (can only go down)\n    for i from m - 2 down to 0:\n        dp[i][n-1] = max(dp[i+1][n-1] - dungeon[i][n-1], 1)\n\n    // Last row (can only go right)\n    for j from n - 2 down to 0:\n        dp[m-1][j] = max(dp[m-1][j+1] - dungeon[m-1][j], 1)\n\n    // Fill remaining cells\n    for i from m - 2 down to 0:\n        for j from n - 2 down to 0:\n            min_health_on_exit = min(dp[i+1][j], dp[i][j+1])\n            dp[i][j] = max(min_health_on_exit - dungeon[i][j], 1)\n\n    return dp[0][0]\n```\n\nThe key insight is processing in reverse: at each cell, we know the minimum health needed upon leaving (the minimum of going right or down), and we compute the minimum health needed upon entering by subtracting the cell's value (adding damage or subtracting healing).\n\n## Complexity Analysis\n\n| Case    | Time   | Space  |\n|---------|--------|--------|\n| Best    | O(mn)  | O(mn)  |\n| Average | O(mn)  | O(mn)  |\n| Worst   | O(mn)  | O(mn)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(mn):** Every cell in the grid must be processed to determine the optimal path. The algorithm fills the entire m x n DP table.\n\n- **Average Case -- O(mn):** Each cell computation requires O(1) work: a min of two neighbors, a subtraction, and a max with 1. Total: m * n constant-time operations.\n\n- **Worst Case -- O(mn):** The computation is uniform for all inputs. No grid configuration can reduce or increase the work beyond O(mn).\n\n- **Space -- O(mn):** The DP table has the same dimensions as the input grid. This can be optimized to O(n) by processing one row at a time from bottom to top.\n\n## When to Use\n\n- **Grid pathfinding with survival constraints:** When traversing a grid where you must maintain a minimum resource level throughout the path.\n- **Minimum starting resource problems:** Problems where you need to determine the initial resources required to complete a journey.\n- **When the path must go only right/down:** The algorithm is designed for monotonically directed paths in a grid.\n- **Game design:** Computing difficulty levels or minimum health requirements for game characters.\n\n## When NOT to Use\n\n- **When movement is unrestricted:** If the knight can move in all four directions, BFS/Dijkstra-based approaches are needed.\n- **When you need the actual path, not just the minimum health:** Additional backtracking logic is required.\n- **Very large grids with sparse interesting cells:** Graph-based approaches may be more efficient.\n- **When health can drop to zero and be restored:** The problem assumes health must always stay at 1 or above.\n\n## Comparison with Similar Algorithms\n\n| Algorithm          | Time   | Space  | Notes                                          |\n|-------------------|--------|--------|------------------------------------------------|\n| Dungeon Game (DP)  | O(mn)  | O(mn)  | Backward DP; minimum starting health            |\n| Minimum Path Sum   | O(mn)  | O(mn)  | Forward DP; minimum total cost                   |\n| 0/1 Knapsack       | O(nW)  | O(nW)  | Different structure; weight capacity constraint  |\n| Dijkstra's         | O(V log V) | O(V) | For general graphs with non-negative weights   |\n\n## Implementations\n\n| Language | File |\n|----------|------|\n| C++      | [DungeonGame.cpp](cpp/DungeonGame.cpp) |\n\n## References\n\n- [Dungeon Game -- LeetCode Problem 174](https://leetcode.com/problems/dungeon-game/)\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 15: Dynamic Programming.\n- [Dynamic Programming on Grids -- Wikipedia](https://en.wikipedia.org/wiki/Dynamic_programming)\n"
+}

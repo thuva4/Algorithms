@@ -1,0 +1,135 @@
+{
+  "name": "Maximum Bipartite Matching (Kuhn's Algorithm)",
+  "slug": "maximum-bipartite-matching",
+  "category": "graph",
+  "subcategory": "matching",
+  "difficulty": "intermediate",
+  "tags": [
+    "graph",
+    "bipartite",
+    "matching",
+    "augmenting-path",
+    "kuhn"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(V * E)",
+      "average": "O(V * E)",
+      "worst": "O(V * E)"
+    },
+    "space": "O(V + E)"
+  },
+  "stable": null,
+  "in_place": false,
+  "related": [
+    "bipartite-matching",
+    "bipartite-check"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "maximum_bipartite_matching.c",
+          "content": "#include \"maximum_bipartite_matching.h\"\n#include <string.h>\n\n#define MAX_V 500\nstatic int adj[MAX_V][MAX_V], adj_count[MAX_V];\nstatic int match_right[MAX_V], visited[MAX_V];\n\nstatic int dfs(int u) {\n    for (int i = 0; i < adj_count[u]; i++) {\n        int v = adj[u][i];\n        if (!visited[v]) {\n            visited[v] = 1;\n            if (match_right[v] == -1 || dfs(match_right[v])) {\n                match_right[v] = u;\n                return 1;\n            }\n        }\n    }\n    return 0;\n}\n\nint maximum_bipartite_matching(int arr[], int size) {\n    int nLeft = arr[0], nRight = arr[1], m = arr[2];\n    memset(adj_count, 0, sizeof(int) * nLeft);\n    memset(match_right, -1, sizeof(int) * nRight);\n    for (int i = 0; i < m; i++) {\n        int u = arr[3 + 2 * i], v = arr[3 + 2 * i + 1];\n        adj[u][adj_count[u]++] = v;\n    }\n    int result = 0;\n    for (int u = 0; u < nLeft; u++) {\n        memset(visited, 0, sizeof(int) * nRight);\n        if (dfs(u)) result++;\n    }\n    return result;\n}\n"
+        },
+        {
+          "filename": "maximum_bipartite_matching.h",
+          "content": "#ifndef MAXIMUM_BIPARTITE_MATCHING_H\n#define MAXIMUM_BIPARTITE_MATCHING_H\n\nint maximum_bipartite_matching(int arr[], int size);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "maximum_bipartite_matching.cpp",
+          "content": "#include <vector>\n#include <cstring>\nusing namespace std;\n\nstatic vector<vector<int>> adj_mbm;\nstatic vector<int> matchRight_mbm;\n\nstatic bool dfs_mbm(int u, vector<bool>& visited) {\n    for (int v : adj_mbm[u]) {\n        if (!visited[v]) {\n            visited[v] = true;\n            if (matchRight_mbm[v] == -1 || dfs_mbm(matchRight_mbm[v], visited)) {\n                matchRight_mbm[v] = u;\n                return true;\n            }\n        }\n    }\n    return false;\n}\n\nint maximum_bipartite_matching(vector<int> arr) {\n    int nLeft = arr[0], nRight = arr[1], m = arr[2];\n    adj_mbm.assign(nLeft, vector<int>());\n    for (int i = 0; i < m; i++) {\n        adj_mbm[arr[3 + 2 * i]].push_back(arr[3 + 2 * i + 1]);\n    }\n    matchRight_mbm.assign(nRight, -1);\n    int result = 0;\n    for (int u = 0; u < nLeft; u++) {\n        vector<bool> visited(nRight, false);\n        if (dfs_mbm(u, visited)) result++;\n    }\n    return result;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "MaximumBipartiteMatching.cs",
+          "content": "using System;\nusing System.Collections.Generic;\n\npublic class MaximumBipartiteMatching\n{\n    private static List<int>[] adj;\n    private static int[] matchRight;\n\n    public static int Solve(int[] arr)\n    {\n        int nLeft = arr[0], nRight = arr[1], m = arr[2];\n        adj = new List<int>[nLeft];\n        for (int i = 0; i < nLeft; i++) adj[i] = new List<int>();\n        for (int i = 0; i < m; i++) adj[arr[3 + 2 * i]].Add(arr[3 + 2 * i + 1]);\n        matchRight = new int[nRight];\n        for (int i = 0; i < nRight; i++) matchRight[i] = -1;\n        int result = 0;\n        for (int u = 0; u < nLeft; u++)\n        {\n            bool[] visited = new bool[nRight];\n            if (Dfs(u, visited)) result++;\n        }\n        return result;\n    }\n\n    private static bool Dfs(int u, bool[] visited)\n    {\n        foreach (int v in adj[u])\n        {\n            if (!visited[v])\n            {\n                visited[v] = true;\n                if (matchRight[v] == -1 || Dfs(matchRight[v], visited))\n                {\n                    matchRight[v] = u; return true;\n                }\n            }\n        }\n        return false;\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "maximum_bipartite_matching.go",
+          "content": "package maximumbipartitematching\n\nfunc MaximumBipartiteMatching(arr []int) int {\n\tnLeft := arr[0]; nRight := arr[1]; m := arr[2]\n\tadj := make([][]int, nLeft)\n\tfor i := 0; i < nLeft; i++ { adj[i] = []int{} }\n\tfor i := 0; i < m; i++ { adj[arr[3+2*i]] = append(adj[arr[3+2*i]], arr[3+2*i+1]) }\n\tmatchRight := make([]int, nRight)\n\tfor i := range matchRight { matchRight[i] = -1 }\n\n\tvar dfs func(u int, visited []bool) bool\n\tdfs = func(u int, visited []bool) bool {\n\t\tfor _, v := range adj[u] {\n\t\t\tif !visited[v] {\n\t\t\t\tvisited[v] = true\n\t\t\t\tif matchRight[v] == -1 || dfs(matchRight[v], visited) {\n\t\t\t\t\tmatchRight[v] = u; return true\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t\treturn false\n\t}\n\n\tresult := 0\n\tfor u := 0; u < nLeft; u++ {\n\t\tvisited := make([]bool, nRight)\n\t\tif dfs(u, visited) { result++ }\n\t}\n\treturn result\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "MaximumBipartiteMatching.java",
+          "content": "import java.util.*;\n\npublic class MaximumBipartiteMatching {\n\n    private static List<List<Integer>> adj;\n    private static int[] matchRight;\n\n    public static int maximumBipartiteMatching(int[] arr) {\n        int nLeft = arr[0], nRight = arr[1], m = arr[2];\n        adj = new ArrayList<>();\n        for (int i = 0; i < nLeft; i++) adj.add(new ArrayList<>());\n        for (int i = 0; i < m; i++) {\n            adj.get(arr[3 + 2 * i]).add(arr[3 + 2 * i + 1]);\n        }\n        matchRight = new int[nRight];\n        Arrays.fill(matchRight, -1);\n        int result = 0;\n        for (int u = 0; u < nLeft; u++) {\n            boolean[] visited = new boolean[nRight];\n            if (dfs(u, visited)) result++;\n        }\n        return result;\n    }\n\n    private static boolean dfs(int u, boolean[] visited) {\n        for (int v : adj.get(u)) {\n            if (!visited[v]) {\n                visited[v] = true;\n                if (matchRight[v] == -1 || dfs(matchRight[v], visited)) {\n                    matchRight[v] = u;\n                    return true;\n                }\n            }\n        }\n        return false;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "MaximumBipartiteMatching.kt",
+          "content": "fun maximumBipartiteMatching(arr: IntArray): Int {\n    val nLeft = arr[0]; val nRight = arr[1]; val m = arr[2]\n    val adj = Array(nLeft) { mutableListOf<Int>() }\n    for (i in 0 until m) adj[arr[3 + 2 * i]].add(arr[3 + 2 * i + 1])\n    val matchRight = IntArray(nRight) { -1 }\n\n    fun dfs(u: Int, visited: BooleanArray): Boolean {\n        for (v in adj[u]) {\n            if (!visited[v]) {\n                visited[v] = true\n                if (matchRight[v] == -1 || dfs(matchRight[v], visited)) {\n                    matchRight[v] = u; return true\n                }\n            }\n        }\n        return false\n    }\n\n    var result = 0\n    for (u in 0 until nLeft) {\n        val visited = BooleanArray(nRight)\n        if (dfs(u, visited)) result++\n    }\n    return result\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "maximum_bipartite_matching.py",
+          "content": "def maximum_bipartite_matching(arr: list[int]) -> int:\n    n_left = arr[0]\n    n_right = arr[1]\n    m = arr[2]\n    adj = [[] for _ in range(n_left)]\n    for i in range(m):\n        u = arr[3 + 2 * i]\n        v = arr[3 + 2 * i + 1]\n        adj[u].append(v)\n\n    match_right = [-1] * n_right\n\n    def dfs(u, visited):\n        for v in adj[u]:\n            if not visited[v]:\n                visited[v] = True\n                if match_right[v] == -1 or dfs(match_right[v], visited):\n                    match_right[v] = u\n                    return True\n        return False\n\n    result = 0\n    for u in range(n_left):\n        visited = [False] * n_right\n        if dfs(u, visited):\n            result += 1\n    return result\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "maximum_bipartite_matching.rs",
+          "content": "pub fn maximum_bipartite_matching(arr: &[i32]) -> i32 {\n    let n_left = arr[0] as usize;\n    let n_right = arr[1] as usize;\n    let m = arr[2] as usize;\n    let mut adj = vec![vec![]; n_left];\n    for i in 0..m {\n        let u = arr[3 + 2 * i] as usize;\n        let v = arr[3 + 2 * i + 1] as usize;\n        adj[u].push(v);\n    }\n    let mut match_right = vec![-1i32; n_right];\n\n    fn dfs(u: usize, adj: &[Vec<usize>], match_right: &mut [i32], visited: &mut [bool]) -> bool {\n        for &v in &adj[u] {\n            if !visited[v] {\n                visited[v] = true;\n                if match_right[v] == -1 || dfs(match_right[v] as usize, adj, match_right, visited) {\n                    match_right[v] = u as i32;\n                    return true;\n                }\n            }\n        }\n        false\n    }\n\n    let mut result = 0i32;\n    for u in 0..n_left {\n        let mut visited = vec![false; n_right];\n        if dfs(u, &adj, &mut match_right, &mut visited) { result += 1; }\n    }\n    result\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "MaximumBipartiteMatching.scala",
+          "content": "object MaximumBipartiteMatching {\n\n  def maximumBipartiteMatching(arr: Array[Int]): Int = {\n    val nLeft = arr(0); val nRight = arr(1); val m = arr(2)\n    val adj = Array.fill(nLeft)(scala.collection.mutable.ListBuffer[Int]())\n    for (i <- 0 until m) adj(arr(3 + 2 * i)) += arr(3 + 2 * i + 1)\n    val matchRight = Array.fill(nRight)(-1)\n\n    def dfs(u: Int, visited: Array[Boolean]): Boolean = {\n      for (v <- adj(u)) {\n        if (!visited(v)) {\n          visited(v) = true\n          if (matchRight(v) == -1 || dfs(matchRight(v), visited)) {\n            matchRight(v) = u; return true\n          }\n        }\n      }\n      false\n    }\n\n    var result = 0\n    for (u <- 0 until nLeft) {\n      val visited = Array.fill(nRight)(false)\n      if (dfs(u, visited)) result += 1\n    }\n    result\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "MaximumBipartiteMatching.swift",
+          "content": "func maximumBipartiteMatching(_ arr: [Int]) -> Int {\n    let nLeft = arr[0], nRight = arr[1], m = arr[2]\n    var adj = [[Int]](repeating: [], count: nLeft)\n    for i in 0..<m { adj[arr[3 + 2 * i]].append(arr[3 + 2 * i + 1]) }\n    var matchRight = [Int](repeating: -1, count: nRight)\n\n    func dfs(_ u: Int, _ visited: inout [Bool]) -> Bool {\n        for v in adj[u] {\n            if !visited[v] {\n                visited[v] = true\n                if matchRight[v] == -1 || dfs(matchRight[v], &visited) {\n                    matchRight[v] = u; return true\n                }\n            }\n        }\n        return false\n    }\n\n    var result = 0\n    for u in 0..<nLeft {\n        var visited = [Bool](repeating: false, count: nRight)\n        if dfs(u, &visited) { result += 1 }\n    }\n    return result\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "maximumBipartiteMatching.ts",
+          "content": "export function maximumBipartiteMatching(arr: number[]): number {\n    const nLeft = arr[0], nRight = arr[1], m = arr[2];\n    const adj: number[][] = Array.from({ length: nLeft }, () => []);\n    for (let i = 0; i < m; i++) adj[arr[3 + 2 * i]].push(arr[3 + 2 * i + 1]);\n    const matchRight = new Array(nRight).fill(-1);\n\n    function dfs(u: number, visited: boolean[]): boolean {\n        for (const v of adj[u]) {\n            if (!visited[v]) {\n                visited[v] = true;\n                if (matchRight[v] === -1 || dfs(matchRight[v], visited)) {\n                    matchRight[v] = u; return true;\n                }\n            }\n        }\n        return false;\n    }\n\n    let result = 0;\n    for (let u = 0; u < nLeft; u++) {\n        const visited = new Array(nRight).fill(false);\n        if (dfs(u, visited)) result++;\n    }\n    return result;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Maximum Bipartite Matching (Kuhn's Algorithm)\n\n## Overview\n\nKuhn's algorithm finds the maximum matching in a bipartite graph using augmenting paths. A matching is a set of edges with no shared vertices. The maximum matching is the matching with the largest number of edges. The algorithm tries to find an augmenting path for each left vertex using DFS, greedily building a maximum matching.\n\n## How It Works\n\n1. For each vertex on the left side, attempt to find an augmenting path via DFS.\n2. An augmenting path alternates between unmatched and matched edges, starting and ending at unmatched vertices.\n3. If an augmenting path is found, flip the matching along the path (increasing matching size by 1).\n4. The total number of successful augmentations is the maximum matching size.\n\nInput format: [n_left, n_right, m, u1, v1, ...] where edges go from left vertices (0..n_left-1) to right vertices (0..n_right-1). Output: size of maximum matching.\n\n## Worked Example\n\n```\nLeft vertices: {0, 1, 2}    Right vertices: {0, 1, 2}\nEdges: 0-0, 0-1, 1-0, 2-1, 2-2\n\n    L0 --- R0\n    L0 --- R1\n    L1 --- R0\n    L2 --- R1\n    L2 --- R2\n```\n\n**Step 1:** Try to match L0. DFS finds R0 is free. Match L0-R0. Matching: {L0-R0}.\n**Step 2:** Try to match L1. DFS tries R0, but R0 is matched to L0. Try to re-match L0: L0 can go to R1 (free). So match L0-R1, L1-R0. Matching: {L0-R1, L1-R0}.\n**Step 3:** Try to match L2. DFS tries R1, but R1 is matched to L0. Try to re-match L0: L0 tries R0, but R0 is matched to L1. Try to re-match L1: L1 has no other neighbors. Back to L0: no alternative. Try R2 for L2: R2 is free. Match L2-R2. Matching: {L0-R1, L1-R0, L2-R2}.\n\n**Maximum matching size = 3.**\n\n## Pseudocode\n\n```\nfunction maxMatching(n_left, n_right, adj):\n    matchRight = array of size n_right, all -1\n    result = 0\n\n    for u = 0 to n_left - 1:\n        visited = array of size n_right, all false\n        if dfs(u, adj, matchRight, visited):\n            result += 1\n\n    return result\n\nfunction dfs(u, adj, matchRight, visited):\n    for each v in adj[u]:\n        if visited[v]: continue\n        visited[v] = true\n\n        if matchRight[v] == -1 or dfs(matchRight[v], adj, matchRight, visited):\n            matchRight[v] = u\n            return true\n\n    return false\n```\n\n## Complexity Analysis\n\n| Case    | Time    | Space    |\n|---------|---------|----------|\n| Best    | O(V * E) | O(V + E) |\n| Average | O(V * E) | O(V + E) |\n| Worst   | O(V * E) | O(V + E) |\n\nFor each of V left vertices, a DFS traversal of up to E edges is performed. In practice, the algorithm is much faster due to early termination.\n\n## When to Use\n\n- Assigning tasks to workers (each worker does one task)\n- Matching applicants to positions\n- Stable marriage / college admissions (as a subroutine)\n- Vertex cover computation via Konig's theorem (min vertex cover = max matching in bipartite graphs)\n- Resource allocation in operating systems\n- Pattern matching in image recognition\n\n## When NOT to Use\n\n- For weighted matching -- use the Hungarian algorithm instead.\n- For non-bipartite graphs -- use Edmonds' blossom algorithm.\n- When the graph is very large -- Hopcroft-Karp runs in O(E * sqrt(V)) and is significantly faster.\n- When you need all maximum matchings, not just one -- the algorithm finds only a single maximum matching.\n\n## Comparison\n\n| Algorithm | Time | Graph Type | Notes |\n|-----------|------|------------|-------|\n| Kuhn's (this) | O(V * E) | Bipartite, unweighted | Simple DFS-based; easy to implement |\n| Hopcroft-Karp | O(E * sqrt(V)) | Bipartite, unweighted | Faster due to multi-path augmentation |\n| Hungarian | O(n^3) | Bipartite, weighted | Solves minimum cost assignment |\n| Edmonds' Blossom | O(V^3) | General, unweighted | Handles non-bipartite graphs |\n| Max-Flow Reduction | O(VE^2) | Bipartite | Reduction to network flow; overkill for simple matching |\n\n## References\n\n- Kuhn, H. W. (1955). \"The Hungarian method for the assignment problem.\" *Naval Research Logistics Quarterly*, 2(1-2), 83-97.\n- Hopcroft, J. E., & Karp, R. M. (1973). \"An n^(5/2) algorithm for maximum matchings in bipartite graphs.\" *SIAM Journal on Computing*, 2(4), 225-231.\n- [Matching (graph theory) -- Wikipedia](https://en.wikipedia.org/wiki/Matching_(graph_theory))\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [maximum_bipartite_matching.py](python/maximum_bipartite_matching.py) |\n| Java       | [MaximumBipartiteMatching.java](java/MaximumBipartiteMatching.java) |\n| C++        | [maximum_bipartite_matching.cpp](cpp/maximum_bipartite_matching.cpp) |\n| C          | [maximum_bipartite_matching.c](c/maximum_bipartite_matching.c) |\n| Go         | [maximum_bipartite_matching.go](go/maximum_bipartite_matching.go) |\n| TypeScript | [maximumBipartiteMatching.ts](typescript/maximumBipartiteMatching.ts) |\n| Rust       | [maximum_bipartite_matching.rs](rust/maximum_bipartite_matching.rs) |\n| Kotlin     | [MaximumBipartiteMatching.kt](kotlin/MaximumBipartiteMatching.kt) |\n| Swift      | [MaximumBipartiteMatching.swift](swift/MaximumBipartiteMatching.swift) |\n| Scala      | [MaximumBipartiteMatching.scala](scala/MaximumBipartiteMatching.scala) |\n| C#         | [MaximumBipartiteMatching.cs](csharp/MaximumBipartiteMatching.cs) |\n"
+}

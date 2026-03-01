@@ -1,0 +1,147 @@
+{
+  "name": "Knapsack (0/1)",
+  "slug": "knapsack",
+  "category": "dynamic-programming",
+  "subcategory": "optimization",
+  "difficulty": "intermediate",
+  "tags": [
+    "dynamic-programming",
+    "optimization",
+    "combinatorial",
+    "knapsack"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(nW)",
+      "average": "O(nW)",
+      "worst": "O(nW)"
+    },
+    "space": "O(nW)"
+  },
+  "stable": null,
+  "in_place": null,
+  "related": [
+    "coin-change",
+    "rod-cutting-algorithm"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "Knapsack.c",
+          "content": "#include <stdlib.h>\n\nint knapsack(int weights[], int values[], int capacity) {\n    if (capacity <= 0) {\n        return 0;\n    }\n\n    int item_count = 0;\n    while (weights[item_count] != 0 || values[item_count] != 0) {\n        item_count++;\n    }\n\n    int *dp = (int *)calloc((size_t)capacity + 1, sizeof(int));\n    if (!dp) {\n        return 0;\n    }\n\n    for (int i = 0; i < item_count; i++) {\n        int weight = weights[i];\n        int value = values[i];\n        if (weight <= 0) {\n            continue;\n        }\n        for (int w = capacity; w >= weight; w--) {\n            int candidate = dp[w - weight] + value;\n            if (candidate > dp[w]) {\n                dp[w] = candidate;\n            }\n        }\n    }\n\n    int result = dp[capacity];\n    free(dp);\n    return result;\n}\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "0-1Knapsack.cpp",
+          "content": "#include <algorithm>\n#include <vector>\n\nint knapsack(const std::vector<int>& weights, const std::vector<int>& values, int capacity) {\n    if (capacity <= 0 || weights.empty() || values.empty()) {\n        return 0;\n    }\n\n    std::vector<int> dp(static_cast<std::size_t>(capacity) + 1, 0);\n    int item_count = std::min(weights.size(), values.size());\n\n    for (int item = 0; item < item_count; ++item) {\n        int weight = weights[item];\n        int value = values[item];\n        for (int current = capacity; current >= weight; --current) {\n            dp[current] = std::max(dp[current], dp[current - weight] + value);\n        }\n    }\n\n    return dp[capacity];\n}\n"
+        },
+        {
+          "filename": "FractionalKnapsack.cpp",
+          "content": "//Solved using Greedy approach\n//Time Complexity - O(nlogn)\n//Space Complexity - O(1)\n\n#include <bits/stdc++.h> \nusing namespace std; \n  \n// Comparator function to sort items according to value/weight ratio in desc order\nbool cmp(pair<int, int> a, pair<int, int> b) \n{ \n    double r1 = (double)a.first / a.second; \n    double r2 = (double)b.first / b.second; \n    return r1 > r2; \n} \n  \n//greedy function that returns max. value that can be pushed in the knapsack\ndouble fractionalKnapsack(int W, vector<pair<int, int>> item, int n) \n{ \n    //    sorting items on basis of ratio of value and weight in descending order\n    sort(item.begin(), item.end(), cmp); \n  \n    int curWeight = 0;        // Current weight in knapsack \n    double finalvalue = 0.0;  // Result (value in Knapsack) \n  \n    for (int i = 0; i < n; i++) \n    { \n        // If adding the ith doesn't cause overflow, add it completely \n        if (curWeight + item[i].second <= W) \n        { \n            curWeight += item[i].second; \n            finalvalue += item[i].first; \n        } \n        else    // If overflow, add fractional part of it \n        { \n            int remain = W - curWeight; \n            finalvalue += item[i].first * ((double) remain / item[i].second); \n            break; \n        } \n    } \n  \n    return finalvalue; \n} \n  \n\nint main() \n{ \n    int W;                               //Weight of knapsack\n    cin>>W; \n\n    int n;                              //no. of available items\n    cin>>n;\n    vector<pair<int, int>> item(n);     //stores value and weight of each item\n\n    for(int i=0; i<n; i++)\n    {\n        int v, w;\n        cin>>v>>w;\n\n        item.push_back(make_pair(v, w));\n    }\n\n    cout << \"Maximum value we can obtain = \"<< fractionalKnapsack(W, item, n); \n    return 0; \n} \n"
+        },
+        {
+          "filename": "UnboundedKnapsack.cpp",
+          "content": "//Repetition of items allowed\n//Solved using Dynamic Programming approach\n//Time Complexity - O(n*w)\n//Space Complexity - 0(w)\n\n#include<bits/stdc++.h> \nusing namespace std; \n  \n//function that returns max. value that can be pushed in the knapsack \nint unboundedKnapsack(int W, vector<int> value, vector<int> weight, int n) \n{ \n    // dp[i] represents maximum value that is obtainable with knapsack capacity i. \n    vector<int> dp(W+1, 0);\n  \n    for (int i=0; i<=W; i++) \n      for (int j=0; j<n; j++) \n         if (weight[j] <= i) \n            dp[i] = max(dp[i], dp[i-weight[j]]+value[j]); \n  \n    return dp[W]; \n} \n  \nint main() \n{ \n    int W;                               //Weight of knapsack\n    cin>>W; \n\n    int n;                              //no. of available items\n    cin>>n;\n    vector<int> value(n);      //stores value of each item\n    vector<int> weight(n);     //stores weight of each item\n\n    for(int i=0; i<n; i++)\n    {\n        int v, w;\n        cin>>v>>w;\n\n        value.push_back(v);\n        weight.push_back(w);\n    }\n\n    cout << \"Maximum value we can obtain = \"<< unboundedKnapsack(W, value, weight, n); \n    return 0; \n} \n"
+        },
+        {
+          "filename": "knapsack.cpp",
+          "content": "// - Question :\n// Given a set of items, each with a weight and a value, determine the number of\n// each item to include in a collection so that the total weight is less than or\n// equal to a given limit and the total value is as large as possible.\n// - Example :\n// There are n = 3 items, the maximum weight is 5, here is the list of items :\n// Weight 4  2 3\n// Value  10 4 7\n// If we take the two last items, the total weight is 5 and the max value is 11.\n\n#include <iostream>\n\nusing namespace std;\n\n// Dynamic programming (with memoization) approach\nint knapsackDp(const int *weights, const int *values, int n, int maxWeight, int **data);\n\n// Recursive approach\nint knapsackRec(const int *weights, const int *values, int n, int maxWeight);\n\n// Returns the max total value we can get with\n// the total weight <= maxWeight\n// There are n weights and values\nint knapsack(const int *weights, const int *values, int n, int maxWeight) {\n    // data[i][j] = max value with maxWeight i and the first j + 1 items\n    // Initialize it with -1\n    int **data = new int*[maxWeight];\n    for (int i = 0; i < maxWeight; ++i) {\n        data[i] = new int[n];\n        for (int j = 0; j < n; ++j)\n            data[i][j] = -1;\n    }\n\n    int result = knapsackDp(weights, values, n, maxWeight, data);\n\n    for (int i = 0; i < maxWeight; ++i)\n        delete[] data[i];\n    delete[] data;\n\n    return result;\n}\n\nint knapsackDp(const int *weights, const int *values, int n, int maxWeight, int **data) {\n    if (n == 0 || maxWeight == 0)\n        return 0;\n\n    // This value is already computed\n    if (data[maxWeight - 1][n - 1] != -1)\n        return data[maxWeight - 1][n - 1];\n\n    // We don't take the value at pos n - 1\n    int without = knapsackDp(weights, values, n - 1, maxWeight, data);\n\n    // We can't take the value at pos n - 1\n    if (weights[n - 1] > maxWeight)\n        return without;\n\n    // We take the value\n    int with = knapsackDp(weights, values, n - 1, maxWeight - weights[n - 1], data) + values[n - 1];\n\n    int maxVal = with > without ? with : without;\n\n    data[maxWeight - 1][n - 1] = maxVal;\n\n    return maxVal;\n}\n\nint knapsackRec(const int *weights, const int *values, int n, int maxWeight) {\n    if (n == 0 || maxWeight == 0)\n        return 0;\n\n    // We don't take the value at pos n - 1\n    int without = knapsackRec(weights, values, n - 1, maxWeight);\n\n    // We can't take the value at pos n - 1\n    if (weights[n - 1] > maxWeight)\n        return without;\n\n    // We take the value\n    int with = knapsackRec(weights, values, n - 1, maxWeight - weights[n - 1]) + values[n - 1];\n\n    return with > without ? with : without;\n}\n\nint main() {\n    int weights[] = {4, 2, 3};\n    int values[] = {10, 4, 7};\n    int maxWeight = 5;\n\n    cout << knapsack(weights, values, sizeof(weights) / sizeof(int), maxWeight) << endl;\n\n    return 0;\n}\n\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "Knapsack.cs",
+          "content": "using System;\n\npublic class Knapsack\n{\n    public static int Solve(int[] weights, int[] values, int capacity)\n    {\n        int n = weights.Length;\n        int[,] dp = new int[n + 1, capacity + 1];\n\n        for (int i = 1; i <= n; i++)\n        {\n            for (int w = 0; w <= capacity; w++)\n            {\n                if (weights[i - 1] > w)\n                    dp[i, w] = dp[i - 1, w];\n                else\n                    dp[i, w] = Math.Max(dp[i - 1, w], dp[i - 1, w - weights[i - 1]] + values[i - 1]);\n            }\n        }\n\n        return dp[n, capacity];\n    }\n\n    static void Main(string[] args)\n    {\n        int[] weights = { 1, 3, 4, 5 };\n        int[] values = { 1, 4, 5, 7 };\n        int capacity = 7;\n        Console.WriteLine(Solve(weights, values, capacity)); // 9\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "Knapsack.go",
+          "content": "package main\n\nimport \"fmt\"\n\nfunc max(a, b int) int {\n\tif a > b {\n\t\treturn a\n\t}\n\treturn b\n}\n\nfunc knapsack(weights []int, values []int, capacity int) int {\n\tn := len(weights)\n\tdp := make([][]int, n+1)\n\tfor i := range dp {\n\t\tdp[i] = make([]int, capacity+1)\n\t}\n\n\tfor i := 1; i <= n; i++ {\n\t\tfor w := 0; w <= capacity; w++ {\n\t\t\tif weights[i-1] > w {\n\t\t\t\tdp[i][w] = dp[i-1][w]\n\t\t\t} else {\n\t\t\t\tdp[i][w] = max(dp[i-1][w], dp[i-1][w-weights[i-1]]+values[i-1])\n\t\t\t}\n\t\t}\n\t}\n\n\treturn dp[n][capacity]\n}\n\nfunc main() {\n\tweights := []int{1, 3, 4, 5}\n\tvalues := []int{1, 4, 5, 7}\n\tcapacity := 7\n\tfmt.Println(knapsack(weights, values, capacity)) // 9\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "Knapsack.java",
+          "content": "import java.util.Arrays;\n\npublic class Knapsack {\n\tpublic static int knapsack(int[] weights, int[] values, int capacity) {\n\t\tif (capacity <= 0 || weights == null || values == null) {\n\t\t\treturn 0;\n\t\t}\n\t\tint n = Math.min(weights.length, values.length);\n\t\tint[][] dp = new int[n + 1][capacity + 1];\n\t\tfor (int i = 1; i <= n; i++) {\n\t\t\tfor (int c = 0; c <= capacity; c++) {\n\t\t\t\tdp[i][c] = dp[i - 1][c];\n\t\t\t\tif (weights[i - 1] <= c) {\n\t\t\t\t\tdp[i][c] = Math.max(dp[i][c], dp[i - 1][c - weights[i - 1]] + values[i - 1]);\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t\treturn dp[n][capacity];\n\t}\n\n\tpublic static void maxValue(int maxCapacity, int[] weights, int[] values, int[][] v) {\t\t\n\t\tfor (int i = 1; i < maxCapacity + 1; i++) {\n\t\t\tfor (int j = 1; j < weights.length + 1; j++) {\n\t\t\t\tif (weights[j - 1] > i) { \n\t\t\t\t\tv[j][i] = v[j -1][i]; \n\t\t\t\t} else {\n\t\t\t\t\tv[j][i] = Math.max(v[j - 1][i], v[j - 1][i - weights[j - 1]] + values[j - 1]);\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\t\n\tpublic static boolean[] includedItems(int[] weights, int[][] v) {\n\t\tboolean[] items = new boolean[weights.length];\n\t\tint w = v[0].length - 1;\n\t\tfor (int i = weights.length; i > 0; i--) {\n\t\t\tif (v[i][w] == v[i - 1][w]) { items[i - 1] = false; }\n\t\t\telse {\n\t\t\t\titems[i - 1] = true;\n\t\t\t\tw -= weights[i - 1];\n\t\t\t}\n\t\t}\n\t\treturn items;\n\t}\n\t\n\tpublic static void main(String[] args) { //main method.\n\t\tfinal int capacity = 8;\n\t\tfinal int[] values = {2, 5, 10, 14, 15};\n\t\tfinal int[] weights = {1, 3, 4, 5, 7};\n\t\tfinal int[][] v = new int[weights.length + 1][capacity + 1];\n\t\tSystem.out.println(\"Knapsack max weight = \" + capacity);\n\t\tSystem.out.println(\"Number of distinct items = \" + values.length);\n\t\tSystem.out.println(\"Values = \" + Arrays.toString(values));\n\t\tSystem.out.println(\"Weights = \" + Arrays.toString(weights));\n\t\tSystem.out.println();\n\t\t\n\t\t//getting maxVAlue \n\t\tmaxValue(capacity, weights, values, v);\n\t\tfinal int b = v[weights.length][capacity];\n\t\tSystem.out.println(\"v:\");\n\t\tfor (int i = 0; i < weights.length + 1; i++) { System.out.println(Arrays.toString(v[i])); }\n\t\tSystem.out.println();\n\t\tSystem.out.println(\"Maximum value = \" + b);\n\t\tSystem.out.println(\"Items included: \" + Arrays.toString(includedItems(weights, v)));\t\n\t}\n\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "Knapsack.kt",
+          "content": "fun knapsack(weights: IntArray, values: IntArray, capacity: Int): Int {\n    val n = weights.size\n    val dp = Array(n + 1) { IntArray(capacity + 1) }\n\n    for (i in 1..n) {\n        for (w in 0..capacity) {\n            if (weights[i - 1] > w) {\n                dp[i][w] = dp[i - 1][w]\n            } else {\n                dp[i][w] = maxOf(dp[i - 1][w], dp[i - 1][w - weights[i - 1]] + values[i - 1])\n            }\n        }\n    }\n\n    return dp[n][capacity]\n}\n\nfun main() {\n    val weights = intArrayOf(1, 3, 4, 5)\n    val values = intArrayOf(1, 4, 5, 7)\n    val capacity = 7\n    println(knapsack(weights, values, capacity)) // 9\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "knapsack.py",
+          "content": "def knapsack(weights, values, capacity):\n    n = len(weights)\n    dp = [[0] * (capacity + 1) for _ in range(n + 1)]\n\n    for i in range(1, n + 1):\n        for w in range(capacity + 1):\n            if weights[i - 1] > w:\n                dp[i][w] = dp[i - 1][w]\n            else:\n                dp[i][w] = max(dp[i - 1][w], dp[i - 1][w - weights[i - 1]] + values[i - 1])\n\n    return dp[n][capacity]\n\n\nif __name__ == \"__main__\":\n    weights = [1, 3, 4, 5]\n    values = [1, 4, 5, 7]\n    capacity = 7\n    print(knapsack(weights, values, capacity))  # 9\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "knapsack.rs",
+          "content": "use std::cmp;\n\npub fn knapsack(weights: &[usize], values: &[i32], capacity: usize) -> i32 {\n    let n = weights.len();\n    let mut dp = vec![vec![0i32; capacity + 1]; n + 1];\n\n    for i in 1..=n {\n        for w in 0..=capacity {\n            if weights[i - 1] > w {\n                dp[i][w] = dp[i - 1][w];\n            } else {\n                dp[i][w] = cmp::max(dp[i - 1][w], dp[i - 1][w - weights[i - 1]] + values[i - 1]);\n            }\n        }\n    }\n\n    dp[n][capacity]\n}\n\nfn main() {\n    let weights = vec![1, 3, 4, 5];\n    let values = vec![1, 4, 5, 7];\n    let capacity = 7;\n    println!(\"{}\", knapsack(&weights, &values, capacity)); // 9\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "Knapsack.scala",
+          "content": "object Knapsack {\n\n  def knapsack(weights: Array[Int], values: Array[Int], capacity: Int): Int = {\n    val n = weights.length\n    val dp = Array.ofDim[Int](n + 1, capacity + 1)\n\n    for (i <- 1 to n) {\n      for (w <- 0 to capacity) {\n        if (weights(i - 1) > w) {\n          dp(i)(w) = dp(i - 1)(w)\n        } else {\n          dp(i)(w) = math.max(dp(i - 1)(w), dp(i - 1)(w - weights(i - 1)) + values(i - 1))\n        }\n      }\n    }\n\n    dp(n)(capacity)\n  }\n\n  def main(args: Array[String]): Unit = {\n    val weights = Array(1, 3, 4, 5)\n    val values = Array(1, 4, 5, 7)\n    val capacity = 7\n    println(knapsack(weights, values, capacity)) // 9\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "Knapsack.swift",
+          "content": "func knapsack(_ weights: [Int], _ values: [Int], _ capacity: Int) -> Int {\n    let n = weights.count\n    var dp = Array(repeating: Array(repeating: 0, count: capacity + 1), count: n + 1)\n\n    for i in 1...n {\n        for w in 0...capacity {\n            if weights[i - 1] > w {\n                dp[i][w] = dp[i - 1][w]\n            } else {\n                dp[i][w] = max(dp[i - 1][w], dp[i - 1][w - weights[i - 1]] + values[i - 1])\n            }\n        }\n    }\n\n    return dp[n][capacity]\n}\n\nprint(knapsack([1, 3, 4, 5], [1, 4, 5, 7], 7)) // 9\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "ZeroOneKnapsack.js",
+          "content": "export function knapsack(weights, values, capacity) {\n  const dp = new Array(capacity + 1).fill(0);\n\n  for (let i = 0; i < weights.length; i += 1) {\n    for (let c = capacity; c >= weights[i]; c -= 1) {\n      dp[c] = Math.max(dp[c], dp[c - weights[i]] + values[i]);\n    }\n  }\n\n  return dp[capacity];\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "patterns": [
+    "knapsack-dp"
+  ],
+  "patternDifficulty": "beginner",
+  "practiceOrder": 1,
+  "readme": "# Knapsack (0/1)\n\n## Overview\n\nThe 0/1 Knapsack problem is a classic combinatorial optimization problem. Given a set of items, each with a weight and a value, the goal is to determine which items to include in a collection so that the total weight does not exceed a given capacity W and the total value is maximized. The \"0/1\" constraint means each item can either be included entirely or excluded -- it cannot be split.\n\nThis problem is fundamental to resource allocation, portfolio optimization, and cutting stock problems. The dynamic programming approach solves it in pseudo-polynomial time O(nW), where n is the number of items and W is the knapsack capacity.\n\n## How It Works\n\nThe algorithm builds a 2D table where `dp[i][w]` represents the maximum value achievable using the first `i` items with a knapsack capacity of `w`. For each item, we decide whether to include it or not: if including it yields a higher value than excluding it (and it fits), we include it; otherwise, we exclude it.\n\n### Example\n\nGiven items and capacity `W = 7`:\n\n| Item | Weight | Value |\n|------|--------|-------|\n| 1    | 1      | 1     |\n| 2    | 3      | 4     |\n| 3    | 4      | 5     |\n| 4    | 5      | 7     |\n\n**Building the DP table:**\n\n| Item\\Cap | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |\n|----------|---|---|---|---|---|---|---|---|\n| 0        | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |\n| 1 (w=1,v=1) | 0 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |\n| 2 (w=3,v=4) | 0 | 1 | 1 | 4 | 5 | 5 | 5 | 5 |\n| 3 (w=4,v=5) | 0 | 1 | 1 | 4 | 5 | 6 | 6 | 9 |\n| 4 (w=5,v=7) | 0 | 1 | 1 | 4 | 5 | 7 | 8 | 9 |\n\n**Key decisions:**\n\n| Cell | Decision | Reasoning |\n|------|----------|-----------|\n| dp[2][3] | Include item 2 | val(4) + dp[1][0](0) = 4 > dp[1][3](1) |\n| dp[2][4] | Include item 2 | val(4) + dp[1][1](1) = 5 > dp[1][4](1) |\n| dp[3][7] | Include item 3 | val(5) + dp[2][3](4) = 9 > dp[2][7](5) |\n| dp[4][7] | Exclude item 4 | val(7) + dp[3][2](1) = 8 < dp[3][7](9) |\n\nResult: Maximum value = `9` (items 2 and 3, total weight = 7)\n\n## Pseudocode\n\n```\nfunction knapsack(weights, values, n, W):\n    dp = 2D array of size (n + 1) x (W + 1), initialized to 0\n\n    for i from 1 to n:\n        for w from 1 to W:\n            if weights[i - 1] <= w:\n                dp[i][w] = max(dp[i - 1][w],\n                               values[i - 1] + dp[i - 1][w - weights[i - 1]])\n            else:\n                dp[i][w] = dp[i - 1][w]\n\n    return dp[n][W]\n```\n\nFor each item, we compare two options: excluding the item (using the value from the row above) or including it (adding its value to the best solution for the remaining capacity). We take whichever yields the higher value.\n\n## Complexity Analysis\n\n| Case    | Time   | Space  |\n|---------|--------|--------|\n| Best    | O(nW)  | O(nW)  |\n| Average | O(nW)  | O(nW)  |\n| Worst   | O(nW)  | O(nW)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(nW):** The algorithm always fills the entire table regardless of item weights or values. Every cell is computed exactly once.\n\n- **Average Case -- O(nW):** Each of the n * W cells requires O(1) work (a comparison and possibly an addition), giving O(nW) total work.\n\n- **Worst Case -- O(nW):** Same as best and average case. The table has fixed dimensions determined by the number of items and capacity.\n\n- **Space -- O(nW):** The full 2D table requires (n+1) * (W+1) cells. This can be optimized to O(W) using a 1D array if only the maximum value is needed (not the item selection), by processing weights in reverse order within each row.\n\n## When to Use\n\n- **Resource allocation with discrete items:** When you must choose whole items with weight/cost constraints to maximize value.\n- **Budget optimization:** Selecting projects, investments, or tasks to maximize return within a budget.\n- **Cargo loading:** Determining which items to load onto a vehicle with weight capacity limits.\n- **When item count and capacity are manageable:** The O(nW) approach is efficient when both n and W are not excessively large.\n\n## When NOT to Use\n\n- **Very large capacity values:** Since W appears in the complexity, capacities in the billions make the DP table impractically large. Consider approximation algorithms.\n- **When items can be fractionally included:** Use the greedy Fractional Knapsack algorithm instead, which runs in O(n log n).\n- **When there are additional constraints:** Multi-dimensional knapsack problems require more sophisticated approaches.\n- **Very large number of items with small capacity:** Branch-and-bound or meet-in-the-middle may be more efficient.\n\n## Comparison with Similar Algorithms\n\n| Algorithm             | Time      | Space  | Notes                                           |\n|----------------------|----------|--------|-------------------------------------------------|\n| 0/1 Knapsack (DP)    | O(nW)    | O(nW)  | Exact solution; pseudo-polynomial time           |\n| Fractional Knapsack   | O(n log n)| O(1)  | Greedy; allows partial items                     |\n| Unbounded Knapsack    | O(nW)    | O(W)   | Each item can be used unlimited times            |\n| Coin Change           | O(nS)   | O(S)   | Similar structure; minimizes count instead        |\n| Rod Cutting           | O(n^2)  | O(n)   | Special case of unbounded knapsack                |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| C          | [Knapsack.c](c/Knapsack.c) |\n| C++        | [0-1Knapsack.cpp](cpp/0-1Knapsack.cpp) |\n| Java       | [Knapsack.java](java/Knapsack.java) |\n| TypeScript | [ZeroOneKnapsack.js](typescript/ZeroOneKnapsack.js) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 16: Greedy Algorithms (Fractional), Problem 16-2 (0/1).\n- Kellerer, H., Pferschy, U., & Pisinger, D. (2004). *Knapsack Problems*. Springer.\n- [Knapsack Problem -- Wikipedia](https://en.wikipedia.org/wiki/Knapsack_problem)\n"
+}

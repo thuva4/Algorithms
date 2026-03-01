@@ -1,0 +1,30 @@
+algorithm: "cycle-detection-floyd"
+function_signature:
+  name: "detect_cycle"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "cycle at index 2"
+    input: [[1, 2, 3, 4, 2]]
+    expected: 2
+  - name: "cycle at index 0"
+    input: [[1, 2, 0]]
+    expected: 0
+  - name: "no cycle"
+    input: [[1, 2, 3, -1]]
+    expected: -1
+  - name: "self loop"
+    input: [[0]]
+    expected: 0
+  - name: "two element cycle at 0"
+    input: [[1, 0]]
+    expected: 0
+  - name: "long tail short cycle"
+    input: [[1, 2, 3, 4, 5, 3]]
+    expected: 3
+  - name: "single element no cycle"
+    input: [[-1]]
+    expected: -1
+  - name: "cycle at index 1"
+    input: [[1, 2, 3, 1]]
+    expected: 1

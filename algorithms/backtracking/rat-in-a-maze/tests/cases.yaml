@@ -1,0 +1,24 @@
+algorithm: "rat-in-a-maze"
+function_signature:
+  name: "rat_in_maze"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "path exists"
+    input: [[4, 1,0,0,0, 1,1,0,1, 0,1,0,0, 1,1,1,1]]
+    expected: 1
+  - name: "no path"
+    input: [[3, 1,0,0, 0,0,0, 0,0,1]]
+    expected: 0
+  - name: "single cell"
+    input: [[1, 1]]
+    expected: 1
+  - name: "blocked start"
+    input: [[2, 0,1, 1,1]]
+    expected: 0
+  - name: "straight path"
+    input: [[3, 1,1,1, 0,0,1, 0,0,1]]
+    expected: 1
+  - name: "2x2 open"
+    input: [[2, 1,1, 1,1]]
+    expected: 1

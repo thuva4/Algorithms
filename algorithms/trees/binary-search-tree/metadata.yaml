@@ -1,0 +1,18 @@
+name: "Binary Search Tree"
+slug: "binary-search-tree"
+category: "trees"
+difficulty: "beginner"
+tags: [trees, binary-search-tree, search, insert]
+complexity:
+  time:
+    best: "O(log n)"
+    average: "O(log n)"
+    worst: "O(n)"
+  space: "O(n)"
+related: [binary-tree, trie]
+implementations: [python, java, cpp, c, go, typescript, kotlin, rust, swift, scala, csharp]
+visualization: false
+patterns:
+  - tree-dfs
+patternDifficulty: intermediate
+practiceOrder: 3

@@ -1,0 +1,140 @@
+{
+  "name": "XOR Swap",
+  "slug": "xor-swap",
+  "category": "bit-manipulation",
+  "subcategory": "bitwise-operations",
+  "difficulty": "beginner",
+  "tags": [
+    "bit-manipulation",
+    "xor",
+    "swap",
+    "in-place",
+    "no-temp"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(1)",
+      "average": "O(1)",
+      "worst": "O(1)"
+    },
+    "space": "O(1)"
+  },
+  "stable": false,
+  "in_place": true,
+  "related": [
+    "hamming-distance",
+    "swap-two-variables"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "XorSwap.c",
+          "content": "#include <stdio.h>\n\nvoid xorSwap (int *x, int *y) {\n     if (x != y) {\n         *x ^= *y;\n         *y ^= *x;\n         *x ^= *y;\n     }\n }\n\nint main(){\n\tint a,b;\n\t a=10; \n\t b=45;\n\n\tprintf(\"Values before Swap\\n a=%d,b=%d\\n\",a,b);\n\txorSwap(&a,&b);\n\tprintf(\"Values after Swap\\n a=%d,b=%d\\n\",a,b);\n}\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "xorswap.cpp",
+          "content": "#include <iostream>\n\nusing namespace std;\n\nvoid xorswap(int &a, int &b) {\n\ta ^= b;\n\tb ^= a;\n\ta ^= b;\n}\n\nint main(int argc, char const *argv[]) {\n\tint a = 10, b = 5;\n\txorswap(a, b);\n\n\tcout << \"a: \" << a << \" b: \" << b << endl;\n\treturn 0;\n}\n"
+        },
+        {
+          "filename": "xorswap_amuzalda.cpp",
+          "content": "#include <bits/stdc++.h>\n\nusing namespace std;\n\nvoid xorSwap (int *x, int *y) {\n     if (x != y) {\n         *x ^= *y;\n         *y ^= *x;\n         *x ^= *y;\n     }\n }\n\nint main(){\n\tint a,b;\n\t a=10; \n\t b=45;\n\n\t cout<<\"values before swap :\\n\";\n\t cout<<\"a = \"<<a<<endl;\n\t cout<<\"b = \"<<b<<endl;\n\n\t xorSwap(&a,&b);\n\n\t  cout<<\"values after swap :\\n\";\n\n\t cout<<\"a = \"<<a<<endl;\n\t cout<<\"b = \"<<b;\n}"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "XorSwap.cs",
+          "content": "using System;\n\npublic class XorSwap\n{\n    void Swap( ref int a, ref int b)\n\t{\n\t   a ^= b;\n       b ^= a;\n       a ^= b;\n\t}\n\n\tvoid Main()\n    {\n        int a = 5;\n\t\tint b = 10;\n\t\tXorSwap(ref a, ref b);\n    }\n}\n\n\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "XorSwap.go",
+          "content": "package xorswap\n\n// XorSwap swaps two integers using XOR without a temporary variable.\nfunc XorSwap(a, b int) (int, int) {\n\tif a != b {\n\t\ta = a ^ b\n\t\tb = a ^ b\n\t\ta = a ^ b\n\t}\n\treturn a, b\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "XorSwap.java",
+          "content": "/**\n * XOR swap is an algorithm that uses the XOR bitwise operation to swap \n * values of distinct variables without using a temporary variable. \n * \n * @author Atom\n * @see <a href=\"https://en.wikipedia.org/wiki/XOR_swap_algorithm\">XOR swap</a>\n */\npublic class XorSwap {\n    public static int[] xorSwap(int a, int b) {\n        int x = a;\n        int y = b;\n        if (x != y) {\n            x ^= y;\n            y ^= x;\n            x ^= y;\n        }\n        return new int[]{x, y};\n    }\n\t\n\tpublic static void main(String[] args) {\n\t\tfor (int i = -1, j = 3; i <= 3; i++, j--) {\n\t\t\tint x = i;\n\t\t\tint y = j;\n\t\t\tSystem.out.print(\"x = \" + x + \", y = \" + y);\n\t\t\t\n\t\t\t// Xor swap. Swap values without using a temporary variable\n\t\t\tif (x != y) {\n\t\t\t\tx ^= y;\n\t\t\t\ty ^= x;\n\t\t\t\tx ^= y;\t\t\t\t\n\t\t\t}\n\t\t\t\n\t\t\tSystem.out.println(\", swap(x, y) -> x = \" + x + \", y = \" + y);\n\t\t}\n\t}\n\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "XorSwap.kt",
+          "content": "fun xorSwap(a: Int, b: Int): Pair<Int, Int> {\n    var x = a\n    var y = b\n    if (x != y) {\n        x = x xor y\n        y = x xor y\n        x = x xor y\n    }\n    return Pair(x, y)\n}\n\nfun main() {\n    val (a, b) = xorSwap(5, 10)\n    println(\"After swap: a=$a, b=$b\")\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "XorSwap.py",
+          "content": "# Swaps two variables without using a temporary variable\ndef xorswap(a, b):\n    a = a ^ b\n    b = a ^ b\n    a = a ^ b\n    return a, b\n\na = 5\nb = 10\na, b = xorswap(a, b)\nprint (a,b)"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "xor_swap.rs",
+          "content": "fn xor_swap(a: i32, b: i32) -> (i32, i32) {\n    let mut x = a;\n    let mut y = b;\n    if x != y {\n        x = x ^ y;\n        y = x ^ y;\n        x = x ^ y;\n    }\n    (x, y)\n}\n\nfn main() {\n    let (a, b) = xor_swap(5, 10);\n    println!(\"After swap: a={}, b={}\", a, b);\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "XorSwap.scala",
+          "content": "object XorSwap {\n\n  def swap( x: Int,  y: Int) = {\n    var xx = x ^ y\n    var yy = xx ^ y\n    xx = xx ^ yy\n    (xx, yy)\n  }\n\n  def main(args: Array[String]): Unit = {\n    println(swap(10,6))\n  }\n}"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "XorSwap.swift",
+          "content": "\nfunc xorSwap(a: Int, b: Int) -> (a: Int, b: Int) {\n  var firstNumber = a\n  var secondNumber = b\n\n  if firstNumber != secondNumber {\n    firstNumber = firstNumber ^ secondNumber\n    secondNumber = firstNumber ^ secondNumber\n    firstNumber = firstNumber ^ secondNumber\n  }\n  \n  return(firstNumber,  secondNumber)\n}\n\nlet result = xorSwap(a: 5, b: 10)\nprint(result)\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "index.js",
+          "content": "function xorSwap(a, b) {\n  a ^= b;\n  b ^= a;\n  a ^= b;\n\n  return [a, b];\n}\n\nmodule.exports = { xorSwap };\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "patterns": [
+    "bitwise-xor"
+  ],
+  "patternDifficulty": "beginner",
+  "practiceOrder": 1,
+  "readme": "# XOR Swap\n\n## Overview\n\nThe XOR Swap algorithm exchanges the values of two variables without using a temporary variable. It exploits three properties of the XOR operation: (1) a XOR a = 0 (self-inverse), (2) a XOR 0 = a (identity), and (3) XOR is commutative and associative. By applying XOR three times between the two variables, their values are swapped in place.\n\nWhile historically used as a clever trick to save memory (one less variable), XOR swap is now primarily of academic and educational interest. Modern compilers typically optimize standard swaps (using a temporary variable) to be faster than XOR swap due to instruction-level parallelism and register renaming.\n\n## How It Works\n\nThe algorithm performs three XOR operations in sequence:\n1. `a = a XOR b` (a now contains a XOR b, b unchanged)\n2. `b = a XOR b` (b now contains (a XOR b) XOR b = a, so b has a's original value)\n3. `a = a XOR b` (a now contains (a XOR b) XOR a = b, so a has b's original value)\n\n### Example\n\nSwapping `a = 5` and `b = 9`:\n\n```\na = 5 = 0101 (binary)\nb = 9 = 1001 (binary)\n```\n\n| Step | Operation | a (binary) | b (binary) | a (decimal) | b (decimal) |\n|------|-----------|-----------|-----------|-------------|-------------|\n| Start | - | 0101 | 1001 | 5 | 9 |\n| 1 | a = a XOR b | 1100 | 1001 | 12 | 9 |\n| 2 | b = a XOR b | 1100 | 0101 | 12 | 5 |\n| 3 | a = a XOR b | 1001 | 0101 | 9 | 5 |\n\nResult: `a = 9`, `b = 5` -- values swapped successfully.\n\n**Detailed bit-level trace for step 2:**\n```\na (current) = 1100  (which is original_a XOR original_b)\nb (current) = 1001  (which is original_b)\na XOR b     = 1100 XOR 1001 = 0101  (which is original_a!)\n```\n\n## Pseudocode\n\n```\nfunction xorSwap(a, b):\n    if a == b:\n        return    // important: XOR swap fails if a and b are the same variable\n\n    a = a XOR b\n    b = a XOR b\n    a = a XOR b\n```\n\nThe guard `if a == b` is important: if `a` and `b` refer to the **same memory location** (not just the same value), all three XOR operations produce 0, destroying the value. If they hold the same value but are different variables, the swap works correctly (both remain unchanged).\n\n## Complexity Analysis\n\n| Case    | Time | Space |\n|---------|------|-------|\n| Best    | O(1) | O(1)  |\n| Average | O(1) | O(1)  |\n| Worst   | O(1) | O(1)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(1):** The algorithm performs exactly 3 XOR operations regardless of input values.\n\n- **Average Case -- O(1):** The same 3 operations are performed for all inputs. No loops or conditional branching (except the optional aliasing check).\n\n- **Worst Case -- O(1):** The algorithm is always 3 XOR operations. No input can cause more or fewer operations.\n\n- **Space -- O(1):** No temporary variable is used. The swap is performed entirely in the two existing variables.\n\n## When to Use\n\n- **Educational purposes:** XOR swap is an excellent exercise for understanding XOR properties and bitwise operations.\n- **Extremely memory-constrained environments:** When even a single extra register or variable is not available (rare in modern systems).\n- **Embedded systems with very limited registers:** Some microcontrollers may benefit, though this is increasingly uncommon.\n- **Programming puzzles and interviews:** Understanding XOR swap demonstrates knowledge of bitwise operations.\n\n## When NOT to Use\n\n- **General-purpose programming:** A standard swap with a temporary variable is clearer, often faster, and less error-prone.\n- **When the two variables might alias the same memory:** XOR swap zeroes out the value if both references point to the same location.\n- **When readability matters:** XOR swap is less intuitive than `temp = a; a = b; b = temp` and can confuse code reviewers.\n- **Modern compiled languages:** Compilers optimize `std::swap` or equivalent to use efficient register operations that outperform XOR swap.\n- **Floating-point or non-integer types:** XOR is defined for integers only.\n\n## Comparison with Similar Algorithms\n\n| Method          | Time | Space | Notes                                          |\n|----------------|------|-------|-------------------------------------------------|\n| XOR Swap        | O(1) | O(1)  | No temp variable; aliasing danger; integers only |\n| Temp Variable   | O(1) | O(1)  | Standard method; clear and safe                  |\n| Arithmetic Swap | O(1) | O(1)  | a=a+b, b=a-b, a=a-b; overflow risk              |\n| std::swap       | O(1) | O(1)  | Compiler-optimized; works with any type          |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [XorSwap.py](python/XorSwap.py) |\n| Java       | [XorSwap.java](java/XorSwap.java) |\n| C++        | [xorswap.cpp](cpp/xorswap.cpp) |\n| C          | [XorSwap.c](c/XorSwap.c) |\n| C#         | [XorSwap.cs](csharp/XorSwap.cs) |\n| TypeScript | [index.js](typescript/index.js) |\n| Scala      | [XorSwap.scala](scala/XorSwap.scala) |\n| Swift      | [XorSwap.swift](swift/XorSwap.swift) |\n\n## References\n\n- Knuth, D. E. (1997). *The Art of Computer Programming, Volume 1: Fundamental Algorithms* (3rd ed.). Addison-Wesley. Section 1.3.2.\n- Warren, H. S. (2012). *Hacker's Delight* (2nd ed.). Addison-Wesley. Chapter 2: Basics.\n- [XOR Swap Algorithm -- Wikipedia](https://en.wikipedia.org/wiki/XOR_swap_algorithm)\n"
+}

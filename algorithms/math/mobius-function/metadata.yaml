@@ -1,0 +1,17 @@
+name: "Mobius Function"
+slug: "mobius-function"
+category: "math"
+subcategory: "number-theory"
+difficulty: "advanced"
+tags: [math, number-theory, mobius-function, sieve, mobius-inversion]
+complexity:
+  time:
+    best: "O(n log log n)"
+    average: "O(n log log n)"
+    worst: "O(n log log n)"
+  space: "O(n)"
+stable: null
+in_place: false
+related: [euler-totient-sieve, sieve-of-eratosthenes]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

@@ -1,0 +1,18 @@
+algorithm: "modular-exponentiation"
+function_signature:
+  name: "mod_exp"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "2^10 mod 1000"
+    input: [[2, 10, 1000]]
+    expected: 24
+  - name: "3^5 mod 13"
+    input: [[3, 5, 13]]
+    expected: 9
+  - name: "exponent zero"
+    input: [[2, 0, 5]]
+    expected: 1
+  - name: "5^3 mod 100"
+    input: [[5, 3, 100]]
+    expected: 25

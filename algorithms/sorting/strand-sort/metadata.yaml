@@ -1,0 +1,17 @@
+name: "Strand Sort"
+slug: "strand-sort"
+category: "sorting"
+subcategory: "comparison-based"
+difficulty: "intermediate"
+tags: [sorting, comparison, merge, subsequence]
+complexity:
+  time:
+    best: "O(n)"
+    average: "O(n^2)"
+    worst: "O(n^2)"
+  space: "O(n)"
+stable: true
+in_place: false
+related: [merge-sort, tim-sort]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

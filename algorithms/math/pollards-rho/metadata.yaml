@@ -1,0 +1,17 @@
+name: "Pollard's Rho"
+slug: "pollards-rho"
+category: "math"
+subcategory: "number-theory"
+difficulty: "advanced"
+tags: [math, number-theory, factorization, pollards-rho, probabilistic]
+complexity:
+  time:
+    best: "O(n^(1/4))"
+    average: "O(n^(1/4))"
+    worst: "O(n^(1/2))"
+  space: "O(1)"
+stable: null
+in_place: true
+related: [miller-rabin, prime-check]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

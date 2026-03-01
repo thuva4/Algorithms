@@ -1,0 +1,17 @@
+name: "Queue"
+slug: "queue-operations"
+category: "data-structures"
+subcategory: "linear"
+difficulty: "beginner"
+tags: [data-structures, queue, fifo, linear]
+complexity:
+  time:
+    best: "O(n)"
+    average: "O(n)"
+    worst: "O(n)"
+  space: "O(n)"
+stable: null
+in_place: null
+related: [stack-operations, priority-queue]
+implementations: [python, java, cpp, c, go, typescript, kotlin, rust, swift, scala, csharp]
+visualization: false

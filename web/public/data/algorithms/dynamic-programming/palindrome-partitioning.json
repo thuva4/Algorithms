@@ -1,0 +1,134 @@
+{
+  "name": "Palindrome Partitioning",
+  "slug": "palindrome-partitioning",
+  "category": "dynamic-programming",
+  "subcategory": "partitioning",
+  "difficulty": "intermediate",
+  "tags": [
+    "dynamic-programming",
+    "palindrome",
+    "partitioning",
+    "strings"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n^2)",
+      "average": "O(n^2)",
+      "worst": "O(n^2)"
+    },
+    "space": "O(n^2)"
+  },
+  "stable": null,
+  "in_place": false,
+  "related": [
+    "longest-palindromic-substring",
+    "word-break"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "palindrome_partitioning.c",
+          "content": "#include <stdio.h>\n#include <stdlib.h>\n#include \"palindrome_partitioning.h\"\n\nint palindrome_partitioning(int* arr, int n) {\n    if (n <= 1) return 0;\n    int i, j, len;\n\n    int** isPal = (int**)malloc(n * sizeof(int*));\n    for (i = 0; i < n; i++) {\n        isPal[i] = (int*)calloc(n, sizeof(int));\n        isPal[i][i] = 1;\n    }\n    for (i = 0; i < n - 1; i++) isPal[i][i+1] = (arr[i] == arr[i+1]);\n    for (len = 3; len <= n; len++)\n        for (i = 0; i <= n - len; i++) {\n            j = i + len - 1;\n            isPal[i][j] = (arr[i] == arr[j]) && isPal[i+1][j-1];\n        }\n\n    int* cuts = (int*)malloc(n * sizeof(int));\n    for (i = 0; i < n; i++) {\n        if (isPal[0][i]) { cuts[i] = 0; continue; }\n        cuts[i] = i;\n        for (j = 1; j <= i; j++)\n            if (isPal[j][i] && cuts[j-1] + 1 < cuts[i])\n                cuts[i] = cuts[j-1] + 1;\n    }\n\n    int result = cuts[n-1];\n    for (i = 0; i < n; i++) free(isPal[i]);\n    free(isPal); free(cuts);\n    return result;\n}\n\nint main() {\n    int a1[] = {1, 2, 1}; printf(\"%d\\n\", palindrome_partitioning(a1, 3));\n    int a2[] = {1, 2, 3, 2}; printf(\"%d\\n\", palindrome_partitioning(a2, 4));\n    int a3[] = {1, 2, 3}; printf(\"%d\\n\", palindrome_partitioning(a3, 3));\n    int a4[] = {5}; printf(\"%d\\n\", palindrome_partitioning(a4, 1));\n    return 0;\n}\n"
+        },
+        {
+          "filename": "palindrome_partitioning.h",
+          "content": "#ifndef PALINDROME_PARTITIONING_H\n#define PALINDROME_PARTITIONING_H\n\nint palindrome_partitioning(int* arr, int size);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "palindrome_partitioning.cpp",
+          "content": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n\nint palindromePartitioning(const vector<int>& arr) {\n    int n = arr.size();\n    if (n <= 1) return 0;\n\n    vector<vector<bool>> isPal(n, vector<bool>(n, false));\n    for (int i = 0; i < n; i++) isPal[i][i] = true;\n    for (int i = 0; i < n - 1; i++) isPal[i][i+1] = (arr[i] == arr[i+1]);\n    for (int len = 3; len <= n; len++)\n        for (int i = 0; i <= n - len; i++) {\n            int j = i + len - 1;\n            isPal[i][j] = (arr[i] == arr[j]) && isPal[i+1][j-1];\n        }\n\n    vector<int> cuts(n);\n    for (int i = 0; i < n; i++) {\n        if (isPal[0][i]) { cuts[i] = 0; continue; }\n        cuts[i] = i;\n        for (int j = 1; j <= i; j++)\n            if (isPal[j][i]) cuts[i] = min(cuts[i], cuts[j-1] + 1);\n    }\n    return cuts[n-1];\n}\n\nint main() {\n    cout << palindromePartitioning({1, 2, 1}) << endl;\n    cout << palindromePartitioning({1, 2, 3, 2}) << endl;\n    cout << palindromePartitioning({1, 2, 3}) << endl;\n    cout << palindromePartitioning({5}) << endl;\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "PalindromePartitioning.cs",
+          "content": "using System;\n\npublic class PalindromePartitioning\n{\n    public static int Solve(int[] arr)\n    {\n        int n = arr.Length;\n        if (n <= 1) return 0;\n\n        bool[,] isPal = new bool[n, n];\n        for (int i = 0; i < n; i++) isPal[i, i] = true;\n        for (int i = 0; i < n - 1; i++) isPal[i, i+1] = arr[i] == arr[i+1];\n        for (int len = 3; len <= n; len++)\n            for (int i = 0; i <= n - len; i++) {\n                int j = i + len - 1;\n                isPal[i, j] = arr[i] == arr[j] && isPal[i+1, j-1];\n            }\n\n        int[] cuts = new int[n];\n        for (int i = 0; i < n; i++) {\n            if (isPal[0, i]) { cuts[i] = 0; continue; }\n            cuts[i] = i;\n            for (int j = 1; j <= i; j++)\n                if (isPal[j, i] && cuts[j-1] + 1 < cuts[i]) cuts[i] = cuts[j-1] + 1;\n        }\n        return cuts[n-1];\n    }\n\n    static void Main(string[] args)\n    {\n        Console.WriteLine(Solve(new int[] { 1, 2, 1 }));\n        Console.WriteLine(Solve(new int[] { 1, 2, 3, 2 }));\n        Console.WriteLine(Solve(new int[] { 1, 2, 3 }));\n        Console.WriteLine(Solve(new int[] { 5 }));\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "palindrome_partitioning.go",
+          "content": "package main\n\nimport \"fmt\"\n\nfunc PalindromePartitioning(arr []int) int {\n\tn := len(arr)\n\tif n <= 1 { return 0 }\n\n\tisPal := make([][]bool, n)\n\tfor i := range isPal { isPal[i] = make([]bool, n); isPal[i][i] = true }\n\tfor i := 0; i < n-1; i++ { isPal[i][i+1] = arr[i] == arr[i+1] }\n\tfor l := 3; l <= n; l++ {\n\t\tfor i := 0; i <= n-l; i++ {\n\t\t\tj := i + l - 1\n\t\t\tisPal[i][j] = arr[i] == arr[j] && isPal[i+1][j-1]\n\t\t}\n\t}\n\n\tcuts := make([]int, n)\n\tfor i := 0; i < n; i++ {\n\t\tif isPal[0][i] { cuts[i] = 0; continue }\n\t\tcuts[i] = i\n\t\tfor j := 1; j <= i; j++ {\n\t\t\tif isPal[j][i] && cuts[j-1]+1 < cuts[i] { cuts[i] = cuts[j-1] + 1 }\n\t\t}\n\t}\n\treturn cuts[n-1]\n}\n\nfunc main() {\n\tfmt.Println(PalindromePartitioning([]int{1, 2, 1}))\n\tfmt.Println(PalindromePartitioning([]int{1, 2, 3, 2}))\n\tfmt.Println(PalindromePartitioning([]int{1, 2, 3}))\n\tfmt.Println(PalindromePartitioning([]int{5}))\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "PalindromePartitioning.java",
+          "content": "public class PalindromePartitioning {\n\n    public static int palindromePartitioning(int[] arr) {\n        int n = arr.length;\n        if (n <= 1) return 0;\n\n        boolean[][] isPal = new boolean[n][n];\n        for (int i = 0; i < n; i++) isPal[i][i] = true;\n        for (int i = 0; i < n - 1; i++) isPal[i][i + 1] = (arr[i] == arr[i + 1]);\n        for (int len = 3; len <= n; len++)\n            for (int i = 0; i <= n - len; i++) {\n                int j = i + len - 1;\n                isPal[i][j] = (arr[i] == arr[j]) && isPal[i + 1][j - 1];\n            }\n\n        int[] cuts = new int[n];\n        for (int i = 0; i < n; i++) {\n            if (isPal[0][i]) { cuts[i] = 0; continue; }\n            cuts[i] = i;\n            for (int j = 1; j <= i; j++)\n                if (isPal[j][i] && cuts[j - 1] + 1 < cuts[i])\n                    cuts[i] = cuts[j - 1] + 1;\n        }\n        return cuts[n - 1];\n    }\n\n    public static void main(String[] args) {\n        System.out.println(palindromePartitioning(new int[]{1, 2, 1}));\n        System.out.println(palindromePartitioning(new int[]{1, 2, 3, 2}));\n        System.out.println(palindromePartitioning(new int[]{1, 2, 3}));\n        System.out.println(palindromePartitioning(new int[]{5}));\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "PalindromePartitioning.kt",
+          "content": "fun palindromePartitioning(arr: IntArray): Int {\n    val n = arr.size\n    if (n <= 1) return 0\n\n    val isPal = Array(n) { BooleanArray(n) }\n    for (i in 0 until n) isPal[i][i] = true\n    for (i in 0 until n - 1) isPal[i][i+1] = arr[i] == arr[i+1]\n    for (len in 3..n)\n        for (i in 0..n-len) {\n            val j = i + len - 1\n            isPal[i][j] = arr[i] == arr[j] && isPal[i+1][j-1]\n        }\n\n    val cuts = IntArray(n)\n    for (i in 0 until n) {\n        if (isPal[0][i]) { cuts[i] = 0; continue }\n        cuts[i] = i\n        for (j in 1..i)\n            if (isPal[j][i] && cuts[j-1] + 1 < cuts[i]) cuts[i] = cuts[j-1] + 1\n    }\n    return cuts[n-1]\n}\n\nfun main() {\n    println(palindromePartitioning(intArrayOf(1, 2, 1)))\n    println(palindromePartitioning(intArrayOf(1, 2, 3, 2)))\n    println(palindromePartitioning(intArrayOf(1, 2, 3)))\n    println(palindromePartitioning(intArrayOf(5)))\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "palindrome_partitioning.py",
+          "content": "def palindrome_partitioning(arr):\n    \"\"\"\n    Find minimum cuts to partition array into palindromic parts.\n    Returns: minimum number of cuts\n    \"\"\"\n    n = len(arr)\n    if n <= 1:\n        return 0\n\n    # is_pal[i][j] = True if arr[i..j] is a palindrome\n    is_pal = [[False] * n for _ in range(n)]\n    for i in range(n):\n        is_pal[i][i] = True\n    for i in range(n - 1):\n        is_pal[i][i + 1] = (arr[i] == arr[i + 1])\n    for length in range(3, n + 1):\n        for i in range(n - length + 1):\n            j = i + length - 1\n            is_pal[i][j] = (arr[i] == arr[j]) and is_pal[i + 1][j - 1]\n\n    # cuts[i] = min cuts for arr[0..i]\n    cuts = [0] * n\n    for i in range(n):\n        if is_pal[0][i]:\n            cuts[i] = 0\n        else:\n            cuts[i] = i  # worst case: cut each element\n            for j in range(1, i + 1):\n                if is_pal[j][i]:\n                    cuts[i] = min(cuts[i], cuts[j - 1] + 1)\n\n    return cuts[n - 1]\n\n\nif __name__ == \"__main__\":\n    print(palindrome_partitioning([1, 2, 1]))     # 0\n    print(palindrome_partitioning([1, 2, 3, 2]))   # 1\n    print(palindrome_partitioning([1, 2, 3]))       # 2\n    print(palindrome_partitioning([5]))             # 0\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "palindrome_partitioning.rs",
+          "content": "pub fn palindrome_partitioning(arr: &[i32]) -> i32 {\n    let n = arr.len();\n    if n <= 1 { return 0; }\n\n    let mut is_pal = vec![vec![false; n]; n];\n    for i in 0..n { is_pal[i][i] = true; }\n    for i in 0..n-1 { is_pal[i][i+1] = arr[i] == arr[i+1]; }\n    for len in 3..=n {\n        for i in 0..=n-len {\n            let j = i + len - 1;\n            is_pal[i][j] = arr[i] == arr[j] && is_pal[i+1][j-1];\n        }\n    }\n\n    let mut cuts = vec![0i32; n];\n    for i in 0..n {\n        if is_pal[0][i] { cuts[i] = 0; continue; }\n        cuts[i] = i as i32;\n        for j in 1..=i {\n            if is_pal[j][i] && cuts[j-1] + 1 < cuts[i] { cuts[i] = cuts[j-1] + 1; }\n        }\n    }\n    cuts[n-1]\n}\n\nfn main() {\n    println!(\"{}\", palindrome_partitioning(&[1, 2, 1]));\n    println!(\"{}\", palindrome_partitioning(&[1, 2, 3, 2]));\n    println!(\"{}\", palindrome_partitioning(&[1, 2, 3]));\n    println!(\"{}\", palindrome_partitioning(&[5]));\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "PalindromePartitioning.scala",
+          "content": "object PalindromePartitioning {\n\n  def palindromePartitioning(arr: Array[Int]): Int = {\n    val n = arr.length\n    if (n <= 1) return 0\n\n    val isPal = Array.ofDim[Boolean](n, n)\n    for (i <- 0 until n) isPal(i)(i) = true\n    for (i <- 0 until n - 1) isPal(i)(i+1) = arr(i) == arr(i+1)\n    for (len <- 3 to n; i <- 0 to n - len) {\n      val j = i + len - 1\n      isPal(i)(j) = arr(i) == arr(j) && isPal(i+1)(j-1)\n    }\n\n    val cuts = new Array[Int](n)\n    for (i <- 0 until n) {\n      if (isPal(0)(i)) { cuts(i) = 0 }\n      else {\n        cuts(i) = i\n        for (j <- 1 to i)\n          if (isPal(j)(i) && cuts(j-1) + 1 < cuts(i)) cuts(i) = cuts(j-1) + 1\n      }\n    }\n    cuts(n-1)\n  }\n\n  def main(args: Array[String]): Unit = {\n    println(palindromePartitioning(Array(1, 2, 1)))\n    println(palindromePartitioning(Array(1, 2, 3, 2)))\n    println(palindromePartitioning(Array(1, 2, 3)))\n    println(palindromePartitioning(Array(5)))\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "PalindromePartitioning.swift",
+          "content": "func palindromePartitioning(_ arr: [Int]) -> Int {\n    let n = arr.count\n    if n <= 1 { return 0 }\n\n    var isPal = Array(repeating: Array(repeating: false, count: n), count: n)\n    for i in 0..<n { isPal[i][i] = true }\n    for i in 0..<n-1 { isPal[i][i+1] = arr[i] == arr[i+1] }\n    for len in 3...n {\n        for i in 0...n-len {\n            let j = i + len - 1\n            isPal[i][j] = arr[i] == arr[j] && isPal[i+1][j-1]\n        }\n    }\n\n    var cuts = Array(repeating: 0, count: n)\n    for i in 0..<n {\n        if isPal[0][i] { cuts[i] = 0; continue }\n        cuts[i] = i\n        for j in 1...i {\n            if isPal[j][i] && cuts[j-1] + 1 < cuts[i] { cuts[i] = cuts[j-1] + 1 }\n        }\n    }\n    return cuts[n-1]\n}\n\nprint(palindromePartitioning([1, 2, 1]))\nprint(palindromePartitioning([1, 2, 3, 2]))\nprint(palindromePartitioning([1, 2, 3]))\nprint(palindromePartitioning([5]))\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "palindromePartitioning.ts",
+          "content": "export function palindromePartitioning(arr: number[]): number {\n    const n = arr.length;\n    if (n <= 1) return 0;\n\n    const isPal: boolean[][] = Array.from({ length: n }, () => new Array(n).fill(false));\n    for (let i = 0; i < n; i++) isPal[i][i] = true;\n    for (let i = 0; i < n - 1; i++) isPal[i][i+1] = arr[i] === arr[i+1];\n    for (let len = 3; len <= n; len++)\n        for (let i = 0; i <= n - len; i++) {\n            const j = i + len - 1;\n            isPal[i][j] = arr[i] === arr[j] && isPal[i+1][j-1];\n        }\n\n    const cuts = new Array(n).fill(0);\n    for (let i = 0; i < n; i++) {\n        if (isPal[0][i]) { cuts[i] = 0; continue; }\n        cuts[i] = i;\n        for (let j = 1; j <= i; j++)\n            if (isPal[j][i] && cuts[j-1] + 1 < cuts[i]) cuts[i] = cuts[j-1] + 1;\n    }\n    return cuts[n-1];\n}\n\nconsole.log(palindromePartitioning([1, 2, 1]));\nconsole.log(palindromePartitioning([1, 2, 3, 2]));\nconsole.log(palindromePartitioning([1, 2, 3]));\nconsole.log(palindromePartitioning([5]));\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Palindrome Partitioning\n\n## Overview\n\nPalindrome Partitioning finds the minimum number of cuts needed to partition a sequence into palindromic subsequences. A palindrome reads the same forwards and backwards. Given a sequence of n elements, every single element is trivially a palindrome, so at most n-1 cuts are needed. The challenge is to find the fewest cuts such that every resulting segment is a palindrome. This problem appears in text processing, DNA sequence analysis, and compiler optimization.\n\n## How It Works\n\nThe algorithm uses two layers of dynamic programming:\n\n1. **Palindrome table:** Build a boolean table `isPalin[i][j]` indicating whether the subarray from index i to j is a palindrome. This is filled using the recurrence: `isPalin[i][j] = true` if `arr[i] == arr[j]` and either `j - i <= 1` or `isPalin[i+1][j-1]` is true.\n\n2. **Minimum cuts:** Define `cuts[i]` as the minimum number of cuts needed for the subarray from index 0 to i. For each position i, if the entire prefix `arr[0..i]` is a palindrome, then `cuts[i] = 0`. Otherwise, try every possible last cut position j (from 0 to i-1): if `arr[j+1..i]` is a palindrome, then `cuts[i] = min(cuts[i], cuts[j] + 1)`.\n\nInput format: array of integers\nOutput: minimum number of cuts\n\n## Example\n\nGiven input: `[1, 2, 3, 2, 1]`\n\n**Palindrome table (relevant entries):**\n- `isPalin[0][4]` = true (the whole array `[1,2,3,2,1]` is a palindrome)\n- `isPalin[1][3]` = true (`[2,3,2]` is a palindrome)\n- Each single element is a palindrome\n\nSince the entire array is already a palindrome, the minimum cuts = **0**.\n\nGiven input: `[1, 2, 3, 4, 5]`\n\nNo subarray of length > 1 is a palindrome, so every element must be its own partition. Minimum cuts = **4** (yielding `[1] [2] [3] [4] [5]`).\n\nGiven input: `[1, 2, 1, 2, 1]`\n\n- `isPalin[0][4]` = true (`[1,2,1,2,1]` is a palindrome)\n- Minimum cuts = **0**.\n\nGiven input: `[1, 2, 3, 1, 2]`\n\n- No long palindromes span the entire array.\n- `isPalin[0][0]` through `isPalin[4][4]` are all true (single elements).\n- `cuts[0] = 0`, `cuts[1] = 1`, `cuts[2] = 2`, `cuts[3] = 3`, `cuts[4] = 4`.\n- Minimum cuts = **4**.\n\n## Pseudocode\n\n```\nfunction palindromePartition(arr, n):\n    // Step 1: Build palindrome table\n    isPalin[0..n-1][0..n-1] = false\n    for i from 0 to n-1:\n        isPalin[i][i] = true\n    for length from 2 to n:\n        for i from 0 to n - length:\n            j = i + length - 1\n            if arr[i] == arr[j]:\n                if length == 2 or isPalin[i+1][j-1]:\n                    isPalin[i][j] = true\n\n    // Step 2: Find minimum cuts\n    cuts[0..n-1] = infinity\n    for i from 0 to n-1:\n        if isPalin[0][i]:\n            cuts[i] = 0\n        else:\n            for j from 0 to i-1:\n                if isPalin[j+1][i] and cuts[j] + 1 < cuts[i]:\n                    cuts[i] = cuts[j] + 1\n\n    return cuts[n-1]\n```\n\n## Complexity Analysis\n\n| Case    | Time   | Space  |\n|---------|--------|--------|\n| Best    | O(n^2) | O(n^2) |\n| Average | O(n^2) | O(n^2) |\n| Worst   | O(n^2) | O(n^2) |\n\nThe palindrome table requires O(n^2) time and space to construct. The minimum-cuts computation also takes O(n^2) time in the worst case (checking all possible cut positions for each index). The space is dominated by the n x n palindrome table.\n\n## When to Use\n\n- **Text segmentation:** Breaking a string into palindromic parts, useful in natural language processing and DNA analysis.\n- **Compiler optimization:** Decomposing code patterns into symmetric structures.\n- **String processing pipelines:** When downstream operations require palindromic segments.\n- **Competitive programming:** A classic DP problem that appears frequently in contests.\n\n## When NOT to Use\n\n- **Enumerating all palindrome partitions:** This algorithm only counts minimum cuts, not all possible partitions. Use backtracking for enumeration.\n- **Very long sequences where approximate answers suffice:** The O(n^2) space may be prohibitive for extremely large inputs. Consider Manacher's algorithm for palindrome detection combined with greedy heuristics.\n- **When the input is guaranteed to already be a palindrome:** The answer is trivially 0 and no DP is needed.\n\n## Comparison\n\n| Approach                  | Time   | Space  | Notes                                  |\n|---------------------------|--------|--------|----------------------------------------|\n| DP (this algorithm)       | O(n^2) | O(n^2) | Optimal for exact minimum cuts         |\n| Brute Force (recursion)   | O(2^n) | O(n)   | Exponential; impractical for large n   |\n| Memoized recursion        | O(n^2) | O(n^2) | Same complexity, top-down approach     |\n| Optimized Manacher + DP   | O(n^2) | O(n)   | Can reduce space using Manacher's      |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [palindrome_partitioning.py](python/palindrome_partitioning.py) |\n| Java       | [PalindromePartitioning.java](java/PalindromePartitioning.java) |\n| C++        | [palindrome_partitioning.cpp](cpp/palindrome_partitioning.cpp) |\n| C          | [palindrome_partitioning.c](c/palindrome_partitioning.c) |\n| Go         | [palindrome_partitioning.go](go/palindrome_partitioning.go) |\n| TypeScript | [palindromePartitioning.ts](typescript/palindromePartitioning.ts) |\n| Rust       | [palindrome_partitioning.rs](rust/palindrome_partitioning.rs) |\n| Kotlin     | [PalindromePartitioning.kt](kotlin/PalindromePartitioning.kt) |\n| Swift      | [PalindromePartitioning.swift](swift/PalindromePartitioning.swift) |\n| Scala      | [PalindromePartitioning.scala](scala/PalindromePartitioning.scala) |\n| C#         | [PalindromePartitioning.cs](csharp/PalindromePartitioning.cs) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press.\n- [Palindrome Partitioning -- Wikipedia](https://en.wikipedia.org/wiki/Palindrome#Computation)\n- [Palindrome Partitioning DP -- GeeksforGeeks](https://www.geeksforgeeks.org/palindrome-partitioning-dp-17/)\n"
+}

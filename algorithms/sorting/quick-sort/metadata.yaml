@@ -1,0 +1,21 @@
+name: "Quick Sort"
+slug: "quick-sort"
+category: "sorting"
+subcategory: "comparison-based"
+difficulty: "intermediate"
+tags: [sorting, comparison, in-place, divide-and-conquer]
+complexity:
+  time:
+    best: "O(n log n)"
+    average: "O(n log n)"
+    worst: "O(n^2)"
+  space: "O(log n)"
+stable: false
+in_place: true
+related: [merge-sort, heap-sort]
+implementations: [c, cpp, csharp, go, java, kotlin, python, rust, swift, typescript]
+visualization: true
+patterns:
+  - two-pointers
+patternDifficulty: intermediate
+practiceOrder: 3

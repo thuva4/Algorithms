@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Contributing Guide
+    url: https://github.com/Thuva4/Algorithms_Example/blob/master/CONTRIBUTING.md
+    about: Read the contributing guide before opening an issue or PR

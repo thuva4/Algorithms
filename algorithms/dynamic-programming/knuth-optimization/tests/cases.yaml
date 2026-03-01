@@ -1,0 +1,34 @@
+algorithm: "knuth-optimization"
+description: "Optimal BST cost using Knuth's optimization"
+function_signature:
+  name: "knuth_optimization"
+  input: "n, freq[] (array of n integers)"
+  output: "minimum cost (integer)"
+input_format: "First value: n. Next n values: frequencies."
+output_format: "Single integer: minimum cost."
+test_cases:
+  - name: "single key"
+    input:
+      n: 1
+      freq: [5]
+    expected: 5
+  - name: "two keys"
+    input:
+      n: 2
+      freq: [10, 20]
+    expected: 40
+  - name: "three keys"
+    input:
+      n: 3
+      freq: [10, 12, 20]
+    expected: 72
+  - name: "four keys equal"
+    input:
+      n: 4
+      freq: [1, 1, 1, 1]
+    expected: 8
+  - name: "three keys descending"
+    input:
+      n: 3
+      freq: [30, 20, 10]
+    expected: 100

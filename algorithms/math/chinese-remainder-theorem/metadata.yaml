@@ -1,0 +1,15 @@
+name: "Chinese Remainder Theorem"
+slug: "chinese-remainder-theorem"
+category: "math"
+subcategory: "number-theory"
+difficulty: "advanced"
+tags: [math, number-theory, crt, modular-arithmetic, congruences]
+complexity:
+  time:
+    best: "O(n log M)"
+    average: "O(n log M)"
+    worst: "O(n log M)"
+  space: "O(1)"
+related: [extended-euclidean, modular-exponentiation, greatest-common-divisor]
+implementations: [python, java, cpp, c, go, typescript, kotlin, rust, swift, scala, csharp]
+visualization: true

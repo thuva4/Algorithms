@@ -1,0 +1,138 @@
+{
+  "name": "Linked List Operations",
+  "slug": "linked-list-operations",
+  "category": "data-structures",
+  "subcategory": "linked-list",
+  "difficulty": "beginner",
+  "tags": [
+    "data-structures",
+    "linked-list",
+    "pointers"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(1)",
+      "average": "O(n)",
+      "worst": "O(n)"
+    },
+    "space": "O(1)"
+  },
+  "stable": false,
+  "in_place": true,
+  "related": [
+    "lru-cache"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "reverse_linked_list.c",
+          "content": "#include \"reverse_linked_list.h\"\n#include <stdlib.h>\n\ntypedef struct Node {\n    int value;\n    struct Node* next;\n} Node;\n\nstatic Node* build_list(int arr[], int n) {\n    if (n == 0) {\n        return NULL;\n    }\n    Node* head = (Node*)malloc(sizeof(Node));\n    head->value = arr[0];\n    head->next = NULL;\n    Node* current = head;\n    for (int i = 1; i < n; i++) {\n        current->next = (Node*)malloc(sizeof(Node));\n        current = current->next;\n        current->value = arr[i];\n        current->next = NULL;\n    }\n    return head;\n}\n\nstatic void free_list(Node* head) {\n    while (head != NULL) {\n        Node* next = head->next;\n        free(head);\n        head = next;\n    }\n}\n\nvoid reverse_linked_list(int arr[], int n, int result[], int* result_size) {\n    Node* head = build_list(arr, n);\n\n    Node* prev = NULL;\n    Node* current = head;\n    while (current != NULL) {\n        Node* next = current->next;\n        current->next = prev;\n        prev = current;\n        current = next;\n    }\n\n    *result_size = 0;\n    Node* cur = prev;\n    while (cur != NULL) {\n        result[*result_size] = cur->value;\n        (*result_size)++;\n        cur = cur->next;\n    }\n\n    free_list(prev);\n}\n"
+        },
+        {
+          "filename": "reverse_linked_list.h",
+          "content": "#ifndef REVERSE_LINKED_LIST_H\n#define REVERSE_LINKED_LIST_H\n\nvoid reverse_linked_list(int arr[], int n, int result[], int* result_size);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "reverse_linked_list.cpp",
+          "content": "#include <vector>\n\nstruct Node {\n    int value;\n    Node* next;\n    Node(int v) : value(v), next(nullptr) {}\n};\n\nstatic Node* buildList(const std::vector<int>& arr) {\n    if (arr.empty()) {\n        return nullptr;\n    }\n    Node* head = new Node(arr[0]);\n    Node* current = head;\n    for (size_t i = 1; i < arr.size(); i++) {\n        current->next = new Node(arr[i]);\n        current = current->next;\n    }\n    return head;\n}\n\nstatic std::vector<int> toArray(Node* head) {\n    std::vector<int> result;\n    Node* current = head;\n    while (current != nullptr) {\n        result.push_back(current->value);\n        current = current->next;\n    }\n    return result;\n}\n\nstatic void freeList(Node* head) {\n    while (head != nullptr) {\n        Node* next = head->next;\n        delete head;\n        head = next;\n    }\n}\n\nstd::vector<int> reverseLinkedList(std::vector<int> arr) {\n    Node* head = buildList(arr);\n\n    Node* prev = nullptr;\n    Node* current = head;\n    while (current != nullptr) {\n        Node* next = current->next;\n        current->next = prev;\n        prev = current;\n        current = next;\n    }\n\n    std::vector<int> result = toArray(prev);\n    freeList(prev);\n    return result;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "ReverseLinkedList.cs",
+          "content": "using System.Collections.Generic;\n\npublic class ReverseLinkedList\n{\n    private class ListNode\n    {\n        public int Value;\n        public ListNode Next;\n\n        public ListNode(int value)\n        {\n            Value = value;\n        }\n    }\n\n    private static ListNode BuildList(int[] arr)\n    {\n        if (arr.Length == 0) return null;\n        ListNode head = new ListNode(arr[0]);\n        ListNode current = head;\n        for (int i = 1; i < arr.Length; i++)\n        {\n            current.Next = new ListNode(arr[i]);\n            current = current.Next;\n        }\n        return head;\n    }\n\n    private static int[] ToArray(ListNode head)\n    {\n        List<int> result = new List<int>();\n        ListNode current = head;\n        while (current != null)\n        {\n            result.Add(current.Value);\n            current = current.Next;\n        }\n        return result.ToArray();\n    }\n\n    public static int[] Reverse(int[] arr)\n    {\n        ListNode head = BuildList(arr);\n\n        ListNode prev = null;\n        ListNode current = head;\n        while (current != null)\n        {\n            ListNode next = current.Next;\n            current.Next = prev;\n            prev = current;\n            current = next;\n        }\n\n        return ToArray(prev);\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "reverse_linked_list.go",
+          "content": "package linkedlistoperations\n\ntype node struct {\n\tvalue int\n\tnext  *node\n}\n\nfunc buildList(arr []int) *node {\n\tif len(arr) == 0 {\n\t\treturn nil\n\t}\n\thead := &node{value: arr[0]}\n\tcurrent := head\n\tfor i := 1; i < len(arr); i++ {\n\t\tcurrent.next = &node{value: arr[i]}\n\t\tcurrent = current.next\n\t}\n\treturn head\n}\n\nfunc toArray(head *node) []int {\n\tresult := []int{}\n\tcurrent := head\n\tfor current != nil {\n\t\tresult = append(result, current.value)\n\t\tcurrent = current.next\n\t}\n\treturn result\n}\n\n// ReverseLinkedList builds a linked list from an array, reverses it, and returns the result as an array.\nfunc ReverseLinkedList(arr []int) []int {\n\thead := buildList(arr)\n\n\tvar prev *node\n\tcurrent := head\n\tfor current != nil {\n\t\tnext := current.next\n\t\tcurrent.next = prev\n\t\tprev = current\n\t\tcurrent = next\n\t}\n\n\treturn toArray(prev)\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "ReverseLinkedList.java",
+          "content": "public class ReverseLinkedList {\n\n    private static class Node {\n        int value;\n        Node next;\n\n        Node(int value) {\n            this.value = value;\n        }\n    }\n\n    private static Node buildList(int[] arr) {\n        if (arr.length == 0) {\n            return null;\n        }\n        Node head = new Node(arr[0]);\n        Node current = head;\n        for (int i = 1; i < arr.length; i++) {\n            current.next = new Node(arr[i]);\n            current = current.next;\n        }\n        return head;\n    }\n\n    private static int[] toArray(Node head) {\n        int count = 0;\n        Node current = head;\n        while (current != null) {\n            count++;\n            current = current.next;\n        }\n        int[] result = new int[count];\n        current = head;\n        for (int i = 0; i < count; i++) {\n            result[i] = current.value;\n            current = current.next;\n        }\n        return result;\n    }\n\n    public static int[] reverseLinkedList(int[] arr) {\n        Node head = buildList(arr);\n\n        Node prev = null;\n        Node current = head;\n        while (current != null) {\n            Node next = current.next;\n            current.next = prev;\n            prev = current;\n            current = next;\n        }\n\n        return toArray(prev);\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "ReverseLinkedList.kt",
+          "content": "private class ListNode(val value: Int, var next: ListNode? = null)\n\nprivate fun buildList(arr: IntArray): ListNode? {\n    if (arr.isEmpty()) return null\n    val head = ListNode(arr[0])\n    var current = head\n    for (i in 1 until arr.size) {\n        current.next = ListNode(arr[i])\n        current = current.next!!\n    }\n    return head\n}\n\nprivate fun toArray(head: ListNode?): IntArray {\n    val result = mutableListOf<Int>()\n    var current = head\n    while (current != null) {\n        result.add(current.value)\n        current = current.next\n    }\n    return result.toIntArray()\n}\n\nfun reverseLinkedList(arr: IntArray): IntArray {\n    var head = buildList(arr)\n\n    var prev: ListNode? = null\n    var current = head\n    while (current != null) {\n        val next = current.next\n        current.next = prev\n        prev = current\n        current = next\n    }\n\n    return toArray(prev)\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "reverse_linked_list.py",
+          "content": "class _Node:\n    __slots__ = (\"value\", \"next\")\n\n    def __init__(self, value: int) -> None:\n        self.value = value\n        self.next: \"_Node | None\" = None\n\n\ndef _build_list(arr: list[int]) -> \"_Node | None\":\n    if not arr:\n        return None\n    head = _Node(arr[0])\n    current = head\n    for val in arr[1:]:\n        current.next = _Node(val)\n        current = current.next\n    return head\n\n\ndef _to_array(head: \"_Node | None\") -> list[int]:\n    result: list[int] = []\n    current = head\n    while current is not None:\n        result.append(current.value)\n        current = current.next\n    return result\n\n\ndef reverse_linked_list(arr: list[int]) -> list[int]:\n    head = _build_list(arr)\n\n    prev = None\n    current = head\n    while current is not None:\n        next_node = current.next\n        current.next = prev\n        prev = current\n        current = next_node\n\n    return _to_array(prev)\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "reverse_linked_list.rs",
+          "content": "type Link = Option<Box<Node>>;\n\nstruct Node {\n    value: i32,\n    next: Link,\n}\n\nfn build_list(arr: &[i32]) -> Link {\n    let mut head: Link = None;\n    for &val in arr.iter().rev() {\n        head = Some(Box::new(Node {\n            value: val,\n            next: head,\n        }));\n    }\n    head\n}\n\nfn to_array(head: &Link) -> Vec<i32> {\n    let mut result = Vec::new();\n    let mut current = head;\n    while let Some(node) = current {\n        result.push(node.value);\n        current = &node.next;\n    }\n    result\n}\n\npub fn reverse_linked_list(arr: &[i32]) -> Vec<i32> {\n    let head = build_list(arr);\n\n    let mut prev: Link = None;\n    let mut current = head;\n    while let Some(mut node) = current {\n        current = node.next.take();\n        node.next = prev;\n        prev = Some(node);\n    }\n\n    to_array(&prev)\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "ReverseLinkedList.scala",
+          "content": "object ReverseLinkedList {\n\n  private class ListNode(val value: Int, var next: ListNode = null)\n\n  private def buildList(arr: Array[Int]): ListNode = {\n    if (arr.isEmpty) return null\n    val head = new ListNode(arr(0))\n    var current = head\n    for (i <- 1 until arr.length) {\n      current.next = new ListNode(arr(i))\n      current = current.next\n    }\n    head\n  }\n\n  private def toArray(head: ListNode): Array[Int] = {\n    val result = scala.collection.mutable.ArrayBuffer[Int]()\n    var current = head\n    while (current != null) {\n      result += current.value\n      current = current.next\n    }\n    result.toArray\n  }\n\n  def reverseLinkedList(arr: Array[Int]): Array[Int] = {\n    var head = buildList(arr)\n\n    var prev: ListNode = null\n    var current = head\n    while (current != null) {\n      val next = current.next\n      current.next = prev\n      prev = current\n      current = next\n    }\n\n    toArray(prev)\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "ReverseLinkedList.swift",
+          "content": "private class ListNode {\n    var value: Int\n    var next: ListNode?\n\n    init(_ value: Int) {\n        self.value = value\n    }\n}\n\nprivate func buildList(_ arr: [Int]) -> ListNode? {\n    guard !arr.isEmpty else { return nil }\n    let head = ListNode(arr[0])\n    var current = head\n    for i in 1..<arr.count {\n        current.next = ListNode(arr[i])\n        current = current.next!\n    }\n    return head\n}\n\nprivate func toArray(_ head: ListNode?) -> [Int] {\n    var result: [Int] = []\n    var current = head\n    while let node = current {\n        result.append(node.value)\n        current = node.next\n    }\n    return result\n}\n\nfunc reverseLinkedList(_ arr: [Int]) -> [Int] {\n    let head = buildList(arr)\n\n    var prev: ListNode? = nil\n    var current = head\n    while let node = current {\n        let next = node.next\n        node.next = prev\n        prev = node\n        current = next\n    }\n\n    return toArray(prev)\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "reverseLinkedList.ts",
+          "content": "class ListNode {\n    value: number;\n    next: ListNode | null = null;\n\n    constructor(value: number) {\n        this.value = value;\n    }\n}\n\nfunction buildList(arr: number[]): ListNode | null {\n    if (arr.length === 0) {\n        return null;\n    }\n    const head = new ListNode(arr[0]);\n    let current = head;\n    for (let i = 1; i < arr.length; i++) {\n        current.next = new ListNode(arr[i]);\n        current = current.next;\n    }\n    return head;\n}\n\nfunction toArray(head: ListNode | null): number[] {\n    const result: number[] = [];\n    let current = head;\n    while (current !== null) {\n        result.push(current.value);\n        current = current.next;\n    }\n    return result;\n}\n\nexport function reverseLinkedList(arr: number[]): number[] {\n    let head = buildList(arr);\n\n    let prev: ListNode | null = null;\n    let current = head;\n    while (current !== null) {\n        const next = current.next;\n        current.next = prev;\n        prev = current;\n        current = next;\n    }\n\n    return toArray(prev);\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "patterns": [
+    "fast-slow-pointers",
+    "in-place-reversal-linkedlist"
+  ],
+  "patternDifficulty": "beginner",
+  "practiceOrder": 2,
+  "readme": "# Linked List Operations\n\n## Overview\n\nA singly linked list is a linear data structure where each element (node) contains a value and a pointer to the next node in the sequence. Unlike arrays, linked lists do not require contiguous memory allocation, making insertions and deletions efficient at known positions. This module implements core linked list operations: insertion, deletion, reversal, cycle detection, and finding the middle element.\n\nThe primary function exposed for the test runner is `reverse_linked_list`, which takes an array representation of a linked list, builds an actual linked list, reverses it in place, and returns the result as an array.\n\n## How It Works\n\n### Reversal (Iterative)\n\nThe reversal algorithm uses three pointers to reverse the direction of all `next` pointers in a single pass:\n\n1. Initialize `prev` to null, `current` to the head of the list.\n2. For each node, save its `next` pointer, point its `next` to `prev`, then advance `prev` and `current` forward.\n3. When `current` becomes null, `prev` is the new head of the reversed list.\n\n### Example\n\nGiven input: `[1, 2, 3, 4, 5]`\n\nBuild linked list: `1 -> 2 -> 3 -> 4 -> 5 -> null`\n\n| Step | prev | current | current.next (saved) | Action |\n|------|------|---------|---------------------|--------|\n| 1 | null | 1 | 2 | Point 1.next to null |\n| 2 | 1 | 2 | 3 | Point 2.next to 1 |\n| 3 | 2 | 3 | 4 | Point 3.next to 2 |\n| 4 | 3 | 4 | 5 | Point 4.next to 3 |\n| 5 | 4 | 5 | null | Point 5.next to 4 |\n\nResult: `5 -> 4 -> 3 -> 2 -> 1 -> null`\n\nOutput: `[5, 4, 3, 2, 1]`\n\n### Other Operations (Included in Implementations)\n\n- **Insert at head**: Create a new node, point its `next` to the current head, update head. O(1).\n- **Delete by value**: Traverse to find the node, update the previous node's `next` pointer. O(n).\n- **Find middle**: Use two pointers -- slow advances one step, fast advances two steps. When fast reaches the end, slow is at the middle. O(n).\n- **Detect cycle**: Floyd's cycle detection -- slow pointer moves one step, fast pointer moves two steps. If they meet, a cycle exists. O(n).\n\n## Pseudocode\n\n```\nfunction reverseLinkedList(array):\n    head = buildLinkedList(array)\n\n    prev = null\n    current = head\n\n    while current is not null:\n        next = current.next\n        current.next = prev\n        prev = current\n        current = next\n\n    return toArray(prev)\n```\n\n## Complexity Analysis\n\n| Case    | Time | Space |\n|---------|------|-------|\n| Best    | O(1) | O(1)  |\n| Average | O(n) | O(1)  |\n| Worst   | O(n) | O(1)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(1):** An empty or single-element list requires no work to reverse.\n\n- **Average/Worst Case -- O(n):** The algorithm must visit every node exactly once to reverse all pointers. There is no way to reverse a linked list without examining each node.\n\n- **Space -- O(1):** The reversal is done in place using only three pointer variables (`prev`, `current`, `next`), regardless of list size. The array-to-list and list-to-array conversions use O(n) space, but the core reversal algorithm itself is O(1) auxiliary space.\n\n## Applications\n\n- **Undo/Redo systems**: Linked lists naturally support sequential operations with efficient insertion and deletion at both ends.\n- **Memory allocation**: Operating systems use linked lists (free lists) to track available memory blocks.\n- **Polynomial arithmetic**: Each term of a polynomial can be stored as a node, enabling efficient addition and multiplication.\n- **Music playlists**: Linked lists are used to implement playlist navigation (next/previous track).\n- **Browser history**: Forward and backward navigation is implemented using linked list principles.\n- **Hash table chaining**: Separate chaining collision resolution uses linked lists at each bucket.\n\n## Comparison with Similar Structures\n\n| Structure       | Access | Insert (head) | Delete (head) | Search | Notes |\n|----------------|--------|--------------|---------------|--------|-------|\n| Singly Linked List | O(n) | O(1) | O(1) | O(n) | Simple, forward traversal only |\n| Doubly Linked List | O(n) | O(1) | O(1) | O(n) | Bidirectional traversal, more memory |\n| Array | O(1) | O(n) | O(n) | O(n) | Random access, costly insertions |\n| Dynamic Array | O(1) | O(n) | O(n) | O(n) | Amortized O(1) append |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [reverse_linked_list.py](python/reverse_linked_list.py) |\n| Java       | [ReverseLinkedList.java](java/ReverseLinkedList.java) |\n| C++        | [reverse_linked_list.cpp](cpp/reverse_linked_list.cpp) |\n| C          | [reverse_linked_list.c](c/reverse_linked_list.c) |\n| Go         | [reverse_linked_list.go](go/reverse_linked_list.go) |\n| TypeScript | [reverseLinkedList.ts](typescript/reverseLinkedList.ts) |\n| Rust       | [reverse_linked_list.rs](rust/reverse_linked_list.rs) |\n| Kotlin     | [ReverseLinkedList.kt](kotlin/ReverseLinkedList.kt) |\n| Swift      | [ReverseLinkedList.swift](swift/ReverseLinkedList.swift) |\n| Scala      | [ReverseLinkedList.scala](scala/ReverseLinkedList.scala) |\n| C#         | [ReverseLinkedList.cs](csharp/ReverseLinkedList.cs) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 10: Elementary Data Structures.\n- Knuth, D. E. (1997). *The Art of Computer Programming, Volume 1: Fundamental Algorithms* (3rd ed.). Addison-Wesley. Section 2.2: Linear Lists.\n- [Linked List -- Wikipedia](https://en.wikipedia.org/wiki/Linked_list)\n"
+}

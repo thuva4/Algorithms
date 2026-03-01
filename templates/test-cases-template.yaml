@@ -1,0 +1,21 @@
+algorithm: "{algorithm-name}"
+function_signature:
+  name: "{function_name}"
+  input: [{param1_type}, {param2_type}]
+  output: "{return_type}"
+test_cases:
+  - name: "basic case"
+    input: [{input_values}]
+    expected: {expected_output}
+  - name: "edge case - empty input"
+    input: [{empty_input}]
+    expected: {expected_output}
+  - name: "edge case - single element"
+    input: [{single_element}]
+    expected: {expected_output}
+  - name: "large input"
+    input: [{large_input}]
+    expected: {expected_output}
+  - name: "negative numbers"
+    input: [{negative_input}]
+    expected: {expected_output}

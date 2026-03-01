@@ -1,0 +1,99 @@
+{
+  "name": "Binary GCD",
+  "slug": "binary-gcd",
+  "category": "math",
+  "subcategory": "number-theory",
+  "difficulty": "intermediate",
+  "tags": [
+    "math",
+    "gcd",
+    "binary",
+    "stein-algorithm",
+    "bitwise"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(1)",
+      "average": "O(log(min(a,b))^2)",
+      "worst": "O(log(min(a,b))^2)"
+    },
+    "space": "O(1)"
+  },
+  "stable": false,
+  "in_place": true,
+  "related": [
+    "greatest-common-divisor",
+    "extended-euclidean"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "binary_gcd.c",
+          "content": "static int abs_int(int x) {\n    return x < 0 ? -x : x;\n}\n\nint binary_gcd(int a, int b) {\n    a = abs_int(a);\n    b = abs_int(b);\n    if (a == 0) return b;\n    if (b == 0) return a;\n\n    int shift = 0;\n    while (((a | b) & 1) == 0) {\n        a >>= 1;\n        b >>= 1;\n        shift++;\n    }\n\n    while ((a & 1) == 0) {\n        a >>= 1;\n    }\n\n    while (b != 0) {\n        while ((b & 1) == 0) {\n            b >>= 1;\n        }\n        if (a > b) {\n            int temp = a;\n            a = b;\n            b = temp;\n        }\n        b -= a;\n    }\n\n    return a << shift;\n}\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "BinaryGCD.cpp",
+          "content": "#include <iostream>\nusing namespace std;\n\nint gcd(int a, int b) {\n\n\tif (a == 0)\n\t\treturn b;\n\tif (b == 0)\n\t\treturn a;\n\n\tint powerOf2;\n\tfor (powerOf2 = 0; ((a | b) & 1) == 0; powerOf2++) {\n\t\ta >>= 1;\n\t\tb >>= 1;\n\t}\n\n\twhile ((a & 1) == 0)\n\t\ta >>= 1;\n\n\twhile (b != 0) {\n\t\twhile ((b & 1) == 0)\n\t\t\tb >>= 1;\n\t\tif (a > b)\n\t\t\tswap(a, b);\n\t\tb -= a;\n\t}\n\treturn a << powerOf2;\n}\n\nint main() {\n\n\tcout << gcd(258, 321) << endl;\n\treturn 0;\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "binarygcd.go",
+          "content": "package gcd\n\nfunc Gcd(a, b int) int {\n\tif a == 0 {\n\t\treturn b\n\t}\n\n\tif b == 0 {\n\t\treturn a\n\t}\n\n\tpow2 := uint(0)\n\n\tfor ; ((a | b) & 1) == 0; pow2++ {\n\t\ta >>= 1\n\t\tb >>= 1\n\t}\n\n\tfor (a & 1) == 0 {\n\t\ta >>= 1\n\t}\n\n\tfor b != 0 {\n\t\tfor (b & 1) == 0 {\n\t\t\tb >>= 1\n\t\t}\n\n\t\tif a > b {\n\t\t\ta, b = b, a\n\t\t}\n\n\t\tb -= a\n\t}\n\n\treturn a << pow2\n}\n"
+        },
+        {
+          "filename": "binarygcd_test.go",
+          "content": "package gcd\n\nimport (\n\t\"testing\"\n\n\t\"github.com/stretchr/testify/assert\"\n)\n\nfunc TestGcd(t *testing.T) {\n\n\ttests := []struct {\n\t\ta, b, expected int\n\t}{\n\t\t{\n\t\t\ta:        6,\n\t\t\tb:        3,\n\t\t\texpected: 3,\n\t\t},\n\t\t{\n\t\t\ta:        3,\n\t\t\tb:        4,\n\t\t\texpected: 1,\n\t\t},\n\t\t{\n\t\t\ta:        12,\n\t\t\tb:        18,\n\t\t\texpected: 6,\n\t\t},\n\t}\n\n\tfor _, u := range tests {\n\t\tg := Gcd(u.a, u.b)\n\t\tassert.Equal(t, g, u.expected)\n\t}\n\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "BinaryGCD.java",
+          "content": "/**\n * The binary GCD algorithm, also known as Stein's algorithm, is an algorithm \n * that computes the greatest common divisor of two nonnegative integers.\n * \n * @author Atom\n * @see <a href=\"https://en.wikipedia.org/wiki/Binary_GCD_algorithm\">Binary GCD algorithm</a>\n * @see <a href=\"http://www.geeksforgeeks.org/steins-algorithm-for-finding-gcd/\">Stein’s Algorithm for finding GCD</a>\n */\npublic class BinaryGCD {\n\n\t/**\n\t * Stein's algorithm uses simpler arithmetic operations than the conventional Euclidean algorithm,\n\t * replaces division with arithmetic shifts, comparisons, and subtraction\n\t * \n\t * @param a\n\t * @param b\n\t * @return\n\t */\n\tpublic static int gcd(int a, int b) {\n\t\t// gcd(0,b) == b; gcd(a,0) == a, gcd(0,0) == 0\n\t\tif (a == 0) { return b; }\n\t\tif (b == 0) { return a; }\n\t\t\n\t\t// find the greatest power of 2 dividing both 'a' and 'b'\n\t\tint shift;\n\t\tfor (shift = 0; ((a | b) & 1) == 0; shift++) {\n\t\t\ta >>>= 1;\n\t\t\tb >>>= 1;\n\t\t}\n\t\t\n\t\t// divide 'a' by 2 until 'a' becomes odd\n\t\twhile ((a & 1) == 0) { a >>>= 1; }\n\t\t\n\t\t// from here on, 'a' is always odd\n\t\twhile (b != 0) {\n\t\t\t// remove all factor of 2 in 'b'\n\t\t\twhile ((b & 1) == 0) { b >>>= 1; }\n\t\t\t// Now 'a' and 'b' are both odd. If 'a' > 'b' swap, substract 'a' from 'b'\n\t\t\tif (a > b) {\n\t\t\t\tint tmp = a;\n\t\t\t\ta = b;\n\t\t\t\tb = tmp;\n\t\t\t}\n\t\t\tb -= a;\n\t\t}\n\t\t// restore common factors of 2\n\t\treturn a << shift;\t\t\n\t}\n\t\n\tpublic static void main(String[] args) {\n\t\tSystem.out.println(gcd(10, 5));\n\t\tSystem.out.println(gcd(5, 10));\n\t\tSystem.out.println(gcd(10, 8));\n\t\tSystem.out.println(gcd(8, 2));\n\t\tSystem.out.println(gcd(7000, 2000));\n\t\tSystem.out.println(gcd(2000, 7000));\n\t\tSystem.out.println(gcd(10, 11));\n\t\tSystem.out.println(gcd(11, 7));\n\t\tSystem.out.println(gcd(239, 293));\n\t}\n\n}\n\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "BinaryGcd.kt",
+          "content": "fun binaryGcd(a: Int, b: Int): Int {\n    var x = kotlin.math.abs(a)\n    var y = kotlin.math.abs(b)\n\n    if (x == 0) return y\n    if (y == 0) return x\n\n    var shift = 0\n    while (((x or y) and 1) == 0) {\n        x = x shr 1\n        y = y shr 1\n        shift++\n    }\n\n    while ((x and 1) == 0) {\n        x = x shr 1\n    }\n\n    do {\n        while ((y and 1) == 0) {\n            y = y shr 1\n        }\n        if (x > y) {\n            val temp = x\n            x = y\n            y = temp\n        }\n        y -= x\n    } while (y != 0)\n\n    return x shl shift\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "BinaryGCD.py",
+          "content": "import unittest\n\ndef gcd(a, b):\n\tif a == b:\n\t\treturn a\n\telif a == 0:\n\t\treturn b\n\telif b == 0:\n\t\treturn a\n\telif ~a & 1:\n\t\tif b & 1:\n\t\t\treturn gcd(a >> 1, b)\n\t\telse:\n\t\t\treturn gcd(u >> 1, v >> 1) << 1\n\telif ~b & 1:\n\t\treturn gcd(a, b >> 1)\n\telif (a > b):\n\t\treturn gcd((a - b) >> 1, b)\n\telse:\n\t\treturn gcd((b -a) >> 1, a)\n\t\n\nclass TestSuite(unittest.TestCase):\n\tdef test_gcd(self):\n\t\tself.assertEqual(3, gcd(258, 321))\n\t\tself.assertEqual(24, gcd(24, 0))\n\t\tself.assertEqual(7, gcd(0, 7))\n\n\nif __name__ == \"__main__\":\n\tunittest.main()\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "BinaryGCD.swift",
+          "content": "func binaryGcd(_ a: Int, _ b: Int) -> Int {\n    var x = abs(a)\n    var y = abs(b)\n\n    if x == 0 { return y }\n    if y == 0 { return x }\n\n    var shift = 0\n    while ((x | y) & 1) == 0 {\n        x >>= 1\n        y >>= 1\n        shift += 1\n    }\n\n    while (x & 1) == 0 {\n        x >>= 1\n    }\n\n    while y != 0 {\n        while (y & 1) == 0 {\n            y >>= 1\n        }\n        if x > y {\n            swap(&x, &y)\n        }\n        y -= x\n    }\n\n    return x << shift\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Binary GCD\n\n## Overview\n\nThe Binary GCD algorithm (also known as Stein's algorithm) computes the greatest common divisor of two non-negative integers using only subtraction, comparison, and bit shifting (division by 2). Unlike the Euclidean algorithm, which requires division operations, the Binary GCD relies exclusively on operations that are highly efficient on binary computers. It was discovered by Josef Stein in 1967.\n\nThe algorithm is particularly useful in contexts where division or modulo operations are expensive (such as big-integer arithmetic or hardware implementations), since bit shifts and subtractions are typically much faster than division.\n\n## How It Works\n\nThe algorithm is based on four key observations: (1) If both numbers are even, GCD(a, b) = 2 * GCD(a/2, b/2). (2) If one is even and the other odd, GCD(a, b) = GCD(a/2, b) since 2 is not a common factor. (3) If both are odd, GCD(a, b) = GCD(|a - b|/2, min(a, b)). (4) GCD(a, 0) = a. These rules are applied repeatedly until one number reaches 0.\n\n### Example\n\nComputing `GCD(48, 18)`:\n\n| Step | a | b | Rule applied | Action |\n|------|---|---|-------------|--------|\n| 1 | 48 | 18 | Both even, extract factor of 2 | shift = 1, a=24, b=9 |\n| 2 | 24 | 9 | a even, b odd | a = 24/2 = 12 |\n| 3 | 12 | 9 | a even, b odd | a = 12/2 = 6 |\n| 4 | 6 | 9 | a even, b odd | a = 6/2 = 3 |\n| 5 | 3 | 9 | Both odd, subtract | a = |3-9|/2 = 3, b = min(3,9) = 3 |\n| 6 | 3 | 3 | Both odd, subtract | a = |3-3|/2 = 0, b = 3 |\n| 7 | 0 | 3 | a = 0 | Return b * 2^shift = 3 * 2 = 6 |\n\nResult: `GCD(48, 18) = 6`\n\n## Pseudocode\n\n```\nfunction binaryGCD(a, b):\n    if a == 0: return b\n    if b == 0: return a\n\n    // Find common factor of 2\n    shift = 0\n    while (a | b) & 1 == 0:    // both even\n        a = a >> 1\n        b = b >> 1\n        shift = shift + 1\n\n    // Remove remaining factors of 2 from a\n    while a & 1 == 0:\n        a = a >> 1\n\n    while b != 0:\n        // Remove factors of 2 from b\n        while b & 1 == 0:\n            b = b >> 1\n        // Now both a and b are odd\n        if a > b:\n            swap(a, b)\n        b = b - a\n\n    return a << shift    // restore common factor of 2\n```\n\nThe algorithm first extracts all common factors of 2, then repeatedly applies the subtraction rule for odd numbers until one reaches 0.\n\n## Complexity Analysis\n\n| Case    | Time                 | Space |\n|---------|---------------------|-------|\n| Best    | O(1)                | O(1)  |\n| Average | O(log(min(a,b))^2)  | O(1)  |\n| Worst   | O(log(min(a,b))^2)  | O(1)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(1):** When one of the inputs is 0 or when one divides the other and both are powers of 2, the algorithm terminates immediately.\n\n- **Average Case -- O(log(min(a,b))^2):** The outer loop runs O(log(min(a,b))) times (similar to Euclidean), but each iteration may involve multiple bit shifts (up to O(log n) shifts to remove factors of 2), giving O(log^2) total.\n\n- **Worst Case -- O(log(min(a,b))^2):** The worst case occurs when the numbers are such that each subtraction produces a result requiring many bit shifts. The total number of bit operations is bounded by O(log(a) + log(b))^2.\n\n- **Space -- O(1):** The algorithm modifies the input values in place using only a shift counter and temporary variables.\n\n## When to Use\n\n- **Big-integer arithmetic:** Division and modulo are expensive for arbitrary-precision numbers, but bit shifts and subtraction are fast. Binary GCD can be 60% faster than Euclidean for large numbers.\n- **Hardware/embedded implementations:** When only adders and shifters are available (no divider circuit).\n- **When avoiding division is important:** Some architectures have slow or missing division instructions.\n- **Parallel computing:** The bit operations in Binary GCD can be parallelized more easily than division.\n\n## When NOT to Use\n\n- **Standard integer types:** For 32-bit or 64-bit integers, the Euclidean algorithm with hardware division is typically faster due to lower overhead.\n- **When simplicity matters:** The Euclidean algorithm is simpler to implement and understand.\n- **When you also need Bezout coefficients:** The Extended Euclidean Algorithm naturally computes these; extending Binary GCD is more complex.\n- **Languages with optimized modulo:** In languages where `%` is a single efficient instruction, Euclidean GCD is preferred.\n\n## Comparison with Similar Algorithms\n\n| Algorithm           | Time                 | Space | Notes                                         |\n|--------------------|---------------------|-------|-----------------------------------------------|\n| Binary GCD (Stein)  | O(log(min(a,b))^2)  | O(1)  | No division; uses shifts and subtraction       |\n| Euclidean GCD       | O(log(min(a,b)))    | O(1)  | Uses division; simpler; usually faster for native ints |\n| Extended Euclidean   | O(log(min(a,b)))   | O(1)  | Also computes Bezout coefficients              |\n| Lehmer's GCD        | O(n^2/log n)        | O(n)  | Best for very large multi-precision integers   |\n\n## Implementations\n\n| Language | File |\n|----------|------|\n| Python   | [BinaryGCD.py](python/BinaryGCD.py) |\n| Java     | [BinaryGCD.java](java/BinaryGCD.java) |\n| C++      | [BinaryGCD.cpp](cpp/BinaryGCD.cpp) |\n| Go       | [binarygcd.go](go/binarygcd.go) |\n\n## References\n\n- Stein, J. (1967). Computational problems associated with Racah algebra. *Journal of Computational Physics*, 1(3), 397-405.\n- Knuth, D. E. (1997). *The Art of Computer Programming, Volume 2: Seminumerical Algorithms* (3rd ed.). Addison-Wesley. Section 4.5.2: The Greatest Common Divisor (Algorithm B).\n- [Binary GCD Algorithm -- Wikipedia](https://en.wikipedia.org/wiki/Binary_GCD_algorithm)\n"
+}

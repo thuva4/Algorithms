@@ -1,0 +1,135 @@
+{
+  "name": "Longest Subset with Zero Sum",
+  "slug": "longest-subset-zero-sum",
+  "category": "dynamic-programming",
+  "subcategory": "sequences",
+  "difficulty": "intermediate",
+  "tags": [
+    "dynamic-programming",
+    "sequences",
+    "subarray",
+    "zero-sum"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n^2)",
+      "average": "O(n^2)",
+      "worst": "O(n^2)"
+    },
+    "space": "O(1)"
+  },
+  "stable": null,
+  "in_place": null,
+  "related": [
+    "kadanes",
+    "longest-increasing-subsequence"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "longestsubsetzerosum.c",
+          "content": "#include <stdio.h>\n\nint longest_subset_zero_sum(int arr[], int n) {\n    int max_len = 0;\n\n    for (int i = 0; i < n; i++) {\n        int sum = 0;\n        for (int j = i; j < n; j++) {\n            sum += arr[j];\n            if (sum == 0) {\n                int len = j - i + 1;\n                if (len > max_len)\n                    max_len = len;\n            }\n        }\n    }\n\n    return max_len;\n}\n\nint main() {\n    int arr[] = {1, 2, -3, 3};\n    int n = sizeof(arr) / sizeof(arr[0]);\n    printf(\"%d\\n\", longest_subset_zero_sum(arr, n)); // 3\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "longestSubsetZeroSum.cpp",
+          "content": "#include <unordered_map>\n#include <vector>\n\nint longest_subset_zero_sum(const std::vector<int>& values) {\n    std::unordered_map<int, int> first_seen;\n    first_seen.emplace(0, -1);\n\n    int prefix_sum = 0;\n    int best = 0;\n    for (int index = 0; index < static_cast<int>(values.size()); ++index) {\n        prefix_sum += values[index];\n        std::unordered_map<int, int>::const_iterator found = first_seen.find(prefix_sum);\n        if (found != first_seen.end()) {\n            int length = index - found->second;\n            if (length > best) {\n                best = length;\n            }\n        } else {\n            first_seen.emplace(prefix_sum, index);\n        }\n    }\n\n    return best;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "LongestSubsetZeroSum.cs",
+          "content": "using System;\nusing System.Collections.Generic;\n\npublic class LongestSubsetZeroSum\n{\n    public static int Solve(int[] arr)\n    {\n        int n = arr.Length;\n        int maxLen = 0;\n        var sumMap = new Dictionary<int, int>();\n        sumMap[0] = -1;\n        int sum = 0;\n\n        for (int i = 0; i < n; i++)\n        {\n            sum += arr[i];\n            if (sumMap.ContainsKey(sum))\n            {\n                int length = i - sumMap[sum];\n                maxLen = Math.Max(maxLen, length);\n            }\n            else\n            {\n                sumMap[sum] = i;\n            }\n        }\n\n        return maxLen;\n    }\n\n    static void Main(string[] args)\n    {\n        int[] arr = { 1, 2, -3, 3 };\n        Console.WriteLine(Solve(arr)); // 3\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "LongestSubsetZeroSum.go",
+          "content": "package main\n\nimport \"fmt\"\n\nfunc longestSubsetZeroSum(arr []int) int {\n\tn := len(arr)\n\tmaxLen := 0\n\n\t// Use hash map to store first occurrence of each prefix sum\n\tsumMap := make(map[int]int)\n\tsumMap[0] = -1\n\tsum := 0\n\n\tfor i := 0; i < n; i++ {\n\t\tsum += arr[i]\n\t\tif idx, ok := sumMap[sum]; ok {\n\t\t\tlength := i - idx\n\t\t\tif length > maxLen {\n\t\t\t\tmaxLen = length\n\t\t\t}\n\t\t} else {\n\t\t\tsumMap[sum] = i\n\t\t}\n\t}\n\n\treturn maxLen\n}\n\nfunc main() {\n\tarr := []int{1, 2, -3, 3}\n\tfmt.Println(longestSubsetZeroSum(arr)) // 3\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "LongestSubsetZeroSum.java",
+          "content": "import java.util.HashMap;\n\npublic class LongestSubsetZeroSum {\n\n    public static int longestSubsetZeroSum(int[] arr) {\n        int n = arr.length;\n        int maxLen = 0;\n\n        HashMap<Integer, Integer> sumMap = new HashMap<>();\n        sumMap.put(0, -1);\n        int sum = 0;\n\n        for (int i = 0; i < n; i++) {\n            sum += arr[i];\n            if (sumMap.containsKey(sum)) {\n                int length = i - sumMap.get(sum);\n                maxLen = Math.max(maxLen, length);\n            } else {\n                sumMap.put(sum, i);\n            }\n        }\n\n        return maxLen;\n    }\n\n    public static void main(String[] args) {\n        int[] arr = {1, 2, -3, 3};\n        System.out.println(longestSubsetZeroSum(arr)); // 3\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "LongestSubsetZeroSum.kt",
+          "content": "fun longestSubsetZeroSum(arr: IntArray): Int {\n    var maxLen = 0\n    val sumMap = mutableMapOf(0 to -1)\n    var sum = 0\n\n    for (i in arr.indices) {\n        sum += arr[i]\n        if (sum in sumMap) {\n            val length = i - sumMap[sum]!!\n            maxLen = maxOf(maxLen, length)\n        } else {\n            sumMap[sum] = i\n        }\n    }\n\n    return maxLen\n}\n\nfun main() {\n    println(longestSubsetZeroSum(intArrayOf(1, 2, -3, 3))) // 3\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "longest_subset_zero_sum.py",
+          "content": "def longest_subset_zero_sum(arr):\n    n = len(arr)\n    max_len = 0\n    sum_map = {0: -1}\n    prefix_sum = 0\n\n    for i in range(n):\n        prefix_sum += arr[i]\n        if prefix_sum in sum_map:\n            length = i - sum_map[prefix_sum]\n            max_len = max(max_len, length)\n        else:\n            sum_map[prefix_sum] = i\n\n    return max_len\n\n\nif __name__ == \"__main__\":\n    arr = [1, 2, -3, 3]\n    print(longest_subset_zero_sum(arr))  # 3\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "longest_subset_zero_sum.rs",
+          "content": "use std::collections::HashMap;\nuse std::cmp;\n\npub fn longest_subset_zero_sum(arr: &[i32]) -> usize {\n    let mut max_len = 0usize;\n    let mut sum_map: HashMap<i32, i32> = HashMap::new();\n    sum_map.insert(0, -1);\n    let mut sum = 0i32;\n\n    for i in 0..arr.len() {\n        sum += arr[i];\n        if let Some(&idx) = sum_map.get(&sum) {\n            let length = (i as i32 - idx) as usize;\n            max_len = cmp::max(max_len, length);\n        } else {\n            sum_map.insert(sum, i as i32);\n        }\n    }\n\n    max_len\n}\n\nfn main() {\n    let arr = vec![1, 2, -3, 3];\n    println!(\"{}\", longest_subset_zero_sum(&arr)); // 3\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "LongestSubsetZeroSum.scala",
+          "content": "import scala.collection.mutable\n\nobject LongestSubsetZeroSum {\n\n  def longestSubsetZeroSum(arr: Array[Int]): Int = {\n    var maxLen = 0\n    val sumMap = mutable.Map[Int, Int](0 -> -1)\n    var sum = 0\n\n    for (i <- arr.indices) {\n      sum += arr(i)\n      sumMap.get(sum) match {\n        case Some(idx) =>\n          maxLen = math.max(maxLen, i - idx)\n        case None =>\n          sumMap(sum) = i\n      }\n    }\n\n    maxLen\n  }\n\n  def main(args: Array[String]): Unit = {\n    println(longestSubsetZeroSum(Array(1, 2, -3, 3))) // 3\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "LongestSubsetZeroSum.swift",
+          "content": "func longestSubsetZeroSum(_ arr: [Int]) -> Int {\n    var maxLen = 0\n    var sumMap: [Int: Int] = [0: -1]\n    var sum = 0\n\n    for i in 0..<arr.count {\n        sum += arr[i]\n        if let idx = sumMap[sum] {\n            let length = i - idx\n            maxLen = max(maxLen, length)\n        } else {\n            sumMap[sum] = i\n        }\n    }\n\n    return maxLen\n}\n\nprint(longestSubsetZeroSum([1, 2, -3, 3])) // 3\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "longestSubsetZeroSum.ts",
+          "content": "export function longestSubsetZeroSum(arr: number[]): number {\n    let maxLen = 0;\n    const sumMap = new Map<number, number>();\n    sumMap.set(0, -1);\n    let sum = 0;\n\n    for (let i = 0; i < arr.length; i++) {\n        sum += arr[i];\n        if (sumMap.has(sum)) {\n            const length = i - sumMap.get(sum)!;\n            maxLen = Math.max(maxLen, length);\n        } else {\n            sumMap.set(sum, i);\n        }\n    }\n\n    return maxLen;\n}\n\nconsole.log(longestSubsetZeroSum([1, 2, -3, 3])); // 3\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "patterns": [
+    "knapsack-dp"
+  ],
+  "patternDifficulty": "intermediate",
+  "practiceOrder": 4,
+  "readme": "# Longest Subset with Zero Sum\n\n## Overview\n\nThe Longest Subset with Zero Sum problem finds the length of the longest contiguous subarray whose elements sum to zero. For example, in the array [15, -2, 2, -8, 1, 7, 10, 23], the longest zero-sum subarray is [-2, 2, -8, 1, 7] with length 5. This problem appears in financial analysis (finding periods of net-zero change), signal processing, and data analysis.\n\nThe problem can be solved efficiently using prefix sums and hash maps in O(n) time, or with the straightforward O(n^2) approach that checks all subarrays. The hash map approach works by observing that if two prefix sums are equal, the subarray between them has a sum of zero.\n\n## How It Works\n\nThe O(n^2) approach checks every possible subarray by computing running sums. For each starting position, it extends the subarray one element at a time, tracking the sum. Whenever the sum equals zero, we update the maximum length found. The algorithm systematically explores all subarrays without missing any potential solution.\n\n### Example\n\nGiven input: `[1, -1, 3, 2, -2, -3, 3]`\n\n**Checking subarrays (key iterations):**\n\n| Start | End | Subarray | Sum | Zero-sum? | Length |\n|-------|-----|----------|-----|-----------|--------|\n| 0 | 0 | [1] | 1 | No | - |\n| 0 | 1 | [1, -1] | 0 | Yes | 2 |\n| 0 | 5 | [1, -1, 3, 2, -2, -3] | 0 | Yes | 6 |\n| 1 | 1 | [-1] | -1 | No | - |\n| 1 | 4 | [-1, 3, 2, -2] | 2 | No | - |\n| 2 | 5 | [3, 2, -2, -3] | 0 | Yes | 4 |\n| 3 | 5 | [2, -2, -3] | -3 | No | - |\n\n**Maximum length tracking:**\n\n| Step | Found subarray | Length | Max so far |\n|------|---------------|--------|------------|\n| 1 | [1, -1] (indices 0-1) | 2 | 2 |\n| 2 | [3, 2, -2, -3] (indices 2-5) | 4 | 4 |\n| 3 | [1, -1, 3, 2, -2, -3] (indices 0-5) | 6 | 6 |\n\nResult: Longest zero-sum subarray length = `6` (subarray `[1, -1, 3, 2, -2, -3]`)\n\n## Pseudocode\n\n```\nfunction longestZeroSumSubarray(arr):\n    n = length(arr)\n    max_length = 0\n\n    for i from 0 to n - 1:\n        sum = 0\n        for j from i to n - 1:\n            sum = sum + arr[j]\n            if sum == 0:\n                max_length = max(max_length, j - i + 1)\n\n    return max_length\n```\n\nAn optimized O(n) approach using hash maps:\n\n```\nfunction longestZeroSumOptimized(arr):\n    prefix_sum = 0\n    max_length = 0\n    map = empty hash map    // stores first occurrence of each prefix sum\n\n    for i from 0 to n - 1:\n        prefix_sum = prefix_sum + arr[i]\n        if prefix_sum == 0:\n            max_length = i + 1\n        else if prefix_sum exists in map:\n            max_length = max(max_length, i - map[prefix_sum])\n        else:\n            map[prefix_sum] = i\n\n    return max_length\n```\n\n## Complexity Analysis\n\n| Case    | Time   | Space |\n|---------|--------|-------|\n| Best    | O(n^2) | O(1)  |\n| Average | O(n^2) | O(1)  |\n| Worst   | O(n^2) | O(1)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(n^2):** The brute-force approach always checks all pairs of start and end indices. Even if a zero-sum subarray is found early, the algorithm continues to search for longer ones.\n\n- **Average Case -- O(n^2):** The nested loops iterate over all O(n^2) subarrays, with O(1) work per subarray (maintaining a running sum).\n\n- **Worst Case -- O(n^2):** The algorithm examines n * (n+1) / 2 subarrays in total. No input can cause worse performance, but no input allows better performance either.\n\n- **Space -- O(1):** The brute-force version uses only a running sum and max-length variable. The optimized hash map version uses O(n) space but reduces time to O(n).\n\n## When to Use\n\n- **Finding periods of net-zero change:** In financial data, finding the longest period where gains and losses cancel out.\n- **Signal analysis:** Identifying zero-crossings or balanced segments in signal data.\n- **When the subarray must be contiguous:** Unlike subset sum, this problem requires consecutive elements.\n- **When input size is manageable:** The O(n^2) approach is simple and works well for arrays up to a few thousand elements.\n\n## When NOT to Use\n\n- **Very large arrays:** For arrays with millions of elements, use the O(n) hash map approach instead.\n- **When you need non-contiguous subsets:** The subset sum problem (NP-complete) is a different problem entirely.\n- **When you need a specific target sum (not zero):** The problem generalizes to finding the longest subarray with sum equal to k, requiring the hash map approach.\n- **When there are floating-point values:** Exact zero-sum comparison is unreliable with floating-point arithmetic.\n\n## Comparison with Similar Algorithms\n\n| Algorithm                 | Time   | Space | Notes                                        |\n|--------------------------|--------|-------|----------------------------------------------|\n| Brute Force Zero-Sum      | O(n^2) | O(1)  | Simple; checks all subarrays                 |\n| Hash Map Zero-Sum         | O(n)   | O(n)  | Optimal time; uses prefix sum + hash map      |\n| Kadane's Algorithm        | O(n)   | O(1)  | Maximum sum subarray; different objective      |\n| Subset Sum (general)      | O(n*S) | O(S)  | Non-contiguous; NP-complete in general         |\n\n## Implementations\n\n| Language | File |\n|----------|------|\n| C++      | [longestSubsetZeroSum.cpp](cpp/longestSubsetZeroSum.cpp) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 15: Dynamic Programming.\n- [Largest subarray with 0 sum -- GeeksforGeeks](https://www.geeksforgeeks.org/find-the-largest-subarray-with-0-sum/)\n- [Subarray Sum Equals K -- LeetCode](https://leetcode.com/problems/subarray-sum-equals-k/)\n"
+}

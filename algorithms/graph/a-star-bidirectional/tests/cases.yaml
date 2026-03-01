@@ -1,0 +1,30 @@
+algorithm: "a-star-bidirectional"
+function_signature:
+  name: "a_star_bidirectional"
+  input: [flat_array_of_integers]
+  output: integer
+test_cases:
+  - name: "simple 3x3 no blocks"
+    input: [[3, 3, 0, 0, 2, 2, 0]]
+    expected: 4
+  - name: "same source and destination"
+    input: [[3, 3, 1, 1, 1, 1, 0]]
+    expected: 0
+  - name: "adjacent cells"
+    input: [[2, 2, 0, 0, 0, 1, 0]]
+    expected: 1
+  - name: "blocked path requires detour"
+    input: [[3, 3, 0, 0, 0, 2, 1, 0, 1]]
+    expected: 4
+  - name: "completely blocked"
+    input: [[3, 3, 0, 0, 2, 2, 3, 1, 0, 1, 1, 1, 2]]
+    expected: -1
+  - name: "4x4 grid with obstacles"
+    input: [[4, 4, 0, 0, 3, 3, 2, 1, 1, 2, 2]]
+    expected: 6
+  - name: "1x1 grid"
+    input: [[1, 1, 0, 0, 0, 0, 0]]
+    expected: 0
+  - name: "straight line"
+    input: [[1, 5, 0, 0, 0, 4, 0]]
+    expected: 4

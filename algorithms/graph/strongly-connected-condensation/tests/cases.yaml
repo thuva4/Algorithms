@@ -1,0 +1,21 @@
+algorithm: "strongly-connected-condensation"
+function_signature:
+  name: "strongly_connected_condensation"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "two SCCs"
+    input: [[5, 5, 0, 1, 1, 2, 2, 0, 3, 4, 4, 3]]
+    expected: 2
+  - name: "single SCC"
+    input: [[3, 3, 0, 1, 1, 2, 2, 0]]
+    expected: 1
+  - name: "no edges"
+    input: [[4, 0]]
+    expected: 4
+  - name: "chain"
+    input: [[4, 3, 0, 1, 1, 2, 2, 3]]
+    expected: 4
+  - name: "two cycles linked"
+    input: [[6, 7, 0, 1, 1, 2, 2, 0, 3, 4, 4, 5, 5, 3, 2, 3]]
+    expected: 2

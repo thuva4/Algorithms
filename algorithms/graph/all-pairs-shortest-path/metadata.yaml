@@ -1,0 +1,17 @@
+name: "All-Pairs Shortest Path"
+slug: "all-pairs-shortest-path"
+category: "graph"
+subcategory: "shortest-path"
+difficulty: "advanced"
+tags: [graph, shortest-path, floyd-warshall, dynamic-programming]
+complexity:
+  time:
+    best: "O(V^3)"
+    average: "O(V^3)"
+    worst: "O(V^3)"
+  space: "O(V^2)"
+stable: null
+in_place: false
+related: [dijkstras, bellman-ford]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

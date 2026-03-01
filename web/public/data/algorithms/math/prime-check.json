@@ -1,0 +1,131 @@
+{
+  "name": "Prime Check",
+  "slug": "prime-check",
+  "category": "math",
+  "subcategory": "prime-numbers",
+  "difficulty": "beginner",
+  "tags": [
+    "math",
+    "primes",
+    "primality",
+    "number-theory"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(1)",
+      "average": "O(sqrt(n))",
+      "worst": "O(sqrt(n))"
+    },
+    "space": "O(1)"
+  },
+  "stable": false,
+  "in_place": true,
+  "related": [
+    "sieve-of-eratosthenes",
+    "primality-tests",
+    "segmented-sieve"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "primeCheck.c",
+          "content": "#include <stdio.h>\n#include <stdbool.h>\n#include <assert.h>\n\nbool isPrimeNumber(int n)\n{\n    if (n <= 3)\n    {\n        return (n > 1);\n    }\n    else if (n % 2 == 0 || n % 3 == 0)\n    {\n        return (false);\n    }\n\n    int i = 5;\n\n    while (i * i <= n)\n    {\n        if (n % i == 0 || n % (i + 2) == 0)\n        {\n            return (false);\n        }\n        i += 6;\n    }\n\n    return (true);\n}\n\nint main()\n{\n    assert(isPrimeNumber(11));\n    assert(!isPrimeNumber(12));\n    assert(isPrimeNumber(13));\n    assert(!isPrimeNumber(15));\n    assert(isPrimeNumber(17));\n    assert(isPrimeNumber(19));\n    return (0);\n}\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "primecheck.cpp",
+          "content": "#include <iostream>\nusing namespace std;\n// This Program Checks If A Number Is Prime Or Not And Returns An Output. \n// By Mr Techtroid\nint main() {\n  int n;\n    cout<<\"Number:\";\n    cin>>n;\n    int a = 0;\n    for(int i=1;i<=(n/2);i++)\n    {\n        if(n%i==0 & i!=1)\n        {\n            break;\n        }\n        if (i == n/2){\n            a = 1;\n        }\n    }\n    if(a==1){cout << \"Number is Prime\" << endl;}\n    else {cout << \"Number Is NOT A Prime\" << endl;}\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "PrimeCheck.cs",
+          "content": "using System;\n\nclass PrimeCheck\n{\n    static bool IsPrime(int n)\n    {\n        if (n <= 1) return false;\n        if (n <= 3) return true;\n        if (n % 2 == 0 || n % 3 == 0) return false;\n\n        for (int i = 5; i * i <= n; i += 6)\n        {\n            if (n % i == 0 || n % (i + 2) == 0)\n                return false;\n        }\n        return true;\n    }\n\n    static void Main(string[] args)\n    {\n        Console.WriteLine(\"2 is prime: \" + IsPrime(2));\n        Console.WriteLine(\"4 is prime: \" + IsPrime(4));\n        Console.WriteLine(\"97 is prime: \" + IsPrime(97));\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "PrimeCheck.go",
+          "content": "package primecheck\n\nimport \"math\"\n\n// IsPrime checks whether a given number is prime.\nfunc IsPrime(n int) bool {\n\tif n <= 1 {\n\t\treturn false\n\t}\n\tif n <= 3 {\n\t\treturn true\n\t}\n\tif n%2 == 0 || n%3 == 0 {\n\t\treturn false\n\t}\n\tlimit := int(math.Sqrt(float64(n)))\n\tfor i := 5; i <= limit; i += 6 {\n\t\tif n%i == 0 || n%(i+2) == 0 {\n\t\t\treturn false\n\t\t}\n\t}\n\treturn true\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "PrimeCheck.java",
+          "content": "public class PrimeCheck {\n    public static boolean isPrime(int n) {\n        if (n <= 1) return false;\n        if (n <= 3) return true;\n        if (n % 2 == 0 || n % 3 == 0) return false;\n\n        for (int i = 5; i * i <= n; i += 6) {\n            if (n % i == 0 || n % (i + 2) == 0) {\n                return false;\n            }\n        }\n        return true;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(\"2 is prime: \" + isPrime(2));\n        System.out.println(\"4 is prime: \" + isPrime(4));\n        System.out.println(\"97 is prime: \" + isPrime(97));\n        System.out.println(\"100 is prime: \" + isPrime(100));\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "PrimeCheck.kt",
+          "content": "fun isPrime(n: Int): Boolean {\n    if (n <= 1) return false\n    if (n <= 3) return true\n    if (n % 2 == 0 || n % 3 == 0) return false\n\n    var i = 5\n    while (i * i <= n) {\n        if (n % i == 0 || n % (i + 2) == 0) return false\n        i += 6\n    }\n    return true\n}\n\nfun main() {\n    println(\"2 is prime: ${isPrime(2)}\")\n    println(\"4 is prime: ${isPrime(4)}\")\n    println(\"97 is prime: ${isPrime(97)}\")\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "primecheck.py",
+          "content": "# This Program Checks if a Number is Prime or Not and Returns an Output. \n\nn = int(input(\"Number:\"))\na = 0\nfor i in range(1,int(n/2)+1):\n  if(n%i==0 and i!=1):\n    break\n  if(i == int(n/2)):\n    a = 1\nif(a==1):\n  print(\"Number is Prime\")\nelse:\n  print(\"Number is Not A Prime\")\n\n# By KOTHA V V S AAKASH\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "prime_check.rs",
+          "content": "fn is_prime(n: i32) -> bool {\n    if n <= 1 {\n        return false;\n    }\n    if n <= 3 {\n        return true;\n    }\n    if n % 2 == 0 || n % 3 == 0 {\n        return false;\n    }\n    let mut i = 5;\n    while i * i <= n {\n        if n % i == 0 || n % (i + 2) == 0 {\n            return false;\n        }\n        i += 6;\n    }\n    true\n}\n\nfn main() {\n    println!(\"2 is prime: {}\", is_prime(2));\n    println!(\"4 is prime: {}\", is_prime(4));\n    println!(\"97 is prime: {}\", is_prime(97));\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "PrimeCheck.scala",
+          "content": "object PrimeCheck {\n  def isPrime(n: Int): Boolean = {\n    if (n <= 1) return false\n    if (n <= 3) return true\n    if (n % 2 == 0 || n % 3 == 0) return false\n\n    var i = 5\n    while (i * i <= n) {\n      if (n % i == 0 || n % (i + 2) == 0) return false\n      i += 6\n    }\n    true\n  }\n\n  def main(args: Array[String]): Unit = {\n    println(s\"2 is prime: ${isPrime(2)}\")\n    println(s\"4 is prime: ${isPrime(4)}\")\n    println(s\"97 is prime: ${isPrime(97)}\")\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "PrimeCheck.swift",
+          "content": "func isPrime(_ n: Int) -> Bool {\n    if n <= 1 { return false }\n    if n <= 3 { return true }\n    if n % 2 == 0 || n % 3 == 0 { return false }\n\n    var i = 5\n    while i * i <= n {\n        if n % i == 0 || n % (i + 2) == 0 {\n            return false\n        }\n        i += 6\n    }\n    return true\n}\n\nprint(\"2 is prime: \\(isPrime(2))\")\nprint(\"4 is prime: \\(isPrime(4))\")\nprint(\"97 is prime: \\(isPrime(97))\")\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "primeCheck.ts",
+          "content": "export function isPrime(n: number): boolean {\n    if (n <= 1) return false;\n    if (n <= 3) return true;\n    if (n % 2 === 0 || n % 3 === 0) return false;\n\n    for (let i = 5; i * i <= n; i += 6) {\n        if (n % i === 0 || n % (i + 2) === 0) return false;\n    }\n    return true;\n}\n\nconsole.log(`2 is prime: ${isPrime(2)}`);\nconsole.log(`4 is prime: ${isPrime(4)}`);\nconsole.log(`97 is prime: ${isPrime(97)}`);\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Prime Check\n\n## Overview\n\nA prime check (or primality test) determines whether a given number n is prime -- that is, whether it has no positive divisors other than 1 and itself. The trial division method is the simplest approach: it tests whether n is divisible by any integer from 2 to sqrt(n). If no divisor is found, n is prime. For example, 37 is prime because no integer from 2 to 6 (the floor of sqrt(37)) divides it.\n\nPrime checking is a fundamental operation in number theory and cryptography. While trial division is efficient for small numbers (up to about 10^12), larger numbers require probabilistic tests like Miller-Rabin.\n\n## How It Works\n\nThe algorithm first handles small cases: numbers less than 2 are not prime, 2 and 3 are prime. It then checks divisibility by 2 and 3. For remaining candidates, it only tests divisors of the form 6k +/- 1 (since all primes greater than 3 are of this form), up to sqrt(n). This optimization reduces the number of checks by a factor of 3 compared to testing every integer.\n\n### Example\n\nChecking if `n = 97` is prime:\n\nsqrt(97) ~= 9.85, so check divisors up to 9.\n\n| Step | Divisor | 97 mod divisor | Divides? |\n|------|---------|---------------|----------|\n| 1 | 2 | 97 mod 2 = 1 | No |\n| 2 | 3 | 97 mod 3 = 1 | No |\n| 3 | 5 (6*1-1) | 97 mod 5 = 2 | No |\n| 4 | 7 (6*1+1) | 97 mod 7 = 6 | No |\n\nNo divisor found up to sqrt(97). Result: `97 is prime`\n\nChecking if `n = 91` is prime:\n\nsqrt(91) ~= 9.54, so check divisors up to 9.\n\n| Step | Divisor | 91 mod divisor | Divides? |\n|------|---------|---------------|----------|\n| 1 | 2 | 91 mod 2 = 1 | No |\n| 2 | 3 | 91 mod 3 = 1 | No |\n| 3 | 5 (6*1-1) | 91 mod 5 = 1 | No |\n| 4 | 7 (6*1+1) | 91 mod 7 = 0 | Yes! |\n\nResult: `91 is not prime` (91 = 7 * 13)\n\n## Pseudocode\n\n```\nfunction isPrime(n):\n    if n <= 1:\n        return false\n    if n <= 3:\n        return true\n    if n mod 2 == 0 or n mod 3 == 0:\n        return false\n\n    i = 5\n    while i * i <= n:\n        if n mod i == 0 or n mod (i + 2) == 0:\n            return false\n        i = i + 6\n\n    return true\n```\n\nThe loop checks divisors 5, 7, 11, 13, 17, 19, ... (i.e., 6k-1 and 6k+1). This skips all multiples of 2 and 3, checking only 1/3 of potential divisors.\n\n## Complexity Analysis\n\n| Case    | Time      | Space |\n|---------|----------|-------|\n| Best    | O(1)     | O(1)  |\n| Average | O(sqrt(n))| O(1)  |\n| Worst   | O(sqrt(n))| O(1)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(1):** If n is even (and > 2) or divisible by 3, the algorithm returns immediately after one or two checks.\n\n- **Average Case -- O(sqrt(n)):** On average, composite numbers are detected relatively early (many have small prime factors), but the algorithm must check up to sqrt(n) for numbers that are prime or have large smallest prime factors.\n\n- **Worst Case -- O(sqrt(n)):** When n is prime, the algorithm must test all candidates up to sqrt(n) before concluding. There are approximately sqrt(n)/3 candidates to check (using the 6k +/- 1 optimization).\n\n- **Space -- O(1):** The algorithm uses only a loop counter and comparison variable. No arrays or data structures are needed.\n\n## When to Use\n\n- **Checking individual small numbers:** For numbers up to about 10^12, trial division is fast and simple.\n- **When a deterministic answer is needed:** Unlike probabilistic tests, trial division gives a definitive answer.\n- **As a subroutine:** Many algorithms (factorization, sieve verification) use trial division as a building block.\n- **Educational contexts:** Trial division clearly demonstrates the concept of primality.\n\n## When NOT to Use\n\n- **Very large numbers (> 10^12):** Trial division becomes too slow. Use Miller-Rabin or AKS primality test.\n- **Checking many numbers in a range:** Use the Sieve of Eratosthenes to precompute all primes up to n.\n- **Cryptographic applications:** RSA key generation requires testing primes with hundreds of digits; probabilistic tests are essential.\n- **When the number is guaranteed to be in a known range:** A precomputed lookup table may be faster.\n\n## Comparison with Similar Algorithms\n\n| Algorithm              | Time            | Space   | Notes                                     |\n|-----------------------|----------------|---------|-------------------------------------------|\n| Trial Division         | O(sqrt(n))     | O(1)    | Simple; deterministic; small numbers       |\n| Sieve of Eratosthenes  | O(n log log n) | O(n)    | Batch; finds all primes up to n            |\n| Miller-Rabin           | O(k log^2 n)  | O(1)    | Probabilistic; fast for very large n       |\n| AKS                    | O(log^6 n)    | O(log^3 n)| Deterministic polynomial; impractical     |\n| Fermat Test            | O(k log^2 n)  | O(1)    | Probabilistic; fooled by Carmichael numbers|\n\n## Implementations\n\n| Language | File |\n|----------|------|\n| Python   | [primecheck.py](python/primecheck.py) |\n| C++      | [primecheck.cpp](cpp/primecheck.cpp) |\n| C        | [primeCheck.c](c/primeCheck.c) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 31: Number-Theoretic Algorithms.\n- Hardy, G. H., & Wright, E. M. (2008). *An Introduction to the Theory of Numbers* (6th ed.). Oxford University Press. Chapter 22.\n- [Primality Test -- Wikipedia](https://en.wikipedia.org/wiki/Primality_test)\n"
+}

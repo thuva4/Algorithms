@@ -1,0 +1,150 @@
+{
+  "name": "Fibonacci",
+  "slug": "fibonacci",
+  "category": "dynamic-programming",
+  "subcategory": "classical",
+  "difficulty": "beginner",
+  "tags": [
+    "dynamic-programming",
+    "classical",
+    "memoization",
+    "tabulation"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "average": "O(n)",
+      "worst": "O(n)"
+    },
+    "space": "O(1)"
+  },
+  "stable": null,
+  "in_place": null,
+  "related": [
+    "longest-common-subsequence",
+    "coin-change"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "fibonacci.c",
+          "content": "#include <stdio.h>\n\nint Fibonacci(int num) {\n    if (num <= 0) {\n        return 0;\n    }\n    if (num == 1) {\n        return 1;\n    }\n\n    int prev = 0;\n    int curr = 1;\n    for (int i = 2; i <= num; i++) {\n        int next = prev + curr;\n        prev = curr;\n        curr = next;\n    }\n    return curr;\n}\n\nint fibonacci(int num) {\n    return Fibonacci(num);\n}\n\nint main(void) {\n    printf(\"%d\\n\", Fibonacci(10));\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "FibonacciFast.cpp",
+          "content": "#include<bits/stdc++.h>\nusing namespace std;\ntypedef long long ll;\nunordered_map<ll,ll> arr;\nll Fibo(ll n)\n{\n    if(n==0)\n    {\n        return 0;\n    }\n    if(arr[n]!=0)\n    {\n        return (arr[n]);\n    }\n    if(n&1)\n    {\n        ll x=(n+1)/2;\n        ll ans1=Fibo(x);\n        ans1=(ans1*ans1);\n        ll ans2=Fibo(x-1);\n        ans2=(ans2*ans2);\n        ll ans=(ans1+ans2);\n        arr[n]=ans;\n        return arr[n];\n    }\n    else\n    {\n        ll x=n/2;\n        ll ans1=Fibo(x);\n        ll ans2=Fibo(x-1);\n        ll ans3=Fibo(x+1);\n        //cout<<ans1<<ans2<<ans3;\n        ll ans=ans1*(ans2+ans3);\n        arr[n]=ans;\n        return arr[n];\n    }\n}\nint main()\n{\n    arr[0]=0;\n    arr[1]=1;\n    arr[2]=1;\n    cout<<\"Enter n to find the nth fibonacci number -\\n\";\n    ll n;\n    cin>>n;\n    ll ans=Fibo(n);\n    cout<<n<<\"th Fibonacci number is \"<<ans<<endl;\n    return 0;\n}\n\n"
+        },
+        {
+          "filename": "fibonacci.cpp",
+          "content": "#include <stdio.h>\n#include <iostream> \t\nusing namespace std;\n\nint i, v, num1 = 0, num2 = 1, temp;\n\nint main() {\n  // Enter here number of times fib number is calculated;\n  cout<<\" Enter the number of Fibonacci Numbers you want !\"<< endl;\n  scanf(\"%d\", &v);\n  printf(\"Fibonacci numbers:\");\n  \n  for (i; i <= v; i++) {\n    // This prints fibonacci number;\n    // This calculates fibonacci number;\n    temp = num1 + num2;\n    num1 = num2;\n    num2 = temp;\n    cout<<num1<< \" ,\";\n\n  }\n  return 0;\n}"
+        },
+        {
+          "filename": "fibonacci_for_big_numbers.cpp",
+          "content": "\n// Sourav Verma (SrGrace)\n\n\n    #include <bits/stdc++.h>\n    using namespace std;\n     \n    int main() {\n        int n; cin>>n;\n        vector<int > v;\n        v.push_back(1);\n        for(int i=2;i<=n;i++){\n            for(auto it=v.begin();it!=v.end();it++) \n                *it*=i;\n            for(int j=0;j<v.size();j++){\n                if(v[j]<10) continue;\n                if(j==v.size()-1) v.push_back(0);\n                v[j+1]+=v[j]/10;\n                v[j]%=10;            \n            }\n        }\n        for(auto it=v.rbegin();it!=v.rend();it++) \n    \t\tcout<<*it;\n      \n        return 0;\n    }\n"
+        },
+        {
+          "filename": "fibonacci_realfast.cpp",
+          "content": "#include<bits/stdc++.h>\nusing namespace std;\n\nconst int MOD =  1e9;\n\nstruct A { \n    long long m[2][2];\n    A operator * (const A & o) const {\n        A temp;\n        for(int i = 0; i < 2; i++) {\n            for(int j = 0; j < 2; j++){\n                temp.m[i][j] = 0;\n                for(int k = 0; k < 2; k++){\n                    temp.m[i][j] += m[i][k]*o.m[k][j];\n                    temp.m[i][j] %= MOD;\n                }\n                temp.m[i][j] %= MOD;\n            }\n        }\n        return temp;\n    }\n};\n\nA mat[100];\nA ans;\n\nint main(){\n    cout << \"input a number upto 2^62\" << endl;\n    mat[0] = {1,1,1,0};\n    for(int i = 1; i <= 62; i++) {\n        mat[i] = mat[i-1]*mat[i-1];\n    }\n    long long n;\n    scanf(\"%lld\", &n);\n    ans = {1,0,1,0};\n    for(int i = 0; i <= 62; i++) {\n        if ((1ll<<i) & (n-1)) {\n            ans = ans * mat[i];\n        }\n    }\n    cout << n << \"th fibonacci number is equivalent to \" << ans.m[0][0] << \" mod \" << MOD << endl;\n    return 0;\n}"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "Fibonacci.cs",
+          "content": "using System;\npublic class Fibonacci\n{\n   public int cal(int number)\n   {\n     int a = 1, b = 0, temp;\n     while (number >= 0){\n        temp = a;\n        a = a + b;\n        b = temp;\n        number--;\n     }\n     return b;\n     }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "fibonacci.go",
+          "content": "package main\n\nimport \"fmt\"\n\nfunc fib(n int) int {\n\tvar sequence = make([]int, n + 1, n + 1)\n\tsequence[0], sequence[1] = 0, 1\n\n\tfor i := 2; i <= n; i += 1 {\n\t\tsequence[i] = sequence[i-1] + sequence[i-2]\n\t}\n\n\treturn sequence[n]\n}\n\nfunc main() {\n\tfmt.Println(fib(10))\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "Fibonacci.java",
+          "content": "\npublic class Fibonacci {\n\tpublic static void main(String[] args) {\n\t\tint num, num1 = 0, num2 = 1, temp;\n\t\tnum = Integer.parseInt(args[0]);\n\t\tSystem.out.print(\"Fibonacci numbers: \");\n\t\tfor (int i = 1; i <= num; i++) {\n\t\t\t// This prints fibonacci number;\n\t\t\tSystem.out.print(num1 + \" \");\n\t\t\t// This calculates fibonacci number;\n\t\t\ttemp = num1 + num2;\n\t\t\tnum1 = num2;\n\t\t\tnum2 = temp;\n\t\t}\n\n\t}\n\n\tpublic static void fibonacciRecursionv1(int count, int a, int b) {\n\t\tif (count > 0) {\n\t\t\tint c = a + b;\n\t\t\ta = b;\n\t\t\tb = c;\n\t\t\tSystem.out.printf(\"%d \", c);\n\t\t\tfibonacciRecursionv1(count - 1, a, b);\n\t\t}\n\t}\n\n\tpublic static int fibonacciRecursionv2(int i){\n\t\tif(i==1 || i==2){\n\t\t\treturn 1;\n\t\t}\n\t\telse if (i == 0){\n\t\t\treturn 0;\n\t\t}\n\t\treturn fibonacciRecursionv2(i-2)+fibonacciRecursionv2(i-1);\n\t}\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "Fibonacci.kt",
+          "content": "fun fibonacci(n: Int): Int {\n    if (n <= 0) return 0\n    if (n == 1) return 1\n\n    var prev = 0\n    var curr = 1\n    repeat(n - 1) {\n        val next = prev + curr\n        prev = curr\n        curr = next\n    }\n    return curr\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "Fibonacci.py",
+          "content": "# Recursive algorithm\ndef fibonacci_recursive(num):\n    \"\"\" Calculate fibonacci number \"\"\"\n    if num == 0:\n        return 0\n    elif num in {1, 2}:\n        return 1\n    else:\n        return fibonacci_recursive(num-1) + fibonacci_recursive(num - 2)\n\n# Iterative algorithm\ndef fibonacci(num):\n    \"\"\" Calculate fibonacci number (iterative function)\"\"\"\n    nb1, nb2 = 0, 1\n\n    for nbr in range(2 ,num+1):\n        nb1, nb2 = nb2, nb1 + nb2\n\n    return nb2\n"
+        },
+        {
+          "filename": "fibonacci_golden_ratio.py",
+          "content": "import math\n\ndef fibonacci_golden_ratio(num):\n    \"\"\"Returns fibonacci numbers using the Golden Ratio formula\"\"\"\n\n    golden_ratio = (1 + math.sqrt(5)) / 2\n    \n    golden_ratio_conjugate = (1 - math.sqrt(5)) / 2\n\n    return int(round(\n        ((golden_ratio ** num)\n        - (golden_ratio_conjugate ** num))\n        / math.sqrt(5)))\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "Fibonacci.rs",
+          "content": "const ITERS: usize = 20;\n\nfn print_fib(n: usize) {\n    let mut x = (1, 1);\n    for i in 0..n {\n        println!(\"{}: {}\", i, x.0);\n        x = (x.1, x.0 + x.1)\n    }\n}\n\nfn main() {\n    println!(\"# print_fib\");\n    print_fib(ITERS);\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "Fibonacci.scala",
+          "content": "import scala.annotation.tailrec\n\n/**\n * Calculating a Fibonacci sequence recursively using Scala.\n */\n \nobject Fibonacci {\n\n    def fib(number: Int) : Int  = {\n        if (number == 0) {\n            0\n        }\n        else if(number == 1 ) {\n            1\n        } else {\n           fib(number-1) + fib(number-2)\n        }\n    }\n\n  def main(args: Array[String]): Unit = {\n    for (i <- 1 until 10){\n      println(fib(i))\n    }\n\n  }\n}"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "Fibonacci.swift",
+          "content": "//Recursive algorithm\nfunc fibonacci(_ n: Int) -> Int {\n    guard n != 0, n != 1 else { return n }\n    return fibonacci(n - 1) + fibonacci(n - 2)\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "Fibonacci-Recursive.js",
+          "content": "export function fibonacci(n) {\n  if (n <= 1) {\n    return n;\n  }\n\n  let previous = 0;\n  let current = 1;\n  for (let i = 2; i <= n; i += 1) {\n    const next = previous + current;\n    previous = current;\n    current = next;\n  }\n\n  return current;\n}\n"
+        },
+        {
+          "filename": "Fibonacci.js",
+          "content": "/* eslint-disable require-jsdoc */\nfunction fibonacci(n) {\n  let a = 1;\n  let b = 0;\n\n  while (n > 0) {\n    const temp = a;\n    a = a + b;\n    b = temp;\n    n--;\n  }\n\n  return b;\n}\n\nconsole.log(fibonacci(0)); // 0\nconsole.log(fibonacci(1)); // 1\nconsole.log(fibonacci(7)); // 13\nconsole.log(fibonacci(9)); // 34\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "readme": "# Fibonacci\n\n## Overview\n\nThe Fibonacci sequence is one of the most fundamental sequences in mathematics and computer science. Each number in the sequence is the sum of the two preceding numbers, starting from 0 and 1: 0, 1, 1, 2, 3, 5, 8, 13, 21, and so on. The dynamic programming approach computes Fibonacci numbers efficiently by storing previously computed values, avoiding the exponential redundancy of the naive recursive solution.\n\nWhile the naive recursive approach has O(2^n) time complexity due to repeated subproblem computation, the DP approach (using either memoization or tabulation) reduces this to O(n) time, making it a classic example of how dynamic programming transforms an intractable problem into an efficient one.\n\n## How It Works\n\nThe Fibonacci sequence is defined by the recurrence relation F(n) = F(n-1) + F(n-2), with base cases F(0) = 0 and F(1) = 1. The dynamic programming approach builds up the solution from the base cases, computing each Fibonacci number exactly once. An optimized version uses only two variables instead of an entire array, since each value depends only on the two previous values.\n\n### Example\n\nComputing `F(7)`:\n\n**Tabulation (bottom-up) approach:**\n\n| Step | i | F(i-2) | F(i-1) | F(i) = F(i-1) + F(i-2) |\n|------|---|--------|--------|--------------------------|\n| Base | 0 | - | - | 0 |\n| Base | 1 | - | - | 1 |\n| 1 | 2 | 0 | 1 | 1 |\n| 2 | 3 | 1 | 1 | 2 |\n| 3 | 4 | 1 | 2 | 3 |\n| 4 | 5 | 2 | 3 | 5 |\n| 5 | 6 | 3 | 5 | 8 |\n| 6 | 7 | 5 | 8 | 13 |\n\nResult: `F(7) = 13`\n\nThe space-optimized version only keeps track of the two most recent values at each step, using variables `prev2` and `prev1`, and updating them as it progresses.\n\n## Pseudocode\n\n```\nfunction fibonacci(n):\n    if n <= 0:\n        return 0\n    if n == 1:\n        return 1\n\n    prev2 = 0\n    prev1 = 1\n\n    for i from 2 to n:\n        current = prev1 + prev2\n        prev2 = prev1\n        prev1 = current\n\n    return prev1\n```\n\nThe space-optimized version above uses O(1) space by maintaining only the two most recent values. A memoization-based approach would store all computed values in an array or hash map, using O(n) space but allowing random access to any previously computed Fibonacci number.\n\n## Complexity Analysis\n\n| Case    | Time | Space |\n|---------|------|-------|\n| Best    | O(n) | O(1)  |\n| Average | O(n) | O(1)  |\n| Worst   | O(n) | O(1)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(n):** Even in the best case (excluding trivial base cases), the algorithm must iterate from 2 to n, performing a constant amount of work at each step. There is no way to skip intermediate values since each depends on the two before it.\n\n- **Average Case -- O(n):** The algorithm always performs exactly n - 1 additions regardless of the input value, giving consistent O(n) performance.\n\n- **Worst Case -- O(n):** The algorithm performs a single linear pass through the values 2 to n. No input can cause worse-than-linear performance since there are no conditional branches or data-dependent operations.\n\n- **Space -- O(1):** The space-optimized version uses only two variables (`prev1` and `prev2`) regardless of n. If the full table is stored (for memoization), space becomes O(n).\n\n## When to Use\n\n- **Learning dynamic programming:** Fibonacci is the canonical introductory example for understanding memoization and tabulation.\n- **When you need Fibonacci numbers in sequence:** The iterative approach efficiently generates all Fibonacci numbers up to F(n) in a single pass.\n- **Subproblem in larger algorithms:** Many problems in combinatorics, tiling, and counting reduce to Fibonacci-like recurrences.\n- **When constant space is important:** The optimized version uses only O(1) extra space while still running in linear time.\n\n## When NOT to Use\n\n- **When you need F(n) for extremely large n:** For very large n (e.g., n > 10^18), the O(n) iterative approach is too slow. Matrix exponentiation computes F(n) in O(log n) time.\n- **When you need arbitrary Fibonacci numbers without computing predecessors:** If you need F(1000) but not F(1) through F(999), the closed-form Binet's formula or matrix exponentiation is more appropriate.\n- **When exact precision matters for very large results:** Fibonacci numbers grow exponentially, and big-integer arithmetic may become a bottleneck.\n\n## Comparison with Similar Algorithms\n\n| Approach               | Time       | Space | Notes                                          |\n|------------------------|-----------|-------|-------------------------------------------------|\n| Naive Recursion        | O(2^n)    | O(n)  | Exponential due to repeated subproblems         |\n| Memoization (top-down) | O(n)      | O(n)  | Stores all values; recursive call overhead       |\n| Tabulation (bottom-up) | O(n)      | O(n)  | Iterative; fills table from base cases           |\n| Space-optimized DP     | O(n)      | O(1)  | Only keeps two previous values                   |\n| Matrix Exponentiation  | O(log n)  | O(1)  | Best for very large n; uses 2x2 matrix power     |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| C          | [fibonacci.c](c/fibonacci.c) |\n| C#         | [Fibonacci.cs](csharp/Fibonacci.cs) |\n| C++        | [fibonacci.cpp](cpp/fibonacci.cpp) |\n| Go         | [fibonacci.go](go/fibonacci.go) |\n| Java       | [Fibonacci.java](java/Fibonacci.java) |\n| TypeScript | [Fibonacci.js](typescript/Fibonacci.js) |\n| Kotlin     | [Fibonacci.kt](kotlin/Fibonacci.kt) |\n| Python     | [Fibonacci.py](python/Fibonacci.py) |\n| Rust       | [Fibonacci.rs](rust/Fibonacci.rs) |\n| Scala      | [Fibonacci.scala](scala/Fibonacci.scala) |\n| Swift      | [Fibonacci.swift](swift/Fibonacci.swift) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 15: Dynamic Programming.\n- Knuth, D. E. (1997). *The Art of Computer Programming, Volume 1: Fundamental Algorithms* (3rd ed.). Addison-Wesley. Section 1.2.8: Fibonacci Numbers.\n- [Fibonacci Number -- Wikipedia](https://en.wikipedia.org/wiki/Fibonacci_number)\n"
+}

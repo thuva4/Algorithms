@@ -1,0 +1,17 @@
+name: "Range Tree"
+slug: "range-tree"
+category: "trees"
+subcategory: "range-query"
+difficulty: "advanced"
+tags: [trees, range-tree, orthogonal-range-query, balanced-bst, counting]
+complexity:
+  time:
+    best: "O(log n)"
+    average: "O(log n)"
+    worst: "O(log n + k)"
+  space: "O(n log n)"
+stable: null
+in_place: false
+related: [interval-tree, kd-tree, segment-tree]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

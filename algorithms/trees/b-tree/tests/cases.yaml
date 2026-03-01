@@ -1,0 +1,18 @@
+algorithm: "b-tree"
+function_signature:
+  name: "b_tree"
+  input: [array_of_integers]
+  output: array_of_integers
+test_cases:
+  - name: "basic insertion"
+    input: [[5, 3, 8, 1, 2]]
+    expected: [1, 2, 3, 5, 8]
+  - name: "already sorted"
+    input: [[1, 2, 3, 4, 5, 6, 7]]
+    expected: [1, 2, 3, 4, 5, 6, 7]
+  - name: "reverse order"
+    input: [[7, 6, 5, 4, 3, 2, 1]]
+    expected: [1, 2, 3, 4, 5, 6, 7]
+  - name: "single element"
+    input: [[42]]
+    expected: [42]

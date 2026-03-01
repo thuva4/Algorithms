@@ -1,0 +1,17 @@
+name: "Fibonacci"
+slug: "fibonacci"
+category: "dynamic-programming"
+subcategory: "classical"
+difficulty: "beginner"
+tags: [dynamic-programming, classical, memoization, tabulation]
+complexity:
+  time:
+    best: "O(n)"
+    average: "O(n)"
+    worst: "O(n)"
+  space: "O(1)"
+stable: null
+in_place: null
+related: [longest-common-subsequence, coin-change]
+implementations: [c, csharp, cpp, go, java, typescript, kotlin, python, rust, scala, swift]
+visualization: true

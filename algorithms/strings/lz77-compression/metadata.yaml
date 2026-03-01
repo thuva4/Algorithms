@@ -1,0 +1,21 @@
+name: "LZ77 Compression"
+slug: "lz77-compression"
+category: "strings"
+subcategory: "compression"
+difficulty: "intermediate"
+tags: [strings, compression, lz77, sliding-window]
+complexity:
+  time:
+    best: "O(n * w)"
+    average: "O(n * w)"
+    worst: "O(n * w)"
+  space: "O(n)"
+stable: null
+in_place: false
+related: [run-length-encoding, huffman-coding]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false
+patterns:
+  - sliding-window
+patternDifficulty: advanced
+practiceOrder: 4

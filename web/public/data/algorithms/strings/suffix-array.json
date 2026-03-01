@@ -1,0 +1,135 @@
+{
+  "name": "Suffix Array",
+  "slug": "suffix-array",
+  "category": "strings",
+  "subcategory": "suffix-structures",
+  "difficulty": "advanced",
+  "tags": [
+    "strings",
+    "suffix-array",
+    "sorting",
+    "text-processing"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n log^2 n)",
+      "average": "O(n log^2 n)",
+      "worst": "O(n log^2 n)"
+    },
+    "space": "O(n)"
+  },
+  "stable": null,
+  "in_place": false,
+  "related": [
+    "suffix-tree",
+    "knuth-morris-pratt",
+    "z-algorithm"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "suffix_array.c",
+          "content": "#include \"suffix_array.h\"\n#include <stdlib.h>\n#include <string.h>\n\nstatic int* g_rank;\nstatic int g_n, g_k;\n\nstatic int cmp(const void* a, const void* b) {\n    int ia = *(const int*)a, ib = *(const int*)b;\n    if (g_rank[ia] != g_rank[ib]) return g_rank[ia] - g_rank[ib];\n    int ra = ia + g_k < g_n ? g_rank[ia + g_k] : -1;\n    int rb = ib + g_k < g_n ? g_rank[ib + g_k] : -1;\n    return ra - rb;\n}\n\nint* suffix_array(int* arr, int n, int* out_size) {\n    *out_size = n;\n    if (n == 0) return NULL;\n    int* sa = (int*)malloc(n * sizeof(int));\n    int* rank_arr = (int*)malloc(n * sizeof(int));\n    int* tmp = (int*)malloc(n * sizeof(int));\n    for (int i = 0; i < n; i++) {\n        sa[i] = i;\n        rank_arr[i] = arr[i];\n    }\n    g_n = n;\n    for (int k = 1; k < n; k *= 2) {\n        g_rank = rank_arr;\n        g_k = k;\n        qsort(sa, n, sizeof(int), cmp);\n        tmp[sa[0]] = 0;\n        for (int i = 1; i < n; i++) {\n            tmp[sa[i]] = tmp[sa[i - 1]];\n            int prev0 = rank_arr[sa[i - 1]];\n            int prev1 = sa[i - 1] + k < n ? rank_arr[sa[i - 1] + k] : -1;\n            int cur0 = rank_arr[sa[i]];\n            int cur1 = sa[i] + k < n ? rank_arr[sa[i] + k] : -1;\n            if (prev0 != cur0 || prev1 != cur1) tmp[sa[i]]++;\n        }\n        memcpy(rank_arr, tmp, n * sizeof(int));\n        if (rank_arr[sa[n - 1]] == n - 1) break;\n    }\n    free(rank_arr);\n    free(tmp);\n    return sa;\n}\n"
+        },
+        {
+          "filename": "suffix_array.h",
+          "content": "#ifndef SUFFIX_ARRAY_H\n#define SUFFIX_ARRAY_H\n\nint* suffix_array(int* arr, int n, int* out_size);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "suffix_array.cpp",
+          "content": "#include <vector>\n#include <algorithm>\n#include <numeric>\n\nstd::vector<int> suffix_array(std::vector<int> arr) {\n    int n = arr.size();\n    if (n == 0) return {};\n    std::vector<int> sa(n), rank(arr.begin(), arr.end()), tmp(n);\n    std::iota(sa.begin(), sa.end(), 0);\n    for (int k = 1; k < n; k *= 2) {\n        auto cmp = [&](int a, int b) {\n            if (rank[a] != rank[b]) return rank[a] < rank[b];\n            int ra = a + k < n ? rank[a + k] : -1;\n            int rb = b + k < n ? rank[b + k] : -1;\n            return ra < rb;\n        };\n        std::sort(sa.begin(), sa.end(), cmp);\n        tmp[sa[0]] = 0;\n        for (int i = 1; i < n; i++) {\n            tmp[sa[i]] = tmp[sa[i - 1]];\n            if (cmp(sa[i - 1], sa[i])) tmp[sa[i]]++;\n        }\n        rank = tmp;\n        if (rank[sa[n - 1]] == n - 1) break;\n    }\n    return sa;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "SuffixArray.cs",
+          "content": "using System;\nusing System.Linq;\n\npublic class SuffixArray\n{\n    public static int[] Run(int[] arr)\n    {\n        int n = arr.Length;\n        if (n == 0) return new int[0];\n        int[] sa = Enumerable.Range(0, n).ToArray();\n        int[] rank = (int[])arr.Clone();\n        int[] tmp = new int[n];\n        for (int k = 1; k < n; k *= 2)\n        {\n            int[] r = (int[])rank.Clone();\n            int step = k;\n            Array.Sort(sa, (a, b) =>\n            {\n                if (r[a] != r[b]) return r[a].CompareTo(r[b]);\n                int ra = a + step < n ? r[a + step] : -1;\n                int rb = b + step < n ? r[b + step] : -1;\n                return ra.CompareTo(rb);\n            });\n            tmp[sa[0]] = 0;\n            for (int i = 1; i < n; i++)\n            {\n                tmp[sa[i]] = tmp[sa[i - 1]];\n                int p0 = r[sa[i - 1]], c0 = r[sa[i]];\n                int p1 = sa[i - 1] + step < n ? r[sa[i - 1] + step] : -1;\n                int c1 = sa[i] + step < n ? r[sa[i] + step] : -1;\n                if (p0 != c0 || p1 != c1) tmp[sa[i]]++;\n            }\n            Array.Copy(tmp, rank, n);\n            if (rank[sa[n - 1]] == n - 1) break;\n        }\n        return sa;\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "suffix_array.go",
+          "content": "package suffixarray\n\nimport \"sort\"\n\n// SuffixArray builds the suffix array of an integer array.\nfunc SuffixArray(arr []int) []int {\n\tn := len(arr)\n\tif n == 0 {\n\t\treturn []int{}\n\t}\n\tsa := make([]int, n)\n\trank := make([]int, n)\n\ttmp := make([]int, n)\n\tfor i := 0; i < n; i++ {\n\t\tsa[i] = i\n\t\trank[i] = arr[i]\n\t}\n\tfor k := 1; k < n; k *= 2 {\n\t\tr := make([]int, n)\n\t\tcopy(r, rank)\n\t\tstep := k\n\t\tsort.Slice(sa, func(i, j int) bool {\n\t\t\ta, b := sa[i], sa[j]\n\t\t\tif r[a] != r[b] {\n\t\t\t\treturn r[a] < r[b]\n\t\t\t}\n\t\t\tra, rb := -1, -1\n\t\t\tif a+step < n {\n\t\t\t\tra = r[a+step]\n\t\t\t}\n\t\t\tif b+step < n {\n\t\t\t\trb = r[b+step]\n\t\t\t}\n\t\t\treturn ra < rb\n\t\t})\n\t\ttmp[sa[0]] = 0\n\t\tfor i := 1; i < n; i++ {\n\t\t\ttmp[sa[i]] = tmp[sa[i-1]]\n\t\t\tp0, c0 := r[sa[i-1]], r[sa[i]]\n\t\t\tp1, c1 := -1, -1\n\t\t\tif sa[i-1]+step < n {\n\t\t\t\tp1 = r[sa[i-1]+step]\n\t\t\t}\n\t\t\tif sa[i]+step < n {\n\t\t\t\tc1 = r[sa[i]+step]\n\t\t\t}\n\t\t\tif p0 != c0 || p1 != c1 {\n\t\t\t\ttmp[sa[i]]++\n\t\t\t}\n\t\t}\n\t\tcopy(rank, tmp)\n\t\tif rank[sa[n-1]] == n-1 {\n\t\t\tbreak\n\t\t}\n\t}\n\treturn sa\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "SuffixArray.java",
+          "content": "import java.util.*;\n\npublic class SuffixArray {\n    public static int[] suffixArray(int[] arr) {\n        int n = arr.length;\n        if (n == 0) return new int[0];\n        Integer[] sa = new Integer[n];\n        int[] rank = new int[n];\n        int[] tmp = new int[n];\n        for (int i = 0; i < n; i++) {\n            sa[i] = i;\n            rank[i] = arr[i];\n        }\n        for (int k = 1; k < n; k *= 2) {\n            final int[] r = rank;\n            final int step = k;\n            Arrays.sort(sa, (a, b) -> {\n                if (r[a] != r[b]) return Integer.compare(r[a], r[b]);\n                int ra = a + step < n ? r[a + step] : -1;\n                int rb = b + step < n ? r[b + step] : -1;\n                return Integer.compare(ra, rb);\n            });\n            tmp[sa[0]] = 0;\n            for (int i = 1; i < n; i++) {\n                tmp[sa[i]] = tmp[sa[i - 1]];\n                int prev0 = r[sa[i - 1]], prev1 = sa[i - 1] + step < n ? r[sa[i - 1] + step] : -1;\n                int cur0 = r[sa[i]], cur1 = sa[i] + step < n ? r[sa[i] + step] : -1;\n                if (prev0 != cur0 || prev1 != cur1) tmp[sa[i]]++;\n            }\n            System.arraycopy(tmp, 0, rank, 0, n);\n            if (rank[sa[n - 1]] == n - 1) break;\n        }\n        int[] result = new int[n];\n        for (int i = 0; i < n; i++) result[i] = sa[i];\n        return result;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "SuffixArray.kt",
+          "content": "fun suffixArray(arr: IntArray): IntArray {\n    val n = arr.size\n    if (n == 0) return intArrayOf()\n    val sa = Array(n) { it }\n    var rank = arr.clone()\n    val tmp = IntArray(n)\n    var k = 1\n    while (k < n) {\n        val r = rank.clone()\n        val step = k\n        sa.sortWith(Comparator { a, b ->\n            if (r[a] != r[b]) return@Comparator r[a] - r[b]\n            val ra = if (a + step < n) r[a + step] else -1\n            val rb = if (b + step < n) r[b + step] else -1\n            ra - rb\n        })\n        tmp[sa[0]] = 0\n        for (i in 1 until n) {\n            tmp[sa[i]] = tmp[sa[i - 1]]\n            val p0 = r[sa[i - 1]]; val c0 = r[sa[i]]\n            val p1 = if (sa[i - 1] + step < n) r[sa[i - 1] + step] else -1\n            val c1 = if (sa[i] + step < n) r[sa[i] + step] else -1\n            if (p0 != c0 || p1 != c1) tmp[sa[i]]++\n        }\n        rank = tmp.clone()\n        if (rank[sa[n - 1]] == n - 1) break\n        k *= 2\n    }\n    return sa.map { it }.toIntArray()\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "suffix_array.py",
+          "content": "def suffix_array(arr: list[int]) -> list[int]:\n    n = len(arr)\n    if n == 0:\n        return []\n    sa = list(range(n))\n    rank = arr[:]\n    tmp = [0] * n\n    k = 1\n    while k < n:\n        def cmp_key(i):\n            return (rank[i], rank[i + k] if i + k < n else -1)\n        sa.sort(key=cmp_key)\n        tmp[sa[0]] = 0\n        for i in range(1, n):\n            tmp[sa[i]] = tmp[sa[i - 1]]\n            if cmp_key(sa[i]) != cmp_key(sa[i - 1]):\n                tmp[sa[i]] += 1\n        rank = tmp[:]\n        if rank[sa[-1]] == n - 1:\n            break\n        k *= 2\n    return sa\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "suffix_array.rs",
+          "content": "pub fn suffix_array(arr: &[i32]) -> Vec<i32> {\n    let n = arr.len();\n    if n == 0 {\n        return vec![];\n    }\n    let mut sa: Vec<usize> = (0..n).collect();\n    let mut rank: Vec<i64> = arr.iter().map(|&x| x as i64).collect();\n    let mut tmp = vec![0i64; n];\n    let mut k = 1;\n    while k < n {\n        let r = rank.clone();\n        let step = k;\n        sa.sort_by(|&a, &b| {\n            let cmp1 = r[a].cmp(&r[b]);\n            if cmp1 != std::cmp::Ordering::Equal {\n                return cmp1;\n            }\n            let ra = if a + step < n { r[a + step] } else { -1 };\n            let rb = if b + step < n { r[b + step] } else { -1 };\n            ra.cmp(&rb)\n        });\n        tmp[sa[0]] = 0;\n        for i in 1..n {\n            tmp[sa[i]] = tmp[sa[i - 1]];\n            let p0 = r[sa[i - 1]];\n            let c0 = r[sa[i]];\n            let p1 = if sa[i - 1] + step < n { r[sa[i - 1] + step] } else { -1 };\n            let c1 = if sa[i] + step < n { r[sa[i] + step] } else { -1 };\n            if p0 != c0 || p1 != c1 {\n                tmp[sa[i]] += 1;\n            }\n        }\n        rank = tmp.clone();\n        if rank[sa[n - 1]] == (n as i64 - 1) {\n            break;\n        }\n        k *= 2;\n    }\n    sa.iter().map(|&x| x as i32).collect()\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "SuffixArray.scala",
+          "content": "object SuffixArray {\n  def suffixArray(arr: Array[Int]): Array[Int] = {\n    val n = arr.length\n    if (n == 0) return Array.empty[Int]\n    var sa = Array.tabulate(n)(identity)\n    var rank = arr.clone()\n    val tmp = new Array[Int](n)\n    var k = 1\n    while (k < n) {\n      val r = rank.clone()\n      val step = k\n      sa = sa.sortWith((a, b) => {\n        if (r(a) != r(b)) r(a) < r(b)\n        else {\n          val ra = if (a + step < n) r(a + step) else -1\n          val rb = if (b + step < n) r(b + step) else -1\n          ra < rb\n        }\n      })\n      tmp(sa(0)) = 0\n      for (i <- 1 until n) {\n        tmp(sa(i)) = tmp(sa(i - 1))\n        val p0 = r(sa(i - 1)); val c0 = r(sa(i))\n        val p1 = if (sa(i - 1) + step < n) r(sa(i - 1) + step) else -1\n        val c1 = if (sa(i) + step < n) r(sa(i) + step) else -1\n        if (p0 != c0 || p1 != c1) tmp(sa(i)) += 1\n      }\n      rank = tmp.clone()\n      if (rank(sa(n - 1)) == n - 1) return sa\n      k *= 2\n    }\n    sa\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "SuffixArray.swift",
+          "content": "func suffixArray(_ arr: [Int]) -> [Int] {\n    let n = arr.count\n    if n == 0 { return [] }\n    var sa = Array(0..<n)\n    var rank = arr\n    var tmp = [Int](repeating: 0, count: n)\n    var k = 1\n    while k < n {\n        let r = rank\n        let step = k\n        sa.sort { a, b in\n            if r[a] != r[b] { return r[a] < r[b] }\n            let ra = a + step < n ? r[a + step] : -1\n            let rb = b + step < n ? r[b + step] : -1\n            return ra < rb\n        }\n        tmp[sa[0]] = 0\n        for i in 1..<n {\n            tmp[sa[i]] = tmp[sa[i - 1]]\n            let p0 = r[sa[i - 1]], c0 = r[sa[i]]\n            let p1 = sa[i - 1] + step < n ? r[sa[i - 1] + step] : -1\n            let c1 = sa[i] + step < n ? r[sa[i] + step] : -1\n            if p0 != c0 || p1 != c1 { tmp[sa[i]] += 1 }\n        }\n        rank = tmp\n        if rank[sa[n - 1]] == n - 1 { break }\n        k *= 2\n    }\n    return sa\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "suffixArray.ts",
+          "content": "export function suffixArray(arr: number[]): number[] {\n    const n = arr.length;\n    if (n === 0) return [];\n    const sa = Array.from({ length: n }, (_, i) => i);\n    let rank = [...arr];\n    const tmp = new Array(n);\n    for (let k = 1; k < n; k *= 2) {\n        const r = [...rank];\n        const step = k;\n        sa.sort((a, b) => {\n            if (r[a] !== r[b]) return r[a] - r[b];\n            const ra = a + step < n ? r[a + step] : -1;\n            const rb = b + step < n ? r[b + step] : -1;\n            return ra - rb;\n        });\n        tmp[sa[0]] = 0;\n        for (let i = 1; i < n; i++) {\n            tmp[sa[i]] = tmp[sa[i - 1]];\n            const p0 = r[sa[i - 1]], c0 = r[sa[i]];\n            const p1 = sa[i - 1] + step < n ? r[sa[i - 1] + step] : -1;\n            const c1 = sa[i] + step < n ? r[sa[i] + step] : -1;\n            if (p0 !== c0 || p1 !== c1) tmp[sa[i]]++;\n        }\n        rank = [...tmp];\n        if (rank[sa[n - 1]] === n - 1) break;\n    }\n    return sa;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Suffix Array\n\n## Overview\n\nA Suffix Array is a sorted array of all suffixes of a string (or array of integers), represented by their starting indices. Introduced by Udi Manber and Gene Myers in 1993 as a space-efficient alternative to suffix trees, it provides a foundation for many string processing tasks including pattern matching, longest common prefix computation, and data compression. Given an array of length n, the suffix array contains n starting indices sorted so that the corresponding suffixes are in lexicographic order.\n\n## How It Works\n\n1. **Generate all suffixes:** For an array of length n, create n suffixes where suffix i starts at position i and extends to the end of the array.\n2. **Sort the suffixes lexicographically:** The naive approach sorts using string comparison (O(n^2 log n) total). The efficient approach uses iterative doubling:\n   - First, sort suffixes by their first character.\n   - Then, sort by first 2 characters (using the rank of the first character and the rank of position+1).\n   - Then by first 4 characters, then 8, and so on, doubling each iteration.\n   - Each sorting step uses the ranks from the previous step, requiring O(n log n) per step across O(log n) steps.\n3. **Return the array of starting indices** in sorted order.\n\n## Worked Example\n\nGiven input: `[3, 1, 2, 1]`\n\nAll suffixes:\n- Suffix 0: `[3, 1, 2, 1]`\n- Suffix 1: `[1, 2, 1]`\n- Suffix 2: `[2, 1]`\n- Suffix 3: `[1]`\n\nSorted lexicographically:\n1. `[1]` (suffix 3)\n2. `[1, 2, 1]` (suffix 1)\n3. `[2, 1]` (suffix 2)\n4. `[3, 1, 2, 1]` (suffix 0)\n\n**Suffix Array:** `[3, 1, 2, 0]`\n\n**Using the suffix array for pattern matching:** To find pattern `[1, 2]`, binary search the suffix array. Suffix 1 = `[1, 2, 1]` starts with `[1, 2]` -- match found at index 1.\n\n## Pseudocode\n\n```\nfunction buildSuffixArray(arr):\n    n = length(arr)\n    sa = [0, 1, 2, ..., n-1]  // suffix indices\n    rank = copy of arr         // initial ranks from element values\n    tmp = array of size n\n\n    gap = 1\n    while gap < n:\n        // Sort by (rank[i], rank[i + gap])\n        // Using the pair as a comparison key\n        sort sa by key: (rank[sa[i]], rank[sa[i] + gap] if sa[i] + gap < n else -1)\n\n        // Recompute ranks\n        tmp[sa[0]] = 0\n        for i from 1 to n - 1:\n            tmp[sa[i]] = tmp[sa[i-1]]\n            if (rank[sa[i]], rank[sa[i]+gap]) != (rank[sa[i-1]], rank[sa[i-1]+gap]):\n                tmp[sa[i]] = tmp[sa[i]] + 1\n        rank = copy of tmp\n\n        if rank[sa[n-1]] == n - 1:\n            break   // all ranks are unique\n\n        gap = gap * 2\n\n    return sa\n```\n\n## Complexity Analysis\n\n| Case    | Time          | Space |\n|---------|---------------|-------|\n| Best    | O(n log n)    | O(n)  |\n| Average | O(n log^2 n)  | O(n)  |\n| Worst   | O(n log^2 n)  | O(n)  |\n\n- **Time O(n log^2 n):** There are O(log n) doubling iterations, each requiring O(n log n) for comparison-based sorting. Using radix sort at each step reduces this to O(n log n) total.\n- **Best case O(n log n):** When all elements are distinct, the ranks become unique after the first doubling step and the algorithm terminates early.\n- **Space O(n):** Storing the suffix array, rank array, and temporary array.\n- The SA-IS algorithm by Nong, Zhang, and Chan (2009) constructs the suffix array in O(n) time.\n\n## When to Use\n\n- Pattern matching in a text that will be queried many times (build once, search many times in O(m log n))\n- Computing the Longest Common Prefix (LCP) array (using Kasai's algorithm in O(n))\n- Data compression algorithms based on the Burrows-Wheeler Transform (BWT)\n- Bioinformatics: genome assembly, sequence alignment, finding repeated motifs\n- Finding the longest repeated substring, longest common substring of two strings\n- As a space-efficient alternative to suffix trees (uses 4-8x less memory)\n\n## When NOT to Use\n\n- **Single pattern search in a text queried only once:** Building the suffix array takes O(n log n) or more. For a one-time search, KMP or Boyer-Moore (O(n+m)) is faster.\n- **When you need the full power of a suffix tree:** Some operations (like finding the longest palindromic substring or certain tree traversals) are more naturally expressed with suffix trees.\n- **Very small strings:** The overhead of constructing the suffix array is not justified for strings shorter than a few hundred characters.\n- **Dynamic text with frequent insertions/deletions:** Suffix arrays are static structures. Rebuilding after each modification is expensive. Consider a dynamic suffix tree or other online data structures.\n\n## Comparison\n\n| Data Structure     | Build Time     | Pattern Search | Space  | LCP Computation |\n|--------------------|----------------|----------------|--------|-----------------|\n| Suffix Array       | O(n log^2 n)*  | O(m log n)     | O(n)   | O(n) with Kasai |\n| Suffix Tree        | O(n)           | O(m)           | O(n)** | Implicit        |\n| Trie               | O(n^2)         | O(m)           | O(n^2) | N/A             |\n| KMP (for search)   | O(n + m)       | O(n + m)       | O(m)   | N/A             |\n\n*O(n) with SA-IS algorithm. **Suffix trees use 10-20x more memory than suffix arrays in practice.\n\nSuffix arrays provide the best balance between space efficiency and query capability. Suffix trees are faster for some queries but consume far more memory. For repeated search on the same text, suffix arrays with LCP arrays match suffix trees in functionality at a fraction of the memory cost.\n\n## References\n\n- Manber, U. and Myers, G. (1993). \"Suffix Arrays: A New Method for On-Line String Searches.\" *SIAM Journal on Computing*, 22(5), 935-948.\n- Kasai, T., Lee, G., Arimura, H., Arikawa, S., and Park, K. (2001). \"Linear-Time Longest-Common-Prefix Computation in Suffix Arrays and Its Applications.\" *CPM 2001*, LNCS 2089, 181-192.\n- Nong, G., Zhang, S., and Chan, W.H. (2009). \"Two Efficient Algorithms for Linear Time Suffix Array Construction.\" *IEEE Transactions on Computers*, 60(10), 1471-1484.\n- Gusfield, D. (1997). *Algorithms on Strings, Trees, and Sequences*. Cambridge University Press.\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [suffix_array.py](python/suffix_array.py) |\n| Java       | [SuffixArray.java](java/SuffixArray.java) |\n| C++        | [suffix_array.cpp](cpp/suffix_array.cpp) |\n| C          | [suffix_array.c](c/suffix_array.c) |\n| Go         | [suffix_array.go](go/suffix_array.go) |\n| TypeScript | [suffixArray.ts](typescript/suffixArray.ts) |\n| Rust       | [suffix_array.rs](rust/suffix_array.rs) |\n| Kotlin     | [SuffixArray.kt](kotlin/SuffixArray.kt) |\n| Swift      | [SuffixArray.swift](swift/SuffixArray.swift) |\n| Scala      | [SuffixArray.scala](scala/SuffixArray.scala) |\n| C#         | [SuffixArray.cs](csharp/SuffixArray.cs) |\n"
+}

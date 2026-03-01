@@ -1,0 +1,134 @@
+{
+  "name": "Extended GCD Applications",
+  "slug": "extended-gcd-applications",
+  "category": "math",
+  "subcategory": "number-theory",
+  "difficulty": "intermediate",
+  "tags": [
+    "math",
+    "gcd",
+    "modular-inverse",
+    "number-theory"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(log(min(a, m)))",
+      "average": "O(log(min(a, m)))",
+      "worst": "O(log(min(a, m)))"
+    },
+    "space": "O(log(min(a, m)))"
+  },
+  "stable": null,
+  "in_place": false,
+  "related": [
+    "extended-euclidean",
+    "chinese-remainder-theorem"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "extended_gcd_applications.c",
+          "content": "#include <stdio.h>\n#include \"extended_gcd_applications.h\"\n\nstatic long long ext_gcd(long long a, long long b, long long* x, long long* y) {\n    if (a == 0) { *x = 0; *y = 1; return b; }\n    long long x1, y1;\n    long long g = ext_gcd(b % a, a, &x1, &y1);\n    *x = y1 - (b / a) * x1;\n    *y = x1;\n    return g;\n}\n\nint extended_gcd_applications(int* arr, int size) {\n    long long a = arr[0], m = arr[1];\n    long long x, y;\n    long long g = ext_gcd(((a % m) + m) % m, m, &x, &y);\n    if (g != 1) return -1;\n    return (int)(((x % m) + m) % m);\n}\n\nint main() {\n    int a1[] = {3, 7}; printf(\"%d\\n\", extended_gcd_applications(a1, 2));\n    int a2[] = {1, 13}; printf(\"%d\\n\", extended_gcd_applications(a2, 2));\n    int a3[] = {6, 9}; printf(\"%d\\n\", extended_gcd_applications(a3, 2));\n    int a4[] = {2, 11}; printf(\"%d\\n\", extended_gcd_applications(a4, 2));\n    return 0;\n}\n"
+        },
+        {
+          "filename": "extended_gcd_applications.h",
+          "content": "#ifndef EXTENDED_GCD_APPLICATIONS_H\n#define EXTENDED_GCD_APPLICATIONS_H\n\nint extended_gcd_applications(int* arr, int size);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "extended_gcd_applications.cpp",
+          "content": "#include <iostream>\n#include <vector>\n#include <tuple>\nusing namespace std;\n\ntuple<long long, long long, long long> extGcd(long long a, long long b) {\n    if (a == 0) return {b, 0, 1};\n    auto [g, x1, y1] = extGcd(b % a, a);\n    return {g, y1 - (b/a)*x1, x1};\n}\n\nint extendedGcdApplications(const vector<int>& arr) {\n    long long a = arr[0], m = arr[1];\n    auto [g, x, y] = extGcd(((a%m)+m)%m, m);\n    if (g != 1) return -1;\n    return (int)(((x%m)+m)%m);\n}\n\nint main() {\n    cout << extendedGcdApplications({3, 7}) << endl;\n    cout << extendedGcdApplications({1, 13}) << endl;\n    cout << extendedGcdApplications({6, 9}) << endl;\n    cout << extendedGcdApplications({2, 11}) << endl;\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "ExtendedGcdApplications.cs",
+          "content": "using System;\n\npublic class ExtendedGcdApplications\n{\n    static (long g, long x, long y) ExtGcd(long a, long b)\n    {\n        if (a == 0) return (b, 0, 1);\n        var (g, x1, y1) = ExtGcd(b % a, a);\n        return (g, y1 - (b / a) * x1, x1);\n    }\n\n    public static int Solve(int[] arr)\n    {\n        long a = arr[0], m = arr[1];\n        var (g, x, _) = ExtGcd(((a % m) + m) % m, m);\n        if (g != 1) return -1;\n        return (int)(((x % m) + m) % m);\n    }\n\n    static void Main(string[] args)\n    {\n        Console.WriteLine(Solve(new int[] { 3, 7 }));\n        Console.WriteLine(Solve(new int[] { 1, 13 }));\n        Console.WriteLine(Solve(new int[] { 6, 9 }));\n        Console.WriteLine(Solve(new int[] { 2, 11 }));\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "extended_gcd_applications.go",
+          "content": "package main\n\nimport \"fmt\"\n\nfunc extGcd(a, b int64) (int64, int64, int64) {\n\tif a == 0 { return b, 0, 1 }\n\tg, x1, y1 := extGcd(b%a, a)\n\treturn g, y1 - (b/a)*x1, x1\n}\n\nfunc ExtendedGcdApplications(arr []int) int {\n\ta, m := int64(arr[0]), int64(arr[1])\n\tg, x, _ := extGcd(((a%m)+m)%m, m)\n\tif g != 1 { return -1 }\n\treturn int(((x%m)+m)%m)\n}\n\nfunc main() {\n\tfmt.Println(ExtendedGcdApplications([]int{3, 7}))\n\tfmt.Println(ExtendedGcdApplications([]int{1, 13}))\n\tfmt.Println(ExtendedGcdApplications([]int{6, 9}))\n\tfmt.Println(ExtendedGcdApplications([]int{2, 11}))\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "ExtendedGcdApplications.java",
+          "content": "public class ExtendedGcdApplications {\n\n    static long[] extGcd(long a, long b) {\n        if (a == 0) return new long[]{b, 0, 1};\n        long[] r = extGcd(b % a, a);\n        return new long[]{r[0], r[2] - (b / a) * r[1], r[1]};\n    }\n\n    public static int extendedGcdApplications(int[] arr) {\n        long a = arr[0], m = arr[1];\n        long[] r = extGcd(((a % m) + m) % m, m);\n        if (r[0] != 1) return -1;\n        return (int)(((r[1] % m) + m) % m);\n    }\n\n    public static void main(String[] args) {\n        System.out.println(extendedGcdApplications(new int[]{3, 7}));\n        System.out.println(extendedGcdApplications(new int[]{1, 13}));\n        System.out.println(extendedGcdApplications(new int[]{6, 9}));\n        System.out.println(extendedGcdApplications(new int[]{2, 11}));\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "ExtendedGcdApplications.kt",
+          "content": "fun extGcd(a: Long, b: Long): Triple<Long, Long, Long> {\n    if (a == 0L) return Triple(b, 0L, 1L)\n    val (g, x1, y1) = extGcd(b % a, a)\n    return Triple(g, y1 - (b / a) * x1, x1)\n}\n\nfun extendedGcdApplications(arr: IntArray): Int {\n    val a = arr[0].toLong(); val m = arr[1].toLong()\n    val (g, x, _) = extGcd(((a % m) + m) % m, m)\n    if (g != 1L) return -1\n    return (((x % m) + m) % m).toInt()\n}\n\nfun main() {\n    println(extendedGcdApplications(intArrayOf(3, 7)))\n    println(extendedGcdApplications(intArrayOf(1, 13)))\n    println(extendedGcdApplications(intArrayOf(6, 9)))\n    println(extendedGcdApplications(intArrayOf(2, 11)))\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "extended_gcd_applications.py",
+          "content": "def extended_gcd_applications(arr):\n    \"\"\"Compute modular inverse of a mod m using extended GCD. Returns -1 if not exists.\"\"\"\n    a, m = arr[0], arr[1]\n\n    def extended_gcd(a, b):\n        if a == 0:\n            return b, 0, 1\n        g, x1, y1 = extended_gcd(b % a, a)\n        return g, y1 - (b // a) * x1, x1\n\n    g, x, _ = extended_gcd(a % m, m)\n    if g != 1:\n        return -1\n    return (x % m + m) % m\n\n\nif __name__ == \"__main__\":\n    print(extended_gcd_applications([3, 7]))    # 5\n    print(extended_gcd_applications([1, 13]))   # 1\n    print(extended_gcd_applications([6, 9]))    # -1\n    print(extended_gcd_applications([2, 11]))   # 6\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "extended_gcd_applications.rs",
+          "content": "fn ext_gcd(a: i64, b: i64) -> (i64, i64, i64) {\n    if a == 0 { return (b, 0, 1); }\n    let (g, x1, y1) = ext_gcd(b % a, a);\n    (g, y1 - (b / a) * x1, x1)\n}\n\npub fn extended_gcd_applications(arr: &[i32]) -> i32 {\n    let a = arr[0] as i64; let m = arr[1] as i64;\n    let (g, x, _) = ext_gcd(((a % m) + m) % m, m);\n    if g != 1 { return -1; }\n    (((x % m) + m) % m) as i32\n}\n\nfn main() {\n    println!(\"{}\", extended_gcd_applications(&[3, 7]));\n    println!(\"{}\", extended_gcd_applications(&[1, 13]));\n    println!(\"{}\", extended_gcd_applications(&[6, 9]));\n    println!(\"{}\", extended_gcd_applications(&[2, 11]));\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "ExtendedGcdApplications.scala",
+          "content": "object ExtendedGcdApplications {\n\n  def extGcd(a: Long, b: Long): (Long, Long, Long) = {\n    if (a == 0) return (b, 0L, 1L)\n    val (g, x1, y1) = extGcd(b % a, a)\n    (g, y1 - (b / a) * x1, x1)\n  }\n\n  def extendedGcdApplications(arr: Array[Int]): Int = {\n    val a = arr(0).toLong; val m = arr(1).toLong\n    val (g, x, _) = extGcd(((a % m) + m) % m, m)\n    if (g != 1) return -1\n    (((x % m) + m) % m).toInt\n  }\n\n  def main(args: Array[String]): Unit = {\n    println(extendedGcdApplications(Array(3, 7)))\n    println(extendedGcdApplications(Array(1, 13)))\n    println(extendedGcdApplications(Array(6, 9)))\n    println(extendedGcdApplications(Array(2, 11)))\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "ExtendedGcdApplications.swift",
+          "content": "func extGcd(_ a: Int, _ b: Int) -> (Int, Int, Int) {\n    if a == 0 { return (b, 0, 1) }\n    let (g, x1, y1) = extGcd(b % a, a)\n    return (g, y1 - (b / a) * x1, x1)\n}\n\nfunc extendedGcdApplications(_ arr: [Int]) -> Int {\n    let a = arr[0], m = arr[1]\n    let (g, x, _) = extGcd(((a % m) + m) % m, m)\n    if g != 1 { return -1 }\n    return ((x % m) + m) % m\n}\n\nprint(extendedGcdApplications([3, 7]))\nprint(extendedGcdApplications([1, 13]))\nprint(extendedGcdApplications([6, 9]))\nprint(extendedGcdApplications([2, 11]))\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "extendedGcdApplications.ts",
+          "content": "function extGcd(a: number, b: number): [number, number, number] {\n    if (a === 0) return [b, 0, 1];\n    const [g, x1, y1] = extGcd(b % a, a);\n    return [g, y1 - Math.floor(b / a) * x1, x1];\n}\n\nexport function extendedGcdApplications(arr: number[]): number {\n    const a = arr[0], m = arr[1];\n    const [g, x] = extGcd(((a % m) + m) % m, m);\n    if (g !== 1) return -1;\n    return ((x % m) + m) % m;\n}\n\nconsole.log(extendedGcdApplications([3, 7]));\nconsole.log(extendedGcdApplications([1, 13]));\nconsole.log(extendedGcdApplications([6, 9]));\nconsole.log(extendedGcdApplications([2, 11]));\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Extended GCD Applications\n\n## Overview\n\nThis algorithm computes the modular multiplicative inverse of `a` modulo `m` using the extended Euclidean algorithm. The modular inverse of a modulo m is the integer x such that a*x = 1 (mod m). The inverse exists if and only if gcd(a, m) = 1 (i.e., a and m are coprime).\n\nThe extended Euclidean algorithm finds integers x and y such that a*x + m*y = gcd(a, m). When gcd(a, m) = 1, this gives a*x + m*y = 1, meaning a*x = 1 (mod m), so x is the modular inverse of a modulo m.\n\n## How It Works\n\n1. Run the extended Euclidean algorithm on a and m to find gcd(a, m) and coefficient x such that a*x + m*y = gcd(a, m).\n2. If gcd(a, m) != 1, the inverse does not exist. Return -1.\n3. Otherwise, normalize x to be in the range [0, m) by computing ((x mod m) + m) mod m.\n4. Return the normalized inverse.\n\nInput format: `[a, m]`\nOutput: modular inverse of a mod m, or -1 if it does not exist.\n\n## Worked Example\n\nFind the modular inverse of 3 modulo 11.\n\nWe need x such that 3*x = 1 (mod 11).\n\n**Extended Euclidean Algorithm on (3, 11):**\n\n| Step | a  | b | q | x  | y  |\n|------|----|---|---|----|----|\n| 0    | 11 | 3 | - | 0  | 1  |\n| 1    | 3  | 2 | 3 | 1  | -3 |\n| 2    | 2  | 1 | 1 | -1 | 4  |\n| 3    | 1  | 0 | 2 | -  | -  |\n\nResult: gcd(3, 11) = 1, x = 4 (coefficient for a = 3).\n\n**Verify:** 3 * 4 = 12 = 1 (mod 11). Correct.\n\nAnother example: Find the inverse of 6 modulo 9.\n- gcd(6, 9) = 3 != 1, so the inverse does not exist. Return -1.\n\n## Pseudocode\n\n```\nfunction modularInverse(a, m):\n    (g, x, y) = extendedGCD(a, m)\n    if g != 1:\n        return -1        // inverse does not exist\n    return ((x mod m) + m) mod m\n\nfunction extendedGCD(a, b):\n    if a == 0:\n        return (b, 0, 1)\n    (g, x1, y1) = extendedGCD(b mod a, a)\n    x = y1 - (b / a) * x1\n    y = x1\n    return (g, x, y)\n```\n\nAlternative iterative version:\n\n```\nfunction extendedGCD_iterative(a, b):\n    old_r, r = a, b\n    old_s, s = 1, 0\n    old_t, t = 0, 1\n\n    while r != 0:\n        q = old_r / r\n        (old_r, r) = (r, old_r - q * r)\n        (old_s, s) = (s, old_s - q * s)\n        (old_t, t) = (t, old_t - q * t)\n\n    return (old_r, old_s, old_t)    // gcd, x, y\n```\n\n## Complexity Analysis\n\n| Case    | Time               | Space              |\n|---------|--------------------|--------------------|\n| Best    | O(1)               | O(1)               |\n| Average | O(log(min(a, m)))  | O(log(min(a, m)))  |\n| Worst   | O(log(min(a, m)))  | O(log(min(a, m)))  |\n\n**Why these complexities?**\n\n- **Best Case -- O(1):** When a = 1, the inverse is trivially 1.\n- **Average/Worst Case -- O(log(min(a, m))):** The extended Euclidean algorithm performs the same number of steps as the standard Euclidean algorithm. The number of divisions is bounded by the number of digits in the smaller input, which is O(log(min(a, m))). The worst case occurs for consecutive Fibonacci numbers.\n- **Space:** The recursive version uses O(log(min(a, m))) stack frames. The iterative version uses O(1) space.\n\n## Applications\n\n- **RSA cryptography:** Computing the private key d = e^(-1) mod phi(n), where e is the public exponent and phi(n) is Euler's totient of the modulus.\n- **Modular division:** In modular arithmetic, division by a is multiplication by a^(-1). This is essential in many number-theoretic algorithms.\n- **Chinese Remainder Theorem:** CRT requires computing modular inverses to combine congruences.\n- **Solving linear congruences:** The equation a*x = b (mod m) has solution x = b * a^(-1) (mod m) when gcd(a, m) = 1.\n- **Finite field arithmetic:** Modular inverse is the multiplicative inverse operation in Z/pZ (integers modulo a prime p).\n- **Error-correcting codes:** Reed-Solomon codes require field inversions over GF(p).\n\n## When NOT to Use\n\n- **When m is prime and a is small:** Fermat's little theorem gives a^(-1) = a^(m-2) mod m via modular exponentiation. This is simpler to implement (no extended GCD needed) but slower: O(log m) multiplications vs O(log a) divisions.\n- **When gcd(a, m) != 1:** The inverse does not exist. Check this condition first before calling the algorithm.\n- **When batch inverses are needed:** If you need the inverses of a[1], a[2], ..., a[n] modulo the same m, Montgomery's batch inversion trick computes all n inverses using only 1 extended GCD call and 3(n-1) multiplications, which is much faster than n separate inverse computations.\n- **When working in a prime field with precomputed tables:** For small primes, a lookup table of inverses is faster.\n\n## Comparison with Inverse Methods\n\n| Method                 | Time             | Space | Requirements           |\n|-----------------------|-----------------|-------|------------------------|\n| Extended Euclidean    | O(log(min(a,m)))| O(1)* | gcd(a, m) = 1         |\n| Fermat's Little Thm   | O(log m)        | O(1)  | m must be prime        |\n| Euler's Theorem       | O(log phi(m))   | O(1)  | Need to know phi(m)   |\n| Lookup Table          | O(1)            | O(m)  | Small m; precomputation|\n| Montgomery Batch      | O(n + log m)    | O(n)  | For n inverses at once |\n\n*O(1) for the iterative version; O(log(min(a,m))) for the recursive version.\n\nThe extended Euclidean approach is the most general and efficient method for computing a single modular inverse. It works for any modulus (not just primes) and is the standard building block for more complex algorithms.\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [extended_gcd_applications.py](python/extended_gcd_applications.py) |\n| Java       | [ExtendedGcdApplications.java](java/ExtendedGcdApplications.java) |\n| C++        | [extended_gcd_applications.cpp](cpp/extended_gcd_applications.cpp) |\n| C          | [extended_gcd_applications.c](c/extended_gcd_applications.c) |\n| Go         | [extended_gcd_applications.go](go/extended_gcd_applications.go) |\n| TypeScript | [extendedGcdApplications.ts](typescript/extendedGcdApplications.ts) |\n| Rust       | [extended_gcd_applications.rs](rust/extended_gcd_applications.rs) |\n| Kotlin     | [ExtendedGcdApplications.kt](kotlin/ExtendedGcdApplications.kt) |\n| Swift      | [ExtendedGcdApplications.swift](swift/ExtendedGcdApplications.swift) |\n| Scala      | [ExtendedGcdApplications.scala](scala/ExtendedGcdApplications.scala) |\n| C#         | [ExtendedGcdApplications.cs](csharp/ExtendedGcdApplications.cs) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Section 31.4: Solving modular linear equations.\n- Knuth, D. E. (1997). *The Art of Computer Programming, Volume 2: Seminumerical Algorithms* (3rd ed.). Addison-Wesley. Section 4.5.2, Algorithm X.\n- Shoup, V. (2009). *A Computational Introduction to Number Theory and Algebra* (2nd ed.). Cambridge University Press. Chapter 4.\n- [Extended Euclidean Algorithm -- Wikipedia](https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm)\n"
+}

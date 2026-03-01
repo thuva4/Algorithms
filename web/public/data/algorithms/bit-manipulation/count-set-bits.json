@@ -1,0 +1,137 @@
+{
+  "name": "Count Set Bits",
+  "slug": "count-set-bits",
+  "category": "bit-manipulation",
+  "subcategory": "counting",
+  "difficulty": "beginner",
+  "tags": [
+    "bit-manipulation",
+    "counting",
+    "popcount",
+    "hamming-weight"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n * k)",
+      "average": "O(n * k)",
+      "worst": "O(n * k)"
+    },
+    "space": "O(1)"
+  },
+  "related": [
+    "hamming-distance",
+    "xor-swap"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "count_set_bits.c",
+          "content": "#include \"count_set_bits.h\"\n\nint count_set_bits(int arr[], int n) {\n    int total = 0;\n    for (int i = 0; i < n; i++) {\n        int num = arr[i];\n        while (num) {\n            total++;\n            num &= (num - 1);\n        }\n    }\n    return total;\n}\n"
+        },
+        {
+          "filename": "count_set_bits.h",
+          "content": "#ifndef COUNT_SET_BITS_H\n#define COUNT_SET_BITS_H\n\nint count_set_bits(int arr[], int n);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "count_set_bits.cpp",
+          "content": "#include <vector>\nusing namespace std;\n\nint count_set_bits(vector<int> arr) {\n    int total = 0;\n    for (int num : arr) {\n        while (num) {\n            total++;\n            num &= (num - 1);\n        }\n    }\n    return total;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "CountSetBits.cs",
+          "content": "using System;\n\npublic class CountSetBits\n{\n    public static int Solve(int[] arr)\n    {\n        int total = 0;\n        foreach (int num in arr)\n        {\n            int n = num;\n            while (n != 0)\n            {\n                total++;\n                n &= (n - 1);\n            }\n        }\n        return total;\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "count_set_bits.go",
+          "content": "package countsetbits\n\nfunc CountSetBits(arr []int) int {\n\ttotal := 0\n\tfor _, num := range arr {\n\t\tfor num != 0 {\n\t\t\ttotal++\n\t\t\tnum &= num - 1\n\t\t}\n\t}\n\treturn total\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "CountSetBits.java",
+          "content": "public class CountSetBits {\n\n    public static int countSetBits(int[] arr) {\n        int total = 0;\n        for (int num : arr) {\n            while (num != 0) {\n                total++;\n                num &= (num - 1);\n            }\n        }\n        return total;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "CountSetBits.kt",
+          "content": "fun countSetBits(arr: IntArray): Int {\n    var total = 0\n    for (num in arr) {\n        var n = num\n        while (n != 0) {\n            total++\n            n = n and (n - 1)\n        }\n    }\n    return total\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "count_set_bits.py",
+          "content": "def count_set_bits(arr: list[int]) -> int:\n    total = 0\n    for num in arr:\n        while num:\n            total += 1\n            num &= num - 1\n    return total\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "count_set_bits.rs",
+          "content": "pub fn count_set_bits(arr: &[i32]) -> i32 {\n    let mut total = 0;\n    for &num in arr {\n        let mut n = num;\n        while n != 0 {\n            total += 1;\n            n &= n - 1;\n        }\n    }\n    total\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "CountSetBits.scala",
+          "content": "object CountSetBits {\n\n  def countSetBits(arr: Array[Int]): Int = {\n    var total = 0\n    for (num <- arr) {\n      var n = num\n      while (n != 0) {\n        total += 1\n        n = n & (n - 1)\n      }\n    }\n    total\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "CountSetBits.swift",
+          "content": "func countSetBits(_ arr: [Int]) -> Int {\n    var total = 0\n    for num in arr {\n        var n = num\n        while n != 0 {\n            total += 1\n            n &= (n - 1)\n        }\n    }\n    return total\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "countSetBits.ts",
+          "content": "export function countSetBits(arr: number[]): number {\n    let total = 0;\n    for (let num of arr) {\n        while (num !== 0) {\n            total++;\n            num &= (num - 1);\n        }\n    }\n    return total;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "patterns": [
+    "bitwise-xor"
+  ],
+  "patternDifficulty": "beginner",
+  "practiceOrder": 2,
+  "readme": "# Count Set Bits\n\n## Overview\n\nCounting set bits (also known as population count or popcount) determines how many 1-bits are present in the binary representation of an integer. This algorithm extends the concept to an array of integers, summing the set bit counts across all elements. The most efficient single-number approach uses Brian Kernighan's algorithm, which clears the lowest set bit in each iteration with the expression `n & (n - 1)`, running in O(k) time where k is the number of set bits rather than the total number of bits.\n\nPopulation count is a fundamental primitive in computer science, with dedicated hardware instructions (POPCNT on x86, CNT on ARM) due to its wide applicability in cryptography, error correction, bioinformatics, and combinatorial algorithms.\n\n## How It Works\n\nFor each number in the array:\n1. Initialize a local counter to 0.\n2. While the number is not zero:\n   - Increment the counter.\n   - Clear the lowest set bit using `n = n & (n - 1)`.\n3. Add the local counter to the running total.\n\nBrian Kernighan's trick works because subtracting 1 from a number flips its lowest set bit and all bits below it. ANDing with the original number thus zeroes out exactly one set bit per iteration.\n\n## Example\n\n**Single number: `n = 29`**\n\n29 in binary is `11101`, which has 4 set bits.\n\n| Step | n (binary) | n - 1 (binary) | n & (n-1) | Bits counted so far |\n|------|-----------|----------------|-----------|---------------------|\n| 1    | 11101     | 11100          | 11100     | 1                   |\n| 2    | 11100     | 11011          | 11000     | 2                   |\n| 3    | 11000     | 10111          | 10000     | 3                   |\n| 4    | 10000     | 01111          | 00000     | 4                   |\n\nResult: 4 set bits.\n\n**Array: `[7, 3, 10]`**\n\n- 7 = `111` has 3 set bits\n- 3 = `11` has 2 set bits\n- 10 = `1010` has 2 set bits\n\nTotal: 3 + 2 + 2 = **7**\n\n## Pseudocode\n\n```\nfunction countSetBits(array):\n    total = 0\n    for each number in array:\n        n = number\n        while n != 0:\n            n = n AND (n - 1)    // clear lowest set bit\n            total = total + 1\n    return total\n```\n\nAn alternative approach checks each bit individually by shifting right and testing the least significant bit, but this always requires O(b) iterations where b is the bit width, regardless of how many bits are set.\n\n## Complexity Analysis\n\n| Case    | Time     | Space |\n|---------|----------|-------|\n| Best    | O(n)     | O(1)  |\n| Average | O(n * k) | O(1)  |\n| Worst   | O(n * b) | O(1)  |\n\nWhere n is the array length, k is the average number of set bits per element, and b is the bit width (e.g., 32).\n\n- **Best Case -- O(n):** Every element is 0, so the inner loop never executes. Only the outer loop runs.\n- **Average Case -- O(n * k):** Each element contributes k iterations to the inner loop, where k is its set bit count. For random 32-bit integers, the expected value of k is 16.\n- **Worst Case -- O(n * b):** Every element has all bits set (e.g., 0xFFFFFFFF), so each triggers b iterations.\n- **Space -- O(1):** Only a counter and temporary variable are needed.\n\n## When to Use\n\n- **Bitwise population counting:** Counting active flags, permissions, or features represented as bit fields.\n- **Error detection:** Measuring the weight of codewords in Hamming codes and other error-correcting codes.\n- **Cryptography:** Computing Hamming weights as part of side-channel analysis or cipher operations.\n- **Bioinformatics:** Counting mutations or matches in compressed binary representations of DNA sequences.\n- **Network engineering:** Counting host bits in subnet masks.\n\n## When NOT to Use\n\n- **When hardware popcount is available:** On modern CPUs, a single POPCNT instruction is faster than any software loop. Use built-in intrinsics when performance matters.\n- **When counting bits across very large arrays:** SIMD-accelerated approaches (e.g., Harley-Seal method) can process multiple integers simultaneously and outperform element-by-element Kernighan's method.\n- **When only parity matters:** If you just need to know whether the count is odd or even, XOR folding is faster.\n\n## Comparison with Similar Approaches\n\n| Method                | Time per integer | Notes                                      |\n|-----------------------|-----------------|--------------------------------------------|\n| Kernighan's algorithm | O(k)            | Loops only k times (k = number of set bits)|\n| Naive bit check       | O(b)            | Always checks all b bits                   |\n| Lookup table (8-bit)  | O(b/8)          | Trades memory for speed                    |\n| Hardware POPCNT       | O(1)            | Single instruction; fastest                |\n| Parallel bit counting | O(log b)        | Divide-and-conquer with bitmasks           |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [count_set_bits.py](python/count_set_bits.py) |\n| Java       | [CountSetBits.java](java/CountSetBits.java) |\n| C++        | [count_set_bits.cpp](cpp/count_set_bits.cpp) |\n| C          | [count_set_bits.c](c/count_set_bits.c) |\n| Go         | [count_set_bits.go](go/count_set_bits.go) |\n| TypeScript | [countSetBits.ts](typescript/countSetBits.ts) |\n| Rust       | [count_set_bits.rs](rust/count_set_bits.rs) |\n| Kotlin     | [CountSetBits.kt](kotlin/CountSetBits.kt) |\n| Swift      | [CountSetBits.swift](swift/CountSetBits.swift) |\n| Scala      | [CountSetBits.scala](scala/CountSetBits.scala) |\n| C#         | [CountSetBits.cs](csharp/CountSetBits.cs) |\n\n## References\n\n- Kernighan, B. W., & Ritchie, D. M. (1988). *The C Programming Language* (2nd ed.). Prentice Hall. Exercise 2-9.\n- Warren, H. S. (2012). *Hacker's Delight* (2nd ed.). Addison-Wesley. Chapter 5: Counting Bits.\n- Knuth, D. E. (2009). *The Art of Computer Programming, Volume 4A: Combinatorial Algorithms*. Addison-Wesley. Section 7.1.3.\n- [Hamming Weight -- Wikipedia](https://en.wikipedia.org/wiki/Hamming_weight)\n"
+}

@@ -1,0 +1,18 @@
+algorithm: "minimum-spanning-arborescence"
+function_signature:
+  name: "minimum_spanning_arborescence"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "simple triangle"
+    input: [[3, 3, 0, 0, 1, 1, 0, 2, 3, 1, 2, 1]]
+    expected: 2
+  - name: "two nodes"
+    input: [[2, 1, 0, 0, 1, 5]]
+    expected: 5
+  - name: "diamond"
+    input: [[4, 5, 0, 0, 1, 1, 0, 2, 2, 1, 3, 3, 2, 3, 2, 1, 2, 5]]
+    expected: 5
+  - name: "cycle preference"
+    input: [[3, 4, 0, 0, 1, 10, 0, 2, 1, 2, 1, 1, 1, 2, 10]]
+    expected: 2

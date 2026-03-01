@@ -1,0 +1,30 @@
+algorithm: "huffman-coding"
+function_signature:
+  name: "huffman_coding"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "standard frequencies"
+    input: [[5, 9, 12, 13, 16, 45]]
+    expected: 224
+  - name: "two equal frequencies"
+    input: [[1, 1]]
+    expected: 2
+  - name: "four equal frequencies"
+    input: [[1, 1, 1, 1]]
+    expected: 8
+  - name: "single character"
+    input: [[10]]
+    expected: 0
+  - name: "ascending frequencies"
+    input: [[1, 2, 3, 4, 5]]
+    expected: 33
+  - name: "two different frequencies"
+    input: [[1, 5]]
+    expected: 6
+  - name: "three frequencies"
+    input: [[1, 2, 3]]
+    expected: 9
+  - name: "empty input"
+    input: [[]]
+    expected: 0

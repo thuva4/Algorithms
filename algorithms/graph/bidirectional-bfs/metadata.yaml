@@ -1,0 +1,21 @@
+name: "Bidirectional BFS"
+slug: "bidirectional-bfs"
+category: "graph"
+subcategory: "shortest-path"
+difficulty: "intermediate"
+tags: [graph, bfs, bidirectional, shortest-path, unweighted]
+complexity:
+  time:
+    best: "O(V + E)"
+    average: "O(V + E)"
+    worst: "O(V + E)"
+  space: "O(V)"
+stable: null
+in_place: false
+related: [breadth-first-search, a-star-search]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false
+patterns:
+  - tree-bfs
+patternDifficulty: intermediate
+practiceOrder: 2

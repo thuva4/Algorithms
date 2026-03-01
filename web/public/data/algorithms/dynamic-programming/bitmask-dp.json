@@ -1,0 +1,140 @@
+{
+  "name": "Bitmask DP",
+  "slug": "bitmask-dp",
+  "category": "dynamic-programming",
+  "subcategory": "combinatorial",
+  "difficulty": "advanced",
+  "tags": [
+    "dynamic-programming",
+    "bitmask",
+    "subset",
+    "assignment",
+    "tsp"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n^2 * 2^n)",
+      "average": "O(n^2 * 2^n)",
+      "worst": "O(n^2 * 2^n)"
+    },
+    "space": "O(n * 2^n)"
+  },
+  "stable": null,
+  "in_place": false,
+  "related": [
+    "travelling-salesman",
+    "subset-sum"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "bitmask_dp.c",
+          "content": "#include <stdio.h>\n#include <limits.h>\n#include \"bitmask_dp.h\"\n\nstatic int dp_arr[1 << 20];\n\nstatic int popcount(int x) {\n    int count = 0;\n    while (x) { count += x & 1; x >>= 1; }\n    return count;\n}\n\nint bitmask_dp(int n, int cost[][20]) {\n    int total = 1 << n;\n    for (int i = 0; i < total; i++) dp_arr[i] = INT_MAX;\n    dp_arr[0] = 0;\n\n    for (int mask = 0; mask < total; mask++) {\n        if (dp_arr[mask] == INT_MAX) continue;\n        int worker = popcount(mask);\n        if (worker >= n) continue;\n        for (int job = 0; job < n; job++) {\n            if (!(mask & (1 << job))) {\n                int new_mask = mask | (1 << job);\n                int new_cost = dp_arr[mask] + cost[worker][job];\n                if (new_cost < dp_arr[new_mask]) {\n                    dp_arr[new_mask] = new_cost;\n                }\n            }\n        }\n    }\n\n    return dp_arr[total - 1];\n}\n\nint main(void) {\n    int n;\n    scanf(\"%d\", &n);\n    int cost[20][20];\n    for (int i = 0; i < n; i++)\n        for (int j = 0; j < n; j++)\n            scanf(\"%d\", &cost[i][j]);\n    printf(\"%d\\n\", bitmask_dp(n, cost));\n    return 0;\n}\n"
+        },
+        {
+          "filename": "bitmask_dp.h",
+          "content": "#ifndef BITMASK_DP_H\n#define BITMASK_DP_H\n\nint bitmask_dp(int n, int cost[][20]);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "bitmask_dp.cpp",
+          "content": "#include <iostream>\n#include <vector>\n#include <algorithm>\n#include <climits>\nusing namespace std;\n\nint bitmaskDp(int n, vector<vector<int>>& cost) {\n    int total = 1 << n;\n    vector<int> dp(total, INT_MAX);\n    dp[0] = 0;\n\n    for (int mask = 0; mask < total; mask++) {\n        if (dp[mask] == INT_MAX) continue;\n        int worker = __builtin_popcount(mask);\n        if (worker >= n) continue;\n        for (int job = 0; job < n; job++) {\n            if (!(mask & (1 << job))) {\n                int newMask = mask | (1 << job);\n                dp[newMask] = min(dp[newMask], dp[mask] + cost[worker][job]);\n            }\n        }\n    }\n\n    return dp[total - 1];\n}\n\nint main() {\n    int n;\n    cin >> n;\n    vector<vector<int>> cost(n, vector<int>(n));\n    for (int i = 0; i < n; i++)\n        for (int j = 0; j < n; j++)\n            cin >> cost[i][j];\n    cout << bitmaskDp(n, cost) << endl;\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "BitmaskDp.cs",
+          "content": "using System;\nusing System.Linq;\n\nclass BitmaskDp {\n    public static int Solve(int n, int[][] cost) {\n        int total = 1 << n;\n        int[] dp = new int[total];\n        Array.Fill(dp, int.MaxValue);\n        dp[0] = 0;\n\n        for (int mask = 0; mask < total; mask++) {\n            if (dp[mask] == int.MaxValue) continue;\n            int worker = BitCount(mask);\n            if (worker >= n) continue;\n            for (int job = 0; job < n; job++) {\n                if ((mask & (1 << job)) == 0) {\n                    int newMask = mask | (1 << job);\n                    int newCost = dp[mask] + cost[worker][job];\n                    if (newCost < dp[newMask]) dp[newMask] = newCost;\n                }\n            }\n        }\n\n        return dp[total - 1];\n    }\n\n    static int BitCount(int x) {\n        int count = 0;\n        while (x > 0) { count += x & 1; x >>= 1; }\n        return count;\n    }\n\n    static void Main(string[] args) {\n        int n = int.Parse(Console.ReadLine().Trim());\n        int[][] cost = new int[n][];\n        for (int i = 0; i < n; i++) {\n            cost[i] = Console.ReadLine().Trim().Split(' ').Select(int.Parse).ToArray();\n        }\n        Console.WriteLine(Solve(n, cost));\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "bitmask_dp.go",
+          "content": "package main\n\nimport (\n\t\"fmt\"\n\t\"math\"\n\t\"math/bits\"\n)\n\nfunc bitmaskDp(n int, cost [][]int) int {\n\ttotal := 1 << n\n\tdp := make([]int, total)\n\tfor i := range dp {\n\t\tdp[i] = math.MaxInt32\n\t}\n\tdp[0] = 0\n\n\tfor mask := 0; mask < total; mask++ {\n\t\tif dp[mask] == math.MaxInt32 {\n\t\t\tcontinue\n\t\t}\n\t\tworker := bits.OnesCount(uint(mask))\n\t\tif worker >= n {\n\t\t\tcontinue\n\t\t}\n\t\tfor job := 0; job < n; job++ {\n\t\t\tif mask&(1<<job) == 0 {\n\t\t\t\tnewMask := mask | (1 << job)\n\t\t\t\tval := dp[mask] + cost[worker][job]\n\t\t\t\tif val < dp[newMask] {\n\t\t\t\t\tdp[newMask] = val\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\n\treturn dp[total-1]\n}\n\nfunc main() {\n\tvar n int\n\tfmt.Scan(&n)\n\tcost := make([][]int, n)\n\tfor i := 0; i < n; i++ {\n\t\tcost[i] = make([]int, n)\n\t\tfor j := 0; j < n; j++ {\n\t\t\tfmt.Scan(&cost[i][j])\n\t\t}\n\t}\n\tfmt.Println(bitmaskDp(n, cost))\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "BitmaskDp.java",
+          "content": "import java.util.Arrays;\nimport java.util.Scanner;\n\npublic class BitmaskDp {\n    public static int bitmaskDp(int n, int[][] cost) {\n        int total = 1 << n;\n        int[] dp = new int[total];\n        Arrays.fill(dp, Integer.MAX_VALUE);\n        dp[0] = 0;\n\n        for (int mask = 0; mask < total; mask++) {\n            if (dp[mask] == Integer.MAX_VALUE) continue;\n            int worker = Integer.bitCount(mask);\n            if (worker >= n) continue;\n            for (int job = 0; job < n; job++) {\n                if ((mask & (1 << job)) == 0) {\n                    int newMask = mask | (1 << job);\n                    dp[newMask] = Math.min(dp[newMask], dp[mask] + cost[worker][job]);\n                }\n            }\n        }\n\n        return dp[total - 1];\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int[][] cost = new int[n][n];\n        for (int i = 0; i < n; i++)\n            for (int j = 0; j < n; j++)\n                cost[i][j] = sc.nextInt();\n        System.out.println(bitmaskDp(n, cost));\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "BitmaskDp.kt",
+          "content": "fun bitmaskDp(n: Int, cost: Array<IntArray>): Int {\n    val total = 1 shl n\n    val dp = IntArray(total) { Int.MAX_VALUE }\n    dp[0] = 0\n\n    for (mask in 0 until total) {\n        if (dp[mask] == Int.MAX_VALUE) continue\n        val worker = Integer.bitCount(mask)\n        if (worker >= n) continue\n        for (job in 0 until n) {\n            if (mask and (1 shl job) == 0) {\n                val newMask = mask or (1 shl job)\n                val newCost = dp[mask] + cost[worker][job]\n                if (newCost < dp[newMask]) dp[newMask] = newCost\n            }\n        }\n    }\n\n    return dp[total - 1]\n}\n\nfun main() {\n    val br = System.`in`.bufferedReader()\n    val n = br.readLine().trim().toInt()\n    val cost = Array(n) {\n        br.readLine().trim().split(\" \").map { it.toInt() }.toIntArray()\n    }\n    println(bitmaskDp(n, cost))\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "bitmask_dp.py",
+          "content": "import sys\n\ndef bitmask_dp(n, cost):\n    \"\"\"Minimum cost assignment using bitmask DP.\"\"\"\n    INF = float('inf')\n    dp = [INF] * (1 << n)\n    dp[0] = 0\n\n    for mask in range(1 << n):\n        if dp[mask] == INF:\n            continue\n        worker = bin(mask).count('1')\n        if worker >= n:\n            continue\n        for job in range(n):\n            if not (mask & (1 << job)):\n                new_mask = mask | (1 << job)\n                dp[new_mask] = min(dp[new_mask], dp[mask] + cost[worker][job])\n\n    return dp[(1 << n) - 1]\n\n\nif __name__ == \"__main__\":\n    data = sys.stdin.read().split()\n    idx = 0\n    n = int(data[idx]); idx += 1\n    cost = []\n    for i in range(n):\n        row = []\n        for j in range(n):\n            row.append(int(data[idx])); idx += 1\n        cost.append(row)\n    print(bitmask_dp(n, cost))\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "bitmask_dp.rs",
+          "content": "use std::io::{self, Read};\n\nfn bitmask_dp(n: usize, cost: &Vec<Vec<i32>>) -> i32 {\n    let total = 1usize << n;\n    let mut dp = vec![i32::MAX; total];\n    dp[0] = 0;\n\n    for mask in 0..total {\n        if dp[mask] == i32::MAX { continue; }\n        let worker = (mask as u32).count_ones() as usize;\n        if worker >= n { continue; }\n        for job in 0..n {\n            if mask & (1 << job) == 0 {\n                let new_mask = mask | (1 << job);\n                let val = dp[mask] + cost[worker][job];\n                if val < dp[new_mask] {\n                    dp[new_mask] = val;\n                }\n            }\n        }\n    }\n\n    dp[total - 1]\n}\n\nfn main() {\n    let mut input = String::new();\n    io::stdin().read_to_string(&mut input).unwrap();\n    let mut iter = input.split_whitespace();\n    let n: usize = iter.next().unwrap().parse().unwrap();\n    let mut cost = vec![vec![0i32; n]; n];\n    for i in 0..n {\n        for j in 0..n {\n            cost[i][j] = iter.next().unwrap().parse().unwrap();\n        }\n    }\n    println!(\"{}\", bitmask_dp(n, &cost));\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "BitmaskDp.scala",
+          "content": "object BitmaskDp {\n  def bitmaskDp(n: Int, cost: Array[Array[Int]]): Int = {\n    val total = 1 << n\n    val dp = Array.fill(total)(Int.MaxValue)\n    dp(0) = 0\n\n    for (mask <- 0 until total) {\n      if (dp(mask) != Int.MaxValue) {\n        val worker = Integer.bitCount(mask)\n        if (worker < n) {\n          for (job <- 0 until n) {\n            if ((mask & (1 << job)) == 0) {\n              val newMask = mask | (1 << job)\n              val newCost = dp(mask) + cost(worker)(job)\n              if (newCost < dp(newMask)) dp(newMask) = newCost\n            }\n          }\n        }\n      }\n    }\n\n    dp(total - 1)\n  }\n\n  def main(args: Array[String]): Unit = {\n    val br = scala.io.StdIn\n    val n = br.readLine().trim.toInt\n    val cost = Array.fill(n) {\n      br.readLine().trim.split(\" \").map(_.toInt)\n    }\n    println(bitmaskDp(n, cost))\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "BitmaskDp.swift",
+          "content": "import Foundation\n\nfunc popcount(_ x: Int) -> Int {\n    var count = 0\n    var v = x\n    while v > 0 { count += v & 1; v >>= 1 }\n    return count\n}\n\nfunc bitmaskDp(_ n: Int, _ cost: [[Int]]) -> Int {\n    let total = 1 << n\n    var dp = [Int](repeating: Int.max, count: total)\n    dp[0] = 0\n\n    for mask in 0..<total {\n        if dp[mask] == Int.max { continue }\n        let worker = popcount(mask)\n        if worker >= n { continue }\n        for job in 0..<n {\n            if mask & (1 << job) == 0 {\n                let newMask = mask | (1 << job)\n                let newCost = dp[mask] + cost[worker][job]\n                if newCost < dp[newMask] { dp[newMask] = newCost }\n            }\n        }\n    }\n\n    return dp[total - 1]\n}\n\nlet n = Int(readLine()!)!\nvar cost = [[Int]]()\nfor _ in 0..<n {\n    cost.append(readLine()!.split(separator: \" \").map { Int($0)! })\n}\nprint(bitmaskDp(n, cost))\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "bitmaskDp.ts",
+          "content": "export function bitmaskDp(n: number, cost: number[][]): number {\n    const total = 1 << n;\n    const dp = new Array(total).fill(Infinity);\n    dp[0] = 0;\n\n    for (let mask = 0; mask < total; mask++) {\n        if (dp[mask] === Infinity) continue;\n        let worker = 0;\n        let tmp = mask;\n        while (tmp) { worker += tmp & 1; tmp >>= 1; }\n        if (worker >= n) continue;\n        for (let job = 0; job < n; job++) {\n            if (!(mask & (1 << job))) {\n                const newMask = mask | (1 << job);\n                dp[newMask] = Math.min(dp[newMask], dp[mask] + cost[worker][job]);\n            }\n        }\n    }\n\n    return dp[total - 1];\n}\n\nconst readline = require('readline');\nconst rl = readline.createInterface({ input: process.stdin });\nconst lines: string[] = [];\nrl.on('line', (line: string) => lines.push(line.trim()));\nrl.on('close', () => {\n    const n = parseInt(lines[0]);\n    const cost: number[][] = [];\n    for (let i = 0; i < n; i++) {\n        cost.push(lines[1 + i].split(' ').map(Number));\n    }\n    console.log(bitmaskDp(n, cost));\n});\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "patterns": [
+    "subsets"
+  ],
+  "patternDifficulty": "advanced",
+  "practiceOrder": 5,
+  "readme": "# Bitmask DP\n\n## Overview\n\nBitmask DP uses bitmasks to represent subsets of elements in DP states, enabling efficient solutions for problems involving subset enumeration. Each bit in an integer represents whether an element is included in the current subset. This technique is fundamental for problems like the Travelling Salesman Problem (TSP) and the Assignment Problem.\n\nThe classic problem solved here is the minimum cost assignment: given an n x n cost matrix, assign each worker to exactly one job (and vice versa) to minimize total cost. This is equivalent to finding a minimum weight perfect matching in a bipartite graph.\n\n## How It Works\n\n1. Represent the set of assigned jobs as a bitmask. Bit i is set if job i has been assigned.\n2. State: `dp[mask]` = minimum cost to assign workers 0..popcount(mask)-1 to the jobs indicated by mask.\n3. Base case: `dp[0] = 0` (no workers assigned, no jobs taken).\n4. Transition: for worker = popcount(mask), try each unassigned job j, and update dp[mask | (1 << j)].\n5. Answer: `dp[(1 << n) - 1]` (all jobs assigned).\n\nThe key insight is that the order in which we assign workers is fixed (worker 0 first, then worker 1, etc.), so the bitmask of assigned jobs uniquely determines the state.\n\n## Worked Example\n\nGiven a 3x3 cost matrix (worker i assigned to job j costs `cost[i][j]`):\n\n```\ncost = | 9  2  7 |\n       | 6  4  3 |\n       | 5  8  1 |\n```\n\n**Processing (mask in binary):**\n\n| mask (bin) | Worker | Try job | Cost                          | dp[new_mask] |\n|-----------|--------|---------|-------------------------------|-------------|\n| 000       | 0      | j=0     | dp[000]+cost[0][0] = 0+9 = 9 | dp[001] = 9 |\n| 000       | 0      | j=1     | dp[000]+cost[0][1] = 0+2 = 2 | dp[010] = 2 |\n| 000       | 0      | j=2     | dp[000]+cost[0][2] = 0+7 = 7 | dp[100] = 7 |\n| 001       | 1      | j=1     | dp[001]+cost[1][1] = 9+4 = 13| dp[011] = 13|\n| 001       | 1      | j=2     | dp[001]+cost[1][2] = 9+3 = 12| dp[101] = 12|\n| 010       | 1      | j=0     | dp[010]+cost[1][0] = 2+6 = 8 | dp[011] = min(13,8) = 8 |\n| 010       | 1      | j=2     | dp[010]+cost[1][2] = 2+3 = 5 | dp[110] = 5 |\n| 100       | 1      | j=0     | dp[100]+cost[1][0] = 7+6 = 13| dp[101] = min(12,13) = 12 |\n| 100       | 1      | j=1     | dp[100]+cost[1][1] = 7+4 = 11| dp[110] = min(5,11) = 5 |\n| 011       | 2      | j=2     | dp[011]+cost[2][2] = 8+1 = 9 | dp[111] = 9 |\n| 101       | 2      | j=1     | dp[101]+cost[2][1] = 12+8 = 20| dp[111] = min(9,20) = 9 |\n| 110       | 2      | j=0     | dp[110]+cost[2][0] = 5+5 = 10| dp[111] = min(9,10) = 9 |\n\n**Answer: dp[111] = 9** (worker 0 -> job 1, worker 1 -> job 2, worker 2 -> job 0: costs 2+3+5 = 10... wait, let me verify: worker 0 -> job 1 (cost 2), worker 1 -> job 2 (cost 3), worker 2 -> job 2 is taken. Tracing back: dp[011]=8 came from mask 010 (worker 0 did job 1, worker 1 did job 0), then worker 2 does job 2 (cost 1). Total: 2+6+1 = 9.)\n\n## Pseudocode\n\n```\nfunction bitmaskDP(cost, n):\n    dp = array of size 2^n, initialized to infinity\n    dp[0] = 0\n\n    for mask = 0 to (2^n - 1):\n        worker = popcount(mask)\n        if worker >= n:\n            continue\n        for job = 0 to n - 1:\n            if mask & (1 << job) == 0:    // job not yet assigned\n                new_mask = mask | (1 << job)\n                dp[new_mask] = min(dp[new_mask], dp[mask] + cost[worker][job])\n\n    return dp[(1 << n) - 1]\n```\n\n## Complexity Analysis\n\n| Case    | Time            | Space         |\n|---------|-----------------|---------------|\n| Best    | O(n^2 * 2^n)    | O(n * 2^n)    |\n| Average | O(n^2 * 2^n)    | O(n * 2^n)    |\n| Worst   | O(n^2 * 2^n)    | O(n * 2^n)    |\n\n**Why these complexities?**\n\n- **Time -- O(n^2 * 2^n):** There are 2^n possible masks. For each mask, we try up to n jobs for the current worker. Each transition is O(1). Total: O(n * 2^n). However, since we iterate over all masks and for each mask over all jobs, the bound is O(n * 2^n).\n\n- **Space -- O(2^n):** We store one DP value per mask. With path reconstruction, O(n * 2^n) may be needed.\n\nPractical for n up to about 20 (2^20 = ~1 million states).\n\n## When to Use\n\n- **Assignment problems:** Assigning n workers to n jobs with minimum cost, where n is small (up to ~20).\n- **Travelling Salesman Problem:** Finding the shortest Hamiltonian cycle through all cities.\n- **Subset selection problems:** When you need to enumerate subsets and the universe is small.\n- **Competitive programming:** Many contest problems involve bitmask DP for problems on small sets (permutations, matchings, coverings).\n- **Scheduling with constraints:** Scheduling tasks where each task has prerequisites or conflicts representable as sets.\n\n## When NOT to Use\n\n- **Large n (n > 25):** The 2^n factor makes this infeasible for large inputs. For assignment problems with large n, use the Hungarian algorithm (O(n^3)).\n- **When polynomial algorithms exist:** Many problems solvable with bitmask DP have polynomial-time solutions for special cases (e.g., bipartite matching via Hopcroft-Karp, assignment via the Hungarian algorithm).\n- **Sparse or structured inputs:** When the problem structure allows pruning or decomposition, specialized algorithms will outperform bitmask DP.\n- **Approximation is acceptable:** For NP-hard problems like TSP on large inputs, approximation algorithms or heuristics (nearest neighbor, 2-opt, Christofides) are more practical.\n\n## Comparison\n\n| Algorithm           | Time          | Space      | Notes                                      |\n|--------------------|---------------|------------|--------------------------------------------|\n| **Bitmask DP**     | **O(n^2 * 2^n)** | **O(2^n)** | **Exact; practical for n <= 20**           |\n| Hungarian Algorithm | O(n^3)        | O(n^2)    | Polynomial; best for assignment problems   |\n| Brute Force         | O(n!)         | O(n)      | Try all permutations; infeasible for n > 12|\n| Branch and Bound    | O(n!) worst   | O(n)      | Pruning helps in practice; no guarantee    |\n| Greedy Heuristic    | O(n^2)        | O(n)      | Fast but not optimal                       |\n\n## Implementations\n\n| Language   | File                                        |\n|------------|---------------------------------------------|\n| Python     | [bitmask_dp.py](python/bitmask_dp.py)       |\n| Java       | [BitmaskDp.java](java/BitmaskDp.java)       |\n| C++        | [bitmask_dp.cpp](cpp/bitmask_dp.cpp)        |\n| C          | [bitmask_dp.c](c/bitmask_dp.c)             |\n| Go         | [bitmask_dp.go](go/bitmask_dp.go)          |\n| TypeScript | [bitmaskDp.ts](typescript/bitmaskDp.ts)     |\n| Rust       | [bitmask_dp.rs](rust/bitmask_dp.rs)        |\n| Kotlin     | [BitmaskDp.kt](kotlin/BitmaskDp.kt)        |\n| Swift      | [BitmaskDp.swift](swift/BitmaskDp.swift)    |\n| Scala      | [BitmaskDp.scala](scala/BitmaskDp.scala)   |\n| C#         | [BitmaskDp.cs](csharp/BitmaskDp.cs)        |\n\n## References\n\n- Halim, S., & Halim, F. (2013). *Competitive Programming 3*. Chapter 8: Advanced Topics.\n- Held, M., & Karp, R. M. (1962). \"A Dynamic Programming Approach to Sequencing Problems.\" *Journal of the Society for Industrial and Applied Mathematics*, 10(1), 196-210.\n- Cormen, T. H., et al. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Problem 15-4: Printing neatly (bitmask DP variant).\n- [Bitmask DP -- CP-Algorithms](https://cp-algorithms.com/combinatorics/profile-dynamics.html)\n"
+}

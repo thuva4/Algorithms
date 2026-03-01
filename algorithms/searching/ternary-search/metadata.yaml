@@ -1,0 +1,21 @@
+name: "Ternary Search"
+slug: "ternary-search"
+category: "searching"
+subcategory: "binary"
+difficulty: "intermediate"
+tags: [searching, ternary, divide-and-conquer, sorted]
+complexity:
+  time:
+    best: "O(1)"
+    average: "O(log3 n)"
+    worst: "O(log3 n)"
+  space: "O(1)"
+stable: null
+in_place: null
+related: [binary-search, linear-search]
+implementations: [c, cpp, java, python, typescript]
+visualization: true
+patterns:
+  - modified-binary-search
+patternDifficulty: intermediate
+practiceOrder: 3

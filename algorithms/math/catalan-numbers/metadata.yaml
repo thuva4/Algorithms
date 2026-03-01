@@ -1,0 +1,15 @@
+name: "Catalan Numbers"
+slug: "catalan-numbers"
+category: "math"
+subcategory: "combinatorics"
+difficulty: "intermediate"
+tags: [math, combinatorics, dynamic-programming, catalan]
+complexity:
+  time:
+    best: "O(n)"
+    average: "O(n)"
+    worst: "O(n)"
+  space: "O(n)"
+related: [fibonacci, combination, factorial]
+implementations: [python, java, cpp, c, go, typescript, kotlin, rust, swift, scala, csharp]
+visualization: false

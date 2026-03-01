@@ -1,0 +1,135 @@
+{
+  "name": "Comb Sort",
+  "slug": "comb-sort",
+  "category": "sorting",
+  "subcategory": "comparison-based",
+  "difficulty": "intermediate",
+  "tags": [
+    "sorting",
+    "comparison",
+    "in-place",
+    "unstable",
+    "gap-based"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n log n)",
+      "average": "O(n^2 / 2^p)",
+      "worst": "O(n^2)"
+    },
+    "space": "O(1)"
+  },
+  "stable": false,
+  "in_place": true,
+  "related": [
+    "bubble-sort",
+    "shell-sort"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "comb_sort.c",
+          "content": "#include \"comb_sort.h\"\n#include <stdbool.h>\n\nvoid comb_sort(int arr[], int n) {\n    int gap = n;\n    bool sorted = false;\n    const double shrink = 1.3;\n\n    while (!sorted) {\n        gap = (int)((double)gap / shrink);\n        if (gap <= 1) {\n            gap = 1;\n            sorted = true;\n        }\n\n        for (int i = 0; i < n - gap; i++) {\n            if (arr[i] > arr[i + gap]) {\n                int temp = arr[i];\n                arr[i] = arr[i + gap];\n                arr[i + gap] = temp;\n                sorted = false;\n            }\n        }\n    }\n}\n"
+        },
+        {
+          "filename": "comb_sort.h",
+          "content": "#ifndef COMB_SORT_H\n#define COMB_SORT_H\n\n/**\n * Comb Sort implementation.\n * Improves on Bubble Sort by using a gap larger than 1.\n * @param arr the input array (modified in-place)\n * @param n the number of elements in the array\n */\nvoid comb_sort(int arr[], int n);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "comb_sort.cpp",
+          "content": "#include <vector>\n#include <algorithm>\n#include <cmath>\n\n/**\n * Comb Sort implementation.\n * Improves on Bubble Sort by using a gap larger than 1.\n * The gap starts with a large value and shrinks by a factor of 1.3 in every iteration until it reaches 1.\n * @param arr the input vector\n * @returns a sorted copy of the vector\n */\nstd::vector<int> comb_sort(std::vector<int> arr) {\n    int n = static_cast<int>(arr.size());\n    int gap = n;\n    bool sorted = false;\n    const double shrink = 1.3;\n\n    while (!sorted) {\n        gap = static_cast<int>(std::floor(gap / shrink));\n        if (gap <= 1) {\n            gap = 1;\n            sorted = true;\n        }\n\n        for (int i = 0; i < n - gap; ++i) {\n            if (arr[i] > arr[i + gap]) {\n                std::swap(arr[i], arr[i + gap]);\n                sorted = false;\n            }\n        }\n    }\n\n    return arr;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "CombSort.cs",
+          "content": "using System;\n\nnamespace Algorithms.Sorting.Comb\n{\n    /**\n     * Comb Sort implementation.\n     * Improves on Bubble Sort by using a gap larger than 1.\n     * The gap starts with a large value and shrinks by a factor of 1.3 in every iteration until it reaches 1.\n     */\n    public static class CombSort\n    {\n        public static int[] Sort(int[] arr)\n        {\n            if (arr == null)\n            {\n                return new int[0];\n            }\n\n            int[] result = (int[])arr.Clone();\n            int n = result.Length;\n            int gap = n;\n            double shrink = 1.3;\n            bool sorted = false;\n\n            while (!sorted)\n            {\n                gap = (int)Math.Floor(gap / shrink);\n                if (gap <= 1)\n                {\n                    gap = 1;\n                    sorted = true;\n                }\n\n                for (int i = 0; i < n - gap; i++)\n                {\n                    if (result[i] > result[i + gap])\n                    {\n                        int temp = result[i];\n                        result[i] = result[i + gap];\n                        result[i + gap] = temp;\n                        sorted = false;\n                    }\n                }\n            }\n\n            return result;\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "comb_sort.go",
+          "content": "package combsort\n\nimport \"math\"\n\n/**\n * CombSort implementation.\n * Improves on Bubble Sort by using a gap larger than 1.\n * The gap starts with a large value and shrinks by a factor of 1.3 in every iteration until it reaches 1.\n * It returns a new sorted slice without modifying the original input.\n */\nfunc CombSort(arr []int) []int {\n\tn := len(arr)\n\tif n <= 1 {\n\t\treturn append([]int{}, arr...)\n\t}\n\n\tresult := make([]int, n)\n\tcopy(result, arr)\n\n\tgap := n\n\tshrink := 1.3\n\tsorted := false\n\n\tfor !sorted {\n\t\tgap = int(math.Floor(float64(gap) / shrink))\n\t\tif gap <= 1 {\n\t\t\tgap = 1\n\t\t\tsorted = true\n\t\t}\n\n\t\tfor i := 0; i < n-gap; i++ {\n\t\t\tif result[i] > result[i+gap] {\n\t\t\t\tresult[i], result[i+gap] = result[i+gap], result[i]\n\t\t\t\tsorted = false\n\t\t\t}\n\t\t}\n\t}\n\n\treturn result\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "CombSort.java",
+          "content": "import java.util.Arrays;\n\npublic class CombSort {\n    /**\n     * Comb Sort implementation.\n     * Improves on Bubble Sort by using a gap larger than 1.\n     * The gap starts with a large value and shrinks by a factor of 1.3 in every iteration until it reaches 1.\n     * @param arr the input array\n     * @return a sorted copy of the array\n     */\n    public static int[] sort(int[] arr) {\n        if (arr == null) {\n            return new int[0];\n        }\n\n        int[] result = Arrays.copyOf(arr, arr.length);\n        int n = result.length;\n        int gap = n;\n        boolean sorted = false;\n        double shrink = 1.3;\n\n        while (!sorted) {\n            gap = (int) Math.floor(gap / shrink);\n            if (gap <= 1) {\n                gap = 1;\n                sorted = true;\n            }\n\n            for (int i = 0; i < n - gap; i++) {\n                if (result[i] > result[i + gap]) {\n                    int temp = result[i];\n                    result[i] = result[i + gap];\n                    result[i + gap] = temp;\n                    sorted = false;\n                }\n            }\n        }\n\n        return result;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "CombSort.kt",
+          "content": "package algorithms.sorting.comb\n\nimport kotlin.math.floor\n\n/**\n * Comb Sort implementation.\n * Improves on Bubble Sort by using a gap larger than 1.\n * The gap starts with a large value and shrinks by a factor of 1.3 in every iteration until it reaches 1.\n */\nobject CombSort {\n    fun sort(arr: IntArray): IntArray {\n        val result = arr.copyOf()\n        val n = result.size\n        var gap = n\n        var sorted = false\n        val shrink = 1.3\n\n        while (!sorted) {\n            gap = floor(gap / shrink).toInt()\n            if (gap <= 1) {\n                gap = 1\n                sorted = true\n            }\n\n            for (i in 0 until n - gap) {\n                if (result[i] > result[i + gap]) {\n                    val temp = result[i]\n                    result[i] = result[i + gap]\n                    result[i + gap] = temp\n                    sorted = false\n                }\n            }\n        }\n\n        return result\n    }\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "comb_sort.py",
+          "content": "def comb_sort(arr: list[int]) -> list[int]:\n    \"\"\"\n    Comb Sort implementation.\n    Improves on Bubble Sort by using a gap larger than 1.\n    The gap starts with a large value and shrinks by a factor of 1.3 in every iteration until it reaches 1.\n    \"\"\"\n    result = list(arr)\n    n = len(result)\n    gap = n\n    shrink = 1.3\n    sorted_flag = False\n\n    while not sorted_flag:\n        # Update the gap value for a next comb\n        gap = int(gap / shrink)\n        if gap <= 1:\n            gap = 1\n            sorted_flag = True\n\n        # A single \"comb\" over the input list\n        for i in range(n - gap):\n            if result[i] > result[i + gap]:\n                result[i], result[i + gap] = result[i + gap], result[i]\n                sorted_flag = False\n\n    return result\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "comb_sort.rs",
+          "content": "/**\n * Comb Sort implementation.\n * Improves on Bubble Sort by using a gap larger than 1.\n * The gap starts with a large value and shrinks by a factor of 1.3 in every iteration until it reaches 1.\n */\npub fn comb_sort(arr: &[i32]) -> Vec<i32> {\n    let mut result = arr.to_vec();\n    let n = result.len();\n    let mut gap = n;\n    let shrink = 1.3;\n    let mut sorted = false;\n\n    while !sorted {\n        gap = (gap as f64 / shrink).floor() as usize;\n        if gap <= 1 {\n            gap = 1;\n            sorted = true;\n        }\n\n        for i in 0..n - gap {\n            if result[i] > result[i + gap] {\n                result.swap(i, i + gap);\n                sorted = false;\n            }\n        }\n    }\n\n    result\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "CombSort.scala",
+          "content": "package algorithms.sorting.comb\n\nimport scala.math.floor\n\n/**\n * Comb Sort implementation.\n * Improves on Bubble Sort by using a gap larger than 1.\n * The gap starts with a large value and shrinks by a factor of 1.3 in every iteration until it reaches 1.\n */\nobject CombSort {\n  def sort(arr: Array[Int]): Array[Int] = {\n    val result = arr.clone()\n    val n = result.length\n    var gap = n\n    var sorted = false\n    val shrink = 1.3\n\n    while (!sorted) {\n      gap = floor(gap / shrink).toInt\n      if (gap <= 1) {\n        gap = 1\n        sorted = true\n      }\n\n      for (i <- 0 until n - gap) {\n        if (result(i) > result(i + gap)) {\n          val temp = result(i)\n          result(i) = result(i + gap)\n          result(i + gap) = temp\n          sorted = false\n        }\n      }\n    }\n\n    result\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "CombSort.swift",
+          "content": "import Foundation\n\n/**\n * Comb Sort implementation.\n * Improves on Bubble Sort by using a gap larger than 1.\n * The gap starts with a large value and shrinks by a factor of 1.3 in every iteration until it reaches 1.\n */\npublic class CombSort {\n    public static func sort(_ arr: [Int]) -> [Int] {\n        var result = arr\n        let n = result.count\n        if n < 2 {\n            return result\n        }\n        var gap = n\n        let shrink = 1.3\n        var sorted = false\n\n        while !sorted {\n            gap = Int(floor(Double(gap) / shrink))\n            if gap <= 1 {\n                gap = 1\n                sorted = true\n            }\n\n            for i in 0..<(n - gap) {\n                if result[i] > result[i + gap] {\n                    result.swapAt(i, i + gap)\n                    sorted = false\n                }\n            }\n        }\n\n        return result\n    }\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "combSort.ts",
+          "content": "/**\n * Comb Sort implementation.\n * Improves on Bubble Sort by using a gap larger than 1.\n * The gap starts with a large value and shrinks by a factor of 1.3 in every iteration until it reaches 1.\n * @param arr the input array\n * @returns a sorted copy of the array\n */\nexport function combSort(arr: number[]): number[] {\n    const result = [...arr];\n    const n = result.length;\n    let gap = n;\n    let sorted = false;\n    const shrink = 1.3;\n\n    while (!sorted) {\n        gap = Math.floor(gap / shrink);\n        if (gap <= 1) {\n            gap = 1;\n            sorted = true;\n        }\n\n        for (let i = 0; i < n - gap; i++) {\n            if (result[i] > result[i + gap]) {\n                [result[i], result[i + gap]] = [result[i + gap], result[i]];\n                sorted = false;\n            }\n        }\n    }\n\n    return result;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "readme": "# Comb Sort\n\n## Overview\n\nComb Sort is an improvement over Bubble Sort that eliminates \"turtles\" -- small values near the end of the array that slow Bubble Sort down because they can only move one position per pass. Comb Sort achieves this by comparing and swapping elements that are a certain gap apart, and gradually shrinking this gap by a shrink factor (typically 1.3) until it reaches 1, at which point the algorithm becomes a standard Bubble Sort pass.\n\nComb Sort was invented by Wlodzimierz Dobosiewicz in 1980 and later rediscovered and popularized by Stephen Lacey and Richard Box in 1991. The shrink factor of 1.3 was empirically determined to give the best performance for most inputs.\n\n## How It Works\n\n1. Initialize the gap to the array length.\n2. Shrink the gap by dividing by the shrink factor (1.3), rounding down to the nearest integer.\n3. If the gap becomes 0, set it to 1.\n4. Iterate through the array, comparing and swapping elements separated by the gap.\n5. Repeat steps 2-4 until the gap is 1 and no swaps occurred in the last pass.\n\n## Worked Example\n\nGiven input: `[8, 4, 1, 56, 3, -44, 23, -6, 28, 0]` (length 10)\n\n**Pass 1** (gap = floor(10/1.3) = 7):\n\n| Compare indices | Elements    | Action  |\n|----------------|-------------|---------|\n| 0 and 7        | 8 and -6    | Swap    |\n| 1 and 8        | 4 and 28    | No swap |\n| 2 and 9        | 1 and 0     | Swap    |\n\nArray: `[-6, 4, 0, 56, 3, -44, 23, 8, 28, 1]`\n\n**Pass 2** (gap = floor(7/1.3) = 5):\n\n| Compare indices | Elements     | Action  |\n|----------------|-------------- |---------|\n| 0 and 5        | -6 and -44   | Swap    |\n| 1 and 6        | 4 and 23     | No swap |\n| 2 and 7        | 0 and 8      | No swap |\n| 3 and 8        | 56 and 28    | Swap    |\n| 4 and 9        | 3 and 1      | Swap    |\n\nArray: `[-44, 4, 0, 28, 1, -6, 23, 8, 56, 3]`\n\nThe algorithm continues shrinking the gap (3, 2, 1) until the array is fully sorted: `[-44, -6, 0, 1, 3, 4, 8, 23, 28, 56]`.\n\n## Pseudocode\n\n```\nfunction combSort(array):\n    n = length(array)\n    gap = n\n    shrink = 1.3\n    sorted = false\n\n    while not sorted:\n        gap = floor(gap / shrink)\n        if gap <= 1:\n            gap = 1\n            sorted = true    // will exit if no swaps occur\n\n        for i from 0 to n - gap - 1:\n            if array[i] > array[i + gap]:\n                swap(array[i], array[i + gap])\n                sorted = false\n\n    return array\n```\n\n## Complexity Analysis\n\n| Case    | Time           | Space |\n|---------|---------------|-------|\n| Best    | O(n log n)     | O(1)  |\n| Average | O(n^2 / 2^p)  | O(1)  |\n| Worst   | O(n^2)         | O(1)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(n log n):** When the array is already nearly sorted, the large-gap passes require few or no swaps, and the number of gap values is O(log n). Each pass through the array is O(n), giving O(n log n).\n\n- **Average Case -- O(n^2 / 2^p):** The shrink factor ensures that the algorithm makes multiple passes with decreasing gaps. The notation 2^p reflects the number of increments. In practice, Comb Sort performs significantly better than Bubble Sort, roughly on par with Shell Sort for random data.\n\n- **Worst Case -- O(n^2):** When the gap sequence does not effectively eliminate inversions, the final gap-1 passes may still require O(n^2) comparisons, similar to Bubble Sort.\n\n- **Space -- O(1):** Comb Sort is an in-place algorithm that only needs a constant amount of extra space for the gap variable and swap operations.\n\n## When to Use\n\n- **As a simple improvement over Bubble Sort:** If you need a straightforward sorting algorithm that is significantly faster than Bubble Sort with minimal additional complexity.\n- **When in-place sorting is needed:** Comb Sort uses O(1) extra space.\n- **Moderate-sized datasets:** For arrays of a few thousand elements, Comb Sort offers reasonable performance.\n- **Educational contexts:** It clearly demonstrates how gap-based comparisons can dramatically improve exchange-based sorting.\n\n## When NOT to Use\n\n- **Large datasets:** For large arrays, O(n log n) algorithms like Quick Sort, Merge Sort, or Heap Sort are far superior.\n- **When stability is required:** Comb Sort is not a stable sort; it may change the relative order of equal elements.\n- **When guaranteed O(n log n) is needed:** Comb Sort's worst case is O(n^2), which is unacceptable for performance-critical applications.\n- **When better Shell Sort gap sequences are available:** Shell Sort with a well-chosen gap sequence typically outperforms Comb Sort.\n\n## Comparison with Similar Algorithms\n\n| Algorithm      | Time (avg)    | Space | Stable | Notes                                          |\n|----------------|--------------|-------|--------|-------------------------------------------------|\n| Comb Sort      | O(n^2 / 2^p) | O(1)  | No     | Gap-based improvement over Bubble Sort           |\n| Bubble Sort    | O(n^2)        | O(1)  | Yes    | Simpler but much slower                          |\n| Shell Sort     | O(n^(4/3))    | O(1)  | No     | Similar gap concept; usually faster              |\n| Insertion Sort | O(n^2)        | O(1)  | Yes    | Better for nearly sorted data                    |\n| Quick Sort     | O(n log n)    | O(log n) | No  | Much faster for large datasets                   |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [comb_sort.py](python/comb_sort.py) |\n| Java       | [CombSort.java](java/CombSort.java) |\n| C++        | [comb_sort.cpp](cpp/comb_sort.cpp) |\n| C          | [comb_sort.c](c/comb_sort.c) |\n| Go         | [comb_sort.go](go/comb_sort.go) |\n| TypeScript | [combSort.ts](typescript/combSort.ts) |\n| Rust       | [comb_sort.rs](rust/comb_sort.rs) |\n| Kotlin     | [CombSort.kt](kotlin/CombSort.kt) |\n| Swift      | [CombSort.swift](swift/CombSort.swift) |\n| Scala      | [CombSort.scala](scala/CombSort.scala) |\n| C#         | [CombSort.cs](csharp/CombSort.cs) |\n\n## References\n\n- Lacey, S., & Box, R. (1991). \"A fast, easy sort.\" *BYTE Magazine*, 16(4), 315-320.\n- Dobosiewicz, W. (1980). \"An efficient variation of bubble sort.\" *Information Processing Letters*, 11(1), 5-6.\n- [Comb Sort -- Wikipedia](https://en.wikipedia.org/wiki/Comb_sort)\n"
+}

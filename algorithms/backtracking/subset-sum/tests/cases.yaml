@@ -1,0 +1,30 @@
+algorithm: "subset-sum"
+function_signature:
+  name: "subset_sum"
+  input: [array_of_integers, integer]
+  output: integer
+test_cases:
+  - name: "subset exists (3+4+2=9)"
+    input: [[3, 34, 4, 12, 5, 2], 9]
+    expected: 1
+  - name: "no subset sums to 30"
+    input: [[3, 34, 4, 12, 5, 2], 30]
+    expected: 0
+  - name: "entire array sums to target"
+    input: [[1, 2, 3], 6]
+    expected: 1
+  - name: "no subset sums to 7"
+    input: [[1, 2, 3], 7]
+    expected: 0
+  - name: "single zero element, target zero"
+    input: [[0], 0]
+    expected: 1
+  - name: "empty target with non-empty array"
+    input: [[5, 10, 15], 0]
+    expected: 1
+  - name: "single element equals target"
+    input: [[7], 7]
+    expected: 1
+  - name: "single element does not equal target"
+    input: [[7], 3]
+    expected: 0

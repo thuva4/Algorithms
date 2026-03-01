@@ -1,0 +1,134 @@
+{
+  "name": "Modular Exponentiation",
+  "slug": "modular-exponentiation",
+  "category": "math",
+  "subcategory": "number-theory",
+  "difficulty": "intermediate",
+  "tags": [
+    "math",
+    "modular-arithmetic",
+    "exponentiation",
+    "fast-power",
+    "number-theory"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(log exp)",
+      "average": "O(log exp)",
+      "worst": "O(log exp)"
+    },
+    "space": "O(1)"
+  },
+  "related": [
+    "matrix-exponentiation",
+    "greatest-common-divisor",
+    "primality-tests"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "mod_exp.c",
+          "content": "#include \"mod_exp.h\"\n\nint mod_exp(int arr[], int size) {\n    long long base = arr[0];\n    long long exp = arr[1];\n    long long mod = arr[2];\n    if (mod == 1) return 0;\n    long long result = 1;\n    base %= mod;\n    while (exp > 0) {\n        if (exp & 1) result = (result * base) % mod;\n        exp >>= 1;\n        base = (base * base) % mod;\n    }\n    return (int)result;\n}\n"
+        },
+        {
+          "filename": "mod_exp.h",
+          "content": "#ifndef MOD_EXP_H\n#define MOD_EXP_H\n\nint mod_exp(int arr[], int size);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "mod_exp.cpp",
+          "content": "#include <vector>\nusing namespace std;\n\nint mod_exp(vector<int> arr) {\n    long long base = arr[0];\n    long long exp = arr[1];\n    long long mod = arr[2];\n    if (mod == 1) return 0;\n    long long result = 1;\n    base %= mod;\n    while (exp > 0) {\n        if (exp & 1) result = (result * base) % mod;\n        exp >>= 1;\n        base = (base * base) % mod;\n    }\n    return (int)result;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "ModExp.cs",
+          "content": "using System;\n\npublic class ModExp\n{\n    public static int Solve(int[] arr)\n    {\n        long b = arr[0];\n        long exp = arr[1];\n        long mod = arr[2];\n        if (mod == 1) return 0;\n        long result = 1;\n        b %= mod;\n        while (exp > 0)\n        {\n            if (exp % 2 == 1) result = (result * b) % mod;\n            exp >>= 1;\n            b = (b * b) % mod;\n        }\n        return (int)result;\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "mod_exp.go",
+          "content": "package modularexponentiation\n\nfunc ModExp(arr []int) int {\n\tbase := int64(arr[0])\n\texp := int64(arr[1])\n\tmod := int64(arr[2])\n\tif mod == 1 {\n\t\treturn 0\n\t}\n\tresult := int64(1)\n\tbase = base % mod\n\tfor exp > 0 {\n\t\tif exp%2 == 1 {\n\t\t\tresult = (result * base) % mod\n\t\t}\n\t\texp >>= 1\n\t\tbase = (base * base) % mod\n\t}\n\treturn int(result)\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "ModExp.java",
+          "content": "public class ModExp {\n\n    public static int modExp(int[] arr) {\n        long base = arr[0];\n        long exp = arr[1];\n        long mod = arr[2];\n        if (mod == 1) return 0;\n        long result = 1;\n        base = base % mod;\n        while (exp > 0) {\n            if (exp % 2 == 1) {\n                result = (result * base) % mod;\n            }\n            exp >>= 1;\n            base = (base * base) % mod;\n        }\n        return (int) result;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "ModExp.kt",
+          "content": "fun modExp(arr: IntArray): Int {\n    var base = arr[0].toLong()\n    var exp = arr[1].toLong()\n    val mod = arr[2].toLong()\n    if (mod == 1L) return 0\n    var result = 1L\n    base %= mod\n    while (exp > 0) {\n        if (exp % 2 == 1L) {\n            result = (result * base) % mod\n        }\n        exp = exp shr 1\n        base = (base * base) % mod\n    }\n    return result.toInt()\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "mod_exp.py",
+          "content": "def mod_exp(arr: list[int]) -> int:\n    base, exp, mod = arr[0], arr[1], arr[2]\n    if mod == 1:\n        return 0\n    result = 1\n    base = base % mod\n    while exp > 0:\n        if exp % 2 == 1:\n            result = (result * base) % mod\n        exp = exp >> 1\n        base = (base * base) % mod\n    return result\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "mod_exp.rs",
+          "content": "pub fn mod_exp(arr: &[i32]) -> i32 {\n    let mut base = arr[0] as i64;\n    let mut exp = arr[1] as i64;\n    let modulus = arr[2] as i64;\n    if modulus == 1 { return 0; }\n    let mut result: i64 = 1;\n    base %= modulus;\n    while exp > 0 {\n        if exp & 1 == 1 {\n            result = (result * base) % modulus;\n        }\n        exp >>= 1;\n        base = (base * base) % modulus;\n    }\n    result as i32\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "ModExp.scala",
+          "content": "object ModExp {\n\n  def modExp(arr: Array[Int]): Int = {\n    var base = arr(0).toLong\n    var exp = arr(1).toLong\n    val mod = arr(2).toLong\n    if (mod == 1) return 0\n    var result = 1L\n    base = base % mod\n    while (exp > 0) {\n      if (exp % 2 == 1) {\n        result = (result * base) % mod\n      }\n      exp >>= 1\n      base = (base * base) % mod\n    }\n    result.toInt\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "ModExp.swift",
+          "content": "func modExp(_ arr: [Int]) -> Int {\n    var base = arr[0]\n    var exp = arr[1]\n    let mod = arr[2]\n    if mod == 1 { return 0 }\n    var result = 1\n    base = base % mod\n    while exp > 0 {\n        if exp % 2 == 1 {\n            result = (result * base) % mod\n        }\n        exp >>= 1\n        base = (base * base) % mod\n    }\n    return result\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "modExp.ts",
+          "content": "export function modExp(arr: number[]): number {\n    let base = arr[0];\n    let exp = arr[1];\n    const mod = arr[2];\n    if (mod === 1) return 0;\n    let result = 1;\n    base = base % mod;\n    while (exp > 0) {\n        if (exp % 2 === 1) {\n            result = (result * base) % mod;\n        }\n        exp = Math.floor(exp / 2);\n        base = (base * base) % mod;\n    }\n    return result;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "readme": "# Modular Exponentiation\n\n## Overview\n\nModular exponentiation computes (base^exp) mod m efficiently using the binary exponentiation (square-and-multiply) method. Instead of computing base^exp first and then taking the modulus -- which would produce astronomically large intermediate values -- it takes the modulus at each multiplication step to keep numbers small. This is a fundamental building block for cryptographic algorithms (RSA, Diffie-Hellman), primality testing (Miller-Rabin, Fermat), and competitive programming.\n\n## How It Works\n\n1. Initialize result = 1.\n2. Reduce base modulo m (base = base % m).\n3. While exp > 0:\n   - If exp is odd, multiply result by base and take mod m: result = (result * base) % m.\n   - Square the base and take mod m: base = (base * base) % m.\n   - Halve the exponent: exp = exp / 2 (integer division).\n4. Return result.\n\nThe key insight is the binary representation of the exponent. For example, base^13 = base^(1101 in binary) = base^8 * base^4 * base^1. We process the exponent bit by bit, squaring the base at each step and multiplying into the result when the current bit is 1.\n\n## Worked Example\n\nCompute 3^13 mod 50.\n\nexp = 13 = 1101 in binary. base = 3, result = 1, m = 50.\n\n| Step | exp  | exp odd? | result                | base              |\n|------|------|----------|-----------------------|-------------------|\n| 1    | 13   | Yes      | (1 * 3) % 50 = 3     | (3 * 3) % 50 = 9  |\n| 2    | 6    | No       | 3                     | (9 * 9) % 50 = 31 |\n| 3    | 3    | Yes      | (3 * 31) % 50 = 43   | (31 * 31) % 50 = 11 |\n| 4    | 1    | Yes      | (43 * 11) % 50 = 23  | (11 * 11) % 50 = 21 |\n| 5    | 0    | --       | done                  | --                 |\n\nResult: 3^13 mod 50 = **23**.\n\nVerification: 3^13 = 1,594,323. 1,594,323 mod 50 = 23.\n\n## Pseudocode\n\n```\nfunction modExp(base, exp, m):\n    if m == 1:\n        return 0\n    result = 1\n    base = base % m\n\n    while exp > 0:\n        if exp % 2 == 1:          // exp is odd\n            result = (result * base) % m\n        exp = exp / 2              // integer division (right shift)\n        base = (base * base) % m\n\n    return result\n```\n\n## Complexity Analysis\n\n| Case    | Time       | Space |\n|---------|------------|-------|\n| Best    | O(log exp) | O(1)  |\n| Average | O(log exp) | O(1)  |\n| Worst   | O(log exp) | O(1)  |\n\n- **Time O(log exp):** The exponent is halved at each step, so the loop runs O(log exp) times. Each step performs at most two multiplications and two modular reductions.\n- **Space O(1):** Only a constant number of variables (result, base, exp) are used.\n\n## Applications\n\n- **RSA cryptography:** Encryption (c = m^e mod n) and decryption (m = c^d mod n) rely entirely on modular exponentiation.\n- **Diffie-Hellman key exchange:** Computing g^a mod p for secret key agreement.\n- **Miller-Rabin primality test:** Each witness test requires computing a^d mod n.\n- **Discrete logarithm:** Part of baby-step giant-step and Pohlig-Hellman algorithms.\n- **Competitive programming:** Computing large powers modulo a prime (e.g., modular inverse via Fermat's little theorem: a^(p-2) mod p).\n\n## When NOT to Use\n\n- **When the exponent is very small (e.g., exp < 5):** Direct multiplication is simpler and has no overhead.\n- **When working with floating-point numbers:** Modular arithmetic only applies to integers. For floating-point powers, use standard `pow` functions.\n- **When the modulus is 1:** The result is always 0; no computation is needed.\n- **When overflow is a concern with large moduli:** If m^2 can overflow your integer type, you need 128-bit multiplication or Montgomery reduction. Standard modular exponentiation will silently produce wrong results.\n\n## Comparison\n\n| Method                    | Time       | Space | Notes                                      |\n|---------------------------|------------|-------|--------------------------------------------|\n| Binary exponentiation     | O(log exp) | O(1)  | Standard approach; iterative or recursive   |\n| Naive repeated multiply   | O(exp)     | O(1)  | Impractical for large exponents             |\n| Montgomery multiplication | O(log exp) | O(1)  | Avoids division in modular reduction; faster for large moduli |\n| Sliding window            | O(log exp) | O(2^w)| Reduces multiplications by ~25%; w = window size |\n| Left-to-right binary      | O(log exp) | O(1)  | Same complexity; processes bits MSB-first   |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Section 31.6: Powers of an element.\n- Knuth, D. E. (1997). *The Art of Computer Programming, Vol. 2: Seminumerical Algorithms* (3rd ed.). Addison-Wesley. Section 4.6.3.\n- [Modular exponentiation -- Wikipedia](https://en.wikipedia.org/wiki/Modular_exponentiation)\n- [Binary exponentiation -- CP-algorithms](https://cp-algorithms.com/algebra/binary-exp.html)\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [mod_exp.py](python/mod_exp.py) |\n| Java       | [ModExp.java](java/ModExp.java) |\n| C++        | [mod_exp.cpp](cpp/mod_exp.cpp) |\n| C          | [mod_exp.c](c/mod_exp.c) |\n| Go         | [mod_exp.go](go/mod_exp.go) |\n| TypeScript | [modExp.ts](typescript/modExp.ts) |\n| Rust       | [mod_exp.rs](rust/mod_exp.rs) |\n| Kotlin     | [ModExp.kt](kotlin/ModExp.kt) |\n| Swift      | [ModExp.swift](swift/ModExp.swift) |\n| Scala      | [ModExp.scala](scala/ModExp.scala) |\n| C#         | [ModExp.cs](csharp/ModExp.cs) |\n"
+}
