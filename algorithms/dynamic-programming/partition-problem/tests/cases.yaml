@@ -1,0 +1,18 @@
+algorithm: "partition-problem"
+function_signature:
+  name: "can_partition"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "can partition"
+    input: [[1, 5, 11, 5]]
+    expected: 1
+  - name: "cannot partition"
+    input: [[1, 2, 3, 5]]
+    expected: 0
+  - name: "two equal elements"
+    input: [[2, 2]]
+    expected: 1
+  - name: "single element"
+    input: [[1]]
+    expected: 0

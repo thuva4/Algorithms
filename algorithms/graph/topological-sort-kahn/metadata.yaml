@@ -1,0 +1,18 @@
+name: "Kahn's Topological Sort"
+slug: "topological-sort-kahn"
+category: "graph"
+difficulty: "intermediate"
+tags: [graph, topological-sort, bfs, dag]
+complexity:
+  time:
+    best: "O(V+E)"
+    average: "O(V+E)"
+    worst: "O(V+E)"
+  space: "O(V)"
+related: [topological-sort, breadth-first-search, depth-first-search]
+implementations: [python, java, cpp, c, go, typescript, kotlin, rust, swift, scala, csharp]
+visualization: false
+patterns:
+  - topological-sort
+patternDifficulty: beginner
+practiceOrder: 1

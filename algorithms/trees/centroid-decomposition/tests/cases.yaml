@@ -1,0 +1,18 @@
+algorithm: "centroid-decomposition"
+function_signature:
+  name: "centroid_decomposition"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "path of 4"
+    input: [[4, 0, 1, 1, 2, 2, 3]]
+    expected: 2
+  - name: "star of 5"
+    input: [[5, 0, 1, 0, 2, 0, 3, 0, 4]]
+    expected: 1
+  - name: "single node"
+    input: [[1]]
+    expected: 0
+  - name: "path of 7"
+    input: [[7, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6]]
+    expected: 2

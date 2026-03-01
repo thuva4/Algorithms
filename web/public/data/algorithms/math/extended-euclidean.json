@@ -1,0 +1,95 @@
+{
+  "name": "Extended Euclidean",
+  "slug": "extended-euclidean",
+  "category": "math",
+  "subcategory": "number-theory",
+  "difficulty": "intermediate",
+  "tags": [
+    "math",
+    "gcd",
+    "extended-euclidean",
+    "bezout",
+    "modular-inverse"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(1)",
+      "average": "O(log(min(a,b)))",
+      "worst": "O(log(min(a,b)))"
+    },
+    "space": "O(1)"
+  },
+  "stable": false,
+  "in_place": true,
+  "related": [
+    "greatest-common-divisor",
+    "binary-gcd"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "ExtendedEuclidean.c",
+          "content": "static int extended_gcd_impl(int a, int b, int *x, int *y) {\n    if (a == 0) {\n        *x = 0;\n        *y = 1;\n        return b;\n    }\n\n    int x1 = 0;\n    int y1 = 0;\n    int gcd = extended_gcd_impl(b % a, a, &x1, &y1);\n\n    *x = y1 - (b / a) * x1;\n    *y = x1;\n    return gcd;\n}\n\nvoid extended_gcd(int a, int b, int result[]) {\n    int x = 0;\n    int y = 0;\n    int gcd = extended_gcd_impl(a, b, &x, &y);\n    result[0] = gcd;\n    result[1] = x;\n    result[2] = y;\n}\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "ExtendedEuclidean.cpp",
+          "content": "#include <iostream>\n#include <assert.h>\n\nusing namespace std;\n\nint gcdExtended(int a, int b, int* x, int* y)\n{\n    // Base Condition (Special Case)\n    if (a == 0) {\n        *x = 0;\n        *y = 1;\n        return b;\n    }\n\n    // Call the function recursively\n    int x1, y1;\n    int gcd = gcdExtended(b % a, a, &x1, &y1);\n\n    // Update x1 and y1 using results of recursive call\n    *x = y1 - (b / a) * x1;\n    *y = x1;\n\n    return gcd;\n}\n\nint main()\n{\n    int x, y, a = 60, b = 15;\n    int g = gcdExtended(a, b, &x, &y);\n\n    assert(g == 15);\n\n    // Test the function\n    cout << \"gcd(\" << a << \", \" << b << \") = \" << g << endl;\n\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "ExtendedEuclidean.java",
+          "content": "public class ExtendedEuclidean {\n    public static int[] extendedGcd(int a, int b) {\n        if (a == b) {\n            return new int[]{Math.abs(a), 1, 0};\n        }\n        if (a == 0) {\n            return new int[]{Math.abs(b), 0, b >= 0 ? 1 : -1};\n        }\n\n        int[] next = extendedGcd(b % a, a);\n        int gcd = next[0];\n        int x1 = next[1];\n        int y1 = next[2];\n        int x = y1 - (b / a) * x1;\n        int y = x1;\n        return new int[]{gcd, x, y};\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "ExtendedEuclidean.kt",
+          "content": "fun extendedGcd(a: Int, b: Int): IntArray {\n    if (a == b) {\n        return intArrayOf(kotlin.math.abs(a), 1, 0)\n    }\n    if (b == 0) {\n        return intArrayOf(kotlin.math.abs(a), if (a >= 0) 1 else -1, 0)\n    }\n\n    val next = extendedGcd(b, a % b)\n    val gcd = next[0]\n    val x = next[2]\n    val y = next[1] - (a / b) * next[2]\n    return intArrayOf(gcd, x, y)\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "ExtendedEuclidean.py",
+          "content": "def gcdExtended(x, y):\n    # Base Condition (Special Case)\n    if x==0:\n        return y,0,1\n    # Call the function recursively\n    gcd,x1,y1=gcdExtended(y%x,x)\n    # Update x2 and y2 using the return of recursive function\n    x2 = y1 - (y//x) * x1\n    y2 = x1\n    return gcd,x2,y2\n\n# Can be modified to be taken as an input from the user\na = 60\nb = 15\ng,x,y=gcdExtended(a,b)\nprint(\"gcd(\", a , \",\" , b, \") = \", g)\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "ExtendedEuclidean.swift",
+          "content": "func extendedGcd(_ a: Int, _ b: Int) -> [Int] {\n    if a == b {\n        return [abs(a), 1, 0]\n    }\n    if a == 0 {\n        return [abs(b), 0, b >= 0 ? 1 : -1]\n    }\n\n    let next = extendedGcd(b % a, a)\n    let gcd = next[0]\n    let x1 = next[1]\n    let y1 = next[2]\n    let x = y1 - (b / a) * x1\n    let y = x1\n    return [gcd, x, y]\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "index.js",
+          "content": "/* eslint-disable require-jsdoc */\n/*\n    Explanation at: https://brilliant.org/wiki/extended-euclidean-algorithm/\n    si2 : s(subscript(i-2))\n    si1 : s(subscript(i-1))\n    si  : s(subscript(i))\n\n    ti2 : t(subscript(i-2))\n    ti1 : t(subscript(i-1))\n    ti  : t(subscript(i))\n*/\nfunction extendedEuclidean(a, b) {\n  let si2 = 0;\n  let ti2 = 1;\n  let si1 = 1;\n  let ti1 = 0;\n  let qi;\n  let r;\n  let si;\n  let ti;\n  while (a !== 0) {\n    qi = Math.floor(b / a);\n    si = si2 - si1 * qi;\n    ti = ti2 - ti1 * qi;\n    si2 = si1;\n    ti2 = ti1;\n    si1 = si;\n    ti1 = ti;\n\n    r = b % a;\n    b = a;\n    a = r;\n  }\n  return [b, si2, ti2];\n}\n\nmodule.exports = extendedEuclidean;\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Extended Euclidean Algorithm\n\n## Overview\n\nThe Extended Euclidean Algorithm is an extension of the Euclidean algorithm that, in addition to computing the greatest common divisor (GCD) of two integers a and b, also finds integers x and y such that ax + by = GCD(a, b). This equation is known as Bezout's identity. For example, for a = 35 and b = 15, the algorithm finds GCD = 5 and coefficients x = 1, y = -2, since 35(1) + 15(-2) = 5.\n\nThe Extended Euclidean Algorithm is essential in cryptography (computing modular multiplicative inverses for RSA), solving linear Diophantine equations, and Chinese Remainder Theorem computations. The modular inverse of a modulo m exists if and only if GCD(a, m) = 1, and the extended algorithm computes it directly.\n\n## How It Works\n\nThe algorithm works by running the Euclidean algorithm while tracking the coefficients at each step. Starting with (a, b) and initial coefficients, each step replaces (a, b) with (b, a mod b) and updates the coefficients accordingly. When b reaches 0, the current coefficients x and y satisfy ax + by = GCD(a, b).\n\n### Example\n\nComputing Extended GCD of `a = 35` and `b = 15`:\n\n| Step | a | b | q = a/b | r = a mod b | x | y | Verification |\n|------|---|---|---------|-------------|---|---|-------------|\n| Init | 35 | 15 | - | - | 1, 0 | 0, 1 | - |\n| 1 | 35 | 15 | 2 | 5 | 1 | -2 | 35(1) + 15(-2) = 5 |\n| 2 | 15 | 5 | 3 | 0 | - | - | - |\n\n**Detailed coefficient tracking:**\n\nStarting values: x_prev = 1, x_curr = 0, y_prev = 0, y_curr = 1\n\n| Step | q | x_new = x_prev - q*x_curr | y_new = y_prev - q*y_curr |\n|------|---|--------------------------|--------------------------|\n| 1 | 2 | 1 - 2*0 = 1 | 0 - 2*1 = -2 |\n\nResult: `GCD(35, 15) = 5`, with `x = 1`, `y = -2`\n\nVerification: 35 * 1 + 15 * (-2) = 35 - 30 = 5\n\n**Application -- Finding modular inverse:**\nTo find the modular inverse of 35 mod 15:\nSince GCD(35, 15) = 5 != 1, the modular inverse does not exist.\n\nFor a = 7, b = 11: GCD = 1, x = -3, y = 2 (7*(-3) + 11*2 = -21 + 22 = 1).\nSo 7^(-1) mod 11 = -3 mod 11 = 8.\n\n## Pseudocode\n\n```\nfunction extendedGCD(a, b):\n    if b == 0:\n        return (a, 1, 0)    // GCD, x, y\n\n    (gcd, x1, y1) = extendedGCD(b, a mod b)\n    x = y1\n    y = x1 - (a / b) * y1\n\n    return (gcd, x, y)\n```\n\nIterative version:\n\n```\nfunction extendedGCD(a, b):\n    old_r, r = a, b\n    old_s, s = 1, 0\n    old_t, t = 0, 1\n\n    while r != 0:\n        q = old_r / r\n        old_r, r = r, old_r - q * r\n        old_s, s = s, old_s - q * s\n        old_t, t = t, old_t - q * t\n\n    return (old_r, old_s, old_t)    // GCD, x, y\n```\n\nThe iterative version maintains two sets of coefficients and updates them at each step using the quotient q.\n\n## Complexity Analysis\n\n| Case    | Time              | Space |\n|---------|-------------------|-------|\n| Best    | O(1)              | O(1)  |\n| Average | O(log(min(a,b)))  | O(1)  |\n| Worst   | O(log(min(a,b)))  | O(1)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(1):** When b = 0 or b divides a, the algorithm terminates in one step.\n\n- **Average Case -- O(log(min(a,b))):** The number of iterations is the same as the Euclidean algorithm, which is O(log(min(a,b))). The coefficient updates add only O(1) work per iteration.\n\n- **Worst Case -- O(log(min(a,b))):** Like the Euclidean algorithm, the worst case occurs with consecutive Fibonacci numbers, requiring O(log(min(a,b))) steps.\n\n- **Space -- O(1):** The iterative version uses a constant number of variables. The recursive version uses O(log(min(a,b))) stack space.\n\n## When to Use\n\n- **Computing modular inverses:** Finding a^(-1) mod m when GCD(a, m) = 1. This is crucial for RSA decryption.\n- **Solving linear Diophantine equations:** Finding integer solutions to ax + by = c (solvable when GCD(a, b) divides c).\n- **Chinese Remainder Theorem:** The constructive proof uses extended GCD to combine modular equations.\n- **Fraction arithmetic:** Finding common denominators and simplifying fractions.\n\n## When NOT to Use\n\n- **When you only need the GCD:** The standard Euclidean algorithm is simpler and sufficient.\n- **When the modular inverse is guaranteed to exist and speed is critical:** Fermat's little theorem (a^(p-2) mod p for prime p) may be preferred with fast exponentiation.\n- **Very large numbers without big-integer support:** The intermediate coefficients can grow large.\n- **When inputs are always coprime:** Simpler methods may suffice for modular inverse in special cases.\n\n## Comparison with Similar Algorithms\n\n| Algorithm           | Time              | Space | Notes                                        |\n|--------------------|-------------------|-------|----------------------------------------------|\n| Extended Euclidean  | O(log(min(a,b)))  | O(1)  | Computes GCD + Bezout coefficients            |\n| Euclidean GCD       | O(log(min(a,b)))  | O(1)  | GCD only; no coefficients                     |\n| Binary GCD          | O(log(min(a,b))^2)| O(1)  | No division; harder to extend                  |\n| Fermat Inverse      | O(log p)          | O(1)  | Modular inverse for prime modulus only         |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [ExtendedEuclidean.py](python/ExtendedEuclidean.py) |\n| C++        | [ExtendedEuclidean.cpp](cpp/ExtendedEuclidean.cpp) |\n| C          | [ExtendedEuclidean.c](c/ExtendedEuclidean.c) |\n| TypeScript | [index.js](typescript/index.js) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 31.2: Greatest Common Divisor.\n- Knuth, D. E. (1997). *The Art of Computer Programming, Volume 2: Seminumerical Algorithms* (3rd ed.). Addison-Wesley. Section 4.5.2.\n- [Extended Euclidean Algorithm -- Wikipedia](https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm)\n"
+}

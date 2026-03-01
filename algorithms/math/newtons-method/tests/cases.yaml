@@ -1,0 +1,24 @@
+algorithm: "newtons-method"
+function_signature:
+  name: "integer_sqrt"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "perfect square 16"
+    input: [[16]]
+    expected: 4
+  - name: "perfect square 25"
+    input: [[25]]
+    expected: 5
+  - name: "zero"
+    input: [[0]]
+    expected: 0
+  - name: "one"
+    input: [[1]]
+    expected: 1
+  - name: "non-perfect square 26"
+    input: [[26]]
+    expected: 5
+  - name: "perfect square 100"
+    input: [[100]]
+    expected: 10

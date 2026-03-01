@@ -1,0 +1,17 @@
+name: "Euler's Totient Function"
+slug: "euler-toient"
+category: "math"
+subcategory: "number-theory"
+difficulty: "intermediate"
+tags: [math, euler, totient, phi-function, number-theory]
+complexity:
+  time:
+    best: "O(sqrt(n))"
+    average: "O(sqrt(n))"
+    worst: "O(sqrt(n))"
+  space: "O(1)"
+stable: false
+in_place: true
+related: [prime-check, sieve-of-eratosthenes]
+implementations: [cpp]
+visualization: false

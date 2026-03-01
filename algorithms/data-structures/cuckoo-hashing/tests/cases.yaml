@@ -1,0 +1,26 @@
+algorithm: "cuckoo-hashing"
+function_signature:
+  name: "cuckoo_hashing"
+  input: [data]
+  output: count_of_inserted_keys
+test_cases:
+  - name: "basic insertion"
+    input:
+      data: [3, 10, 20, 30]
+    expected: 3
+  - name: "duplicate keys"
+    input:
+      data: [4, 5, 5, 5, 5]
+    expected: 1
+  - name: "no keys"
+    input:
+      data: [0]
+    expected: 0
+  - name: "single key"
+    input:
+      data: [1, 42]
+    expected: 1
+  - name: "several unique keys"
+    input:
+      data: [5, 1, 2, 3, 4, 5]
+    expected: 5

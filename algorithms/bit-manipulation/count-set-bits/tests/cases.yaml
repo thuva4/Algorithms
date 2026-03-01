@@ -1,0 +1,21 @@
+algorithm: "count-set-bits"
+function_signature:
+  name: "count_set_bits"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "single number 5"
+    input: [[5]]
+    expected: 2
+  - name: "single number 7"
+    input: [[7]]
+    expected: 3
+  - name: "zero"
+    input: [[0]]
+    expected: 0
+  - name: "multiple numbers"
+    input: [[1, 2, 3]]
+    expected: 4
+  - name: "all 15s"
+    input: [[15, 15, 15]]
+    expected: 12

@@ -1,0 +1,36 @@
+algorithm: "cycle-sort"
+function_signature:
+  name: "cycle_sort"
+  input: [array_of_integers]
+  output: array_of_integers
+test_cases:
+  - name: "basic unsorted array"
+    input: [[5, 3, 8, 1, 2]]
+    expected: [1, 2, 3, 5, 8]
+  - name: "already sorted"
+    input: [[1, 2, 3, 4, 5]]
+    expected: [1, 2, 3, 4, 5]
+  - name: "reverse sorted"
+    input: [[5, 4, 3, 2, 1]]
+    expected: [1, 2, 3, 4, 5]
+  - name: "single element"
+    input: [[42]]
+    expected: [42]
+  - name: "empty array"
+    input: [[]]
+    expected: []
+  - name: "duplicates"
+    input: [[3, 1, 3, 2, 1]]
+    expected: [1, 1, 2, 3, 3]
+  - name: "negative numbers"
+    input: [[-3, 5, -1, 0, 2]]
+    expected: [-3, -1, 0, 2, 5]
+  - name: "all same elements"
+    input: [[7, 7, 7, 7]]
+    expected: [7, 7, 7, 7]
+  - name: "two elements"
+    input: [[2, 1]]
+    expected: [1, 2]
+  - name: "large range"
+    input: [[100, -100, 0, 50, -50]]
+    expected: [-100, -50, 0, 50, 100]

@@ -1,0 +1,21 @@
+algorithm: "spfa"
+function_signature:
+  name: "spfa"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "simple path"
+    input: [[4, 4, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 0, 3, 10]]
+    expected: 6
+  - name: "direct edge is shortest"
+    input: [[3, 3, 0, 0, 1, 5, 1, 2, 5, 0, 2, 3]]
+    expected: 3
+  - name: "negative weight"
+    input: [[3, 3, 0, 0, 1, 4, 1, 2, -2, 0, 2, 5]]
+    expected: 2
+  - name: "unreachable"
+    input: [[3, 1, 0, 0, 1, 1]]
+    expected: -1
+  - name: "single node"
+    input: [[1, 0, 0]]
+    expected: 0

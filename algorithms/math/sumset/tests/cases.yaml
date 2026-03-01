@@ -1,0 +1,18 @@
+algorithm: "sumset"
+function_signature:
+  name: "sumset"
+  input: [set_a, set_b]
+  output: minkowski_sum
+test_cases:
+  - name: "basic sumset"
+    input: [[1, 2, 3], [10, 20]]
+    expected: [11, 12, 13, 21, 22, 23]
+  - name: "single element sets"
+    input: [[5], [3]]
+    expected: [8]
+  - name: "identity with zero"
+    input: [[1, 2, 3], [0]]
+    expected: [1, 2, 3]
+  - name: "negative numbers"
+    input: [[1, 2], [-1, -2]]
+    expected: [-1, 0, 0, 1]

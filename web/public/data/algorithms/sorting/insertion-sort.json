@@ -1,0 +1,161 @@
+{
+  "name": "Insertion Sort",
+  "slug": "insertion-sort",
+  "category": "sorting",
+  "subcategory": "comparison-based",
+  "difficulty": "beginner",
+  "tags": [
+    "sorting",
+    "comparison",
+    "in-place",
+    "stable",
+    "adaptive",
+    "simple"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "average": "O(n^2)",
+      "worst": "O(n^2)"
+    },
+    "space": "O(1)"
+  },
+  "stable": true,
+  "in_place": true,
+  "related": [
+    "selection-sort",
+    "bubble-sort",
+    "shell-sort"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "InsertionSort.c",
+          "content": "// including liberary\n#include <stdio.h>\n\n/*\n  the algo goes here\n*/\nvoid Sort_Array(int arr[], int size)  // it will accept interger type array and size of the array\n{\n  // local variable defination\n  int i, key, j;\n  for (i = 1; i < size; i++)\n  {\n      key = arr[i]; // the i th value\n      j = i-1;  // j is for processing from back\n\n      /* Move elements of arr[0..i-1], that are\n        greater than key, to one position ahead\n        of their current position */\n      while (j >= 0 && arr[j] > key)  // loop will work till j th value of array is greater than i th value of array and j >= 0\n      {\n          arr[j+1] = arr[j];\n          j--;\n      }\n      arr[j+1] = key;\n   }\n}\n\n/*\n    MAIN FUNCTION\n*/\nint main() {\n  // declaring the variable\n  int size;  // size is the array length\n  int i;  // i is for iterations\n  printf(\"enter the size of array \");\n  scanf(\"%d\",&size);  // getting size\n  int array[size]; // declaring array of size entered by the user\n\n  // getting value from the user\n  printf(\"\\nenter values in the array\\n\");\n  for (i = 0; i < size; i++) {scanf(\"%d\", &array[i]); }\n\n  // printing the original array\n  printf(\"\\noriginal array -> \");\n  for (i = 0; i < size; i++) { printf(\"%d \", array[i]); }\n\n  // sorting the array\n  Sort_Array(array, size);\n\n  // printing the sorted array\n  printf(\"\\nsorted array -> \");\n  for (i = 0; i < size; i++) { printf(\"%d \", array[i]); }\n  \n  return 0;\n}\n\n"
+        },
+        {
+          "filename": "insertion_sort.c",
+          "content": "#include \"insertion_sort.h\"\n\nvoid insertion_sort(int arr[], int n) {\n    for (int i = 1; i < n; i++) {\n        int key = arr[i];\n        int j = i - 1;\n\n        while (j >= 0 && arr[j] > key) {\n            arr[j + 1] = arr[j];\n            j = j - 1;\n        }\n        arr[j + 1] = key;\n    }\n}\n"
+        },
+        {
+          "filename": "insertion_sort.h",
+          "content": "#ifndef INSERTION_SORT_H\n#define INSERTION_SORT_H\n\n/**\n * Insertion Sort implementation.\n * Builds the final sorted array (or list) one item at a time.\n * @param arr the input array (modified in-place)\n * @param n the number of elements in the array\n */\nvoid insertion_sort(int arr[], int n);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "insertion_sort.cpp",
+          "content": "#include <vector>\n\n/**\n * Insertion Sort implementation.\n * Builds the final sorted array (or list) one item at a time.\n * @param arr the input vector\n * @returns a sorted copy of the vector\n */\nstd::vector<int> insertion_sort(std::vector<int> arr) {\n    int n = static_cast<int>(arr.size());\n\n    for (int i = 1; i < n; i++) {\n        int key = arr[i];\n        int j = i - 1;\n\n        while (j >= 0 && arr[j] > key) {\n            arr[j + 1] = arr[j];\n            j = j - 1;\n        }\n        arr[j + 1] = key;\n    }\n\n    return arr;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "InsertionSort.cs",
+          "content": "using System;\n\nnamespace Algorithms.Sorting.Insertion\n{\n    /**\n     * Insertion Sort implementation.\n     * Builds the final sorted array (or list) one item at a time.\n     */\n    public static class InsertionSort\n    {\n        public static int[] Sort(int[] arr)\n        {\n            if (arr == null)\n            {\n                return new int[0];\n            }\n\n            int[] result = (int[])arr.Clone();\n            int n = result.Length;\n\n            for (int i = 1; i < n; i++)\n            {\n                int key = result[i];\n                int j = i - 1;\n\n                while (j >= 0 && result[j] > key)\n                {\n                    result[j + 1] = result[j];\n                    j = j - 1;\n                }\n                result[j + 1] = key;\n            }\n\n            return result;\n        }\n    }\n}\n"
+        },
+        {
+          "filename": "Insertion_sort.cs",
+          "content": "using System.IO;\nusing System;\n\nclass Program\n{\n    static void Main()\n    {\n        int[] arr= {3,4,5,1,6,7,8,2,0};\n        insertionSort(arr);\n        \n        foreach (int x in arr) \n        {\n            Console.WriteLine(x);\n        }\n    }\n    \n    static void insertionSort(int[] arr)\n    {\n        for(int j=1; j < arr.Length; j++) \n        {\n            int key = arr[j];\n            int i = j - 1;\n            while (i >= 0 && arr[i]>key)\n            {\n                arr[i+1] = arr[i];\n                i = i - 1;\n            }\n            arr[i+1] = key;\n        }\n        \n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "InsertionSort.go",
+          "content": "package main\n\nimport \"fmt\"\n\nfunc InsertionSort(arr []int) {\n\tfor i, val := range arr {\n\t\tj := i - 1\n\t\tfor j >= 0 && arr[j] > val {\n\t\t\tarr[j+1] = arr[j]\n\t\t\tj = j - 1\n\t\t}\n\t\tarr[j + 1] = val\n\t}\n}\n\nfunc main() {\n\tarr := []int{2, 1, 1, 3}\n\tInsertionSort(arr)\n\tfmt.Println(arr)\n}\n"
+        },
+        {
+          "filename": "insertion_sort.go",
+          "content": "package insertionsort\n\n/**\n * InsertionSort implementation.\n * Builds the final sorted array (or list) one item at a time.\n * It returns a new sorted slice without modifying the original input.\n */\nfunc InsertionSort(arr []int) []int {\n\tn := len(arr)\n\tif n <= 1 {\n\t\treturn append([]int{}, arr...)\n\t}\n\n\tresult := make([]int, n)\n\tcopy(result, arr)\n\n\tfor i := 1; i < n; i++ {\n\t\tkey := result[i]\n\t\tj := i - 1\n\n\t\tfor j >= 0 && result[j] > key {\n\t\t\tresult[j+1] = result[j]\n\t\t\tj = j - 1\n\t\t}\n\t\tresult[j+1] = key\n\t}\n\n\treturn result\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "InsertionSort.java",
+          "content": "import java.util.Arrays;\n\npublic class InsertionSort {\n    /**\n     * Insertion Sort implementation.\n     * Builds the final sorted array (or list) one item at a time.\n     * @param arr the input array\n     * @return a sorted copy of the array\n     */\n    public static int[] sort(int[] arr) {\n        if (arr == null) {\n            return new int[0];\n        }\n\n        int[] result = Arrays.copyOf(arr, arr.length);\n        int n = result.length;\n\n        for (int i = 1; i < n; i++) {\n            int key = result[i];\n            int j = i - 1;\n\n            while (j >= 0 && result[j] > key) {\n                result[j + 1] = result[j];\n                j = j - 1;\n            }\n            result[j + 1] = key;\n        }\n\n        return result;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "InsertionSort.kt",
+          "content": "package algorithms.sorting.insertion\n\n/**\n * Insertion Sort implementation.\n * Builds the final sorted array (or list) one item at a time.\n */\nobject InsertionSort {\n    fun sort(arr: IntArray): IntArray {\n        val result = arr.copyOf()\n        val n = result.size\n\n        for (i in 1 until n) {\n            val key = result[i]\n            var j = i - 1\n\n            while (j >= 0 && result[j] > key) {\n                result[j + 1] = result[j]\n                j = j - 1\n            }\n            result[j + 1] = key\n        }\n\n        return result\n    }\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "insertionSort.py",
+          "content": "def insertionSort(inputArray):\n\tn = len(inputArray)\n\tfor i in range(1,n):\n\t\tkey = inputArray[i]\n\t\tj = i-1\n\n\t\twhile (j >= 0 and inputArray[j]>key):\n\t\t\tinputArray[j+1] = inputArray[j]\n\t\t\tj = j - 1\n\t\tinputArray[j+1] = key\n\n\treturn inputArray\n\n"
+        },
+        {
+          "filename": "insertion_sort.py",
+          "content": "def insertion_sort(arr: list[int]) -> list[int]:\n    \"\"\"\n    Insertion Sort implementation.\n    Builds the final sorted array (or list) one item at a time.\n    \"\"\"\n    result = list(arr)\n    n = len(result)\n\n    for i in range(1, n):\n        key = result[i]\n        j = i - 1\n        while j >= 0 and result[j] > key:\n            result[j + 1] = result[j]\n            j -= 1\n        result[j + 1] = key\n\n    return result\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "InsertionSort.rs",
+          "content": "/*\n * Implementation of Insertion Sort in Rust\n */\n\n\nfn insertion_sort(mut list: Vec<i32>) -> Vec<i32> {\n    let mut i = 0;\n    let mut j;\n    while i < list.len() {\n        j = i;\n        while j > 0 && list[j-1] > list[j] {\n            // Swap\n            let s = list.remove(j-1);\n            list.insert(j, s);\n            j -= 1;\n        }\n        i += 1;\n    }\n\n    return list;\n}\n"
+        },
+        {
+          "filename": "insertion_sort.rs",
+          "content": "/**\n * Insertion Sort implementation.\n * Builds the final sorted array (or list) one item at a time.\n */\npub fn insertion_sort(arr: &[i32]) -> Vec<i32> {\n    let mut result = arr.to_vec();\n    let n = result.len();\n\n    for i in 1..n {\n        let key = result[i];\n        let mut j = i;\n\n        while j > 0 && result[j - 1] > key {\n            result[j] = result[j - 1];\n            j -= 1;\n        }\n        result[j] = key;\n    }\n\n    result\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "InsertionSort.scala",
+          "content": "package algorithms.sorting.insertion\n\n/**\n * Insertion Sort implementation.\n * Builds the final sorted array (or list) one item at a time.\n */\nobject InsertionSort {\n  def sort(arr: Array[Int]): Array[Int] = {\n    val result = arr.clone()\n    val n = result.length\n\n    for (i <- 1 until n) {\n      val key = result(i)\n      var j = i - 1\n\n      while (j >= 0 && result(j) > key) {\n        result(j + 1) = result(j)\n        j = j - 1\n      }\n      result(j + 1) = key\n    }\n\n    result\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "insertionSort.swift",
+          "content": "/**\n * Insertion Sort implementation.\n * Builds the final sorted array (or list) one item at a time.\n */\npublic class InsertionSort {\n    public static func sort(_ arr: [Int]) -> [Int] {\n        var result = arr\n        let n = result.count\n        if n < 2 {\n            return result\n        }\n\n        for i in 1..<n {\n            let key = result[i]\n            var j = i - 1\n\n            while j >= 0 && result[j] > key {\n                result[j + 1] = result[j]\n                j = j - 1\n            }\n            result[j + 1] = key\n        }\n\n        return result\n    }\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "insertionSort.js",
+          "content": "/* eslint-disable require-jsdoc */\n/* Insertion sort is the most basic sorting algorithm out there.\n * key is used to search through the given array and if there\n * is any number less than the key in the already sorted part of the\n * array it is updated accordingly and key is also updated to the next value\n * in the array.\n */\n\nfunction insertionSort(arr) {\n  for (let j = 1; j < arr.length; j++) {\n    const key = arr[j];\n    let i = j - 1;\n    while (i >= 0 && arr[i] > key) {\n      arr[i + 1] = arr[i];\n      i = i - 1;\n    }\n    arr[i + 1] = key;\n  }\n  return arr;\n}\n\nmodule.exports = insertionSort;\n\nconst ar = [3, 4, 5, 1, 6, 7, 8, 2, 0];\ninsertionSort(ar);\n\n/* Output --> [0,1,2,3,4,5,6,7,8]*/\n"
+        },
+        {
+          "filename": "insertionSort.ts",
+          "content": "/**\n * Insertion Sort implementation.\n * Builds the final sorted array (or list) one item at a time.\n * @param arr the input array\n * @returns a sorted copy of the array\n */\nexport function insertionSort(arr: number[]): number[] {\n    const result = [...arr];\n    const n = result.length;\n\n    for (let i = 1; i < n; i++) {\n        const key = result[i];\n        let j = i - 1;\n\n        while (j >= 0 && result[j] > key) {\n            result[j + 1] = result[j];\n            j = j - 1;\n        }\n        result[j + 1] = key;\n    }\n\n    return result;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "readme": "# Insertion Sort\n\n## Overview\n\nInsertion Sort is a simple comparison-based sorting algorithm that builds the final sorted array one element at a time. It works similarly to how most people sort playing cards in their hands -- picking up each card and inserting it into its correct position among the cards already held. The algorithm iterates through the input, growing a sorted portion at the beginning of the array with each step.\n\nWhile not efficient for large datasets, Insertion Sort is widely valued for its simplicity, stability, and excellent performance on small or nearly sorted data. It is often used as the base case for more advanced recursive sorting algorithms.\n\n## How It Works\n\nInsertion Sort divides the array into a \"sorted\" region (initially just the first element) and an \"unsorted\" region (the rest). On each iteration, it takes the next element from the unsorted region and scans backward through the sorted region, shifting elements to the right until it finds the correct position for insertion. This process repeats until every element has been inserted into the sorted region.\n\n### Example\n\nGiven input: `[5, 3, 8, 1, 2]`\n\n**Pass 1:** Insert `3` into the sorted region `[5]`\n\n| Step | Action | Array State |\n|------|--------|-------------|\n| 1 | Compare `3` with `5` | `3 < 5`, shift `5` right |\n| 2 | Insert `3` at position 0 | `[3, 5, 8, 1, 2]` |\n\nEnd of Pass 1: `[3, 5, 8, 1, 2]` -- Sorted region: `[3, 5]`\n\n**Pass 2:** Insert `8` into the sorted region `[3, 5]`\n\n| Step | Action | Array State |\n|------|--------|-------------|\n| 1 | Compare `8` with `5` | `8 > 5`, no shift needed |\n| 2 | `8` stays in place | `[3, 5, 8, 1, 2]` |\n\nEnd of Pass 2: `[3, 5, 8, 1, 2]` -- Sorted region: `[3, 5, 8]`\n\n**Pass 3:** Insert `1` into the sorted region `[3, 5, 8]`\n\n| Step | Action | Array State |\n|------|--------|-------------|\n| 1 | Compare `1` with `8` | `1 < 8`, shift `8` right |\n| 2 | Compare `1` with `5` | `1 < 5`, shift `5` right |\n| 3 | Compare `1` with `3` | `1 < 3`, shift `3` right |\n| 4 | Insert `1` at position 0 | `[1, 3, 5, 8, 2]` |\n\nEnd of Pass 3: `[1, 3, 5, 8, 2]` -- Sorted region: `[1, 3, 5, 8]`\n\n**Pass 4:** Insert `2` into the sorted region `[1, 3, 5, 8]`\n\n| Step | Action | Array State |\n|------|--------|-------------|\n| 1 | Compare `2` with `8` | `2 < 8`, shift `8` right |\n| 2 | Compare `2` with `5` | `2 < 5`, shift `5` right |\n| 3 | Compare `2` with `3` | `2 < 3`, shift `3` right |\n| 4 | Compare `2` with `1` | `2 > 1`, stop |\n| 5 | Insert `2` at position 1 | `[1, 2, 3, 5, 8]` |\n\nEnd of Pass 4: `[1, 2, 3, 5, 8]` -- Sorted region: `[1, 2, 3, 5, 8]`\n\nResult: `[1, 2, 3, 5, 8]`\n\n## Pseudocode\n\n```\nfunction insertionSort(array):\n    n = length(array)\n\n    for i from 1 to n - 1:\n        key = array[i]\n        j = i - 1\n\n        // Shift elements of the sorted region that are greater than key\n        while j >= 0 and array[j] > key:\n            array[j + 1] = array[j]\n            j = j - 1\n\n        // Insert the key into its correct position\n        array[j + 1] = key\n\n    return array\n```\n\nThe key insight is that shifting elements (rather than swapping) reduces the number of assignments. Each element in the sorted region that is larger than the key is moved one position to the right, and the key is placed into the gap left behind.\n\n## Complexity Analysis\n\n| Case    | Time   | Space |\n|---------|--------|-------|\n| Best    | O(n)   | O(1)  |\n| Average | O(n^2) | O(1)  |\n| Worst   | O(n^2) | O(1)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(n):** When the array is already sorted, each new element is compared once with the last element of the sorted region and found to be in the correct position. The inner while loop never executes, so the algorithm performs exactly `n - 1` comparisons and zero shifts, giving O(n) time.\n\n- **Average Case -- O(n^2):** On average, each element must be compared with roughly half the elements in the sorted region before finding its correct position. The total number of comparisons is approximately 1/2 + 2/2 + 3/2 + ... + (n-1)/2 = n(n-1)/4, which is O(n^2).\n\n- **Worst Case -- O(n^2):** When the array is sorted in reverse order, every new element must be compared with and shifted past every element in the sorted region. The total number of comparisons and shifts is 1 + 2 + 3 + ... + (n-1) = n(n-1)/2, which is O(n^2). For example, sorting `[5, 4, 3, 2, 1]` requires 4 + 3 + 2 + 1 = 10 comparisons.\n\n- **Space -- O(1):** Insertion Sort is an in-place sorting algorithm. It only needs a single temporary variable (`key`) to hold the element being inserted. No additional data structures are required regardless of input size.\n\n## When to Use\n\n- **Small datasets (fewer than ~50 elements):** Insertion Sort has very low overhead and often outperforms more complex algorithms on small inputs. Many standard library sort implementations switch to Insertion Sort for small subarrays.\n- **Nearly sorted data:** Insertion Sort is adaptive -- its running time approaches O(n) when the input has few inversions (elements out of order). It is one of the best algorithms for data that is already \"almost sorted.\"\n- **Online sorting (streaming data):** Insertion Sort can sort elements as they arrive one at a time, since each new element is inserted into an already-sorted sequence.\n- **When stability is required:** Insertion Sort is a stable sort, preserving the relative order of equal elements.\n- **As a building block:** Insertion Sort is commonly used as the base case in hybrid sorting algorithms like Timsort (Python's built-in sort) and Introsort.\n\n## When NOT to Use\n\n- **Large datasets:** With O(n^2) average and worst-case performance, Insertion Sort becomes impractically slow as input size grows. Sorting 10,000 elements could require up to 50 million comparisons.\n- **Performance-critical applications with random data:** For randomly ordered data, O(n log n) algorithms such as Merge Sort, Quick Sort, or Heap Sort are far more efficient.\n- **When data is sorted in reverse:** This triggers the worst-case O(n^2) behavior with maximum shifts, making Insertion Sort especially slow.\n- **Datasets with many inversions:** The running time of Insertion Sort is proportional to the number of inversions in the input, so highly disordered data leads to poor performance.\n\n## Comparison with Similar Algorithms\n\n| Algorithm      | Time (avg) | Space    | Stable | Notes                                       |\n|----------------|-----------|----------|--------|---------------------------------------------|\n| Insertion Sort | O(n^2)    | O(1)     | Yes    | Best for small or nearly sorted data        |\n| Bubble Sort    | O(n^2)    | O(1)     | Yes    | Simpler but slower due to more swaps        |\n| Selection Sort | O(n^2)    | O(1)     | No     | Fewer swaps but always O(n^2)               |\n| Shell Sort     | O(n^(4/3))| O(1)     | No     | Generalization of Insertion Sort with gaps   |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [insertion_sort.py](python/insertion_sort.py) |\n| Java       | [InsertionSort.java](java/InsertionSort.java) |\n| C++        | [insertion_sort.cpp](cpp/insertion_sort.cpp) |\n| C          | [insertion_sort.c](c/insertion_sort.c) |\n| Go         | [insertion_sort.go](go/insertion_sort.go) |\n| TypeScript | [insertionSort.ts](typescript/insertionSort.ts) |\n| Rust       | [insertion_sort.rs](rust/insertion_sort.rs) |\n| Swift      | [InsertionSort.swift](swift/InsertionSort.swift) |\n| Kotlin     | [InsertionSort.kt](kotlin/InsertionSort.kt) |\n| Scala      | [InsertionSort.scala](scala/InsertionSort.scala) |\n| C#         | [InsertionSort.cs](csharp/InsertionSort.cs) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 2: Getting Started (Section 2.1: Insertion Sort).\n- Knuth, D. E. (1998). *The Art of Computer Programming, Volume 3: Sorting and Searching* (2nd ed.). Addison-Wesley. Section 5.2.1: Sorting by Insertion.\n- [Insertion Sort -- Wikipedia](https://en.wikipedia.org/wiki/Insertion_sort)\n"
+}

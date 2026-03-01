@@ -1,0 +1,17 @@
+name: "Sum over Subsets DP"
+slug: "sos-dp"
+category: "dynamic-programming"
+subcategory: "bitmask"
+difficulty: "advanced"
+tags: [dynamic-programming, bitmask, subset-sum, sos]
+complexity:
+  time:
+    best: "O(n * 2^n)"
+    average: "O(n * 2^n)"
+    worst: "O(n * 2^n)"
+  space: "O(2^n)"
+stable: null
+in_place: true
+related: [bitmask-dp, subset-sum]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

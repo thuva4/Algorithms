@@ -1,0 +1,17 @@
+name: "Diffie-Hellman Key Exchange"
+slug: "diffie-hellman"
+category: "cryptography"
+subcategory: "key-exchange"
+difficulty: "intermediate"
+tags: [cryptography, key-exchange, diffie-hellman, modular-exponentiation, public-key]
+complexity:
+  time:
+    best: "O(log n)"
+    average: "O(log n)"
+    worst: "O(log n)"
+  space: "O(1)"
+stable: false
+in_place: true
+related: []
+implementations: [python, go]
+visualization: false

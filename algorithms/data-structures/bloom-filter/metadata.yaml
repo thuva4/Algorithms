@@ -1,0 +1,17 @@
+name: "Bloom Filter"
+slug: "bloom-filter"
+category: "data-structures"
+subcategory: "probabilistic"
+difficulty: "intermediate"
+tags: [data-structures, bloom-filter, probabilistic, hashing, membership-test]
+complexity:
+  time:
+    best: "O(k)"
+    average: "O(k)"
+    worst: "O(k)"
+  space: "O(m)"
+stable: false
+in_place: false
+related: []
+implementations: [python]
+visualization: false

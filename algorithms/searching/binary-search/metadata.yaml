@@ -1,0 +1,21 @@
+name: "Binary Search"
+slug: "binary-search"
+category: "searching"
+subcategory: "binary"
+difficulty: "intermediate"
+tags: [searching, binary, divide-and-conquer, sorted]
+complexity:
+  time:
+    best: "O(1)"
+    average: "O(log n)"
+    worst: "O(log n)"
+  space: "O(1)"
+stable: null
+in_place: null
+related: [linear-search, ternary-search, modified-binary-search]
+implementations: [c, cpp, csharp, go, java, kotlin, python, swift, typescript]
+visualization: true
+patterns:
+  - modified-binary-search
+patternDifficulty: beginner
+practiceOrder: 1

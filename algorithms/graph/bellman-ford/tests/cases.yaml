@@ -1,0 +1,30 @@
+algorithm: "bellman-ford"
+function_signature:
+  name: "bellman_ford"
+  input: [array_of_integers]
+  output: array_of_integers
+test_cases:
+  - name: "simple weighted graph"
+    input: [4, 5, 0, 1, 4, 0, 2, 1, 2, 1, 2, 1, 3, 1, 2, 3, 5, 0]
+    expected: [0, 3, 1, 4]
+  - name: "single node"
+    input: [1, 0, 0]
+    expected: [0]
+  - name: "negative weight edges"
+    input: [4, 4, 0, 1, 1, 1, 2, -3, 2, 3, 2, 0, 3, 5, 0]
+    expected: [0, 1, -2, 0]
+  - name: "two nodes"
+    input: [2, 1, 0, 1, 7, 0]
+    expected: [0, 7]
+  - name: "linear graph"
+    input: [4, 3, 0, 1, 2, 1, 2, 3, 2, 3, 4, 0]
+    expected: [0, 2, 5, 9]
+  - name: "negative cycle detection"
+    input: [3, 3, 0, 1, 1, 1, 2, -1, 2, 0, -1, 0]
+    expected: []
+  - name: "all zero weights"
+    input: [3, 2, 0, 1, 0, 1, 2, 0, 0]
+    expected: [0, 0, 0]
+  - name: "disconnected node"
+    input: [3, 1, 0, 1, 3, 0]
+    expected: [0, 3, 1000000000]

@@ -1,0 +1,134 @@
+{
+  "name": "Levenshtein Distance",
+  "slug": "levenshtein-distance",
+  "category": "strings",
+  "subcategory": "edit-distance",
+  "difficulty": "intermediate",
+  "tags": [
+    "strings",
+    "dynamic-programming",
+    "edit-distance",
+    "levenshtein"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n * m)",
+      "average": "O(n * m)",
+      "worst": "O(n * m)"
+    },
+    "space": "O(n * m)"
+  },
+  "stable": null,
+  "in_place": false,
+  "related": [
+    "edit-distance",
+    "longest-common-subsequence"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "levenshtein_distance.c",
+          "content": "#include <stdio.h>\n#include <stdlib.h>\n#include \"levenshtein_distance.h\"\n\n/**\n * Compute the Levenshtein (edit) distance between two sequences.\n *\n * Input format: [len1, seq1..., len2, seq2...]\n * Returns: minimum number of single-element edits\n */\nint levenshtein_distance(int* arr, int size) {\n    int idx = 0;\n    int len1 = arr[idx++];\n    int* seq1 = arr + idx;\n    idx += len1;\n    int len2 = arr[idx++];\n    int* seq2 = arr + idx;\n\n    int i, j;\n    int** dp = (int**)malloc((len1 + 1) * sizeof(int*));\n    for (i = 0; i <= len1; i++) {\n        dp[i] = (int*)malloc((len2 + 1) * sizeof(int));\n    }\n\n    for (i = 0; i <= len1; i++) dp[i][0] = i;\n    for (j = 0; j <= len2; j++) dp[0][j] = j;\n\n    for (i = 1; i <= len1; i++) {\n        for (j = 1; j <= len2; j++) {\n            if (seq1[i - 1] == seq2[j - 1]) {\n                dp[i][j] = dp[i - 1][j - 1];\n            } else {\n                int del = dp[i - 1][j];\n                int ins = dp[i][j - 1];\n                int sub = dp[i - 1][j - 1];\n                int min = del;\n                if (ins < min) min = ins;\n                if (sub < min) min = sub;\n                dp[i][j] = 1 + min;\n            }\n        }\n    }\n\n    int result = dp[len1][len2];\n\n    for (i = 0; i <= len1; i++) free(dp[i]);\n    free(dp);\n\n    return result;\n}\n\nint main() {\n    int a1[] = {3, 1, 2, 3, 3, 1, 2, 4};\n    printf(\"%d\\n\", levenshtein_distance(a1, 8)); /* 1 */\n\n    int a2[] = {2, 5, 6, 2, 5, 6};\n    printf(\"%d\\n\", levenshtein_distance(a2, 6)); /* 0 */\n\n    int a3[] = {2, 1, 2, 2, 3, 4};\n    printf(\"%d\\n\", levenshtein_distance(a3, 6)); /* 2 */\n\n    int a4[] = {0, 3, 1, 2, 3};\n    printf(\"%d\\n\", levenshtein_distance(a4, 5)); /* 3 */\n\n    return 0;\n}\n"
+        },
+        {
+          "filename": "levenshtein_distance.h",
+          "content": "#ifndef LEVENSHTEIN_DISTANCE_H\n#define LEVENSHTEIN_DISTANCE_H\n\nint levenshtein_distance(int* arr, int size);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "levenshtein_distance.cpp",
+          "content": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n\n/**\n * Compute the Levenshtein (edit) distance between two sequences.\n *\n * Input format: [len1, seq1..., len2, seq2...]\n * Returns: minimum number of single-element edits\n */\nint levenshteinDistance(const vector<int>& arr) {\n    int idx = 0;\n    int len1 = arr[idx++];\n    vector<int> seq1(arr.begin() + idx, arr.begin() + idx + len1);\n    idx += len1;\n    int len2 = arr[idx++];\n    vector<int> seq2(arr.begin() + idx, arr.begin() + idx + len2);\n\n    vector<vector<int>> dp(len1 + 1, vector<int>(len2 + 1, 0));\n\n    for (int i = 0; i <= len1; i++) dp[i][0] = i;\n    for (int j = 0; j <= len2; j++) dp[0][j] = j;\n\n    for (int i = 1; i <= len1; i++) {\n        for (int j = 1; j <= len2; j++) {\n            if (seq1[i - 1] == seq2[j - 1]) {\n                dp[i][j] = dp[i - 1][j - 1];\n            } else {\n                dp[i][j] = 1 + min({dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]});\n            }\n        }\n    }\n\n    return dp[len1][len2];\n}\n\nint main() {\n    cout << levenshteinDistance({3, 1, 2, 3, 3, 1, 2, 4}) << endl; // 1\n    cout << levenshteinDistance({2, 5, 6, 2, 5, 6}) << endl;       // 0\n    cout << levenshteinDistance({2, 1, 2, 2, 3, 4}) << endl;       // 2\n    cout << levenshteinDistance({0, 3, 1, 2, 3}) << endl;          // 3\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "LevenshteinDistance.cs",
+          "content": "using System;\n\npublic class LevenshteinDistance\n{\n    /// <summary>\n    /// Compute the Levenshtein (edit) distance between two sequences.\n    /// Input format: [len1, seq1..., len2, seq2...]\n    /// </summary>\n    /// <param name=\"arr\">Input array encoding two sequences</param>\n    /// <returns>Minimum number of single-element edits</returns>\n    public static int Solve(int[] arr)\n    {\n        int idx = 0;\n        int len1 = arr[idx++];\n        int[] seq1 = new int[len1];\n        for (int i = 0; i < len1; i++) seq1[i] = arr[idx++];\n        int len2 = arr[idx++];\n        int[] seq2 = new int[len2];\n        for (int i = 0; i < len2; i++) seq2[i] = arr[idx++];\n\n        int[,] dp = new int[len1 + 1, len2 + 1];\n\n        for (int i = 0; i <= len1; i++) dp[i, 0] = i;\n        for (int j = 0; j <= len2; j++) dp[0, j] = j;\n\n        for (int i = 1; i <= len1; i++)\n        {\n            for (int j = 1; j <= len2; j++)\n            {\n                if (seq1[i - 1] == seq2[j - 1])\n                {\n                    dp[i, j] = dp[i - 1, j - 1];\n                }\n                else\n                {\n                    dp[i, j] = 1 + Math.Min(dp[i - 1, j],\n                                   Math.Min(dp[i, j - 1], dp[i - 1, j - 1]));\n                }\n            }\n        }\n\n        return dp[len1, len2];\n    }\n\n    static void Main(string[] args)\n    {\n        Console.WriteLine(Solve(new int[] { 3, 1, 2, 3, 3, 1, 2, 4 })); // 1\n        Console.WriteLine(Solve(new int[] { 2, 5, 6, 2, 5, 6 }));       // 0\n        Console.WriteLine(Solve(new int[] { 2, 1, 2, 2, 3, 4 }));       // 2\n        Console.WriteLine(Solve(new int[] { 0, 3, 1, 2, 3 }));          // 3\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "levenshtein_distance.go",
+          "content": "package main\n\nimport \"fmt\"\n\n// LevenshteinDistance computes the edit distance between two sequences.\n// Input format: [len1, seq1..., len2, seq2...]\n// Returns: minimum number of single-element edits\nfunc LevenshteinDistance(arr []int) int {\n\tidx := 0\n\tlen1 := arr[idx]; idx++\n\tseq1 := arr[idx : idx+len1]; idx += len1\n\tlen2 := arr[idx]; idx++\n\tseq2 := arr[idx : idx+len2]\n\n\tdp := make([][]int, len1+1)\n\tfor i := range dp {\n\t\tdp[i] = make([]int, len2+1)\n\t\tdp[i][0] = i\n\t}\n\tfor j := 0; j <= len2; j++ {\n\t\tdp[0][j] = j\n\t}\n\n\tfor i := 1; i <= len1; i++ {\n\t\tfor j := 1; j <= len2; j++ {\n\t\t\tif seq1[i-1] == seq2[j-1] {\n\t\t\t\tdp[i][j] = dp[i-1][j-1]\n\t\t\t} else {\n\t\t\t\tm := dp[i-1][j]\n\t\t\t\tif dp[i][j-1] < m { m = dp[i][j-1] }\n\t\t\t\tif dp[i-1][j-1] < m { m = dp[i-1][j-1] }\n\t\t\t\tdp[i][j] = 1 + m\n\t\t\t}\n\t\t}\n\t}\n\n\treturn dp[len1][len2]\n}\n\nfunc main() {\n\tfmt.Println(LevenshteinDistance([]int{3, 1, 2, 3, 3, 1, 2, 4})) // 1\n\tfmt.Println(LevenshteinDistance([]int{2, 5, 6, 2, 5, 6}))       // 0\n\tfmt.Println(LevenshteinDistance([]int{2, 1, 2, 2, 3, 4}))       // 2\n\tfmt.Println(LevenshteinDistance([]int{0, 3, 1, 2, 3}))          // 3\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "LevenshteinDistance.java",
+          "content": "public class LevenshteinDistance {\n\n    /**\n     * Compute the Levenshtein (edit) distance between two sequences.\n     *\n     * Input format: [len1, seq1..., len2, seq2...]\n     * @param arr input array encoding two sequences\n     * @return minimum number of single-element edits\n     */\n    public static int levenshteinDistance(int[] arr) {\n        int idx = 0;\n        int len1 = arr[idx++];\n        int[] seq1 = new int[len1];\n        for (int i = 0; i < len1; i++) seq1[i] = arr[idx++];\n        int len2 = arr[idx++];\n        int[] seq2 = new int[len2];\n        for (int i = 0; i < len2; i++) seq2[i] = arr[idx++];\n\n        int[][] dp = new int[len1 + 1][len2 + 1];\n\n        for (int i = 0; i <= len1; i++) dp[i][0] = i;\n        for (int j = 0; j <= len2; j++) dp[0][j] = j;\n\n        for (int i = 1; i <= len1; i++) {\n            for (int j = 1; j <= len2; j++) {\n                if (seq1[i - 1] == seq2[j - 1]) {\n                    dp[i][j] = dp[i - 1][j - 1];\n                } else {\n                    dp[i][j] = 1 + Math.min(dp[i - 1][j],\n                                   Math.min(dp[i][j - 1], dp[i - 1][j - 1]));\n                }\n            }\n        }\n\n        return dp[len1][len2];\n    }\n\n    public static void main(String[] args) {\n        System.out.println(levenshteinDistance(new int[]{3, 1, 2, 3, 3, 1, 2, 4})); // 1\n        System.out.println(levenshteinDistance(new int[]{2, 5, 6, 2, 5, 6}));       // 0\n        System.out.println(levenshteinDistance(new int[]{2, 1, 2, 2, 3, 4}));       // 2\n        System.out.println(levenshteinDistance(new int[]{0, 3, 1, 2, 3}));          // 3\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "LevenshteinDistance.kt",
+          "content": "/**\n * Compute the Levenshtein (edit) distance between two sequences.\n *\n * Input format: [len1, seq1..., len2, seq2...]\n * @param arr input array encoding two sequences\n * @return minimum number of single-element edits\n */\nfun levenshteinDistance(arr: IntArray): Int {\n    var idx = 0\n    val len1 = arr[idx++]\n    val seq1 = arr.sliceArray(idx until idx + len1); idx += len1\n    val len2 = arr[idx++]\n    val seq2 = arr.sliceArray(idx until idx + len2)\n\n    val dp = Array(len1 + 1) { IntArray(len2 + 1) }\n\n    for (i in 0..len1) dp[i][0] = i\n    for (j in 0..len2) dp[0][j] = j\n\n    for (i in 1..len1) {\n        for (j in 1..len2) {\n            if (seq1[i - 1] == seq2[j - 1]) {\n                dp[i][j] = dp[i - 1][j - 1]\n            } else {\n                dp[i][j] = 1 + minOf(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1])\n            }\n        }\n    }\n\n    return dp[len1][len2]\n}\n\nfun main() {\n    println(levenshteinDistance(intArrayOf(3, 1, 2, 3, 3, 1, 2, 4))) // 1\n    println(levenshteinDistance(intArrayOf(2, 5, 6, 2, 5, 6)))       // 0\n    println(levenshteinDistance(intArrayOf(2, 1, 2, 2, 3, 4)))       // 2\n    println(levenshteinDistance(intArrayOf(0, 3, 1, 2, 3)))          // 3\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "levenshtein_distance.py",
+          "content": "def levenshtein_distance(arr):\n    \"\"\"\n    Compute the Levenshtein (edit) distance between two sequences.\n\n    Input format: [len1, seq1..., len2, seq2...]\n    Returns: minimum number of single-element edits (insert, delete, substitute)\n    \"\"\"\n    idx = 0\n    len1 = arr[idx]; idx += 1\n    seq1 = arr[idx:idx + len1]; idx += len1\n    len2 = arr[idx]; idx += 1\n    seq2 = arr[idx:idx + len2]; idx += len2\n\n    n = len1\n    m = len2\n\n    dp = [[0] * (m + 1) for _ in range(n + 1)]\n\n    for i in range(n + 1):\n        dp[i][0] = i\n    for j in range(m + 1):\n        dp[0][j] = j\n\n    for i in range(1, n + 1):\n        for j in range(1, m + 1):\n            if seq1[i - 1] == seq2[j - 1]:\n                dp[i][j] = dp[i - 1][j - 1]\n            else:\n                dp[i][j] = 1 + min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1])\n\n    return dp[n][m]\n\n\nif __name__ == \"__main__\":\n    print(levenshtein_distance([3, 1, 2, 3, 3, 1, 2, 4]))  # 1\n    print(levenshtein_distance([2, 5, 6, 2, 5, 6]))          # 0\n    print(levenshtein_distance([2, 1, 2, 2, 3, 4]))          # 2\n    print(levenshtein_distance([0, 3, 1, 2, 3]))             # 3\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "levenshtein_distance.rs",
+          "content": "/// Compute the Levenshtein (edit) distance between two sequences.\n///\n/// Input format: [len1, seq1..., len2, seq2...]\n///\n/// # Returns\n/// Minimum number of single-element edits (insert, delete, substitute)\npub fn levenshtein_distance(arr: &[i32]) -> i32 {\n    let mut idx = 0;\n    let len1 = arr[idx] as usize; idx += 1;\n    let seq1 = &arr[idx..idx + len1]; idx += len1;\n    let len2 = arr[idx] as usize; idx += 1;\n    let seq2 = &arr[idx..idx + len2];\n\n    let mut dp = vec![vec![0i32; len2 + 1]; len1 + 1];\n\n    for i in 0..=len1 { dp[i][0] = i as i32; }\n    for j in 0..=len2 { dp[0][j] = j as i32; }\n\n    for i in 1..=len1 {\n        for j in 1..=len2 {\n            if seq1[i - 1] == seq2[j - 1] {\n                dp[i][j] = dp[i - 1][j - 1];\n            } else {\n                dp[i][j] = 1 + dp[i - 1][j].min(dp[i][j - 1]).min(dp[i - 1][j - 1]);\n            }\n        }\n    }\n\n    dp[len1][len2]\n}\n\nfn main() {\n    println!(\"{}\", levenshtein_distance(&[3, 1, 2, 3, 3, 1, 2, 4])); // 1\n    println!(\"{}\", levenshtein_distance(&[2, 5, 6, 2, 5, 6]));       // 0\n    println!(\"{}\", levenshtein_distance(&[2, 1, 2, 2, 3, 4]));       // 2\n    println!(\"{}\", levenshtein_distance(&[0, 3, 1, 2, 3]));          // 3\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "LevenshteinDistance.scala",
+          "content": "object LevenshteinDistance {\n\n  /**\n   * Compute the Levenshtein (edit) distance between two sequences.\n   *\n   * Input format: [len1, seq1..., len2, seq2...]\n   * @param arr input array encoding two sequences\n   * @return minimum number of single-element edits\n   */\n  def levenshteinDistance(arr: Array[Int]): Int = {\n    var idx = 0\n    val len1 = arr(idx); idx += 1\n    val seq1 = arr.slice(idx, idx + len1); idx += len1\n    val len2 = arr(idx); idx += 1\n    val seq2 = arr.slice(idx, idx + len2)\n\n    val dp = Array.ofDim[Int](len1 + 1, len2 + 1)\n\n    for (i <- 0 to len1) dp(i)(0) = i\n    for (j <- 0 to len2) dp(0)(j) = j\n\n    for (i <- 1 to len1) {\n      for (j <- 1 to len2) {\n        if (seq1(i - 1) == seq2(j - 1)) {\n          dp(i)(j) = dp(i - 1)(j - 1)\n        } else {\n          dp(i)(j) = 1 + math.min(dp(i - 1)(j), math.min(dp(i)(j - 1), dp(i - 1)(j - 1)))\n        }\n      }\n    }\n\n    dp(len1)(len2)\n  }\n\n  def main(args: Array[String]): Unit = {\n    println(levenshteinDistance(Array(3, 1, 2, 3, 3, 1, 2, 4))) // 1\n    println(levenshteinDistance(Array(2, 5, 6, 2, 5, 6)))       // 0\n    println(levenshteinDistance(Array(2, 1, 2, 2, 3, 4)))       // 2\n    println(levenshteinDistance(Array(0, 3, 1, 2, 3)))          // 3\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "LevenshteinDistance.swift",
+          "content": "/// Compute the Levenshtein (edit) distance between two sequences.\n///\n/// Input format: [len1, seq1..., len2, seq2...]\n/// - Parameter arr: input array encoding two sequences\n/// - Returns: minimum number of single-element edits\nfunc levenshteinDistance(_ arr: [Int]) -> Int {\n    var idx = 0\n    let len1 = arr[idx]; idx += 1\n    let seq1 = Array(arr[idx..<idx + len1]); idx += len1\n    let len2 = arr[idx]; idx += 1\n    let seq2 = Array(arr[idx..<idx + len2])\n\n    var dp = Array(repeating: Array(repeating: 0, count: len2 + 1), count: len1 + 1)\n\n    for i in 0...len1 { dp[i][0] = i }\n    for j in 0...len2 { dp[0][j] = j }\n\n    if len1 > 0 && len2 > 0 {\n        for i in 1...len1 {\n            for j in 1...len2 {\n                if seq1[i - 1] == seq2[j - 1] {\n                    dp[i][j] = dp[i - 1][j - 1]\n                } else {\n                    dp[i][j] = 1 + min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1])\n                }\n            }\n        }\n    }\n\n    return dp[len1][len2]\n}\n\nprint(levenshteinDistance([3, 1, 2, 3, 3, 1, 2, 4])) // 1\nprint(levenshteinDistance([2, 5, 6, 2, 5, 6]))       // 0\nprint(levenshteinDistance([2, 1, 2, 2, 3, 4]))       // 2\nprint(levenshteinDistance([0, 3, 1, 2, 3]))          // 3\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "levenshteinDistance.ts",
+          "content": "/**\n * Compute the Levenshtein (edit) distance between two sequences.\n *\n * Input format: [len1, seq1..., len2, seq2...]\n * @param arr - input array encoding two sequences\n * @returns minimum number of single-element edits\n */\nexport function levenshteinDistance(arr: number[]): number {\n    let idx = 0;\n    const len1 = arr[idx++];\n    const seq1 = arr.slice(idx, idx + len1); idx += len1;\n    const len2 = arr[idx++];\n    const seq2 = arr.slice(idx, idx + len2);\n\n    const dp: number[][] = Array.from({ length: len1 + 1 }, () =>\n        new Array(len2 + 1).fill(0)\n    );\n\n    for (let i = 0; i <= len1; i++) dp[i][0] = i;\n    for (let j = 0; j <= len2; j++) dp[0][j] = j;\n\n    for (let i = 1; i <= len1; i++) {\n        for (let j = 1; j <= len2; j++) {\n            if (seq1[i - 1] === seq2[j - 1]) {\n                dp[i][j] = dp[i - 1][j - 1];\n            } else {\n                dp[i][j] = 1 + Math.min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]);\n            }\n        }\n    }\n\n    return dp[len1][len2];\n}\n\nconsole.log(levenshteinDistance([3, 1, 2, 3, 3, 1, 2, 4])); // 1\nconsole.log(levenshteinDistance([2, 5, 6, 2, 5, 6]));       // 0\nconsole.log(levenshteinDistance([2, 1, 2, 2, 3, 4]));       // 2\nconsole.log(levenshteinDistance([0, 3, 1, 2, 3]));          // 3\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Levenshtein Distance\n\n## Overview\n\nThe Levenshtein distance (also known as edit distance) between two sequences is the minimum number of single-element edits -- insertions, deletions, or substitutions -- required to transform one sequence into the other. Introduced by Vladimir Levenshtein in 1965, it is a fundamental metric in computer science used to quantify how dissimilar two sequences are. The algorithm uses dynamic programming to efficiently compute this distance.\n\n## How It Works\n\n1. Create a matrix `dp` of size `(m+1) x (n+1)`, where `m` and `n` are the lengths of the two sequences.\n2. Initialize the first row as `0, 1, 2, ..., n` (cost of inserting all elements of the second sequence) and the first column as `0, 1, 2, ..., m` (cost of deleting all elements of the first sequence).\n3. Fill each cell `dp[i][j]` using the recurrence:\n   - If `seq1[i-1] == seq2[j-1]`: `dp[i][j] = dp[i-1][j-1]` (no edit needed)\n   - Otherwise: `dp[i][j] = 1 + min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1])` (minimum of delete, insert, or substitute)\n4. The answer is `dp[m][n]`.\n\nInput format: `[len1, arr1..., len2, arr2...]`\n\n## Worked Example\n\nGiven sequences A = `[1, 2, 3]` and B = `[1, 3, 4]`:\n\nBuild the DP matrix:\n\n```\n      \"\"  1   3   4\n\"\"  [  0,  1,  2,  3 ]\n 1  [  1,  0,  1,  2 ]\n 2  [  2,  1,  1,  2 ]\n 3  [  3,  2,  1,  2 ]\n```\n\n- `dp[1][1] = 0`: elements match (1 == 1)\n- `dp[2][2] = 1`: min(dp[1][2]+1, dp[2][1]+1, dp[1][1]+1) = min(2, 2, 1) = 1 (substitute 2 -> 3)\n- `dp[3][3] = 2`: min(dp[2][3]+1, dp[3][2]+1, dp[2][2]+1) = min(3, 2, 2) = 2 (substitute 3 -> 4)\n\n**Result:** 2 (substitute 2 -> 3, substitute 3 -> 4)\n\n## Pseudocode\n\n```\nfunction levenshteinDistance(seq1, seq2):\n    m = length(seq1)\n    n = length(seq2)\n    dp = matrix of size (m + 1) x (n + 1)\n\n    for i from 0 to m:\n        dp[i][0] = i\n    for j from 0 to n:\n        dp[0][j] = j\n\n    for i from 1 to m:\n        for j from 1 to n:\n            if seq1[i - 1] == seq2[j - 1]:\n                dp[i][j] = dp[i - 1][j - 1]\n            else:\n                dp[i][j] = 1 + min(\n                    dp[i - 1][j],      // deletion\n                    dp[i][j - 1],      // insertion\n                    dp[i - 1][j - 1]   // substitution\n                )\n\n    return dp[m][n]\n```\n\n## Complexity Analysis\n\n| Case    | Time     | Space    |\n|---------|----------|----------|\n| Best    | O(n * m) | O(n * m) |\n| Average | O(n * m) | O(n * m) |\n| Worst   | O(n * m) | O(n * m) |\n\n- **Time O(n * m):** Every cell in the matrix must be filled, with each requiring O(1) work.\n- **Space O(n * m):** The full DP matrix is stored. This can be optimized to O(min(n, m)) by keeping only two rows at a time if only the distance (not the edit sequence) is needed.\n- Note: If the sequences are identical, the algorithm still fills the entire matrix, so there is no improved best case.\n\n## When to Use\n\n- Spell checking and autocorrect systems\n- DNA and protein sequence alignment in bioinformatics\n- Fuzzy string matching for search engines\n- Plagiarism detection systems\n- Record linkage and data deduplication\n- Natural language processing for measuring word similarity\n- Diff tools for comparing file versions\n\n## When NOT to Use\n\n- **Very long sequences (n, m > 10,000):** The O(n*m) time and space become prohibitive. Use approximate or heuristic methods like banded edit distance, or specialized algorithms like Myers' bit-parallel algorithm.\n- **When only a similarity threshold matters:** If you only need to know whether the distance is below a threshold k, use the bounded Levenshtein distance which runs in O(n*k) time.\n- **When operations have different costs:** Standard Levenshtein assigns cost 1 to all operations. If transpositions should also be allowed, use Damerau-Levenshtein distance. For weighted operations, use a generalized edit distance.\n- **Comparing very similar long sequences:** Consider suffix arrays or longest common subsequence if the metric definition better fits your use case.\n\n## Comparison\n\n| Algorithm                | Operations Allowed                  | Time     | Space    |\n|--------------------------|-------------------------------------|----------|----------|\n| Levenshtein Distance     | Insert, Delete, Substitute          | O(n * m) | O(n * m) |\n| Damerau-Levenshtein      | Insert, Delete, Substitute, Swap    | O(n * m) | O(n * m) |\n| Longest Common Subsequence| Insert, Delete (no substitution)   | O(n * m) | O(n * m) |\n| Hamming Distance         | Substitute only (equal-length only) | O(n)     | O(1)     |\n| Jaro-Winkler             | Transpositions (similarity score)   | O(n * m) | O(n)     |\n\nLevenshtein distance is the most general-purpose edit distance metric. Damerau-Levenshtein adds support for transpositions (swapping adjacent characters), which is useful for typo correction. Hamming distance is restricted to equal-length sequences but is much faster.\n\n## References\n\n- Levenshtein, V.I. (1966). \"Binary codes capable of correcting deletions, insertions, and reversals.\" *Soviet Physics Doklady*, 10(8), 707-710.\n- Wagner, R.A. and Fischer, M.J. (1974). \"The String-to-String Correction Problem.\" *Journal of the ACM*, 21(1), 168-173.\n- Cormen, T.H., Leiserson, C.E., Rivest, R.L., and Stein, C. (2009). *Introduction to Algorithms* (3rd ed.), Chapter 15 (Dynamic Programming). MIT Press.\n- Navarro, G. (2001). \"A Guided Tour to Approximate String Matching.\" *ACM Computing Surveys*, 33(1), 31-88.\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [levenshtein_distance.py](python/levenshtein_distance.py) |\n| Java       | [LevenshteinDistance.java](java/LevenshteinDistance.java) |\n| C++        | [levenshtein_distance.cpp](cpp/levenshtein_distance.cpp) |\n| C          | [levenshtein_distance.c](c/levenshtein_distance.c) |\n| Go         | [levenshtein_distance.go](go/levenshtein_distance.go) |\n| TypeScript | [levenshteinDistance.ts](typescript/levenshteinDistance.ts) |\n| Rust       | [levenshtein_distance.rs](rust/levenshtein_distance.rs) |\n| Kotlin     | [LevenshteinDistance.kt](kotlin/LevenshteinDistance.kt) |\n| Swift      | [LevenshteinDistance.swift](swift/LevenshteinDistance.swift) |\n| Scala      | [LevenshteinDistance.scala](scala/LevenshteinDistance.scala) |\n| C#         | [LevenshteinDistance.cs](csharp/LevenshteinDistance.cs) |\n"
+}

@@ -1,0 +1,17 @@
+name: "Longest Common Subsequence"
+slug: "longest-common-subsequence"
+category: "dynamic-programming"
+subcategory: "sequences"
+difficulty: "intermediate"
+tags: [dynamic-programming, sequences, string, tabulation]
+complexity:
+  time:
+    best: "O(mn)"
+    average: "O(mn)"
+    worst: "O(mn)"
+  space: "O(mn)"
+stable: null
+in_place: null
+related: [longest-increasing-subsequence, edit-distance, sequence-alignment]
+implementations: [c, cpp, java, typescript, python]
+visualization: true

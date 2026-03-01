@@ -1,0 +1,15 @@
+name: "Closest Pair of Points"
+slug: "closest-pair-of-points"
+category: "geometry"
+subcategory: "divide-and-conquer"
+difficulty: "intermediate"
+tags: [geometry, divide-and-conquer, distance, computational-geometry]
+complexity:
+  time:
+    best: "O(n log n)"
+    average: "O(n log n)"
+    worst: "O(n log n)"
+  space: "O(n)"
+related: [convex-hull, line-intersection]
+implementations: [python, java, cpp, c, go, typescript, kotlin, rust, swift, scala, csharp]
+visualization: false

@@ -1,0 +1,171 @@
+{
+  "name": "Quick Sort",
+  "slug": "quick-sort",
+  "category": "sorting",
+  "subcategory": "comparison-based",
+  "difficulty": "intermediate",
+  "tags": [
+    "sorting",
+    "comparison",
+    "in-place",
+    "divide-and-conquer"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n log n)",
+      "average": "O(n log n)",
+      "worst": "O(n^2)"
+    },
+    "space": "O(log n)"
+  },
+  "stable": false,
+  "in_place": true,
+  "related": [
+    "merge-sort",
+    "heap-sort"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "QuickSort.c",
+          "content": "#include<stdio.h>\nvoid quicksort(int number[25],int first,int last){\n   int i, j, pivot, temp;\n\n   if(first<last){\n      pivot=first;\n      i=first;\n      j=last;\n\n      while(i<j){\n         while(number[i]<=number[pivot]&&i<last)\n            i++;\n         while(number[j]>number[pivot])\n            j--;\n         if(i<j){\n            temp=number[i];\n            number[i]=number[j];\n            number[j]=temp;\n         }\n      }\n\n      temp=number[pivot];\n      number[pivot]=number[j];\n      number[j]=temp;\n      quicksort(number,first,j-1);\n      quicksort(number,j+1,last);\n\n   }\n}\n\nint main(){\n   int i, count, number[25];\n\n   printf(\"How many elements are u going to enter?: \");\n   scanf(\"%d\",&count);\n\n   printf(\"Enter %d elements: \", count);\n   for(i=0;i<count;i++)\n      scanf(\"%d\",&number[i]);\n\n   quicksort(number,0,count-1);\n\n   printf(\"Order of Sorted elements: \");\n   for(i=0;i<count;i++)\n      printf(\" %d\",number[i]);\n\n   return 0;\n}\n"
+        },
+        {
+          "filename": "QuickSortV2.c",
+          "content": "#include<stdio.h>\nvoid quicksort(int number[25],int first,int last){\n   int i, j, pivot, temp;\n\n   if(first<last){\n      pivot=first;\n      i=first;\n      j=last;\n\n      while(i<j){\n         while(number[i]<=number[pivot]&&i<last)\n            i++;\n         while(number[j]>number[pivot])\n            j--;\n         if(i<j){\n            temp=number[i];\n            number[i]=number[j];\n            number[j]=temp;\n         }\n      }\n\n      temp=number[pivot];\n      number[pivot]=number[j];\n      number[j]=temp;\n      quicksort(number,first,j-1);\n      quicksort(number,j+1,last);\n\n   }\n}\n\nint main(){\n   int i, count, number[25];\n\n   printf(\"How many elements are u going to enter?: \");\n   scanf(\"%d\",&count);\n\n   printf(\"Enter %d elements: \", count);\n   for(i=0;i<count;i++)\n      scanf(\"%d\",&number[i]);\n\n   quicksort(number,0,count-1);\n\n   printf(\"Order of Sorted elements: \");\n   for(i=0;i<count;i++)\n      printf(\" %d\",number[i]);\n\n   return 0;\n}\n"
+        },
+        {
+          "filename": "quick_sort.c",
+          "content": "#include \"quick_sort.h\"\n#include <stdio.h>\n\n// Helper function to swap two elements\nstatic void swap(int* a, int* b) {\n    int t = *a;\n    *a = *b;\n    *b = t;\n}\n\n// Partition function using Lomuto partition scheme\nstatic int partition(int arr[], int low, int high) {\n    int pivot = arr[high];\n    int i = (low - 1);\n    \n    for (int j = low; j <= high - 1; j++) {\n        if (arr[j] < pivot) {\n            i++;\n            swap(&arr[i], &arr[j]);\n        }\n    }\n    swap(&arr[i + 1], &arr[high]);\n    return (i + 1);\n}\n\nstatic void quick_sort_recursive(int arr[], int low, int high) {\n    if (low < high) {\n        int pi = partition(arr, low, high);\n        \n        quick_sort_recursive(arr, low, pi - 1);\n        quick_sort_recursive(arr, pi + 1, high);\n    }\n}\n\nvoid quick_sort(int arr[], int n) {\n    if (n > 0) {\n        quick_sort_recursive(arr, 0, n - 1);\n    }\n}\n"
+        },
+        {
+          "filename": "quick_sort.h",
+          "content": "#ifndef QUICK_SORT_H\n#define QUICK_SORT_H\n\nvoid quick_sort(int arr[], int n);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "QuickSort.cpp",
+          "content": "#include <iostream>\n\nusing namespace std;\n\nvoid quicksort(int num[21],int first,int last){\n   int i, j, pivot, temp;\n\n   if(first<last){\n      pivot=first;\n      i=first;\n      j=last;\n\n      while(i<j){\n         while(num[i]<=num[pivot]&&i<last)\n            i++;\n         while(num[j]>num[pivot])\n            j--;\n         if(i<j){\n            temp=num[i];\n            num[i]=num[j];\n            num[j]=temp;\n         }\n      }\n      temp=num[pivot];\n      num[pivot]=num[j];\n      num[j]=temp;\n      quicksort(num,first,j-1);\n      quicksort(num,j+1,last);\n\n   }\n}\n\nint main(){\n   int i, count, num[21];\n\n   cout<<\"Enter the number of elements you wanna enter: \";\n   cin>>count;\n\n   cout<<\"Enter your \"<<count<<\" elements: \";\n   for(i=0;i<count;i++)\n      cin>>num[i];\n\n   quicksort(num,0,count-1);\n\n   cout<<\"Quick Sorted elements: \";\n   for(i=0;i<count;i++)\n      cout<<num[i]<<\",\";\n   return 0;\n}\n"
+        },
+        {
+          "filename": "quick_sort.cpp",
+          "content": "#include \"quick_sort.h\"\n#include <vector>\n#include <algorithm>\n\n// Partition function using Lomuto partition scheme\nstatic int partition(std::vector<int>& arr, int low, int high) {\n    int pivot = arr[high];\n    int i = (low - 1);\n    \n    for (int j = low; j <= high - 1; j++) {\n        if (arr[j] < pivot) {\n            i++;\n            std::swap(arr[i], arr[j]);\n        }\n    }\n    std::swap(arr[i + 1], arr[high]);\n    return (i + 1);\n}\n\nstatic void quick_sort_recursive(std::vector<int>& arr, int low, int high) {\n    if (low < high) {\n        int pi = partition(arr, low, high);\n        \n        quick_sort_recursive(arr, low, pi - 1);\n        quick_sort_recursive(arr, pi + 1, high);\n    }\n}\n\nvoid quick_sort(std::vector<int>& arr) {\n    if (!arr.empty()) {\n        quick_sort_recursive(arr, 0, arr.size() - 1);\n    }\n}\n"
+        },
+        {
+          "filename": "quick_sort.h",
+          "content": "#ifndef QUICK_SORT_H\n#define QUICK_SORT_H\n\n#include <vector>\n\nvoid quick_sort(std::vector<int>& arr);\n\n#endif\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "QuickSort.cs",
+          "content": "using System;\n\nnamespace Algorithms.Sorting.QuickSort\n{\n    public class QuickSort\n    {\n        public static void Sort(int[] arr)\n        {\n            if (arr != null && arr.Length > 0)\n            {\n                Sort(arr, 0, arr.Length - 1);\n            }\n        }\n\n        private static void Sort(int[] arr, int low, int high)\n        {\n            if (low < high)\n            {\n                int pi = Partition(arr, low, high);\n\n                Sort(arr, low, pi - 1);\n                Sort(arr, pi + 1, high);\n            }\n        }\n\n        private static int Partition(int[] arr, int low, int high)\n        {\n            int pivot = arr[high];\n            int i = (low - 1);\n\n            for (int j = low; j < high; j++)\n            {\n                if (arr[j] < pivot)\n                {\n                    i++;\n                    Swap(arr, i, j);\n                }\n            }\n            Swap(arr, i + 1, high);\n            return i + 1;\n        }\n\n        private static void Swap(int[] arr, int i, int j)\n        {\n            int temp = arr[i];\n            arr[i] = arr[j];\n            arr[j] = temp;\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "QuickSort.go",
+          "content": "package quick-sort\n\nfunc sort(arr []int) []int {\n\tvar recurse func(left int, right int)\n\tvar partition func(left int, right int, pivot int) int\n\n\tpartition = func(left int, right int, pivot int) int {\n\t\tv := arr[pivot]\n\t\tright--\n\t\tarr[pivot], arr[right] = arr[right], arr[pivot]\n\n\t\tfor i := left; i < right; i++ {\n\t\t\tif arr[i] <= v {\n\t\t\t\tarr[i], arr[left] = arr[left], arr[i]\n\t\t\t\tleft++\n\t\t\t}\n\t\t}\n\n\t\tarr[left], arr[right] = arr[right], arr[left]\n\t\treturn left\n\t}\n\n\trecurse = func(left int, right int) {\n\t\tif left < right {\n\t\t\tpivot := (right + left) / 2\n\t\t\tpivot = partition(left, right, pivot)\n\t\t\trecurse(left, pivot)\n\t\t\trecurse(pivot+1, right)\n\t\t}\n\t}\n\n\trecurse(0, len(arr))\n\treturn arr\n}"
+        },
+        {
+          "filename": "quick_sort.go",
+          "content": "package quicksort\n\n// QuickSort sorts an array of integers using the Quick Sort algorithm.\nfunc QuickSort(arr []int) {\n\tif len(arr) > 0 {\n\t\tquickSortRecursive(arr, 0, len(arr)-1)\n\t}\n}\n\nfunc quickSortRecursive(arr []int, low, high int) {\n\tif low < high {\n\t\tpi := partition(arr, low, high)\n\t\tquickSortRecursive(arr, low, pi-1)\n\t\tquickSortRecursive(arr, pi+1, high)\n\t}\n}\n\nfunc partition(arr []int, low, high int) int {\n\tpivot := arr[high]\n\ti := low - 1\n\tfor j := low; j < high; j++ {\n\t\tif arr[j] < pivot {\n\t\t\ti++\n\t\t\tarr[i], arr[j] = arr[j], arr[i]\n\t\t}\n\t}\n\tarr[i+1], arr[high] = arr[high], arr[i+1]\n\treturn i + 1\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "QuickSort.java",
+          "content": "package algorithms.sorting.quicksort;\n\npublic class QuickSort {\n    public static void sort(int[] arr) {\n        if (arr == null || arr.length == 0) {\n            return;\n        }\n        quickSort(arr, 0, arr.length - 1);\n    }\n\n    private static void quickSort(int[] arr, int low, int high) {\n        if (low < high) {\n            int pi = partition(arr, low, high);\n            quickSort(arr, low, pi - 1);\n            quickSort(arr, pi + 1, high);\n        }\n    }\n\n    private static int partition(int[] arr, int low, int high) {\n        int pivot = arr[high];\n        int i = (low - 1);\n        for (int j = low; j < high; j++) {\n            if (arr[j] < pivot) {\n                i++;\n                int temp = arr[i];\n                arr[i] = arr[j];\n                arr[j] = temp;\n            }\n        }\n\n        int temp = arr[i + 1];\n        arr[i + 1] = arr[high];\n        arr[high] = temp;\n\n        return i + 1;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "QuickSort.kt",
+          "content": "package algorithms.sorting.quicksort\n\nclass QuickSort {\n    fun sort(arr: IntArray) {\n        if (arr.isNotEmpty()) {\n            quickSort(arr, 0, arr.size - 1)\n        }\n    }\n\n    private fun quickSort(arr: IntArray, low: Int, high: Int) {\n        if (low < high) {\n            val pi = partition(arr, low, high)\n            quickSort(arr, low, pi - 1)\n            quickSort(arr, pi + 1, high)\n        }\n    }\n\n    private fun partition(arr: IntArray, low: Int, high: Int): Int {\n        val pivot = arr[high]\n        var i = (low - 1)\n        for (j in low until high) {\n            if (arr[j] < pivot) {\n                i++\n                val temp = arr[i]\n                arr[i] = arr[j]\n                arr[j] = temp\n            }\n        }\n        val temp = arr[i + 1]\n        arr[i + 1] = arr[high]\n        arr[high] = temp\n        return i + 1\n    }\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "QuickSort.py",
+          "content": "def quicksort(array, startIndex, endIndex):\n    if startIndex < endIndex:\n        middle = partition(array, startIndex, endIndex)\n        quicksort(array, startIndex, middle - 1)\n        quicksort(array, middle + 1, endIndex)\n    return array\n\ndef partition(array, startIndex, endIndex):\n    pivot = startIndex + (endIndex - startIndex) // 2;\n    pivotIndex = startIndex\n    array[pivot], array[endIndex] = array[endIndex], array[pivot]\n\n    for i in range(startIndex, endIndex):\n        if array[i] < array[endIndex]:\n            array[pivotIndex], array[i] = array[i], array[pivotIndex]\n            pivotIndex += 1\n\n    array[endIndex], array[pivotIndex] = array[pivotIndex], array[endIndex]\n    return pivotIndex\n\nif __name__ == '__main__':\n    arr = [97, 200, 100, 101, 211, 107]\n    print(\"My array is:\\n\", [x for x in arr])\n    print(\"\\nMy sorted array is: \")\n    print(quicksort(arr, 0, len(arr) - 1))\n"
+        },
+        {
+          "filename": "quick_sort.py",
+          "content": "def quick_sort(arr):\n    if arr:\n        _quick_sort(arr, 0, len(arr) - 1)\n    return arr\n\ndef _quick_sort(arr, low, high):\n    if low < high:\n        pi = _partition(arr, low, high)\n        \n        _quick_sort(arr, low, pi - 1)\n        _quick_sort(arr, pi + 1, high)\n\ndef _partition(arr, low, high):\n    pivot = arr[high]\n    i = (low - 1)\n    \n    for j in range(low, high):\n        if arr[j] < pivot:\n            i += 1\n            arr[i], arr[j] = arr[j], arr[i]\n            \n    arr[i + 1], arr[high] = arr[high], arr[i + 1]\n    return (i + 1)\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "quick_sort.rs",
+          "content": "pub fn quick_sort(arr: &mut [i32]) {\n    if !arr.is_empty() {\n        let len = arr.len();\n        _quick_sort(arr, 0, (len - 1) as isize);\n    }\n}\n\nfn _quick_sort(arr: &mut [i32], low: isize, high: isize) {\n    if low < high {\n        let pi = partition(arr, low, high);\n        \n        _quick_sort(arr, low, pi - 1);\n        _quick_sort(arr, pi + 1, high);\n    }\n}\n\nfn partition(arr: &mut [i32], low: isize, high: isize) -> isize {\n    let pivot = arr[high as usize];\n    let mut i = low - 1;\n    \n    for j in low..high {\n        if arr[j as usize] < pivot {\n            i += 1;\n            arr.swap(i as usize, j as usize);\n        }\n    }\n    arr.swap((i + 1) as usize, high as usize);\n    return i + 1;\n}\n"
+        },
+        {
+          "filename": "quicksort.rs",
+          "content": "mod sort {\n\n    pub fn quicksort<T: Ord>(arr: &mut [T]) {\n        let length = arr.len();\n        quicksort_step(arr, 0, (length as isize) - 1);\n    }\n\n\n    fn quicksort_step<T: Ord>(arr: &mut [T], lo: isize, hi: isize) {\n        if lo < hi {\n            let pivot = lomuto_partiton(arr, lo, hi);\n            quicksort_step(arr, lo, pivot - 1);\n            quicksort_step(arr, pivot + 1, hi);\n        }\n    }\n\n    fn lomuto_partiton<T: Ord>(arr: &mut [T], lo: isize, hi: isize) -> isize {\n        let mut i = lo - 1;\n        let mut j = lo;\n\n        while j < hi - 1 {\n            if arr[j as usize] < arr[hi as usize] {\n                i = i + 1;\n                arr.swap(i as usize, j as usize);\n            }\n            j = j + 1;\n        }\n\n        if arr[hi as usize] < arr[(i + 1) as usize] {\n            arr.swap(hi as usize, (i + 1) as usize);\n        }\n\n        return i + 1;\n    }\n}\n\nfn main() {\n    let mut arr = [3, 7, 8, 5, 2, 1, 9, 5, 4];\n\n    sort::quicksort(&mut arr);\n\n    println!(\"{:?}\", arr);\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "QuickSort.scala",
+          "content": "object QuickSort {\n  def sort(arr: Array[Int]): Unit = {\n    if (arr.nonEmpty) {\n      quickSort(arr, 0, arr.length - 1)\n    }\n  }\n\n  private def quickSort(arr: Array[Int], low: Int, high: Int): Unit = {\n    if (low < high) {\n      val pi = partition(arr, low, high)\n\n      quickSort(arr, low, pi - 1)\n      quickSort(arr, pi + 1, high)\n    }\n  }\n\n  private def partition(arr: Array[Int], low: Int, high: Int): Int = {\n    val pivot = arr(high)\n    var i = (low - 1)\n\n    for (j <- low until high) {\n      if (arr(j) < pivot) {\n        i += 1\n        val temp = arr(i)\n        arr(i) = arr(j)\n        arr(j) = temp\n      }\n    }\n\n    val temp = arr(i + 1)\n    arr(i + 1) = arr(high)\n    arr(high) = temp\n\n    return i + 1\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "QuickSort.swift",
+          "content": "class QuickSort {\n    static func sort(_ arr: inout [Int]) {\n        if !arr.isEmpty {\n            quickSort(&arr, 0, arr.count - 1)\n        }\n    }\n\n    private static func quickSort(_ arr: inout [Int], _ low: Int, _ high: Int) {\n        if low < high {\n            let pi = partition(&arr, low, high)\n\n            quickSort(&arr, low, pi - 1)\n            quickSort(&arr, pi + 1, high)\n        }\n    }\n\n    private static func partition(_ arr: inout [Int], _ low: Int, _ high: Int) -> Int {\n        let pivot = arr[high]\n        var i = (low - 1)\n\n        for j in low..<high {\n            if arr[j] < pivot {\n                i += 1\n                arr.swapAt(i, j)\n            }\n        }\n        arr.swapAt(i + 1, high)\n        return i + 1\n    }\n}\n\nfunc quickSort(_ arr: [Int]) -> [Int] {\n    var result = arr\n    QuickSort.sort(&result)\n    return result\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "index.js",
+          "content": "/**\n   * Sort array using quick sort\n   * @param {Array} arr - The array to partition.\n   * @param {Number} left - The left index of the array.\n   * @param {Number} right - The right index of the array.\n   * @return {Number} Sorted array.\n  **/\nconst quickSort = (arr, left = 0, right = arr.length - 1) => {\n  if (left < right) {\n    const pivot = partition(arr, left, right);\n    quickSort(arr, left, pivot - 1);\n    quickSort(arr, pivot + 1, right);\n  }\n  return arr;\n};\n\n/**\n * Partition array using pivot\n * @param {Array} arr - The array to partition.\n * @param {Number} left - The left index of the array.\n * @param {Number} right - The right index of the array.\n * @return {Number} The index of the pivot.\n */\nconst partition = (arr, left, right) => {\n  const pivot = arr[right];\n  let i = left;\n  for (let j = left; j < right; j++) {\n    if (arr[j] <= pivot) {\n      swap(arr, i, j);\n      i++;\n    }\n  }\n  swap(arr, i, right);\n  return i;\n};\n\n/**\n * Swap two elements in an array\n * @param {Array} arr - The array to swap.\n * @param {Number} i - The first index.\n * @param {Number} j - The second index.\n */\nconst swap = (arr, i, j) => {\n  const temp = arr[i];\n  arr[i] = arr[j];\n  arr[j] = temp;\n};\n\nmodule.exports = quickSort;\n\n"
+        },
+        {
+          "filename": "quick-sort.ts",
+          "content": "export function quickSort(arr: number[]): number[] {\n  if (arr.length > 0) {\n    quickSortRecursive(arr, 0, arr.length - 1);\n  }\n  return arr;\n}\n\nfunction quickSortRecursive(arr: number[], low: number, high: number): void {\n  if (low < high) {\n    const pi = partition(arr, low, high);\n\n    quickSortRecursive(arr, low, pi - 1);\n    quickSortRecursive(arr, pi + 1, high);\n  }\n}\n\nfunction partition(arr: number[], low: number, high: number): number {\n  const pivot = arr[high];\n  let i = low - 1;\n\n  for (let j = low; j < high; j++) {\n    if (arr[j] < pivot) {\n      i++;\n      [arr[i], arr[j]] = [arr[j], arr[i]];\n    }\n  }\n  [arr[i + 1], arr[high]] = [arr[high], arr[i + 1]];\n  return i + 1;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "patterns": [
+    "two-pointers"
+  ],
+  "patternDifficulty": "intermediate",
+  "practiceOrder": 3,
+  "readme": "# Quick Sort\n\n## Overview\n\nQuick Sort is a highly efficient, comparison-based sorting algorithm that uses the divide-and-conquer strategy. It works by selecting a \"pivot\" element, partitioning the array into elements less than and greater than the pivot, and then recursively sorting the partitions. Developed by Tony Hoare in 1959, Quick Sort is one of the most widely used sorting algorithms in practice.\n\nQuick Sort is generally the fastest comparison-based sorting algorithm in practice due to excellent cache locality and low constant factors, despite having a theoretical worst-case of O(n^2). With good pivot selection strategies (such as median-of-three or randomized pivots), the worst case is extremely rare.\n\n## How It Works\n\nQuick Sort selects a pivot element from the array, then partitions the remaining elements into two groups: those less than or equal to the pivot and those greater than the pivot. The pivot is placed in its final sorted position, and the algorithm recursively sorts the two partitions. Unlike Merge Sort, the work is done during the partitioning step rather than during the combining step.\n\n### Example\n\nGiven input: `[5, 3, 8, 1, 2]` (using last element as pivot)\n\n**Level 1:** Pivot = `2`\n\n| Step | Action | Array State |\n|------|--------|-------------|\n| 1 | Compare `5` with pivot `2` | `5 > 2`, stays in right partition |\n| 2 | Compare `3` with pivot `2` | `3 > 2`, stays in right partition |\n| 3 | Compare `8` with pivot `2` | `8 > 2`, stays in right partition |\n| 4 | Compare `1` with pivot `2` | `1 < 2`, swap `1` to left partition |\n| 5 | Place pivot `2` in correct position | `[1, 2, 8, 3, 5]` |\n\nAfter partition: `[1]` `2` `[8, 3, 5]` -- `2` is in its final position (index 1).\n\n**Level 2a:** Left subarray `[1]` -- single element, already sorted.\n\n**Level 2b:** Right subarray `[8, 3, 5]`, Pivot = `5`\n\n| Step | Action | Array State |\n|------|--------|-------------|\n| 1 | Compare `8` with pivot `5` | `8 > 5`, stays in right partition |\n| 2 | Compare `3` with pivot `5` | `3 < 5`, swap `3` to left partition |\n| 3 | Place pivot `5` in correct position | `[3, 5, 8]` |\n\nAfter partition: `[3]` `5` `[8]` -- `5` is in its final position.\n\n**Level 3:** Both `[3]` and `[8]` are single elements, already sorted.\n\nResult: `[1, 2, 3, 5, 8]`\n\n## Pseudocode\n\n```\nfunction quickSort(array, low, high):\n    if low < high:\n        pivotIndex = partition(array, low, high)\n        quickSort(array, low, pivotIndex - 1)\n        quickSort(array, pivotIndex + 1, high)\n\nfunction partition(array, low, high):\n    pivot = array[high]\n    i = low - 1\n\n    for j from low to high - 1:\n        if array[j] <= pivot:\n            i = i + 1\n            swap(array[i], array[j])\n\n    swap(array[i + 1], array[high])\n    return i + 1\n```\n\nThis uses the Lomuto partition scheme with the last element as pivot. The Hoare partition scheme is an alternative that generally performs fewer swaps. Randomized pivot selection can be added by swapping a random element to the `high` position before partitioning.\n\n## Complexity Analysis\n\n| Case    | Time       | Space    |\n|---------|------------|----------|\n| Best    | O(n log n) | O(log n) |\n| Average | O(n log n) | O(log n) |\n| Worst   | O(n^2)     | O(log n) |\n\n**Why these complexities?**\n\n- **Best Case -- O(n log n):** When the pivot always divides the array into two roughly equal halves, the recursion tree has log n levels. Each level requires O(n) work for partitioning, giving O(n log n) total. This occurs when the pivot is consistently near the median.\n\n- **Average Case -- O(n log n):** Even when partitions are not perfectly balanced, the expected depth of the recursion tree is O(log n). Mathematically, the average number of comparisons is approximately 1.39 * n * log2(n), which is only 39% more comparisons than the best case. Random pivot selection ensures this average case is achieved regardless of input order.\n\n- **Worst Case -- O(n^2):** When the pivot is consistently the smallest or largest element (e.g., picking the first element of an already-sorted array), the partition produces one empty subarray and one of size n-1. This gives n levels of recursion with O(n) work each, resulting in n + (n-1) + ... + 1 = n(n-1)/2 comparisons, which is O(n^2). This is rare with good pivot selection strategies.\n\n- **Space -- O(log n):** Quick Sort is in-place (it does not create copies of the array), but the recursion stack requires space. In the best and average case, the recursion depth is O(log n). In the worst case, the stack depth could be O(n), but tail-call optimization (sorting the smaller partition first) guarantees O(log n) stack space even in the worst case.\n\n## When to Use\n\n- **General-purpose sorting:** Quick Sort is the default choice for many standard library sort implementations (e.g., C's `qsort`, Java's `Arrays.sort` for primitives) due to its excellent average-case performance.\n- **When average-case speed matters most:** Quick Sort's low constant factors and good cache locality make it faster in practice than Merge Sort or Heap Sort for most inputs.\n- **In-place sorting with limited memory:** Quick Sort sorts in-place with only O(log n) auxiliary space for the recursion stack, unlike Merge Sort's O(n) extra space.\n- **When data fits in memory:** Quick Sort's random access pattern works well with arrays in RAM.\n\n## When NOT to Use\n\n- **When worst-case guarantees are needed:** Quick Sort's O(n^2) worst case (however rare) is unacceptable in safety-critical or real-time systems. Use Merge Sort or Heap Sort instead.\n- **When stability is required:** Standard Quick Sort is not stable. If preserving the relative order of equal elements matters, use Merge Sort.\n- **Sorting linked lists:** Quick Sort's performance advantage relies on random access, which linked lists do not provide efficiently. Merge Sort is better for linked lists.\n- **Adversarial inputs:** Without randomized pivot selection, a malicious input can trigger the O(n^2) worst case. This is a concern in web servers or other systems processing untrusted data.\n\n## Comparison with Similar Algorithms\n\n| Algorithm      | Time (avg)  | Space    | Stable | Notes                                       |\n|----------------|------------|----------|--------|---------------------------------------------|\n| Quick Sort     | O(n log n) | O(log n) | No     | Fastest in practice; O(n^2) worst case       |\n| Merge Sort     | O(n log n) | O(n)     | Yes    | Guaranteed O(n log n); stable; needs extra space |\n| Heap Sort      | O(n log n) | O(1)     | No     | In-place and guaranteed O(n log n); slower in practice |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [QuickSort.py](python/QuickSort.py) |\n| Java       | [QuickSort.java](java/QuickSort.java) |\n| C++        | [QuickSort.cpp](cpp/QuickSort.cpp) |\n| C          | [QuickSort.c](c/QuickSort.c) |\n| Go         | [QuickSort.go](go/QuickSort.go) |\n| TypeScript | [index.js](typescript/index.js) |\n| Kotlin     | [QuickSort.kt](kotlin/QuickSort.kt) |\n| Rust       | [quicksort.rs](rust/quicksort.rs) |\n| Swift      | [QuickSort.swift](swift/QuickSort.swift) |\n| Scala      | [QuickSort.scala](scala/QuickSort.scala) |\n| C#         | [QuickSort.cs](csharp/QuickSort.cs) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 7: Quicksort.\n- Knuth, D. E. (1998). *The Art of Computer Programming, Volume 3: Sorting and Searching* (2nd ed.). Addison-Wesley. Section 5.2.2: Sorting by Exchanging.\n- Hoare, C. A. R. (1962). \"Quicksort.\" *The Computer Journal*, 5(1), 10-16.\n- [Quicksort -- Wikipedia](https://en.wikipedia.org/wiki/Quicksort)\n"
+}

@@ -1,0 +1,140 @@
+{
+  "name": "All Topological Orderings",
+  "slug": "topological-sort-all",
+  "category": "graph",
+  "subcategory": "ordering",
+  "difficulty": "advanced",
+  "tags": [
+    "graph",
+    "topological-sort",
+    "backtracking",
+    "enumeration",
+    "dag"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(V! * V)",
+      "average": "O(V! * V)",
+      "worst": "O(V! * V)"
+    },
+    "space": "O(V + E)"
+  },
+  "stable": null,
+  "in_place": false,
+  "related": [
+    "topological-sort",
+    "topological-sort-kahn"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "topological_sort_all.c",
+          "content": "#include \"topological_sort_all.h\"\n#include <string.h>\n\n#define MAX_V 20\nstatic int adj[MAX_V][MAX_V], adj_count[MAX_V];\nstatic int in_deg[MAX_V], visited[MAX_V];\nstatic int n_g, count_g;\n\nstatic void backtrack(int placed) {\n    if (placed == n_g) { count_g++; return; }\n    for (int v = 0; v < n_g; v++) {\n        if (!visited[v] && in_deg[v] == 0) {\n            visited[v] = 1;\n            for (int i = 0; i < adj_count[v]; i++) in_deg[adj[v][i]]--;\n            backtrack(placed + 1);\n            visited[v] = 0;\n            for (int i = 0; i < adj_count[v]; i++) in_deg[adj[v][i]]++;\n        }\n    }\n}\n\nint topological_sort_all(int arr[], int size) {\n    n_g = arr[0];\n    int m = arr[1];\n    memset(adj_count, 0, sizeof(int) * n_g);\n    memset(in_deg, 0, sizeof(int) * n_g);\n    memset(visited, 0, sizeof(int) * n_g);\n    for (int i = 0; i < m; i++) {\n        int u = arr[2 + 2 * i], v = arr[2 + 2 * i + 1];\n        adj[u][adj_count[u]++] = v;\n        in_deg[v]++;\n    }\n    count_g = 0;\n    backtrack(0);\n    return count_g;\n}\n"
+        },
+        {
+          "filename": "topological_sort_all.h",
+          "content": "#ifndef TOPOLOGICAL_SORT_ALL_H\n#define TOPOLOGICAL_SORT_ALL_H\n\nint topological_sort_all(int arr[], int size);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "topological_sort_all.cpp",
+          "content": "#include <vector>\nusing namespace std;\n\nstatic vector<vector<int>> adj_ta;\nstatic vector<int> inDeg_ta;\nstatic vector<bool> visited_ta;\nstatic int n_ta, count_ta;\n\nstatic void backtrack(int placed) {\n    if (placed == n_ta) { count_ta++; return; }\n    for (int v = 0; v < n_ta; v++) {\n        if (!visited_ta[v] && inDeg_ta[v] == 0) {\n            visited_ta[v] = true;\n            for (int w : adj_ta[v]) inDeg_ta[w]--;\n            backtrack(placed + 1);\n            visited_ta[v] = false;\n            for (int w : adj_ta[v]) inDeg_ta[w]++;\n        }\n    }\n}\n\nint topological_sort_all(vector<int> arr) {\n    n_ta = arr[0];\n    int m = arr[1];\n    adj_ta.assign(n_ta, vector<int>());\n    inDeg_ta.assign(n_ta, 0);\n    visited_ta.assign(n_ta, false);\n    for (int i = 0; i < m; i++) {\n        int u = arr[2 + 2 * i], v = arr[2 + 2 * i + 1];\n        adj_ta[u].push_back(v);\n        inDeg_ta[v]++;\n    }\n    count_ta = 0;\n    backtrack(0);\n    return count_ta;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "TopologicalSortAll.cs",
+          "content": "using System;\nusing System.Collections.Generic;\n\npublic class TopologicalSortAll\n{\n    private static List<int>[] adj;\n    private static int[] inDeg;\n    private static bool[] visited;\n    private static int n, count;\n\n    public static int Solve(int[] arr)\n    {\n        n = arr[0]; int m = arr[1];\n        adj = new List<int>[n];\n        for (int i = 0; i < n; i++) adj[i] = new List<int>();\n        inDeg = new int[n];\n        for (int i = 0; i < m; i++)\n        {\n            int u = arr[2 + 2 * i], v = arr[2 + 2 * i + 1];\n            adj[u].Add(v); inDeg[v]++;\n        }\n        visited = new bool[n];\n        count = 0;\n        Backtrack(0);\n        return count;\n    }\n\n    private static void Backtrack(int placed)\n    {\n        if (placed == n) { count++; return; }\n        for (int v = 0; v < n; v++)\n        {\n            if (!visited[v] && inDeg[v] == 0)\n            {\n                visited[v] = true;\n                foreach (int w in adj[v]) inDeg[w]--;\n                Backtrack(placed + 1);\n                visited[v] = false;\n                foreach (int w in adj[v]) inDeg[w]++;\n            }\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "topological_sort_all.go",
+          "content": "package topologicalsortall\n\nfunc TopologicalSortAll(arr []int) int {\n\tn := arr[0]\n\tm := arr[1]\n\tadj := make([][]int, n)\n\tfor i := 0; i < n; i++ { adj[i] = []int{} }\n\tinDeg := make([]int, n)\n\tfor i := 0; i < m; i++ {\n\t\tu := arr[2+2*i]; v := arr[2+2*i+1]\n\t\tadj[u] = append(adj[u], v)\n\t\tinDeg[v]++\n\t}\n\tvisited := make([]bool, n)\n\tcount := 0\n\n\tvar backtrack func(placed int)\n\tbacktrack = func(placed int) {\n\t\tif placed == n { count++; return }\n\t\tfor v := 0; v < n; v++ {\n\t\t\tif !visited[v] && inDeg[v] == 0 {\n\t\t\t\tvisited[v] = true\n\t\t\t\tfor _, w := range adj[v] { inDeg[w]-- }\n\t\t\t\tbacktrack(placed + 1)\n\t\t\t\tvisited[v] = false\n\t\t\t\tfor _, w := range adj[v] { inDeg[w]++ }\n\t\t\t}\n\t\t}\n\t}\n\n\tbacktrack(0)\n\treturn count\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "TopologicalSortAll.java",
+          "content": "import java.util.*;\n\npublic class TopologicalSortAll {\n\n    private static List<List<Integer>> adj;\n    private static int[] inDeg;\n    private static boolean[] visited;\n    private static int n, count;\n\n    public static int topologicalSortAll(int[] arr) {\n        n = arr[0];\n        int m = arr[1];\n        adj = new ArrayList<>();\n        for (int i = 0; i < n; i++) adj.add(new ArrayList<>());\n        inDeg = new int[n];\n        for (int i = 0; i < m; i++) {\n            int u = arr[2 + 2 * i], v = arr[2 + 2 * i + 1];\n            adj.get(u).add(v);\n            inDeg[v]++;\n        }\n        visited = new boolean[n];\n        count = 0;\n        backtrack(0);\n        return count;\n    }\n\n    private static void backtrack(int placed) {\n        if (placed == n) { count++; return; }\n        for (int v = 0; v < n; v++) {\n            if (!visited[v] && inDeg[v] == 0) {\n                visited[v] = true;\n                for (int w : adj.get(v)) inDeg[w]--;\n                backtrack(placed + 1);\n                visited[v] = false;\n                for (int w : adj.get(v)) inDeg[w]++;\n            }\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "TopologicalSortAll.kt",
+          "content": "fun topologicalSortAll(arr: IntArray): Int {\n    val n = arr[0]; val m = arr[1]\n    val adj = Array(n) { mutableListOf<Int>() }\n    val inDeg = IntArray(n)\n    for (i in 0 until m) {\n        val u = arr[2 + 2 * i]; val v = arr[2 + 2 * i + 1]\n        adj[u].add(v); inDeg[v]++\n    }\n    val visited = BooleanArray(n)\n    var count = 0\n\n    fun backtrack(placed: Int) {\n        if (placed == n) { count++; return }\n        for (v in 0 until n) {\n            if (!visited[v] && inDeg[v] == 0) {\n                visited[v] = true\n                for (w in adj[v]) inDeg[w]--\n                backtrack(placed + 1)\n                visited[v] = false\n                for (w in adj[v]) inDeg[w]++\n            }\n        }\n    }\n\n    backtrack(0)\n    return count\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "topological_sort_all.py",
+          "content": "def topological_sort_all(arr: list[int]) -> int:\n    n = arr[0]\n    m = arr[1]\n    adj = [[] for _ in range(n)]\n    in_deg = [0] * n\n    for i in range(m):\n        u = arr[2 + 2 * i]\n        v = arr[2 + 2 * i + 1]\n        adj[u].append(v)\n        in_deg[v] += 1\n\n    visited = [False] * n\n    count = [0]\n\n    def backtrack(placed):\n        if placed == n:\n            count[0] += 1\n            return\n        for v in range(n):\n            if not visited[v] and in_deg[v] == 0:\n                visited[v] = True\n                for w in adj[v]:\n                    in_deg[w] -= 1\n                backtrack(placed + 1)\n                visited[v] = False\n                for w in adj[v]:\n                    in_deg[w] += 1\n\n    backtrack(0)\n    return count[0]\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "topological_sort_all.rs",
+          "content": "pub fn topological_sort_all(arr: &[i32]) -> i32 {\n    let n = arr[0] as usize;\n    let m = arr[1] as usize;\n    let mut adj = vec![vec![]; n];\n    let mut in_deg = vec![0i32; n];\n    for i in 0..m {\n        let u = arr[2 + 2 * i] as usize;\n        let v = arr[2 + 2 * i + 1] as usize;\n        adj[u].push(v);\n        in_deg[v] += 1;\n    }\n    let mut visited = vec![false; n];\n    let mut count = 0i32;\n\n    fn backtrack(\n        placed: usize, n: usize, adj: &[Vec<usize>], in_deg: &mut [i32],\n        visited: &mut [bool], count: &mut i32,\n    ) {\n        if placed == n { *count += 1; return; }\n        for v in 0..n {\n            if !visited[v] && in_deg[v] == 0 {\n                visited[v] = true;\n                for &w in &adj[v] { in_deg[w] -= 1; }\n                backtrack(placed + 1, n, adj, in_deg, visited, count);\n                visited[v] = false;\n                for &w in &adj[v] { in_deg[w] += 1; }\n            }\n        }\n    }\n\n    backtrack(0, n, &adj, &mut in_deg, &mut visited, &mut count);\n    count\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "TopologicalSortAll.scala",
+          "content": "object TopologicalSortAll {\n\n  def topologicalSortAll(arr: Array[Int]): Int = {\n    val n = arr(0); val m = arr(1)\n    val adj = Array.fill(n)(scala.collection.mutable.ListBuffer[Int]())\n    val inDeg = Array.fill(n)(0)\n    for (i <- 0 until m) {\n      val u = arr(2 + 2 * i); val v = arr(2 + 2 * i + 1)\n      adj(u) += v; inDeg(v) += 1\n    }\n    val visited = Array.fill(n)(false)\n    var count = 0\n\n    def backtrack(placed: Int): Unit = {\n      if (placed == n) { count += 1; return }\n      for (v <- 0 until n) {\n        if (!visited(v) && inDeg(v) == 0) {\n          visited(v) = true\n          for (w <- adj(v)) inDeg(w) -= 1\n          backtrack(placed + 1)\n          visited(v) = false\n          for (w <- adj(v)) inDeg(w) += 1\n        }\n      }\n    }\n\n    backtrack(0)\n    count\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "TopologicalSortAll.swift",
+          "content": "func topologicalSortAll(_ arr: [Int]) -> Int {\n    let n = arr[0]; let m = arr[1]\n    var adj = [[Int]](repeating: [], count: n)\n    var inDeg = [Int](repeating: 0, count: n)\n    for i in 0..<m {\n        let u = arr[2 + 2 * i], v = arr[2 + 2 * i + 1]\n        adj[u].append(v); inDeg[v] += 1\n    }\n    var visited = [Bool](repeating: false, count: n)\n    var count = 0\n\n    func backtrack(_ placed: Int) {\n        if placed == n { count += 1; return }\n        for v in 0..<n {\n            if !visited[v] && inDeg[v] == 0 {\n                visited[v] = true\n                for w in adj[v] { inDeg[w] -= 1 }\n                backtrack(placed + 1)\n                visited[v] = false\n                for w in adj[v] { inDeg[w] += 1 }\n            }\n        }\n    }\n\n    backtrack(0)\n    return count\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "topologicalSortAll.ts",
+          "content": "export function topologicalSortAll(arr: number[]): number {\n    const n = arr[0];\n    const m = arr[1];\n    const adj: number[][] = Array.from({ length: n }, () => []);\n    const inDeg = new Array(n).fill(0);\n    for (let i = 0; i < m; i++) {\n        const u = arr[2 + 2 * i], v = arr[2 + 2 * i + 1];\n        adj[u].push(v);\n        inDeg[v]++;\n    }\n    const visited = new Array(n).fill(false);\n    let count = 0;\n\n    function backtrack(placed: number): void {\n        if (placed === n) { count++; return; }\n        for (let v = 0; v < n; v++) {\n            if (!visited[v] && inDeg[v] === 0) {\n                visited[v] = true;\n                for (const w of adj[v]) inDeg[w]--;\n                backtrack(placed + 1);\n                visited[v] = false;\n                for (const w of adj[v]) inDeg[w]++;\n            }\n        }\n    }\n\n    backtrack(0);\n    return count;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "patterns": [
+    "topological-sort"
+  ],
+  "patternDifficulty": "intermediate",
+  "practiceOrder": 2,
+  "readme": "# All Topological Orderings\n\n## Overview\n\nThis algorithm enumerates all valid topological orderings of a directed acyclic graph (DAG) using backtracking. Unlike standard topological sort which produces one ordering, this counts every possible linear extension of the partial order defined by the DAG. The number of topological orderings is an important measure of the flexibility or ambiguity in a scheduling problem: more orderings mean more scheduling freedom.\n\n## How It Works\n\n1. Compute in-degrees for all vertices.\n2. At each step, choose any vertex with in-degree 0 that has not been placed yet.\n3. Place it in the ordering, decrease in-degrees of its neighbors.\n4. Recurse to place the next vertex.\n5. Backtrack: restore in-degrees and try the next available vertex with in-degree 0.\n6. Count complete orderings when all vertices are placed.\n\nThe algorithm explores all possible choices at each step using backtracking, systematically generating every valid ordering.\n\nInput format: [n, m, u1, v1, ...]. Output: count of distinct topological orderings.\n\n## Example\n\nConsider a DAG with 4 vertices and edges:\n\n```\n0 -> 1,  0 -> 2,  1 -> 3,  2 -> 3\n```\n\nInput: `[4, 4, 0,1, 0,2, 1,3, 2,3]`\n\n**In-degrees:** vertex 0: 0, vertex 1: 1, vertex 2: 1, vertex 3: 2\n\n**Backtracking tree:**\n\n```\nStep 1: Only vertex 0 has in-degree 0. Place 0.\n  Update in-degrees: vertex 1: 0, vertex 2: 0, vertex 3: 2\n\nStep 2: Vertices 1 and 2 both have in-degree 0.\n  Branch A: Place 1.\n    Update: vertex 3: 1\n    Step 3: Only vertex 2 has in-degree 0. Place 2.\n      Update: vertex 3: 0\n      Step 4: Place 3.  --> Ordering: [0, 1, 2, 3]\n\n  Branch B: Place 2.\n    Update: vertex 3: 1\n    Step 3: Only vertex 1 has in-degree 0. Place 1.\n      Update: vertex 3: 0\n      Step 4: Place 3.  --> Ordering: [0, 2, 1, 3]\n```\n\nResult: **2** distinct topological orderings.\n\n## Pseudocode\n\n```\nfunction countAllTopologicalOrders(n, edges):\n    adj = adjacency list from edges\n    in_degree = array of size n, computed from edges\n    visited = array of size n, initialized to false\n    count = 0\n\n    function backtrack(placed):\n        if placed == n:\n            count++\n            return\n\n        for v from 0 to n - 1:\n            if not visited[v] and in_degree[v] == 0:\n                // Choose v\n                visited[v] = true\n                for each neighbor w of v:\n                    in_degree[w] -= 1\n\n                backtrack(placed + 1)\n\n                // Undo (backtrack)\n                visited[v] = false\n                for each neighbor w of v:\n                    in_degree[w] += 1\n\n    backtrack(0)\n    return count\n```\n\n## Complexity Analysis\n\n| Case    | Time       | Space    |\n|---------|------------|----------|\n| Best    | O(V! * V)  | O(V + E) |\n| Average | O(V! * V)  | O(V + E) |\n| Worst   | O(V! * V)  | O(V + E) |\n\nIn the worst case (a graph with no edges), every permutation of V vertices is a valid topological ordering, so there are V! orderings to enumerate. At each step, we scan up to V vertices to find those with in-degree 0, giving O(V) per step and O(V * V!) total. In practice, edges constrain the choices heavily, and the actual number of orderings is typically much smaller than V!.\n\n## When to Use\n\n- **Schedule enumeration:** When you need to know all valid execution orders for a set of tasks with dependencies (e.g., course prerequisites, build systems).\n- **Counting linear extensions:** In combinatorics, the number of topological orderings equals the number of linear extensions of the partial order, which is of theoretical interest.\n- **Symmetry detection:** Comparing the count of orderings for different DAGs can reveal structural similarities.\n- **Small DAGs in competitive programming:** Problems that ask for the count of valid orderings on small graphs (n <= 15-20).\n- **Verification and testing:** Generating all valid orderings to verify that a particular ordering is indeed valid.\n\n## When NOT to Use\n\n- **Large graphs:** The factorial blowup makes this impractical for graphs with more than about 20 vertices. For large graphs, count topological orderings using DP over subsets (O(2^n * n)) or use approximation methods.\n- **When only one ordering is needed:** Standard Kahn's algorithm or DFS-based topological sort in O(V + E) is far more efficient for finding a single ordering.\n- **When an exact count is not needed:** If you only need an estimate of the number of orderings, sampling or approximation techniques are better suited.\n- **Graphs with cycles:** Topological ordering is only defined for DAGs. The algorithm will produce zero orderings if the graph contains a cycle.\n\n## Comparison\n\n| Algorithm                    | Time          | Space    | Output                          |\n|------------------------------|---------------|----------|---------------------------------|\n| All orderings (this)         | O(V! * V)     | O(V + E) | Count of all valid orderings   |\n| Kahn's algorithm             | O(V + E)      | O(V + E) | One valid ordering             |\n| DFS-based topological sort   | O(V + E)      | O(V + E) | One valid ordering             |\n| DP over subsets              | O(2^n * n)    | O(2^n)   | Exact count (no enumeration)   |\n| Parallel topological sort    | O(V + E)      | O(V + E) | Layered ordering with rounds   |\n\nFor counting orderings on small graphs, this backtracking approach is straightforward. For larger graphs where only the count is needed (not enumeration), the DP-over-subsets approach with bitmask DP is exponential but avoids the factorial factor.\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [topological_sort_all.py](python/topological_sort_all.py) |\n| Java       | [TopologicalSortAll.java](java/TopologicalSortAll.java) |\n| C++        | [topological_sort_all.cpp](cpp/topological_sort_all.cpp) |\n| C          | [topological_sort_all.c](c/topological_sort_all.c) |\n| Go         | [topological_sort_all.go](go/topological_sort_all.go) |\n| TypeScript | [topologicalSortAll.ts](typescript/topologicalSortAll.ts) |\n| Rust       | [topological_sort_all.rs](rust/topological_sort_all.rs) |\n| Kotlin     | [TopologicalSortAll.kt](kotlin/TopologicalSortAll.kt) |\n| Swift      | [TopologicalSortAll.swift](swift/TopologicalSortAll.swift) |\n| Scala      | [TopologicalSortAll.scala](scala/TopologicalSortAll.scala) |\n| C#         | [TopologicalSortAll.cs](csharp/TopologicalSortAll.cs) |\n\n## References\n\n- Knuth, D. E. (2005). *The Art of Computer Programming, Volume 4A: Combinatorial Algorithms, Part 1*. Addison-Wesley. Section 7.2.1.2: Generating all permutations.\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 22.4: Topological Sort.\n- [Topological sorting -- Wikipedia](https://en.wikipedia.org/wiki/Topological_sorting)\n"
+}

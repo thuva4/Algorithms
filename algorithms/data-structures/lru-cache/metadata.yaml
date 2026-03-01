@@ -1,0 +1,21 @@
+name: "LRU Cache"
+slug: "lru-cache"
+category: "data-structures"
+subcategory: "cache"
+difficulty: "intermediate"
+tags: [data-structures, cache, hash-map, linked-list]
+complexity:
+  time:
+    best: "O(1)"
+    average: "O(1)"
+    worst: "O(1)"
+  space: "O(n)"
+stable: false
+in_place: true
+related: [hash-table, linked-list-operations]
+implementations: [python, java, cpp, c, go, typescript, kotlin, rust, swift, scala, csharp]
+visualization: false
+patterns:
+  - in-place-reversal-linkedlist
+patternDifficulty: intermediate
+practiceOrder: 2

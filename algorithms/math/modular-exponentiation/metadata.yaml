@@ -1,0 +1,15 @@
+name: "Modular Exponentiation"
+slug: "modular-exponentiation"
+category: "math"
+subcategory: "number-theory"
+difficulty: "intermediate"
+tags: [math, modular-arithmetic, exponentiation, fast-power, number-theory]
+complexity:
+  time:
+    best: "O(log exp)"
+    average: "O(log exp)"
+    worst: "O(log exp)"
+  space: "O(1)"
+related: [matrix-exponentiation, greatest-common-divisor, primality-tests]
+implementations: [python, java, cpp, c, go, typescript, kotlin, rust, swift, scala, csharp]
+visualization: true

@@ -1,0 +1,17 @@
+name: "Tarjan's Offline LCA"
+slug: "tarjans-offline-lca"
+category: "trees"
+subcategory: "lowest-common-ancestor"
+difficulty: "advanced"
+tags: [trees, lca, tarjan, union-find, offline-algorithm]
+complexity:
+  time:
+    best: "O(n + q)"
+    average: "O(n * alpha(n) + q)"
+    worst: "O(n * alpha(n) + q)"
+  space: "O(n)"
+stable: false
+in_place: false
+related: [heavy-light-decomposition, binary-tree]
+implementations: [cpp]
+visualization: false

@@ -1,0 +1,17 @@
+name: "Longest Palindromic Subsequence"
+slug: "longest-palindromic-subsequence"
+category: "dynamic-programming"
+subcategory: "subsequence"
+difficulty: "intermediate"
+tags: [dynamic-programming, palindrome, subsequence]
+complexity:
+  time:
+    best: "O(n^2)"
+    average: "O(n^2)"
+    worst: "O(n^2)"
+  space: "O(n^2)"
+stable: null
+in_place: null
+related: [longest-common-subsequence, longest-increasing-subsequence]
+implementations: [python, java, cpp, c, go, typescript, kotlin, rust, swift, scala, csharp]
+visualization: false

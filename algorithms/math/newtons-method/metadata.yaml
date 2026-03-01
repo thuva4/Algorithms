@@ -1,0 +1,15 @@
+name: "Newton's Method (Integer Square Root)"
+slug: "newtons-method"
+category: "math"
+subcategory: "numerical-methods"
+difficulty: "intermediate"
+tags: [math, numerical, newton-raphson, square-root, approximation]
+complexity:
+  time:
+    best: "O(log n)"
+    average: "O(log n)"
+    worst: "O(log n)"
+  space: "O(1)"
+related: [binary-gcd, primality-tests]
+implementations: [python, java, cpp, c, go, typescript, kotlin, rust, swift, scala, csharp]
+visualization: true

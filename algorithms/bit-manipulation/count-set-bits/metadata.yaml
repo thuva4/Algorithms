@@ -1,0 +1,19 @@
+name: "Count Set Bits"
+slug: "count-set-bits"
+category: "bit-manipulation"
+subcategory: "counting"
+difficulty: "beginner"
+tags: [bit-manipulation, counting, popcount, hamming-weight]
+complexity:
+  time:
+    best: "O(n * k)"
+    average: "O(n * k)"
+    worst: "O(n * k)"
+  space: "O(1)"
+related: [hamming-distance, xor-swap]
+implementations: [python, java, cpp, c, go, typescript, kotlin, rust, swift, scala, csharp]
+visualization: true
+patterns:
+  - bitwise-xor
+patternDifficulty: beginner
+practiceOrder: 2

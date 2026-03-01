@@ -1,0 +1,17 @@
+name: "Minimum Spanning Arborescence (Edmonds/Chu-Liu)"
+slug: "minimum-spanning-arborescence"
+category: "graph"
+subcategory: "spanning-tree"
+difficulty: "advanced"
+tags: [graph, directed, minimum-spanning-tree, arborescence, edmonds, chu-liu]
+complexity:
+  time:
+    best: "O(EV)"
+    average: "O(EV)"
+    worst: "O(EV)"
+  space: "O(V + E)"
+stable: null
+in_place: false
+related: [kruskals-algorithm, prims]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

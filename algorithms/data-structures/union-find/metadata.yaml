@@ -1,0 +1,17 @@
+name: "Union-Find"
+slug: "union-find"
+category: "data-structures"
+subcategory: "disjoint-set"
+difficulty: "intermediate"
+tags: [data-structures, union-find, disjoint-set, path-compression, union-by-rank]
+complexity:
+  time:
+    best: "O(1)"
+    average: "O(alpha(n))"
+    worst: "O(alpha(n))"
+  space: "O(n)"
+stable: false
+in_place: false
+related: [tarjans-offline-lca]
+implementations: [python, java, c]
+visualization: true

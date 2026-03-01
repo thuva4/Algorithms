@@ -1,0 +1,21 @@
+name: "Fibonacci Search"
+slug: "fibonacci-search"
+category: "searching"
+subcategory: "sorted-array"
+difficulty: "intermediate"
+tags: [searching, sorted, fibonacci, comparison, divide-and-conquer]
+complexity:
+  time:
+    best: "O(1)"
+    average: "O(log n)"
+    worst: "O(log n)"
+  space: "O(1)"
+stable: null
+in_place: true
+related: [binary-search, interpolation-search]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false
+patterns:
+  - modified-binary-search
+patternDifficulty: intermediate
+practiceOrder: 5

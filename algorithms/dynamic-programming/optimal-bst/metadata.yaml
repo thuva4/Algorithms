@@ -1,0 +1,15 @@
+name: "Optimal Binary Search Tree"
+slug: "optimal-bst"
+category: "dynamic-programming"
+subcategory: "trees"
+difficulty: "advanced"
+tags: [dynamic-programming, bst, optimization, trees]
+complexity:
+  time:
+    best: "O(n^3)"
+    average: "O(n^3)"
+    worst: "O(n^3)"
+  space: "O(n^2)"
+related: [knapsack, matrix-chain-multiplication]
+implementations: [python, java, cpp, c, go, typescript, kotlin, rust, swift, scala, csharp]
+visualization: false

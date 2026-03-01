@@ -1,0 +1,147 @@
+{
+  "name": "Kadane's Algorithm",
+  "slug": "kadanes",
+  "category": "dynamic-programming",
+  "subcategory": "sequences",
+  "difficulty": "beginner",
+  "tags": [
+    "dynamic-programming",
+    "sequences",
+    "subarray",
+    "maximum-sum"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "average": "O(n)",
+      "worst": "O(n)"
+    },
+    "space": "O(1)"
+  },
+  "stable": null,
+  "in_place": null,
+  "related": [
+    "longest-increasing-subsequence",
+    "longest-bitonic-subsequence"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "Kadanes.c",
+          "content": "#include <limits.h>\n\nint KadaneAlgo(int ar[], int size) {\n    if (size <= 0) {\n        return 0;\n    }\n\n    int maximum = ar[0];\n    int current = ar[0];\n    for (int i = 1; i < size; i++) {\n        current = (current + ar[i] > ar[i]) ? current + ar[i] : ar[i];\n        maximum = (maximum > current) ? maximum : current;\n    }\n    return maximum;\n}\n\nint kadane(int ar[], int size) {\n    return KadaneAlgo(ar, size);\n}\n"
+        },
+        {
+          "filename": "Kadanes_robertpoziumschi.c",
+          "content": "#include <stdio.h>\n#include <limits.h>\n\nint main() {\n\tint v[] = {-2, -3, 4, -1, -2, 1, 5, -3};\n\tint currentMax = 0, globalMax = INT_MIN;\n\tint size = sizeof(v) / sizeof(v[0]);\n\tfor (int i = 0; i < size; i ++) {\n\t\tcurrentMax += v[i];\n\t\tglobalMax = globalMax < currentMax ? currentMax : globalMax;\n\n\t\tif (currentMax < 0) {\n\t\t\tcurrentMax = 0;\n\t\t}\n\t}\n\tprintf(\"Max sum is %d\\n\", globalMax);\n\treturn 0;\n}"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "Kadane_largest_contiguous_array.cpp",
+          "content": "// C++ program to print largest contiguous array sum\n#include <bits/stdc++.h>\nusing namespace std;\n\nint maxSubArraySum(int a[], int size)\n{\n\tint max_so_far = INT_MIN, max_ending_here = 0;\n\n\tfor (int i = 0; i < size; i++) {\n\t\tmax_ending_here = max_ending_here + a[i];\n\t\tif (max_so_far < max_ending_here)\n\t\t\tmax_so_far = max_ending_here;\n\n\t\tif (max_ending_here < 0)\n\t\t\tmax_ending_here = 0;\n\t}\n\treturn max_so_far;\n}\n\n// Driver Code\nint main()\n{\n\tint a[] = { -2, -3, 4, -1, -2, 1, 5, -3 };\n\tint n = sizeof(a) / sizeof(a[0]);\n\n\t// Function Call\n\tint max_sum = maxSubArraySum(a, n);\n\tcout << \"Maximum contiguous sum is \" << max_sum;\n\treturn 0;\n}\n"
+        },
+        {
+          "filename": "Kadanes.cpp",
+          "content": "#include<bits/stdc++.h>\nusing namespace std;\nint main(){\n\tvector<int> v={-2,-1,-5,3,7,-2,5,11,-10,-20,11};\n\tint n=v.size();\n\tint mini=*min_element(v.begin(),v.end());\n\tint maxval=mini,curval=mini;\n\tfor(int i=0;i<n;i++){\n\t\tcurval=max(curval+v[i],v[i]);\n\t\tmaxval=max(maxval,curval);\n\t}\n\tcout<<\"Maximum Subarray Sum = \"<<maxval<<endl;\n}"
+        },
+        {
+          "filename": "kadanes_without_STL.cpp",
+          "content": "// Sourav Verma (SrGrace)\n\n\n#include<bits/stdc++.h>\nusing namespace std;\n\nint main()\n{\n    // Fast I/O\n    ios_base::sync_with_stdio(false); cin.tie(nullptr);\n    \n    int a[] = {-2, -3, 4, -1, -2, 1, 5, -3};\n    int n = sizeof(a)/sizeof(a[0]);\n    \n    int max_so_far = a[0], max_ending_here = a[0];\n    \n    for(int i=0; i<n; i++) {\n        max_ending_here = max(a[i], max_ending_here + a[i]);\n        max_so_far = max(max_so_far, max_ending_here);\n    }\n    \n    cout<<\"Maximum Subarray Sum = \"<<max_so_far<<\"\\n\";\n      \n    return 0;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "Kadanes.cs",
+          "content": "﻿using System;\nusing System.Collections.Generic;\nusing System.IO;\nusing System.Linq;\n\nnamespace Solution\n{\n    class Solution\n    {\n        static long MaxSubArraySum(long[] arr)\n        {\n            long currentCount = 0;\n            long maxCount = Int64.MinValue;\n            for (int i = 0; i < arr.Length; i++)\n            {\n                currentCount += arr[i];\n                if (currentCount > maxCount)\n                {\n                    maxCount = currentCount;\n                }\n                if (currentCount < 0)\n                {\n                    currentCount = 0;\n                }\n            }\n\n            return maxCount;\n        }\n\n        static void Main(string[] args)\n        {\n            long[] arr = { 1, 2, 3,-5,7,8,9};\n            long maxSubArraySum = MaxSubArraySum(arr);\n            Console.WriteLine(maxSubArraySum);\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "Kadanes.go",
+          "content": "package main\n\nimport (\n\t\"fmt\"\n)\n\nfunc Max(x, y int64) int64 {\n\tif x > y {\n\t\treturn x\n\t}\n\treturn y\n}\n\nfunc Kadane(arr []int64) int64 {\n\tvar maxSoFar, maxEnding int64 = 0, 0\n\tfor _, x := range arr {\n\t\tmaxEnding = Max(0, maxEnding + x)\n\t\tmaxSoFar = Max(maxSoFar, maxEnding)\n\t}\n\treturn maxSoFar\n}\n\nfunc main() {\n\tarr := []int64{-2, -3, 4, -1, -2, 1, 5, -3}\n\tfmt.Printf(\"Max contiguous sum is %d\", Kadane(arr))\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "Kadane.java",
+          "content": "import java.util.Arrays;\n\n\npublic class Kadane {\n\n\tpublic static int maxSum(int[] arr) {\n\t\tint maxEndingHere = arr[0];\n\t\tint maxSoFar = arr[0];\n\t\tfor (int i = 1; i < arr.length; i++) {\n\t\t\tint x = arr[i];\n\t\t\tmaxEndingHere = Math.max(x, maxEndingHere + x);\n\t\t\tmaxSoFar = Math.max(maxSoFar, maxEndingHere);\n\t\t}\n\t\treturn maxSoFar;\n\t}\n\n\tpublic static int[] maxSumSubarray(int[] arr) {\n\t\tint maxSum = 0;\n\t\tint maxStart = 0;\n\t\tint maxEnd = 0;\n\t\tint sum = 0;\n\t\tint start = 0;\n\t\tfor (int i = 0; i < arr.length; i++) {\n\t\t\tsum += arr[i];\n\t\t\tif (sum <= 0 && arr[i] < 0) { \n\t\t\t\tsum = 0;\n\t\t\t\tstart = i + 1; \n\t\t\t} else if (sum > maxSum) {\n\t\t\t\tmaxSum = sum;\n\t\t\t\tmaxStart = start;\n\t\t\t\tmaxEnd = i + 1;\n\t\t\t}\n\t\t}\n\t\treturn Arrays.copyOfRange(arr, maxStart, maxEnd);\n\t}\n\n\tpublic static int maxSubArraySum(int a[])\n\t{\n\t\tint size = a.length;\n\t\tint max_so_far = Integer.MIN_VALUE, max_ending_here = 0;\n\n\t\tfor (int i = 0; i < size; i++)\n\t\t{\n\t\t\tmax_ending_here = max_ending_here + a[i];\n\t\t\tif (max_so_far < max_ending_here)\n\t\t\t\tmax_so_far = max_ending_here;\n\t\t\tif (max_ending_here < 0)\n\t\t\t\tmax_ending_here = 0;\n\t\t}\n\t\treturn max_so_far;\n\t}\n\tpublic static void main(String[] args) {\n\t\tint[] a = { -2, 1, -3, 4, -1, 2, 1, -5, 4 };\t// [4, −1, 2, 1] = 6\n\t\tSystem.out.println(\"MaxSumSubarray = \" + Arrays.toString(maxSumSubarray(a)));\n\t\tSystem.out.println(\"MaxSum = \" + maxSum(a));\n\t\tSystem.out.println(\"MaxSumSubarray = \" + maxSubArraySum(a));\n\t\tint[] b = {-2, 1, 2, 4, -7, 2, 2, 4, -7, -1, 2, 3};\t// [2, 2, 4] = 8, [1, 2, 4, -7, 2, 2, 4] = 8\n\t\tSystem.out.println(\"MaxSumSubarray = \" + Arrays.toString(maxSumSubarray(b)));\n\t\tSystem.out.println(\"MaxSum = \" + maxSum(b));\n\t}\n\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "Kadane.kt",
+          "content": "fun kadane(arr: IntArray): Int {\n    var maxSoFar = arr[0]\n    var maxEndingHere = arr[0]\n\n    for (i in 1 until arr.size) {\n        maxEndingHere = maxOf(arr[i], maxEndingHere + arr[i])\n        maxSoFar = maxOf(maxSoFar, maxEndingHere)\n    }\n\n    return maxSoFar\n}\n\nfun main() {\n    println(kadane(intArrayOf(-2, 1, -3, 4, -1, 2, 1, -5, 4))) // 6\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "Kadane.py",
+          "content": "def kadane(A):\n\tmax_so_far = max_ending = 0\n\tfor x in A:\n\t\tmax_ending = max(0, max_ending + x)\n\t\tmax_so_far = max(max_so_far, max_ending)\n\treturn max_so_far\n\nA = [-2, -3, 4, -1, -2, 1, 5, -3]\nprint \"Maximum contiguous sum is\", kadane(A)\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "kadane.rs",
+          "content": "use std::cmp;\n\npub fn kadane(arr: &[i32]) -> i32 {\n    let mut max_so_far = arr[0];\n    let mut max_ending_here = arr[0];\n\n    for &x in &arr[1..] {\n        max_ending_here = cmp::max(x, max_ending_here + x);\n        max_so_far = cmp::max(max_so_far, max_ending_here);\n    }\n\n    max_so_far\n}\n\nfn main() {\n    let arr = vec![-2, 1, -3, 4, -1, 2, 1, -5, 4];\n    println!(\"{}\", kadane(&arr)); // 6\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "Kadane.scala",
+          "content": "object Kadane {\n\n  def kadane(arr: Array[Int]): Int = {\n    var maxSoFar = arr(0)\n    var maxEndingHere = arr(0)\n\n    for (i <- 1 until arr.length) {\n      maxEndingHere = math.max(arr(i), maxEndingHere + arr(i))\n      maxSoFar = math.max(maxSoFar, maxEndingHere)\n    }\n\n    maxSoFar\n  }\n\n  def main(args: Array[String]): Unit = {\n    println(kadane(Array(-2, 1, -3, 4, -1, 2, 1, -5, 4))) // 6\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "Kadane.swift",
+          "content": "func kadane(_ arr: [Int]) -> Int {\n    var maxSoFar = arr[0]\n    var maxEndingHere = arr[0]\n\n    for i in 1..<arr.count {\n        maxEndingHere = max(arr[i], maxEndingHere + arr[i])\n        maxSoFar = max(maxSoFar, maxEndingHere)\n    }\n\n    return maxSoFar\n}\n\nprint(kadane([-2, 1, -3, 4, -1, 2, 1, -5, 4])) // 6\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "Kedanes.js",
+          "content": "export function kadane(array) {\n  if (array.length === 0) {\n    return 0;\n  }\n\n  let best = array[0];\n  let current = array[0];\n\n  for (let i = 1; i < array.length; i += 1) {\n    current = Math.max(array[i], current + array[i]);\n    best = Math.max(best, current);\n  }\n\n  return best;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "patterns": [
+    "sliding-window"
+  ],
+  "patternDifficulty": "beginner",
+  "practiceOrder": 1,
+  "readme": "# Kadane's Algorithm\n\n## Overview\n\nKadane's Algorithm finds the contiguous subarray within a one-dimensional array of numbers that has the largest sum. For example, given the array [-2, 1, -3, 4, -1, 2, 1, -5, 4], the maximum subarray sum is 6, corresponding to the subarray [4, -1, 2, 1]. The algorithm accomplishes this in a single pass through the array with O(n) time and O(1) space.\n\nInvented by Jay Kadane in 1984, this algorithm is a beautiful example of dynamic programming where the optimal substructure is elegantly simple: at each position, the maximum subarray ending here is either the current element alone or the current element plus the maximum subarray ending at the previous position.\n\n## How It Works\n\nThe algorithm maintains two variables: `current_max` (the maximum sum of any subarray ending at the current position) and `global_max` (the overall maximum sum found so far). At each element, we decide whether to extend the previous subarray by including the current element, or start a new subarray from the current element. This decision is made by comparing `current_max + arr[i]` with `arr[i]` alone.\n\n### Example\n\nGiven input: `[-2, 1, -3, 4, -1, 2, 1, -5, 4]`\n\n| Step | Index | Element | current_max + element | Start fresh? | current_max | global_max |\n|------|-------|---------|-----------------------|-------------|-------------|------------|\n| 1 | 0 | -2 | - | Start | -2 | -2 |\n| 2 | 1 | 1 | -2 + 1 = -1 | Start (1 > -1) | 1 | 1 |\n| 3 | 2 | -3 | 1 + (-3) = -2 | Extend (-2 > -3) | -2 | 1 |\n| 4 | 3 | 4 | -2 + 4 = 2 | Start (4 > 2) | 4 | 4 |\n| 5 | 4 | -1 | 4 + (-1) = 3 | Extend (3 > -1) | 3 | 4 |\n| 6 | 5 | 2 | 3 + 2 = 5 | Extend (5 > 2) | 5 | 5 |\n| 7 | 6 | 1 | 5 + 1 = 6 | Extend (6 > 1) | 6 | 6 |\n| 8 | 7 | -5 | 6 + (-5) = 1 | Extend (1 > -5) | 1 | 6 |\n| 9 | 8 | 4 | 1 + 4 = 5 | Extend (5 > 4) | 5 | 6 |\n\nResult: Maximum subarray sum = `6` (subarray `[4, -1, 2, 1]` at indices 3 to 6)\n\n## Pseudocode\n\n```\nfunction kadane(arr):\n    n = length(arr)\n    current_max = arr[0]\n    global_max = arr[0]\n\n    for i from 1 to n - 1:\n        current_max = max(arr[i], current_max + arr[i])\n        if current_max > global_max:\n            global_max = current_max\n\n    return global_max\n```\n\nThe key decision at each step is captured by `max(arr[i], current_max + arr[i])`. If the accumulated sum becomes negative, it is better to start a fresh subarray from the current element rather than carry the negative sum forward.\n\n## Complexity Analysis\n\n| Case    | Time | Space |\n|---------|------|-------|\n| Best    | O(n) | O(1)  |\n| Average | O(n) | O(1)  |\n| Worst   | O(n) | O(1)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(n):** The algorithm always makes a single pass through the array, examining each element exactly once. Even if all elements are positive, every element must still be checked.\n\n- **Average Case -- O(n):** Each element requires O(1) work (one comparison and one max operation). The total work is exactly n iterations.\n\n- **Worst Case -- O(n):** The algorithm performs the same amount of work regardless of input values. There are no nested loops or recursive calls.\n\n- **Space -- O(1):** Only two scalar variables (`current_max` and `global_max`) are maintained. No additional data structures are needed regardless of input size.\n\n## When to Use\n\n- **Maximum subarray sum problems:** The canonical use case -- finding the contiguous subarray with the largest sum.\n- **Stock trading problems:** Finding the maximum profit from a single buy-sell transaction (by computing differences and applying Kadane's).\n- **When linear time is required:** Kadane's is optimal -- no algorithm can solve the maximum subarray problem faster than O(n).\n- **Streaming data:** The algorithm processes elements one at a time and needs only O(1) space, making it suitable for data streams.\n- **As a subroutine:** Many problems (maximum submatrix, circular subarray) use Kadane's as a building block.\n\n## When NOT to Use\n\n- **When you need the actual subarray, not just the sum:** The basic algorithm returns only the sum. Tracking indices requires minor modifications.\n- **Non-contiguous subsequences:** If elements need not be contiguous, the problem becomes different (just sum all positive elements).\n- **2D maximum subarray:** While Kadane's can be extended to 2D, the resulting O(n^3) algorithm may be too slow for large matrices.\n- **When all elements are negative and you want zero:** Some formulations allow an empty subarray with sum 0. The standard algorithm returns the least negative element.\n\n## Comparison with Similar Algorithms\n\n| Algorithm           | Time    | Space | Notes                                          |\n|--------------------|--------|-------|-------------------------------------------------|\n| Kadane's Algorithm  | O(n)   | O(1)  | Optimal for maximum subarray sum                |\n| Brute Force         | O(n^3) | O(1)  | Check all subarrays; extremely slow              |\n| Divide and Conquer  | O(n log n)| O(log n) | Recursive approach; slower than Kadane's    |\n| Prefix Sum approach | O(n^2) | O(n)  | Compute all subarray sums via prefix sums        |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| C          | [Kadanes.c](c/Kadanes.c) |\n| C#         | [Kadanes.cs](csharp/Kadanes.cs) |\n| C++        | [Kadanes.cpp](cpp/Kadanes.cpp) |\n| Go         | [Kadanes.go](go/Kadanes.go) |\n| Java       | [Kadane.java](java/Kadane.java) |\n| TypeScript | [Kedanes.js](typescript/Kedanes.js) |\n| Python     | [Kadane.py](python/Kadane.py) |\n\n## References\n\n- Bentley, J. (1984). Programming pearls: algorithm design techniques. *Communications of the ACM*, 27(9), 865-873.\n- Kadane, J. B. (Original algorithm, 1984). As described in Bentley's column.\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Problem 4.1: The Maximum-Subarray Problem.\n- [Maximum Subarray Problem -- Wikipedia](https://en.wikipedia.org/wiki/Maximum_subarray_problem)\n"
+}

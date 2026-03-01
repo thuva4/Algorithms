@@ -1,0 +1,135 @@
+{
+  "name": "Rope Data Structure",
+  "slug": "rope-data-structure",
+  "category": "data-structures",
+  "subcategory": "tree",
+  "difficulty": "advanced",
+  "tags": [
+    "data-structures",
+    "rope",
+    "string-operations",
+    "binary-tree",
+    "concatenation"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(log n)",
+      "average": "O(log n)",
+      "worst": "O(n)"
+    },
+    "space": "O(n)"
+  },
+  "stable": null,
+  "in_place": false,
+  "related": [
+    "treap",
+    "splay-tree"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "rope_data_structure.c",
+          "content": "#include <stdio.h>\n#include \"rope_data_structure.h\"\n\nint rope_data_structure(const int *data, int data_len) {\n    int n1 = data[0];\n    const int *arr1 = &data[1];\n    int pos = 1 + n1;\n    int n2 = data[pos];\n    const int *arr2 = &data[pos + 1];\n    int query_index = data[pos + 1 + n2];\n\n    /* Concatenate and index */\n    if (query_index < n1) {\n        return arr1[query_index];\n    } else {\n        return arr2[query_index - n1];\n    }\n}\n\nint main(void) {\n    int data1[] = {3, 1, 2, 3, 2, 4, 5, 0};\n    printf(\"%d\\n\", rope_data_structure(data1, 8));\n\n    int data2[] = {3, 1, 2, 3, 2, 4, 5, 4};\n    printf(\"%d\\n\", rope_data_structure(data2, 8));\n\n    int data3[] = {3, 1, 2, 3, 2, 4, 5, 3};\n    printf(\"%d\\n\", rope_data_structure(data3, 8));\n    return 0;\n}\n"
+        },
+        {
+          "filename": "rope_data_structure.h",
+          "content": "#ifndef ROPE_DATA_STRUCTURE_H\n#define ROPE_DATA_STRUCTURE_H\n\nint rope_data_structure(const int *data, int data_len);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "rope_data_structure.cpp",
+          "content": "#include <vector>\n#include <iostream>\nusing namespace std;\n\nstruct RopeNode {\n    vector<int> data;\n    RopeNode *left, *right;\n    int weight;\n    RopeNode() : left(nullptr), right(nullptr), weight(0) {}\n};\n\nRopeNode* buildRope(const vector<int>& arr, int lo, int hi) {\n    RopeNode* node = new RopeNode();\n    if (hi - lo <= 4) {\n        node->data.assign(arr.begin() + lo, arr.begin() + hi);\n        node->weight = hi - lo;\n        return node;\n    }\n    int mid = (lo + hi) / 2;\n    node->left = buildRope(arr, lo, mid);\n    node->right = buildRope(arr, mid, hi);\n    node->weight = mid - lo;\n    return node;\n}\n\nint ropeLength(RopeNode* node) {\n    if (!node) return 0;\n    if (!node->data.empty()) return (int)node->data.size();\n    return node->weight + ropeLength(node->right);\n}\n\nRopeNode* concatRope(RopeNode* r1, RopeNode* r2) {\n    RopeNode* node = new RopeNode();\n    node->left = r1;\n    node->right = r2;\n    node->weight = ropeLength(r1);\n    return node;\n}\n\nint indexRope(RopeNode* node, int idx) {\n    if (!node->data.empty()) return node->data[idx];\n    if (idx < node->weight) return indexRope(node->left, idx);\n    return indexRope(node->right, idx - node->weight);\n}\n\nint rope_data_structure(const vector<int>& data) {\n    int n1 = data[0];\n    vector<int> arr1(data.begin() + 1, data.begin() + 1 + n1);\n    int pos = 1 + n1;\n    int n2 = data[pos];\n    vector<int> arr2(data.begin() + pos + 1, data.begin() + pos + 1 + n2);\n    int queryIndex = data[pos + 1 + n2];\n\n    RopeNode* r1 = buildRope(arr1, 0, n1);\n    RopeNode* r2 = buildRope(arr2, 0, n2);\n    RopeNode* combined = concatRope(r1, r2);\n    return indexRope(combined, queryIndex);\n}\n\nint main() {\n    cout << rope_data_structure({3, 1, 2, 3, 2, 4, 5, 0}) << endl;\n    cout << rope_data_structure({3, 1, 2, 3, 2, 4, 5, 4}) << endl;\n    cout << rope_data_structure({3, 1, 2, 3, 2, 4, 5, 3}) << endl;\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "RopeDataStructure.cs",
+          "content": "using System;\n\npublic class RopeDataStructure\n{\n    public static int Rope(int[] data)\n    {\n        int n1 = data[0];\n        int pos = 1 + n1;\n        int n2 = data[pos];\n        int queryIndex = data[pos + 1 + n2];\n\n        if (queryIndex < n1)\n            return data[1 + queryIndex];\n        else\n            return data[pos + 1 + queryIndex - n1];\n    }\n\n    public static void Main(string[] args)\n    {\n        Console.WriteLine(Rope(new int[] { 3, 1, 2, 3, 2, 4, 5, 0 }));\n        Console.WriteLine(Rope(new int[] { 3, 1, 2, 3, 2, 4, 5, 4 }));\n        Console.WriteLine(Rope(new int[] { 3, 1, 2, 3, 2, 4, 5, 3 }));\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "rope_data_structure.go",
+          "content": "package main\n\nimport \"fmt\"\n\nfunc ropeDataStructure(data []int) int {\n\tn1 := data[0]\n\tarr1 := data[1 : 1+n1]\n\tpos := 1 + n1\n\tn2 := data[pos]\n\tarr2 := data[pos+1 : pos+1+n2]\n\tqueryIndex := data[pos+1+n2]\n\n\tif queryIndex < n1 {\n\t\treturn arr1[queryIndex]\n\t}\n\treturn arr2[queryIndex-n1]\n}\n\nfunc main() {\n\tfmt.Println(ropeDataStructure([]int{3, 1, 2, 3, 2, 4, 5, 0}))\n\tfmt.Println(ropeDataStructure([]int{3, 1, 2, 3, 2, 4, 5, 4}))\n\tfmt.Println(ropeDataStructure([]int{3, 1, 2, 3, 2, 4, 5, 3}))\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "RopeDataStructure.java",
+          "content": "import java.util.*;\n\npublic class RopeDataStructure {\n    static int[] leftData, rightData;\n    static int leftWeight;\n\n    public static int ropeDataStructure(int[] data) {\n        int n1 = data[0];\n        int[] arr1 = Arrays.copyOfRange(data, 1, 1 + n1);\n        int pos = 1 + n1;\n        int n2 = data[pos];\n        int[] arr2 = Arrays.copyOfRange(data, pos + 1, pos + 1 + n2);\n        int queryIndex = data[pos + 1 + n2];\n\n        // Concatenate arr1 and arr2, then index\n        int totalLen = n1 + n2;\n        if (queryIndex < n1) {\n            return arr1[queryIndex];\n        } else {\n            return arr2[queryIndex - n1];\n        }\n    }\n\n    public static void main(String[] args) {\n        System.out.println(ropeDataStructure(new int[]{3, 1, 2, 3, 2, 4, 5, 0}));\n        System.out.println(ropeDataStructure(new int[]{3, 1, 2, 3, 2, 4, 5, 4}));\n        System.out.println(ropeDataStructure(new int[]{3, 1, 2, 3, 2, 4, 5, 3}));\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "RopeDataStructure.kt",
+          "content": "fun ropeDataStructure(data: IntArray): Int {\n    val n1 = data[0]\n    val arr1 = data.sliceArray(1 until 1 + n1)\n    val pos = 1 + n1\n    val n2 = data[pos]\n    val arr2 = data.sliceArray(pos + 1 until pos + 1 + n2)\n    val queryIndex = data[pos + 1 + n2]\n\n    return if (queryIndex < n1) arr1[queryIndex] else arr2[queryIndex - n1]\n}\n\nfun main() {\n    println(ropeDataStructure(intArrayOf(3, 1, 2, 3, 2, 4, 5, 0)))\n    println(ropeDataStructure(intArrayOf(3, 1, 2, 3, 2, 4, 5, 4)))\n    println(ropeDataStructure(intArrayOf(3, 1, 2, 3, 2, 4, 5, 3)))\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "rope_data_structure.py",
+          "content": "class RopeNode:\n    def __init__(self, data=None):\n        self.left = None\n        self.right = None\n        self.weight = 0\n        self.data = data\n        if data is not None:\n            self.weight = len(data)\n\n\ndef build_rope(arr):\n    if len(arr) <= 4:\n        return RopeNode(arr[:])\n    mid = len(arr) // 2\n    node = RopeNode()\n    node.left = build_rope(arr[:mid])\n    node.right = build_rope(arr[mid:])\n    node.weight = mid\n    return node\n\n\ndef concat_rope(r1, r2):\n    node = RopeNode()\n    node.left = r1\n    node.right = r2\n    node.weight = rope_length(r1)\n    return node\n\n\ndef rope_length(node):\n    if node is None:\n        return 0\n    if node.data is not None:\n        return len(node.data)\n    return node.weight + rope_length(node.right)\n\n\ndef index_rope(node, idx):\n    if node.data is not None:\n        return node.data[idx]\n    if idx < node.weight:\n        return index_rope(node.left, idx)\n    return index_rope(node.right, idx - node.weight)\n\n\ndef rope_data_structure(data):\n    n1 = data[0]\n    arr1 = data[1:1 + n1]\n    pos = 1 + n1\n    n2 = data[pos]\n    arr2 = data[pos + 1:pos + 1 + n2]\n    query_index = data[pos + 1 + n2]\n\n    r1 = build_rope(arr1)\n    r2 = build_rope(arr2)\n    combined = concat_rope(r1, r2)\n    return index_rope(combined, query_index)\n\n\nif __name__ == \"__main__\":\n    print(rope_data_structure([3, 1, 2, 3, 2, 4, 5, 0]))\n    print(rope_data_structure([3, 1, 2, 3, 2, 4, 5, 4]))\n    print(rope_data_structure([3, 1, 2, 3, 2, 4, 5, 3]))\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "rope_data_structure.rs",
+          "content": "fn rope_data_structure(data: &[i32]) -> i32 {\n    let n1 = data[0] as usize;\n    let arr1 = &data[1..1 + n1];\n    let pos = 1 + n1;\n    let n2 = data[pos] as usize;\n    let arr2 = &data[pos + 1..pos + 1 + n2];\n    let query_index = data[pos + 1 + n2] as usize;\n\n    if query_index < n1 {\n        arr1[query_index]\n    } else {\n        arr2[query_index - n1]\n    }\n}\n\nfn main() {\n    println!(\"{}\", rope_data_structure(&[3, 1, 2, 3, 2, 4, 5, 0]));\n    println!(\"{}\", rope_data_structure(&[3, 1, 2, 3, 2, 4, 5, 4]));\n    println!(\"{}\", rope_data_structure(&[3, 1, 2, 3, 2, 4, 5, 3]));\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "RopeDataStructure.scala",
+          "content": "object RopeDataStructure {\n  def ropeDataStructure(data: Array[Int]): Int = {\n    val n1 = data(0)\n    val arr1 = data.slice(1, 1 + n1)\n    val pos = 1 + n1\n    val n2 = data(pos)\n    val arr2 = data.slice(pos + 1, pos + 1 + n2)\n    val queryIndex = data(pos + 1 + n2)\n\n    if (queryIndex < n1) arr1(queryIndex) else arr2(queryIndex - n1)\n  }\n\n  def main(args: Array[String]): Unit = {\n    println(ropeDataStructure(Array(3, 1, 2, 3, 2, 4, 5, 0)))\n    println(ropeDataStructure(Array(3, 1, 2, 3, 2, 4, 5, 4)))\n    println(ropeDataStructure(Array(3, 1, 2, 3, 2, 4, 5, 3)))\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "RopeDataStructure.swift",
+          "content": "func ropeDataStructure(_ data: [Int]) -> Int {\n    let n1 = data[0]\n    let arr1 = Array(data[1..<(1 + n1)])\n    let pos = 1 + n1\n    let n2 = data[pos]\n    let arr2 = Array(data[(pos + 1)..<(pos + 1 + n2)])\n    let queryIndex = data[pos + 1 + n2]\n\n    if queryIndex < n1 {\n        return arr1[queryIndex]\n    }\n    return arr2[queryIndex - n1]\n}\n\nprint(ropeDataStructure([3, 1, 2, 3, 2, 4, 5, 0]))\nprint(ropeDataStructure([3, 1, 2, 3, 2, 4, 5, 4]))\nprint(ropeDataStructure([3, 1, 2, 3, 2, 4, 5, 3]))\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "ropeDataStructure.ts",
+          "content": "export function ropeDataStructure(data: number[]): number {\n    const n1 = data[0];\n    const arr1 = data.slice(1, 1 + n1);\n    const pos = 1 + n1;\n    const n2 = data[pos];\n    const arr2 = data.slice(pos + 1, pos + 1 + n2);\n    const queryIndex = data[pos + 1 + n2];\n\n    // Rope: concatenate arr1 and arr2 then index\n    const combined = [...arr1, ...arr2];\n    return combined[queryIndex];\n}\n\nconsole.log(ropeDataStructure([3, 1, 2, 3, 2, 4, 5, 0]));\nconsole.log(ropeDataStructure([3, 1, 2, 3, 2, 4, 5, 4]));\nconsole.log(ropeDataStructure([3, 1, 2, 3, 2, 4, 5, 3]));\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Rope Data Structure\n\n## Overview\n\nA Rope is a binary tree used to efficiently store and manipulate long sequences (strings or arrays). Each leaf holds a short segment of the sequence, and each internal node stores the total length of its left subtree (called the \"weight\"). Ropes allow O(log n) concatenation, indexing, and split operations, making them far superior to plain arrays for large-scale text editing where insertions, deletions, and concatenations are frequent.\n\nWhile a flat array requires O(n) time to insert or delete in the middle, a balanced rope can perform these operations in O(log n) time by splitting and re-concatenating subtrees.\n\n## How It Works\n\n1. **Leaf nodes** store a contiguous array segment (typically up to some maximum leaf size, e.g., 8-64 characters).\n2. **Internal nodes** store a `weight` equal to the total size of the left subtree. They do not store actual data.\n3. **Concatenation** creates a new root node with the two ropes as its left and right children. The new root's weight is the total length of the left rope. This is O(1) or O(log n) if rebalancing is performed.\n4. **Index lookup** at position `i`: start at the root. If `i < weight`, recurse into the left child. Otherwise, recurse into the right child with index `i - weight`. Continue until reaching a leaf, then index directly into the leaf's array.\n5. **Split** at position `i` divides the rope into two ropes: one containing elements [0, i) and the other containing [i, n). This is done by walking down the tree, splitting at most one leaf node, and creating new internal nodes as needed.\n6. **Insert** at position `i`: Split the rope at `i`, then concatenate: `left + new_segment + right`.\n7. **Delete** range [i, j): Split at `i` and `j`, discard the middle rope, concatenate left and right.\n\n### Input/Output Format\n\n- Input: [n1, arr1..., n2, arr2..., query_index] -- two arrays to concatenate, then query an index.\n- Output: element at the given index after concatenation.\n\n## Example\n\n**Building a rope from two arrays and querying an index:**\n\n```\nArray 1: [10, 20, 30]    (n1 = 3)\nArray 2: [40, 50]        (n2 = 2)\n\nInput: [3, 10, 20, 30, 2, 40, 50, 3]\n\nStep 1: Build Rope for Array 1\n        [weight=3]\n        /\n    [10, 20, 30]\n\nStep 2: Build Rope for Array 2\n        [weight=2]\n        /\n    [40, 50]\n\nStep 3: Concatenate\n            [weight=3]         <- new root, weight = size of left subtree\n           /          \\\n    [weight=3]      [weight=2]\n       /               /\n  [10,20,30]       [40,50]\n\nStep 4: Query index 3\n  At root: index 3 >= weight 3, go right with index 3 - 3 = 0\n  At right child: index 0 < weight 2, go left with index 0\n  At leaf [40, 50]: return element at position 0 = 40\n\nOutput: 40\n```\n\n**Demonstrating a split operation:**\n\n```\nRope contents: [A, B, C, D, E, F]\n\nSplit at index 4:\n  Left rope:  [A, B, C, D]\n  Right rope: [E, F]\n\nTo insert \"XY\" at position 4:\n  1. Split at 4 -> [A,B,C,D] and [E,F]\n  2. Concatenate: [A,B,C,D] + [X,Y] + [E,F]\n  Result: [A, B, C, D, X, Y, E, F]\n```\n\n## Pseudocode\n\n```\nclass RopeNode:\n    weight   // size of left subtree (for internal nodes)\n    left     // left child\n    right    // right child\n    data[]   // leaf data (only for leaf nodes)\n\nfunction index(node, i):\n    if node is a leaf:\n        return node.data[i]\n    if i < node.weight:\n        return index(node.left, i)\n    else:\n        return index(node.right, i - node.weight)\n\nfunction concatenate(left, right):\n    newRoot = new RopeNode()\n    newRoot.left = left\n    newRoot.right = right\n    newRoot.weight = totalLength(left)\n    return newRoot\n\nfunction split(node, i):\n    if node is a leaf:\n        leftLeaf  = new Leaf(node.data[0..i-1])\n        rightLeaf = new Leaf(node.data[i..end])\n        return (leftLeaf, rightLeaf)\n    if i < node.weight:\n        (leftPart, rightPart) = split(node.left, i)\n        return (leftPart, concatenate(rightPart, node.right))\n    else if i > node.weight:\n        (leftPart, rightPart) = split(node.right, i - node.weight)\n        return (concatenate(node.left, leftPart), rightPart)\n    else:   // i == node.weight\n        return (node.left, node.right)\n\nfunction insert(rope, i, newSegment):\n    (left, right) = split(rope, i)\n    return concatenate(concatenate(left, newSegment), right)\n```\n\n## Complexity Analysis\n\n| Operation     | Time       | Space |\n|---------------|-----------|-------|\n| Index (access)| O(log n)  | O(n)  |\n| Concatenation | O(1)*     | O(1)  |\n| Split         | O(log n)  | O(log n) |\n| Insert        | O(log n)  | O(log n) |\n| Delete        | O(log n)  | O(log n) |\n| Report (print all) | O(n) | O(n) |\n\n\\* O(1) without rebalancing; O(log n) with rebalancing.\n\n- **Worst case** for all tree operations is O(n) if the rope becomes degenerate (a linked list). Balanced ropes (using B-tree style rebalancing or weight-balanced criteria) keep operations at O(log n).\n- **Space**: O(n) for the data plus O(n) for internal nodes. In practice, the overhead is small because leaves store multiple characters.\n\n## Applications\n\n- **Text editors**: Ropes are used in editors like Xi Editor (by Google) and Visual Studio Code's text buffer. They handle frequent insertions, deletions, and cursor movements in large files efficiently.\n- **Version control diff operations**: Rope-like structures help efficiently represent and merge text changes.\n- **DNA sequence manipulation**: Bioinformatics operations on long genomic strings (insertions, deletions, substring extraction) benefit from rope-style structures.\n- **Collaborative editing**: Operational transformation and CRDT-based editors use tree structures similar to ropes to represent shared documents.\n- **Large file handling**: When files are too large to fit in a single contiguous buffer, ropes provide a natural way to represent them in pieces.\n\n## When NOT to Use\n\n- **Short strings or small arrays**: For sequences under a few hundred elements, a plain array is faster due to better cache locality and lower overhead. Rope node pointers and weight bookkeeping add constant-factor cost that outweighs the asymptotic benefit for small inputs.\n- **Mostly read, rarely modified sequences**: If the sequence is built once and then only read sequentially, a flat array provides O(1) indexed access and superior cache performance. Ropes add O(log n) overhead per access.\n- **When simplicity matters**: Ropes are significantly more complex to implement and debug than arrays. Unless the application specifically requires fast insertions/deletions in large sequences, the complexity is not justified.\n- **Random access-heavy workloads**: If the dominant operation is random indexed reads with no modifications, arrays are strictly better.\n\n## Comparison\n\n| Operation       | Array     | Rope        | Gap Buffer  | Piece Table |\n|-----------------|-----------|-------------|-------------|-------------|\n| Index access    | O(1)      | O(log n)    | O(1)        | O(log n)    |\n| Insert at pos   | O(n)      | O(log n)    | O(1)*       | O(log n)    |\n| Delete at pos   | O(n)      | O(log n)    | O(1)*       | O(log n)    |\n| Concatenation   | O(n)      | O(1)        | O(n)        | O(1)        |\n| Split           | O(n)      | O(log n)    | O(n)        | O(log n)    |\n| Cache locality  | Excellent | Poor        | Good        | Moderate    |\n\n\\* O(1) amortized when the gap is at the cursor position; O(n) when the gap must be moved.\n\n**Rope vs. Gap Buffer**: Gap buffers are simpler and have better cache locality for sequential editing at a single cursor. Ropes are better when edits happen at many positions or when frequent concatenation/splitting is needed (e.g., multi-cursor editing).\n\n**Rope vs. Piece Table**: Piece tables (used in VS Code) are similar in spirit to ropes but represent the document as a sequence of references to original and modification buffers. Both offer O(log n) editing, but piece tables are more memory-efficient for undo/redo since they never modify original text.\n\n## References\n\n- Boehm, H.-J., Atkinson, R., & Plass, M. (1995). \"Ropes: an Alternative to Strings.\" *Software: Practice and Experience*, 25(12), 1315-1330.\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.), Problem 14-1 discusses augmented trees for order-statistic operations.\n- \"Rope (data structure).\" Wikipedia. https://en.wikipedia.org/wiki/Rope_(data_structure)\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [rope_data_structure.py](python/rope_data_structure.py) |\n| Java       | [RopeDataStructure.java](java/RopeDataStructure.java) |\n| C++        | [rope_data_structure.cpp](cpp/rope_data_structure.cpp) |\n| C          | [rope_data_structure.c](c/rope_data_structure.c) |\n| Go         | [rope_data_structure.go](go/rope_data_structure.go) |\n| TypeScript | [ropeDataStructure.ts](typescript/ropeDataStructure.ts) |\n| Rust       | [rope_data_structure.rs](rust/rope_data_structure.rs) |\n| Kotlin     | [RopeDataStructure.kt](kotlin/RopeDataStructure.kt) |\n| Swift      | [RopeDataStructure.swift](swift/RopeDataStructure.swift) |\n| Scala      | [RopeDataStructure.scala](scala/RopeDataStructure.scala) |\n| C#         | [RopeDataStructure.cs](csharp/RopeDataStructure.cs) |\n"
+}

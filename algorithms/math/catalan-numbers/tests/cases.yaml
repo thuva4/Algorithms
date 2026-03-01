@@ -1,0 +1,18 @@
+algorithm: "catalan-numbers"
+function_signature:
+  name: "catalan_numbers"
+  input: [integer]
+  output: integer
+test_cases:
+  - name: "catalan(0)"
+    input: [0]
+    expected: 1
+  - name: "catalan(5)"
+    input: [5]
+    expected: 42
+  - name: "catalan(10)"
+    input: [10]
+    expected: 16796
+  - name: "catalan(20)"
+    input: [20]
+    expected: 564120378

@@ -1,0 +1,140 @@
+{
+  "name": "Cocktail Sort",
+  "slug": "cocktail-sort",
+  "category": "sorting",
+  "subcategory": "comparison-based",
+  "difficulty": "beginner",
+  "tags": [
+    "sorting",
+    "comparison",
+    "stable",
+    "in-place",
+    "adaptive"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "average": "O(n^2)",
+      "worst": "O(n^2)"
+    },
+    "space": "O(1)"
+  },
+  "stable": true,
+  "in_place": true,
+  "related": [
+    "bubble-sort",
+    "insertion-sort",
+    "selection-sort"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "cocktail_sort.c",
+          "content": "#include \"cocktail_sort.h\"\n#include <stdbool.h>\n\n/**\n * Cocktail Sort (Bidirectional Bubble Sort) implementation.\n * Repeatedly steps through the list in both directions, comparing adjacent elements \n * and swapping them if they are in the wrong order.\n */\nvoid cocktail_sort(int arr[], int n) {\n    if (n <= 1) {\n        return;\n    }\n\n    int start = 0;\n    int end = n - 1;\n    bool swapped = true;\n\n    while (swapped) {\n        swapped = false;\n\n        // Forward pass\n        for (int i = start; i < end; ++i) {\n            if (arr[i] > arr[i + 1]) {\n                int temp = arr[i];\n                arr[i] = arr[i + 1];\n                arr[i + 1] = temp;\n                swapped = true;\n            }\n        }\n\n        if (!swapped) {\n            break;\n        }\n\n        swapped = false;\n        --end;\n\n        // Backward pass\n        for (int i = end - 1; i >= start; --i) {\n            if (arr[i] > arr[i + 1]) {\n                int temp = arr[i];\n                arr[i] = arr[i + 1];\n                arr[i + 1] = temp;\n                swapped = true;\n            }\n        }\n\n        ++start;\n    }\n}\n"
+        },
+        {
+          "filename": "cocktail_sort.h",
+          "content": "#ifndef COCKTAIL_SORT_H\n#define COCKTAIL_SORT_H\n\n/**\n * Cocktail Sort (Bidirectional Bubble Sort) implementation.\n * Repeatedly steps through the list in both directions, comparing adjacent elements \n * and swapping them if they are in the wrong order.\n * @param arr the input array (modified in-place)\n * @param n the number of elements in the array\n */\nvoid cocktail_sort(int arr[], int n);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "CocktailSort.cpp",
+          "content": "//Author: Akshama\n#include<bits/stdc++.h>\nusing namespace std;\n \n// Sorts array a[0..n-1] using Cocktail sort\nvoid CocktailSort(int a[], int n)\n{\n    bool swapped = true;\n    int start = 0;\n    int end = n-1;\n \n    while (swapped)\n    {\n        // reset the swapped flag on entering\n        // the loop, because it might be true from\n        // a previous iteration.\n        swapped = false;\n \n        // loop from left to right same as\n        // the bubble sort\n        for (int i = start; i < end; ++i)\n        {\n            if (a[i] > a[i + 1])\n            {\n                swap(a[i], a[i+1]);\n                swapped = true;\n            }\n        }\n \n        // if nothing moved, then array is sorted.\n        if (!swapped)\n            break;\n \n        // otherwise, reset the swapped flag so that it\n        // can be used in the next stage\n        swapped = false;\n \n        // move the end point back by one, because\n        //  item at the end is in its rightful spot\n        --end;\n \n        // from right to left, doing the\n        // same comparison as in the previous stage\n        for (int i = end - 1; i >= start; --i)\n        {\n            if (a[i] > a[i + 1])\n            {\n                swap(a[i], a[i+1]);\n                swapped = true;\n            }\n        }\n \n        // increase the starting point, because\n        // the last stage would have moved the next\n        // smallest number to its rightful spot.\n        ++start;\n    }\n}\n \n/* Prints the array */\nvoid printArray(int a[], int n)\n{\n    for (int i=0; i<n; i++)\n        printf(\"%d \", a[i]);\n    printf(\"\\n\");\n}\n \nint main()\n{\n    int arr[] = {5, 1, 4, 2, 8, 0, 2};\n    int n = sizeof(arr)/ sizeof(arr[0]);\n    CocktailSort(arr,n);\n    printf(\"Sorted array :\\n\");\n    printArray(arr,n);\n    return 0;\n}\n"
+        },
+        {
+          "filename": "cocktail_sort.cpp",
+          "content": "#include <vector>\n#include <algorithm>\n\n/**\n * Cocktail Sort (Bidirectional Bubble Sort) implementation.\n * Repeatedly steps through the list in both directions, comparing adjacent elements \n * and swapping them if they are in the wrong order.\n * @param arr the input vector\n * @returns a sorted copy of the vector\n */\nstd::vector<int> cocktail_sort(std::vector<int> arr) {\n    int n = static_cast<int>(arr.size());\n    if (n <= 1) {\n        return arr;\n    }\n\n    int start = 0;\n    int end = n - 1;\n    bool swapped = true;\n\n    while (swapped) {\n        swapped = false;\n\n        // Forward pass\n        for (int i = start; i < end; ++i) {\n            if (arr[i] > arr[i + 1]) {\n                std::swap(arr[i], arr[i + 1]);\n                swapped = true;\n            }\n        }\n\n        if (!swapped) {\n            break;\n        }\n\n        swapped = false;\n        --end;\n\n        // Backward pass\n        for (int i = end - 1; i >= start; --i) {\n            if (arr[i] > arr[i + 1]) {\n                std::swap(arr[i], arr[i + 1]);\n                swapped = true;\n            }\n        }\n\n        ++start;\n    }\n\n    return arr;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "CocktailSort.cs",
+          "content": "using System;\n\nnamespace Algorithms.Sorting.Cocktail\n{\n    /**\n     * Cocktail Sort implementation.\n     * Repeatedly steps through the list in both directions, comparing adjacent elements \n     * and swapping them if they are in the wrong order.\n     */\n    public static class CocktailSort\n    {\n        public static int[] Sort(int[] arr)\n        {\n            if (arr == null || arr.Length <= 1)\n            {\n                return arr == null ? new int[0] : (int[])arr.Clone();\n            }\n\n            int[] result = (int[])arr.Clone();\n            int n = result.Length;\n            int start = 0;\n            int end = n - 1;\n            bool swapped = true;\n\n            while (swapped)\n            {\n                swapped = false;\n\n                // Forward pass\n                for (int i = start; i < end; i++)\n                {\n                    if (result[i] > result[i + 1])\n                    {\n                        int temp = result[i];\n                        result[i] = result[i + 1];\n                        result[i + 1] = temp;\n                        swapped = true;\n                    }\n                }\n\n                if (!swapped)\n                {\n                    break;\n                }\n\n                swapped = false;\n                end--;\n\n                // Backward pass\n                for (int i = end - 1; i >= start; i--)\n                {\n                    if (result[i] > result[i + 1])\n                    {\n                        int temp = result[i];\n                        result[i] = result[i + 1];\n                        result[i + 1] = temp;\n                        swapped = true;\n                    }\n                }\n\n                start++;\n            }\n\n            return result;\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "cocktail_sort.go",
+          "content": "package cocktailsort\n\n/**\n * CocktailSort implementation.\n * Repeatedly steps through the list in both directions, comparing adjacent elements \n * and swapping them if they are in the wrong order.\n * It returns a new sorted slice without modifying the original input.\n */\nfunc CocktailSort(arr []int) []int {\n\tn := len(arr)\n\tif n <= 1 {\n\t\treturn append([]int{}, arr...)\n\t}\n\n\tresult := make([]int, n)\n\tcopy(result, arr)\n\n\tstart := 0\n\tend := n - 1\n\tswapped := true\n\n\tfor swapped {\n\t\tswapped = false\n\n\t\t// Forward pass\n\t\tfor i := start; i < end; i++ {\n\t\t\tif result[i] > result[i+1] {\n\t\t\t\tresult[i], result[i+1] = result[i+1], result[i]\n\t\t\t\tswapped = true\n\t\t\t}\n\t\t}\n\n\t\tif !swapped {\n\t\t\tbreak\n\t\t}\n\n\t\tswapped = false\n\t\tend--\n\n\t\t// Backward pass\n\t\tfor i := end - 1; i >= start; i-- {\n\t\t\tif result[i] > result[i+1] {\n\t\t\t\tresult[i], result[i+1] = result[i+1], result[i]\n\t\t\t\tswapped = true\n\t\t\t}\n\t\t}\n\n\t\tstart++\n\t}\n\n\treturn result\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "CocktailSort.java",
+          "content": "import java.util.Arrays;\n\npublic class CocktailSort {\n    /**\n     * Cocktail Sort (Bidirectional Bubble Sort) implementation.\n     * Repeatedly steps through the list in both directions, comparing adjacent elements \n     * and swapping them if they are in the wrong order.\n     * @param arr the input array\n     * @return a sorted copy of the array\n     */\n    public static int[] sort(int[] arr) {\n        if (arr == null || arr.length <= 1) {\n            return arr == null ? new int[0] : Arrays.copyOf(arr, arr.length);\n        }\n\n        int[] result = Arrays.copyOf(arr, arr.length);\n        int n = result.length;\n        int start = 0;\n        int end = n - 1;\n        boolean swapped = true;\n\n        while (swapped) {\n            swapped = false;\n\n            // Forward pass\n            for (int i = start; i < end; i++) {\n                if (result[i] > result[i + 1]) {\n                    int temp = result[i];\n                    result[i] = result[i + 1];\n                    result[i + 1] = temp;\n                    swapped = true;\n                }\n            }\n\n            if (!swapped) {\n                break;\n            }\n\n            swapped = false;\n            end--;\n\n            // Backward pass\n            for (int i = end - 1; i >= start; i--) {\n                if (result[i] > result[i + 1]) {\n                    int temp = result[i];\n                    result[i] = result[i + 1];\n                    result[i + 1] = temp;\n                    swapped = true;\n                }\n            }\n\n            start++;\n        }\n\n        return result;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "CocktailSort.kt",
+          "content": "package algorithms.sorting.cocktail\n\n/**\n * Cocktail Sort implementation.\n * Repeatedly steps through the list in both directions, comparing adjacent elements \n * and swapping them if they are in the wrong order.\n */\nobject CocktailSort {\n    fun sort(arr: IntArray): IntArray {\n        if (arr.size <= 1) {\n            return arr.copyOf()\n        }\n\n        val result = arr.copyOf()\n        val n = result.size\n        var start = 0\n        var end = n - 1\n        var swapped = true\n\n        while (swapped) {\n            swapped = false\n\n            // Forward pass\n            for (i in start until end) {\n                if (result[i] > result[i + 1]) {\n                    val temp = result[i]\n                    result[i] = result[i + 1]\n                    result[i + 1] = temp\n                    swapped = true\n                }\n            }\n\n            if (!swapped) {\n                break\n            }\n\n            swapped = false\n            end--\n\n            // Backward pass\n            for (i in end - 1 downTo start) {\n                if (result[i] > result[i + 1]) {\n                    val temp = result[i]\n                    result[i] = result[i + 1]\n                    result[i + 1] = temp\n                    swapped = true\n                }\n            }\n\n            start++\n        }\n\n        return result\n    }\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "cocktail_sort.py",
+          "content": "def cocktail_sort(arr: list[int]) -> list[int]:\n    \"\"\"\n    Cocktail Sort (Bidirectional Bubble Sort) implementation.\n    Repeatedly steps through the list in both directions, comparing adjacent elements \n    and swapping them if they are in the wrong order.\n    \"\"\"\n    result = list(arr)\n    n = len(result)\n    if n <= 1:\n        return result\n\n    start = 0\n    end = n - 1\n    swapped = True\n\n    while swapped:\n        swapped = False\n\n        # Forward pass (like bubble sort)\n        for i in range(start, end):\n            if result[i] > result[i + 1]:\n                result[i], result[i + 1] = result[i + 1], result[i]\n                swapped = True\n\n        if not swapped:\n            break\n\n        swapped = False\n        # Last element is now in place\n        end -= 1\n\n        # Backward pass\n        for i in range(end - 1, start - 1, -1):\n            if result[i] > result[i + 1]:\n                result[i], result[i + 1] = result[i + 1], result[i]\n                swapped = True\n\n        # First element is now in place\n        start += 1\n\n    return result\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "cocktail_sort.rs",
+          "content": "/**\n * Cocktail Sort implementation.\n * Repeatedly steps through the list in both directions, comparing adjacent elements \n * and swapping them if they are in the wrong order.\n */\npub fn cocktail_sort(arr: &[i32]) -> Vec<i32> {\n    let mut result = arr.to_vec();\n    let n = result.len();\n\n    if n <= 1 {\n        return result;\n    }\n\n    let mut start = 0;\n    let mut end = n - 1;\n    let mut swapped = true;\n\n    while swapped {\n        swapped = false;\n\n        // Forward pass\n        for i in start..end {\n            if result[i] > result[i + 1] {\n                result.swap(i, i + 1);\n                swapped = true;\n            }\n        }\n\n        if !swapped {\n            break;\n        }\n\n        swapped = false;\n        end -= 1;\n\n        // Backward pass\n        for i in (start..end).rev() {\n            if result[i] > result[i + 1] {\n                result.swap(i, i + 1);\n                swapped = true;\n            }\n        }\n\n        start += 1;\n    }\n\n    result\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "CocktailSort.scala",
+          "content": "package algorithms.sorting.cocktail\n\n/**\n * Cocktail Sort implementation.\n * Repeatedly steps through the list in both directions, comparing adjacent elements \n * and swapping them if they are in the wrong order.\n */\nobject CocktailSort {\n  def sort(arr: Array[Int]): Array[Int] = {\n    if (arr.length <= 1) {\n      return arr.clone()\n    }\n\n    val result = arr.clone()\n    val n = result.length\n    var start = 0\n    var end = n - 1\n    var swapped = true\n\n    while (swapped) {\n      swapped = false\n\n      // Forward pass\n      for (i <- start until end) {\n        if (result(i) > result(i + 1)) {\n          val temp = result(i)\n          result(i) = result(i + 1)\n          result(i + 1) = temp\n          swapped = true\n        }\n      }\n\n      if (!swapped) {\n        // Break using return\n        return result\n      }\n\n      swapped = false\n      end -= 1\n\n      // Backward pass\n      for (i <- (end - 1) to start by -1) {\n        if (result(i) > result(i + 1)) {\n          val temp = result(i)\n          result(i) = result(i + 1)\n          result(i + 1) = temp\n          swapped = true\n        }\n      }\n\n      start += 1\n    }\n\n    result\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "CocktailSort.swift",
+          "content": "/**\n * Cocktail Sort implementation.\n * Repeatedly steps through the list in both directions, comparing adjacent elements \n * and swapping them if they are in the wrong order.\n */\npublic class CocktailSort {\n    public static func sort(_ arr: [Int]) -> [Int] {\n        if arr.count <= 1 {\n            return arr\n        }\n\n        var result = arr\n        let n = result.count\n        var start = 0\n        var end = n - 1\n        var swapped = true\n\n        while swapped {\n            swapped = false\n\n            // Forward pass\n            for i in start..<end {\n                if result[i] > result[i + 1] {\n                    result.swapAt(i, i + 1)\n                    swapped = true\n                }\n            }\n\n            if !swapped {\n                break\n            }\n\n            swapped = false\n            end -= 1\n\n            // Backward pass\n            for i in stride(from: end - 1, through: start, by: -1) {\n                if result[i] > result[i + 1] {\n                    result.swapAt(i, i + 1)\n                    swapped = true\n                }\n            }\n\n            start += 1\n        }\n\n        return result\n    }\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "cocktailSort.ts",
+          "content": "/**\n * Cocktail Sort (Bidirectional Bubble Sort) implementation.\n * Repeatedly steps through the list in both directions, comparing adjacent elements \n * and swapping them if they are in the wrong order.\n * @param arr the input array\n * @returns a sorted copy of the array\n */\nexport function cocktailSort(arr: number[]): number[] {\n    const result = [...arr];\n    const n = result.length;\n    if (n <= 1) {\n        return result;\n    }\n\n    let start = 0;\n    let end = n - 1;\n    let swapped = true;\n\n    while (swapped) {\n        swapped = false;\n\n        // Forward pass\n        for (let i = start; i < end; i++) {\n            if (result[i] > result[i + 1]) {\n                [result[i], result[i + 1]] = [result[i + 1], result[i]];\n                swapped = true;\n            }\n        }\n\n        if (!swapped) {\n            break;\n        }\n\n        swapped = false;\n        end--;\n\n        // Backward pass\n        for (let i = end - 1; i >= start; i--) {\n            if (result[i] > result[i + 1]) {\n                [result[i], result[i + 1]] = [result[i + 1], result[i]];\n                swapped = true;\n            }\n        }\n\n        start++;\n    }\n\n    return result;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "readme": "# Cocktail Sort\n\n## Overview\n\nCocktail Sort is a variation of Bubble Sort that traverses the array in both directions alternately. It is functionally identical to Cocktail Shaker Sort and is sometimes referred to by this shorter name. The algorithm performs a forward pass (left to right) to push the largest unsorted element to the end, followed by a backward pass (right to left) to push the smallest unsorted element to the beginning. This bidirectional approach mitigates the \"turtle problem\" in standard Bubble Sort, where small values near the end of the array take many passes to reach their correct position.\n\n## How It Works\n\n1. **Initialize** the left boundary at 0 and the right boundary at n-1.\n2. **Forward pass:** Iterate from left to right, comparing adjacent elements and swapping if out of order. After this pass, the largest element is at the right boundary. Decrement the right boundary.\n3. **Backward pass:** Iterate from right to left, comparing adjacent elements and swapping if out of order. After this pass, the smallest element is at the left boundary. Increment the left boundary.\n4. **Termination:** If no swaps occurred in a complete forward+backward cycle, the array is sorted. Otherwise, repeat from step 2.\n\n## Example\n\nGiven input: `[3, 0, 1, 8, 7, 2, 5, 4, 6, 9]`\n\n**Iteration 1:**\n\n*Forward pass (left to right):*\n- Compares and swaps through the array, bubbling `9` to position 9.\n- After: `[0, 1, 3, 7, 2, 5, 4, 6, 8, 9]`\n\n*Backward pass (right to left):*\n- Compares and swaps through the array, sinking `0` to position 0.\n- After: `[0, 1, 2, 3, 5, 4, 6, 7, 8, 9]`\n\n**Iteration 2:**\n\n*Forward pass:* Bubbles `8` (already placed), fixes `5,4` swap.\n- After: `[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]`\n\n*Backward pass:* No swaps needed -- array is sorted, algorithm terminates.\n\nResult: `[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]`\n\n## Pseudocode\n\n```\nfunction cocktailSort(array):\n    n = length(array)\n    left = 0\n    right = n - 1\n    swapped = true\n\n    while swapped:\n        swapped = false\n\n        // Forward pass: bubble largest to the right\n        for i from left to right - 1:\n            if array[i] > array[i + 1]:\n                swap(array[i], array[i + 1])\n                swapped = true\n        right = right - 1\n\n        if not swapped:\n            break\n\n        swapped = false\n\n        // Backward pass: sink smallest to the left\n        for i from right down to left + 1:\n            if array[i - 1] > array[i]:\n                swap(array[i - 1], array[i])\n                swapped = true\n        left = left + 1\n\n    return array\n```\n\n## Complexity Analysis\n\n| Case    | Time   | Space |\n|---------|--------|-------|\n| Best    | O(n)   | O(1)  |\n| Average | O(n^2) | O(1)  |\n| Worst   | O(n^2) | O(1)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(n):** When the input is already sorted, the first forward pass performs n-1 comparisons with zero swaps and terminates.\n\n- **Average Case -- O(n^2):** The bidirectional approach reduces the constant factor compared to Bubble Sort (approximately 2x fewer iterations in some distributions), but the quadratic bound holds.\n\n- **Worst Case -- O(n^2):** Occurs when elements are in reverse order. The algorithm requires approximately n/2 full cycles, each with O(n) comparisons.\n\n- **Space -- O(1):** Only a fixed number of extra variables are used (loop counters, swap flag, temp variable).\n\n## When to Use\n\n- **Nearly sorted data:** The early termination and bidirectional passes make it efficient for nearly sorted arrays.\n- **Small arrays:** Acceptable performance for very small datasets (fewer than ~50 elements).\n- **Teaching purposes:** Illustrates how bidirectional traversal improves upon naive Bubble Sort.\n- **When stability matters:** Cocktail Sort is stable, preserving the relative order of equal elements.\n\n## When NOT to Use\n\n- **Medium to large datasets:** O(n^2) average time makes it too slow for datasets larger than a few dozen elements.\n- **Performance-sensitive applications:** Even among O(n^2) sorts, Insertion Sort is generally faster in practice due to fewer comparisons and better cache behavior.\n- **Parallel computing:** The sequential nature of the adjacent comparisons makes it poorly suited for parallelization. Consider Bitonic Sort or parallel merge sort instead.\n\n## Comparison\n\n| Algorithm      | Time (avg) | Time (best) | Space | Stable | Turtles Handled |\n|----------------|-----------|-------------|-------|--------|-----------------|\n| Cocktail Sort  | O(n^2)    | O(n)        | O(1)  | Yes    | Yes |\n| Bubble Sort    | O(n^2)    | O(n)        | O(1)  | Yes    | No |\n| Insertion Sort | O(n^2)    | O(n)        | O(1)  | Yes    | N/A |\n| Shell Sort     | O(n^1.5)  | O(n log n)  | O(1)  | No     | N/A |\n| Comb Sort      | O(n^2)    | O(n log n)  | O(1)  | No     | Yes (via gaps) |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Java       | [CocktailSort.java](java/CocktailSort.java) |\n| C++        | [cocktail_sort.cpp](cpp/cocktail_sort.cpp) |\n| C          | [cocktail_sort.c](c/cocktail_sort.c) |\n\n## References\n\n- Knuth, D. E. (1998). *The Art of Computer Programming, Volume 3: Sorting and Searching* (2nd ed.). Addison-Wesley. Section 5.2.2: Sorting by Exchanging.\n- [Cocktail Shaker Sort -- Wikipedia](https://en.wikipedia.org/wiki/Cocktail_shaker_sort)\n- Astrachan, O. (2003). \"Bubble Sort: An Archaeological Algorithmic Analysis.\" *ACM SIGCSE Bulletin*, 35(1), 1-5.\n"
+}

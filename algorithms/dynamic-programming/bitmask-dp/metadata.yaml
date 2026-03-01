@@ -1,0 +1,21 @@
+name: "Bitmask DP"
+slug: "bitmask-dp"
+category: "dynamic-programming"
+subcategory: "combinatorial"
+difficulty: "advanced"
+tags: [dynamic-programming, bitmask, subset, assignment, tsp]
+complexity:
+  time:
+    best: "O(n^2 * 2^n)"
+    average: "O(n^2 * 2^n)"
+    worst: "O(n^2 * 2^n)"
+  space: "O(n * 2^n)"
+stable: null
+in_place: false
+related: [travelling-salesman, subset-sum]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false
+patterns:
+  - subsets
+patternDifficulty: advanced
+practiceOrder: 5

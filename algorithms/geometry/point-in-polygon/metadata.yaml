@@ -1,0 +1,15 @@
+name: "Point in Polygon"
+slug: "point-in-polygon"
+category: "geometry"
+subcategory: "containment"
+difficulty: "intermediate"
+tags: [geometry, ray-casting, polygon, containment, computational-geometry]
+complexity:
+  time:
+    best: "O(n)"
+    average: "O(n)"
+    worst: "O(n)"
+  space: "O(1)"
+related: [convex-hull, line-intersection]
+implementations: [python, java, cpp, c, go, typescript, kotlin, rust, swift, scala, csharp]
+visualization: false

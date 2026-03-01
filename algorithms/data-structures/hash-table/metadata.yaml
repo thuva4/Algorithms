@@ -1,0 +1,17 @@
+name: "Hash Table"
+slug: "hash-table"
+category: "data-structures"
+subcategory: "hashing"
+difficulty: "beginner"
+tags: [data-structures, hashing, collision-resolution]
+complexity:
+  time:
+    best: "O(1)"
+    average: "O(1)"
+    worst: "O(n)"
+  space: "O(n)"
+stable: false
+in_place: false
+related: [bloom-filter, lru-cache]
+implementations: [python, java, cpp, c, go, typescript, kotlin, rust, swift, scala, csharp]
+visualization: false

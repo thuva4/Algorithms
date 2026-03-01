@@ -1,0 +1,18 @@
+algorithm: "fibonacci"
+function_signature:
+  name: "fibonacci"
+  input: [n]
+  output: integer
+test_cases:
+  - name: "fib(0)"
+    input: [0]
+    expected: 0
+  - name: "fib(1)"
+    input: [1]
+    expected: 1
+  - name: "fib(10)"
+    input: [10]
+    expected: 55
+  - name: "fib(20)"
+    input: [20]
+    expected: 6765

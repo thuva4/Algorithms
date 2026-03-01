@@ -1,0 +1,18 @@
+algorithm: "karatsuba-multiplication"
+function_signature:
+  name: "karatsuba"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "small numbers"
+    input: [[12, 34]]
+    expected: 408
+  - name: "power of ten"
+    input: [[100, 200]]
+    expected: 20000
+  - name: "one is zero"
+    input: [[0, 12345]]
+    expected: 0
+  - name: "single digits"
+    input: [[7, 8]]
+    expected: 56

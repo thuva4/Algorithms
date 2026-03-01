@@ -1,0 +1,62 @@
+algorithm: "flood-fill"
+function_signature:
+  name: "flood_fill"
+  input: [grid, start_row, start_col, new_value]
+  output: modified_grid
+test_cases:
+  - name: "simple 3x3 grid"
+    input:
+      - [[1, 1, 1], [1, 1, 0], [1, 0, 1]]
+      - 0
+      - 0
+      - 2
+    expected: [[2, 2, 2], [2, 2, 0], [2, 0, 1]]
+  - name: "single cell"
+    input:
+      - [[0]]
+      - 0
+      - 0
+      - 5
+    expected: [[5]]
+  - name: "no change needed - same color"
+    input:
+      - [[1, 1], [1, 1]]
+      - 0
+      - 0
+      - 1
+    expected: [[1, 1], [1, 1]]
+  - name: "fill entire grid"
+    input:
+      - [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+      - 1
+      - 1
+      - 3
+    expected: [[3, 3, 3], [3, 3, 3], [3, 3, 3]]
+  - name: "fill with boundary"
+    input:
+      - [[1, 1, 1], [1, 0, 1], [1, 1, 1]]
+      - 1
+      - 1
+      - 9
+    expected: [[1, 1, 1], [1, 9, 1], [1, 1, 1]]
+  - name: "L-shaped region"
+    input:
+      - [[1, 0, 0], [1, 0, 0], [1, 1, 1]]
+      - 0
+      - 0
+      - 5
+    expected: [[5, 0, 0], [5, 0, 0], [5, 5, 5]]
+  - name: "corner fill"
+    input:
+      - [[0, 1, 0], [1, 1, 1], [0, 1, 0]]
+      - 0
+      - 0
+      - 7
+    expected: [[7, 1, 0], [1, 1, 1], [0, 1, 0]]
+  - name: "4x4 grid with multiple regions"
+    input:
+      - [[1, 1, 0, 0], [1, 1, 0, 0], [0, 0, 1, 1], [0, 0, 1, 1]]
+      - 0
+      - 0
+      - 3
+    expected: [[3, 3, 0, 0], [3, 3, 0, 0], [0, 0, 1, 1], [0, 0, 1, 1]]

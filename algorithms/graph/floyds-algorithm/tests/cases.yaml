@@ -1,0 +1,63 @@
+algorithm: "floyds-algorithm"
+function_signature:
+  name: "floyd_warshall"
+  input: [distance_matrix]
+  output: shortest_distance_matrix
+test_cases:
+  - name: "simple 4-node graph"
+    input:
+      - - [0, 3, Infinity, 7]
+        - [8, 0, 2, Infinity]
+        - [5, Infinity, 0, 1]
+        - [2, Infinity, Infinity, 0]
+    expected:
+      - [0, 3, 5, 6]
+      - [5, 0, 2, 3]
+      - [3, 6, 0, 1]
+      - [2, 5, 7, 0]
+  - name: "single node"
+    input:
+      - - [0]
+    expected:
+      - [0]
+  - name: "two nodes"
+    input:
+      - - [0, 5]
+        - [Infinity, 0]
+    expected:
+      - [0, 5]
+      - [Infinity, 0]
+  - name: "two nodes bidirectional"
+    input:
+      - - [0, 3]
+        - [2, 0]
+    expected:
+      - [0, 3]
+      - [2, 0]
+  - name: "no edges"
+    input:
+      - - [0, Infinity, Infinity]
+        - [Infinity, 0, Infinity]
+        - [Infinity, Infinity, 0]
+    expected:
+      - [0, Infinity, Infinity]
+      - [Infinity, 0, Infinity]
+      - [Infinity, Infinity, 0]
+  - name: "triangle graph"
+    input:
+      - - [0, 1, 4]
+        - [Infinity, 0, 2]
+        - [Infinity, Infinity, 0]
+    expected:
+      - [0, 1, 3]
+      - [Infinity, 0, 2]
+      - [Infinity, Infinity, 0]
+  - name: "all unit weights"
+    input:
+      - - [0, 1, Infinity]
+        - [1, 0, 1]
+        - [Infinity, 1, 0]
+    expected:
+      - [0, 1, 2]
+      - [1, 0, 1]
+      - [2, 1, 0]

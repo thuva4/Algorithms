@@ -1,0 +1,17 @@
+name: "Wildcard Matching"
+slug: "wildcard-matching"
+category: "dynamic-programming"
+subcategory: "pattern-matching"
+difficulty: "intermediate"
+tags: [dynamic-programming, pattern-matching, wildcard, strings]
+complexity:
+  time:
+    best: "O(n * m)"
+    average: "O(n * m)"
+    worst: "O(n * m)"
+  space: "O(n * m)"
+stable: null
+in_place: false
+related: [edit-distance]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

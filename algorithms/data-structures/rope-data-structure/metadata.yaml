@@ -1,0 +1,17 @@
+name: "Rope Data Structure"
+slug: "rope-data-structure"
+category: "data-structures"
+subcategory: "tree"
+difficulty: "advanced"
+tags: [data-structures, rope, string-operations, binary-tree, concatenation]
+complexity:
+  time:
+    best: "O(log n)"
+    average: "O(log n)"
+    worst: "O(n)"
+  space: "O(n)"
+stable: null
+in_place: false
+related: [treap, splay-tree]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

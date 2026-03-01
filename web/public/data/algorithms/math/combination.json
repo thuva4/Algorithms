@@ -1,0 +1,85 @@
+{
+  "name": "Combination",
+  "slug": "combination",
+  "category": "math",
+  "subcategory": "combinatorics",
+  "difficulty": "beginner",
+  "tags": [
+    "math",
+    "combination",
+    "nCr",
+    "binomial-coefficient",
+    "combinatorics"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(r)",
+      "average": "O(r)",
+      "worst": "O(r)"
+    },
+    "space": "O(1)"
+  },
+  "stable": false,
+  "in_place": true,
+  "related": [
+    "factorial",
+    "permutations"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "nCr.c",
+          "content": "long long nCr(int n, int r) {\n    if (r < 0 || r > n) return 0;\n    if (r == 0 || r == n) return 1;\n    if (r > n - r) r = n - r;\n\n    long long result = 1;\n    for (int i = 1; i <= r; i++) {\n        result = result * (n - r + i) / i;\n    }\n    return result;\n}\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "nCr1.cpp",
+          "content": "// CALCULATING nCr IN SHORT TIME BUT MAY LEAD TO OVERFLOW FOR VERY LARGE NUMBERS\n\n/*  AUTHOR:AKASH JAIN\n*       \n*   DATE:18/10/2020 \n*/\n\nll ncr(ll n,ll r)\n{\n    if(r>n-r)\n        r=n-r;      //nCr = nC(n-r)\n    ll ans=1;\n    FOR(i,1,r)\n    {\n        ans*=n-r+i;\n        ans/=i;\n    }\n    return ans;\n}\n\n/*This code will start multiplication of the numerator from the smaller end, \nand as the product of any k consecutive integers is divisible by k!, \nthere will be no divisibility problem. But the possibility of overflow is still there, \nanother useful trick may be dividing n - r + i and i by their GCD before doing the multiplication \nand division (and still overflow may occur).*/\n"
+        },
+        {
+          "filename": "nCr2.cpp",
+          "content": "// CALCULATING nCr BY PASCALS TRIANGLES\n/*  AUTHOR:AKASH JAIN\n*   USERNAME:akash19jain    \n*   DATE:09/09/2019 \n*/\n#define MAX 1000    //assuming we need first 1000 rows \n\nll triangle[MAX+1][MAX+1];\nvoid makeTriangle()\n{\n    triangle[0][0]=1;   //C(0,0)=1;\n\n    FOR(i,1,MAX-1)\n    {\n        triangle[i][0]=1;   //C(i,0)=1;\n        FOR(j,1,i)\n            triangle[i][j]=triangle[i-1][j-1]+triangle[i-1][j];\n    }\n\n}\nll ncr(ll n,ll r)\n{\n    return triangle[n][r];\n}\n\n/*In this approach, you'll be actually building up the Pascal's Triangle. \nThe dynamic approach is much faster than the recursive one (the first one is O(n^2) while the other is exponential).\n However, you'll need to use O(n^2) memory too. \n Then you can look up any C(n, r) in O(1) time. */\n"
+        },
+        {
+          "filename": "nCr_Sum.cpp",
+          "content": "// CALCULATING nC0 + nC1 + ... + nCr\n\n/*  AUTHOR:AKASH JAIN\n*   USERNAME:akash19jain    \n*   DATE:09/09/2019 \n*/\n\n#define MAX1 100005    //assuming we need first 1000 rows \n\nll triangle[MAX1+1];\nll makeTriangle(ll n,ll r)\n{\n\tMEM(triangle,0);\n    triangle[0]=1;   //C(0,0)=1;\n\n    FOR(i,1,n)\n    {\n        FORD(j,i,1)\n\t\t{\n            triangle[j]+=triangle[j-1];\n\t\t\ttriangle[j]%=MOD;\n\t\t}\n    }\n\tll ans=0;\n\tREP(i,r+1)\n\t{\n\t\tans+=triangle[i];\n\t\tans%=MOD;\n\t}\n\treturn ans;\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "Combination.java",
+          "content": "public class Combination {\n    public static int nCr(int n, int r) {\n        if (r < 0 || r > n) {\n            return 0;\n        }\n        if (r == 0 || r == n) {\n            return 1;\n        }\n        int k = Math.min(r, n - r);\n        long result = 1;\n        for (int i = 1; i <= k; i++) {\n            result = result * (n - k + i) / i;\n        }\n        return (int) result;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "Combination.kt",
+          "content": "fun nCr(n: Int, r: Int): Long {\n    if (r < 0 || r > n) {\n        return 0\n    }\n    val k = minOf(r, n - r)\n    var result = 1L\n    for (i in 1..k) {\n        result = result * (n - k + i) / i\n    }\n    return result\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "Combination.swift",
+          "content": "func nCr(_ n: Int, _ r: Int) -> Int {\n    if r < 0 || r > n { return 0 }\n    if r == 0 || r == n { return 1 }\n\n    let k = min(r, n - r)\n    var result = 1\n    if k == 0 { return 1 }\n\n    for i in 1...k {\n        result = result * (n - k + i) / i\n    }\n\n    return result\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Combination\n\n## Overview\n\nA combination C(n, r) (also written as \"n choose r\" or nCr) counts the number of ways to select r items from a set of n items, where the order of selection does not matter. The formula is C(n, r) = n! / (r! * (n-r)!). For example, C(5, 2) = 10, meaning there are 10 ways to choose 2 items from 5.\n\nCombinations are fundamental in combinatorics, probability theory, and statistics. They appear in the binomial theorem, Pascal's triangle, the binomial distribution, and countless counting problems. Efficient computation avoids the factorial overflow problem by canceling terms iteratively.\n\n## How It Works\n\nRather than computing three factorials (which overflow quickly), the algorithm computes C(n, r) iteratively by multiplying and dividing in an interleaved fashion: C(n, r) = (n * (n-1) * ... * (n-r+1)) / (r * (r-1) * ... * 1). Using the optimization C(n, r) = C(n, n-r) when r > n-r further reduces the number of operations.\n\n### Example\n\nComputing `C(10, 3)`:\n\n**Optimization:** Since 3 < 10 - 3 = 7, we use r = 3 (no change needed).\n\n**Iterative computation:**\n\n| Step | i | Numerator factor (n - r + i) | Denominator factor (i) | result = result * num / den |\n|------|---|------------------------------|----------------------|---------------------------|\n| Start | - | - | - | 1 |\n| 1 | 1 | 10 - 3 + 1 = 8 | 1 | 1 * 8 / 1 = 8 |\n| 2 | 2 | 10 - 3 + 2 = 9 | 2 | 8 * 9 / 2 = 36 |\n| 3 | 3 | 10 - 3 + 3 = 10 | 3 | 36 * 10 / 3 = 120 |\n\nResult: `C(10, 3) = 120`\n\n**Verification using factorial formula:** C(10, 3) = 10! / (3! * 7!) = 3628800 / (6 * 5040) = 3628800 / 30240 = 120\n\n**Pascal's Triangle relationship:**\n```\nC(n,r) = C(n-1,r-1) + C(n-1,r)\n\nRow 0:                1\nRow 1:              1   1\nRow 2:            1   2   1\nRow 3:          1   3   3   1\nRow 4:        1   4   6   4   1\nRow 5:      1   5  10  10   5   1\n```\n\nC(5, 2) = 10, readable directly from the triangle.\n\n## Pseudocode\n\n```\nfunction combination(n, r):\n    if r > n:\n        return 0\n    if r == 0 or r == n:\n        return 1\n\n    // Optimize: use smaller r\n    if r > n - r:\n        r = n - r\n\n    result = 1\n    for i from 1 to r:\n        result = result * (n - r + i)\n        result = result / i\n\n    return result\n```\n\nThe interleaved multiplication and division keeps intermediate values small. The division is always exact because C(n, r) is always an integer, and the product of i consecutive integers is divisible by i!.\n\n## Complexity Analysis\n\n| Case    | Time | Space |\n|---------|------|-------|\n| Best    | O(r) | O(1)  |\n| Average | O(r) | O(1)  |\n| Worst   | O(r) | O(1)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(r):** With the optimization r = min(r, n-r), the loop runs at most n/2 iterations. For r = 0 or r = n, the function returns immediately in O(1).\n\n- **Average Case -- O(r):** The loop performs exactly r iterations, each requiring one multiplication and one division. With the min(r, n-r) optimization, r <= n/2.\n\n- **Worst Case -- O(r):** The loop always runs exactly min(r, n-r) iterations. The worst case is r = n/2, giving O(n/2) = O(n) iterations.\n\n- **Space -- O(1):** Only a single result variable and loop counter are needed. No arrays are required.\n\n## When to Use\n\n- **Counting selections without order:** The canonical combinatorics application.\n- **Binomial coefficients in polynomials:** Computing coefficients of (x + y)^n.\n- **Probability calculations:** Computing probabilities in the binomial and hypergeometric distributions.\n- **When avoiding overflow is important:** The iterative approach handles larger values than the factorial formula.\n\n## When NOT to Use\n\n- **When order matters:** Use permutations nPr = n! / (n-r)! instead.\n- **When you need all binomial coefficients for a given n:** Build Pascal's triangle row by row instead of computing each independently.\n- **Very large n and r with exact results:** For extremely large values, modular arithmetic (Lucas' theorem) or big-integer libraries are needed.\n- **When repeated combination queries are needed:** Precompute Pascal's triangle for O(1) lookups.\n\n## Comparison with Similar Algorithms\n\n| Method                | Time | Space | Notes                                          |\n|----------------------|------|-------|-------------------------------------------------|\n| Iterative nCr         | O(r) | O(1)  | Efficient; avoids overflow via interleaving      |\n| Factorial formula      | O(n) | O(1)  | Overflows for moderate n; needs big integers     |\n| Pascal's Triangle      | O(n^2)| O(n^2)| Precomputes all C(n,r) up to n                 |\n| Lucas' Theorem         | O(p log_p n)| O(p)| For C(n,r) mod prime p; handles very large n |\n\n## Implementations\n\n| Language | File |\n|----------|------|\n| C++      | [nCr1.cpp](cpp/nCr1.cpp) |\n\n## References\n\n- Graham, R. L., Knuth, D. E., & Patashnik, O. (1994). *Concrete Mathematics* (2nd ed.). Addison-Wesley. Chapter 5: Binomial Coefficients.\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Appendix C: Counting and Probability.\n- [Binomial Coefficient -- Wikipedia](https://en.wikipedia.org/wiki/Binomial_coefficient)\n"
+}

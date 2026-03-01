@@ -1,0 +1,134 @@
+{
+  "name": "Convex Hull Trick",
+  "slug": "convex-hull-trick",
+  "category": "dynamic-programming",
+  "subcategory": "optimization",
+  "difficulty": "advanced",
+  "tags": [
+    "dynamic-programming",
+    "convex-hull-trick",
+    "optimization",
+    "geometry"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "average": "O(n log n)",
+      "worst": "O(n log n)"
+    },
+    "space": "O(n)"
+  },
+  "stable": null,
+  "in_place": false,
+  "related": [
+    "dp-on-trees",
+    "segment-tree"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "convex_hull_trick.c",
+          "content": "#include <stdio.h>\n#include <stdlib.h>\n#include \"convex_hull_trick.h\"\n\ntypedef struct { long long m, b; } Line;\n\nstatic void convex_hull_trick_impl(int n, long long* ms, long long* bs,\n                                   int q, long long* queries, long long* results) {\n    for (int i = 0; i < q; i++) {\n        long long x = queries[i];\n        long long best = 0;\n        for (int j = 0; j < n; j++) {\n            long long value = (ms[j] * x) + bs[j];\n            if (j == 0 || value < best) {\n                best = value;\n            }\n        }\n        results[i] = best;\n    }\n}\n\nint main(void) {\n    int n;\n    scanf(\"%d\", &n);\n    long long* ms = (long long*)malloc(n * sizeof(long long));\n    long long* bs = (long long*)malloc(n * sizeof(long long));\n    for (int i = 0; i < n; i++) scanf(\"%lld %lld\", &ms[i], &bs[i]);\n    int q;\n    scanf(\"%d\", &q);\n    long long* queries = (long long*)malloc(q * sizeof(long long));\n    long long* results = (long long*)malloc(q * sizeof(long long));\n    for (int i = 0; i < q; i++) scanf(\"%lld\", &queries[i]);\n    convex_hull_trick_impl(n, ms, bs, q, queries, results);\n    for (int i = 0; i < q; i++) {\n        if (i) printf(\" \");\n        printf(\"%lld\", results[i]);\n    }\n    printf(\"\\n\");\n    free(ms); free(bs); free(queries); free(results);\n    return 0;\n}\n\nint* convex_hull_trick(int arr[], int size, int* out_size) {\n    if (size < 1) {\n        *out_size = 0;\n        return NULL;\n    }\n\n    int n = arr[0];\n    if (n < 0 || size < 1 + (2 * n)) {\n        *out_size = 0;\n        return NULL;\n    }\n\n    int q = size - 1 - (2 * n);\n    if (q < 0) {\n        *out_size = 0;\n        return NULL;\n    }\n\n    long long* ms = (long long*)malloc((n > 0 ? n : 1) * sizeof(long long));\n    long long* bs = (long long*)malloc((n > 0 ? n : 1) * sizeof(long long));\n    long long* queries = (long long*)malloc((q > 0 ? q : 1) * sizeof(long long));\n    long long* tmp = (long long*)malloc((q > 0 ? q : 1) * sizeof(long long));\n    int* result = (int*)malloc((q > 0 ? q : 1) * sizeof(int));\n    if (!ms || !bs || !queries || !tmp || !result) {\n        free(ms); free(bs); free(queries); free(tmp); free(result);\n        *out_size = 0;\n        return NULL;\n    }\n\n    for (int i = 0; i < n; i++) {\n        ms[i] = arr[1 + (2 * i)];\n        bs[i] = arr[1 + (2 * i) + 1];\n    }\n    for (int i = 0; i < q; i++) {\n        queries[i] = arr[1 + (2 * n) + i];\n    }\n\n    convex_hull_trick_impl(n, ms, bs, q, queries, tmp);\n    for (int i = 0; i < q; i++) {\n        result[i] = (int)tmp[i];\n    }\n\n    free(ms);\n    free(bs);\n    free(queries);\n    free(tmp);\n    *out_size = q;\n    return result;\n}\n"
+        },
+        {
+          "filename": "convex_hull_trick.h",
+          "content": "#ifndef CONVEX_HULL_TRICK_H\n#define CONVEX_HULL_TRICK_H\n\nint* convex_hull_trick(int arr[], int size, int* out_size);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "convex_hull_trick.cpp",
+          "content": "#include <limits>\n#include <vector>\n\nstd::vector<long long> convex_hull_trick(\n    int n,\n    const std::vector<std::vector<int>>& lines,\n    const std::vector<int>& queries\n) {\n    std::vector<long long> result;\n    result.reserve(queries.size());\n\n    for (int x : queries) {\n        long long best = std::numeric_limits<long long>::max();\n        for (int index = 0; index < n && index < static_cast<int>(lines.size()); ++index) {\n            if (lines[index].size() < 2) {\n                continue;\n            }\n            long long m = lines[index][0];\n            long long b = lines[index][1];\n            long long value = m * static_cast<long long>(x) + b;\n            if (value < best) {\n                best = value;\n            }\n        }\n        result.push_back(best == std::numeric_limits<long long>::max() ? 0 : best);\n    }\n\n    return result;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "ConvexHullTrick.cs",
+          "content": "using System;\nusing System.Collections.Generic;\nusing System.Linq;\n\npublic class ConvexHullTrick\n{\n    static bool Bad(long m1, long b1, long m2, long b2, long m3, long b3)\n    {\n        return (double)(b3 - b1) * (m1 - m2) <= (double)(b2 - b1) * (m1 - m3);\n    }\n\n    public static long[] Solve(long[][] lines, long[] queries)\n    {\n        Array.Sort(lines, (a, b) => a[0].CompareTo(b[0]));\n        var hull = new List<long[]>();\n        foreach (var line in lines)\n        {\n            while (hull.Count >= 2 &&\n                   Bad(hull[hull.Count - 2][0], hull[hull.Count - 2][1],\n                       hull[hull.Count - 1][0], hull[hull.Count - 1][1],\n                       line[0], line[1]))\n                hull.RemoveAt(hull.Count - 1);\n            hull.Add(line);\n        }\n\n        var results = new long[queries.Length];\n        for (int i = 0; i < queries.Length; i++)\n        {\n            long x = queries[i];\n            int lo = 0, hi = hull.Count - 1;\n            while (lo < hi)\n            {\n                int mid = (lo + hi) / 2;\n                if (hull[mid][0] * x + hull[mid][1] <= hull[mid + 1][0] * x + hull[mid + 1][1])\n                    hi = mid;\n                else\n                    lo = mid + 1;\n            }\n            results[i] = hull[lo][0] * x + hull[lo][1];\n        }\n        return results;\n    }\n\n    public static void Main(string[] args)\n    {\n        var tokens = Console.ReadLine().Trim().Split();\n        int idx = 0;\n        int n = int.Parse(tokens[idx++]);\n        var lines = new long[n][];\n        for (int i = 0; i < n; i++)\n            lines[i] = new long[] { long.Parse(tokens[idx++]), long.Parse(tokens[idx++]) };\n        int q = int.Parse(tokens[idx++]);\n        var queries = new long[q];\n        for (int i = 0; i < q; i++) queries[i] = long.Parse(tokens[idx++]);\n        Console.WriteLine(string.Join(\" \", Solve(lines, queries)));\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "convex_hull_trick.go",
+          "content": "package main\n\nimport (\n\t\"fmt\"\n\t\"sort\"\n)\n\ntype Line struct {\n\tm, b int64\n}\n\nfunc bad(l1, l2, l3 Line) bool {\n\treturn float64(l3.b-l1.b)*float64(l1.m-l2.m) <=\n\t\tfloat64(l2.b-l1.b)*float64(l1.m-l3.m)\n}\n\nfunc convexHullTrick(lines []Line, queries []int64) []int64 {\n\tsort.Slice(lines, func(i, j int) bool { return lines[i].m < lines[j].m })\n\thull := []Line{}\n\tfor _, l := range lines {\n\t\tfor len(hull) >= 2 && bad(hull[len(hull)-2], hull[len(hull)-1], l) {\n\t\t\thull = hull[:len(hull)-1]\n\t\t}\n\t\thull = append(hull, l)\n\t}\n\n\tresults := make([]int64, len(queries))\n\tfor i, x := range queries {\n\t\tlo, hi := 0, len(hull)-1\n\t\tfor lo < hi {\n\t\t\tmid := (lo + hi) / 2\n\t\t\tif hull[mid].m*x+hull[mid].b <= hull[mid+1].m*x+hull[mid+1].b {\n\t\t\t\thi = mid\n\t\t\t} else {\n\t\t\t\tlo = mid + 1\n\t\t\t}\n\t\t}\n\t\tresults[i] = hull[lo].m*x + hull[lo].b\n\t}\n\treturn results\n}\n\nfunc main() {\n\tvar n int\n\tfmt.Scan(&n)\n\tlines := make([]Line, n)\n\tfor i := 0; i < n; i++ {\n\t\tfmt.Scan(&lines[i].m, &lines[i].b)\n\t}\n\tvar q int\n\tfmt.Scan(&q)\n\tqueries := make([]int64, q)\n\tfor i := 0; i < q; i++ {\n\t\tfmt.Scan(&queries[i])\n\t}\n\tresults := convexHullTrick(lines, queries)\n\tfor i, v := range results {\n\t\tif i > 0 {\n\t\t\tfmt.Print(\" \")\n\t\t}\n\t\tfmt.Print(v)\n\t}\n\tfmt.Println()\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "ConvexHullTrick.java",
+          "content": "import java.util.*;\n\npublic class ConvexHullTrick {\n\n    static long[] ms, bs;\n    static int size;\n\n    static void init(int capacity) {\n        ms = new long[capacity];\n        bs = new long[capacity];\n        size = 0;\n    }\n\n    static boolean bad(int l1, int l2, int l3) {\n        return (double)(bs[l3] - bs[l1]) * (ms[l1] - ms[l2])\n             <= (double)(bs[l2] - bs[l1]) * (ms[l1] - ms[l3]);\n    }\n\n    static void addLine(long m, long b) {\n        ms[size] = m;\n        bs[size] = b;\n        while (size >= 2 && bad(size - 2, size - 1, size)) {\n            ms[size - 1] = ms[size];\n            bs[size - 1] = bs[size];\n            size--;\n        }\n        size++;\n    }\n\n    static long query(long x) {\n        int lo = 0, hi = size - 1;\n        while (lo < hi) {\n            int mid = (lo + hi) / 2;\n            if (ms[mid] * x + bs[mid] <= ms[mid + 1] * x + bs[mid + 1]) hi = mid;\n            else lo = mid + 1;\n        }\n        return ms[lo] * x + bs[lo];\n    }\n\n    public static long[] convexHullTrick(int n, long[][] lines, long[] queries) {\n        long[] result = new long[queries.length];\n        for (int i = 0; i < queries.length; i++) {\n            long best = Long.MAX_VALUE;\n            for (long[] line : lines) {\n                best = Math.min(best, line[0] * queries[i] + line[1]);\n            }\n            result[i] = best;\n        }\n        return result;\n    }\n\n    public static long[] solve(long[][] lines, long[] queries) {\n        Arrays.sort(lines, (a, b2) -> Long.compare(a[0], b2[0]));\n        init(lines.length + 1);\n        for (long[] line : lines) addLine(line[0], line[1]);\n        long[] result = new long[queries.length];\n        for (int i = 0; i < queries.length; i++) result[i] = query(queries[i]);\n        return result;\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        long[][] lines = new long[n][2];\n        for (int i = 0; i < n; i++) { lines[i][0] = sc.nextLong(); lines[i][1] = sc.nextLong(); }\n        int q = sc.nextInt();\n        long[] queries = new long[q];\n        for (int i = 0; i < q; i++) queries[i] = sc.nextLong();\n        long[] result = solve(lines, queries);\n        StringBuilder sb = new StringBuilder();\n        for (int i = 0; i < result.length; i++) { if (i > 0) sb.append(' '); sb.append(result[i]); }\n        System.out.println(sb);\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "ConvexHullTrick.kt",
+          "content": "fun convexHullTrick(n: Int, linesInput: Array<IntArray>, queries: IntArray): List<Long> {\n    val lines = mutableListOf<Pair<Long, Long>>()\n    for (index in 0 until minOf(n, linesInput.size)) {\n        val line = linesInput[index]\n        if (line.size >= 2) {\n            lines.add(line[0].toLong() to line[1].toLong())\n        }\n    }\n    return convexHullTrick(lines, queries.map { it.toLong() })\n}\n\nfun convexHullTrick(lines: MutableList<Pair<Long, Long>>, queries: List<Long>): List<Long> {\n    return queries.map { x ->\n        lines.minOfOrNull { (m, b) -> m * x + b } ?: 0L\n    }\n}\n\nfun main() {\n    val input = System.`in`.bufferedReader().readText().trim().split(\"\\\\s+\".toRegex()).map { it.toLong() }\n    var idx = 0\n    val n = input[idx++].toInt()\n    val lines = mutableListOf<Pair<Long, Long>>()\n    for (i in 0 until n) {\n        val m = input[idx++]\n        val b = input[idx++]\n        lines.add(Pair(m, b))\n    }\n    val q = input[idx++].toInt()\n    val queries = (0 until q).map { input[idx++] }\n    println(convexHullTrick(lines, queries).joinToString(\" \"))\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "convex_hull_trick.py",
+          "content": "import sys\n\n\ndef convex_hull_trick(lines, queries):\n    \"\"\"Return minimum y = m*x + b for each query x over all lines.\"\"\"\n    # Sort lines by slope for the hull construction\n    lines_sorted = sorted(lines, key=lambda l: l[0])\n    hull = []  # Each element is (m, b)\n\n    def bad(l1, l2, l3):\n        # Check if l2 is unnecessary given l1 and l3\n        # Intersection of l1 and l3 is at x = (b3 - b1) / (m1 - m3)\n        # l2 is bad if at that x, l2 >= l1 (or l3)\n        return (l3[1] - l1[1]) * (l1[0] - l2[0]) <= (l2[1] - l1[1]) * (l1[0] - l3[0])\n\n    for line in lines_sorted:\n        while len(hull) >= 2 and bad(hull[-2], hull[-1], line):\n            hull.pop()\n        hull.append(line)\n\n    def query(x):\n        lo, hi = 0, len(hull) - 1\n        while lo < hi:\n            mid = (lo + hi) // 2\n            if hull[mid][0] * x + hull[mid][1] <= hull[mid + 1][0] * x + hull[mid + 1][1]:\n                hi = mid\n            else:\n                lo = mid + 1\n        return hull[lo][0] * x + hull[lo][1]\n\n    return [query(x) for x in queries]\n\n\nif __name__ == \"__main__\":\n    data = sys.stdin.read().split()\n    idx = 0\n    n = int(data[idx]); idx += 1\n    lines = []\n    for i in range(n):\n        m = int(data[idx]); idx += 1\n        b = int(data[idx]); idx += 1\n        lines.append((m, b))\n    q = int(data[idx]); idx += 1\n    queries = [int(data[idx + i]) for i in range(q)]\n    result = convex_hull_trick(lines, queries)\n    print(' '.join(map(str, result)))\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "convex_hull_trick.rs",
+          "content": "use std::io::{self, Read};\n\nfn bad(l1: (i64, i64), l2: (i64, i64), l3: (i64, i64)) -> bool {\n    (l3.1 - l1.1) as f64 * (l1.0 - l2.0) as f64\n        <= (l2.1 - l1.1) as f64 * (l1.0 - l3.0) as f64\n}\n\nfn convex_hull_trick(lines: &mut Vec<(i64, i64)>, queries: &[i64]) -> Vec<i64> {\n    lines.sort_by_key(|l| l.0);\n    let mut hull: Vec<(i64, i64)> = Vec::new();\n    for &l in lines.iter() {\n        while hull.len() >= 2 && bad(hull[hull.len() - 2], hull[hull.len() - 1], l) {\n            hull.pop();\n        }\n        hull.push(l);\n    }\n\n    queries\n        .iter()\n        .map(|&x| {\n            let (mut lo, mut hi) = (0usize, hull.len() - 1);\n            while lo < hi {\n                let mid = (lo + hi) / 2;\n                if hull[mid].0 * x + hull[mid].1 <= hull[mid + 1].0 * x + hull[mid + 1].1 {\n                    hi = mid;\n                } else {\n                    lo = mid + 1;\n                }\n            }\n            hull[lo].0 * x + hull[lo].1\n        })\n        .collect()\n}\n\nfn main() {\n    let mut input = String::new();\n    io::stdin().read_to_string(&mut input).unwrap();\n    let nums: Vec<i64> = input.split_whitespace().map(|x| x.parse().unwrap()).collect();\n    let mut idx = 0;\n    let n = nums[idx] as usize; idx += 1;\n    let mut lines = Vec::new();\n    for _ in 0..n {\n        let m = nums[idx]; idx += 1;\n        let b = nums[idx]; idx += 1;\n        lines.push((m, b));\n    }\n    let q = nums[idx] as usize; idx += 1;\n    let queries: Vec<i64> = nums[idx..idx + q].to_vec();\n    let result = convex_hull_trick(&mut lines, &queries);\n    let strs: Vec<String> = result.iter().map(|x| x.to_string()).collect();\n    println!(\"{}\", strs.join(\" \"));\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "ConvexHullTrick.scala",
+          "content": "object ConvexHullTrick {\n\n  def solve(lines: Array[(Long, Long)], queries: Array[Long]): Array[Long] = {\n    val sorted = lines.sortBy(_._1)\n    val hull = scala.collection.mutable.ArrayBuffer[(Long, Long)]()\n\n    def bad(l1: (Long, Long), l2: (Long, Long), l3: (Long, Long)): Boolean = {\n      (l3._2 - l1._2).toDouble * (l1._1 - l2._1).toDouble <=\n      (l2._2 - l1._2).toDouble * (l1._1 - l3._1).toDouble\n    }\n\n    for (line <- sorted) {\n      while (hull.size >= 2 && bad(hull(hull.size - 2), hull(hull.size - 1), line))\n        hull.remove(hull.size - 1)\n      hull += line\n    }\n\n    queries.map { x =>\n      var lo = 0\n      var hi = hull.size - 1\n      while (lo < hi) {\n        val mid = (lo + hi) / 2\n        if (hull(mid)._1 * x + hull(mid)._2 <= hull(mid + 1)._1 * x + hull(mid + 1)._2)\n          hi = mid\n        else\n          lo = mid + 1\n      }\n      hull(lo)._1 * x + hull(lo)._2\n    }\n  }\n\n  def main(args: Array[String]): Unit = {\n    val input = scala.io.StdIn.readLine().trim.split(\"\\\\s+\").map(_.toLong)\n    var idx = 0\n    val n = input(idx).toInt; idx += 1\n    val lines = Array.fill(n) {\n      val m = input(idx); idx += 1\n      val b = input(idx); idx += 1\n      (m, b)\n    }\n    val q = input(idx).toInt; idx += 1\n    val queries = Array.fill(q) { val v = input(idx); idx += 1; v }\n    println(solve(lines, queries).mkString(\" \"))\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "ConvexHullTrick.swift",
+          "content": "import Foundation\n\nfunc convexHullTrick(_ inputLines: [(Int, Int)], _ queries: [Int]) -> [Int] {\n    queries.map { x in\n        inputLines.map { $0.0 * x + $0.1 }.min() ?? 0\n    }\n}\n\nlet data = readLine()!.split(separator: \" \").map { Int($0)! }\nvar idx = 0\nlet n = data[idx]; idx += 1\nvar lines: [(Int, Int)] = []\nfor _ in 0..<n {\n    let m = data[idx]; idx += 1\n    let b = data[idx]; idx += 1\n    lines.append((m, b))\n}\nlet q = data[idx]; idx += 1\nvar queries: [Int] = []\nfor _ in 0..<q {\n    queries.append(data[idx]); idx += 1\n}\nprint(convexHullTrick(lines, queries).map { String($0) }.joined(separator: \" \"))\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "convexHullTrick.ts",
+          "content": "export function convexHullTrick(\n    _lineCount: number,\n    lines: [number, number][],\n    queries: number[]\n): number[] {\n    return queries.map((x) => {\n        let best = Number.POSITIVE_INFINITY;\n        for (const [m, b] of lines) {\n            best = Math.min(best, m * x + b);\n        }\n        return best;\n    });\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Convex Hull Trick\n\n## Overview\n\nThe Convex Hull Trick (CHT) is an optimization technique for dynamic programming recurrences of the form `dp[i] = min(m_j * x_i + b_j)` over all j < i, where the objective is to find the minimum (or maximum) value from a set of linear functions evaluated at a given point. Instead of checking all previous lines for each query (O(n^2) total), CHT maintains a convex hull (lower envelope) of candidate lines, reducing the total time to O(n log n) or even O(n) when slopes or query points are monotone.\n\nThis technique appears frequently in competitive programming and in optimizing DP problems from computational geometry, economics, and operations research.\n\n## How It Works\n\n1. **Maintain a set of lines** y = mx + b organized as a convex hull (lower envelope for minimum queries, upper envelope for maximum queries).\n2. **When adding a new line**, remove any lines that are no longer part of the envelope. A line L2 between L1 and L3 is redundant if the intersection of L1 and L3 gives a lower value than L2 at that intersection point.\n3. **For each query x**, find the line on the hull that gives the minimum (or maximum) y value:\n   - If queries come in sorted order: use a pointer that advances along the hull (amortized O(1)).\n   - If queries are arbitrary: use binary search on the hull (O(log n)).\n4. The redundancy check uses the intersection test: line L2 is redundant if `intersect(L1, L3).x <= intersect(L1, L2).x`.\n\n## Worked Example\n\n**Lines:** y = -1x + 5, y = -2x + 8, y = 0x + 3 (slopes: -1, -2, 0; intercepts: 5, 8, 3).\n\n**Queries:** x = 1, x = 3, x = 5.\n\n**Building the lower envelope (sorted by slope):**\n- Add line y = -2x + 8 (slope -2)\n- Add line y = -1x + 5 (slope -1). Intersection with previous: -2x+8 = -1x+5, x=3. Keep both.\n- Add line y = 0x + 3 (slope 0). Intersection of -1x+5 and 0x+3: x=2. Intersection of -2x+8 and 0x+3: x=2.5. Since 2 < 2.5, line y=-1x+5 is NOT redundant. Keep all three.\n\n**Answering queries:**\n- x=1: min(-2*1+8, -1*1+5, 0*1+3) = min(6, 4, 3) = **3** (line y=0x+3)\n- x=3: min(-2*3+8, -1*3+5, 0*3+3) = min(2, 2, 3) = **2** (line y=-2x+8 or y=-1x+5)\n- x=5: min(-2*5+8, -1*5+5, 0*5+3) = min(-2, 0, 3) = **-2** (line y=-2x+8)\n\n## Pseudocode\n\n```\n// For minimum queries with slopes in decreasing order\nstruct Line:\n    m, b    // y = m*x + b\n\nfunction bad(L1, L2, L3):\n    // Returns true if L2 is redundant given L1 and L3\n    return (L3.b - L1.b) * (L1.m - L2.m) <= (L2.b - L1.b) * (L1.m - L3.m)\n\nfunction addLine(hull, line):\n    while len(hull) >= 2 and bad(hull[-2], hull[-1], line):\n        hull.removeLast()\n    hull.append(line)\n\nfunction query(hull, x):\n    // Binary search for the optimal line\n    lo = 0, hi = len(hull) - 1\n    while lo < hi:\n        mid = (lo + hi) / 2\n        if hull[mid].m * x + hull[mid].b <= hull[mid+1].m * x + hull[mid+1].b:\n            hi = mid\n        else:\n            lo = mid + 1\n    return hull[lo].m * x + hull[lo].b\n\n// Monotone pointer version (when queries are sorted):\nfunction queryMonotone(hull, x, pointer):\n    while pointer < len(hull) - 1 and\n          hull[pointer+1].m * x + hull[pointer+1].b <= hull[pointer].m * x + hull[pointer].b:\n        pointer += 1\n    return hull[pointer].m * x + hull[pointer].b, pointer\n```\n\n## Complexity Analysis\n\n| Case    | Time       | Space |\n|---------|-----------|-------|\n| Best    | O(n)      | O(n)  |\n| Average | O(n log n)| O(n)  |\n| Worst   | O(n log n)| O(n)  |\n\n**Why these complexities?**\n\n- **Best -- O(n):** When both slopes and query points are monotonically sorted, the pointer-based approach processes each line and each query in amortized O(1), giving O(n) total.\n\n- **Average/Worst -- O(n log n):** When query points are not sorted, each query requires O(log n) binary search on the hull. Adding all n lines takes amortized O(n) total (each line is added and removed at most once). So: O(n) for building + O(n log n) for queries.\n\n- **Space -- O(n):** The hull stores at most n lines.\n\n## When to Use\n\n- **DP optimization:** When a DP recurrence has the form dp[i] = min/max(a_j * b_i + c_j) where the variables separate into terms depending on j and terms depending on i.\n- **Batch line queries:** When you have a set of linear functions and need to find the minimum/maximum at multiple query points.\n- **Computational geometry:** Finding the lower/upper envelope of a set of lines.\n- **Economics and operations research:** Linear cost models where you choose the best supplier/strategy at different demand levels.\n- **Competitive programming:** A frequently tested optimization technique in Codeforces, USACO, and IOI-style contests.\n\n## When NOT to Use\n\n- **Non-linear cost functions:** CHT only works when the objective is linear in the query variable. For quadratic or other non-linear functions, use the divide-and-conquer optimization or Li Chao tree.\n- **When the DP does not separate variables:** The recurrence must factor into the form m_j * x_i + b_j. If the interaction between i and j is more complex, CHT does not apply.\n- **Small input sizes:** For small n (< 1000), the naive O(n^2) approach is simpler and fast enough.\n- **Dynamic insertions and deletions:** CHT supports efficient insertion but not deletion. If lines need to be removed dynamically, use a Li Chao tree or kinetic data structure.\n\n## Comparison\n\n| Technique                | Time          | Space | Notes                                        |\n|-------------------------|--------------|-------|----------------------------------------------|\n| Naive DP                 | O(n^2)       | O(n)  | Check all previous states for each state     |\n| **Convex Hull Trick**    | **O(n) to O(n log n)** | **O(n)** | **Lines must be linear; slopes sorted helps** |\n| Li Chao Tree             | O(n log n)    | O(n)  | Handles arbitrary insertion order; segment tree|\n| Divide and Conquer Opt.  | O(n log n)    | O(n)  | For monotone minima; no linearity needed     |\n| Knuth's Optimization     | O(n^2)        | O(n^2)| For quadrangle inequality; interval DP       |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [convex_hull_trick.py](python/convex_hull_trick.py) |\n| Java       | [ConvexHullTrick.java](java/ConvexHullTrick.java) |\n| C++        | [convex_hull_trick.cpp](cpp/convex_hull_trick.cpp) |\n| C          | [convex_hull_trick.c](c/convex_hull_trick.c) |\n| Go         | [convex_hull_trick.go](go/convex_hull_trick.go) |\n| TypeScript | [convexHullTrick.ts](typescript/convexHullTrick.ts) |\n| Rust       | [convex_hull_trick.rs](rust/convex_hull_trick.rs) |\n| Kotlin     | [ConvexHullTrick.kt](kotlin/ConvexHullTrick.kt) |\n| Swift      | [ConvexHullTrick.swift](swift/ConvexHullTrick.swift) |\n| Scala      | [ConvexHullTrick.scala](scala/ConvexHullTrick.scala) |\n| C#         | [ConvexHullTrick.cs](csharp/ConvexHullTrick.cs) |\n\n## References\n\n- Halim, S., & Halim, F. (2013). *Competitive Programming 3*. Chapter 9: Rare Topics.\n- [Convex Hull Trick -- CP-Algorithms](https://cp-algorithms.com/geometry/convex_hull_trick.html)\n- [Li Chao Tree -- CP-Algorithms](https://cp-algorithms.com/geometry/li-chao-tree.html)\n- [Convex Hull Trick and Li Chao Tree -- Codeforces](https://codeforces.com/blog/entry/63823)\n"
+}

@@ -1,0 +1,148 @@
+{
+  "name": "Jump Search",
+  "slug": "jump-search",
+  "category": "searching",
+  "subcategory": "search",
+  "difficulty": "beginner",
+  "tags": [
+    "searching",
+    "jump",
+    "sorted-array",
+    "block-search"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(1)",
+      "average": "O(sqrt(n))",
+      "worst": "O(sqrt(n))"
+    },
+    "space": "O(1)"
+  },
+  "stable": null,
+  "in_place": true,
+  "related": [
+    "binary-search",
+    "interpolation-search",
+    "linear-search"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "jump_search.c",
+          "content": "#include \"jump_search.h\"\n#include <math.h>\n\n#define MIN(a,b) (((a)<(b))?(a):(b))\n\nint jump_search(int arr[], int n, int target) {\n    if (n == 0) return -1;\n    \n    int step = sqrt(n);\n    int prev = 0;\n    \n    while (arr[MIN(step, n) - 1] < target) {\n        prev = step;\n        step += sqrt(n);\n        if (prev >= n)\n            return -1;\n    }\n    \n    while (arr[prev] < target) {\n        prev++;\n        if (prev == MIN(step, n))\n            return -1;\n    }\n    \n    if (arr[prev] == target)\n        return prev;\n        \n    return -1;\n}\n"
+        },
+        {
+          "filename": "jump_search.h",
+          "content": "#ifndef JUMP_SEARCH_H\n#define JUMP_SEARCH_H\n\nint jump_search(int arr[], int n, int target);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "jump_search.cpp",
+          "content": "#include \"jump_search.h\"\n#include <vector>\n#include <cmath>\n#include <algorithm>\n\nint jump_search(const std::vector<int>& arr, int target) {\n    int n = arr.size();\n    if (n == 0) return -1;\n    \n    int step = std::sqrt(n);\n    int prev = 0;\n    \n    while (arr[std::min(step, n) - 1] < target) {\n        prev = step;\n        step += std::sqrt(n);\n        if (prev >= n)\n            return -1;\n    }\n    \n    while (arr[prev] < target) {\n        prev++;\n        if (prev == std::min(step, n))\n            return -1;\n    }\n    \n    if (arr[prev] == target)\n        return prev;\n        \n    return -1;\n}\n"
+        },
+        {
+          "filename": "jump_search.h",
+          "content": "#ifndef JUMP_SEARCH_H\n#define JUMP_SEARCH_H\n\n#include <vector>\n\nint jump_search(const std::vector<int>& arr, int target);\n\n#endif\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "JumpSearch.cs",
+          "content": "using System;\n\nnamespace Algorithms.Searching.JumpSearch\n{\n    public class JumpSearch\n    {\n        public static int Search(int[] arr, int target)\n        {\n            int n = arr.Length;\n            if (n == 0) return -1;\n\n            int step = (int)Math.Sqrt(n);\n            int prev = 0;\n\n            while (arr[Math.Min(step, n) - 1] < target)\n            {\n                prev = step;\n                step += (int)Math.Sqrt(n);\n                if (prev >= n)\n                    return -1;\n            }\n\n            while (arr[prev] < target)\n            {\n                prev++;\n                if (prev == Math.Min(step, n))\n                    return -1;\n            }\n\n            if (arr[prev] == target)\n                return prev;\n\n            return -1;\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "jump_search.go",
+          "content": "package jumpsearch\n\nimport \"math\"\n\nfunc JumpSearch(arr []int, target int) int {\n\tn := len(arr)\n\tif n == 0 {\n\t\treturn -1\n\t}\n\n\tstep := int(math.Sqrt(float64(n)))\n\tprev := 0\n\n\tfor arr[min(step, n)-1] < target {\n\t\tprev = step\n\t\tstep += int(math.Sqrt(float64(n)))\n\t\tif prev >= n {\n\t\t\treturn -1\n\t\t}\n\t}\n\n\tfor arr[prev] < target {\n\t\tprev++\n\t\tif prev == min(step, n) {\n\t\t\treturn -1\n\t\t}\n\t}\n\n\tif arr[prev] == target {\n\t\treturn prev\n\t}\n\n\treturn -1\n}\n\nfunc min(a, b int) int {\n\tif a < b {\n\t\treturn a\n\t}\n\treturn b\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "JumpSearch.java",
+          "content": "package algorithms.searching.jumpsearch;\n\npublic class JumpSearch {\n    public static int search(int[] arr, int target) {\n        int n = arr.length;\n        if (n == 0) return -1;\n        \n        int step = (int)Math.sqrt(n);\n        int prev = 0;\n        \n        while (arr[Math.min(step, n) - 1] < target) {\n            prev = step;\n            step += (int)Math.sqrt(n);\n            if (prev >= n)\n                return -1;\n        }\n        \n        while (arr[prev] < target) {\n            prev++;\n            if (prev == Math.min(step, n))\n                return -1;\n        }\n        \n        if (arr[prev] == target)\n            return prev;\n            \n        return -1;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "JumpSearch.kt",
+          "content": "package algorithms.searching.jumpsearch\n\nimport kotlin.math.sqrt\nimport kotlin.math.min\n\nclass JumpSearch {\n    fun search(arr: IntArray, target: Int): Int {\n        val n = arr.size\n        if (n == 0) return -1\n        \n        var step = sqrt(n.toDouble()).toInt()\n        var prev = 0\n        \n        while (arr[min(step, n) - 1] < target) {\n            prev = step\n            step += sqrt(n.toDouble()).toInt()\n            if (prev >= n)\n                return -1\n        }\n        \n        while (arr[prev] < target) {\n            prev++\n            if (prev == min(step, n))\n                return -1\n        }\n        \n        if (arr[prev] == target)\n            return prev\n            \n        return -1\n    }\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "jump_search.py",
+          "content": "import math\n\ndef jump_search(arr, target):\n    n = len(arr)\n    if n == 0:\n        return -1\n        \n    step = int(math.sqrt(n))\n    prev = 0\n    \n    while arr[min(step, n) - 1] < target:\n        prev = step\n        step += int(math.sqrt(n))\n        if prev >= n:\n            return -1\n            \n    while arr[prev] < target:\n        prev += 1\n        if prev == min(step, n):\n            return -1\n            \n    if arr[prev] == target:\n        return prev\n        \n    return -1\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "jump_search.rs",
+          "content": "use std::cmp::min;\n\npub fn jump_search(arr: &[i32], target: i32) -> i32 {\n    let n = arr.len();\n    if n == 0 {\n        return -1;\n    }\n\n    let mut step = (n as f64).sqrt() as usize;\n    let mut prev = 0;\n\n    while arr[min(step, n) - 1] < target {\n        prev = step;\n        step += (n as f64).sqrt() as usize;\n        if prev >= n {\n            return -1;\n        }\n    }\n\n    while arr[prev] < target {\n        prev += 1;\n        if prev == min(step, n) {\n            return -1;\n        }\n    }\n\n    if arr[prev] == target {\n        return prev as i32;\n    }\n\n    -1\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "JumpSearch.scala",
+          "content": "import scala.math._\n\nobject JumpSearch {\n  def search(arr: Array[Int], target: Int): Int = {\n    val n = arr.length\n    if (n == 0) return -1\n    \n    var step = sqrt(n).toInt\n    var prev = 0\n    \n    while (arr(min(step, n) - 1) < target) {\n      prev = step\n      step += sqrt(n).toInt\n      if (prev >= n) return -1\n    }\n    \n    while (arr(prev) < target) {\n      prev += 1\n      if (prev == min(step, n)) return -1\n    }\n    \n    if (arr(prev) == target) return prev\n    \n    -1\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "JumpSearch.swift",
+          "content": "import Foundation\n\nclass JumpSearch {\n    static func search(_ arr: [Int], _ target: Int) -> Int {\n        let n = arr.count\n        if n == 0 { return -1 }\n        \n        var step = Int(sqrt(Double(n)))\n        var prev = 0\n        \n        while arr[min(step, n) - 1] < target {\n            prev = step\n            step += Int(sqrt(Double(n)))\n            if prev >= n { return -1 }\n        }\n        \n        while arr[prev] < target {\n            prev += 1\n            if prev == min(step, n) { return -1 }\n        }\n        \n        if arr[prev] == target { return prev }\n        \n        return -1\n    }\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "jump-search.ts",
+          "content": "export function jumpSearch(arr: number[], target: number): number {\n  const n = arr.length;\n  if (n === 0) return -1;\n  \n  let step = Math.floor(Math.sqrt(n));\n  let prev = 0;\n  \n  while (arr[Math.min(step, n) - 1] < target) {\n    prev = step;\n    step += Math.floor(Math.sqrt(n));\n    if (prev >= n) return -1;\n  }\n  \n  while (arr[prev] < target) {\n    prev++;\n    if (prev === Math.min(step, n)) return -1;\n  }\n  \n  if (arr[prev] === target) return prev;\n  \n  return -1;\n}\n"
+        },
+        {
+          "filename": "jumpSearch.ts",
+          "content": "export function jumpSearch(arr: number[], target: number): number {\n    const n = arr.length;\n    if (n === 0) return -1;\n    const jumpSize = Math.floor(Math.sqrt(n));\n    let prev = 0, step = jumpSize;\n    while (prev < n && arr[Math.min(step, n) - 1] < target) {\n        prev = step; step += jumpSize;\n        if (prev >= n) return -1;\n    }\n    for (let i = prev; i < Math.min(step, n); i++) {\n        if (arr[i] === target) return i;\n    }\n    return -1;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "patterns": [
+    "modified-binary-search"
+  ],
+  "patternDifficulty": "beginner",
+  "practiceOrder": 7,
+  "readme": "# Jump Search\n\n## Overview\n\nJump Search is a searching algorithm for sorted arrays that works by jumping ahead in fixed-size blocks and then performing a linear search within the block where the target might reside. The optimal block size is the square root of the array length, giving an O(sqrt(n)) time complexity. Jump Search offers a middle ground between linear search (O(n)) and binary search (O(log n)), and is particularly useful on systems where jumping forward is cheap but jumping backward is expensive.\n\nThe algorithm is sometimes called Block Search because it divides the array into blocks of fixed size and searches block by block.\n\n## How It Works\n\n1. Compute the optimal jump size: `step = floor(sqrt(n))`.\n2. Starting from index 0, jump forward by `step` positions until either:\n   - The element at the current position is greater than or equal to the target, or\n   - The end of the array is reached.\n3. Perform a linear search backward from the current position to the previous jump position.\n4. Return the index if found, or -1 otherwise.\n\n## Worked Example\n\nArray: `[1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31]` (length 16), Target: `21`\n\nJump size: `floor(sqrt(16)) = 4`\n\n**Phase 1 -- Jump forward in blocks of 4:**\n\n| Step | Index | arr[index] | Comparison   | Action        |\n|------|-------|------------|--------------|---------------|\n| 1    | 0     | 1          | 1 < 21       | Jump forward  |\n| 2    | 4     | 9          | 9 < 21       | Jump forward  |\n| 3    | 8     | 17         | 17 < 21      | Jump forward  |\n| 4    | 12    | 25         | 25 >= 21     | Stop jumping  |\n\nTarget must be in the block between indices 8 and 12.\n\n**Phase 2 -- Linear search from index 8:**\n\n| Step | Index | arr[index] | Comparison   | Action    |\n|------|-------|------------|--------------|-----------|\n| 1    | 8     | 17         | 17 != 21     | Next      |\n| 2    | 9     | 19         | 19 != 21     | Next      |\n| 3    | 10    | 21         | 21 == 21     | Found!    |\n\nResult: Target `21` found at index **10**.\n\n## Pseudocode\n\n```\nfunction jumpSearch(array, target):\n    n = length(array)\n    step = floor(sqrt(n))\n\n    // Phase 1: Jump forward to find the block\n    prev = 0\n    curr = step\n    while curr < n and array[curr] < target:\n        prev = curr\n        curr = curr + step\n\n    // Phase 2: Linear search within the block\n    for i from prev to min(curr, n - 1):\n        if array[i] == target:\n            return i\n\n    return -1\n```\n\n## Complexity Analysis\n\n| Case    | Time       | Space |\n|---------|------------|-------|\n| Best    | O(1)       | O(1)  |\n| Average | O(sqrt(n)) | O(1)  |\n| Worst   | O(sqrt(n)) | O(1)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(1):** The target is at the first position checked (index 0), so it is found immediately.\n\n- **Average and Worst Case -- O(sqrt(n)):** With a jump size of sqrt(n), the algorithm makes at most sqrt(n) jumps in the first phase to identify the correct block. The subsequent linear search within the block examines at most sqrt(n) elements. The total number of comparisons is at most 2 * sqrt(n), which is O(sqrt(n)).\n\n- **Space -- O(1):** The algorithm uses only a few variables (step, prev, curr) and requires no additional data structures.\n\n## When to Use\n\n- **Sorted arrays with sequential access:** Jump Search is well-suited for systems where jumping forward is efficient but backward movement is costly, such as linked lists with skip pointers or data stored on tape.\n- **When binary search overhead is too high:** On some hardware, the overhead of binary search (computing midpoints, maintaining two pointers) may exceed the benefit for moderate-sized arrays.\n- **Simple implementation needed:** Jump Search is straightforward to implement and understand, making it a good choice for embedded systems or teaching environments.\n- **When the array fits in cache:** For arrays that fit in L1/L2 cache, the linear scan phase benefits from sequential access patterns.\n\n## When NOT to Use\n\n- **Large arrays where O(log n) is needed:** For very large datasets, binary search (O(log n)) vastly outperforms Jump Search (O(sqrt(n))). For example, on an array of 1,000,000 elements, binary search needs about 20 comparisons while jump search needs about 2,000.\n- **Unsorted data:** Jump Search requires the input to be sorted.\n- **Uniformly distributed data:** Interpolation Search achieves O(log log n) on uniform data, which is far superior.\n- **When random access is available and array is large:** With efficient random access, binary search is almost always a better choice for large arrays.\n\n## Comparison with Similar Algorithms\n\n| Algorithm            | Time (avg)    | Space | Notes                                              |\n|----------------------|---------------|-------|----------------------------------------------------|\n| Jump Search          | O(sqrt(n))    | O(1)  | Simple; good for sequential access                 |\n| Linear Search        | O(n)          | O(1)  | No prerequisites; works on unsorted data            |\n| Binary Search        | O(log n)      | O(1)  | Much faster on large arrays; needs random access    |\n| Interpolation Search | O(log log n)  | O(1)  | Fastest for uniformly distributed data              |\n| Exponential Search   | O(log i)      | O(1)  | Best when target is near the beginning              |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [jump_search.py](python/jump_search.py) |\n| Java       | [JumpSearch.java](java/JumpSearch.java) |\n| C++        | [jump_search.cpp](cpp/jump_search.cpp) |\n| C          | [jump_search.c](c/jump_search.c) |\n| Go         | [jump_search.go](go/jump_search.go) |\n| TypeScript | [jumpSearch.ts](typescript/jumpSearch.ts) |\n| Rust       | [jump_search.rs](rust/jump_search.rs) |\n| Kotlin     | [JumpSearch.kt](kotlin/JumpSearch.kt) |\n| Swift      | [JumpSearch.swift](swift/JumpSearch.swift) |\n| Scala      | [JumpSearch.scala](scala/JumpSearch.scala) |\n| C#         | [JumpSearch.cs](csharp/JumpSearch.cs) |\n\n## References\n\n- Nemeth, G. (1969). \"Searching in a file using jump search.\" *Journal of the ACM*.\n- Baeza-Yates, R. A., & Salton, G. (1989). \"A comparison of search algorithms.\" In *Algorithms and Data Structures*, 1-14.\n- [Jump Search -- Wikipedia](https://en.wikipedia.org/wiki/Jump_search)\n"
+}

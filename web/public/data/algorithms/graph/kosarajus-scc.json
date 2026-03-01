@@ -1,0 +1,134 @@
+{
+  "name": "Kosaraju's Strongly Connected Components",
+  "slug": "kosarajus-scc",
+  "category": "graph",
+  "subcategory": "connectivity",
+  "difficulty": "advanced",
+  "tags": [
+    "graph",
+    "directed",
+    "strongly-connected-components",
+    "dfs",
+    "kosaraju"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(V + E)",
+      "average": "O(V + E)",
+      "worst": "O(V + E)"
+    },
+    "space": "O(V + E)"
+  },
+  "related": [
+    "tarjans-scc",
+    "depth-first-search",
+    "topological-sort"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "kosarajus_scc.c",
+          "content": "#include \"kosarajus_scc.h\"\n#include <string.h>\n\n#define MAX_V 1000\n#define MAX_E 10000\n\nstatic int adj[MAX_V][MAX_V], radj[MAX_V][MAX_V];\nstatic int adj_cnt[MAX_V], radj_cnt[MAX_V];\nstatic int visited[MAX_V];\nstatic int order[MAX_V], order_top;\n\nstatic void dfs1(int v) {\n    visited[v] = 1;\n    for (int i = 0; i < adj_cnt[v]; i++) {\n        int w = adj[v][i];\n        if (!visited[w]) dfs1(w);\n    }\n    order[order_top++] = v;\n}\n\nstatic void dfs2(int v) {\n    visited[v] = 1;\n    for (int i = 0; i < radj_cnt[v]; i++) {\n        int w = radj[v][i];\n        if (!visited[w]) dfs2(w);\n    }\n}\n\nint kosarajus_scc(int arr[], int size) {\n    int n = arr[0];\n    int m = arr[1];\n\n    memset(adj_cnt, 0, sizeof(int) * n);\n    memset(radj_cnt, 0, sizeof(int) * n);\n    memset(visited, 0, sizeof(int) * n);\n    order_top = 0;\n\n    for (int i = 0; i < m; i++) {\n        int u = arr[2 + 2 * i];\n        int v = arr[2 + 2 * i + 1];\n        adj[u][adj_cnt[u]++] = v;\n        radj[v][radj_cnt[v]++] = u;\n    }\n\n    for (int v = 0; v < n; v++) {\n        if (!visited[v]) dfs1(v);\n    }\n\n    memset(visited, 0, sizeof(int) * n);\n    int scc_count = 0;\n\n    for (int i = order_top - 1; i >= 0; i--) {\n        int v = order[i];\n        if (!visited[v]) {\n            dfs2(v);\n            scc_count++;\n        }\n    }\n\n    return scc_count;\n}\n"
+        },
+        {
+          "filename": "kosarajus_scc.h",
+          "content": "#ifndef KOSARAJUS_SCC_H\n#define KOSARAJUS_SCC_H\n\nint kosarajus_scc(int arr[], int size);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "kosarajus_scc.cpp",
+          "content": "#include <vector>\nusing namespace std;\n\nstatic void dfs1(int v, vector<vector<int>>& adj, vector<bool>& visited, vector<int>& order) {\n    visited[v] = true;\n    for (int w : adj[v]) {\n        if (!visited[w]) dfs1(w, adj, visited, order);\n    }\n    order.push_back(v);\n}\n\nstatic void dfs2(int v, vector<vector<int>>& radj, vector<bool>& visited) {\n    visited[v] = true;\n    for (int w : radj[v]) {\n        if (!visited[w]) dfs2(w, radj, visited);\n    }\n}\n\nint kosarajus_scc(vector<int> arr) {\n    int n = arr[0];\n    int m = arr[1];\n    vector<vector<int>> adj(n), radj(n);\n    for (int i = 0; i < m; i++) {\n        int u = arr[2 + 2 * i];\n        int v = arr[2 + 2 * i + 1];\n        adj[u].push_back(v);\n        radj[v].push_back(u);\n    }\n\n    vector<bool> visited(n, false);\n    vector<int> order;\n\n    for (int v = 0; v < n; v++) {\n        if (!visited[v]) dfs1(v, adj, visited, order);\n    }\n\n    fill(visited.begin(), visited.end(), false);\n    int sccCount = 0;\n\n    for (int i = (int)order.size() - 1; i >= 0; i--) {\n        int v = order[i];\n        if (!visited[v]) {\n            dfs2(v, radj, visited);\n            sccCount++;\n        }\n    }\n\n    return sccCount;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "KosarajusScc.cs",
+          "content": "using System;\nusing System.Collections.Generic;\n\npublic class KosarajusScc\n{\n    public static int Solve(int[] arr)\n    {\n        int n = arr[0];\n        int m = arr[1];\n        var adj = new List<int>[n];\n        var radj = new List<int>[n];\n        for (int i = 0; i < n; i++)\n        {\n            adj[i] = new List<int>();\n            radj[i] = new List<int>();\n        }\n        for (int i = 0; i < m; i++)\n        {\n            int u = arr[2 + 2 * i];\n            int v = arr[2 + 2 * i + 1];\n            adj[u].Add(v);\n            radj[v].Add(u);\n        }\n\n        bool[] visited = new bool[n];\n        List<int> order = new List<int>();\n\n        void Dfs1(int v)\n        {\n            visited[v] = true;\n            foreach (int w in adj[v])\n                if (!visited[w]) Dfs1(w);\n            order.Add(v);\n        }\n\n        for (int v = 0; v < n; v++)\n            if (!visited[v]) Dfs1(v);\n\n        Array.Fill(visited, false);\n        int sccCount = 0;\n\n        void Dfs2(int v)\n        {\n            visited[v] = true;\n            foreach (int w in radj[v])\n                if (!visited[w]) Dfs2(w);\n        }\n\n        for (int i = order.Count - 1; i >= 0; i--)\n        {\n            int v = order[i];\n            if (!visited[v])\n            {\n                Dfs2(v);\n                sccCount++;\n            }\n        }\n\n        return sccCount;\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "kosarajus_scc.go",
+          "content": "package kosarajusscc\n\nfunc KosarajusScc(arr []int) int {\n\tn := arr[0]\n\tm := arr[1]\n\tadj := make([][]int, n)\n\tradj := make([][]int, n)\n\tfor i := 0; i < n; i++ {\n\t\tadj[i] = []int{}\n\t\tradj[i] = []int{}\n\t}\n\tfor i := 0; i < m; i++ {\n\t\tu := arr[2+2*i]\n\t\tv := arr[2+2*i+1]\n\t\tadj[u] = append(adj[u], v)\n\t\tradj[v] = append(radj[v], u)\n\t}\n\n\tvisited := make([]bool, n)\n\torder := []int{}\n\n\tvar dfs1 func(v int)\n\tdfs1 = func(v int) {\n\t\tvisited[v] = true\n\t\tfor _, w := range adj[v] {\n\t\t\tif !visited[w] {\n\t\t\t\tdfs1(w)\n\t\t\t}\n\t\t}\n\t\torder = append(order, v)\n\t}\n\n\tfor v := 0; v < n; v++ {\n\t\tif !visited[v] {\n\t\t\tdfs1(v)\n\t\t}\n\t}\n\n\tfor i := range visited {\n\t\tvisited[i] = false\n\t}\n\tsccCount := 0\n\n\tvar dfs2 func(v int)\n\tdfs2 = func(v int) {\n\t\tvisited[v] = true\n\t\tfor _, w := range radj[v] {\n\t\t\tif !visited[w] {\n\t\t\t\tdfs2(w)\n\t\t\t}\n\t\t}\n\t}\n\n\tfor i := len(order) - 1; i >= 0; i-- {\n\t\tv := order[i]\n\t\tif !visited[v] {\n\t\t\tdfs2(v)\n\t\t\tsccCount++\n\t\t}\n\t}\n\n\treturn sccCount\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "KosarajusScc.java",
+          "content": "import java.util.*;\n\npublic class KosarajusScc {\n\n    public static int kosarajusScc(int[] arr) {\n        int n = arr[0];\n        int m = arr[1];\n        List<List<Integer>> adj = new ArrayList<>();\n        List<List<Integer>> radj = new ArrayList<>();\n        for (int i = 0; i < n; i++) {\n            adj.add(new ArrayList<>());\n            radj.add(new ArrayList<>());\n        }\n        for (int i = 0; i < m; i++) {\n            int u = arr[2 + 2 * i];\n            int v = arr[2 + 2 * i + 1];\n            adj.get(u).add(v);\n            radj.get(v).add(u);\n        }\n\n        boolean[] visited = new boolean[n];\n        List<Integer> order = new ArrayList<>();\n\n        for (int v = 0; v < n; v++) {\n            if (!visited[v]) dfs1(v, adj, visited, order);\n        }\n\n        visited = new boolean[n];\n        int sccCount = 0;\n\n        for (int i = order.size() - 1; i >= 0; i--) {\n            int v = order.get(i);\n            if (!visited[v]) {\n                dfs2(v, radj, visited);\n                sccCount++;\n            }\n        }\n\n        return sccCount;\n    }\n\n    private static void dfs1(int v, List<List<Integer>> adj, boolean[] visited, List<Integer> order) {\n        visited[v] = true;\n        for (int w : adj.get(v)) {\n            if (!visited[w]) dfs1(w, adj, visited, order);\n        }\n        order.add(v);\n    }\n\n    private static void dfs2(int v, List<List<Integer>> radj, boolean[] visited) {\n        visited[v] = true;\n        for (int w : radj.get(v)) {\n            if (!visited[w]) dfs2(w, radj, visited);\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "KosarajusScc.kt",
+          "content": "fun kosarajusScc(arr: IntArray): Int {\n    val n = arr[0]\n    val m = arr[1]\n    val adj = Array(n) { mutableListOf<Int>() }\n    val radj = Array(n) { mutableListOf<Int>() }\n    for (i in 0 until m) {\n        val u = arr[2 + 2 * i]\n        val v = arr[2 + 2 * i + 1]\n        adj[u].add(v)\n        radj[v].add(u)\n    }\n\n    val visited = BooleanArray(n)\n    val order = mutableListOf<Int>()\n\n    fun dfs1(v: Int) {\n        visited[v] = true\n        for (w in adj[v]) {\n            if (!visited[w]) dfs1(w)\n        }\n        order.add(v)\n    }\n\n    for (v in 0 until n) {\n        if (!visited[v]) dfs1(v)\n    }\n\n    visited.fill(false)\n    var sccCount = 0\n\n    fun dfs2(v: Int) {\n        visited[v] = true\n        for (w in radj[v]) {\n            if (!visited[w]) dfs2(w)\n        }\n    }\n\n    for (i in order.indices.reversed()) {\n        val v = order[i]\n        if (!visited[v]) {\n            dfs2(v)\n            sccCount++\n        }\n    }\n\n    return sccCount\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "kosarajus_scc.py",
+          "content": "def kosarajus_scc(arr: list[int]) -> int:\n    n = arr[0]\n    m = arr[1]\n    adj = [[] for _ in range(n)]\n    radj = [[] for _ in range(n)]\n    for i in range(m):\n        u = arr[2 + 2 * i]\n        v = arr[2 + 2 * i + 1]\n        adj[u].append(v)\n        radj[v].append(u)\n\n    visited = [False] * n\n    order = []\n\n    def dfs1(v):\n        visited[v] = True\n        for w in adj[v]:\n            if not visited[w]:\n                dfs1(w)\n        order.append(v)\n\n    for v in range(n):\n        if not visited[v]:\n            dfs1(v)\n\n    visited = [False] * n\n    scc_count = 0\n\n    def dfs2(v):\n        visited[v] = True\n        for w in radj[v]:\n            if not visited[w]:\n                dfs2(w)\n\n    for v in reversed(order):\n        if not visited[v]:\n            dfs2(v)\n            scc_count += 1\n\n    return scc_count\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "kosarajus_scc.rs",
+          "content": "pub fn kosarajus_scc(arr: &[i32]) -> i32 {\n    let n = arr[0] as usize;\n    let m = arr[1] as usize;\n    let mut adj = vec![vec![]; n];\n    let mut radj = vec![vec![]; n];\n    for i in 0..m {\n        let u = arr[2 + 2 * i] as usize;\n        let v = arr[2 + 2 * i + 1] as usize;\n        adj[u].push(v);\n        radj[v].push(u);\n    }\n\n    let mut visited = vec![false; n];\n    let mut order = Vec::new();\n\n    fn dfs1(v: usize, adj: &Vec<Vec<usize>>, visited: &mut Vec<bool>, order: &mut Vec<usize>) {\n        visited[v] = true;\n        for &w in &adj[v] {\n            if !visited[w] {\n                dfs1(w, adj, visited, order);\n            }\n        }\n        order.push(v);\n    }\n\n    fn dfs2(v: usize, radj: &Vec<Vec<usize>>, visited: &mut Vec<bool>) {\n        visited[v] = true;\n        for &w in &radj[v] {\n            if !visited[w] {\n                dfs2(w, radj, visited);\n            }\n        }\n    }\n\n    for v in 0..n {\n        if !visited[v] {\n            dfs1(v, &adj, &mut visited, &mut order);\n        }\n    }\n\n    visited.fill(false);\n    let mut scc_count = 0;\n\n    for i in (0..order.len()).rev() {\n        let v = order[i];\n        if !visited[v] {\n            dfs2(v, &radj, &mut visited);\n            scc_count += 1;\n        }\n    }\n\n    scc_count\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "KosarajusScc.scala",
+          "content": "object KosarajusScc {\n\n  def kosarajusScc(arr: Array[Int]): Int = {\n    val n = arr(0)\n    val m = arr(1)\n    val adj = Array.fill(n)(scala.collection.mutable.ListBuffer[Int]())\n    val radj = Array.fill(n)(scala.collection.mutable.ListBuffer[Int]())\n    for (i <- 0 until m) {\n      val u = arr(2 + 2 * i)\n      val v = arr(2 + 2 * i + 1)\n      adj(u) += v\n      radj(v) += u\n    }\n\n    val visited = Array.fill(n)(false)\n    val order = scala.collection.mutable.ListBuffer[Int]()\n\n    def dfs1(v: Int): Unit = {\n      visited(v) = true\n      for (w <- adj(v)) {\n        if (!visited(w)) dfs1(w)\n      }\n      order += v\n    }\n\n    for (v <- 0 until n) {\n      if (!visited(v)) dfs1(v)\n    }\n\n    for (i <- 0 until n) visited(i) = false\n    var sccCount = 0\n\n    def dfs2(v: Int): Unit = {\n      visited(v) = true\n      for (w <- radj(v)) {\n        if (!visited(w)) dfs2(w)\n      }\n    }\n\n    for (i <- order.indices.reverse) {\n      val v = order(i)\n      if (!visited(v)) {\n        dfs2(v)\n        sccCount += 1\n      }\n    }\n\n    sccCount\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "KosarajusScc.swift",
+          "content": "func kosarajusScc(_ arr: [Int]) -> Int {\n    let n = arr[0]\n    let m = arr[1]\n    var adj = [[Int]](repeating: [], count: n)\n    var radj = [[Int]](repeating: [], count: n)\n    for i in 0..<m {\n        let u = arr[2 + 2 * i]\n        let v = arr[2 + 2 * i + 1]\n        adj[u].append(v)\n        radj[v].append(u)\n    }\n\n    var visited = [Bool](repeating: false, count: n)\n    var order = [Int]()\n\n    func dfs1(_ v: Int) {\n        visited[v] = true\n        for w in adj[v] {\n            if !visited[w] { dfs1(w) }\n        }\n        order.append(v)\n    }\n\n    for v in 0..<n {\n        if !visited[v] { dfs1(v) }\n    }\n\n    visited = [Bool](repeating: false, count: n)\n    var sccCount = 0\n\n    func dfs2(_ v: Int) {\n        visited[v] = true\n        for w in radj[v] {\n            if !visited[w] { dfs2(w) }\n        }\n    }\n\n    for i in stride(from: order.count - 1, through: 0, by: -1) {\n        let v = order[i]\n        if !visited[v] {\n            dfs2(v)\n            sccCount += 1\n        }\n    }\n\n    return sccCount\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "kosarajusScc.ts",
+          "content": "export function kosarajusScc(arr: number[]): number {\n    const n = arr[0];\n    const m = arr[1];\n    const adj: number[][] = Array.from({ length: n }, () => []);\n    const radj: number[][] = Array.from({ length: n }, () => []);\n    for (let i = 0; i < m; i++) {\n        const u = arr[2 + 2 * i];\n        const v = arr[2 + 2 * i + 1];\n        adj[u].push(v);\n        radj[v].push(u);\n    }\n\n    const visited = new Array(n).fill(false);\n    const order: number[] = [];\n\n    function dfs1(v: number): void {\n        visited[v] = true;\n        for (const w of adj[v]) {\n            if (!visited[w]) dfs1(w);\n        }\n        order.push(v);\n    }\n\n    for (let v = 0; v < n; v++) {\n        if (!visited[v]) dfs1(v);\n    }\n\n    visited.fill(false);\n    let sccCount = 0;\n\n    function dfs2(v: number): void {\n        visited[v] = true;\n        for (const w of radj[v]) {\n            if (!visited[w]) dfs2(w);\n        }\n    }\n\n    for (let i = order.length - 1; i >= 0; i--) {\n        const v = order[i];\n        if (!visited[v]) {\n            dfs2(v);\n            sccCount++;\n        }\n    }\n\n    return sccCount;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "readme": "# Kosaraju's Strongly Connected Components\n\n## Overview\n\nKosaraju's algorithm finds all strongly connected components (SCCs) in a directed graph using two passes of depth-first search. A strongly connected component is a maximal set of vertices where every vertex is reachable from every other vertex. The algorithm relies on the fact that the transpose of a graph has the same SCCs as the original. It first computes a finishing-order of vertices, then processes vertices in reverse finishing order on the transposed graph.\n\n## How It Works\n\n1. Perform a DFS on the original graph, pushing each vertex onto a stack when it finishes (post-order).\n2. Build the transpose (reverse) graph by reversing all edges.\n3. Pop vertices from the stack and perform DFS on the transpose graph. Each DFS tree from this pass forms one SCC.\n\n## Worked Example\n\nGiven a directed graph with 5 vertices and 5 edges:\n\n```\nEdges: 0->1, 1->2, 2->0, 3->4, 4->3\n\n    0 --> 1       3 --> 4\n    ^     |       ^     |\n    |     v       |     v\n    +---- 2       +-----+\n```\n\n**Pass 1 (DFS on original graph, record finish order):**\n- Start at 0: visit 0 -> 1 -> 2 -> back to 0 (cycle). Finish order: 2, 1, 0\n- Start at 3: visit 3 -> 4 -> back to 3 (cycle). Finish order: 4, 3\n- Stack (top to bottom): [3, 4, 0, 1, 2]\n\n**Pass 2 (DFS on transposed graph in reverse finish order):**\n- Pop 3: DFS on transpose reaches {3, 4} -> SCC #1 = {3, 4}\n- Pop 4: already visited\n- Pop 0: DFS on transpose reaches {0, 2, 1} -> SCC #2 = {0, 1, 2}\n- Pop 1, 2: already visited\n\n**Result:** 2 SCCs: {0, 1, 2} and {3, 4}.\n\n## Pseudocode\n\n```\nfunction kosaraju(graph, n):\n    visited = array of size n, all false\n    stack = empty\n\n    // Pass 1: DFS on original graph\n    for v = 0 to n-1:\n        if not visited[v]:\n            dfs1(v, graph, visited, stack)\n\n    // Build transpose graph\n    transpose = reverse all edges in graph\n\n    // Pass 2: DFS on transposed graph\n    visited = array of size n, all false\n    sccCount = 0\n\n    while stack is not empty:\n        v = stack.pop()\n        if not visited[v]:\n            dfs2(v, transpose, visited)\n            sccCount += 1\n\n    return sccCount\n\nfunction dfs1(v, graph, visited, stack):\n    visited[v] = true\n    for each neighbor w of v in graph:\n        if not visited[w]:\n            dfs1(w, graph, visited, stack)\n    stack.push(v)\n\nfunction dfs2(v, transpose, visited):\n    visited[v] = true\n    for each neighbor w of v in transpose:\n        if not visited[w]:\n            dfs2(w, transpose, visited)\n```\n\n## Complexity Analysis\n\n| Case    | Time     | Space    |\n|---------|----------|----------|\n| Best    | O(V + E) | O(V + E) |\n| Average | O(V + E) | O(V + E) |\n| Worst   | O(V + E) | O(V + E) |\n\nBoth DFS passes traverse all vertices and edges. The transpose graph requires O(V + E) additional space.\n\n## When to Use\n\n- Finding strongly connected components in directed graphs\n- Detecting mutual dependencies in software systems\n- Computing the condensation DAG for reachability analysis\n- Solving 2-SAT problems (SCCs of the implication graph)\n- Analyzing web page link structures\n- Identifying circular dependencies in build systems\n\n## When NOT to Use\n\n- For undirected graphs -- use Union-Find or simple DFS for connected components instead.\n- When you need SCCs online (with dynamic edge insertions) -- Kosaraju's is a batch algorithm.\n- When memory is very tight -- the transpose graph doubles the edge storage. Tarjan's algorithm avoids this overhead.\n- When you need low-link values or articulation information -- Tarjan's provides these as a byproduct.\n\n## Comparison\n\n| Algorithm | Time | Space | Passes | Notes |\n|-----------|------|-------|--------|-------|\n| Kosaraju's (this) | O(V + E) | O(V + E) | 2 DFS | Requires transpose graph; conceptually simple |\n| Tarjan's | O(V + E) | O(V) | 1 DFS | Single-pass; uses low-link values; no transpose needed |\n| Path-Based (Gabow) | O(V + E) | O(V) | 1 DFS | Uses two stacks; avoids low-link bookkeeping |\n| Kosaraju-Sharir | O(V + E) | O(V + E) | 2 DFS | Same as Kosaraju's with minor implementation differences |\n\n## References\n\n- Sharir, M. (1981). \"A strong-connectivity algorithm and its applications in data flow analysis.\" *Computers & Mathematics with Applications*, 7(1), 67-72.\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 22.5.\n- [Kosaraju's algorithm -- Wikipedia](https://en.wikipedia.org/wiki/Kosaraju%27s_algorithm)\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [kosarajus_scc.py](python/kosarajus_scc.py) |\n| Java       | [KosarajusScc.java](java/KosarajusScc.java) |\n| C++        | [kosarajus_scc.cpp](cpp/kosarajus_scc.cpp) |\n| C          | [kosarajus_scc.c](c/kosarajus_scc.c) |\n| Go         | [kosarajus_scc.go](go/kosarajus_scc.go) |\n| TypeScript | [kosarajusScc.ts](typescript/kosarajusScc.ts) |\n| Rust       | [kosarajus_scc.rs](rust/kosarajus_scc.rs) |\n| Kotlin     | [KosarajusScc.kt](kotlin/KosarajusScc.kt) |\n| Swift      | [KosarajusScc.swift](swift/KosarajusScc.swift) |\n| Scala      | [KosarajusScc.scala](scala/KosarajusScc.scala) |\n| C#         | [KosarajusScc.cs](csharp/KosarajusScc.cs) |\n"
+}

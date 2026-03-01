@@ -1,0 +1,17 @@
+name: "Lowest Common Ancestor"
+slug: "lowest-common-ancestor"
+category: "trees"
+subcategory: "tree-queries"
+difficulty: "intermediate"
+tags: [trees, lca, binary-lifting, ancestors]
+complexity:
+  time:
+    best: "O(N log N)"
+    average: "O(N log N)"
+    worst: "O(N log N)"
+  space: "O(N log N)"
+stable: null
+in_place: false
+related: [heavy-light-decomposition]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

@@ -1,0 +1,17 @@
+name: "Shortest Path in DAG"
+slug: "shortest-path-dag"
+category: "graph"
+subcategory: "shortest-path"
+difficulty: "intermediate"
+tags: [graph, shortest-path, dag, topological-sort, dynamic-programming]
+complexity:
+  time:
+    best: "O(V + E)"
+    average: "O(V + E)"
+    worst: "O(V + E)"
+  space: "O(V + E)"
+stable: null
+in_place: false
+related: [topological-sort, dijkstras, bellman-ford]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

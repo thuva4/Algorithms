@@ -1,0 +1,17 @@
+name: "Palindrome Partitioning"
+slug: "palindrome-partitioning"
+category: "dynamic-programming"
+subcategory: "partitioning"
+difficulty: "intermediate"
+tags: [dynamic-programming, palindrome, partitioning, strings]
+complexity:
+  time:
+    best: "O(n^2)"
+    average: "O(n^2)"
+    worst: "O(n^2)"
+  space: "O(n^2)"
+stable: null
+in_place: false
+related: [longest-palindromic-substring, word-break]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

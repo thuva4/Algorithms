@@ -1,0 +1,25 @@
+algorithm: "digit-dp"
+description: "Count numbers from 1 to N whose digit sum equals a target"
+function_signature:
+  name: "digit_dp"
+  input: [n, target_sum]
+  output: count
+test_cases:
+  - name: "small range digit sum 5"
+    input: [25, 5]
+    expected: 3
+  - name: "single digit target"
+    input: [10, 1]
+    expected: 2
+  - name: "exact match"
+    input: [5, 5]
+    expected: 1
+  - name: "no match"
+    input: [10, 15]
+    expected: 0
+  - name: "larger range"
+    input: [100, 10]
+    expected: 9
+  - name: "digit sum zero means nothing in 1..N"
+    input: [50, 0]
+    expected: 0

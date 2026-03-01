@@ -1,0 +1,135 @@
+{
+  "name": "Minimum Cut (Stoer-Wagner)",
+  "slug": "minimum-cut-stoer-wagner",
+  "category": "graph",
+  "subcategory": "connectivity",
+  "difficulty": "advanced",
+  "tags": [
+    "graph",
+    "minimum-cut",
+    "undirected",
+    "weighted",
+    "stoer-wagner"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(V^3)",
+      "average": "O(V^3)",
+      "worst": "O(V^3)"
+    },
+    "space": "O(V^2)"
+  },
+  "stable": null,
+  "in_place": false,
+  "related": [
+    "max-flow-min-cut",
+    "kruskals-algorithm"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "minimum_cut_stoer_wagner.c",
+          "content": "#include \"minimum_cut_stoer_wagner.h\"\n#include <string.h>\n#include <limits.h>\n\n#define MAX_V 300\n\nstatic int w[MAX_V][MAX_V];\n\nint minimum_cut_stoer_wagner(int arr[], int size) {\n    int n = arr[0];\n    int m = arr[1];\n    memset(w, 0, sizeof(w));\n    int idx = 2;\n    for (int i = 0; i < m; i++) {\n        int u = arr[idx], v = arr[idx + 1], c = arr[idx + 2];\n        w[u][v] += c;\n        w[v][u] += c;\n        idx += 3;\n    }\n\n    int merged[MAX_V];\n    memset(merged, 0, sizeof(int) * n);\n    int best = INT_MAX;\n\n    for (int phase = 0; phase < n - 1; phase++) {\n        int key[MAX_V];\n        int inA[MAX_V];\n        memset(key, 0, sizeof(int) * n);\n        memset(inA, 0, sizeof(int) * n);\n        int prev = -1, last = -1;\n\n        for (int it = 0; it < n - phase; it++) {\n            int sel = -1;\n            for (int v = 0; v < n; v++) {\n                if (!merged[v] && !inA[v]) {\n                    if (sel == -1 || key[v] > key[sel]) {\n                        sel = v;\n                    }\n                }\n            }\n            inA[sel] = 1;\n            prev = last;\n            last = sel;\n            for (int v = 0; v < n; v++) {\n                if (!merged[v] && !inA[v]) {\n                    key[v] += w[sel][v];\n                }\n            }\n        }\n\n        if (key[last] < best) best = key[last];\n\n        for (int v = 0; v < n; v++) {\n            w[prev][v] += w[last][v];\n            w[v][prev] += w[v][last];\n        }\n        merged[last] = 1;\n    }\n\n    return best;\n}\n"
+        },
+        {
+          "filename": "minimum_cut_stoer_wagner.h",
+          "content": "#ifndef MINIMUM_CUT_STOER_WAGNER_H\n#define MINIMUM_CUT_STOER_WAGNER_H\n\nint minimum_cut_stoer_wagner(int arr[], int size);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "minimum_cut_stoer_wagner.cpp",
+          "content": "#include <vector>\n#include <climits>\n#include <algorithm>\n\nusing namespace std;\n\nint minimum_cut_stoer_wagner(vector<int> arr) {\n    int n = arr[0];\n    int m = arr[1];\n    vector<vector<int>> w(n, vector<int>(n, 0));\n    int idx = 2;\n    for (int i = 0; i < m; i++) {\n        int u = arr[idx], v = arr[idx + 1], c = arr[idx + 2];\n        w[u][v] += c;\n        w[v][u] += c;\n        idx += 3;\n    }\n\n    vector<bool> merged(n, false);\n    int best = INT_MAX;\n\n    for (int phase = 0; phase < n - 1; phase++) {\n        vector<int> key(n, 0);\n        vector<bool> inA(n, false);\n        int prev = -1, last = -1;\n\n        for (int it = 0; it < n - phase; it++) {\n            int sel = -1;\n            for (int v = 0; v < n; v++) {\n                if (!merged[v] && !inA[v]) {\n                    if (sel == -1 || key[v] > key[sel]) {\n                        sel = v;\n                    }\n                }\n            }\n            inA[sel] = true;\n            prev = last;\n            last = sel;\n            for (int v = 0; v < n; v++) {\n                if (!merged[v] && !inA[v]) {\n                    key[v] += w[sel][v];\n                }\n            }\n        }\n\n        best = min(best, key[last]);\n\n        for (int v = 0; v < n; v++) {\n            w[prev][v] += w[last][v];\n            w[v][prev] += w[v][last];\n        }\n        merged[last] = true;\n    }\n\n    return best;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "MinimumCutStoerWagner.cs",
+          "content": "using System;\n\npublic class MinimumCutStoerWagner\n{\n    public static int Solve(int[] arr)\n    {\n        int n = arr[0];\n        int m = arr[1];\n        int[,] w = new int[n, n];\n        int idx = 2;\n        for (int i = 0; i < m; i++)\n        {\n            int u = arr[idx], v = arr[idx + 1], c = arr[idx + 2];\n            w[u, v] += c;\n            w[v, u] += c;\n            idx += 3;\n        }\n\n        bool[] merged = new bool[n];\n        int best = int.MaxValue;\n\n        for (int phase = 0; phase < n - 1; phase++)\n        {\n            int[] key = new int[n];\n            bool[] inA = new bool[n];\n            int prev = -1, last = -1;\n\n            for (int it = 0; it < n - phase; it++)\n            {\n                int sel = -1;\n                for (int v = 0; v < n; v++)\n                {\n                    if (!merged[v] && !inA[v])\n                    {\n                        if (sel == -1 || key[v] > key[sel])\n                            sel = v;\n                    }\n                }\n                inA[sel] = true;\n                prev = last;\n                last = sel;\n                for (int v = 0; v < n; v++)\n                {\n                    if (!merged[v] && !inA[v])\n                        key[v] += w[sel, v];\n                }\n            }\n\n            if (key[last] < best) best = key[last];\n\n            for (int v = 0; v < n; v++)\n            {\n                w[prev, v] += w[last, v];\n                w[v, prev] += w[v, last];\n            }\n            merged[last] = true;\n        }\n\n        return best;\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "minimum_cut_stoer_wagner.go",
+          "content": "package minimumcutstoerwagner\n\nfunc MinimumCutStoerWagner(arr []int) int {\n\tn := arr[0]\n\tm := arr[1]\n\tw := make([][]int, n)\n\tfor i := 0; i < n; i++ {\n\t\tw[i] = make([]int, n)\n\t}\n\tidx := 2\n\tfor i := 0; i < m; i++ {\n\t\tu, v, c := arr[idx], arr[idx+1], arr[idx+2]\n\t\tw[u][v] += c\n\t\tw[v][u] += c\n\t\tidx += 3\n\t}\n\n\tmerged := make([]bool, n)\n\tbest := 1<<31 - 1\n\n\tfor phase := 0; phase < n-1; phase++ {\n\t\tkey := make([]int, n)\n\t\tinA := make([]bool, n)\n\t\tprev, last := -1, -1\n\n\t\tfor it := 0; it < n-phase; it++ {\n\t\t\tsel := -1\n\t\t\tfor v := 0; v < n; v++ {\n\t\t\t\tif !merged[v] && !inA[v] {\n\t\t\t\t\tif sel == -1 || key[v] > key[sel] {\n\t\t\t\t\t\tsel = v\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t\tinA[sel] = true\n\t\t\tprev = last\n\t\t\tlast = sel\n\t\t\tfor v := 0; v < n; v++ {\n\t\t\t\tif !merged[v] && !inA[v] {\n\t\t\t\t\tkey[v] += w[sel][v]\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\n\t\tif key[last] < best {\n\t\t\tbest = key[last]\n\t\t}\n\n\t\tfor v := 0; v < n; v++ {\n\t\t\tw[prev][v] += w[last][v]\n\t\t\tw[v][prev] += w[v][last]\n\t\t}\n\t\tmerged[last] = true\n\t}\n\n\treturn best\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "MinimumCutStoerWagner.java",
+          "content": "public class MinimumCutStoerWagner {\n\n    public static int minimumCutStoerWagner(int[] arr) {\n        int n = arr[0];\n        int m = arr[1];\n        int[][] w = new int[n][n];\n        int idx = 2;\n        for (int i = 0; i < m; i++) {\n            int u = arr[idx]; int v = arr[idx + 1]; int c = arr[idx + 2];\n            w[u][v] += c;\n            w[v][u] += c;\n            idx += 3;\n        }\n\n        boolean[] merged = new boolean[n];\n        int best = Integer.MAX_VALUE;\n\n        for (int phase = 0; phase < n - 1; phase++) {\n            int[] key = new int[n];\n            boolean[] inA = new boolean[n];\n            int prev = -1, last = -1;\n\n            for (int it = 0; it < n - phase; it++) {\n                int sel = -1;\n                for (int v = 0; v < n; v++) {\n                    if (!merged[v] && !inA[v]) {\n                        if (sel == -1 || key[v] > key[sel]) {\n                            sel = v;\n                        }\n                    }\n                }\n                inA[sel] = true;\n                prev = last;\n                last = sel;\n                for (int v = 0; v < n; v++) {\n                    if (!merged[v] && !inA[v]) {\n                        key[v] += w[sel][v];\n                    }\n                }\n            }\n\n            if (key[last] < best) {\n                best = key[last];\n            }\n\n            for (int v = 0; v < n; v++) {\n                w[prev][v] += w[last][v];\n                w[v][prev] += w[v][last];\n            }\n            merged[last] = true;\n        }\n\n        return best;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "MinimumCutStoerWagner.kt",
+          "content": "fun minimumCutStoerWagner(arr: IntArray): Int {\n    val n = arr[0]\n    val m = arr[1]\n    val w = Array(n) { IntArray(n) }\n    var idx = 2\n    for (i in 0 until m) {\n        val u = arr[idx]; val v = arr[idx + 1]; val c = arr[idx + 2]\n        w[u][v] += c\n        w[v][u] += c\n        idx += 3\n    }\n\n    val merged = BooleanArray(n)\n    var best = Int.MAX_VALUE\n\n    for (phase in 0 until n - 1) {\n        val key = IntArray(n)\n        val inA = BooleanArray(n)\n        var prev = -1\n        var last = -1\n\n        for (it in 0 until n - phase) {\n            var sel = -1\n            for (v in 0 until n) {\n                if (!merged[v] && !inA[v]) {\n                    if (sel == -1 || key[v] > key[sel]) {\n                        sel = v\n                    }\n                }\n            }\n            inA[sel] = true\n            prev = last\n            last = sel\n            for (v in 0 until n) {\n                if (!merged[v] && !inA[v]) {\n                    key[v] += w[sel][v]\n                }\n            }\n        }\n\n        if (key[last] < best) best = key[last]\n\n        for (v in 0 until n) {\n            w[prev][v] += w[last][v]\n            w[v][prev] += w[v][last]\n        }\n        merged[last] = true\n    }\n\n    return best\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "minimum_cut_stoer_wagner.py",
+          "content": "def minimum_cut_stoer_wagner(arr: list[int]) -> int:\n    n = arr[0]\n    m = arr[1]\n    w = [[0] * n for _ in range(n)]\n    idx = 2\n    for _ in range(m):\n        u = arr[idx]; v = arr[idx + 1]; c = arr[idx + 2]\n        w[u][v] += c\n        w[v][u] += c\n        idx += 3\n\n    merged = [False] * n\n    best = float('inf')\n\n    for phase in range(n - 1):\n        key = [0] * n\n        in_a = [False] * n\n        prev = -1\n        last = -1\n        for _ in range(n - phase):\n            sel = -1\n            for v in range(n):\n                if not merged[v] and not in_a[v]:\n                    if sel == -1 or key[v] > key[sel]:\n                        sel = v\n            in_a[sel] = True\n            prev = last\n            last = sel\n            for v in range(n):\n                if not merged[v] and not in_a[v]:\n                    key[v] += w[sel][v]\n\n        if key[last] < best:\n            best = key[last]\n\n        # merge last into prev\n        for v in range(n):\n            w[prev][v] += w[last][v]\n            w[v][prev] += w[v][last]\n        merged[last] = True\n\n    return best\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "minimum_cut_stoer_wagner.rs",
+          "content": "pub fn minimum_cut_stoer_wagner(arr: &[i32]) -> i32 {\n    let n = arr[0] as usize;\n    let m = arr[1] as usize;\n    let mut w = vec![vec![0i32; n]; n];\n    let mut idx = 2;\n    for _ in 0..m {\n        let u = arr[idx] as usize;\n        let v = arr[idx + 1] as usize;\n        let c = arr[idx + 2];\n        w[u][v] += c;\n        w[v][u] += c;\n        idx += 3;\n    }\n\n    let mut merged = vec![false; n];\n    let mut best = i32::MAX;\n\n    for phase in 0..n - 1 {\n        let mut key = vec![0i32; n];\n        let mut in_a = vec![false; n];\n        let mut prev: i32 = -1;\n        let mut last: i32 = -1;\n\n        for _ in 0..n - phase {\n            let mut sel: i32 = -1;\n            for v in 0..n {\n                if !merged[v] && !in_a[v] {\n                    if sel == -1 || key[v] > key[sel as usize] {\n                        sel = v as i32;\n                    }\n                }\n            }\n            let s = sel as usize;\n            in_a[s] = true;\n            prev = last;\n            last = sel;\n            for v in 0..n {\n                if !merged[v] && !in_a[v] {\n                    key[v] += w[s][v];\n                }\n            }\n        }\n\n        let l = last as usize;\n        if key[l] < best {\n            best = key[l];\n        }\n\n        let p = prev as usize;\n        for v in 0..n {\n            w[p][v] += w[l][v];\n            w[v][p] += w[v][l];\n        }\n        merged[l] = true;\n    }\n\n    best\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "MinimumCutStoerWagner.scala",
+          "content": "object MinimumCutStoerWagner {\n\n  def minimumCutStoerWagner(arr: Array[Int]): Int = {\n    val n = arr(0)\n    val m = arr(1)\n    val w = Array.ofDim[Int](n, n)\n    var idx = 2\n    for (_ <- 0 until m) {\n      val u = arr(idx); val v = arr(idx + 1); val c = arr(idx + 2)\n      w(u)(v) += c\n      w(v)(u) += c\n      idx += 3\n    }\n\n    val merged = Array.fill(n)(false)\n    var best = Int.MaxValue\n\n    for (phase <- 0 until n - 1) {\n      val key = Array.fill(n)(0)\n      val inA = Array.fill(n)(false)\n      var prev = -1\n      var last = -1\n\n      for (_ <- 0 until n - phase) {\n        var sel = -1\n        for (v <- 0 until n) {\n          if (!merged(v) && !inA(v)) {\n            if (sel == -1 || key(v) > key(sel)) sel = v\n          }\n        }\n        inA(sel) = true\n        prev = last\n        last = sel\n        for (v <- 0 until n) {\n          if (!merged(v) && !inA(v)) {\n            key(v) += w(sel)(v)\n          }\n        }\n      }\n\n      if (key(last) < best) best = key(last)\n\n      for (v <- 0 until n) {\n        w(prev)(v) += w(last)(v)\n        w(v)(prev) += w(v)(last)\n      }\n      merged(last) = true\n    }\n\n    best\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "MinimumCutStoerWagner.swift",
+          "content": "func minimumCutStoerWagner(_ arr: [Int]) -> Int {\n    let n = arr[0]\n    let m = arr[1]\n    var w = [[Int]](repeating: [Int](repeating: 0, count: n), count: n)\n    var idx = 2\n    for _ in 0..<m {\n        let u = arr[idx], v = arr[idx + 1], c = arr[idx + 2]\n        w[u][v] += c\n        w[v][u] += c\n        idx += 3\n    }\n\n    var merged = [Bool](repeating: false, count: n)\n    var best = Int.max\n\n    for phase in 0..<(n - 1) {\n        var key = [Int](repeating: 0, count: n)\n        var inA = [Bool](repeating: false, count: n)\n        var prev = -1\n        var last = -1\n\n        for _ in 0..<(n - phase) {\n            var sel = -1\n            for v in 0..<n {\n                if !merged[v] && !inA[v] {\n                    if sel == -1 || key[v] > key[sel] {\n                        sel = v\n                    }\n                }\n            }\n            inA[sel] = true\n            prev = last\n            last = sel\n            for v in 0..<n {\n                if !merged[v] && !inA[v] {\n                    key[v] += w[sel][v]\n                }\n            }\n        }\n\n        if key[last] < best { best = key[last] }\n\n        for v in 0..<n {\n            w[prev][v] += w[last][v]\n            w[v][prev] += w[v][last]\n        }\n        merged[last] = true\n    }\n\n    return best\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "minimumCutStoerWagner.ts",
+          "content": "export function minimumCutStoerWagner(arr: number[]): number {\n    const n = arr[0];\n    const m = arr[1];\n    const w: number[][] = Array.from({ length: n }, () => new Array(n).fill(0));\n    let idx = 2;\n    for (let i = 0; i < m; i++) {\n        const u = arr[idx], v = arr[idx + 1], c = arr[idx + 2];\n        w[u][v] += c;\n        w[v][u] += c;\n        idx += 3;\n    }\n\n    const merged = new Array(n).fill(false);\n    let best = Infinity;\n\n    for (let phase = 0; phase < n - 1; phase++) {\n        const key = new Array(n).fill(0);\n        const inA = new Array(n).fill(false);\n        let prev = -1, last = -1;\n\n        for (let it = 0; it < n - phase; it++) {\n            let sel = -1;\n            for (let v = 0; v < n; v++) {\n                if (!merged[v] && !inA[v]) {\n                    if (sel === -1 || key[v] > key[sel]) {\n                        sel = v;\n                    }\n                }\n            }\n            inA[sel] = true;\n            prev = last;\n            last = sel;\n            for (let v = 0; v < n; v++) {\n                if (!merged[v] && !inA[v]) {\n                    key[v] += w[sel][v];\n                }\n            }\n        }\n\n        best = Math.min(best, key[last]);\n\n        for (let v = 0; v < n; v++) {\n            w[prev][v] += w[last][v];\n            w[v][prev] += w[v][last];\n        }\n        merged[last] = true;\n    }\n\n    return best;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Minimum Cut (Stoer-Wagner)\n\n## Overview\n\nThe Stoer-Wagner algorithm finds the minimum cut of an undirected weighted graph without using max-flow techniques. A minimum cut is a partition of the vertices into two non-empty sets such that the total weight of edges crossing the partition is minimized. The algorithm runs in O(V^3) time using an adjacency matrix representation and is conceptually simpler than max-flow based approaches for undirected graphs.\n\n## How It Works\n\nThe algorithm performs V-1 phases. In each phase, it grows a set of vertices starting from an arbitrary vertex by repeatedly adding the most tightly connected vertex (the vertex with the highest total edge weight to vertices already in the set). The last two vertices added in a phase define a \"cut of the phase\" whose weight equals the total edge weight from the last vertex to all other vertices. After recording this cut weight, the last two vertices are merged. The global minimum cut is the minimum over all phase cuts.\n\n## Worked Example\n\n```\nGraph with 4 vertices:\n    0 --(2)-- 1\n    |         |\n   (3)      (3)\n    |         |\n    3 --(1)-- 2\n\n    Also: 0--(1)--2\n```\n\nAdjacency matrix:\n```\n     0  1  2  3\n 0 [ 0  2  1  3 ]\n 1 [ 2  0  3  0 ]\n 2 [ 1  3  0  1 ]\n 3 [ 3  0  1  0 ]\n```\n\n**Phase 1:** Start with {0}. Most tightly connected: vertex 3 (weight 3). Add 3. Set = {0, 3}. Next: vertex 1 (weight to set = 2+0=2) vs vertex 2 (weight to set = 1+1=2). Tie-break, say vertex 1. Add 1. Set = {0, 3, 1}. Last vertex: 2. Cut-of-phase = w(2,0) + w(2,3) + w(2,1) = 1+1+3 = 5. Merge vertices 1 and 2.\n\n**Phase 2:** Now 3 vertices: {0, {1,2}, 3}. Updated weights: 0-{1,2} = 2+1 = 3, 0-3 = 3, {1,2}-3 = 0+1 = 1. Start {0}. Most connected: 3 or {1,2} (both weight 3). Say {1,2}. Set = {0, {1,2}}. Last: 3. Cut-of-phase = w(3,0) + w(3,{1,2}) = 3+1 = 4. Merge {1,2} and 3.\n\n**Phase 3:** Now 2 vertices: {0, {1,2,3}}. Weight = 3+3+1 = 7. Cut-of-phase = 7.\n\n**Minimum cut = min(5, 4, 7) = 4.** The minimum cut separates {3} from {0, 1, 2}.\n\n## Pseudocode\n\n```\nfunction stoerWagner(w, n):\n    // w[i][j] = edge weight between i and j\n    minCut = INF\n    vertices = [0, 1, ..., n-1]\n\n    for phase = 0 to n-2:\n        // Minimum cut phase\n        inA = array of size n, all false\n        tightness = array of size n, all 0\n\n        prev = -1\n        last = vertices[0]\n\n        for i = 0 to |vertices|-1:\n            // Find most tightly connected vertex not in A\n            inA[last] = true\n            prev = last\n            best = -1\n            for each v in vertices:\n                if not inA[v]:\n                    tightness[v] += w[last][v]\n                    if best == -1 or tightness[v] > tightness[best]:\n                        best = v\n            last = best\n\n        cutWeight = tightness[last]\n        minCut = min(minCut, cutWeight)\n\n        // Merge prev and last\n        for each v in vertices:\n            w[prev][v] += w[last][v]\n            w[v][prev] += w[v][last]\n\n        remove last from vertices\n\n    return minCut\n```\n\n## Complexity Analysis\n\n| Case    | Time   | Space  |\n|---------|--------|--------|\n| Best    | O(V^3) | O(V^2) |\n| Average | O(V^3) | O(V^2) |\n| Worst   | O(V^3) | O(V^2) |\n\nWith a priority queue, the time can be improved to O(VE + V^2 log V), but the cubic version using an adjacency matrix is simpler and sufficient for moderate graph sizes.\n\n## When to Use\n\n- Finding minimum cuts in undirected graphs (network reliability)\n- Image segmentation\n- Clustering and community detection\n- Network vulnerability analysis\n- Circuit partitioning in VLSI design\n\n## When NOT to Use\n\n- For directed graphs -- use max-flow based min-cut (Edmonds-Karp, Dinic's) instead.\n- When you need the s-t min-cut for specific source and sink -- max-flow is more direct.\n- For very large sparse graphs -- the O(V^3) with adjacency matrix is wasteful; consider Karger's randomized algorithm.\n- When you need multiple different cuts -- randomized contraction (Karger's) can enumerate near-minimum cuts.\n\n## Comparison\n\n| Algorithm | Time | Graph Type | Notes |\n|-----------|------|------------|-------|\n| Stoer-Wagner (this) | O(V^3) | Undirected, weighted | No source/sink needed; deterministic |\n| Max-Flow (Edmonds-Karp) | O(VE^2) | Directed or undirected | Finds s-t min-cut; needs source and sink |\n| Karger's Randomized | O(V^2 log^3 V) | Undirected | Randomized; can find all near-minimum cuts |\n| Gomory-Hu Tree | O(V) max-flow calls | Undirected | Computes all pairwise min-cuts; uses max-flow as subroutine |\n\n## References\n\n- Stoer, M., & Wagner, F. (1997). \"A Simple Min-Cut Algorithm\". *Journal of the ACM*. 44(4): 585-591.\n- [Stoer-Wagner Algorithm -- Wikipedia](https://en.wikipedia.org/wiki/Stoer%E2%80%93Wagner_algorithm)\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [minimum_cut_stoer_wagner.py](python/minimum_cut_stoer_wagner.py) |\n| Java       | [MinimumCutStoerWagner.java](java/MinimumCutStoerWagner.java) |\n| C++        | [minimum_cut_stoer_wagner.cpp](cpp/minimum_cut_stoer_wagner.cpp) |\n| C          | [minimum_cut_stoer_wagner.c](c/minimum_cut_stoer_wagner.c) |\n| Go         | [minimum_cut_stoer_wagner.go](go/minimum_cut_stoer_wagner.go) |\n| TypeScript | [minimumCutStoerWagner.ts](typescript/minimumCutStoerWagner.ts) |\n| Rust       | [minimum_cut_stoer_wagner.rs](rust/minimum_cut_stoer_wagner.rs) |\n| Kotlin     | [MinimumCutStoerWagner.kt](kotlin/MinimumCutStoerWagner.kt) |\n| Swift      | [MinimumCutStoerWagner.swift](swift/MinimumCutStoerWagner.swift) |\n| Scala      | [MinimumCutStoerWagner.scala](scala/MinimumCutStoerWagner.scala) |\n| C#         | [MinimumCutStoerWagner.cs](csharp/MinimumCutStoerWagner.cs) |\n"
+}

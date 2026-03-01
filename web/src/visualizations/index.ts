@@ -1,0 +1,21 @@
+export { getVisualization, hasVisualization, registerVisualizations, getVisualizationType } from './registry';
+export type {
+  VisualizationType,
+  VisualizationState,
+  AlgorithmVisualization,
+  GraphVisualizationState,
+  GraphVisualizationEngine,
+  GraphNode,
+  GraphEdge,
+  TreeVisualizationState,
+  TreeVisualizationEngine,
+  TreeNodeData,
+  DPVisualizationState,
+  DPVisualizationEngine,
+  DPCell,
+  StringVisualizationState,
+  StringVisualizationEngine,
+  CharCell,
+  AnyVisualizationState,
+  AnyVisualizationEngine,
+} from './types';

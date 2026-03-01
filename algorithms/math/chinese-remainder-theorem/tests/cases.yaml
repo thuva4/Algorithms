@@ -1,0 +1,15 @@
+algorithm: "chinese-remainder-theorem"
+function_signature:
+  name: "chinese_remainder"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "three congruences"
+    input: [[3, 2, 3, 3, 5, 2, 7]]
+    expected: 23
+  - name: "two congruences"
+    input: [[2, 1, 2, 3, 5]]
+    expected: 3
+  - name: "zero remainders"
+    input: [[2, 0, 3, 0, 5]]
+    expected: 0

@@ -1,0 +1,21 @@
+name: "XOR Swap"
+slug: "xor-swap"
+category: "bit-manipulation"
+subcategory: "bitwise-operations"
+difficulty: "beginner"
+tags: [bit-manipulation, xor, swap, in-place, no-temp]
+complexity:
+  time:
+    best: "O(1)"
+    average: "O(1)"
+    worst: "O(1)"
+  space: "O(1)"
+stable: false
+in_place: true
+related: [hamming-distance, swap-two-variables]
+implementations: [python, java, cpp, c, csharp, typescript, scala, swift]
+visualization: false
+patterns:
+  - bitwise-xor
+patternDifficulty: beginner
+practiceOrder: 1

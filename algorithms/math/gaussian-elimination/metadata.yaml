@@ -1,0 +1,17 @@
+name: "Gaussian Elimination"
+slug: "gaussian-elimination"
+category: "math"
+subcategory: "linear-algebra"
+difficulty: "intermediate"
+tags: [math, linear-algebra, gaussian-elimination, systems-of-equations]
+complexity:
+  time:
+    best: "O(n^3)"
+    average: "O(n^3)"
+    worst: "O(n^3)"
+  space: "O(n^2)"
+stable: null
+in_place: false
+related: [matrix-exponentiation, strassens-matrix]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

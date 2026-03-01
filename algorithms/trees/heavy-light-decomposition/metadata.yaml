@@ -1,0 +1,17 @@
+name: "Heavy-Light Decomposition"
+slug: "heavy-light-decomposition"
+category: "trees"
+subcategory: "tree-decomposition"
+difficulty: "advanced"
+tags: [trees, decomposition, path-query, heavy-light, segment-tree]
+complexity:
+  time:
+    best: "O(log^2 n)"
+    average: "O(log^2 n)"
+    worst: "O(log^2 n)"
+  space: "O(n)"
+stable: false
+in_place: false
+related: [segment-tree, tarjans-offline-lca]
+implementations: [cpp]
+visualization: false

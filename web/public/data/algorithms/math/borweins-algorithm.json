@@ -1,0 +1,56 @@
+{
+  "name": "Borwein's Algorithm",
+  "slug": "borweins-algorithm",
+  "category": "math",
+  "subcategory": "numerical-methods",
+  "difficulty": "advanced",
+  "tags": [
+    "math",
+    "pi",
+    "approximation",
+    "borwein",
+    "numerical"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "average": "O(n)",
+      "worst": "O(n)"
+    },
+    "space": "O(1)"
+  },
+  "stable": false,
+  "in_place": true,
+  "related": [],
+  "implementations": {
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "borwein_algorithm.cpp",
+          "content": "#include <cmath>\n#include <cstdio>\n#include <iostream>\nusing namespace std;\n\n//Borwein's algorithm\n//gionuno\n\ntypedef long double ld;\n\nld quad_convergence(int T)\n{\n\tld a0 = sqrt(2.0);\n\tld b0 = 0.0;\n\tld p0 = 2.0+a0;\n\tfor(int n=0;n<T;n++)\n\t{\n\t\tld sa = sqrt(a0);\n\t\tld an = 0.5*(sa+1./sa);\n\t\tld bn = (1.0+b0)*sa/(a0+b0);\n\t\tld pn = (1.0+an)*p0*bn/(1.0+bn);\n\t\ta0 = an;\n\t\tb0 = bn;\n\t\tp0 = pn;\n\t}\t\n\treturn p0;\n}\n\nint main()\n{\n\tcout.precision(17);\n\tcout << \"pi approx \" << fixed << quad_convergence(20) << endl;\n\treturn 0;\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "borwein_algorithm.java",
+          "content": "/**\n\n **  Java Program to Implement Borwein Algorithm\n\n **/\n\nimport java.util.Scanner;\n\n\n\n/** Class Borwein **/\n\npublic class Borwein\n\n{\n\n    /** compute 1/pi **/\n\n    public double getOneByPi(int k)\n\n    {\n\n        double ak = 6.0 - 4 * Math.sqrt(2);\n\n        double yk = Math.sqrt(2) - 1.0;\n\n\n\n        double ak1 ;\n\n        double yk1 ;\n\n        for (int i = 0; i < k; i++)\n\n        {\n\n            yk1 = (1 - Math.pow((1 - yk * yk * yk * yk),(0.25)))/(1 + Math.pow((1 - yk * yk * yk * yk),(0.25)));\n\n            ak1 = ak * Math.pow((1 + yk1), 4) - Math.pow(2, 2 * i + 3) * yk1 * (1 + yk1 + yk1 * yk1);\n\n            yk = yk1;\n\n            ak = ak1;\n\n        }\n\n        return ak;\n\n    }\n\n    /** Main function **/\n\n    public static void main (String[] args)\n\n    {\n\n        Scanner scan = new Scanner(System.in);\n\n        System.out.println(\"Borwein 1/Pi Algorithm Test\\n\");\n\n        /** Make an object of Borwein class **/\n\n        Borwein b = new Borwein();\n\n\n\n        System.out.println(\"Enter number of iterations \");\n\n        int k = scan.nextInt();\n\n\n\n        System.out.println(\"\\nValue of 1/pi : \"+ b.getOneByPi(k));\n\n    }\n\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "Borwein_algorithm.py",
+          "content": "# Calculates an estimation for 1/pi\n# with various convergences\n\nimport numpy as np\n\ndef Borwein_2(k):\t\t\t# Quadratic convergence \n\ta = np.sqrt(2)\n\tb = 0\n\tp = 2 + np.sqrt(2)\n\tfor i in range(k):\n\t\tb = (1+b)*np.sqrt(a)/(a+b)\n\t\ta = (np.sqrt(a)+1/np.sqrt(a))/2\n\t\tp = ((1+a)*p*b)/(1+b)\n\treturn p\n\t\n\ndef Borwein_3(k):\t\t\t# Cubic convergence \n\ta = 1./3\n\ts = (np.sqrt(3)-1)/2\n\tfor i in range(k):\n\t\tr = 3/(1+2*(1-s**3)**(1./3))\n\t\ts = (r-1)/2\n\t\ta = r**2*a-3**i*(r**2-1)\n\treturn a\n\t\n\ndef Borwein_4(k):\t\t\t# Quartic convergence \n\ta = 6-4*np.sqrt(2)\n\ty = np.sqrt(2)-1\n\tfor i in range(k):\n\t\ty = (1-(1-y**4)**(1./4))/(1+(1-y**4)**(1./4))\n\t\ta = a*(1+y)**4 -2**(2*i+3)*y*(1+y+y**2)\n\treturn a\n\t\n\t\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Borwein's Algorithm\n\n## Overview\n\nBorwein's algorithm is a family of iterative methods for computing the mathematical constant pi, developed by Jonathan and Peter Borwein in the 1980s. The most well-known variant is the quartic (fourth-order) algorithm, which quadruples the number of correct digits with each iteration. Starting from carefully chosen initial values derived from algebraic identities, the algorithm converges to 1/pi extremely rapidly -- typically, 5 iterations yield over 600 correct decimal digits.\n\nThe algorithm belongs to the class of arithmetic-geometric mean (AGM) based methods and is closely related to Ramanujan-type series for pi. It is one of the fastest known algorithms for computing pi to arbitrary precision.\n\n## How It Works\n\nThe Borwein quartic algorithm maintains two state variables, `a` and `y`, updated each iteration:\n\n1. Initialize:\n   - y_0 = sqrt(2) - 1\n   - a_0 = 6 - 4 * sqrt(2)\n\n2. At each iteration k, compute:\n   - y_{k+1} = (1 - (1 - y_k^4)^(1/4)) / (1 + (1 - y_k^4)^(1/4))\n   - a_{k+1} = a_k * (1 + y_{k+1})^4 - 2^(2k+3) * y_{k+1} * (1 + y_{k+1} + y_{k+1}^2)\n\n3. After n iterations, 1/a_n approximates pi with approximately 4^n correct digits.\n\nThe quartic convergence means the number of accurate digits quadruples per iteration: ~1, 4, 16, 64, 256, 1024, ...\n\n## Worked Example\n\nStarting values:\n- y_0 = sqrt(2) - 1 = 0.41421356...\n- a_0 = 6 - 4*sqrt(2) = 0.34314575...\n\n**Iteration 1:**\n- y_0^4 = 0.02943725...\n- (1 - y_0^4)^(1/4) = 0.99252568...\n- y_1 = (1 - 0.99252568) / (1 + 0.99252568) = 0.00375128...\n- a_1 = a_0 * (1 + y_1)^4 - 2^3 * y_1 * (1 + y_1 + y_1^2)\n- a_1 = 0.31830988... (already ~8 correct digits of 1/pi)\n- 1/a_1 = 3.14159265... (pi to ~8 digits)\n\n**Iteration 2:**\n- Produces ~32 correct digits of pi.\n\nAfter just 5 iterations, over 600 digits are correct.\n\n## Algorithm\n\n```\nfunction borweinPi(iterations):\n    y = sqrt(2) - 1\n    a = 6 - 4 * sqrt(2)\n\n    for k = 0 to iterations - 1:\n        fourth_root = (1 - y^4)^(1/4)\n        y = (1 - fourth_root) / (1 + fourth_root)\n        a = a * (1 + y)^4 - 2^(2*k + 3) * y * (1 + y + y^2)\n\n    return 1 / a    // approximation of pi\n```\n\nNote: In practice, this requires arbitrary-precision arithmetic. The `2^(2k+3)` factor grows exponentially, so implementations typically use big-decimal libraries (e.g., Python's `mpmath`, Java's `BigDecimal`).\n\n## Complexity Analysis\n\n| Case    | Time                | Space |\n|---------|---------------------|-------|\n| Best    | O(n * M(d))         | O(d)  |\n| Average | O(n * M(d))         | O(d)  |\n| Worst   | O(n * M(d))         | O(d)  |\n\nWhere n is the number of iterations, d is the number of desired digits, and M(d) is the cost of multiplying two d-digit numbers.\n\n**Why these complexities?**\n\n- **Time:** Each iteration requires a constant number of arbitrary-precision multiplications and one fourth-root computation. With Schonhage-Strassen multiplication, M(d) = O(d log d log log d). Since 4^n digits are correct after n iterations, computing D digits requires n = O(log D) iterations, giving total time O(log(D) * M(D)).\n\n- **Space:** The algorithm stores a constant number of variables, each with d digits of precision, so space is O(d).\n\n## Applications\n\n- **Computing pi to trillions of digits:** Borwein's algorithm (and closely related methods) have been used in several world-record pi computations.\n- **Benchmarking arbitrary-precision libraries:** The algorithm's heavy use of multiplication makes it a good stress test.\n- **Verifying other pi algorithms:** Used as an independent check against Chudnovsky or Bailey-Borwein-Plouffe results.\n- **Mathematical research:** Studying convergence rates and algebraic relations between constants.\n\n## When NOT to Use\n\n- **Low precision (fewer than ~50 digits):** The overhead of arbitrary-precision arithmetic makes simpler series (Leibniz, Machin) or lookup tables more practical.\n- **When you only need a few hundred digits:** The Chudnovsky algorithm converges faster per term (about 14 digits per term) and is simpler to implement with standard big-number libraries.\n- **Streaming or digit-extraction:** If you need specific digits of pi without computing all prior digits, use the Bailey-Borwein-Plouffe (BBP) formula instead.\n- **Embedded or memory-constrained systems:** Arbitrary-precision arithmetic requires significant memory allocation.\n\n## Comparison with Similar Algorithms\n\n| Algorithm          | Convergence Rate       | Digits per Iteration | Implementation Complexity |\n|-------------------|------------------------|----------------------|--------------------------|\n| Borwein Quartic   | Quartic (4th order)    | ~4x per iteration    | Moderate (needs nth root) |\n| Chudnovsky        | ~14 digits per term    | 14 per term          | Moderate (factorial-heavy) |\n| Gauss-Legendre    | Quadratic (2nd order)  | ~2x per iteration    | Simple (just +, *, sqrt)  |\n| Machin-like       | Linear                 | ~1.4 per term        | Simple                    |\n| BBP Formula       | Linear                 | ~1 hex digit/term    | Simple; allows digit extraction |\n\nBorwein's quartic algorithm has a higher convergence order than Gauss-Legendre but requires computing fourth roots, which adds implementation complexity. In practice, the Chudnovsky algorithm is more commonly used for record-setting computations because it achieves more digits per unit of computation time despite its linear convergence per term.\n\n## Implementations\n\n| Language | File |\n|----------|------|\n| Python   | [borweins_algorithm.py](python/borweins_algorithm.py) |\n| Java     | [BorweinsAlgorithm.java](java/BorweinsAlgorithm.java) |\n| C++      | [borweins_algorithm.cpp](cpp/borweins_algorithm.cpp) |\n\n## References\n\n- Borwein, J. M., & Borwein, P. B. (1987). *Pi and the AGM: A Study in Analytic Number Theory and Computational Complexity*. Wiley-Interscience.\n- Borwein, J. M., & Borwein, P. B. (1984). The arithmetic-geometric mean and fast computation of elementary functions. *SIAM Review*, 26(3), 351-366.\n- Bailey, D. H., Borwein, J. M., Borwein, P. B., & Plouffe, S. (1997). The quest for pi. *Mathematical Intelligencer*, 19(1), 50-57.\n- [Borwein's Algorithm -- Wikipedia](https://en.wikipedia.org/wiki/Borwein%27s_algorithm)\n"
+}

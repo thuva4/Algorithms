@@ -1,0 +1,17 @@
+name: "Comb Sort"
+slug: "comb-sort"
+category: "sorting"
+subcategory: "comparison-based"
+difficulty: "intermediate"
+tags: [sorting, comparison, in-place, unstable, gap-based]
+complexity:
+  time:
+    best: "O(n log n)"
+    average: "O(n^2 / 2^p)"
+    worst: "O(n^2)"
+  space: "O(1)"
+stable: false
+in_place: true
+related: [bubble-sort, shell-sort]
+implementations: [python, java, cpp, c, go, typescript, kotlin, rust, swift, scala, csharp]
+visualization: true

@@ -1,0 +1,132 @@
+{
+  "name": "Knuth-Morris-Pratt",
+  "slug": "knuth-morris-pratt",
+  "category": "strings",
+  "subcategory": "pattern-matching",
+  "difficulty": "intermediate",
+  "tags": [
+    "strings",
+    "pattern-matching",
+    "kmp",
+    "prefix-function",
+    "substring-search"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n + m)",
+      "average": "O(n + m)",
+      "worst": "O(n + m)"
+    },
+    "space": "O(m)"
+  },
+  "stable": false,
+  "in_place": false,
+  "related": [
+    "rabin-karp",
+    "aho-corasick",
+    "bitap-algorithm"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "KMP.c",
+          "content": "#include <stdio.h>\n#include <string.h>\n#include <stdlib.h>\n\nvoid computeLPS(const char *pattern, int m, int *lps) {\n    int len = 0;\n    int i = 1;\n    lps[0] = 0;\n\n    while (i < m) {\n        if (pattern[i] == pattern[len]) {\n            len++;\n            lps[i] = len;\n            i++;\n        } else {\n            if (len != 0) {\n                len = lps[len - 1];\n            } else {\n                lps[i] = 0;\n                i++;\n            }\n        }\n    }\n}\n\nint kmpSearch(const char *text, const char *pattern) {\n    int n = strlen(text);\n    int m = strlen(pattern);\n\n    if (m == 0) return 0;\n\n    int *lps = (int *)malloc(m * sizeof(int));\n    computeLPS(pattern, m, lps);\n\n    int i = 0;\n    int j = 0;\n    while (i < n) {\n        if (pattern[j] == text[i]) {\n            i++;\n            j++;\n        }\n        if (j == m) {\n            free(lps);\n            return i - j;\n        } else if (i < n && pattern[j] != text[i]) {\n            if (j != 0) {\n                j = lps[j - 1];\n            } else {\n                i++;\n            }\n        }\n    }\n\n    free(lps);\n    return -1;\n}\n\nint main() {\n    const char *text = \"ABABDABACDABABCABAB\";\n    const char *pattern = \"ABABCABAB\";\n    int result = kmpSearch(text, pattern);\n    printf(\"Pattern found at index: %d\\n\", result);\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "KMP.cpp",
+          "content": "// C++ program for implementation of KMP pattern searching\n// algorithm\n#include<bits/stdc++.h>\n\nvoid computeLPSArray(char *pat, int M, int *lps);\n\n// Prints occurrences of txt[] in pat[]\nvoid KMPSearch(char *pat, char *txt)\n{\n    int M = strlen(pat);\n    int N = strlen(txt);\n\n    // create lps[] that will hold the longest prefix suffix\n    // values for pattern\n    int lps[M];\n\n    // Preprocess the pattern (calculate lps[] array)\n    computeLPSArray(pat, M, lps);\n\n    int i = 0;  // index for txt[]\n    int j  = 0;  // index for pat[]\n    while (i < N)\n    {\n        if (pat[j] == txt[i])\n        {\n            j++;\n            i++;\n        }\n\n        if (j == M)\n        {\n            printf(\"Found pattern at index %d n\", i-j);\n            j = lps[j-1];\n        }\n\n        // mismatch after j matches\n        else if (i < N && pat[j] != txt[i])\n        {\n            // Do not match lps[0..lps[j-1]] characters,\n            // they will match anyway\n            if (j != 0)\n                j = lps[j-1];\n            else\n                i = i+1;\n        }\n    }\n}\n\n// Fills lps[] for given patttern pat[0..M-1]\nvoid computeLPSArray(char *pat, int M, int *lps)\n{\n    // length of the previous longest prefix suffix\n    int len = 0;\n\n    lps[0] = 0; // lps[0] is always 0\n\n    // the loop calculates lps[i] for i = 1 to M-1\n    int i = 1;\n    while (i < M)\n    {\n        if (pat[i] == pat[len])\n        {\n            len++;\n            lps[i] = len;\n            i++;\n        }\n        else // (pat[i] != pat[len])\n        {\n            // This is tricky. Consider the example.\n            // AAACAAAA and i = 7. The idea is similar\n            // to search step.\n            if (len != 0)\n            {\n                len = lps[len-1];\n\n                // Also, note that we do not increment\n                // i here\n            }\n            else // if (len == 0)\n            {\n                lps[i] = 0;\n                i++;\n            }\n        }\n    }\n}\n\n// Driver program to test above function\nint main()\n{\n    char *txt = \"ABABDABACDABABCABAB\";\n    char *pat = \"ABABCABAB\";\n    KMPSearch(pat, txt);\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "KMP.cs",
+          "content": "using System;\n\nclass KMP\n{\n    static int[] ComputeLPS(string pattern)\n    {\n        int m = pattern.Length;\n        int[] lps = new int[m];\n        int len = 0;\n        int i = 1;\n\n        while (i < m)\n        {\n            if (pattern[i] == pattern[len])\n            {\n                len++;\n                lps[i] = len;\n                i++;\n            }\n            else\n            {\n                if (len != 0)\n                    len = lps[len - 1];\n                else\n                {\n                    lps[i] = 0;\n                    i++;\n                }\n            }\n        }\n        return lps;\n    }\n\n    static int KMPSearch(string text, string pattern)\n    {\n        int n = text.Length;\n        int m = pattern.Length;\n\n        if (m == 0) return 0;\n\n        int[] lps = ComputeLPS(pattern);\n\n        int i = 0, j = 0;\n        while (i < n)\n        {\n            if (pattern[j] == text[i])\n            {\n                i++;\n                j++;\n            }\n            if (j == m)\n            {\n                return i - j;\n            }\n            else if (i < n && pattern[j] != text[i])\n            {\n                if (j != 0)\n                    j = lps[j - 1];\n                else\n                    i++;\n            }\n        }\n        return -1;\n    }\n\n    static void Main(string[] args)\n    {\n        string text = \"ABABDABACDABABCABAB\";\n        string pattern = \"ABABCABAB\";\n        Console.WriteLine(\"Pattern found at index: \" + KMPSearch(text, pattern));\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "KMP.go",
+          "content": "package kmp\n\n// computeLPS computes the longest proper prefix which is also suffix array.\nfunc computeLPS(pattern string) []int {\n\tm := len(pattern)\n\tlps := make([]int, m)\n\tlength := 0\n\ti := 1\n\n\tfor i < m {\n\t\tif pattern[i] == pattern[length] {\n\t\t\tlength++\n\t\t\tlps[i] = length\n\t\t\ti++\n\t\t} else {\n\t\t\tif length != 0 {\n\t\t\t\tlength = lps[length-1]\n\t\t\t} else {\n\t\t\t\tlps[i] = 0\n\t\t\t\ti++\n\t\t\t}\n\t\t}\n\t}\n\treturn lps\n}\n\n// KMPSearch returns the first index where pattern is found in text, or -1.\nfunc KMPSearch(text, pattern string) int {\n\tn := len(text)\n\tm := len(pattern)\n\n\tif m == 0 {\n\t\treturn 0\n\t}\n\n\tlps := computeLPS(pattern)\n\n\ti := 0\n\tj := 0\n\tfor i < n {\n\t\tif pattern[j] == text[i] {\n\t\t\ti++\n\t\t\tj++\n\t\t}\n\t\tif j == m {\n\t\t\treturn i - j\n\t\t} else if i < n && pattern[j] != text[i] {\n\t\t\tif j != 0 {\n\t\t\t\tj = lps[j-1]\n\t\t\t} else {\n\t\t\t\ti++\n\t\t\t}\n\t\t}\n\t}\n\treturn -1\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "KMP.java",
+          "content": "// JAVA program for implementation of KMP pattern\n// searching algorithm\n\npublic class KMP\n{\n    public static int kmpSearch(String txt, String pat)\n    {\n        if (pat == null || txt == null) {\n            return -1;\n        }\n        if (pat.isEmpty()) {\n            return 0;\n        }\n        return txt.indexOf(pat);\n    }\n\n    void KMPSearch(String pat, String txt)\n    {\n        int M = pat.length();\n        int N = txt.length();\n\n        // create lps[] that will hold the longest\n        // prefix suffix values for pattern\n        int lps[] = new int[M];\n        int j = 0;  // index for pat[]\n\n        // Preprocess the pattern (calculate lps[]\n        // array)\n        computeLPSArray(pat,M,lps);\n\n        int i = 0;  // index for txt[]\n        while (i < N)\n        {\n            if (pat.charAt(j) == txt.charAt(i))\n            {\n                j++;\n                i++;\n            }\n            if (j == M)\n            {\n                System.out.println(\"Found pattern \"+\n                              \"at index \" + (i-j));\n                j = lps[j-1];\n            }\n\n            // mismatch after j matches\n            else if (i < N && pat.charAt(j) != txt.charAt(i))\n            {\n                // Do not match lps[0..lps[j-1]] characters,\n                // they will match anyway\n                if (j != 0)\n                    j = lps[j-1];\n                else\n                    i = i+1;\n            }\n        }\n    }\n\n    void computeLPSArray(String pat, int M, int lps[])\n    {\n        // length of the previous longest prefix suffix\n        int len = 0;\n        int i = 1;\n        lps[0] = 0;  // lps[0] is always 0\n\n        // the loop calculates lps[i] for i = 1 to M-1\n        while (i < M)\n        {\n            if (pat.charAt(i) == pat.charAt(len))\n            {\n                len++;\n                lps[i] = len;\n                i++;\n            }\n            else  // (pat[i] != pat[len])\n            {\n                // This is tricky. Consider the example.\n                // AAACAAAA and i = 7. The idea is similar\n                // to search step.\n                if (len != 0)\n                {\n                    len = lps[len-1];\n\n                    // Also, note that we do not increment\n                    // i here\n                }\n                else  // if (len == 0)\n                {\n                    lps[i] = len;\n                    i++;\n                }\n            }\n        }\n    }\n\n    // Driver program to test above function\n    public static void main(String args[])\n    {\n        String txt = \"ABABDABACDABABCABAB\";\n        String pat = \"ABABCABAB\";\n        new KMP().KMPSearch(pat,txt);\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "KMP.kt",
+          "content": "fun computeLPS(pattern: String): IntArray {\n    val m = pattern.length\n    val lps = IntArray(m)\n    var len = 0\n    var i = 1\n\n    while (i < m) {\n        if (pattern[i] == pattern[len]) {\n            len++\n            lps[i] = len\n            i++\n        } else {\n            if (len != 0) {\n                len = lps[len - 1]\n            } else {\n                lps[i] = 0\n                i++\n            }\n        }\n    }\n    return lps\n}\n\nfun kmpSearch(text: String, pattern: String): Int {\n    val n = text.length\n    val m = pattern.length\n\n    if (m == 0) return 0\n\n    val lps = computeLPS(pattern)\n\n    var i = 0\n    var j = 0\n    while (i < n) {\n        if (pattern[j] == text[i]) {\n            i++\n            j++\n        }\n        if (j == m) {\n            return i - j\n        } else if (i < n && pattern[j] != text[i]) {\n            if (j != 0) {\n                j = lps[j - 1]\n            } else {\n                i++\n            }\n        }\n    }\n    return -1\n}\n\nfun main() {\n    val text = \"ABABDABACDABABCABAB\"\n    val pattern = \"ABABCABAB\"\n    println(\"Pattern found at index: ${kmpSearch(text, pattern)}\")\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "KMP.py",
+          "content": "/*\n\tKnuth Morris Prath String Search algorithm Implementation\n*/\n\npackage kmp\n\n//Table Building Algorithm\n\nfunc preKMP(T *[]int, pat string) {\n\n\tvar i = 0\n\tvar j = -1\n\t(*T)[0] = -1\n\tlength := len(pat) - 1\n\n\tfor i < length {\n\t\tfor j > -1 && pat[i] != pat[j] {\n\t\t\tj = (*T)[j]\n\n\t\t}\n\t\ti++\n\t\tj++\n\n\t\tif pat[i] == pat[j] {\n\t\t\t(*T)[i] = (*T)[j]\n\n\t\t} else {\n\t\t\t(*T)[i] = j\n\t\t}\n\t}\n\n}\n\n//search kmp\nfunc Search(str, pat string) int {\n\n\tn := make([]int, len(pat))\n\t//preprocessing\n\tpreKMP(&n, pat)\n\n\tm := 0 //the beginning of the current match in str\n\ti := 0 //the position of the current character in pat\n\n\tfor {\n\t\tif m+i > len(str) {\n\t\t\tbreak\n\t\t}\n\n\t\tif pat[i] == str[m+i] {\n\t\t\ti++\n\t\t\tif i == len(pat) {\n\t\t\t\t//an occurence was found we return it\n\t\t\t\treturn m\n\t\t\t}\n\t\t} else {\n\t\t\tif n[i] > -1 {\n\t\t\t\tm = m + i - n[i]\n\t\t\t\ti = n[i]\n\n\t\t\t} else {\n\t\t\t\tm = m + i + 1\n\t\t\t\ti = 0\n\t\t\t}\n\n\t\t}\n\t}\n\treturn -1\n}\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "kmp.rs",
+          "content": "fn compute_lps(pattern: &str) -> Vec<usize> {\n    let pat: Vec<char> = pattern.chars().collect();\n    let m = pat.len();\n    let mut lps = vec![0usize; m];\n    let mut len = 0;\n    let mut i = 1;\n\n    while i < m {\n        if pat[i] == pat[len] {\n            len += 1;\n            lps[i] = len;\n            i += 1;\n        } else if len != 0 {\n            len = lps[len - 1];\n        } else {\n            lps[i] = 0;\n            i += 1;\n        }\n    }\n    lps\n}\n\nfn kmp_search(text: &str, pattern: &str) -> i32 {\n    let n = text.len();\n    let m = pattern.len();\n\n    if m == 0 {\n        return 0;\n    }\n\n    let txt: Vec<char> = text.chars().collect();\n    let pat: Vec<char> = pattern.chars().collect();\n    let lps = compute_lps(pattern);\n\n    let mut i = 0;\n    let mut j = 0;\n    while i < n {\n        if pat[j] == txt[i] {\n            i += 1;\n            j += 1;\n        }\n        if j == m {\n            return (i - j) as i32;\n        } else if i < n && pat[j] != txt[i] {\n            if j != 0 {\n                j = lps[j - 1];\n            } else {\n                i += 1;\n            }\n        }\n    }\n    -1\n}\n\nfn main() {\n    let text = \"ABABDABACDABABCABAB\";\n    let pattern = \"ABABCABAB\";\n    println!(\"Pattern found at index: {}\", kmp_search(text, pattern));\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "KMP.scala",
+          "content": "object KMP {\n  def computeLPS(pattern: String): Array[Int] = {\n    val m = pattern.length\n    val lps = new Array[Int](m)\n    var len = 0\n    var i = 1\n\n    while (i < m) {\n      if (pattern(i) == pattern(len)) {\n        len += 1\n        lps(i) = len\n        i += 1\n      } else {\n        if (len != 0) {\n          len = lps(len - 1)\n        } else {\n          lps(i) = 0\n          i += 1\n        }\n      }\n    }\n    lps\n  }\n\n  def kmpSearch(text: String, pattern: String): Int = {\n    val n = text.length\n    val m = pattern.length\n\n    if (m == 0) return 0\n\n    val lps = computeLPS(pattern)\n\n    var i = 0\n    var j = 0\n    while (i < n) {\n      if (pattern(j) == text(i)) {\n        i += 1\n        j += 1\n      }\n      if (j == m) {\n        return i - j\n      } else if (i < n && pattern(j) != text(i)) {\n        if (j != 0) {\n          j = lps(j - 1)\n        } else {\n          i += 1\n        }\n      }\n    }\n    -1\n  }\n\n  def main(args: Array[String]): Unit = {\n    val text = \"ABABDABACDABABCABAB\"\n    val pattern = \"ABABCABAB\"\n    println(s\"Pattern found at index: ${kmpSearch(text, pattern)}\")\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "KMP.swift",
+          "content": "func computeLPS(_ pattern: String) -> [Int] {\n    let pat = Array(pattern)\n    let m = pat.count\n    var lps = [Int](repeating: 0, count: m)\n    var len = 0\n    var i = 1\n\n    while i < m {\n        if pat[i] == pat[len] {\n            len += 1\n            lps[i] = len\n            i += 1\n        } else {\n            if len != 0 {\n                len = lps[len - 1]\n            } else {\n                lps[i] = 0\n                i += 1\n            }\n        }\n    }\n    return lps\n}\n\nfunc kmpSearch(_ text: String, _ pattern: String) -> Int {\n    let txt = Array(text)\n    let pat = Array(pattern)\n    let n = txt.count\n    let m = pat.count\n\n    if m == 0 { return 0 }\n\n    let lps = computeLPS(pattern)\n\n    var i = 0\n    var j = 0\n    while i < n {\n        if pat[j] == txt[i] {\n            i += 1\n            j += 1\n        }\n        if j == m {\n            return i - j\n        } else if i < n && pat[j] != txt[i] {\n            if j != 0 {\n                j = lps[j - 1]\n            } else {\n                i += 1\n            }\n        }\n    }\n    return -1\n}\n\nlet text = \"ABABDABACDABABCABAB\"\nlet pattern = \"ABABCABAB\"\nprint(\"Pattern found at index: \\(kmpSearch(text, pattern))\")\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "KMP.ts",
+          "content": "function computeLPS(pattern: string): number[] {\n    const m = pattern.length;\n    const lps: number[] = new Array(m).fill(0);\n    let len = 0;\n    let i = 1;\n\n    while (i < m) {\n        if (pattern[i] === pattern[len]) {\n            len++;\n            lps[i] = len;\n            i++;\n        } else {\n            if (len !== 0) {\n                len = lps[len - 1];\n            } else {\n                lps[i] = 0;\n                i++;\n            }\n        }\n    }\n    return lps;\n}\n\nexport function kmpSearch(text: string, pattern: string): number {\n    const n = text.length;\n    const m = pattern.length;\n\n    if (m === 0) return 0;\n\n    const lps = computeLPS(pattern);\n\n    let i = 0;\n    let j = 0;\n    while (i < n) {\n        if (pattern[j] === text[i]) {\n            i++;\n            j++;\n        }\n        if (j === m) {\n            return i - j;\n        } else if (i < n && pattern[j] !== text[i]) {\n            if (j !== 0) {\n                j = lps[j - 1];\n            } else {\n                i++;\n            }\n        }\n    }\n    return -1;\n}\n\nconst text = \"ABABDABACDABABCABAB\";\nconst pattern = \"ABABCABAB\";\nconsole.log(`Pattern found at index: ${kmpSearch(text, pattern)}`);\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "readme": "# Knuth-Morris-Pratt\n\n## Overview\n\nThe Knuth-Morris-Pratt (KMP) algorithm is an efficient string matching algorithm that searches for occurrences of a pattern within a text in O(n + m) time, where n is the text length and m is the pattern length. Unlike the naive approach that backtracks in the text after a mismatch, KMP uses a precomputed \"failure function\" (also called the prefix function or partial match table) to skip unnecessary comparisons.\n\nDeveloped by Donald Knuth, Vaughan Pratt, and James Morris in 1977, KMP was one of the first linear-time string matching algorithms. It is guaranteed to perform at most 2n comparisons in the search phase, making it ideal for applications where worst-case performance matters.\n\n## How It Works\n\nThe algorithm has two phases. First, it builds a failure function for the pattern, where `fail[i]` is the length of the longest proper prefix of the pattern that is also a suffix of the pattern up to position i. During the search phase, when a mismatch occurs at position j in the pattern, the failure function tells us the next position in the pattern to compare, avoiding re-examination of text characters.\n\n### Example\n\nPattern: `\"ABABAC\"`, Text: `\"ABABABABAC\"`\n\n**Step 1: Build the failure function:**\n\n| Position (i) | 0 | 1 | 2 | 3 | 4 | 5 |\n|--------------|---|---|---|---|---|---|\n| Pattern char | A | B | A | B | A | C |\n| fail[i] | 0 | 0 | 1 | 2 | 3 | 0 |\n\n- fail[2] = 1: \"A\" is both prefix and suffix of \"ABA\"\n- fail[3] = 2: \"AB\" is both prefix and suffix of \"ABAB\"\n- fail[4] = 3: \"ABA\" is both prefix and suffix of \"ABABA\"\n\n**Step 2: Search in text:**\n\n```\nText:    A B A B A B A B A C\nPattern: A B A B A C\n```\n\n| Step | Text pos (i) | Pattern pos (j) | Compare | Action |\n|------|-------------|-----------------|---------|--------|\n| 1 | 0 | 0 | A == A | Match, advance both |\n| 2 | 1 | 1 | B == B | Match, advance both |\n| 3 | 2 | 2 | A == A | Match, advance both |\n| 4 | 3 | 3 | B == B | Match, advance both |\n| 5 | 4 | 4 | A == A | Match, advance both |\n| 6 | 5 | 5 | B != C | Mismatch! j = fail[4] = 3 |\n| 7 | 5 | 3 | B == B | Match, advance both |\n| 8 | 6 | 4 | A == A | Match, advance both |\n| 9 | 7 | 5 | B != C | Mismatch! j = fail[4] = 3 |\n| 10 | 7 | 3 | B == B | Match, advance both |\n| 11 | 8 | 4 | A == A | Match, advance both |\n| 12 | 9 | 5 | C == C | Match! Pattern found at index 4 |\n\nResult: Pattern found at index `4` in the text.\n\n## Pseudocode\n\n```\nfunction buildFailure(pattern):\n    m = length(pattern)\n    fail = array of size m, initialized to 0\n    k = 0\n\n    for i from 1 to m - 1:\n        while k > 0 and pattern[k] != pattern[i]:\n            k = fail[k - 1]\n        if pattern[k] == pattern[i]:\n            k = k + 1\n        fail[i] = k\n\n    return fail\n\nfunction kmpSearch(text, pattern):\n    n = length(text)\n    m = length(pattern)\n    fail = buildFailure(pattern)\n    j = 0\n    results = empty list\n\n    for i from 0 to n - 1:\n        while j > 0 and pattern[j] != text[i]:\n            j = fail[j - 1]\n        if pattern[j] == text[i]:\n            j = j + 1\n        if j == m:\n            results.append(i - m + 1)\n            j = fail[j - 1]\n\n    return results\n```\n\nThe failure function ensures that after a mismatch, we never re-examine a character of the text. The pointer into the text only moves forward, guaranteeing O(n) search time.\n\n## Complexity Analysis\n\n| Case    | Time     | Space |\n|---------|---------|-------|\n| Best    | O(n + m) | O(m)  |\n| Average | O(n + m) | O(m)  |\n| Worst   | O(n + m) | O(m)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(n + m):** Building the failure function takes O(m). Even when the pattern is found immediately, the search must still examine text characters sequentially.\n\n- **Average Case -- O(n + m):** The failure function is built in O(m) using a technique similar to the search itself. The search phase performs at most 2n comparisons: the text pointer advances n times, and the pattern pointer can be reset at most n times total.\n\n- **Worst Case -- O(n + m):** Unlike the naive O(nm) approach, KMP never backtracks in the text. The amortized analysis shows that the total number of pattern pointer movements is bounded by 2n.\n\n- **Space -- O(m):** The failure function array has size m. The algorithm does not need to store any additional data proportional to the text length.\n\n## When to Use\n\n- **When worst-case guarantees matter:** KMP provides O(n + m) in all cases, unlike Rabin-Karp which can degrade to O(nm).\n- **Single pattern, single text:** KMP is optimal for searching one pattern in one text.\n- **Real-time text processing:** The text is processed character by character with no backtracking, making KMP suitable for streaming input.\n- **When the pattern has repeating structure:** The failure function leverages repetition in the pattern for maximum efficiency.\n\n## When NOT to Use\n\n- **Multiple patterns simultaneously:** Use Aho-Corasick, which handles multiple patterns in a single pass.\n- **When average-case performance is sufficient:** Rabin-Karp with hashing is simpler to implement and works well in practice.\n- **Very short patterns:** For patterns of length 1-3, a simple linear scan is just as fast and simpler.\n- **Approximate matching:** KMP handles exact matching only. Use edit distance or bitap for fuzzy matching.\n\n## Comparison with Similar Algorithms\n\n| Algorithm      | Time (worst) | Space | Notes                                          |\n|---------------|-------------|-------|-------------------------------------------------|\n| KMP            | O(n + m)    | O(m)  | Deterministic; no backtracking in text           |\n| Rabin-Karp     | O(nm)       | O(1)  | Hash-based; good average case, poor worst case   |\n| Boyer-Moore    | O(nm)       | O(m + sigma)| Fastest in practice for natural text        |\n| Aho-Corasick   | O(n + m + z)| O(m)  | Multi-pattern; builds automaton from all patterns|\n| Naive          | O(nm)       | O(1)  | Simplest; no preprocessing                       |\n\n## Implementations\n\n| Language | File |\n|----------|------|\n| Python   | [KMP.py](python/KMP.py) |\n| Java     | [KMP.java](java/KMP.java) |\n| C++      | [KMP.cpp](cpp/KMP.cpp) |\n\n## References\n\n- Knuth, D. E., Morris, J. H., & Pratt, V. R. (1977). Fast pattern matching in strings. *SIAM Journal on Computing*, 6(2), 323-350.\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 32.4: The Knuth-Morris-Pratt Algorithm.\n- [Knuth-Morris-Pratt Algorithm -- Wikipedia](https://en.wikipedia.org/wiki/Knuth%E2%80%93Morris%E2%80%93Pratt_algorithm)\n"
+}

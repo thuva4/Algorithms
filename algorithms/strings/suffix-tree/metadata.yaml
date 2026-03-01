@@ -1,0 +1,17 @@
+name: "Suffix Tree"
+slug: "suffix-tree"
+category: "strings"
+subcategory: "suffix-structures"
+difficulty: "advanced"
+tags: [strings, suffix-tree, distinct-substrings, text-processing]
+complexity:
+  time:
+    best: "O(n)"
+    average: "O(n)"
+    worst: "O(n)"
+  space: "O(n)"
+stable: null
+in_place: false
+related: [suffix-array, trie, knuth-morris-pratt]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

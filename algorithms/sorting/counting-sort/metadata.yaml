@@ -1,0 +1,17 @@
+name: "Counting Sort"
+slug: "counting-sort"
+category: "sorting"
+subcategory: "distribution-based"
+difficulty: "intermediate"
+tags: [sorting, distribution, non-comparison, stable, integer]
+complexity:
+  time:
+    best: "O(n + k)"
+    average: "O(n + k)"
+    worst: "O(n + k)"
+  space: "O(k)"
+stable: true
+in_place: false
+related: [bucket-sort, radix-sort, pigeonhole-sort]
+implementations: [python, java, cpp, c, go, typescript, kotlin, rust, swift, scala, csharp]
+visualization: true

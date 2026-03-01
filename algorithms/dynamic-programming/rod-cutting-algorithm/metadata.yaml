@@ -1,0 +1,21 @@
+name: "Rod Cutting Algorithm"
+slug: "rod-cutting-algorithm"
+category: "dynamic-programming"
+subcategory: "optimization"
+difficulty: "intermediate"
+tags: [dynamic-programming, optimization, memoization, cutting]
+complexity:
+  time:
+    best: "O(n^2)"
+    average: "O(n^2)"
+    worst: "O(n^2)"
+  space: "O(n)"
+stable: null
+in_place: null
+related: [knapsack, coin-change]
+implementations: [java]
+visualization: true
+patterns:
+  - knapsack-dp
+patternDifficulty: advanced
+practiceOrder: 5

@@ -1,0 +1,18 @@
+algorithm: "delaunay-triangulation"
+function_signature:
+  name: "delaunay_triangulation"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "three points"
+    input: [[3, 0, 0, 4, 0, 0, 3]]
+    expected: 1
+  - name: "four points (square)"
+    input: [[4, 0, 0, 1, 0, 1, 1, 0, 1]]
+    expected: 2
+  - name: "two points"
+    input: [[2, 0, 0, 1, 0]]
+    expected: 0
+  - name: "five points"
+    input: [[5, 0, 0, 2, 0, 4, 0, 1, 2, 3, 2]]
+    expected: 4

@@ -1,0 +1,17 @@
+name: "Pancake Sort"
+slug: "pancake-sort"
+category: "sorting"
+subcategory: "other"
+difficulty: "intermediate"
+tags: [sorting, comparison, in-place, unstable, puzzle]
+complexity:
+  time:
+    best: "O(n)"
+    average: "O(n^2)"
+    worst: "O(n^2)"
+  space: "O(1)"
+stable: false
+in_place: true
+related: [selection-sort, bubble-sort]
+implementations: [python, java, cpp, c, go, typescript, kotlin, rust, swift, scala, csharp]
+visualization: true

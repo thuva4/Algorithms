@@ -1,0 +1,134 @@
+{
+  "name": "Gaussian Elimination",
+  "slug": "gaussian-elimination",
+  "category": "math",
+  "subcategory": "linear-algebra",
+  "difficulty": "intermediate",
+  "tags": [
+    "math",
+    "linear-algebra",
+    "gaussian-elimination",
+    "systems-of-equations"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n^3)",
+      "average": "O(n^3)",
+      "worst": "O(n^3)"
+    },
+    "space": "O(n^2)"
+  },
+  "stable": null,
+  "in_place": false,
+  "related": [
+    "matrix-exponentiation",
+    "strassens-matrix"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "gaussian_elimination.c",
+          "content": "#include <stdio.h>\n#include <stdlib.h>\n#include <math.h>\n#include \"gaussian_elimination.h\"\n\nint gaussian_elimination(int* arr, int size) {\n    int idx = 0, n = arr[idx++], i, j, col, row;\n    double** mat = (double**)malloc(n * sizeof(double*));\n    for (i = 0; i < n; i++) {\n        mat[i] = (double*)malloc((n+1) * sizeof(double));\n        for (j = 0; j <= n; j++) mat[i][j] = arr[idx++];\n    }\n\n    for (col = 0; col < n; col++) {\n        int maxRow = col;\n        for (row = col+1; row < n; row++)\n            if (fabs(mat[row][col]) > fabs(mat[maxRow][col])) maxRow = row;\n        double* tmp = mat[col]; mat[col] = mat[maxRow]; mat[maxRow] = tmp;\n        for (row = col+1; row < n; row++) {\n            if (mat[col][col] == 0) continue;\n            double f = mat[row][col] / mat[col][col];\n            for (j = col; j <= n; j++) mat[row][j] -= f * mat[col][j];\n        }\n    }\n\n    double* sol = (double*)malloc(n * sizeof(double));\n    for (i = n-1; i >= 0; i--) {\n        sol[i] = mat[i][n];\n        for (j = i+1; j < n; j++) sol[i] -= mat[i][j] * sol[j];\n        sol[i] /= mat[i][i];\n    }\n\n    double sum = 0; for (i = 0; i < n; i++) sum += sol[i];\n    int result = (int)round(sum);\n    for (i = 0; i < n; i++) free(mat[i]);\n    free(mat); free(sol);\n    return result;\n}\n\nint main() {\n    int a1[] = {2, 1, 1, 3, 2, 1, 4}; printf(\"%d\\n\", gaussian_elimination(a1, 7));\n    int a2[] = {2, 1, 0, 5, 0, 1, 3}; printf(\"%d\\n\", gaussian_elimination(a2, 7));\n    int a3[] = {1, 2, 6}; printf(\"%d\\n\", gaussian_elimination(a3, 3));\n    int a4[] = {3, 1, 1, 1, 6, 0, 2, 1, 5, 0, 0, 3, 9}; printf(\"%d\\n\", gaussian_elimination(a4, 13));\n    return 0;\n}\n"
+        },
+        {
+          "filename": "gaussian_elimination.h",
+          "content": "#ifndef GAUSSIAN_ELIMINATION_H\n#define GAUSSIAN_ELIMINATION_H\n\nint gaussian_elimination(int* arr, int size);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "gaussian_elimination.cpp",
+          "content": "#include <iostream>\n#include <vector>\n#include <cmath>\nusing namespace std;\n\nint gaussianElimination(const vector<int>& arr) {\n    int idx = 0; int n = arr[idx++];\n    vector<vector<double>> mat(n, vector<double>(n+1));\n    for (int i = 0; i < n; i++) for (int j = 0; j <= n; j++) mat[i][j] = arr[idx++];\n\n    for (int col = 0; col < n; col++) {\n        int maxRow = col;\n        for (int row = col+1; row < n; row++)\n            if (fabs(mat[row][col]) > fabs(mat[maxRow][col])) maxRow = row;\n        swap(mat[col], mat[maxRow]);\n        for (int row = col+1; row < n; row++) {\n            if (mat[col][col] == 0) continue;\n            double f = mat[row][col] / mat[col][col];\n            for (int j = col; j <= n; j++) mat[row][j] -= f * mat[col][j];\n        }\n    }\n\n    vector<double> sol(n);\n    for (int i = n-1; i >= 0; i--) {\n        sol[i] = mat[i][n];\n        for (int j = i+1; j < n; j++) sol[i] -= mat[i][j] * sol[j];\n        sol[i] /= mat[i][i];\n    }\n\n    double sum = 0; for (auto s : sol) sum += s;\n    return (int)round(sum);\n}\n\nint main() {\n    cout << gaussianElimination({2, 1, 1, 3, 2, 1, 4}) << endl;\n    cout << gaussianElimination({2, 1, 0, 5, 0, 1, 3}) << endl;\n    cout << gaussianElimination({1, 2, 6}) << endl;\n    cout << gaussianElimination({3, 1, 1, 1, 6, 0, 2, 1, 5, 0, 0, 3, 9}) << endl;\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "GaussianElimination.cs",
+          "content": "using System;\n\npublic class GaussianElimination\n{\n    public static int Solve(int[] arr)\n    {\n        int idx = 0, n = arr[idx++];\n        double[,] mat = new double[n, n + 1];\n        for (int i = 0; i < n; i++) for (int j = 0; j <= n; j++) mat[i, j] = arr[idx++];\n\n        for (int col = 0; col < n; col++)\n        {\n            int maxRow = col;\n            for (int row = col + 1; row < n; row++)\n                if (Math.Abs(mat[row, col]) > Math.Abs(mat[maxRow, col])) maxRow = row;\n            for (int j = 0; j <= n; j++) { double t = mat[col, j]; mat[col, j] = mat[maxRow, j]; mat[maxRow, j] = t; }\n            for (int row = col + 1; row < n; row++)\n            {\n                if (mat[col, col] == 0) continue;\n                double f = mat[row, col] / mat[col, col];\n                for (int j = col; j <= n; j++) mat[row, j] -= f * mat[col, j];\n            }\n        }\n\n        double[] sol = new double[n];\n        for (int i = n - 1; i >= 0; i--)\n        {\n            sol[i] = mat[i, n];\n            for (int j = i + 1; j < n; j++) sol[i] -= mat[i, j] * sol[j];\n            sol[i] /= mat[i, i];\n        }\n\n        double sum = 0; foreach (double s in sol) sum += s;\n        return (int)Math.Round(sum);\n    }\n\n    static void Main(string[] args)\n    {\n        Console.WriteLine(Solve(new int[] { 2, 1, 1, 3, 2, 1, 4 }));\n        Console.WriteLine(Solve(new int[] { 2, 1, 0, 5, 0, 1, 3 }));\n        Console.WriteLine(Solve(new int[] { 1, 2, 6 }));\n        Console.WriteLine(Solve(new int[] { 3, 1, 1, 1, 6, 0, 2, 1, 5, 0, 0, 3, 9 }));\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "gaussian_elimination.go",
+          "content": "package main\n\nimport (\"fmt\"; \"math\")\n\nfunc GaussianElimination(arr []int) int {\n\tidx := 0; n := arr[idx]; idx++\n\tmat := make([][]float64, n)\n\tfor i := 0; i < n; i++ { mat[i] = make([]float64, n+1); for j := 0; j <= n; j++ { mat[i][j] = float64(arr[idx]); idx++ } }\n\tfor col := 0; col < n; col++ {\n\t\tmaxRow := col\n\t\tfor row := col+1; row < n; row++ { if math.Abs(mat[row][col]) > math.Abs(mat[maxRow][col]) { maxRow = row } }\n\t\tmat[col], mat[maxRow] = mat[maxRow], mat[col]\n\t\tfor row := col+1; row < n; row++ {\n\t\t\tif mat[col][col] == 0 { continue }\n\t\t\tf := mat[row][col] / mat[col][col]\n\t\t\tfor j := col; j <= n; j++ { mat[row][j] -= f * mat[col][j] }\n\t\t}\n\t}\n\tsol := make([]float64, n)\n\tfor i := n-1; i >= 0; i-- {\n\t\tsol[i] = mat[i][n]\n\t\tfor j := i+1; j < n; j++ { sol[i] -= mat[i][j] * sol[j] }\n\t\tsol[i] /= mat[i][i]\n\t}\n\tsum := 0.0; for _, s := range sol { sum += s }\n\treturn int(math.Round(sum))\n}\n\nfunc main() {\n\tfmt.Println(GaussianElimination([]int{2, 1, 1, 3, 2, 1, 4}))\n\tfmt.Println(GaussianElimination([]int{2, 1, 0, 5, 0, 1, 3}))\n\tfmt.Println(GaussianElimination([]int{1, 2, 6}))\n\tfmt.Println(GaussianElimination([]int{3, 1, 1, 1, 6, 0, 2, 1, 5, 0, 0, 3, 9}))\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "GaussianElimination.java",
+          "content": "public class GaussianElimination {\n\n    public static int gaussianElimination(int[] arr) {\n        int idx = 0; int n = arr[idx++];\n        double[][] mat = new double[n][n+1];\n        for (int i = 0; i < n; i++) for (int j = 0; j <= n; j++) mat[i][j] = arr[idx++];\n\n        for (int col = 0; col < n; col++) {\n            int maxRow = col;\n            for (int row = col+1; row < n; row++)\n                if (Math.abs(mat[row][col]) > Math.abs(mat[maxRow][col])) maxRow = row;\n            double[] tmp = mat[col]; mat[col] = mat[maxRow]; mat[maxRow] = tmp;\n            for (int row = col+1; row < n; row++) {\n                if (mat[col][col] == 0) continue;\n                double f = mat[row][col] / mat[col][col];\n                for (int j = col; j <= n; j++) mat[row][j] -= f * mat[col][j];\n            }\n        }\n\n        double[] sol = new double[n];\n        for (int i = n-1; i >= 0; i--) {\n            sol[i] = mat[i][n];\n            for (int j = i+1; j < n; j++) sol[i] -= mat[i][j] * sol[j];\n            sol[i] /= mat[i][i];\n        }\n\n        double sum = 0; for (double s : sol) sum += s;\n        return (int) Math.round(sum);\n    }\n\n    public static void main(String[] args) {\n        System.out.println(gaussianElimination(new int[]{2, 1, 1, 3, 2, 1, 4}));\n        System.out.println(gaussianElimination(new int[]{2, 1, 0, 5, 0, 1, 3}));\n        System.out.println(gaussianElimination(new int[]{1, 2, 6}));\n        System.out.println(gaussianElimination(new int[]{3, 1, 1, 1, 6, 0, 2, 1, 5, 0, 0, 3, 9}));\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "GaussianElimination.kt",
+          "content": "import kotlin.math.abs\nimport kotlin.math.roundToInt\n\nfun gaussianElimination(arr: IntArray): Int {\n    var idx = 0; val n = arr[idx++]\n    val mat = Array(n) { DoubleArray(n+1) { arr[idx++].toDouble() } }\n    for (col in 0 until n) {\n        var maxRow = col\n        for (row in col+1 until n) if (abs(mat[row][col]) > abs(mat[maxRow][col])) maxRow = row\n        val tmp = mat[col]; mat[col] = mat[maxRow]; mat[maxRow] = tmp\n        for (row in col+1 until n) {\n            if (mat[col][col] == 0.0) continue\n            val f = mat[row][col] / mat[col][col]\n            for (j in col..n) mat[row][j] -= f * mat[col][j]\n        }\n    }\n    val sol = DoubleArray(n)\n    for (i in n-1 downTo 0) {\n        sol[i] = mat[i][n]\n        for (j in i+1 until n) sol[i] -= mat[i][j] * sol[j]\n        sol[i] /= mat[i][i]\n    }\n    return sol.sum().roundToInt()\n}\n\nfun main() {\n    println(gaussianElimination(intArrayOf(2, 1, 1, 3, 2, 1, 4)))\n    println(gaussianElimination(intArrayOf(2, 1, 0, 5, 0, 1, 3)))\n    println(gaussianElimination(intArrayOf(1, 2, 6)))\n    println(gaussianElimination(intArrayOf(3, 1, 1, 1, 6, 0, 2, 1, 5, 0, 0, 3, 9)))\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "gaussian_elimination.py",
+          "content": "def gaussian_elimination(arr):\n    \"\"\"\n    Solve system of linear equations. Input: [n, a11, ..., a1n, b1, ...].\n    Returns: sum of solution values (integer solutions).\n    \"\"\"\n    idx = 0\n    n = arr[idx]; idx += 1\n    # Build augmented matrix\n    mat = []\n    for i in range(n):\n        row = []\n        for j in range(n + 1):\n            row.append(float(arr[idx])); idx += 1\n        mat.append(row)\n\n    # Forward elimination with partial pivoting\n    for col in range(n):\n        # Find pivot\n        max_row = col\n        for row in range(col + 1, n):\n            if abs(mat[row][col]) > abs(mat[max_row][col]):\n                max_row = row\n        mat[col], mat[max_row] = mat[max_row], mat[col]\n\n        for row in range(col + 1, n):\n            if mat[col][col] == 0:\n                continue\n            factor = mat[row][col] / mat[col][col]\n            for j in range(col, n + 1):\n                mat[row][j] -= factor * mat[col][j]\n\n    # Back substitution\n    sol = [0.0] * n\n    for i in range(n - 1, -1, -1):\n        sol[i] = mat[i][n]\n        for j in range(i + 1, n):\n            sol[i] -= mat[i][j] * sol[j]\n        sol[i] /= mat[i][i]\n\n    return int(round(sum(sol)))\n\n\nif __name__ == \"__main__\":\n    print(gaussian_elimination([2, 1, 1, 3, 2, 1, 4]))  # 3\n    print(gaussian_elimination([2, 1, 0, 5, 0, 1, 3]))   # 8\n    print(gaussian_elimination([1, 2, 6]))                # 3\n    print(gaussian_elimination([3, 1, 1, 1, 6, 0, 2, 1, 5, 0, 0, 3, 9]))  # 6\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "gaussian_elimination.rs",
+          "content": "pub fn gaussian_elimination(arr: &[i32]) -> i32 {\n    let mut idx = 0; let n = arr[idx] as usize; idx += 1;\n    let mut mat = vec![vec![0.0f64; n+1]; n];\n    for i in 0..n { for j in 0..=n { mat[i][j] = arr[idx] as f64; idx += 1; } }\n\n    for col in 0..n {\n        let mut max_row = col;\n        for row in col+1..n { if mat[row][col].abs() > mat[max_row][col].abs() { max_row = row; } }\n        mat.swap(col, max_row);\n        for row in col+1..n {\n            if mat[col][col] == 0.0 { continue; }\n            let f = mat[row][col] / mat[col][col];\n            for j in col..=n { mat[row][j] -= f * mat[col][j]; }\n        }\n    }\n\n    let mut sol = vec![0.0f64; n];\n    for i in (0..n).rev() {\n        sol[i] = mat[i][n];\n        for j in i+1..n { sol[i] -= mat[i][j] * sol[j]; }\n        sol[i] /= mat[i][i];\n    }\n\n    sol.iter().sum::<f64>().round() as i32\n}\n\nfn main() {\n    println!(\"{}\", gaussian_elimination(&[2, 1, 1, 3, 2, 1, 4]));\n    println!(\"{}\", gaussian_elimination(&[2, 1, 0, 5, 0, 1, 3]));\n    println!(\"{}\", gaussian_elimination(&[1, 2, 6]));\n    println!(\"{}\", gaussian_elimination(&[3, 1, 1, 1, 6, 0, 2, 1, 5, 0, 0, 3, 9]));\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "GaussianElimination.scala",
+          "content": "object GaussianElimination {\n\n  def gaussianElimination(arr: Array[Int]): Int = {\n    var idx = 0; val n = arr(idx); idx += 1\n    val mat = Array.ofDim[Double](n, n+1)\n    for (i <- 0 until n; j <- 0 to n) { mat(i)(j) = arr(idx).toDouble; idx += 1 }\n    for (col <- 0 until n) {\n      var maxRow = col\n      for (row <- col+1 until n) if (math.abs(mat(row)(col)) > math.abs(mat(maxRow)(col))) maxRow = row\n      val tmp = mat(col); mat(col) = mat(maxRow); mat(maxRow) = tmp\n      for (row <- col+1 until n) {\n        if (mat(col)(col) != 0) {\n          val f = mat(row)(col) / mat(col)(col)\n          for (j <- col to n) mat(row)(j) -= f * mat(col)(j)\n        }\n      }\n    }\n    val sol = new Array[Double](n)\n    for (i <- (n-1) to 0 by -1) {\n      sol(i) = mat(i)(n)\n      for (j <- i+1 until n) sol(i) -= mat(i)(j) * sol(j)\n      sol(i) /= mat(i)(i)\n    }\n    math.round(sol.sum).toInt\n  }\n\n  def main(args: Array[String]): Unit = {\n    println(gaussianElimination(Array(2, 1, 1, 3, 2, 1, 4)))\n    println(gaussianElimination(Array(2, 1, 0, 5, 0, 1, 3)))\n    println(gaussianElimination(Array(1, 2, 6)))\n    println(gaussianElimination(Array(3, 1, 1, 1, 6, 0, 2, 1, 5, 0, 0, 3, 9)))\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "GaussianElimination.swift",
+          "content": "import Foundation\n\nfunc gaussianElimination(_ arr: [Int]) -> Int {\n    var idx = 0; let n = arr[idx]; idx += 1\n    var mat = [[Double]]()\n    for _ in 0..<n { var row = [Double](); for _ in 0...n { row.append(Double(arr[idx])); idx += 1 }; mat.append(row) }\n    for col in 0..<n {\n        var maxRow = col\n        for row in col+1..<n { if abs(mat[row][col]) > abs(mat[maxRow][col]) { maxRow = row } }\n        mat.swapAt(col, maxRow)\n        for row in col+1..<n {\n            if mat[col][col] == 0 { continue }\n            let f = mat[row][col] / mat[col][col]\n            for j in col...n { mat[row][j] -= f * mat[col][j] }\n        }\n    }\n    var sol = Array(repeating: 0.0, count: n)\n    for i in stride(from: n-1, through: 0, by: -1) {\n        sol[i] = mat[i][n]\n        for j in i+1..<n { sol[i] -= mat[i][j] * sol[j] }\n        sol[i] /= mat[i][i]\n    }\n    return Int(sol.reduce(0, +).rounded())\n}\n\nprint(gaussianElimination([2, 1, 1, 3, 2, 1, 4]))\nprint(gaussianElimination([2, 1, 0, 5, 0, 1, 3]))\nprint(gaussianElimination([1, 2, 6]))\nprint(gaussianElimination([3, 1, 1, 1, 6, 0, 2, 1, 5, 0, 0, 3, 9]))\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "gaussianElimination.ts",
+          "content": "export function gaussianElimination(arr: number[]): number {\n    let idx = 0; const n = arr[idx++];\n    const mat: number[][] = Array.from({length:n}, () => { const row: number[] = []; for (let j=0;j<=n;j++) row.push(arr[idx++]); return row; });\n    for (let col=0;col<n;col++) {\n        let maxRow=col;\n        for (let row=col+1;row<n;row++) if (Math.abs(mat[row][col])>Math.abs(mat[maxRow][col])) maxRow=row;\n        [mat[col],mat[maxRow]]=[mat[maxRow],mat[col]];\n        for (let row=col+1;row<n;row++) {\n            if (mat[col][col]===0) continue;\n            const f=mat[row][col]/mat[col][col];\n            for (let j=col;j<=n;j++) mat[row][j]-=f*mat[col][j];\n        }\n    }\n    const sol=new Array(n).fill(0);\n    for (let i=n-1;i>=0;i--) {\n        sol[i]=mat[i][n];\n        for (let j=i+1;j<n;j++) sol[i]-=mat[i][j]*sol[j];\n        sol[i]/=mat[i][i];\n    }\n    return Math.round(sol.reduce((a:number,b:number)=>a+b,0));\n}\n\nconsole.log(gaussianElimination([2, 1, 1, 3, 2, 1, 4]));\nconsole.log(gaussianElimination([2, 1, 0, 5, 0, 1, 3]));\nconsole.log(gaussianElimination([1, 2, 6]));\nconsole.log(gaussianElimination([3, 1, 1, 1, 6, 0, 2, 1, 5, 0, 0, 3, 9]));\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Gaussian Elimination\n\n## Overview\n\nGaussian Elimination is a fundamental algorithm in linear algebra for solving systems of linear equations, finding matrix rank, computing determinants, and calculating inverse matrices. It systematically transforms a system of equations into row echelon form using elementary row operations (swapping rows, multiplying a row by a scalar, and adding a multiple of one row to another). Back-substitution then yields the solution. The version with partial pivoting selects the largest available pivot element at each step to improve numerical stability.\n\n## How It Works\n\n1. **Forward Elimination:** For each column (pivot position):\n   - **Partial Pivoting:** Find the row with the largest absolute value in the current column (at or below the pivot row) and swap it with the pivot row.\n   - **Elimination:** For each row below the pivot, subtract a multiple of the pivot row to make the entry in the pivot column zero.\n2. **Back-Substitution:** Starting from the last equation, solve for each variable by substituting already-known values into the equation.\n\n### Input/Output Format\n\n- Input: `[n, a11, a12, ..., a1n, b1, a21, ..., ann, bn]` -- the size n followed by the augmented matrix in row-major order.\n- Output: The sum of all solution values (scaled to integers by multiplying by the common denominator).\n\n## Example\n\nSolve the system:\n```\n2x + y - z = 8\n-3x - y + 2z = -11\n-2x + y + 2z = -3\n```\n\n**Augmented matrix:**\n```\n[ 2   1  -1 |  8 ]\n[-3  -1   2 | -11]\n[-2   1   2 | -3 ]\n```\n\n**Step 1 -- Pivot on column 1 (largest |a_i1| is |-3| = 3, swap rows 1 and 2):**\n```\n[-3  -1   2 | -11]\n[ 2   1  -1 |  8 ]\n[-2   1   2 | -3 ]\n```\n\nEliminate column 1 in rows 2 and 3:\n- R2 = R2 + (2/3)*R1: `[0, 1/3, 1/3, 2/3]`\n- R3 = R3 - (2/3)*R1: `[0, 5/3, 2/3, 13/3]`\n\n**Step 2 -- Pivot on column 2 (largest is 5/3 in row 3, swap rows 2 and 3):**\n\nEliminate column 2 in row 3.\n\n**Step 3 -- Back-substitution yields:** x = 2, y = 3, z = -1\n\n**Result:** Sum = 2 + 3 + (-1) = 4\n\n## Pseudocode\n\n```\nfunction gaussianElimination(A, b, n):\n    // Form augmented matrix [A|b]\n    M = augmented matrix of size n x (n+1)\n\n    // Forward elimination with partial pivoting\n    for col from 0 to n - 1:\n        // Find pivot: row with max |M[row][col]| for row >= col\n        pivotRow = row with maximum |M[row][col]| among rows col..n-1\n        swap M[col] and M[pivotRow]\n\n        if M[col][col] == 0:\n            return \"No unique solution\"\n\n        // Eliminate below\n        for row from col + 1 to n - 1:\n            factor = M[row][col] / M[col][col]\n            for j from col to n:\n                M[row][j] = M[row][j] - factor * M[col][j]\n\n    // Back-substitution\n    x = array of size n\n    for i from n - 1 down to 0:\n        x[i] = M[i][n]\n        for j from i + 1 to n - 1:\n            x[i] = x[i] - M[i][j] * x[j]\n        x[i] = x[i] / M[i][i]\n\n    return x\n```\n\n## Complexity Analysis\n\n| Case    | Time   | Space  |\n|---------|--------|--------|\n| Best    | O(n^3) | O(n^2) |\n| Average | O(n^3) | O(n^2) |\n| Worst   | O(n^3) | O(n^2) |\n\n**Why these complexities?**\n\n- **Time -- O(n^3):** The forward elimination phase processes n columns. For each column, it performs elimination on up to n rows, with each row operation touching up to n elements. This gives n * n * n = n^3 operations. Back-substitution is O(n^2), dominated by the elimination phase.\n\n- **Space -- O(n^2):** The augmented matrix requires n * (n+1) storage. The algorithm can operate in-place on this matrix, so no additional significant storage is needed beyond the solution vector of size n.\n\n## Applications\n\n- **Solving systems of linear equations:** The primary application; used throughout science and engineering.\n- **Computing matrix inverses:** By augmenting with the identity matrix and reducing to reduced row echelon form.\n- **Computing determinants:** The determinant equals the product of the pivot elements (with appropriate sign for row swaps).\n- **Finding matrix rank:** The number of non-zero rows in the row echelon form gives the rank.\n- **Circuit analysis:** Solving Kirchhoff's equations for voltages and currents in electrical circuits.\n- **Computer graphics:** Solving transformation equations for rendering and coordinate system conversions.\n\n## When NOT to Use\n\n- **Very large sparse systems:** For large sparse matrices, iterative methods (Jacobi, Gauss-Seidel, conjugate gradient) are far more efficient in both time and memory.\n- **Ill-conditioned matrices:** When the condition number is very high, Gaussian elimination can produce large numerical errors even with partial pivoting. Use SVD or QR decomposition instead.\n- **Symmetric positive-definite systems:** Cholesky decomposition is roughly twice as fast and numerically more stable for this special case.\n- **When only an approximate solution is needed:** Iterative methods can provide approximate solutions much faster for very large systems.\n\n## Comparison\n\n| Method | Time | Stability | Best For |\n|--------|------|-----------|----------|\n| Gaussian Elimination | O(n^3) | Good with partial pivoting | Dense general systems |\n| LU Decomposition | O(n^3) | Good | Multiple right-hand sides |\n| Cholesky Decomposition | O(n^3/3) | Excellent | Symmetric positive-definite |\n| QR Decomposition | O(2n^3/3) | Very good | Least-squares problems |\n| Conjugate Gradient | O(n*k) | Depends on conditioning | Large sparse SPD systems |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [gaussian_elimination.py](python/gaussian_elimination.py) |\n| Java       | [GaussianElimination.java](java/GaussianElimination.java) |\n| C++        | [gaussian_elimination.cpp](cpp/gaussian_elimination.cpp) |\n| C          | [gaussian_elimination.c](c/gaussian_elimination.c) |\n| Go         | [gaussian_elimination.go](go/gaussian_elimination.go) |\n| TypeScript | [gaussianElimination.ts](typescript/gaussianElimination.ts) |\n| Rust       | [gaussian_elimination.rs](rust/gaussian_elimination.rs) |\n| Kotlin     | [GaussianElimination.kt](kotlin/GaussianElimination.kt) |\n| Swift      | [GaussianElimination.swift](swift/GaussianElimination.swift) |\n| Scala      | [GaussianElimination.scala](scala/GaussianElimination.scala) |\n| C#         | [GaussianElimination.cs](csharp/GaussianElimination.cs) |\n\n## References\n\n- Golub, G. H., & Van Loan, C. F. (2013). *Matrix Computations* (4th ed.). Johns Hopkins University Press. Chapter 3: General Linear Systems.\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 28: Matrix Operations.\n- [Gaussian Elimination -- Wikipedia](https://en.wikipedia.org/wiki/Gaussian_elimination)\n"
+}

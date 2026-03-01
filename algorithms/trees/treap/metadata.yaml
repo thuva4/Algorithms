@@ -1,0 +1,17 @@
+name: "Treap"
+slug: "treap"
+category: "trees"
+subcategory: "randomized"
+difficulty: "advanced"
+tags: [tree, bst, heap, randomized, treap]
+complexity:
+  time:
+    best: "O(log n)"
+    average: "O(log n)"
+    worst: "O(n)"
+  space: "O(n)"
+stable: null
+in_place: false
+related: [binary-search-tree, avl-tree, splay-tree]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

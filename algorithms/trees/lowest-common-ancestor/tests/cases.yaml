@@ -1,0 +1,18 @@
+algorithm: "lowest-common-ancestor"
+function_signature:
+  name: "lowest_common_ancestor"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "root is LCA"
+    input: [[5, 0, 0, 1, 0, 2, 1, 3, 1, 4, 3, 2]]
+    expected: 0
+  - name: "one is ancestor"
+    input: [[5, 0, 0, 1, 0, 2, 1, 3, 1, 4, 1, 3]]
+    expected: 1
+  - name: "same node"
+    input: [[3, 0, 0, 1, 0, 2, 2, 2]]
+    expected: 2
+  - name: "siblings"
+    input: [[5, 0, 0, 1, 0, 2, 1, 3, 1, 4, 3, 4]]
+    expected: 1

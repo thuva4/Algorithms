@@ -1,0 +1,44 @@
+{
+  "name": "algorithms",
+  "version": "2.0.0",
+  "description": "Collection of algorithms in multiple programming languages with interactive visualizations",
+  "private": true,
+  "workspaces": [
+    "web",
+    "scripts"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=web",
+    "build": "npm run build --workspace=web",
+    "build:data": "node scripts/build-data.mjs",
+    "build:patterns": "ts-node scripts/build-patterns-index.ts",
+    "validate": "node scripts/validate-structure.mjs",
+    "validate:patterns": "ts-node scripts/build-patterns-index.ts --validate",
+    "generate-readme": "node scripts/generate-readme.mjs",
+    "scaffold": "node scripts/scaffold-algorithm.mjs",
+    "test": "npm run test:unit",
+    "test:unit": "npm run test --workspace=scripts",
+    "test:web": "npm run test --workspace=web --if-present",
+    "test:languages": "bash tests/run-all-language-tests.sh",
+    "test:all": "npm run test:unit && npm run test:languages",
+    "tasks:generate": "node scripts/tasks-generate.mjs",
+    "tasks:tracker": "node scripts/tasks-tracker.mjs",
+    "tasks:next": "node scripts/tasks-next.mjs",
+    "tasks:done": "node scripts/tasks-done.mjs",
+    "tasks:analyze": "node scripts/tasks-analyze.mjs"
+  },
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/marked": "^5.0.2",
+    "glob": "^13.0.5",
+    "gray-matter": "^4.0.3",
+    "js-yaml": "^4.1.1",
+    "marked": "^17.0.3",
+    "ts-node": "^10.9.2",
+    "typescript": "~5.9.3"
+  }
+}

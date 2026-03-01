@@ -1,0 +1,17 @@
+name: "Genetic Algorithm"
+slug: "genetic-algorithm"
+category: "math"
+subcategory: "optimization"
+difficulty: "advanced"
+tags: [math, optimization, metaheuristic, evolutionary, genetic]
+complexity:
+  time:
+    best: "O(g * p * n)"
+    average: "O(g * p * n)"
+    worst: "O(g * p * n)"
+  space: "O(p)"
+stable: null
+in_place: false
+related: [simulated-annealing]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

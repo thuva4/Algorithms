@@ -1,0 +1,24 @@
+algorithm: "sequence-alignment"
+function_signature:
+  name: "sequence_alignment"
+  input: [string1, string2]
+  output: alignment_cost
+test_cases:
+  - name: "standard DNA sequences"
+    input: ["GCCCTAGCG", "GCGCAATG"]
+    expected: 13
+  - name: "identical strings"
+    input: ["ABC", "ABC"]
+    expected: 0
+  - name: "completely different"
+    input: ["AAA", "BBB"]
+    expected: 9
+  - name: "empty and non-empty"
+    input: ["", "ABC"]
+    expected: 12
+  - name: "both empty"
+    input: ["", ""]
+    expected: 0
+  - name: "single character match"
+    input: ["A", "A"]
+    expected: 0

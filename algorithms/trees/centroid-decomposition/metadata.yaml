@@ -1,0 +1,17 @@
+name: "Centroid Decomposition"
+slug: "centroid-decomposition"
+category: "trees"
+subcategory: "tree-decomposition"
+difficulty: "advanced"
+tags: [trees, centroid, decomposition, divide-and-conquer]
+complexity:
+  time:
+    best: "O(N log N)"
+    average: "O(N log N)"
+    worst: "O(N log N)"
+  space: "O(N)"
+stable: null
+in_place: false
+related: [heavy-light-decomposition, tree-diameter]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

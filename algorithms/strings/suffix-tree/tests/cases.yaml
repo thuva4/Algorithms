@@ -1,0 +1,18 @@
+algorithm: "suffix-tree"
+function_signature:
+  name: "suffix_tree"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "simple distinct"
+    input: [[1, 2]]
+    expected: 3
+  - name: "all same"
+    input: [[1, 1, 1]]
+    expected: 3
+  - name: "all different"
+    input: [[1, 2, 3]]
+    expected: 6
+  - name: "single element"
+    input: [[5]]
+    expected: 1

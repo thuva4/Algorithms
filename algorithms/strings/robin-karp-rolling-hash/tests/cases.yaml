@@ -1,0 +1,18 @@
+algorithm: "robin-karp-rolling-hash"
+function_signature:
+  name: "robin_karp_rolling_hash"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "match at start"
+    input: [[5, 1, 2, 3, 4, 5, 2, 1, 2]]
+    expected: 0
+  - name: "match in middle"
+    input: [[5, 1, 2, 3, 4, 5, 2, 3, 4]]
+    expected: 2
+  - name: "no match"
+    input: [[4, 1, 2, 3, 4, 2, 5, 6]]
+    expected: -1
+  - name: "match at end"
+    input: [[4, 1, 2, 3, 4, 1, 4]]
+    expected: 3

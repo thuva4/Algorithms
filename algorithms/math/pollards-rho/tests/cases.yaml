@@ -1,0 +1,26 @@
+algorithm: "pollards-rho"
+function_signature:
+  name: "pollards_rho"
+  input: [n]
+  output: smallest_prime_factor
+test_cases:
+  - name: "small composite"
+    input:
+      n: 15
+    expected: 3
+  - name: "prime number"
+    input:
+      n: 13
+    expected: 13
+  - name: "power of 2"
+    input:
+      n: 8
+    expected: 2
+  - name: "product of two primes"
+    input:
+      n: 91
+    expected: 7
+  - name: "larger composite"
+    input:
+      n: 221
+    expected: 13

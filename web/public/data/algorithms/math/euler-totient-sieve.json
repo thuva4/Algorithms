@@ -1,0 +1,134 @@
+{
+  "name": "Euler Totient Sieve",
+  "slug": "euler-totient-sieve",
+  "category": "math",
+  "subcategory": "number-theory",
+  "difficulty": "intermediate",
+  "tags": [
+    "math",
+    "number-theory",
+    "euler-totient",
+    "sieve",
+    "phi-function"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n log log n)",
+      "average": "O(n log log n)",
+      "worst": "O(n log log n)"
+    },
+    "space": "O(n)"
+  },
+  "stable": null,
+  "in_place": false,
+  "related": [
+    "sieve-of-eratosthenes"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "euler_totient_sieve.c",
+          "content": "#include <stdio.h>\n#include <stdlib.h>\n#include \"euler_totient_sieve.h\"\n\nlong long euler_totient_sieve(int n) {\n    int *phi = (int *)malloc((n + 1) * sizeof(int));\n    for (int i = 0; i <= n; i++) phi[i] = i;\n    for (int i = 2; i <= n; i++) {\n        if (phi[i] == i) {\n            for (int j = i; j <= n; j += i) {\n                phi[j] -= phi[j] / i;\n            }\n        }\n    }\n    long long sum = 0;\n    for (int i = 1; i <= n; i++) sum += phi[i];\n    free(phi);\n    return sum;\n}\n\nint main(void) {\n    printf(\"%lld\\n\", euler_totient_sieve(1));\n    printf(\"%lld\\n\", euler_totient_sieve(10));\n    printf(\"%lld\\n\", euler_totient_sieve(100));\n    return 0;\n}\n"
+        },
+        {
+          "filename": "euler_totient_sieve.h",
+          "content": "#ifndef EULER_TOTIENT_SIEVE_H\n#define EULER_TOTIENT_SIEVE_H\n\nlong long euler_totient_sieve(int n);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "euler_totient_sieve.cpp",
+          "content": "#include <vector>\n#include <iostream>\nusing namespace std;\n\nlong long euler_totient_sieve(int n) {\n    vector<int> phi(n + 1);\n    for (int i = 0; i <= n; i++) phi[i] = i;\n    for (int i = 2; i <= n; i++) {\n        if (phi[i] == i) {\n            for (int j = i; j <= n; j += i) {\n                phi[j] -= phi[j] / i;\n            }\n        }\n    }\n    long long sum = 0;\n    for (int i = 1; i <= n; i++) sum += phi[i];\n    return sum;\n}\n\nint main() {\n    cout << euler_totient_sieve(1) << endl;\n    cout << euler_totient_sieve(10) << endl;\n    cout << euler_totient_sieve(100) << endl;\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "EulerTotientSieve.cs",
+          "content": "using System;\n\npublic class EulerTotientSieve\n{\n    public static long EulerTotientSieveSum(int n)\n    {\n        int[] phi = new int[n + 1];\n        for (int i = 0; i <= n; i++) phi[i] = i;\n        for (int i = 2; i <= n; i++)\n        {\n            if (phi[i] == i)\n            {\n                for (int j = i; j <= n; j += i)\n                    phi[j] -= phi[j] / i;\n            }\n        }\n        long sum = 0;\n        for (int i = 1; i <= n; i++) sum += phi[i];\n        return sum;\n    }\n\n    public static void Main(string[] args)\n    {\n        Console.WriteLine(EulerTotientSieveSum(1));\n        Console.WriteLine(EulerTotientSieveSum(10));\n        Console.WriteLine(EulerTotientSieveSum(100));\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "euler_totient_sieve.go",
+          "content": "package main\n\nimport \"fmt\"\n\nfunc eulerTotientSieve(n int) int64 {\n\tphi := make([]int, n+1)\n\tfor i := 0; i <= n; i++ {\n\t\tphi[i] = i\n\t}\n\tfor i := 2; i <= n; i++ {\n\t\tif phi[i] == i {\n\t\t\tfor j := i; j <= n; j += i {\n\t\t\t\tphi[j] -= phi[j] / i\n\t\t\t}\n\t\t}\n\t}\n\tvar sum int64\n\tfor i := 1; i <= n; i++ {\n\t\tsum += int64(phi[i])\n\t}\n\treturn sum\n}\n\nfunc main() {\n\tfmt.Println(eulerTotientSieve(1))\n\tfmt.Println(eulerTotientSieve(10))\n\tfmt.Println(eulerTotientSieve(100))\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "EulerTotientSieve.java",
+          "content": "public class EulerTotientSieve {\n    public static long eulerTotientSieve(int n) {\n        int[] phi = new int[n + 1];\n        for (int i = 0; i <= n; i++) phi[i] = i;\n        for (int i = 2; i <= n; i++) {\n            if (phi[i] == i) { // prime\n                for (int j = i; j <= n; j += i) {\n                    phi[j] -= phi[j] / i;\n                }\n            }\n        }\n        long sum = 0;\n        for (int i = 1; i <= n; i++) sum += phi[i];\n        return sum;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(eulerTotientSieve(1));\n        System.out.println(eulerTotientSieve(10));\n        System.out.println(eulerTotientSieve(100));\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "EulerTotientSieve.kt",
+          "content": "fun eulerTotientSieve(n: Int): Long {\n    val phi = IntArray(n + 1) { it }\n    for (i in 2..n) {\n        if (phi[i] == i) {\n            var j = i\n            while (j <= n) {\n                phi[j] -= phi[j] / i\n                j += i\n            }\n        }\n    }\n    return phi.drop(1).sumOf { it.toLong() }\n}\n\nfun main() {\n    println(eulerTotientSieve(1))\n    println(eulerTotientSieve(10))\n    println(eulerTotientSieve(100))\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "euler_totient_sieve.py",
+          "content": "def euler_totient_sieve(n):\n    phi = list(range(n + 1))\n    for i in range(2, n + 1):\n        if phi[i] == i:  # i is prime\n            for j in range(i, n + 1, i):\n                phi[j] -= phi[j] // i\n    return sum(phi[1:])\n\n\nif __name__ == \"__main__\":\n    print(euler_totient_sieve(1))\n    print(euler_totient_sieve(5))\n    print(euler_totient_sieve(10))\n    print(euler_totient_sieve(100))\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "euler_totient_sieve.rs",
+          "content": "fn euler_totient_sieve(n: usize) -> i64 {\n    let mut phi: Vec<i64> = (0..=n as i64).collect();\n    for i in 2..=n {\n        if phi[i] == i as i64 {\n            let p = i as i64;\n            let mut j = i;\n            while j <= n {\n                phi[j] -= phi[j] / p;\n                j += i;\n            }\n        }\n    }\n    phi[1..].iter().sum()\n}\n\nfn main() {\n    println!(\"{}\", euler_totient_sieve(1));\n    println!(\"{}\", euler_totient_sieve(10));\n    println!(\"{}\", euler_totient_sieve(100));\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "EulerTotientSieve.scala",
+          "content": "object EulerTotientSieve {\n  def eulerTotientSieve(n: Int): Long = {\n    val phi = Array.tabulate(n + 1)(identity)\n    for (i <- 2 to n) {\n      if (phi(i) == i) {\n        var j = i\n        while (j <= n) {\n          phi(j) -= phi(j) / i\n          j += i\n        }\n      }\n    }\n    phi.drop(1).map(_.toLong).sum\n  }\n\n  def main(args: Array[String]): Unit = {\n    println(eulerTotientSieve(1))\n    println(eulerTotientSieve(10))\n    println(eulerTotientSieve(100))\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "EulerTotientSieve.swift",
+          "content": "func eulerTotientSieve(_ n: Int) -> Int {\n    var phi = Array(0...n)\n    if n >= 2 {\n        for i in 2...n {\n            if phi[i] == i {\n                var j = i\n                while j <= n {\n                    phi[j] -= phi[j] / i\n                    j += i\n                }\n            }\n        }\n    }\n    return phi[1...n].reduce(0, +)\n}\n\nprint(eulerTotientSieve(1))\nprint(eulerTotientSieve(10))\nprint(eulerTotientSieve(100))\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "eulerTotientSieve.ts",
+          "content": "export function eulerTotientSieve(n: number): number {\n    const phi = new Array(n + 1);\n    for (let i = 0; i <= n; i++) phi[i] = i;\n    for (let i = 2; i <= n; i++) {\n        if (phi[i] === i) {\n            for (let j = i; j <= n; j += i) {\n                phi[j] -= Math.floor(phi[j] / i);\n            }\n        }\n    }\n    let sum = 0;\n    for (let i = 1; i <= n; i++) sum += phi[i];\n    return sum;\n}\n\nconsole.log(eulerTotientSieve(1));\nconsole.log(eulerTotientSieve(10));\nconsole.log(eulerTotientSieve(100));\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Euler Totient Sieve\n\n## Overview\n\nThe Euler Totient Sieve computes Euler's totient function phi(k) for all integers from 1 to n simultaneously, using a modified Sieve of Eratosthenes approach. phi(k) counts the number of integers in [1, k] that are coprime to k.\n\nEuler's totient function is one of the most important multiplicative functions in number theory. Computing phi for a single value requires factoring that value, but using a sieve we can compute phi for all values up to n in near-linear time without explicitly factoring each one. This is essential when many totient values are needed, such as in competitive programming or number-theoretic computations.\n\n## How It Works\n\n1. Initialize phi[i] = i for all i from 0 to n.\n2. For each integer i from 2 to n: if phi[i] == i, then i is prime. For each prime p found this way, iterate through all multiples j of p (j = p, 2p, 3p, ...) and update phi[j] = phi[j] / p * (p - 1). This applies the multiplicative formula phi(n) = n * product of (1 - 1/p) for each prime p dividing n.\n3. After the sieve completes, phi[k] contains the Euler totient of k for all k from 1 to n.\n\nThe formula works because phi is multiplicative: for n = p1^a1 * p2^a2 * ... * pk^ak, phi(n) = n * (1 - 1/p1) * (1 - 1/p2) * ... * (1 - 1/pk).\n\n### Input/Output Format\n\n- Input: [n]\n- Output: sum of phi(i) for i from 1 to n.\n\n## Worked Example\n\nCompute phi(1) through phi(12) using the sieve.\n\n**Initialize:** phi = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]\n\n**p = 2 (prime, since phi[2] == 2):**\nUpdate all multiples of 2: phi[j] = phi[j] / 2 * 1\n- phi[2] = 2/2*1 = 1, phi[4] = 4/2*1 = 2, phi[6] = 6/2*1 = 3\n- phi[8] = 8/2*1 = 4, phi[10] = 10/2*1 = 5, phi[12] = 12/2*1 = 6\n\n**p = 3 (prime, since phi[3] == 3):**\nUpdate all multiples of 3: phi[j] = phi[j] / 3 * 2\n- phi[3] = 3/3*2 = 2, phi[6] = 3/3*2 = 2, phi[9] = 9/3*2 = 6\n- phi[12] = 6/3*2 = 4\n\n**p = 5 (prime, since phi[5] == 5):**\n- phi[5] = 5/5*4 = 4, phi[10] = 5/5*4 = 4\n\n**p = 7 (prime):** phi[7] = 7/7*6 = 6\n\n**p = 11 (prime):** phi[11] = 11/11*10 = 10\n\n**Result:**\n\n| k   | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 |\n|-----|---|---|---|---|---|---|---|---|---|----|----|-----|\n| phi(k) | 1 | 1 | 2 | 2 | 4 | 2 | 6 | 4 | 6 | 4  | 10 | 4  |\n\nSum from 1 to 12: 1+1+2+2+4+2+6+4+6+4+10+4 = 46.\n\n## Pseudocode\n\n```\nfunction eulerTotientSieve(n):\n    phi = array of size n+1\n    for i = 0 to n:\n        phi[i] = i\n\n    for p = 2 to n:\n        if phi[p] == p:          // p is prime\n            for j = p to n step p:\n                phi[j] = phi[j] / p * (p - 1)\n\n    return phi\n```\n\nNote: The division `phi[j] / p` is exact (integer division) because we process each prime factor of j exactly once, and p divides phi[j] at the point it is processed (since phi[j] was initialized to j, which is a multiple of p).\n\n## Complexity Analysis\n\n| Case    | Time            | Space |\n|---------|----------------|-------|\n| Best    | O(n log log n) | O(n)  |\n| Average | O(n log log n) | O(n)  |\n| Worst   | O(n log log n) | O(n)  |\n\n**Why these complexities?**\n\n- **Time -- O(n log log n):** This is the same complexity as the Sieve of Eratosthenes. For each prime p, we visit n/p multiples. The sum n/2 + n/3 + n/5 + n/7 + ... (over all primes up to n) equals O(n log log n) by Mertens' theorem.\n- **Space -- O(n):** We store the phi array of n+1 integers.\n\n## Applications\n\n- **Competitive programming:** Many problems require computing phi for a range of values, such as counting coprime pairs or summing GCDs.\n- **Counting coprime pairs:** The number of pairs (a, b) with 1 <= a < b <= n and gcd(a, b) = 1 is (sum of phi(k) for k = 2 to n).\n- **Farey sequence length:** The length of the Farey sequence F_n is 1 + sum of phi(k) for k = 1 to n.\n- **RSA key generation:** phi(n) = phi(p*q) = (p-1)(q-1) is needed to compute the private key.\n- **Order of elements in modular arithmetic:** The order of an element modulo n divides phi(n).\n- **Mobius inversion:** phi is connected to the Mobius function via the identity phi(n) = sum of mu(d) * (n/d) for d dividing n.\n\n## When NOT to Use\n\n- **When you need phi for a single value:** Factoring n and applying the product formula directly is O(sqrt(n)), much faster than sieving up to n.\n- **When n is extremely large (> 10^8):** The O(n) space requirement becomes a bottleneck. Segmented sieve techniques or individual computation may be necessary.\n- **When you need phi for a single large prime p:** phi(p) = p - 1 by definition; no computation needed.\n- **When only phi(n) modulo something is needed:** In some modular contexts, there are shortcuts that avoid computing the full totient.\n\n## Comparison with Related Methods\n\n| Method                  | Time            | Space | Computes                        |\n|------------------------|----------------|-------|----------------------------------|\n| Euler Totient Sieve    | O(n log log n) | O(n)  | phi(k) for all k in [1, n]     |\n| Linear Sieve (Euler)   | O(n)           | O(n)  | phi(k) for all k in [1, n]; also finds primes |\n| Single-value formula    | O(sqrt(n))     | O(1)  | phi(n) for one specific n       |\n| Trial Division + formula| O(sqrt(n))    | O(1)  | phi(n) via prime factorization  |\n| Sieve of Eratosthenes  | O(n log log n) | O(n)  | Primes only (not phi)           |\n\nThe Euler Totient Sieve is the standard approach when all totient values up to n are needed. The linear sieve variant computes phi in strict O(n) time but is more complex to implement. For a single value, direct factorization is preferable.\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [euler_totient_sieve.py](python/euler_totient_sieve.py) |\n| Java       | [EulerTotientSieve.java](java/EulerTotientSieve.java) |\n| C++        | [euler_totient_sieve.cpp](cpp/euler_totient_sieve.cpp) |\n| C          | [euler_totient_sieve.c](c/euler_totient_sieve.c) |\n| Go         | [euler_totient_sieve.go](go/euler_totient_sieve.go) |\n| TypeScript | [eulerTotientSieve.ts](typescript/eulerTotientSieve.ts) |\n| Rust       | [euler_totient_sieve.rs](rust/euler_totient_sieve.rs) |\n| Kotlin     | [EulerTotientSieve.kt](kotlin/EulerTotientSieve.kt) |\n| Swift      | [EulerTotientSieve.swift](swift/EulerTotientSieve.swift) |\n| Scala      | [EulerTotientSieve.scala](scala/EulerTotientSieve.scala) |\n| C#         | [EulerTotientSieve.cs](csharp/EulerTotientSieve.cs) |\n\n## References\n\n- Hardy, G. H., & Wright, E. M. (2008). *An Introduction to the Theory of Numbers* (6th ed.). Oxford University Press. Chapter 5: Arithmetical Functions.\n- Apostol, T. M. (1976). *Introduction to Analytic Number Theory*. Springer. Chapter 2: Arithmetical Functions and Dirichlet Multiplication.\n- Bach, E., & Shallit, J. (1996). *Algorithmic Number Theory, Volume 1*. MIT Press. Section 8.8.\n- [Euler's Totient Function -- Wikipedia](https://en.wikipedia.org/wiki/Euler%27s_totient_function)\n"
+}

@@ -1,0 +1,18 @@
+algorithm: "permutations"
+function_signature:
+  name: "permutations"
+  input: [array]
+  output: list_of_permutations_sorted
+test_cases:
+  - name: "three elements"
+    input: [[1, 2, 3]]
+    expected: [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]
+  - name: "single element"
+    input: [[1]]
+    expected: [[1]]
+  - name: "two elements"
+    input: [[1, 2]]
+    expected: [[1, 2], [2, 1]]
+  - name: "empty array"
+    input: [[]]
+    expected: [[]]

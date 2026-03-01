@@ -1,0 +1,158 @@
+{
+  "name": "Shell Sort",
+  "slug": "shell-sort",
+  "category": "sorting",
+  "subcategory": "comparison-based",
+  "difficulty": "intermediate",
+  "tags": [
+    "sorting",
+    "comparison",
+    "in-place",
+    "gap-sequence"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n log n)",
+      "average": "O(n^(4/3))",
+      "worst": "O(n^2)"
+    },
+    "space": "O(1)"
+  },
+  "stable": false,
+  "in_place": true,
+  "related": [
+    "insertion-sort",
+    "bubble-sort"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "shell_sort.c",
+          "content": "#include \"shell_sort.h\"\n\nvoid shell_sort(int arr[], int n) {\n    for (int gap = n / 2; gap > 0; gap /= 2) {\n        for (int i = gap; i < n; i++) {\n            int temp = arr[i];\n            int j;\n            for (j = i; j >= gap && arr[j - gap] > temp; j -= gap) {\n                arr[j] = arr[j - gap];\n            }\n            arr[j] = temp;\n        }\n    }\n}\n"
+        },
+        {
+          "filename": "shell_sort.h",
+          "content": "#ifndef SHELL_SORT_H\n#define SHELL_SORT_H\n\nvoid shell_sort(int arr[], int n);\n\n#endif\n"
+        },
+        {
+          "filename": "shellsort.c",
+          "content": "#include <stdio.h>\n\nvoid shellSort(int arr[], int n) {\n    for (int gap = n / 2; gap > 0; gap /= 2) {\n        for (int i = gap; i < n; i++) {\n            int temp = arr[i];\n            int j;\n            for (j = i; j >= gap && arr[j - gap] > temp; j -= gap) {\n                arr[j] = arr[j - gap];\n            }\n            arr[j] = temp;\n        }\n    }\n}\n\nint main() {\n    int arr[] = {5, 3, 8, 1, 2, -3, 0};\n    int n = sizeof(arr) / sizeof(arr[0]);\n\n    shellSort(arr, n);\n\n    printf(\"Sorted array: \");\n    for (int i = 0; i < n; i++) {\n        printf(\"%d \", arr[i]);\n    }\n    printf(\"\\n\");\n\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "ShellSort.cpp",
+          "content": "// C++ implementation of Shell Sort\n#include  <iostream>\nusing namespace std;\n \n/* function to sort arr using shellSort */\nint shellSort(int arr[], int n)\n{\n    // Start with a big gap, then reduce the gap\n    for (int gap = n/2; gap > 0; gap /= 2)\n    {\n        // Do a gapped insertion sort for this gap size.\n        // The first gap elements a[0..gap-1] are already in gapped order\n        // keep adding one more element until the entire array is\n        // gap sorted \n        for (int i = gap; i < n; i += 1)\n        {\n            // add a[i] to the elements that have been gap sorted\n            // save a[i] in temp and make a hole at position i\n            int temp = arr[i];\n \n            // shift earlier gap-sorted elements up until the correct \n            // location for a[i] is found\n            int j;            \n            for (j = i; j >= gap && arr[j - gap] > temp; j -= gap)\n                arr[j] = arr[j - gap];\n             \n            //  put temp (the original a[i]) in its correct location\n            arr[j] = temp;\n        }\n    }\n    return 0;\n}\n \nvoid printArray(int arr[], int n)\n{\n    for (int i=0; i<n; i++)\n        cout << arr[i] << \" \";\n}\n \nint main()\n{\n    int arr[] = {12, 34, 54, 2, 3}, i;\n    int n = sizeof(arr)/sizeof(arr[0]);\n \n    cout << \"Array before sorting: \\n\";\n    printArray(arr, n);\n \n    shellSort(arr, n);\n \n    cout << \"\\nArray after sorting: \\n\";\n    printArray(arr, n);\n \n    return 0;\n}"
+        },
+        {
+          "filename": "shell_sort.cpp",
+          "content": "#include \"shell_sort.h\"\n#include <vector>\n\nvoid shell_sort(std::vector<int>& arr) {\n    int n = arr.size();\n    for (int gap = n / 2; gap > 0; gap /= 2) {\n        for (int i = gap; i < n; i++) {\n            int temp = arr[i];\n            int j;\n            for (j = i; j >= gap && arr[j - gap] > temp; j -= gap) {\n                arr[j] = arr[j - gap];\n            }\n            arr[j] = temp;\n        }\n    }\n}\n"
+        },
+        {
+          "filename": "shell_sort.h",
+          "content": "#ifndef SHELL_SORT_H\n#define SHELL_SORT_H\n\n#include <vector>\n\nvoid shell_sort(std::vector<int>& arr);\n\n#endif\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "ShellSort.cs",
+          "content": "namespace Algorithms.Sorting.ShellSort\n{\n    public class ShellSort\n    {\n        public static void Sort(int[] arr)\n        {\n            int n = arr.Length;\n            for (int gap = n / 2; gap > 0; gap /= 2)\n            {\n                for (int i = gap; i < n; i++)\n                {\n                    int temp = arr[i];\n                    int j;\n                    for (j = i; j >= gap && arr[j - gap] > temp; j -= gap)\n                    {\n                        arr[j] = arr[j - gap];\n                    }\n                    arr[j] = temp;\n                }\n            }\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "ShellSort.go",
+          "content": "package main\n\nimport \"fmt\"\n\nfunc ShellSort(arr []int) []int {\n\tn := len(arr)\n\tfor gap := n / 2; gap > 0; gap /= 2 {\n\t\tfor i := gap; i < n; i++ {\n\t\t\ttemp := arr[i]\n\t\t\tj := i\n\t\t\tfor j >= gap && arr[j-gap] > temp {\n\t\t\t\tarr[j] = arr[j-gap]\n\t\t\t\tj -= gap\n\t\t\t}\n\t\t\tarr[j] = temp\n\t\t}\n\t}\n\treturn arr\n}\n\nfunc main() {\n\tarr := []int{5, 3, 8, 1, 2, -3, 0}\n\tfmt.Println(ShellSort(arr))\n}\n"
+        },
+        {
+          "filename": "shell_sort.go",
+          "content": "package shellsort\n\nfunc ShellSort(arr []int) {\n\tn := len(arr)\n\tfor gap := n / 2; gap > 0; gap /= 2 {\n\t\tfor i := gap; i < n; i++ {\n\t\t\ttemp := arr[i]\n\t\t\tj := i\n\t\t\tfor ; j >= gap && arr[j-gap] > temp; j -= gap {\n\t\t\t\tarr[j] = arr[j-gap]\n\t\t\t}\n\t\t\tarr[j] = temp\n\t\t}\n\t}\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "ShellSort.java",
+          "content": "package algorithms.sorting.shellsort;\n\npublic class ShellSort {\n    public static void sort(int[] arr) {\n        int n = arr.length;\n        for (int gap = n / 2; gap > 0; gap /= 2) {\n            for (int i = gap; i < n; i++) {\n                int temp = arr[i];\n                int j;\n                for (j = i; j >= gap && arr[j - gap] > temp; j -= gap) {\n                    arr[j] = arr[j - gap];\n                }\n                arr[j] = temp;\n            }\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "ShellSort.kt",
+          "content": "package algorithms.sorting.shellsort\n\nclass ShellSort {\n    fun sort(arr: IntArray) {\n        val n = arr.size\n        var gap = n / 2\n        while (gap > 0) {\n            for (i in gap until n) {\n                val temp = arr[i]\n                var j = i\n                while (j >= gap && arr[j - gap] > temp) {\n                    arr[j] = arr[j - gap]\n                    j -= gap\n                }\n                arr[j] = temp\n            }\n            gap /= 2\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "ShellSort.py",
+          "content": "# Shell Sort Method\ndef shell(seq):\n    inc = len(seq) // 2\n    while inc:\n        for i, el in enumerate(seq):\n            while i >= inc and seq[i - inc] > el:\n                seq[i] = seq[i - inc]\n                i -= inc\n            seq[i] = el\n        inc = 1 if inc == 2 else int(inc * 5.0 / 11)\n \ndata = [22, 7, 2, -5, 8, 4]\nshell(data)\nprint data # [-5, 2, 4, 7, 8, 22]"
+        },
+        {
+          "filename": "shell_sort.py",
+          "content": "def shell_sort(arr):\n    n = len(arr)\n    gap = n // 2\n    \n    while gap > 0:\n        for i in range(gap, n):\n            temp = arr[i]\n            j = i\n            while j >= gap and arr[j - gap] > temp:\n                arr[j] = arr[j - gap]\n                j -= gap\n            arr[j] = temp\n        gap //= 2\n    return arr\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "shell_sort.rs",
+          "content": "pub fn shell_sort(arr: &mut [i32]) {\n    let n = arr.len();\n    let mut gap = n / 2;\n    \n    while gap > 0 {\n        for i in gap..n {\n            let temp = arr[i];\n            let mut j = i;\n            while j >= gap && arr[j - gap] > temp {\n                arr[j] = arr[j - gap];\n                j -= gap;\n            }\n            arr[j] = temp;\n        }\n        gap /= 2;\n    }\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "ShellSort.scala",
+          "content": "object ShellSort {\n  def sort(arr: Array[Int]): Unit = {\n    val n = arr.length\n    var gap = n / 2\n    while (gap > 0) {\n      for (i <- gap until n) {\n        val temp = arr(i)\n        var j = i\n        while (j >= gap && arr(j - gap) > temp) {\n          arr(j) = arr(j - gap)\n          j -= gap\n        }\n        arr(j) = temp\n      }\n      gap /= 2\n    }\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "ShellSort.swift",
+          "content": "class ShellSort {\n    static func sort(_ arr: inout [Int]) {\n        let n = arr.count\n        var gap = n / 2\n        \n        while gap > 0 {\n            for i in gap..<n {\n                let temp = arr[i]\n                var j = i\n                while j >= gap && arr[j - gap] > temp {\n                    arr[j] = arr[j - gap]\n                    j -= gap\n                }\n                arr[j] = temp\n            }\n            gap /= 2\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "index.js",
+          "content": "export function shellSort(arr) {\n  const result = [...arr];\n  for (let gap = Math.floor(result.length / 2); gap > 0; gap = Math.floor(gap / 2)) {\n    for (let i = gap; i < result.length; i += 1) {\n      const current = result[i];\n      let j = i;\n      while (j >= gap && result[j - gap] > current) {\n        result[j] = result[j - gap];\n        j -= gap;\n      }\n      result[j] = current;\n    }\n  }\n  return result;\n}\n"
+        },
+        {
+          "filename": "shell-sort.ts",
+          "content": "export function shellSort(arr: number[]): number[] {\n  const n = arr.length;\n  for (let gap = Math.floor(n / 2); gap > 0; gap = Math.floor(gap / 2)) {\n    for (let i = gap; i < n; i++) {\n      const temp = arr[i];\n      let j;\n      for (j = i; j >= gap && arr[j - gap] > temp; j -= gap) {\n        arr[j] = arr[j - gap];\n      }\n      arr[j] = temp;\n    }\n  }\n  return arr;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "readme": "# Shell Sort\n\n## Overview\n\nShell Sort is a comparison-based sorting algorithm that generalizes Insertion Sort by allowing the exchange of elements that are far apart. It works by sorting elements at progressively decreasing intervals (called \"gaps\"), starting with a large gap and reducing it until the gap is 1, at which point the algorithm performs a standard Insertion Sort. The algorithm was invented by Donald Shell in 1959 and was the first sorting algorithm to break the O(n^2) barrier while using only O(1) extra space.\n\nShell Sort's performance depends heavily on the gap sequence used. With the original Shell sequence (n/2, n/4, ..., 1), the worst case is O(n^2), but better gap sequences such as Knuth's (1, 4, 13, 40, ...) or Sedgewick's achieve significantly better performance, with the best known sequences yielding approximately O(n^(4/3)) average-case complexity.\n\n## How It Works\n\nShell Sort starts by comparing and sorting elements that are a certain gap distance apart, effectively creating interleaved subsequences that are each sorted using Insertion Sort. By starting with a large gap, elements can move long distances toward their correct position quickly, reducing the total number of shifts needed. As the gap decreases, the array becomes progressively more sorted, so the subsequent passes require fewer comparisons. When the gap reaches 1, the algorithm performs a final Insertion Sort on an array that is already nearly sorted, which runs in nearly O(n) time.\n\n### Example\n\nGiven input: `[5, 3, 8, 1, 2]` (using gap sequence: 2, 1)\n\n**Pass 1:** Gap = 2 (sort elements 2 positions apart)\n\nSubsequences to sort:\n- Indices 0, 2, 4: values `[5, 8, 2]`\n- Indices 1, 3: values `[3, 1]`\n\n| Step | Action | Array State |\n|------|--------|-------------|\n| 1 | Compare elements at indices 0 and 2: `5` and `8` | `5 < 8`, no swap. `[5, 3, 8, 1, 2]` |\n| 2 | Compare elements at indices 2 and 4: `8` and `2` | `8 > 2`, swap. `[5, 3, 2, 1, 8]` |\n| 3 | Compare elements at indices 0 and 2: `5` and `2` | `5 > 2`, swap. `[2, 3, 5, 1, 8]` |\n| 4 | Compare elements at indices 1 and 3: `3` and `1` | `3 > 1`, swap. `[2, 1, 5, 3, 8]` |\n\nEnd of Pass 1: `[2, 1, 5, 3, 8]`\n\n**Pass 2:** Gap = 1 (standard Insertion Sort on nearly sorted array)\n\n| Step | Action | Array State |\n|------|--------|-------------|\n| 1 | Insert `1`: compare with `2`, shift `2` right, insert `1` at position 0 | `[1, 2, 5, 3, 8]` |\n| 2 | Insert `5`: compare with `2`, `5 > 2`, stays in place | `[1, 2, 5, 3, 8]` |\n| 3 | Insert `3`: compare with `5`, shift `5` right; compare with `2`, `3 > 2`, insert at position 2 | `[1, 2, 3, 5, 8]` |\n| 4 | Insert `8`: compare with `5`, `8 > 5`, stays in place | `[1, 2, 3, 5, 8]` |\n\nEnd of Pass 2: `[1, 2, 3, 5, 8]`\n\nResult: `[1, 2, 3, 5, 8]`\n\n## Pseudocode\n\n```\nfunction shellSort(array):\n    n = length(array)\n\n    // Generate gap sequence (using Shell's original: n/2, n/4, ..., 1)\n    gap = n / 2\n\n    while gap > 0:\n        // Perform gapped Insertion Sort\n        for i from gap to n - 1:\n            temp = array[i]\n            j = i\n\n            while j >= gap and array[j - gap] > temp:\n                array[j] = array[j - gap]\n                j = j - gap\n\n            array[j] = temp\n\n        gap = gap / 2\n\n    return array\n```\n\nThe inner loop is essentially an Insertion Sort that operates on elements `gap` positions apart. When `gap = 1`, this becomes a standard Insertion Sort. The key advantage is that by the time `gap = 1`, the array has been partially sorted by the larger gap passes, so the final Insertion Sort requires very few shifts.\n\n## Complexity Analysis\n\n| Case    | Time       | Space |\n|---------|------------|-------|\n| Best    | O(n log n) | O(1)  |\n| Average | O(n^(4/3)) | O(1)  |\n| Worst   | O(n^2)     | O(1)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(n log n):** When the array is already sorted, each gap pass performs only comparisons with no shifts. With log n different gap values (e.g., n/2, n/4, ..., 1), each requiring a linear scan through the array, the total work is O(n log n). This is the best case for Shell's original gap sequence.\n\n- **Average Case -- O(n^(4/3)):** With good gap sequences (such as Sedgewick's or Ciura's empirically optimized sequence), the average-case complexity is approximately O(n^(4/3)). The exact complexity depends on the gap sequence. The intuition is that large-gap passes eliminate many inversions quickly, so later small-gap passes have much less work to do. The precise analysis of Shell Sort's average case remains an open problem in computer science for most gap sequences.\n\n- **Worst Case -- O(n^2):** With Shell's original gap sequence (n/2, n/4, ..., 1), the worst case is O(n^2). This occurs when elements in even positions and odd positions are independently sorted but interleaved in a way that the final gap-1 pass must do extensive work. Better gap sequences reduce the worst case to O(n^(4/3)) or O(n^(3/2)), but no known gap sequence achieves O(n log n) worst case.\n\n- **Space -- O(1):** Shell Sort is an in-place sorting algorithm. It only needs a constant number of temporary variables for the gap, the element being inserted, and loop indices. No additional data structures are required regardless of input size.\n\n## When to Use\n\n- **Medium-sized datasets:** Shell Sort is a good practical choice for arrays of a few hundred to a few thousand elements, offering significantly better performance than O(n^2) algorithms without the overhead of O(n log n) algorithms.\n- **When O(1) extra space is required and O(n^2) is too slow:** Shell Sort is the only sub-quadratic sorting algorithm that uses constant auxiliary space (excluding Heap Sort, which has worse constant factors).\n- **Embedded systems:** Shell Sort's simplicity, in-place operation, and good practical performance make it suitable for resource-constrained environments.\n- **As an improvement over Insertion Sort:** When you know Insertion Sort would be too slow but want to keep the same algorithmic structure, Shell Sort is a natural upgrade.\n\n## When NOT to Use\n\n- **When guaranteed O(n log n) is needed:** Shell Sort's worst case (with standard gap sequences) is O(n^2), and even with the best known sequences it is O(n^(4/3)). Use Merge Sort or Heap Sort when a worst-case guarantee is required.\n- **When stability is required:** Shell Sort is not stable. Elements that are far apart may be swapped, disrupting the relative order of equal elements.\n- **Very large datasets:** For millions of elements, true O(n log n) algorithms like Quick Sort or Merge Sort are more efficient.\n- **When theoretical guarantees matter:** The exact complexity of Shell Sort is not fully understood for most gap sequences, making it difficult to provide formal performance guarantees.\n\n## Comparison with Similar Algorithms\n\n| Algorithm      | Time (avg)   | Space    | Stable | Notes                                       |\n|----------------|-------------|----------|--------|---------------------------------------------|\n| Shell Sort     | O(n^(4/3))  | O(1)     | No     | Generalized Insertion Sort with gaps         |\n| Insertion Sort | O(n^2)      | O(1)     | Yes    | Simple; optimal for small/nearly sorted data |\n| Bubble Sort    | O(n^2)      | O(1)     | Yes    | Simpler but slower                           |\n| Heap Sort      | O(n log n)  | O(1)     | No     | Guaranteed O(n log n) with O(1) space        |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [ShellSort.py](python/ShellSort.py) |\n| Java       | [ShellSort.java](java/ShellSort.java) |\n| C++        | [ShellSort.cpp](cpp/ShellSort.cpp) |\n| C          | [shellsort.c](c/shellsort.c) |\n| Go         | [ShellSort.go](go/ShellSort.go) |\n| TypeScript | [index.js](typescript/index.js) |\n| Kotlin     | [ShellSort.kt](kotlin/ShellSort.kt) |\n| Rust       | [shell_sort.rs](rust/shell_sort.rs) |\n| Swift      | [ShellSort.swift](swift/ShellSort.swift) |\n| Scala      | [ShellSort.scala](scala/ShellSort.scala) |\n| C#         | [ShellSort.cs](csharp/ShellSort.cs) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Problem 2-3: Correctness of Horner's rule (Shell Sort discussed in exercises).\n- Knuth, D. E. (1998). *The Art of Computer Programming, Volume 3: Sorting and Searching* (2nd ed.). Addison-Wesley. Section 5.2.1: Sorting by Insertion (Shellsort).\n- Shell, D. L. (1959). \"A High-Speed Sorting Procedure.\" *Communications of the ACM*, 2(7), 30-32.\n- Sedgewick, R. (1996). \"Analysis of Shellsort and Related Algorithms.\" *Fourth European Symposium on Algorithms*.\n- [Shellsort -- Wikipedia](https://en.wikipedia.org/wiki/Shellsort)\n"
+}

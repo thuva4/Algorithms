@@ -1,0 +1,159 @@
+{
+  "name": "Selection Sort",
+  "slug": "selection-sort",
+  "category": "sorting",
+  "subcategory": "comparison-based",
+  "difficulty": "beginner",
+  "tags": [
+    "sorting",
+    "comparison",
+    "in-place"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n^2)",
+      "average": "O(n^2)",
+      "worst": "O(n^2)"
+    },
+    "space": "O(1)"
+  },
+  "stable": false,
+  "in_place": true,
+  "related": [
+    "bubble-sort",
+    "insertion-sort",
+    "heap-sort"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "selection.c",
+          "content": "#include <stdio.h>\n#define MAX 100\n\nvoid swap(int *xp, int *yp)\n{\n    int temp = *xp;\n    *xp = *yp;\n    *yp = temp;\n}\n\nvoid selectionSort(int arr[], int n)\n{\n    int i, j, min_idx;\n\n    // One by one move boundary of unsorted subarray\n    for (i = 0; i < n-1; i++)\n    {\n        // Find the minimum element in unsorted array\n        min_idx = i;\n        for (j = i+1; j < n; j++)\n          if (arr[j] < arr[min_idx])\n            min_idx = j;\n\n        // Swap the found minimum element with the first element\n        swap(&arr[min_idx], &arr[i]);\n    }\n}\n\n/* Function to print an array */\nvoid printArray(int arr[], int size)\n{\n    int i;\n    for (i=0; i < size; i++)\n        printf(\"%d \", arr[i]);\n    printf(\"\\n\");\n}\n\n// Driver program to test above functions\nint main()\n{\n    int arr[MAX],i; \n    int n ;\n    printf(\"Enter size of array=\");\n    scanf(\"%d\",&n);\n    printf(\"Enter array elements=\")\n    for(i=0;i<n;i++){\n    \tscanf(\"%d\",&arr[i]);\n    }\n    selectionSort(arr, n);\n    printf(\"Sorted array: \\n\");\n    printArray(arr, n);\n    return 0;\n}"
+        },
+        {
+          "filename": "selection_sort.c",
+          "content": "#include \"selection_sort.h\"\n\nstatic void swap(int* a, int* b) {\n    int t = *a;\n    *a = *b;\n    *b = t;\n}\n\nvoid selection_sort(int arr[], int n) {\n    int i, j, min_idx;\n    for (i = 0; i < n - 1; i++) {\n        min_idx = i;\n        for (j = i + 1; j < n; j++) {\n            if (arr[j] < arr[min_idx])\n                min_idx = j;\n        }\n        swap(&arr[min_idx], &arr[i]);\n    }\n}\n"
+        },
+        {
+          "filename": "selection_sort.h",
+          "content": "#ifndef SELECTION_SORT_H\n#define SELECTION_SORT_H\n\nvoid selection_sort(int arr[], int n);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "Selection-sort.cpp",
+          "content": "#include<iostream>\n\nusing namespace::std;\nvoid selection(int n, int a[20]){\n    int k,i,temp,min;\n    for(i=0; i<n-1; i++){\n        min=i;\n        for(k=i+1; k<n; k++){\n            if(a[min]>a[k])\n                min=k;\n        }\n            if(i!=min){\n                temp=a[i];\n                a[i]=a[min];\n                a[min]=temp;\n            }\n    }\n    cout<<\"\\t sorted list is \\n\";\n    for(i=0;i<n;i++)\n        cout<<\"\\t\"<<a[i]<<\"\\t\";\n    cout<<\"\\n\";\n}\n\nint main(){\n    int a[20],i,j,k,n,temp,min;\n\n    cout<<\"\\n enter size \";\n    cin>>n;\n\n    cout<<\"\\n enter elements \";\n\n    for(i=0; i<n; i++)\n        cin>>a[i];\n\n    selection(n,a);\n\n}\n"
+        },
+        {
+          "filename": "selection_sort.cpp",
+          "content": "#include \"selection_sort.h\"\n#include <vector>\n#include <algorithm>\n\nvoid selection_sort(std::vector<int>& arr) {\n    int n = arr.size();\n    for (int i = 0; i < n - 1; i++) {\n        int min_idx = i;\n        for (int j = i + 1; j < n; j++) {\n            if (arr[j] < arr[min_idx])\n                min_idx = j;\n        }\n        std::swap(arr[min_idx], arr[i]);\n    }\n}\n"
+        },
+        {
+          "filename": "selection_sort.h",
+          "content": "#ifndef SELECTION_SORT_H\n#define SELECTION_SORT_H\n\n#include <vector>\n\nvoid selection_sort(std::vector<int>& arr);\n\n#endif\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "SelectionSort.cs",
+          "content": "namespace Algorithms.Sorting.SelectionSort\n{\n    public class SelectionSort\n    {\n        public static void Sort(int[] arr)\n        {\n            if (arr == null) return;\n            \n            int n = arr.Length;\n            for (int i = 0; i < n - 1; i++)\n            {\n                int min_idx = i;\n                for (int j = i + 1; j < n; j++)\n                {\n                    if (arr[j] < arr[min_idx])\n                        min_idx = j;\n                }\n\n                int temp = arr[min_idx];\n                arr[min_idx] = arr[i];\n                arr[i] = temp;\n            }\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "selection_sort.go",
+          "content": "package selectionsort\n\n// SelectionSort sorts an array of integers using the Selection Sort algorithm.\nfunc SelectionSort(arr []int) {\n\tn := len(arr)\n\tfor i := 0; i < n-1; i++ {\n\t\tmin_idx := i\n\t\tfor j := i + 1; j < n; j++ {\n\t\t\tif arr[j] < arr[min_idx] {\n\t\t\t\tmin_idx = j\n\t\t\t}\n\t\t}\n\t\tarr[i], arr[min_idx] = arr[min_idx], arr[i]\n\t}\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "SelectionSort.java",
+          "content": "package algorithms.sorting.selectionsort;\n\npublic class SelectionSort {\n    public static void sort(int[] arr) {\n        if (arr == null) return;\n        \n        int n = arr.length;\n        for (int i = 0; i < n - 1; i++) {\n            int min_idx = i;\n            for (int j = i + 1; j < n; j++) {\n                if (arr[j] < arr[min_idx])\n                    min_idx = j;\n            }\n\n            int temp = arr[min_idx];\n            arr[min_idx] = arr[i];\n            arr[i] = temp;\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "SelectionSort.kt",
+          "content": "package algorithms.sorting.selectionsort\n\nclass SelectionSort {\n    fun sort(arr: IntArray) {\n        val n = arr.size\n        for (i in 0 until n - 1) {\n            var min_idx = i\n            for (j in i + 1 until n) {\n                if (arr[j] < arr[min_idx])\n                    min_idx = j\n            }\n            \n            val temp = arr[min_idx]\n            arr[min_idx] = arr[i]\n            arr[i] = temp\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "selectionSort.py",
+          "content": "def selection_sort(array):\n    \"\"\"\n        Selection sort sorts an array by placing the minimum element element\n        at the beginning of an unsorted array.\n        :param array A given array\n        :return the given array sorted\n    \"\"\"\n\n    length = len(array)\n\n    for i in range(0, length):\n        min_index = i # Suppose that the first (current) element is the minimum of the unsorted array\n\n        for j in range(i+1, length):\n            # Update min_index when a smaller minimum is found\n            if array[j] < array[min_index]:\n                min_index = j\n\n        if min_index != i:\n            # Swap the minimum and the initial minimum positions\n            array[min_index], array[i] = array[i], array[min_index]\n\n    return array\n\n# Example:\nif __name__ == '__main__':\n    example_array = [5, 6, 7, 8, 1, 2, 12, 14]\n    print(example_array)\n    print(selection_sort(example_array))\n"
+        },
+        {
+          "filename": "selection_sort.py",
+          "content": "def selection_sort(arr):\n    n = len(arr)\n    for i in range(n - 1):\n        min_idx = i\n        for j in range(i + 1, n):\n            if arr[j] < arr[min_idx]:\n                min_idx = j\n                \n        arr[i], arr[min_idx] = arr[min_idx], arr[i]\n    return arr\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "selection_sort.rs",
+          "content": "pub fn selection_sort(arr: &mut [i32]) {\n    let n = arr.len();\n    if n == 0 {\n        return;\n    }\n    \n    for i in 0..n-1 {\n        let mut min_idx = i;\n        for j in i+1..n {\n            if arr[j] < arr[min_idx] {\n                min_idx = j;\n            }\n        }\n        arr.swap(min_idx, i);\n    }\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "SelectionSort.scala",
+          "content": "object SelectionSort {\n  def sort(arr: Array[Int]): Unit = {\n    val n = arr.length\n    for (i <- 0 until n - 1) {\n      var min_idx = i\n      for (j <- i + 1 until n) {\n        if (arr(j) < arr(min_idx))\n          min_idx = j\n      }\n      val temp = arr(min_idx)\n      arr(min_idx) = arr(i)\n      arr(i) = temp\n    }\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "SelectionSort.swift",
+          "content": "class SelectionSort {\n    static func sort(_ arr: inout [Int]) {\n        let n = arr.count\n        guard n > 1 else { return }\n        \n        for i in 0..<n-1 {\n            var min_idx = i\n            for j in i+1..<n {\n                if arr[j] < arr[min_idx] {\n                    min_idx = j\n                }\n            }\n            if i != min_idx {\n                arr.swapAt(i, min_idx)\n            }\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "index.js",
+          "content": "export function selectionSort(arr) {\n  const result = [...arr];\n  for (let i = 0; i < result.length - 1; i += 1) {\n    let minIndex = i;\n    for (let j = i + 1; j < result.length; j += 1) {\n      if (result[j] < result[minIndex]) {\n        minIndex = j;\n      }\n    }\n    [result[i], result[minIndex]] = [result[minIndex], result[i]];\n  }\n  return result;\n}\n"
+        },
+        {
+          "filename": "selection-sort.ts",
+          "content": "export function selectionSort(arr: number[]): number[] {\n  const n = arr.length;\n  for (let i = 0; i < n - 1; i++) {\n    let minIdx = i;\n    for (let j = i + 1; j < n; j++) {\n      if (arr[j] < arr[minIdx]) {\n        minIdx = j;\n      }\n    }\n    [arr[i], arr[minIdx]] = [arr[minIdx], arr[i]];\n  }\n  return arr;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "patterns": [
+    "two-pointers"
+  ],
+  "patternDifficulty": "beginner",
+  "practiceOrder": 2,
+  "readme": "# Selection Sort\n\n## Overview\n\nSelection Sort is a simple comparison-based sorting algorithm that divides the input into a sorted and an unsorted region. It repeatedly selects the smallest (or largest) element from the unsorted region and moves it to the end of the sorted region. The algorithm gets its name from this process of \"selecting\" the minimum element in each pass.\n\nWhile Selection Sort is not efficient for large datasets, it has the notable property of making the minimum number of swaps (at most n - 1), which can be advantageous when the cost of writing to memory is high. It is straightforward to understand and implement, making it useful for educational purposes.\n\n## How It Works\n\nSelection Sort works by maintaining two regions in the array: a sorted region at the beginning (initially empty) and an unsorted region containing the rest. On each pass, the algorithm scans the entire unsorted region to find the minimum element, then swaps it with the first element of the unsorted region, thereby growing the sorted region by one element. This process repeats until the unsorted region is empty.\n\n### Example\n\nGiven input: `[5, 3, 8, 1, 2]`\n\n**Pass 1:** Find the minimum in `[5, 3, 8, 1, 2]` and place it at position 0\n\n| Step | Action | Array State |\n|------|--------|-------------|\n| 1 | Scan positions 0-4 for minimum | Minimum is `1` at index 3 |\n| 2 | Swap `5` (index 0) with `1` (index 3) | `[1, 3, 8, 5, 2]` |\n\nEnd of Pass 1: `[1, 3, 8, 5, 2]` -- `1` is in its correct final position.\n\n**Pass 2:** Find the minimum in `[3, 8, 5, 2]` and place it at position 1\n\n| Step | Action | Array State |\n|------|--------|-------------|\n| 1 | Scan positions 1-4 for minimum | Minimum is `2` at index 4 |\n| 2 | Swap `3` (index 1) with `2` (index 4) | `[1, 2, 8, 5, 3]` |\n\nEnd of Pass 2: `[1, 2, 8, 5, 3]` -- `2` is in its correct final position.\n\n**Pass 3:** Find the minimum in `[8, 5, 3]` and place it at position 2\n\n| Step | Action | Array State |\n|------|--------|-------------|\n| 1 | Scan positions 2-4 for minimum | Minimum is `3` at index 4 |\n| 2 | Swap `8` (index 2) with `3` (index 4) | `[1, 2, 3, 5, 8]` |\n\nEnd of Pass 3: `[1, 2, 3, 5, 8]` -- `3` is in its correct final position.\n\n**Pass 4:** Find the minimum in `[5, 8]` and place it at position 3\n\n| Step | Action | Array State |\n|------|--------|-------------|\n| 1 | Scan positions 3-4 for minimum | Minimum is `5` at index 3 |\n| 2 | `5` is already in place, no swap needed | `[1, 2, 3, 5, 8]` |\n\nEnd of Pass 4: `[1, 2, 3, 5, 8]` -- `5` is in its correct final position, and `8` is the only remaining element.\n\nResult: `[1, 2, 3, 5, 8]`\n\n## Pseudocode\n\n```\nfunction selectionSort(array):\n    n = length(array)\n\n    for i from 0 to n - 2:\n        // Find the index of the minimum element in the unsorted region\n        minIndex = i\n        for j from i + 1 to n - 1:\n            if array[j] < array[minIndex]:\n                minIndex = j\n\n        // Swap the minimum element with the first unsorted element\n        if minIndex != i:\n            swap(array[i], array[minIndex])\n\n    return array\n```\n\nThe optimization of checking `minIndex != i` before swapping avoids unnecessary writes when the minimum element is already in its correct position. However, this does not change the overall time complexity since the scanning step always requires the same number of comparisons.\n\n## Complexity Analysis\n\n| Case    | Time   | Space |\n|---------|--------|-------|\n| Best    | O(n^2) | O(1)  |\n| Average | O(n^2) | O(1)  |\n| Worst   | O(n^2) | O(1)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(n^2):** Even when the array is already sorted, Selection Sort must scan the entire unsorted region on every pass to confirm that the minimum is already in place. The number of comparisons is always (n-1) + (n-2) + ... + 1 = n(n-1)/2, regardless of the initial order. This is why Selection Sort is not adaptive.\n\n- **Average Case -- O(n^2):** The algorithm always performs exactly n(n-1)/2 comparisons. The number of swaps varies (on average about n - 1), but the dominant cost is the comparisons, giving O(n^2).\n\n- **Worst Case -- O(n^2):** The comparison count is identical to the best and average cases: n(n-1)/2. The worst case for swaps occurs when every pass requires a swap, but this is still at most n - 1 swaps. The time complexity is O(n^2) regardless.\n\n- **Space -- O(1):** Selection Sort is an in-place sorting algorithm. It only needs a constant amount of extra space for the `minIndex` variable and the temporary variable used for swapping. No additional data structures are required.\n\n## When to Use\n\n- **When memory writes are expensive:** Selection Sort performs at most n - 1 swaps, which is the minimum possible for any comparison-based sort. This makes it suitable for situations where writing to memory (e.g., flash memory or EEPROM) is costly.\n- **Small datasets:** For very small arrays, the simplicity of Selection Sort makes it a reasonable choice.\n- **Educational contexts:** Selection Sort clearly demonstrates the concept of finding extremes (minimum/maximum) and the distinction between comparisons and swaps.\n- **When auxiliary space must be minimized:** Selection Sort is in-place with O(1) extra space.\n\n## When NOT to Use\n\n- **Large datasets:** The O(n^2) time complexity in all cases makes Selection Sort impractical for large inputs.\n- **Nearly sorted data:** Unlike Insertion Sort, Selection Sort cannot take advantage of existing order in the data. It always performs n(n-1)/2 comparisons.\n- **When stability is required:** The standard implementation of Selection Sort is not stable. Swapping distant elements can change the relative order of equal elements.\n- **Performance-critical applications:** O(n log n) algorithms like Merge Sort, Quick Sort, or Heap Sort are vastly superior for any non-trivial input size.\n\n## Comparison with Similar Algorithms\n\n| Algorithm      | Time (avg) | Space    | Stable | Notes                                       |\n|----------------|-----------|----------|--------|---------------------------------------------|\n| Selection Sort | O(n^2)    | O(1)     | No     | Fewest swaps; not adaptive                  |\n| Bubble Sort    | O(n^2)    | O(1)     | Yes    | Adaptive with early termination; more swaps |\n| Insertion Sort | O(n^2)    | O(1)     | Yes    | Adaptive; best for nearly sorted data       |\n| Heap Sort      | O(n log n)| O(1)     | No     | Uses heap structure; much faster            |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [selectionSort.py](python/selectionSort.py) |\n| Java       | [SelectionSort.java](java/SelectionSort.java) |\n| C++        | [Selection-sort.cpp](cpp/Selection-sort.cpp) |\n| C          | [selection.c](c/selection.c) |\n| Go         | [selection_sort.go](go/selection_sort.go) |\n| TypeScript | [index.js](typescript/index.js) |\n| Kotlin     | [SelectionSort.kt](kotlin/SelectionSort.kt) |\n| Rust       | [selection_sort.rs](rust/selection_sort.rs) |\n| Swift      | [SelectionSort.swift](swift/SelectionSort.swift) |\n| Scala      | [SelectionSort.scala](scala/SelectionSort.scala) |\n| C#         | [SelectionSort.cs](csharp/SelectionSort.cs) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 2: Getting Started (Exercise 2.2-2: Selection Sort).\n- Knuth, D. E. (1998). *The Art of Computer Programming, Volume 3: Sorting and Searching* (2nd ed.). Addison-Wesley. Section 5.2.3: Sorting by Selection.\n- [Selection Sort -- Wikipedia](https://en.wikipedia.org/wiki/Selection_sort)\n"
+}

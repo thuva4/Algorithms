@@ -1,0 +1,133 @@
+{
+  "name": "Point in Polygon",
+  "slug": "point-in-polygon",
+  "category": "geometry",
+  "subcategory": "containment",
+  "difficulty": "intermediate",
+  "tags": [
+    "geometry",
+    "ray-casting",
+    "polygon",
+    "containment",
+    "computational-geometry"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "average": "O(n)",
+      "worst": "O(n)"
+    },
+    "space": "O(1)"
+  },
+  "related": [
+    "convex-hull",
+    "line-intersection"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "point_in_polygon.c",
+          "content": "#include \"point_in_polygon.h\"\n\nint point_in_polygon(int* arr, int len) {\n    int px = arr[0], py = arr[1];\n    int n = arr[2];\n\n    int inside = 0;\n    int j = n - 1;\n    for (int i = 0; i < n; i++) {\n        int xi = arr[3 + 2 * i], yi = arr[3 + 2 * i + 1];\n        int xj = arr[3 + 2 * j], yj = arr[3 + 2 * j + 1];\n\n        if ((yi > py) != (yj > py) &&\n            px < (double)(xj - xi) * (py - yi) / (yj - yi) + xi) {\n            inside = !inside;\n        }\n        j = i;\n    }\n\n    return inside;\n}\n"
+        },
+        {
+          "filename": "point_in_polygon.h",
+          "content": "#ifndef POINT_IN_POLYGON_H\n#define POINT_IN_POLYGON_H\n\nint point_in_polygon(int* arr, int len);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "point_in_polygon.cpp",
+          "content": "#include <vector>\n\nusing namespace std;\n\nint point_in_polygon(vector<int> arr) {\n    int px = arr[0], py = arr[1];\n    int n = arr[2];\n    vector<int> polyX(n), polyY(n);\n    for (int i = 0; i < n; i++) {\n        polyX[i] = arr[3 + 2 * i];\n        polyY[i] = arr[3 + 2 * i + 1];\n    }\n\n    bool inside = false;\n    int j = n - 1;\n    for (int i = 0; i < n; i++) {\n        if ((polyY[i] > py) != (polyY[j] > py) &&\n            px < (double)(polyX[j] - polyX[i]) * (py - polyY[i]) / (polyY[j] - polyY[i]) + polyX[i]) {\n            inside = !inside;\n        }\n        j = i;\n    }\n\n    return inside ? 1 : 0;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "PointInPolygon.cs",
+          "content": "using System;\n\npublic class PointInPolygon\n{\n    public static int CheckPointInPolygon(int[] arr)\n    {\n        double px = arr[0], py = arr[1];\n        int n = arr[2];\n\n        bool inside = false;\n        int j = n - 1;\n        for (int i = 0; i < n; i++)\n        {\n            double xi = arr[3 + 2 * i], yi = arr[3 + 2 * i + 1];\n            double xj = arr[3 + 2 * j], yj = arr[3 + 2 * j + 1];\n\n            if ((yi > py) != (yj > py) &&\n                px < (xj - xi) * (py - yi) / (yj - yi) + xi)\n            {\n                inside = !inside;\n            }\n            j = i;\n        }\n\n        return inside ? 1 : 0;\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "point_in_polygon.go",
+          "content": "package pointinpolygon\n\nfunc PointInPolygon(arr []int) int {\n\tpx, py := arr[0], arr[1]\n\tn := arr[2]\n\n\tinside := false\n\tj := n - 1\n\tfor i := 0; i < n; i++ {\n\t\txi, yi := arr[3+2*i], arr[3+2*i+1]\n\t\txj, yj := arr[3+2*j], arr[3+2*j+1]\n\n\t\tif (yi > py) != (yj > py) &&\n\t\t\tfloat64(px) < float64(xj-xi)*float64(py-yi)/float64(yj-yi)+float64(xi) {\n\t\t\tinside = !inside\n\t\t}\n\t\tj = i\n\t}\n\n\tif inside {\n\t\treturn 1\n\t}\n\treturn 0\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "PointInPolygon.java",
+          "content": "public class PointInPolygon {\n\n    public static int pointInPolygon(int[] arr) {\n        int px = arr[0], py = arr[1];\n        int n = arr[2];\n        int[] polyX = new int[n], polyY = new int[n];\n        for (int i = 0; i < n; i++) {\n            polyX[i] = arr[3 + 2 * i];\n            polyY[i] = arr[3 + 2 * i + 1];\n        }\n\n        boolean inside = false;\n        int j = n - 1;\n        for (int i = 0; i < n; i++) {\n            if ((polyY[i] > py) != (polyY[j] > py) &&\n                px < (double)(polyX[j] - polyX[i]) * (py - polyY[i]) / (polyY[j] - polyY[i]) + polyX[i]) {\n                inside = !inside;\n            }\n            j = i;\n        }\n\n        return inside ? 1 : 0;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "PointInPolygon.kt",
+          "content": "fun pointInPolygon(arr: IntArray): Int {\n    val px = arr[0].toDouble()\n    val py = arr[1].toDouble()\n    val n = arr[2]\n\n    var inside = false\n    var j = n - 1\n    for (i in 0 until n) {\n        val xi = arr[3 + 2 * i].toDouble()\n        val yi = arr[3 + 2 * i + 1].toDouble()\n        val xj = arr[3 + 2 * j].toDouble()\n        val yj = arr[3 + 2 * j + 1].toDouble()\n\n        if ((yi > py) != (yj > py) && px < (xj - xi) * (py - yi) / (yj - yi) + xi) {\n            inside = !inside\n        }\n        j = i\n    }\n\n    return if (inside) 1 else 0\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "point_in_polygon.py",
+          "content": "def point_in_polygon(arr: list[int]) -> int:\n    px, py = arr[0], arr[1]\n    n = arr[2]\n    polygon = [(arr[3 + 2 * i], arr[3 + 2 * i + 1]) for i in range(n)]\n\n    inside = False\n    j = n - 1\n    for i in range(n):\n        xi, yi = polygon[i]\n        xj, yj = polygon[j]\n        if ((yi > py) != (yj > py)) and (px < (xj - xi) * (py - yi) / (yj - yi) + xi):\n            inside = not inside\n        j = i\n\n    return 1 if inside else 0\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "point_in_polygon.rs",
+          "content": "pub fn point_in_polygon(arr: &[i32]) -> i32 {\n    let px = arr[0] as f64;\n    let py = arr[1] as f64;\n    let n = arr[2] as usize;\n\n    let mut inside = false;\n    let mut j = n - 1;\n    for i in 0..n {\n        let xi = arr[3 + 2 * i] as f64;\n        let yi = arr[3 + 2 * i + 1] as f64;\n        let xj = arr[3 + 2 * j] as f64;\n        let yj = arr[3 + 2 * j + 1] as f64;\n\n        if (yi > py) != (yj > py) && px < (xj - xi) * (py - yi) / (yj - yi) + xi {\n            inside = !inside;\n        }\n        j = i;\n    }\n\n    if inside { 1 } else { 0 }\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "PointInPolygon.scala",
+          "content": "object PointInPolygon {\n\n  def pointInPolygon(arr: Array[Int]): Int = {\n    val px = arr(0).toDouble\n    val py = arr(1).toDouble\n    val n = arr(2)\n\n    var inside = false\n    var j = n - 1\n    for (i <- 0 until n) {\n      val xi = arr(3 + 2 * i).toDouble\n      val yi = arr(3 + 2 * i + 1).toDouble\n      val xj = arr(3 + 2 * j).toDouble\n      val yj = arr(3 + 2 * j + 1).toDouble\n\n      if ((yi > py) != (yj > py) && px < (xj - xi) * (py - yi) / (yj - yi) + xi) {\n        inside = !inside\n      }\n      j = i\n    }\n\n    if (inside) 1 else 0\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "PointInPolygon.swift",
+          "content": "func pointInPolygon(_ arr: [Int]) -> Int {\n    let px = Double(arr[0])\n    let py = Double(arr[1])\n    let n = arr[2]\n\n    var inside = false\n    var j = n - 1\n    for i in 0..<n {\n        let xi = Double(arr[3 + 2 * i])\n        let yi = Double(arr[3 + 2 * i + 1])\n        let xj = Double(arr[3 + 2 * j])\n        let yj = Double(arr[3 + 2 * j + 1])\n\n        if (yi > py) != (yj > py) && px < (xj - xi) * (py - yi) / (yj - yi) + xi {\n            inside = !inside\n        }\n        j = i\n    }\n\n    return inside ? 1 : 0\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "pointInPolygon.ts",
+          "content": "export function pointInPolygon(arr: number[]): number {\n    const px = arr[0], py = arr[1];\n    const n = arr[2];\n\n    let inside = false;\n    let j = n - 1;\n    for (let i = 0; i < n; i++) {\n        const xi = arr[3 + 2 * i], yi = arr[3 + 2 * i + 1];\n        const xj = arr[3 + 2 * j], yj = arr[3 + 2 * j + 1];\n\n        if ((yi > py) !== (yj > py) &&\n            px < (xj - xi) * (py - yi) / (yj - yi) + xi) {\n            inside = !inside;\n        }\n        j = i;\n    }\n\n    return inside ? 1 : 0;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Point in Polygon\n\n## Overview\n\nThe Point in Polygon (PIP) algorithm determines whether a given point lies inside, outside, or on the boundary of a polygon. This implementation uses the **Ray Casting** algorithm (also known as the even-odd rule or crossing number algorithm), which works by casting a ray from the test point in one direction and counting how many times the ray intersects the polygon's edges. An odd number of crossings means the point is inside; an even number means it is outside.\n\nThe ray casting method works for any simple polygon (non-self-intersecting), including both convex and concave polygons. It is one of the most widely used point-in-polygon algorithms due to its simplicity and generality.\n\n## How It Works\n\n1. Cast a horizontal ray from the test point toward positive infinity (rightward).\n2. For each edge of the polygon (defined by consecutive vertex pairs):\n   a. Check if the ray's y-coordinate falls between the y-coordinates of the edge's endpoints.\n   b. If so, compute the x-coordinate where the ray intersects the line containing the edge.\n   c. If this x-coordinate is to the right of the test point, count it as a crossing.\n3. After checking all edges, if the crossing count is **odd**, the point is **inside**. If **even**, the point is **outside**.\n\nSpecial care is needed for edge cases: the ray passing exactly through a vertex, or the point lying exactly on an edge. The standard implementation handles vertex-touching by counting an edge only if the ray crosses strictly between the two vertex y-values (one endpoint inclusive, the other exclusive).\n\n## Worked Example\n\n**Polygon vertices:** (0,0), (4,0), (4,4), (2,2), (0,4) -- a concave polygon (arrow shape)\n\n**Test Point A: (1,1)**\n\n| Edge | Vertices | Ray crosses? | Reason |\n|------|----------|-------------|--------|\n| 1 | (0,0)-(4,0) | No | y=0, ray at y=1 does not cross (y not between endpoints vertically) |\n| 2 | (4,0)-(4,4) | Yes | y=1 is between 0 and 4; intersection at x=4, which is right of x=1 |\n| 3 | (4,4)-(2,2) | No | Intersection x is left of test point |\n| 4 | (2,2)-(0,4) | No | y=1 is not between 2 and 4 |\n| 5 | (0,4)-(0,0) | No | Intersection at x=0, which is left of x=1 |\n\nCrossings = 1 (odd). Result: **(1,1) is inside**.\n\n**Test Point B: (3,3)**\n\n| Edge | Vertices | Ray crosses? | Reason |\n|------|----------|-------------|--------|\n| 1 | (0,0)-(4,0) | No | y=3 not between 0 and 0 |\n| 2 | (4,0)-(4,4) | Yes | Intersection at x=4, right of x=3 |\n| 3 | (4,4)-(2,2) | No | Intersection at x ~2.67, left of x=3 |\n| 4 | (2,2)-(0,4) | No | Intersection at x ~1, left of x=3 |\n| 5 | (0,4)-(0,0) | No | Intersection at x=0, left of x=3 |\n\nCrossings = 1 (odd). Result: **(3,3) is inside**.\n\n**Test Point C: (5,5)**\n\nNo edges have y ranges that include y=5 except the top edges, and intersections are all to the left. Crossings = 0 (even). Result: **(5,5) is outside**.\n\n## Pseudocode\n\n```\nfunction pointInPolygon(point, polygon):\n    n = length(polygon)\n    crossings = 0\n\n    for i from 0 to n - 1:\n        j = (i + 1) % n\n        xi = polygon[i].x, yi = polygon[i].y\n        xj = polygon[j].x, yj = polygon[j].y\n\n        // Check if ray at point.y crosses this edge\n        if (yi > point.y) != (yj > point.y):\n            // Compute x-coordinate of intersection\n            intersectX = xi + (point.y - yi) * (xj - xi) / (yj - yi)\n            if point.x < intersectX:\n                crossings += 1\n\n    if crossings is odd:\n        return INSIDE\n    else:\n        return OUTSIDE\n```\n\n## Complexity Analysis\n\n| Case    | Time | Space |\n|---------|------|-------|\n| Best    | O(n) | O(1)  |\n| Average | O(n) | O(1)  |\n| Worst   | O(n) | O(1)  |\n\nWhere n is the number of vertices (edges) of the polygon.\n\n- **Time -- O(n):** Each edge is tested exactly once against the ray. No preprocessing is required.\n- **Space -- O(1):** Only a crossing counter and a few temporary variables are needed beyond the input.\n\n## When to Use\n\n- **Geographic information systems (GIS):** Determining if a GPS coordinate falls within a city boundary, country border, or zoning region.\n- **Computer graphics hit testing:** Detecting if a mouse click falls inside a UI element or sprite.\n- **Game collision detection:** Checking if a character or projectile is inside a region.\n- **Map applications:** Geofencing, determining service areas, or classifying locations.\n- **CAD/CAM systems:** Testing if a point lies within a design boundary.\n\n## When NOT to Use\n\n- **Convex polygons only:** For convex polygons, a faster O(log n) algorithm exists using binary search on the polygon's angular ordering from a central point. The ray casting method does not exploit convexity.\n- **Massive polygons with repeated queries:** If you need to test millions of points against the same polygon, preprocess the polygon into a spatial structure (e.g., trapezoidal decomposition) for O(log n) per query.\n- **3D containment:** Ray casting in 2D does not directly extend to 3D point-in-polyhedron tests. Use a winding number approach or signed volume method instead.\n- **Self-intersecting polygons:** The even-odd rule gives results that may not match geometric intuition for self-intersecting polygons. The winding number algorithm handles these more naturally.\n- **On-boundary detection needed:** The standard ray casting algorithm may misclassify points exactly on edges. If precise boundary detection is required, add explicit on-segment checks.\n\n## Comparison\n\n| Algorithm | Time | Polygon Type | Notes |\n|-----------|------|-------------|-------|\n| Ray Casting (this) | O(n) | Any simple polygon | Simple, general purpose |\n| Winding Number | O(n) | Any polygon (incl. self-intersecting) | More robust for complex polygons |\n| Binary Search (convex) | O(log n) | Convex only | Much faster for convex polygons |\n| Trapezoidal Decomposition | O(log n) query, O(n log n) build | Any simple polygon | Best for many queries on same polygon |\n| Grid/Bitmap | O(1) query, O(n*m) build | Any | Approximate, good for rasterized contexts |\n\nThe ray casting algorithm is the standard choice for general-purpose point-in-polygon testing. The winding number algorithm is preferred when dealing with self-intersecting polygons or when a signed containment result is needed. For performance-critical applications with convex polygons, the binary search method is superior.\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [point_in_polygon.py](python/point_in_polygon.py) |\n| Java       | [PointInPolygon.java](java/PointInPolygon.java) |\n| C++        | [point_in_polygon.cpp](cpp/point_in_polygon.cpp) |\n| C          | [point_in_polygon.c](c/point_in_polygon.c) |\n| Go         | [point_in_polygon.go](go/point_in_polygon.go) |\n| TypeScript | [pointInPolygon.ts](typescript/pointInPolygon.ts) |\n| Rust       | [point_in_polygon.rs](rust/point_in_polygon.rs) |\n| Kotlin     | [PointInPolygon.kt](kotlin/PointInPolygon.kt) |\n| Swift      | [PointInPolygon.swift](swift/PointInPolygon.swift) |\n| Scala      | [PointInPolygon.scala](scala/PointInPolygon.scala) |\n| C#         | [PointInPolygon.cs](csharp/PointInPolygon.cs) |\n\n## References\n\n- Shimrat, M. (1962). \"Algorithm 112: Position of point relative to polygon.\" *Communications of the ACM*, 5(8), 434.\n- Hormann, K., & Agathos, A. (2001). \"The point in polygon problem for arbitrary polygons.\" *Computational Geometry*, 20(3), 131-144.\n- O'Rourke, J. (1998). *Computational Geometry in C* (2nd ed.). Cambridge University Press. Chapter 7.\n- [Point in polygon -- Wikipedia](https://en.wikipedia.org/wiki/Point_in_polygon)\n"
+}

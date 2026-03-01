@@ -1,0 +1,17 @@
+name: "Histogram Equalization"
+slug: "histogram-equalization"
+category: "math"
+subcategory: "image-processing"
+difficulty: "intermediate"
+tags: [math, histogram, equalization, image-processing, contrast]
+complexity:
+  time:
+    best: "O(n)"
+    average: "O(n)"
+    worst: "O(n)"
+  space: "O(k)"
+stable: false
+in_place: false
+related: []
+implementations: [java]
+visualization: true

@@ -1,0 +1,21 @@
+algorithm: "strongly-connected-path-based"
+function_signature:
+  name: "strongly_connected_path_based"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "two SCCs"
+    input: [[5, 5, 0, 1, 1, 2, 2, 0, 3, 4, 4, 3]]
+    expected: 2
+  - name: "single SCC"
+    input: [[3, 3, 0, 1, 1, 2, 2, 0]]
+    expected: 1
+  - name: "no edges"
+    input: [[3, 0]]
+    expected: 3
+  - name: "chain"
+    input: [[4, 3, 0, 1, 1, 2, 2, 3]]
+    expected: 4
+  - name: "single cycle of four"
+    input: [[4, 4, 0, 1, 1, 2, 2, 3, 3, 0]]
+    expected: 1

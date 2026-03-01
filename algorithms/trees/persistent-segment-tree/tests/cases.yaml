@@ -1,0 +1,33 @@
+algorithm: "persistent-segment-tree"
+description: "Point update creates new version, query on any version"
+function_signature:
+  name: "persistent_segment_tree"
+  input: "n, array, operations"
+  output: "array of query answers"
+input_format: "n, a1..an, q, type ver idx val (type=1: update a[idx]=val creating new version, type=2: query sum [l,r] on version ver)"
+output_format: "answers for type=2 queries"
+test_cases:
+  - name: "query initial version"
+    input:
+      n: 4
+      array: [1, 2, 3, 4]
+      operations: [[2, 0, 0, 3]]
+    expected: [10]
+  - name: "update then query both versions"
+    input:
+      n: 3
+      array: [1, 2, 3]
+      operations: [[1, 0, 1, 10], [2, 0, 0, 2], [2, 1, 0, 2]]
+    expected: [6, 14]
+  - name: "multiple updates"
+    input:
+      n: 4
+      array: [1, 1, 1, 1]
+      operations: [[1, 0, 0, 5], [1, 1, 2, 10], [2, 0, 0, 3], [2, 1, 0, 3], [2, 2, 0, 3]]
+    expected: [4, 8, 17]
+  - name: "single element"
+    input:
+      n: 1
+      array: [42]
+      operations: [[2, 0, 0, 0], [1, 0, 0, 100], [2, 1, 0, 0]]
+    expected: [42, 100]

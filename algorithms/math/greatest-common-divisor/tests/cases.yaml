@@ -1,0 +1,30 @@
+algorithm: "greatest-common-divisor"
+function_signature:
+  name: "gcd"
+  input: [a, b]
+  output: greatest_common_divisor
+test_cases:
+  - name: "coprime numbers"
+    input: [7, 13]
+    expected: 1
+  - name: "one divides the other"
+    input: [12, 4]
+    expected: 4
+  - name: "equal numbers"
+    input: [6, 6]
+    expected: 6
+  - name: "one is zero"
+    input: [0, 5]
+    expected: 5
+  - name: "both zero"
+    input: [0, 0]
+    expected: 0
+  - name: "large numbers"
+    input: [48, 18]
+    expected: 6
+  - name: "consecutive numbers"
+    input: [14, 15]
+    expected: 1
+  - name: "one is one"
+    input: [1, 100]
+    expected: 1

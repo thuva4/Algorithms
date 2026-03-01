@@ -1,0 +1,83 @@
+{
+  "name": "Luhn Algorithm",
+  "slug": "luhn",
+  "category": "math",
+  "subcategory": "checksum",
+  "difficulty": "beginner",
+  "tags": [
+    "math",
+    "luhn",
+    "checksum",
+    "validation",
+    "credit-card"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "average": "O(n)",
+      "worst": "O(n)"
+    },
+    "space": "O(1)"
+  },
+  "stable": false,
+  "in_place": true,
+  "related": [],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "luhn_check.c",
+          "content": "#include <ctype.h>\n#include <string.h>\n\nint luhn_check(const char *number_string) {\n    int sum = 0;\n    int double_digit = 0;\n    size_t len = strlen(number_string);\n\n    for (size_t i = len; i > 0; i--) {\n        char ch = number_string[i - 1];\n        if (!isdigit((unsigned char)ch)) {\n            return 0;\n        }\n        int digit = ch - '0';\n        if (double_digit) {\n            digit *= 2;\n            if (digit > 9) digit -= 9;\n        }\n        sum += digit;\n        double_digit = !double_digit;\n    }\n\n    return (sum % 10) == 0;\n}\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "luhn_check.cpp",
+          "content": "#include <cctype>\n#include <string>\n\nbool luhn_check(const std::string& number) {\n    int sum = 0;\n    bool double_digit = false;\n\n    for (int index = static_cast<int>(number.size()) - 1; index >= 0; --index) {\n        unsigned char ch = static_cast<unsigned char>(number[index]);\n        if (!std::isdigit(ch)) {\n            return false;\n        }\n\n        int digit = number[index] - '0';\n        if (double_digit) {\n            digit *= 2;\n            if (digit > 9) {\n                digit -= 9;\n            }\n        }\n\n        sum += digit;\n        double_digit = !double_digit;\n    }\n\n    return sum % 10 == 0;\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "Luhn.java",
+          "content": "public class Luhn {\n    public static boolean luhnCheck(String number) {\n        int sum = 0;\n        boolean doubleDigit = false;\n\n        for (int i = number.length() - 1; i >= 0; i--) {\n            char ch = number.charAt(i);\n            if (!Character.isDigit(ch)) {\n                return false;\n            }\n            int digit = ch - '0';\n            if (doubleDigit) {\n                digit *= 2;\n                if (digit > 9) {\n                    digit -= 9;\n                }\n            }\n            sum += digit;\n            doubleDigit = !doubleDigit;\n        }\n\n        return sum % 10 == 0;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "Luhn.kt",
+          "content": "fun luhnCheck(number: String): Boolean {\n    if (number.isEmpty() || number.any { !it.isDigit() }) {\n        return false\n    }\n\n    var sum = 0\n    var doubleDigit = false\n\n    for (index in number.length - 1 downTo 0) {\n        var digit = number[index] - '0'\n        if (doubleDigit) {\n            digit *= 2\n            if (digit > 9) {\n                digit -= 9\n            }\n        }\n        sum += digit\n        doubleDigit = !doubleDigit\n    }\n\n    return sum % 10 == 0\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "luhn.py",
+          "content": "# Python program to implement Luhn algorithm\r\n\r\n# Returns true if entered card  number is valid\r\n\r\ndef checkLuhn(cardNo):\r\n\t\r\n\tnDigits = len(cardNo)\r\n\tnSum = 0\r\n\tisSecond = False\r\n\t\r\n\tfor i in range(nDigits - 1, -1, -1):\r\n\t\td = ord(cardNo[i]) - ord('0')\r\n\t\r\n\t\tif (isSecond == True):\r\n\t\t\td = d * 2\r\n\r\n\t\t# We add two digits to handle cases that make two digits after doubling\r\n\t\tnSum += d // 10\r\n\t\tnSum += d % 10\r\n\r\n\t\tisSecond = not isSecond\r\n\t\r\n\tif (nSum % 10 == 0):\r\n\t\treturn True\r\n\telse:\r\n\t\treturn False"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "Luhn.swift",
+          "content": "func luhnCheck(_ number: String) -> Bool {\n    let digits = number.compactMap { $0.wholeNumberValue }\n    guard digits.count == number.count else { return false }\n\n    var sum = 0\n    let reversed = digits.reversed()\n    for (index, digit) in reversed.enumerated() {\n        if index % 2 == 1 {\n            var doubled = digit * 2\n            if doubled > 9 {\n                doubled -= 9\n            }\n            sum += doubled\n        } else {\n            sum += digit\n        }\n    }\n\n    return sum % 10 == 0\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Luhn Algorithm\n\n## Overview\n\nThe Luhn algorithm (also known as the \"modulus 10\" or \"mod 10\" algorithm) is a simple checksum formula used to validate a variety of identification numbers, most notably credit card numbers. Developed by IBM scientist Hans Peter Luhn in 1954, it is designed to detect accidental errors in data entry, such as single-digit mistakes and most transposition errors. The algorithm is not intended as a cryptographic hash or security measure.\n\nThe Luhn algorithm is used to validate credit card numbers (Visa, MasterCard, American Express), IMEI numbers for mobile phones, Canadian Social Insurance Numbers, and various other identification numbers worldwide.\n\n## How It Works\n\nStarting from the rightmost digit (the check digit) and moving left, every second digit is doubled. If doubling produces a number greater than 9, the digits of the result are summed (equivalently, subtract 9). All digits are then summed. If the total modulo 10 equals 0, the number is valid.\n\n### Example\n\nValidating credit card number: `4539 1488 0343 6467`\n\nRemove spaces: `4539148803436467`\n\n**Processing from right to left (every second digit doubled):**\n\n| Position | Digit | Double? | Doubled value | Adjusted (if >9) | Final |\n|----------|-------|---------|--------------|-------------------|-------|\n| 16 (check) | 7 | No | - | - | 7 |\n| 15 | 6 | Yes | 12 | 12-9=3 | 3 |\n| 14 | 4 | No | - | - | 4 |\n| 13 | 6 | Yes | 12 | 12-9=3 | 3 |\n| 12 | 3 | No | - | - | 3 |\n| 11 | 4 | Yes | 8 | 8 | 8 |\n| 10 | 3 | No | - | - | 3 |\n| 9 | 0 | Yes | 0 | 0 | 0 |\n| 8 | 8 | No | - | - | 8 |\n| 7 | 8 | Yes | 16 | 16-9=7 | 7 |\n| 6 | 4 | No | - | - | 4 |\n| 5 | 1 | Yes | 2 | 2 | 2 |\n| 4 | 9 | No | - | - | 9 |\n| 3 | 3 | Yes | 6 | 6 | 6 |\n| 2 | 5 | No | - | - | 5 |\n| 1 | 4 | Yes | 8 | 8 | 8 |\n\nSum = 7 + 3 + 4 + 3 + 3 + 8 + 3 + 0 + 8 + 7 + 4 + 2 + 9 + 6 + 5 + 8 = `80`\n\n80 mod 10 = 0. Result: `Valid`\n\n## Pseudocode\n\n```\nfunction luhnCheck(number):\n    digits = convert number to array of digits\n    n = length(digits)\n    sum = 0\n    is_second = false\n\n    for i from n - 1 down to 0:\n        d = digits[i]\n\n        if is_second:\n            d = d * 2\n            if d > 9:\n                d = d - 9\n\n        sum = sum + d\n        is_second = not is_second\n\n    return (sum mod 10) == 0\n```\n\nThe algorithm alternates between adding digits as-is and doubling them, starting from the rightmost digit. The \"subtract 9 if greater than 9\" trick replaces the \"sum the digits\" operation.\n\n## Complexity Analysis\n\n| Case    | Time | Space |\n|---------|------|-------|\n| Best    | O(n) | O(1)  |\n| Average | O(n) | O(1)  |\n| Worst   | O(n) | O(1)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(n):** The algorithm must examine every digit of the number. Even for valid numbers, all digits participate in the checksum.\n\n- **Average Case -- O(n):** Each digit requires O(1) work (possibly a doubling and subtraction). Processing all n digits gives O(n).\n\n- **Worst Case -- O(n):** The same as all cases. Every digit is processed exactly once in a single right-to-left pass.\n\n- **Space -- O(1):** Only a running sum, a flag variable, and the current digit are needed. If the input is already an array, no additional space is required.\n\n## When to Use\n\n- **Credit card number validation:** The standard method used by all major card networks before processing transactions.\n- **Quick error detection:** Catches most single-digit errors and adjacent transposition errors in data entry.\n- **ID number validation:** IMEI, SIN, and other identification systems that use Luhn checksums.\n- **When simplicity is needed:** The algorithm is trivial to implement and runs in linear time with constant space.\n\n## When NOT to Use\n\n- **Security or fraud prevention:** Luhn is not cryptographic. Anyone can generate valid Luhn numbers.\n- **Detecting all types of errors:** Luhn does not catch all transposition errors (e.g., 09 -> 90) or more complex error patterns.\n- **When a stronger checksum is needed:** Verhoeff's algorithm or damm's algorithm catch more error types.\n- **Non-numeric data:** The algorithm works only on sequences of decimal digits.\n\n## Comparison with Similar Algorithms\n\n| Algorithm      | Error detection         | Time | Notes                                      |\n|---------------|------------------------|------|--------------------------------------------|\n| Luhn           | Single digit, most transpositions | O(n) | Industry standard for credit cards    |\n| Verhoeff       | All single digit, all transpositions | O(n) | More complex; uses permutation tables |\n| Damm           | All single digit, all transpositions | O(n) | Uses a quasigroup operation table     |\n| ISBN-13 check  | Single digit             | O(n) | Weighted sum with alternating 1 and 3 |\n\n## Implementations\n\n| Language | File |\n|----------|------|\n| Python   | [luhn.py](python/luhn.py) |\n\n## References\n\n- Luhn, H. P. (1960). Computer for verifying numbers. US Patent 2,950,048.\n- [Luhn Algorithm -- Wikipedia](https://en.wikipedia.org/wiki/Luhn_algorithm)\n- [ISO/IEC 7812-1](https://www.iso.org/standard/70484.html) - Identification cards numbering system.\n"
+}

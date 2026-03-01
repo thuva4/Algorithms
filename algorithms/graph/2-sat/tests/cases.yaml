@@ -1,0 +1,21 @@
+algorithm: "2-sat"
+function_signature:
+  name: "two_sat"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "satisfiable simple"
+    input: [[2, 2, 1, 2, -1, 2]]
+    expected: 1
+  - name: "unsatisfiable"
+    input: [[1, 2, 1, 1, -1, -1]]
+    expected: 0
+  - name: "single variable satisfiable"
+    input: [[1, 1, 1, -1]]
+    expected: 1
+  - name: "three variables satisfiable"
+    input: [[3, 3, 1, 2, -2, 3, -1, -3]]
+    expected: 1
+  - name: "two variables unsatisfiable"
+    input: [[2, 4, 1, 2, -1, -2, 1, -2, -1, 2]]
+    expected: 0

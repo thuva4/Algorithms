@@ -1,0 +1,17 @@
+name: "Maximum Subarray (Divide and Conquer)"
+slug: "maximum-subarray-divide-conquer"
+category: "divide-and-conquer"
+subcategory: "array"
+difficulty: "intermediate"
+tags: [divide-and-conquer, maximum-subarray, array]
+complexity:
+  time:
+    best: "O(n log n)"
+    average: "O(n log n)"
+    worst: "O(n log n)"
+  space: "O(log n)"
+stable: null
+in_place: true
+related: [kadanes]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

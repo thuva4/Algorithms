@@ -1,0 +1,17 @@
+name: "Cuckoo Hashing"
+slug: "cuckoo-hashing"
+category: "data-structures"
+subcategory: "hashing"
+difficulty: "intermediate"
+tags: [data-structures, hashing, cuckoo-hashing, hash-table, constant-lookup]
+complexity:
+  time:
+    best: "O(1)"
+    average: "O(1)"
+    worst: "O(n) rehash"
+  space: "O(n)"
+stable: null
+in_place: false
+related: [hash-table, bloom-filter]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

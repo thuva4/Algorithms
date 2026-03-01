@@ -1,0 +1,136 @@
+{
+  "name": "Binary Search Tree",
+  "slug": "binary-search-tree",
+  "category": "trees",
+  "difficulty": "beginner",
+  "tags": [
+    "trees",
+    "binary-search-tree",
+    "search",
+    "insert"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(log n)",
+      "average": "O(log n)",
+      "worst": "O(n)"
+    },
+    "space": "O(n)"
+  },
+  "related": [
+    "binary-tree",
+    "trie"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "bst_inorder.c",
+          "content": "#include \"bst_inorder.h\"\n#include <stdlib.h>\n\ntypedef struct Node {\n    int key;\n    struct Node *left;\n    struct Node *right;\n} Node;\n\nstatic Node *create_node(int key) {\n    Node *node = (Node *)malloc(sizeof(Node));\n    node->key = key;\n    node->left = NULL;\n    node->right = NULL;\n    return node;\n}\n\nstatic Node *insert(Node *root, int key) {\n    if (root == NULL) {\n        return create_node(key);\n    }\n    if (key <= root->key) {\n        root->left = insert(root->left, key);\n    } else {\n        root->right = insert(root->right, key);\n    }\n    return root;\n}\n\nstatic void inorder(Node *root, int *result, int *index) {\n    if (root == NULL) {\n        return;\n    }\n    inorder(root->left, result, index);\n    result[(*index)++] = root->key;\n    inorder(root->right, result, index);\n}\n\nstatic void free_tree(Node *root) {\n    if (root == NULL) return;\n    free_tree(root->left);\n    free_tree(root->right);\n    free(root);\n}\n\nint *bst_inorder(int arr[], int size, int *out_size) {\n    *out_size = size;\n    if (size == 0) {\n        return NULL;\n    }\n\n    Node *root = NULL;\n    for (int i = 0; i < size; i++) {\n        root = insert(root, arr[i]);\n    }\n\n    int *result = (int *)malloc(size * sizeof(int));\n    int index = 0;\n    inorder(root, result, &index);\n    free_tree(root);\n    return result;\n}\n"
+        },
+        {
+          "filename": "bst_inorder.h",
+          "content": "#ifndef BST_INORDER_H\n#define BST_INORDER_H\n\nint *bst_inorder(int arr[], int size, int *out_size);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "bst_inorder.cpp",
+          "content": "#include <vector>\n\nstruct Node {\n    int key;\n    Node* left;\n    Node* right;\n\n    Node(int k) : key(k), left(nullptr), right(nullptr) {}\n};\n\nstatic Node* insert(Node* root, int key) {\n    if (root == nullptr) {\n        return new Node(key);\n    }\n    if (key <= root->key) {\n        root->left = insert(root->left, key);\n    } else {\n        root->right = insert(root->right, key);\n    }\n    return root;\n}\n\nstatic void inorder(Node* root, std::vector<int>& result) {\n    if (root == nullptr) {\n        return;\n    }\n    inorder(root->left, result);\n    result.push_back(root->key);\n    inorder(root->right, result);\n}\n\nstatic void freeTree(Node* root) {\n    if (root == nullptr) return;\n    freeTree(root->left);\n    freeTree(root->right);\n    delete root;\n}\n\nstd::vector<int> bstInorder(std::vector<int> arr) {\n    Node* root = nullptr;\n    for (int key : arr) {\n        root = insert(root, key);\n    }\n\n    std::vector<int> result;\n    inorder(root, result);\n    freeTree(root);\n    return result;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "BinarySearchTree.cs",
+          "content": "using System;\nusing System.Collections.Generic;\n\npublic class BinarySearchTree\n{\n    private class Node\n    {\n        public int Key;\n        public Node Left;\n        public Node Right;\n\n        public Node(int key)\n        {\n            Key = key;\n        }\n    }\n\n    private static Node Insert(Node root, int key)\n    {\n        if (root == null)\n        {\n            return new Node(key);\n        }\n        if (key <= root.Key)\n        {\n            root.Left = Insert(root.Left, key);\n        }\n        else\n        {\n            root.Right = Insert(root.Right, key);\n        }\n        return root;\n    }\n\n    private static void Inorder(Node root, List<int> result)\n    {\n        if (root == null) return;\n        Inorder(root.Left, result);\n        result.Add(root.Key);\n        Inorder(root.Right, result);\n    }\n\n    public static int[] BstInorder(int[] arr)\n    {\n        Node root = null;\n        foreach (int key in arr)\n        {\n            root = Insert(root, key);\n        }\n\n        List<int> result = new List<int>();\n        Inorder(root, result);\n        return result.ToArray();\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "bst_inorder.go",
+          "content": "package bst\n\ntype node struct {\n\tkey   int\n\tleft  *node\n\tright *node\n}\n\nfunc insertNode(root *node, key int) *node {\n\tif root == nil {\n\t\treturn &node{key: key}\n\t}\n\tif key <= root.key {\n\t\troot.left = insertNode(root.left, key)\n\t} else {\n\t\troot.right = insertNode(root.right, key)\n\t}\n\treturn root\n}\n\nfunc inorder(root *node, result *[]int) {\n\tif root == nil {\n\t\treturn\n\t}\n\tinorder(root.left, result)\n\t*result = append(*result, root.key)\n\tinorder(root.right, result)\n}\n\n// BstInorder inserts all elements into a BST and returns the inorder traversal.\nfunc BstInorder(arr []int) []int {\n\tvar root *node\n\tfor _, key := range arr {\n\t\troot = insertNode(root, key)\n\t}\n\n\tresult := make([]int, 0, len(arr))\n\tinorder(root, &result)\n\treturn result\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "BinarySearchTree.java",
+          "content": "import java.util.ArrayList;\nimport java.util.List;\n\npublic class BinarySearchTree {\n\n    private static class Node {\n        int key;\n        Node left, right;\n\n        Node(int key) {\n            this.key = key;\n        }\n    }\n\n    private static Node insert(Node root, int key) {\n        if (root == null) {\n            return new Node(key);\n        }\n        if (key <= root.key) {\n            root.left = insert(root.left, key);\n        } else {\n            root.right = insert(root.right, key);\n        }\n        return root;\n    }\n\n    private static void inorder(Node root, List<Integer> result) {\n        if (root == null) {\n            return;\n        }\n        inorder(root.left, result);\n        result.add(root.key);\n        inorder(root.right, result);\n    }\n\n    public static int[] bstInorder(int[] arr) {\n        Node root = null;\n        for (int key : arr) {\n            root = insert(root, key);\n        }\n\n        List<Integer> result = new ArrayList<>();\n        inorder(root, result);\n\n        return result.stream().mapToInt(Integer::intValue).toArray();\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "BinarySearchTree.kt",
+          "content": "class BSTNode(val key: Int) {\n    var left: BSTNode? = null\n    var right: BSTNode? = null\n}\n\nfun bstInorder(arr: IntArray): IntArray {\n    fun insert(root: BSTNode?, key: Int): BSTNode {\n        if (root == null) {\n            return BSTNode(key)\n        }\n        if (key <= root.key) {\n            root.left = insert(root.left, key)\n        } else {\n            root.right = insert(root.right, key)\n        }\n        return root\n    }\n\n    fun inorder(root: BSTNode?, result: MutableList<Int>) {\n        if (root == null) return\n        inorder(root.left, result)\n        result.add(root.key)\n        inorder(root.right, result)\n    }\n\n    var root: BSTNode? = null\n    for (key in arr) {\n        root = insert(root, key)\n    }\n\n    val result = mutableListOf<Int>()\n    inorder(root, result)\n    return result.toIntArray()\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "bst_inorder.py",
+          "content": "class Node:\n    def __init__(self, key: int) -> None:\n        self.key = key\n        self.left: Node | None = None\n        self.right: Node | None = None\n\n\ndef _insert(root: Node | None, key: int) -> Node:\n    if root is None:\n        return Node(key)\n    if key <= root.key:\n        root.left = _insert(root.left, key)\n    else:\n        root.right = _insert(root.right, key)\n    return root\n\n\ndef _inorder(root: Node | None, result: list[int]) -> None:\n    if root is None:\n        return\n    _inorder(root.left, result)\n    result.append(root.key)\n    _inorder(root.right, result)\n\n\ndef bst_inorder(arr: list[int]) -> list[int]:\n    root: Node | None = None\n    for key in arr:\n        root = _insert(root, key)\n\n    result: list[int] = []\n    _inorder(root, result)\n    return result\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "bst_inorder.rs",
+          "content": "struct Node {\n    key: i32,\n    left: Option<Box<Node>>,\n    right: Option<Box<Node>>,\n}\n\nimpl Node {\n    fn new(key: i32) -> Self {\n        Node {\n            key,\n            left: None,\n            right: None,\n        }\n    }\n}\n\nfn insert(root: Option<Box<Node>>, key: i32) -> Option<Box<Node>> {\n    match root {\n        None => Some(Box::new(Node::new(key))),\n        Some(mut node) => {\n            if key <= node.key {\n                node.left = insert(node.left, key);\n            } else {\n                node.right = insert(node.right, key);\n            }\n            Some(node)\n        }\n    }\n}\n\nfn inorder(root: &Option<Box<Node>>, result: &mut Vec<i32>) {\n    if let Some(node) = root {\n        inorder(&node.left, result);\n        result.push(node.key);\n        inorder(&node.right, result);\n    }\n}\n\npub fn bst_inorder(arr: &[i32]) -> Vec<i32> {\n    let mut root: Option<Box<Node>> = None;\n    for &key in arr {\n        root = insert(root, key);\n    }\n\n    let mut result = Vec::new();\n    inorder(&root, &mut result);\n    result\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "BinarySearchTree.scala",
+          "content": "object BinarySearchTree {\n\n  private class Node(val key: Int) {\n    var left: Node = _\n    var right: Node = _\n  }\n\n  private def insert(root: Node, key: Int): Node = {\n    if (root == null) {\n      return new Node(key)\n    }\n    if (key <= root.key) {\n      root.left = insert(root.left, key)\n    } else {\n      root.right = insert(root.right, key)\n    }\n    root\n  }\n\n  private def inorder(root: Node, result: scala.collection.mutable.ListBuffer[Int]): Unit = {\n    if (root == null) return\n    inorder(root.left, result)\n    result += root.key\n    inorder(root.right, result)\n  }\n\n  def bstInorder(arr: Array[Int]): Array[Int] = {\n    var root: Node = null\n    for (key <- arr) {\n      root = insert(root, key)\n    }\n\n    val result = scala.collection.mutable.ListBuffer[Int]()\n    inorder(root, result)\n    result.toArray\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "BinarySearchTree.swift",
+          "content": "class BSTNode {\n    let key: Int\n    var left: BSTNode?\n    var right: BSTNode?\n\n    init(_ key: Int) {\n        self.key = key\n    }\n}\n\nfunc bstInorder(_ arr: [Int]) -> [Int] {\n    func insert(_ root: BSTNode?, _ key: Int) -> BSTNode {\n        guard let root = root else {\n            return BSTNode(key)\n        }\n        if key <= root.key {\n            root.left = insert(root.left, key)\n        } else {\n            root.right = insert(root.right, key)\n        }\n        return root\n    }\n\n    func inorder(_ root: BSTNode?, _ result: inout [Int]) {\n        guard let root = root else { return }\n        inorder(root.left, &result)\n        result.append(root.key)\n        inorder(root.right, &result)\n    }\n\n    var root: BSTNode? = nil\n    for key in arr {\n        root = insert(root, key)\n    }\n\n    var result: [Int] = []\n    inorder(root, &result)\n    return result\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "bstInorder.ts",
+          "content": "class BSTNode {\n    key: number;\n    left: BSTNode | null = null;\n    right: BSTNode | null = null;\n\n    constructor(key: number) {\n        this.key = key;\n    }\n}\n\nfunction insert(root: BSTNode | null, key: number): BSTNode {\n    if (root === null) {\n        return new BSTNode(key);\n    }\n    if (key <= root.key) {\n        root.left = insert(root.left, key);\n    } else {\n        root.right = insert(root.right, key);\n    }\n    return root;\n}\n\nfunction inorder(root: BSTNode | null, result: number[]): void {\n    if (root === null) {\n        return;\n    }\n    inorder(root.left, result);\n    result.push(root.key);\n    inorder(root.right, result);\n}\n\nexport function bstInorder(arr: number[]): number[] {\n    let root: BSTNode | null = null;\n    for (const key of arr) {\n        root = insert(root, key);\n    }\n\n    const result: number[] = [];\n    inorder(root, result);\n    return result;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "patterns": [
+    "tree-dfs"
+  ],
+  "patternDifficulty": "intermediate",
+  "practiceOrder": 3,
+  "readme": "# Binary Search Tree\n\n## Overview\n\nA Binary Search Tree (BST) is a rooted binary tree data structure where each node has at most two children. The key property that distinguishes a BST is the ordering invariant: for any node, all keys in its left subtree are less than or equal to the node's key, and all keys in its right subtree are greater than the node's key.\n\nThis ordering property enables efficient searching, insertion, and deletion operations that run in O(log n) time on average. BSTs form the foundation for more advanced self-balancing trees like AVL trees and Red-Black trees.\n\n## How It Works\n\n**Insertion:** Starting from the root, compare the new key with the current node. If the key is less than or equal to the current node, go left; otherwise, go right. When a null position is reached, insert the new node there.\n\n**Inorder Traversal:** Visit the left subtree, then the current node, then the right subtree. For a BST, this always produces keys in sorted (non-decreasing) order.\n\n### Example\n\nGiven input: `[5, 3, 7, 1, 4, 6, 8]`\n\n**Building the BST:**\n\n| Step | Insert | Tree Structure |\n|------|--------|---------------|\n| 1 | 5 | `5` (root) |\n| 2 | 3 | `5` -> left: `3` |\n| 3 | 7 | `5` -> left: `3`, right: `7` |\n| 4 | 1 | `3` -> left: `1` |\n| 5 | 4 | `3` -> right: `4` |\n| 6 | 6 | `7` -> left: `6` |\n| 7 | 8 | `7` -> right: `8` |\n\n```\n        5\n       / \\\n      3   7\n     / \\ / \\\n    1  4 6  8\n```\n\n**Inorder traversal:** 1 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8\n\nResult: `[1, 3, 4, 5, 6, 7, 8]`\n\n## Pseudocode\n\n```\nclass Node:\n    key, left, right\n\nfunction insert(root, key):\n    if root is null:\n        return new Node(key)\n    if key <= root.key:\n        root.left = insert(root.left, key)\n    else:\n        root.right = insert(root.right, key)\n    return root\n\nfunction inorder(root, result):\n    if root is null:\n        return\n    inorder(root.left, result)\n    result.append(root.key)\n    inorder(root.right, result)\n\nfunction bstInorder(arr):\n    root = null\n    for each key in arr:\n        root = insert(root, key)\n    result = []\n    inorder(root, result)\n    return result\n```\n\n## Complexity Analysis\n\n| Case    | Time     | Space |\n|---------|----------|-------|\n| Best    | O(log n) | O(n)  |\n| Average | O(log n) | O(n)  |\n| Worst   | O(n)     | O(n)  |\n\n- **Best/Average Case -- O(log n):** When the tree is reasonably balanced, each insertion or search requires traversing at most O(log n) levels. The inorder traversal visits all n nodes in O(n).\n- **Worst Case -- O(n):** When elements are inserted in sorted order, the tree degenerates into a linked list, and each operation requires O(n) time.\n- **Space -- O(n):** The tree stores n nodes. The recursion stack for inorder traversal uses O(h) space, where h is the tree height (O(log n) for balanced, O(n) for degenerate).\n\n## Applications\n\n- **Database indexing:** BSTs underlie many database index structures.\n- **Symbol tables:** Compilers use BSTs to store variable names and their attributes.\n- **Priority queues:** Can implement dynamic priority queues with insert and delete-min.\n- **Sorting:** Building a BST and performing inorder traversal yields a sorted sequence (tree sort).\n- **Range queries:** Efficiently find all keys within a given range.\n- **Autocompletion:** Foundation for more advanced structures like balanced BSTs used in text editors.\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [bst_inorder.py](python/bst_inorder.py) |\n| Java       | [BinarySearchTree.java](java/BinarySearchTree.java) |\n| C++        | [bst_inorder.cpp](cpp/bst_inorder.cpp) |\n| C          | [bst_inorder.c](c/bst_inorder.c) |\n| Go         | [bst_inorder.go](go/bst_inorder.go) |\n| TypeScript | [bstInorder.ts](typescript/bstInorder.ts) |\n| Kotlin     | [BinarySearchTree.kt](kotlin/BinarySearchTree.kt) |\n| Rust       | [bst_inorder.rs](rust/bst_inorder.rs) |\n| Swift      | [BinarySearchTree.swift](swift/BinarySearchTree.swift) |\n| Scala      | [BinarySearchTree.scala](scala/BinarySearchTree.scala) |\n| C#         | [BinarySearchTree.cs](csharp/BinarySearchTree.cs) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 12: Binary Search Trees.\n- Knuth, D. E. (1998). *The Art of Computer Programming, Volume 3: Sorting and Searching* (2nd ed.). Addison-Wesley. Section 6.2.2.\n- [Binary Search Tree -- Wikipedia](https://en.wikipedia.org/wiki/Binary_search_tree)\n"
+}

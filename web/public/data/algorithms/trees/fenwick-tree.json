@@ -1,0 +1,131 @@
+{
+  "name": "Fenwick Tree",
+  "slug": "fenwick-tree",
+  "category": "trees",
+  "subcategory": "range-query",
+  "difficulty": "intermediate",
+  "tags": [
+    "trees",
+    "fenwick-tree",
+    "binary-indexed-tree",
+    "range-query",
+    "prefix-sum"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(log n)",
+      "average": "O(log n)",
+      "worst": "O(log n)"
+    },
+    "space": "O(n)"
+  },
+  "stable": false,
+  "in_place": false,
+  "related": [
+    "segment-tree",
+    "binary-tree"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "FenwickTree.c",
+          "content": "#include <stdio.h>\n#include <string.h>\n\n#define MAX_N 100001\n\nint tree[MAX_N];\nint n;\n\nvoid update(int i, int delta) {\n    for (++i; i <= n; i += i & (-i))\n        tree[i] += delta;\n}\n\nint query(int i) {\n    int sum = 0;\n    for (++i; i > 0; i -= i & (-i))\n        sum += tree[i];\n    return sum;\n}\n\nvoid build(int arr[], int size) {\n    n = size;\n    memset(tree, 0, sizeof(tree));\n    for (int i = 0; i < n; i++)\n        update(i, arr[i]);\n}\n\nint main() {\n    int arr[] = {1, 2, 3, 4, 5};\n    build(arr, 5);\n    printf(\"Sum of first 4 elements: %d\\n\", query(3));\n\n    update(2, 5);\n    printf(\"After update, sum of first 4 elements: %d\\n\", query(3));\n    return 0;\n}\n\nint* fenwick_tree_operations(int arr[], int size, int* out_size) {\n    if (size < 1) {\n        *out_size = 0;\n        return NULL;\n    }\n\n    int len = arr[0];\n    if (len < 0 || size < 1 + len) {\n        *out_size = 0;\n        return NULL;\n    }\n\n    int remaining = size - 1 - len;\n    if (remaining < 0 || (remaining % 3) != 0) {\n        *out_size = 0;\n        return NULL;\n    }\n\n    int q = remaining / 3;\n    int* result = (int*)malloc((q > 0 ? q : 1) * sizeof(int));\n    if (!result) {\n        *out_size = 0;\n        return NULL;\n    }\n\n    int* values = (int*)malloc((len > 0 ? len : 1) * sizeof(int));\n    if (!values) {\n        free(result);\n        *out_size = 0;\n        return NULL;\n    }\n\n    for (int i = 0; i < len; i++) {\n        values[i] = arr[1 + i];\n    }\n    build(values, len);\n    int pos = 1 + len;\n    int result_count = 0;\n    for (int i = 0; i < q; i++) {\n        int type = arr[pos++];\n        int a = arr[pos++];\n        int b = arr[pos++];\n        if (type == 1) {\n            int delta = b - values[a];\n            values[a] = b;\n            update(a, delta);\n        } else {\n            result[result_count++] = query(a);\n        }\n    }\n\n    free(values);\n    *out_size = result_count;\n    return result;\n}\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "FenwickTree.cpp",
+          "content": "#include <bits/stdc++.h>\r\n#define endl \"\\n\"\r\n#define print_arr(a,n) cout << #a << endl; for (int i=0; i<n; i++) {cout << a[i] << \" \";} cout << endl;\r\n#define print(a) cout << #a << \": \" << a << endl;\r\ntypedef long long ll;\r\nusing namespace std;\r\n\r\n\r\nll sum(ll tree[], ll k) {\r\n    ll s = 0;\r\n    while (k >= 1) {\r\n        s += tree[k];\r\n        k -= k & (-k);\r\n    }\r\n    return s;\r\n}\r\n\r\nvoid update(ll tree[], ll x, ll k, ll n) {\r\n    ll new_val = x;\r\n    while (k <= n) {\r\n        tree[k] += new_val;\r\n        k += k & (-k);\r\n    }\r\n}\r\n\r\nvoid gen_tree(ll tree[], ll arr[], ll n) {\r\n    for (ll k=1; k <= n; k++) {\r\n        update(tree, arr[k], k, n);\r\n    }\r\n}\r\n\r\n\r\nint main() {\r\n    ios_base::sync_with_stdio(false);\r\n    cin.tie(NULL);\r\n\r\n    ll n, i, j, x;\r\n    n = 8;\r\n    ll arr[n+1] = {0, 1, 3, 4, 8, 6, 1, 4, 2};\r\n    ll tree[n+1] = {0};\r\n\r\n    print_arr(tree,n+1);\r\n    gen_tree(tree, arr, n);\r\n    print_arr(tree,n+1);\r\n\r\n    return 0;\r\n}"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "FenwickTree.cs",
+          "content": "using System;\n\nclass FenwickTree\n{\n    private int[] tree;\n    private int n;\n\n    public FenwickTree(int[] arr)\n    {\n        n = arr.Length;\n        tree = new int[n + 1];\n        for (int i = 0; i < n; i++)\n            Update(i, arr[i]);\n    }\n\n    public void Update(int i, int delta)\n    {\n        for (++i; i <= n; i += i & (-i))\n            tree[i] += delta;\n    }\n\n    public int Query(int i)\n    {\n        int sum = 0;\n        for (++i; i > 0; i -= i & (-i))\n            sum += tree[i];\n        return sum;\n    }\n\n    static void Main(string[] args)\n    {\n        int[] arr = { 1, 2, 3, 4, 5 };\n        var ft = new FenwickTree(arr);\n        Console.WriteLine(\"Sum of first 4 elements: \" + ft.Query(3));\n\n        ft.Update(2, 5);\n        Console.WriteLine(\"After update, sum of first 4 elements: \" + ft.Query(3));\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "FenwickTree.go",
+          "content": "package fenwicktree\n\n// FenwickTree implements a Binary Indexed Tree for prefix sum queries and point updates.\ntype FenwickTree struct {\n\ttree []int\n\tn    int\n}\n\n// New creates a FenwickTree from the given array.\nfunc New(arr []int) *FenwickTree {\n\tn := len(arr)\n\tft := &FenwickTree{\n\t\ttree: make([]int, n+1),\n\t\tn:    n,\n\t}\n\tfor i, v := range arr {\n\t\tft.Update(i, v)\n\t}\n\treturn ft\n}\n\n// Update adds delta to the element at index i.\nfunc (ft *FenwickTree) Update(i, delta int) {\n\tfor i++; i <= ft.n; i += i & (-i) {\n\t\tft.tree[i] += delta\n\t}\n}\n\n// Query returns the prefix sum from index 0 to i (inclusive).\nfunc (ft *FenwickTree) Query(i int) int {\n\tsum := 0\n\tfor i++; i > 0; i -= i & (-i) {\n\t\tsum += ft.tree[i]\n\t}\n\treturn sum\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "FenwickTree.java",
+          "content": "public class FenwickTree {\n    private int[] tree;\n    private int n;\n\n    public FenwickTree(int[] arr) {\n        n = arr.length;\n        tree = new int[n + 1];\n        for (int i = 0; i < n; i++) {\n            update(i, arr[i]);\n        }\n    }\n\n    public void update(int i, int delta) {\n        for (++i; i <= n; i += i & (-i))\n            tree[i] += delta;\n    }\n\n    public int query(int i) {\n        int sum = 0;\n        for (++i; i > 0; i -= i & (-i))\n            sum += tree[i];\n        return sum;\n    }\n\n    public static int[] fenwickTreeOperations(int[] array, java.util.List<java.util.Map<Object, Object>> queries) {\n        FenwickTree fenwick = new FenwickTree(array);\n        int[] current = array.clone();\n        java.util.List<Integer> answers = new java.util.ArrayList<>();\n        for (java.util.Map<Object, Object> query : queries) {\n            String type = String.valueOf(query.get(\"type\"));\n            int index = ((Number) query.get(\"index\")).intValue();\n            if (\"update\".equals(type)) {\n                int newValue = ((Number) query.get(\"value\")).intValue();\n                int delta = newValue - current[index];\n                current[index] = newValue;\n                fenwick.update(index, delta);\n            } else if (\"sum\".equals(type)) {\n                answers.add(fenwick.query(index));\n            }\n        }\n        int[] result = new int[answers.size()];\n        for (int i = 0; i < answers.size(); i++) {\n            result[i] = answers.get(i);\n        }\n        return result;\n    }\n\n    public static void main(String[] args) {\n        int[] arr = {1, 2, 3, 4, 5};\n        FenwickTree ft = new FenwickTree(arr);\n        System.out.println(\"Sum of first 4 elements: \" + ft.query(3));\n\n        ft.update(2, 5);\n        System.out.println(\"After update, sum of first 4 elements: \" + ft.query(3));\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "FenwickTree.kt",
+          "content": "class FenwickTree(arr: IntArray) {\n    private val tree: IntArray\n    private val n: Int = arr.size\n\n    init {\n        tree = IntArray(n + 1)\n        for (i in arr.indices) {\n            update(i, arr[i])\n        }\n    }\n\n    fun update(idx: Int, delta: Int) {\n        var i = idx + 1\n        while (i <= n) {\n            tree[i] += delta\n            i += i and (-i)\n        }\n    }\n\n    fun query(idx: Int): Int {\n        var sum = 0\n        var i = idx + 1\n        while (i > 0) {\n            sum += tree[i]\n            i -= i and (-i)\n        }\n        return sum\n    }\n}\n\nfun fenwickTreeOperations(arr: IntArray, queries: Array<String>): IntArray {\n    val values = arr.copyOf()\n    val fenwickTree = FenwickTree(arr)\n    val results = mutableListOf<Int>()\n\n    for (query in queries) {\n        val parts = query.split(\" \").filter { it.isNotEmpty() }\n        if (parts.isEmpty()) {\n            continue\n        }\n        when (parts[0]) {\n            \"update\" -> if (parts.size >= 3) {\n                val index = parts[1].toInt()\n                val newValue = parts[2].toInt()\n                val delta = newValue - values[index]\n                values[index] = newValue\n                fenwickTree.update(index, delta)\n            }\n            \"sum\" -> if (parts.size >= 2) results.add(fenwickTree.query(parts[1].toInt()))\n        }\n    }\n\n    return results.toIntArray()\n}\n\nfun main() {\n    val arr = intArrayOf(1, 2, 3, 4, 5)\n    val ft = FenwickTree(arr)\n    println(\"Sum of first 4 elements: ${ft.query(3)}\")\n\n    ft.update(2, 5)\n    println(\"After update, sum of first 4 elements: ${ft.query(3)}\")\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "FenwickTree.py",
+          "content": "class FenwickTree:\n    def __init__(self, arr):\n        self.n = len(arr)\n        self.tree = [0] * (self.n + 1)\n        for i, v in enumerate(arr):\n            self.update(i, v)\n\n    def update(self, i, delta):\n        i += 1\n        while i <= self.n:\n            self.tree[i] += delta\n            i += i & (-i)\n\n    def query(self, i):\n        s = 0\n        i += 1\n        while i > 0:\n            s += self.tree[i]\n            i -= i & (-i)\n        return s\n\n\nif __name__ == \"__main__\":\n    arr = [1, 2, 3, 4, 5]\n    ft = FenwickTree(arr)\n    print(f\"Sum of first 4 elements: {ft.query(3)}\")\n\n    ft.update(2, 5)\n    print(f\"After update, sum of first 4 elements: {ft.query(3)}\")\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "fenwick_tree.rs",
+          "content": "struct FenwickTree {\n    tree: Vec<i64>,\n    n: usize,\n}\n\nimpl FenwickTree {\n    fn new(arr: &[i64]) -> Self {\n        let n = arr.len();\n        let mut ft = FenwickTree {\n            tree: vec![0; n + 1],\n            n,\n        };\n        for (i, &v) in arr.iter().enumerate() {\n            ft.update(i, v);\n        }\n        ft\n    }\n\n    fn update(&mut self, idx: usize, delta: i64) {\n        let mut i = idx + 1;\n        while i <= self.n {\n            self.tree[i] += delta;\n            i += i & i.wrapping_neg();\n        }\n    }\n\n    fn query(&self, idx: usize) -> i64 {\n        let mut sum = 0;\n        let mut i = idx + 1;\n        while i > 0 {\n            sum += self.tree[i];\n            i -= i & i.wrapping_neg();\n        }\n        sum\n    }\n}\n\nfn main() {\n    let arr = vec![1, 2, 3, 4, 5];\n    let mut ft = FenwickTree::new(&arr);\n    println!(\"Sum of first 4 elements: {}\", ft.query(3));\n\n    ft.update(2, 5);\n    println!(\"After update, sum of first 4 elements: {}\", ft.query(3));\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "FenwickTree.scala",
+          "content": "class FenwickTree(arr: Array[Int]) {\n  private val n: Int = arr.length\n  private val tree: Array[Int] = new Array[Int](n + 1)\n\n  for (i <- arr.indices) update(i, arr(i))\n\n  def update(idx: Int, delta: Int): Unit = {\n    var i = idx + 1\n    while (i <= n) {\n      tree(i) += delta\n      i += i & (-i)\n    }\n  }\n\n  def query(idx: Int): Int = {\n    var sum = 0\n    var i = idx + 1\n    while (i > 0) {\n      sum += tree(i)\n      i -= i & (-i)\n    }\n    sum\n  }\n}\n\nobject FenwickTreeApp {\n  def main(args: Array[String]): Unit = {\n    val arr = Array(1, 2, 3, 4, 5)\n    val ft = new FenwickTree(arr)\n    println(s\"Sum of first 4 elements: ${ft.query(3)}\")\n\n    ft.update(2, 5)\n    println(s\"After update, sum of first 4 elements: ${ft.query(3)}\")\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "FenwickTree.swift",
+          "content": "class FenwickTree {\n    private var tree: [Int]\n    private let n: Int\n\n    init(_ arr: [Int]) {\n        n = arr.count\n        tree = [Int](repeating: 0, count: n + 1)\n        for i in 0..<n {\n            update(i, arr[i])\n        }\n    }\n\n    func update(_ idx: Int, _ delta: Int) {\n        var i = idx + 1\n        while i <= n {\n            tree[i] += delta\n            i += i & (-i)\n        }\n    }\n\n    func query(_ idx: Int) -> Int {\n        var sum = 0\n        var i = idx + 1\n        while i > 0 {\n            sum += tree[i]\n            i -= i & (-i)\n        }\n        return sum\n    }\n}\n\nlet arr = [1, 2, 3, 4, 5]\nlet ft = FenwickTree(arr)\nprint(\"Sum of first 4 elements: \\(ft.query(3))\")\n\nft.update(2, 5)\nprint(\"After update, sum of first 4 elements: \\(ft.query(3))\")\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "FenwickTree.ts",
+          "content": "type FenwickQuery =\n  | { type: 'sum'; index: number }\n  | { type: 'update'; index: number; value: number };\n\nclass FenwickTree {\n  private readonly tree: number[];\n  private readonly values: number[];\n\n  constructor(arr: number[]) {\n    this.values = [...arr];\n    this.tree = new Array(arr.length + 1).fill(0);\n\n    for (let i = 0; i < arr.length; i += 1) {\n      this.add(i, arr[i]);\n    }\n  }\n\n  private add(index: number, delta: number): void {\n    for (let i = index + 1; i < this.tree.length; i += i & -i) {\n      this.tree[i] += delta;\n    }\n  }\n\n  set(index: number, value: number): void {\n    const delta = value - this.values[index];\n    this.values[index] = value;\n    this.add(index, delta);\n  }\n\n  query(index: number): number {\n    let sum = 0;\n\n    for (let i = index + 1; i > 0; i -= i & -i) {\n      sum += this.tree[i];\n    }\n\n    return sum;\n  }\n}\n\nexport function fenwickTreeOperations(\n  array: number[],\n  queries: FenwickQuery[],\n): number[] {\n  const fenwick = new FenwickTree(array);\n  const results: number[] = [];\n\n  for (const query of queries) {\n    if (query.type === 'update') {\n      fenwick.set(query.index, query.value);\n    } else {\n      results.push(fenwick.query(query.index));\n    }\n  }\n\n  return results;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "readme": "# Fenwick Tree\n\n## Overview\n\nA Fenwick Tree (also known as a Binary Indexed Tree or BIT) is a data structure that efficiently supports two operations on an array of numbers: point updates (changing a single element) and prefix sum queries (computing the sum of the first k elements). Both operations run in O(log n) time, which is a significant improvement over the naive approach of O(1) update with O(n) query, or O(n) update with O(1) query.\n\nThe Fenwick Tree was proposed by Peter Fenwick in 1994 and is widely used in competitive programming, computational geometry, and any scenario requiring frequent updates and prefix sum queries. It uses roughly the same space as the original array and has lower constant factors than a segment tree.\n\n## How It Works\n\nThe Fenwick Tree exploits the binary representation of indices. Each position `i` in the tree stores the sum of a range of elements determined by the lowest set bit of `i`. To query the prefix sum up to index `i`, we add `tree[i]` and then remove the lowest set bit from `i`, repeating until `i` becomes 0. To update index `i`, we add the value to `tree[i]` and then add the lowest set bit to `i`, repeating until `i` exceeds `n`.\n\n### Example\n\nGiven array: `A = [0, 1, 3, 2, 5, 1, 4, 3]` (1-indexed for clarity)\n\n**Tree structure showing responsibility ranges:**\n\n```\nIndex (binary):  1(001)  2(010)  3(011)  4(100)  5(101)  6(110)  7(111)  8(1000)\nLowest set bit:    1       2       1       4       1       2       1       8\nRange covered:   [1,1]   [1,2]   [3,3]   [1,4]   [5,5]   [5,6]   [7,7]   [1,8]\nTree value:        1       4       2      11       1       5       3      19\n```\n\n**Query: prefix sum of first 6 elements (sum A[1..6]):**\n\n| Step | Index (binary) | Tree value | Running sum | Next index |\n|------|---------------|------------|-------------|------------|\n| 1 | 6 (110) | 5 | 5 | 6 - 2 = 4 |\n| 2 | 4 (100) | 11 | 16 | 4 - 4 = 0 |\n| Done | 0 | - | 16 | - |\n\nResult: sum(1..6) = 1 + 3 + 2 + 5 + 1 + 4 = `16`\n\n**Update: add 3 to index 3 (A[3] += 3):**\n\n| Step | Index (binary) | Action | Next index |\n|------|---------------|--------|------------|\n| 1 | 3 (011) | tree[3] += 3 | 3 + 1 = 4 |\n| 2 | 4 (100) | tree[4] += 3 | 4 + 4 = 8 |\n| 3 | 8 (1000) | tree[8] += 3 | 8 + 8 = 16 > n |\n| Done | - | - | - |\n\n## Pseudocode\n\n```\nfunction update(tree, i, delta, n):\n    while i <= n:\n        tree[i] = tree[i] + delta\n        i = i + (i & (-i))       // add lowest set bit\n\nfunction prefixSum(tree, i):\n    sum = 0\n    while i > 0:\n        sum = sum + tree[i]\n        i = i - (i & (-i))       // remove lowest set bit\n    return sum\n\nfunction rangeQuery(tree, l, r):\n    return prefixSum(tree, r) - prefixSum(tree, l - 1)\n```\n\nThe expression `i & (-i)` isolates the lowest set bit of `i`. This bit manipulation is the key insight that makes Fenwick Trees efficient -- it determines both the range of elements each tree node is responsible for and the traversal pattern for queries and updates.\n\n## Complexity Analysis\n\n| Case    | Time     | Space |\n|---------|---------|-------|\n| Best    | O(log n) | O(n)  |\n| Average | O(log n) | O(n)  |\n| Worst   | O(log n) | O(n)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(log n):** Even for index 1 (which has the fewest ancestors), the query traverses at least 1 step. For power-of-2 indices, the query completes in 1 step, but updates traverse O(log n) steps.\n\n- **Average Case -- O(log n):** Both update and query traverse at most log n positions because each step either adds or removes the lowest set bit, and an n-bit number has at most log n bits.\n\n- **Worst Case -- O(log n):** The maximum number of steps is bounded by the number of bits in n, which is floor(log n) + 1.\n\n- **Space -- O(n):** The Fenwick Tree uses an array of size n + 1 (1-indexed), which is essentially the same space as the original array.\n\n## When to Use\n\n- **Frequent prefix sum queries with updates:** When you need to repeatedly compute prefix sums and modify array values.\n- **Competitive programming:** Fenwick Trees are easy to implement and have low constant factors.\n- **Counting inversions:** Combined with coordinate compression, Fenwick Trees efficiently count inversions in O(n log n).\n- **When memory is a concern:** Fenwick Trees use less memory than segment trees (array of size n vs. 4n).\n- **Range sum queries:** Computing the sum of any range [l, r] using two prefix sum queries.\n\n## When NOT to Use\n\n- **Complex range operations:** If you need range updates with range queries, lazy propagation on a segment tree is more appropriate.\n- **Non-commutative operations:** Fenwick Trees work best with operations that have inverses (like addition/subtraction). They cannot efficiently support operations like max/min.\n- **When the array is static:** If no updates are needed, a simple prefix sum array gives O(1) queries.\n- **When you need range updates and point queries:** While Fenwick Trees can handle this with a difference array trick, segment trees are more straightforward.\n\n## Comparison with Similar Algorithms\n\n| Data Structure    | Query Time | Update Time | Space | Notes                                    |\n|------------------|-----------|-------------|-------|------------------------------------------|\n| Fenwick Tree      | O(log n)  | O(log n)    | O(n)  | Simple; point update + prefix query       |\n| Segment Tree      | O(log n)  | O(log n)    | O(4n) | More versatile; supports any associative op|\n| Prefix Sum Array  | O(1)      | O(n)        | O(n)  | Static arrays only; no efficient updates   |\n| Sqrt Decomposition| O(sqrt n) | O(1)        | O(n)  | Simpler but slower queries                 |\n\n## Implementations\n\n| Language | File |\n|----------|------|\n| C++      | [FenwickTree.cpp](cpp/FenwickTree.cpp) |\n\n## References\n\n- Fenwick, P. M. (1994). A new data structure for cumulative frequency tables. *Software: Practice and Experience*, 24(3), 327-336.\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press.\n- [Fenwick Tree -- Wikipedia](https://en.wikipedia.org/wiki/Fenwick_tree)\n"
+}

@@ -1,0 +1,135 @@
+{
+  "name": "Pollard's Rho",
+  "slug": "pollards-rho",
+  "category": "math",
+  "subcategory": "number-theory",
+  "difficulty": "advanced",
+  "tags": [
+    "math",
+    "number-theory",
+    "factorization",
+    "pollards-rho",
+    "probabilistic"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n^(1/4))",
+      "average": "O(n^(1/4))",
+      "worst": "O(n^(1/2))"
+    },
+    "space": "O(1)"
+  },
+  "stable": null,
+  "in_place": true,
+  "related": [
+    "miller-rabin",
+    "prime-check"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "pollards_rho.c",
+          "content": "#include <stdio.h>\n#include <stdlib.h>\n#include \"pollards_rho.h\"\n\nstatic long long gcd_ll(long long a, long long b) {\n    if (a < 0) a = -a;\n    while (b) { long long t = b; b = a % b; a = t; }\n    return a;\n}\n\nstatic int is_prime(long long n) {\n    if (n < 2) return 0;\n    if (n < 4) return 1;\n    if (n % 2 == 0 || n % 3 == 0) return 0;\n    for (long long i = 5; i * i <= n; i += 6)\n        if (n % i == 0 || n % (i + 2) == 0) return 0;\n    return 1;\n}\n\nstatic long long rho(long long n) {\n    if (n % 2 == 0) return 2;\n    long long x = 2, y = 2, c = 1, d = 1;\n    while (d == 1) {\n        x = ((__int128)x * x + c) % n;\n        y = ((__int128)y * y + c) % n;\n        y = ((__int128)y * y + c) % n;\n        d = gcd_ll(x > y ? x - y : y - x, n);\n    }\n    return d != n ? d : n;\n}\n\nlong long pollards_rho(long long n) {\n    if (n <= 1) return n;\n    if (is_prime(n)) return n;\n\n    /* Find smallest prime factor by trial for small factors first */\n    for (long long p = 2; p * p <= n && p < 1000; p++) {\n        if (n % p == 0) return p;\n    }\n\n    long long smallest = n;\n    long long stack[64];\n    int top = 0;\n    stack[top++] = n;\n    while (top > 0) {\n        long long num = stack[--top];\n        if (num <= 1) continue;\n        if (is_prime(num)) {\n            if (num < smallest) smallest = num;\n            continue;\n        }\n        long long d = rho(num);\n        stack[top++] = d;\n        stack[top++] = num / d;\n    }\n    return smallest;\n}\n\nint main(void) {\n    printf(\"%lld\\n\", pollards_rho(15));\n    printf(\"%lld\\n\", pollards_rho(13));\n    printf(\"%lld\\n\", pollards_rho(91));\n    printf(\"%lld\\n\", pollards_rho(221));\n    return 0;\n}\n"
+        },
+        {
+          "filename": "pollards_rho.h",
+          "content": "#ifndef POLLARDS_RHO_H\n#define POLLARDS_RHO_H\n\nlong long pollards_rho(long long n);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "pollards_rho.cpp",
+          "content": "#include <iostream>\n#include <cmath>\n#include <algorithm>\n#include <stack>\nusing namespace std;\n\nbool isPrime(long long n) {\n    if (n < 2) return false;\n    if (n < 4) return true;\n    if (n % 2 == 0 || n % 3 == 0) return false;\n    for (long long i = 5; i * i <= n; i += 6)\n        if (n % i == 0 || n % (i + 2) == 0) return false;\n    return true;\n}\n\nlong long gcd(long long a, long long b) {\n    while (b) { long long t = b; b = a % b; a = t; }\n    return a;\n}\n\nlong long rho(long long n) {\n    if (n % 2 == 0) return 2;\n    long long x = 2, y = 2, c = 1, d = 1;\n    while (d == 1) {\n        x = ((__int128)x * x + c) % n;\n        y = ((__int128)y * y + c) % n;\n        y = ((__int128)y * y + c) % n;\n        d = gcd(abs(x - y), n);\n    }\n    return d != n ? d : n;\n}\n\nlong long pollards_rho(long long n) {\n    if (n <= 1) return n;\n    if (isPrime(n)) return n;\n    long long smallest = n;\n    stack<long long> st;\n    st.push(n);\n    while (!st.empty()) {\n        long long num = st.top(); st.pop();\n        if (num <= 1) continue;\n        if (isPrime(num)) { smallest = min(smallest, num); continue; }\n        long long d = rho(num);\n        if (d == num) {\n            for (long long c = 2; c < 20; c++) {\n                long long xx = 2, yy = 2;\n                d = 1;\n                while (d == 1) {\n                    xx = ((__int128)xx * xx + c) % num;\n                    yy = ((__int128)yy * yy + c) % num;\n                    yy = ((__int128)yy * yy + c) % num;\n                    d = gcd(abs(xx - yy), num);\n                }\n                if (d != num) break;\n            }\n        }\n        st.push(d);\n        st.push(num / d);\n    }\n    return smallest;\n}\n\nint main() {\n    cout << pollards_rho(15) << endl;\n    cout << pollards_rho(13) << endl;\n    cout << pollards_rho(91) << endl;\n    cout << pollards_rho(221) << endl;\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "PollardsRho.cs",
+          "content": "using System;\nusing System.Collections.Generic;\n\npublic class PollardsRho\n{\n    static long Gcd(long a, long b) {\n        a = Math.Abs(a);\n        while (b != 0) { long t = b; b = a % b; a = t; }\n        return a;\n    }\n\n    static bool IsPrime(long n) {\n        if (n < 2) return false;\n        if (n < 4) return true;\n        if (n % 2 == 0 || n % 3 == 0) return false;\n        for (long i = 5; i * i <= n; i += 6)\n            if (n % i == 0 || n % (i + 2) == 0) return false;\n        return true;\n    }\n\n    static long Rho(long n) {\n        if (n % 2 == 0) return 2;\n        long x = 2, y = 2, c = 1, d = 1;\n        while (d == 1) {\n            x = (x * x + c) % n;\n            y = (y * y + c) % n;\n            y = (y * y + c) % n;\n            d = Gcd(Math.Abs(x - y), n);\n        }\n        return d != n ? d : n;\n    }\n\n    public static long Solve(long n) {\n        if (n <= 1) return n;\n        if (IsPrime(n)) return n;\n        long smallest = n;\n        var stack = new Stack<long>();\n        stack.Push(n);\n        while (stack.Count > 0) {\n            long num = stack.Pop();\n            if (num <= 1) continue;\n            if (IsPrime(num)) { smallest = Math.Min(smallest, num); continue; }\n            long d = Rho(num);\n            stack.Push(d);\n            stack.Push(num / d);\n        }\n        return smallest;\n    }\n\n    public static void Main(string[] args) {\n        Console.WriteLine(Solve(15));\n        Console.WriteLine(Solve(13));\n        Console.WriteLine(Solve(91));\n        Console.WriteLine(Solve(221));\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "pollards_rho.go",
+          "content": "package main\n\nimport (\n\t\"fmt\"\n\t\"math/big\"\n)\n\nfunc pollardsRho(n int64) int64 {\n\tif n <= 1 {\n\t\treturn n\n\t}\n\tbn := big.NewInt(n)\n\tif bn.ProbablyPrime(20) {\n\t\treturn n\n\t}\n\t// Trial division for small factors\n\tfor p := int64(2); p*p <= n && p < 1000; p++ {\n\t\tif n%p == 0 {\n\t\t\treturn p\n\t\t}\n\t}\n\t// Pollard's rho\n\tsmallest := n\n\tstack := []int64{n}\n\tfor len(stack) > 0 {\n\t\tnum := stack[len(stack)-1]\n\t\tstack = stack[:len(stack)-1]\n\t\tif num <= 1 {\n\t\t\tcontinue\n\t\t}\n\t\tbnum := big.NewInt(num)\n\t\tif bnum.ProbablyPrime(20) {\n\t\t\tif num < smallest {\n\t\t\t\tsmallest = num\n\t\t\t}\n\t\t\tcontinue\n\t\t}\n\t\td := rhoFactor(num)\n\t\tstack = append(stack, d, num/d)\n\t}\n\treturn smallest\n}\n\nfunc rhoFactor(n int64) int64 {\n\tif n%2 == 0 {\n\t\treturn 2\n\t}\n\tx, y, c, d := int64(2), int64(2), int64(1), int64(1)\n\tfor d == 1 {\n\t\tx = mulmod(x, x, n)\n\t\tx = (x + c) % n\n\t\ty = mulmod(y, y, n)\n\t\ty = (y + c) % n\n\t\ty = mulmod(y, y, n)\n\t\ty = (y + c) % n\n\t\tdiff := x - y\n\t\tif diff < 0 {\n\t\t\tdiff = -diff\n\t\t}\n\t\td = gcd64(diff, n)\n\t}\n\tif d != n {\n\t\treturn d\n\t}\n\treturn n\n}\n\nfunc mulmod(a, b, m int64) int64 {\n\tba := big.NewInt(a)\n\tbb := big.NewInt(b)\n\tbm := big.NewInt(m)\n\tba.Mul(ba, bb)\n\tba.Mod(ba, bm)\n\treturn ba.Int64()\n}\n\nfunc gcd64(a, b int64) int64 {\n\tfor b != 0 {\n\t\ta, b = b, a%b\n\t}\n\tif a < 0 {\n\t\treturn -a\n\t}\n\treturn a\n}\n\nfunc main() {\n\tfmt.Println(pollardsRho(15))\n\tfmt.Println(pollardsRho(13))\n\tfmt.Println(pollardsRho(91))\n\tfmt.Println(pollardsRho(221))\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "PollardsRho.java",
+          "content": "public class PollardsRho {\n    static boolean isPrime(long n) {\n        if (n < 2) return false;\n        if (n < 4) return true;\n        if (n % 2 == 0 || n % 3 == 0) return false;\n        for (long i = 5; i * i <= n; i += 6)\n            if (n % i == 0 || n % (i + 2) == 0) return false;\n        return true;\n    }\n\n    static long gcd(long a, long b) {\n        while (b != 0) { long t = b; b = a % b; a = t; }\n        return a;\n    }\n\n    static long rho(long n) {\n        if (n % 2 == 0) return 2;\n        long x = 2, y = 2, c = 1, d = 1;\n        while (d == 1) {\n            x = (x * x + c) % n;\n            y = (y * y + c) % n;\n            y = (y * y + c) % n;\n            d = gcd(Math.abs(x - y), n);\n        }\n        return d != n ? d : n;\n    }\n\n    static long smallestPrimeFactor(long n) {\n        if (n <= 1) return n;\n        if (isPrime(n)) return n;\n        long smallest = n;\n        java.util.Stack<Long> stack = new java.util.Stack<>();\n        stack.push(n);\n        while (!stack.isEmpty()) {\n            long num = stack.pop();\n            if (num <= 1) continue;\n            if (isPrime(num)) { smallest = Math.min(smallest, num); continue; }\n            long d = rho(num);\n            if (d == num) {\n                for (long c = 2; c < 20; c++) {\n                    long xx = 2, yy = 2;\n                    d = 1;\n                    while (d == 1) {\n                        xx = (xx * xx + c) % num;\n                        yy = (yy * yy + c) % num;\n                        yy = (yy * yy + c) % num;\n                        d = gcd(Math.abs(xx - yy), num);\n                    }\n                    if (d != num) break;\n                }\n            }\n            stack.push(d);\n            stack.push(num / d);\n        }\n        return smallest;\n    }\n\n    public static long pollardsRho(long n) {\n        return smallestPrimeFactor(n);\n    }\n\n    public static void main(String[] args) {\n        System.out.println(pollardsRho(15));\n        System.out.println(pollardsRho(13));\n        System.out.println(pollardsRho(91));\n        System.out.println(pollardsRho(221));\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "PollardsRho.kt",
+          "content": "import kotlin.math.abs\nimport kotlin.math.min\n\nfun gcd(a: Long, b: Long): Long {\n    var x = abs(a); var y = abs(b)\n    while (y != 0L) { val t = y; y = x % y; x = t }\n    return x\n}\n\nfun isPrime(n: Long): Boolean {\n    if (n < 2) return false\n    if (n < 4) return true\n    if (n % 2 == 0L || n % 3 == 0L) return false\n    var i = 5L\n    while (i * i <= n) {\n        if (n % i == 0L || n % (i + 2) == 0L) return false\n        i += 6\n    }\n    return true\n}\n\nfun rho(n: Long): Long {\n    if (n % 2 == 0L) return 2\n    var x = 2L; var y = 2L; val c = 1L; var d = 1L\n    while (d == 1L) {\n        x = (x * x + c) % n\n        y = (y * y + c) % n\n        y = (y * y + c) % n\n        d = gcd(abs(x - y), n)\n    }\n    return if (d != n) d else n\n}\n\nfun pollardsRho(n: Long): Long {\n    if (n <= 1) return n\n    if (isPrime(n)) return n\n    var smallest = n\n    val stack = mutableListOf(n)\n    while (stack.isNotEmpty()) {\n        val num = stack.removeAt(stack.size - 1)\n        if (num <= 1) continue\n        if (isPrime(num)) { smallest = min(smallest, num); continue }\n        val d = rho(num)\n        stack.add(d)\n        stack.add(num / d)\n    }\n    return smallest\n}\n\nfun main() {\n    println(pollardsRho(15))\n    println(pollardsRho(13))\n    println(pollardsRho(91))\n    println(pollardsRho(221))\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "pollards_rho.py",
+          "content": "import math\n\n\ndef is_prime(n):\n    if n < 2:\n        return False\n    if n < 4:\n        return True\n    if n % 2 == 0 or n % 3 == 0:\n        return False\n    i = 5\n    while i * i <= n:\n        if n % i == 0 or n % (i + 2) == 0:\n            return False\n        i += 6\n    return True\n\n\ndef rho(n):\n    if n % 2 == 0:\n        return 2\n    x = 2\n    y = 2\n    c = 1\n    d = 1\n    while d == 1:\n        x = (x * x + c) % n\n        y = (y * y + c) % n\n        y = (y * y + c) % n\n        d = math.gcd(abs(x - y), n)\n    if d != n:\n        return d\n    return n\n\n\ndef smallest_prime_factor(n):\n    if n <= 1:\n        return n\n    if is_prime(n):\n        return n\n    factors = []\n    stack = [n]\n    while stack:\n        num = stack.pop()\n        if num == 1:\n            continue\n        if is_prime(num):\n            factors.append(num)\n            continue\n        d = rho(num)\n        if d == num:\n            # Try different starting values\n            for c in range(2, 20):\n                x = 2\n                y = 2\n                d = 1\n                while d == 1:\n                    x = (x * x + c) % num\n                    y = (y * y + c) % num\n                    y = (y * y + c) % num\n                    d = math.gcd(abs(x - y), num)\n                if d != num:\n                    break\n        stack.append(d)\n        stack.append(num // d)\n    return min(factors) if factors else n\n\n\ndef pollards_rho(n):\n    return smallest_prime_factor(n)\n\n\nif __name__ == \"__main__\":\n    print(pollards_rho(15))\n    print(pollards_rho(13))\n    print(pollards_rho(91))\n    print(pollards_rho(221))\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "pollards_rho.rs",
+          "content": "fn gcd(mut a: i64, mut b: i64) -> i64 {\n    a = a.abs();\n    while b != 0 { let t = b; b = a % b; a = t; }\n    a\n}\n\nfn is_prime(n: i64) -> bool {\n    if n < 2 { return false; }\n    if n < 4 { return true; }\n    if n % 2 == 0 || n % 3 == 0 { return false; }\n    let mut i = 5i64;\n    while i * i <= n {\n        if n % i == 0 || n % (i + 2) == 0 { return false; }\n        i += 6;\n    }\n    true\n}\n\nfn rho(n: i64) -> i64 {\n    if n % 2 == 0 { return 2; }\n    let (mut x, mut y, c) = (2i64, 2i64, 1i64);\n    let mut d = 1i64;\n    while d == 1 {\n        x = ((x as i128 * x as i128 + c as i128) % n as i128) as i64;\n        y = ((y as i128 * y as i128 + c as i128) % n as i128) as i64;\n        y = ((y as i128 * y as i128 + c as i128) % n as i128) as i64;\n        d = gcd((x - y).abs(), n);\n    }\n    if d != n { d } else { n }\n}\n\nfn pollards_rho(n: i64) -> i64 {\n    if n <= 1 { return n; }\n    if is_prime(n) { return n; }\n    let mut smallest = n;\n    let mut stack = vec![n];\n    while let Some(num) = stack.pop() {\n        if num <= 1 { continue; }\n        if is_prime(num) { smallest = smallest.min(num); continue; }\n        let d = rho(num);\n        stack.push(d);\n        stack.push(num / d);\n    }\n    smallest\n}\n\nfn main() {\n    println!(\"{}\", pollards_rho(15));\n    println!(\"{}\", pollards_rho(13));\n    println!(\"{}\", pollards_rho(91));\n    println!(\"{}\", pollards_rho(221));\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "PollardsRho.scala",
+          "content": "import scala.collection.mutable\n\nobject PollardsRho {\n  def gcd(a: Long, b: Long): Long = {\n    var x = math.abs(a); var y = math.abs(b)\n    while (y != 0) { val t = y; y = x % y; x = t }\n    x\n  }\n\n  def isPrime(n: Long): Boolean = {\n    if (n < 2) return false\n    if (n < 4) return true\n    if (n % 2 == 0 || n % 3 == 0) return false\n    var i = 5L\n    while (i * i <= n) {\n      if (n % i == 0 || n % (i + 2) == 0) return false\n      i += 6\n    }\n    true\n  }\n\n  def rho(n: Long): Long = {\n    if (n % 2 == 0) return 2\n    var x = 2L; var y = 2L; val c = 1L; var d = 1L\n    while (d == 1) {\n      x = (x * x + c) % n\n      y = (y * y + c) % n\n      y = (y * y + c) % n\n      d = gcd(math.abs(x - y), n)\n    }\n    if (d != n) d else n\n  }\n\n  def pollardsRho(n: Long): Long = {\n    if (n <= 1) return n\n    if (isPrime(n)) return n\n    var smallest = n\n    val stack = mutable.Stack[Long](n)\n    while (stack.nonEmpty) {\n      val num = stack.pop()\n      if (num > 1) {\n        if (isPrime(num)) { smallest = math.min(smallest, num) }\n        else {\n          val d = rho(num)\n          stack.push(d)\n          stack.push(num / d)\n        }\n      }\n    }\n    smallest\n  }\n\n  def main(args: Array[String]): Unit = {\n    println(pollardsRho(15))\n    println(pollardsRho(13))\n    println(pollardsRho(91))\n    println(pollardsRho(221))\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "PollardsRho.swift",
+          "content": "func gcd(_ a: Int, _ b: Int) -> Int {\n    var a = abs(a), b = abs(b)\n    while b != 0 { let t = b; b = a % b; a = t }\n    return a\n}\n\nfunc isPrime(_ n: Int) -> Bool {\n    if n < 2 { return false }\n    if n < 4 { return true }\n    if n % 2 == 0 || n % 3 == 0 { return false }\n    var i = 5\n    while i * i <= n {\n        if n % i == 0 || n % (i + 2) == 0 { return false }\n        i += 6\n    }\n    return true\n}\n\nfunc rho(_ n: Int) -> Int {\n    if n % 2 == 0 { return 2 }\n    var x = 2, y = 2, c = 1, d = 1\n    while d == 1 {\n        x = (x * x + c) % n\n        y = (y * y + c) % n\n        y = (y * y + c) % n\n        d = gcd(abs(x - y), n)\n    }\n    return d != n ? d : n\n}\n\nfunc pollardsRho(_ n: Int) -> Int {\n    if n <= 1 { return n }\n    if isPrime(n) { return n }\n    var smallest = n\n    var stack = [n]\n    while !stack.isEmpty {\n        let num = stack.removeLast()\n        if num <= 1 { continue }\n        if isPrime(num) { smallest = min(smallest, num); continue }\n        let d = rho(num)\n        stack.append(d)\n        stack.append(num / d)\n    }\n    return smallest\n}\n\nprint(pollardsRho(15))\nprint(pollardsRho(13))\nprint(pollardsRho(91))\nprint(pollardsRho(221))\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "pollardsRho.ts",
+          "content": "function gcd(a: number, b: number): number {\n    a = Math.abs(a);\n    while (b) { const t = b; b = a % b; a = t; }\n    return a;\n}\n\nfunction isPrime(n: number): boolean {\n    if (n < 2) return false;\n    if (n < 4) return true;\n    if (n % 2 === 0 || n % 3 === 0) return false;\n    for (let i = 5; i * i <= n; i += 6)\n        if (n % i === 0 || n % (i + 2) === 0) return false;\n    return true;\n}\n\nfunction rho(n: number): number {\n    if (n % 2 === 0) return 2;\n    let x = 2, y = 2, c = 1, d = 1;\n    while (d === 1) {\n        x = (x * x + c) % n;\n        y = (y * y + c) % n;\n        y = (y * y + c) % n;\n        d = gcd(Math.abs(x - y), n);\n    }\n    return d !== n ? d : n;\n}\n\nexport function pollardsRho(n: number): number {\n    if (n <= 1) return n;\n    if (isPrime(n)) return n;\n\n    let smallest = n;\n    const stack: number[] = [n];\n    while (stack.length > 0) {\n        const num = stack.pop()!;\n        if (num <= 1) continue;\n        if (isPrime(num)) { smallest = Math.min(smallest, num); continue; }\n        let d = rho(num);\n        if (d === num) {\n            for (let c = 2; c < 20; c++) {\n                let xx = 2, yy = 2;\n                d = 1;\n                while (d === 1) {\n                    xx = (xx * xx + c) % num;\n                    yy = (yy * yy + c) % num;\n                    yy = (yy * yy + c) % num;\n                    d = gcd(Math.abs(xx - yy), num);\n                }\n                if (d !== num) break;\n            }\n        }\n        stack.push(d, num / d);\n    }\n    return smallest;\n}\n\nconsole.log(pollardsRho(15));\nconsole.log(pollardsRho(13));\nconsole.log(pollardsRho(91));\nconsole.log(pollardsRho(221));\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Pollard's Rho Algorithm\n\n## Overview\n\nPollard's Rho is a probabilistic integer factorization algorithm that finds a non-trivial factor of a composite number n. It was invented by John Pollard in 1975. The algorithm uses a pseudo-random sequence and Floyd's cycle detection to find a collision modulo a factor of n, achieving an expected running time of O(n^(1/4)) -- far faster than trial division's O(n^(1/2)). It is one of the most practical factorization algorithms for numbers up to about 60 digits.\n\n## How It Works\n\n1. Choose a pseudo-random function f(x) = (x^2 + c) mod n, where c is a randomly chosen constant (c != 0, c != -2).\n2. Initialize two variables (tortoise and hare) to a starting value, say x = y = 2.\n3. Use Floyd's cycle detection:\n   - Advance the tortoise by one step: x = f(x).\n   - Advance the hare by two steps: y = f(f(y)).\n4. At each step, compute d = gcd(|x - y|, n).\n5. If 1 < d < n, then d is a non-trivial factor of n. Return d.\n6. If d == n, the algorithm has failed with this choice of c. Retry with a different c.\n7. If d == 1, continue iterating.\n\nThe birthday paradox explains why this works: in a sequence modulo a factor p of n, we expect a collision after roughly O(sqrt(p)) = O(n^(1/4)) steps (when p is near sqrt(n)).\n\n## Worked Example\n\nFactor n = 8051.\n\nChoose f(x) = (x^2 + 1) mod 8051, starting with x = y = 2.\n\n| Step | x = f(x)         | y = f(f(y))       | gcd(\\|x-y\\|, n) |\n|------|-------------------|--------------------|------------------|\n| 1    | f(2) = 5          | f(f(2)) = f(5) = 26 | gcd(21, 8051) = 1 |\n| 2    | f(5) = 26         | f(f(26)) = f(677) = 7474 | gcd(7448, 8051) = 1 |\n| 3    | f(26) = 677       | f(f(7474)) = ...  | ...              |\n| ...  | ...               | ...                | ...              |\n| 8    | 4903              | 2218               | gcd(2685, 8051) = **97** |\n\nFound factor d = 97. Verify: 8051 / 97 = 83. Indeed, 8051 = 83 * 97.\n\n## Pseudocode\n\n```\nfunction pollardsRho(n):\n    if n % 2 == 0:\n        return 2\n    if isPrime(n):\n        return n\n\n    while true:\n        c = random(1, n-1)\n        f(x) = (x * x + c) % n\n        x = 2\n        y = 2\n        d = 1\n\n        while d == 1:\n            x = f(x)              // tortoise: one step\n            y = f(f(y))           // hare: two steps\n            d = gcd(|x - y|, n)\n\n        if d != n:\n            return d\n        // else: retry with different c\n```\n\n### Brent's Improvement\n\nBrent's variant replaces Floyd's cycle detection with a more efficient power-of-two stepping pattern, reducing the number of GCD computations and providing roughly 24% speedup in practice.\n\n## Complexity Analysis\n\n| Case    | Time        | Space |\n|---------|-------------|-------|\n| Best    | O(n^(1/4))  | O(1)  |\n| Average | O(n^(1/4))  | O(1)  |\n| Worst   | O(n^(1/2))  | O(1)  |\n\n- **Expected O(n^(1/4)):** By the birthday paradox, a collision modulo a factor p occurs after O(sqrt(p)) steps. The smallest factor p is at most sqrt(n), giving O(n^(1/4)).\n- **Worst case O(n^(1/2)):** If the function sequence happens to cycle without finding a factor, or n has a large smallest prime factor.\n- **Space O(1):** Only the tortoise, hare, and a few auxiliary variables.\n\n## Applications\n\n- **Integer factorization:** The primary use case. Effective for numbers with a factor up to about 25-30 digits.\n- **RSA cryptanalysis:** Factoring weak RSA moduli (small key sizes).\n- **Competitive programming:** Finding prime factorizations of large numbers quickly.\n- **As a subroutine:** Combined with Miller-Rabin primality testing and trial division for complete factorization.\n- **Elliptic curve method (ECM):** Pollard's Rho inspired the ECM, which generalizes the approach to elliptic curves for larger factors.\n\n## When NOT to Use\n\n- **For very large numbers (> 60 digits):** The General Number Field Sieve (GNFS) or Elliptic Curve Method (ECM) are more effective for numbers with large factors.\n- **When the number is prime:** Always check primality first (e.g., with Miller-Rabin) before attempting factorization.\n- **For numbers with only small factors:** Trial division up to a bound or the Sieve of Eratosthenes is simpler and faster.\n- **When deterministic factorization is required:** Pollard's Rho is probabilistic; it may take unpredictably long or require restarts.\n\n## Comparison\n\n| Algorithm              | Expected Time    | Space  | Factor size limit  | Notes                              |\n|------------------------|------------------|--------|--------------------|------------------------------------|\n| Pollard's Rho          | O(n^(1/4))       | O(1)   | ~25 digits         | Simple; practical; probabilistic   |\n| Trial Division         | O(sqrt(n))       | O(1)   | ~10 digits         | Simplest; slow for large numbers   |\n| Pollard's p-1          | O(B * log n)     | O(1)   | Smooth factors     | Fast when p-1 is smooth            |\n| Elliptic Curve Method  | O(exp(sqrt(2 ln p ln ln p))) | O(1) | ~40 digits | Better for larger factors          |\n| Quadratic Sieve        | O(exp(sqrt(ln n ln ln n))) | Large | ~100 digits | Sub-exponential; complex           |\n| General Number Field Sieve | O(exp(c * (ln n)^(1/3) * (ln ln n)^(2/3))) | Large | 100+ digits | Fastest known for large n |\n\n## References\n\n- Pollard, J. M. (1975). \"A Monte Carlo method for factorization.\" *BIT Numerical Mathematics*, 15(3), 331-334.\n- Brent, R. P. (1980). \"An improved Monte Carlo factorization algorithm.\" *BIT Numerical Mathematics*, 20(2), 176-184.\n- Cormen, T. H., et al. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Section 31.9.\n- [Pollard's rho algorithm -- Wikipedia](https://en.wikipedia.org/wiki/Pollard%27s_rho_algorithm)\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [pollards_rho.py](python/pollards_rho.py) |\n| Java       | [PollardsRho.java](java/PollardsRho.java) |\n| C++        | [pollards_rho.cpp](cpp/pollards_rho.cpp) |\n| C          | [pollards_rho.c](c/pollards_rho.c) |\n| Go         | [pollards_rho.go](go/pollards_rho.go) |\n| TypeScript | [pollardsRho.ts](typescript/pollardsRho.ts) |\n| Rust       | [pollards_rho.rs](rust/pollards_rho.rs) |\n| Kotlin     | [PollardsRho.kt](kotlin/PollardsRho.kt) |\n| Swift      | [PollardsRho.swift](swift/PollardsRho.swift) |\n| Scala      | [PollardsRho.scala](scala/PollardsRho.scala) |\n| C#         | [PollardsRho.cs](csharp/PollardsRho.cs) |\n"
+}

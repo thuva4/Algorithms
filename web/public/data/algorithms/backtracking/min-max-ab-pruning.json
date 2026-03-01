@@ -1,0 +1,131 @@
+{
+  "name": "Minimax with Alpha-Beta Pruning",
+  "slug": "min-max-ab-pruning",
+  "category": "backtracking",
+  "subcategory": "game-theory",
+  "difficulty": "advanced",
+  "tags": [
+    "backtracking",
+    "game-theory",
+    "minimax",
+    "alpha-beta",
+    "pruning",
+    "optimization"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(b^(d/2))",
+      "average": "O(b^(3d/4))",
+      "worst": "O(b^d)"
+    },
+    "space": "O(b * d)"
+  },
+  "stable": false,
+  "in_place": false,
+  "related": [
+    "minimax"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "MinMaxABPruning.c",
+          "content": "#include <stdio.h>\n#include <limits.h>\n#include <math.h>\n\nstatic int max(int a, int b) { return a > b ? a : b; }\nstatic int min(int a, int b) { return a < b ? a : b; }\n\nstatic int minimax_ab_impl(int depth, int nodeIndex, int isMax, int scores[], int h, int alpha, int beta) {\n    if (depth == h)\n        return scores[nodeIndex];\n\n    if (isMax) {\n        int bestVal = INT_MIN;\n        int children[] = { nodeIndex * 2, nodeIndex * 2 + 1 };\n        for (int i = 0; i < 2; i++) {\n            int childValue = minimax_ab_impl(depth + 1, children[i], 0, scores, h, alpha, beta);\n            bestVal = max(bestVal, childValue);\n            alpha = max(alpha, bestVal);\n            if (beta <= alpha) break;\n        }\n        return bestVal;\n    } else {\n        int bestVal = INT_MAX;\n        int children[] = { nodeIndex * 2, nodeIndex * 2 + 1 };\n        for (int i = 0; i < 2; i++) {\n            int childValue = minimax_ab_impl(depth + 1, children[i], 1, scores, h, alpha, beta);\n            bestVal = min(bestVal, childValue);\n            beta = min(beta, bestVal);\n            if (beta <= alpha) break;\n        }\n        return bestVal;\n    }\n}\n\nstatic int log2_int(int n) {\n    return (n == 1) ? 0 : 1 + log2_int(n / 2);\n}\n\nint minimaxAB(int scores[], int depth, int isMax) {\n    if (depth < 0) {\n        return 0;\n    }\n    return minimax_ab_impl(0, 0, isMax, scores, depth, INT_MIN, INT_MAX);\n}\n\nint minimax_ab(int scores[], int depth, int isMax) {\n    return minimaxAB(scores, depth, isMax);\n}\n\nint main() {\n    int scores[] = {3, 5, 2, 9, 12, 5, 23, 23};\n    int n = sizeof(scores) / sizeof(scores[0]);\n    int h = log2_int(n);\n    int result = minimaxAB(scores, h, 1);\n    printf(\"The optimal value is: %d\\n\", result);\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "MinMaxABPruning.cpp",
+          "content": "#include <iostream>\n#include <algorithm>\n#include <climits>\n#include <cmath>\n#include <vector>\nusing namespace std;\n\nint minimaxAB(int depth, int nodeIndex, bool isMax, int scores[], int h, int alpha, int beta) {\n    if (depth == h)\n        return scores[nodeIndex];\n\n    if (isMax) {\n        int bestVal = INT_MIN;\n        for (int childIndex : {nodeIndex * 2, nodeIndex * 2 + 1}) {\n            int childValue = minimaxAB(depth + 1, childIndex, false, scores, h, alpha, beta);\n            bestVal = max(bestVal, childValue);\n            alpha = max(alpha, bestVal);\n            if (beta <= alpha) break;\n        }\n        return bestVal;\n    } else {\n        int bestVal = INT_MAX;\n        for (int childIndex : {nodeIndex * 2, nodeIndex * 2 + 1}) {\n            int childValue = minimaxAB(depth + 1, childIndex, true, scores, h, alpha, beta);\n            bestVal = min(bestVal, childValue);\n            beta = min(beta, bestVal);\n            if (beta <= alpha) break;\n        }\n        return bestVal;\n    }\n}\n\nint minimax_ab(const vector<int>& tree_values, int depth, bool is_maximizing) {\n    if (tree_values.empty()) {\n        return 0;\n    }\n    if (depth <= 0 || tree_values.size() == 1) {\n        return tree_values.front();\n    }\n\n    vector<int> values = tree_values;\n    int padded_size = 1;\n    while (padded_size < static_cast<int>(values.size())) {\n        padded_size <<= 1;\n    }\n    values.resize(padded_size, values.back());\n\n    return minimaxAB(0, 0, is_maximizing, values.data(), depth, INT_MIN, INT_MAX);\n}\n\nint main() {\n    int scores[] = {3, 5, 2, 9, 12, 5, 23, 23};\n    int n = sizeof(scores) / sizeof(scores[0]);\n    int h = (int)(log2(n));\n    int result = minimaxAB(0, 0, true, scores, h, INT_MIN, INT_MAX);\n    cout << \"The optimal value is: \" << result << endl;\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "MinMaxABPruning.cs",
+          "content": "using System;\n\nclass MinMaxABPruning\n{\n    static int MinimaxAB(int depth, int nodeIndex, bool isMax, int[] scores, int h, int alpha, int beta)\n    {\n        if (depth == h)\n            return scores[nodeIndex];\n\n        if (isMax)\n        {\n            int bestVal = int.MinValue;\n            foreach (int childIndex in new[] { nodeIndex * 2, nodeIndex * 2 + 1 })\n            {\n                int childValue = MinimaxAB(depth + 1, childIndex, false, scores, h, alpha, beta);\n                bestVal = Math.Max(bestVal, childValue);\n                alpha = Math.Max(alpha, bestVal);\n                if (beta <= alpha) break;\n            }\n            return bestVal;\n        }\n        else\n        {\n            int bestVal = int.MaxValue;\n            foreach (int childIndex in new[] { nodeIndex * 2, nodeIndex * 2 + 1 })\n            {\n                int childValue = MinimaxAB(depth + 1, childIndex, true, scores, h, alpha, beta);\n                bestVal = Math.Min(bestVal, childValue);\n                beta = Math.Min(beta, bestVal);\n                if (beta <= alpha) break;\n            }\n            return bestVal;\n        }\n    }\n\n    static void Main(string[] args)\n    {\n        int[] scores = { 3, 5, 2, 9, 12, 5, 23, 23 };\n        int h = (int)(Math.Log(scores.Length) / Math.Log(2));\n        int result = MinimaxAB(0, 0, true, scores, h, int.MinValue, int.MaxValue);\n        Console.WriteLine(\"The optimal value is: \" + result);\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "MinMaxABPruning.go",
+          "content": "package minmaxab\n\nimport \"math\"\n\n// MinimaxAB implements minimax with alpha-beta pruning.\nfunc MinimaxAB(depth, nodeIndex int, isMax bool, scores []int, h, alpha, beta int) int {\n\tif depth == h {\n\t\treturn scores[nodeIndex]\n\t}\n\n\tif isMax {\n\t\tbestVal := math.MinInt32\n\t\tfor _, childIndex := range []int{nodeIndex * 2, nodeIndex*2 + 1} {\n\t\t\tchildValue := MinimaxAB(depth+1, childIndex, false, scores, h, alpha, beta)\n\t\t\tif childValue > bestVal {\n\t\t\t\tbestVal = childValue\n\t\t\t}\n\t\t\tif bestVal > alpha {\n\t\t\t\talpha = bestVal\n\t\t\t}\n\t\t\tif beta <= alpha {\n\t\t\t\tbreak\n\t\t\t}\n\t\t}\n\t\treturn bestVal\n\t}\n\n\tbestVal := math.MaxInt32\n\tfor _, childIndex := range []int{nodeIndex * 2, nodeIndex*2 + 1} {\n\t\tchildValue := MinimaxAB(depth+1, childIndex, true, scores, h, alpha, beta)\n\t\tif childValue < bestVal {\n\t\t\tbestVal = childValue\n\t\t}\n\t\tif bestVal < beta {\n\t\t\tbeta = bestVal\n\t\t}\n\t\tif beta <= alpha {\n\t\t\tbreak\n\t\t}\n\t}\n\treturn bestVal\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "MiniMaxWithABPruning.java",
+          "content": "public class MiniMaxWithABPruning {\n    public static int minimaxAb(int[] treeValues, int depth, boolean isMaximizing) {\n        if (treeValues == null || treeValues.length == 0) {\n            return 0;\n        }\n        return minimax(0, 0, isMaximizing, treeValues, depth, Integer.MIN_VALUE, Integer.MAX_VALUE);\n    }\n\n    private static int minimax(int depth, int nodeIndex, boolean isMax,\n                               int scores[], int h, int alpha, int beta) {\n        // Terminating condition. Leaf node is reached.\n        if (depth == h) {\n            return scores[nodeIndex];\n        }\n        if (isMax) {\n            // Maximizer - find the maximum attainable value\n            int bestVal = Integer.MIN_VALUE;\n            for (int childIndex: new int[]{nodeIndex * 2, nodeIndex * 2 + 1}) { // for each child node.\n                int childValue = minimax(depth + 1, childIndex, false, scores, h, alpha, beta);\n                bestVal = Math.max(bestVal, childValue);\n                alpha = Math.max(alpha, bestVal);\n                if (beta <= alpha) {\n                    break;\n                }\n            }\n            return bestVal;\n        }\n        else {\n            // Minimizer - Find the minimum attainable value\n            int bestVal = Integer.MAX_VALUE;\n            for (int childIndex: new int[]{nodeIndex * 2, nodeIndex * 2 + 1}) { // for each child node.\n                int childValue = minimax(depth + 1, childIndex, true, scores, h, alpha, beta);\n                bestVal = Math.min(bestVal, childValue);\n                beta = Math.min(beta, bestVal);\n                if (beta <= alpha) {\n                    break;\n                }\n            }\n            return bestVal;\n        }\n    }\n    public static void main(String[] args) {\n        int leafNodeScores[] = {7, 15, 12, 18, 2, 5, 32, 23}; // Taking an array whose size is equal to some power of 2\n        int leafNodeScoresCount = leafNodeScores.length;\n        int maxDepth = (int) (Math.log10(leafNodeScoresCount) / Math.log10(2));\n        int maxScore = minimax(0, 0, true, leafNodeScores, maxDepth, Integer.MIN_VALUE, Integer.MAX_VALUE);\n        System.out.println(\"Optimal Value - \" + maxScore);\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "MinMaxABPruning.kt",
+          "content": "import kotlin.math.ln\nimport kotlin.math.max\nimport kotlin.math.min\n\nfun minimaxAB(depth: Int, nodeIndex: Int, isMax: Boolean, scores: IntArray, h: Int, alpha: Int, beta: Int): Int {\n    if (depth == h) return scores[nodeIndex]\n\n    var a = alpha\n    var b = beta\n\n    if (isMax) {\n        var bestVal = Int.MIN_VALUE\n        for (childIndex in intArrayOf(nodeIndex * 2, nodeIndex * 2 + 1)) {\n            val childValue = minimaxAB(depth + 1, childIndex, false, scores, h, a, b)\n            bestVal = max(bestVal, childValue)\n            a = max(a, bestVal)\n            if (b <= a) break\n        }\n        return bestVal\n    } else {\n        var bestVal = Int.MAX_VALUE\n        for (childIndex in intArrayOf(nodeIndex * 2, nodeIndex * 2 + 1)) {\n            val childValue = minimaxAB(depth + 1, childIndex, true, scores, h, a, b)\n            bestVal = min(bestVal, childValue)\n            b = min(b, bestVal)\n            if (b <= a) break\n        }\n        return bestVal\n    }\n}\n\nfun main() {\n    val scores = intArrayOf(3, 5, 2, 9, 12, 5, 23, 23)\n    val h = (ln(scores.size.toDouble()) / ln(2.0)).toInt()\n    val result = minimaxAB(0, 0, true, scores, h, Int.MIN_VALUE, Int.MAX_VALUE)\n    println(\"The optimal value is: $result\")\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "min_max_ab_pruning.py",
+          "content": "import math\n\n\ndef minimax_ab(depth, node_index, is_max, scores, h, alpha, beta):\n    if depth == h:\n        return scores[node_index]\n\n    if is_max:\n        best_val = float('-inf')\n        for child_index in [node_index * 2, node_index * 2 + 1]:\n            child_value = minimax_ab(depth + 1, child_index, False, scores, h, alpha, beta)\n            best_val = max(best_val, child_value)\n            alpha = max(alpha, best_val)\n            if beta <= alpha:\n                break\n        return best_val\n    else:\n        best_val = float('inf')\n        for child_index in [node_index * 2, node_index * 2 + 1]:\n            child_value = minimax_ab(depth + 1, child_index, True, scores, h, alpha, beta)\n            best_val = min(best_val, child_value)\n            beta = min(beta, best_val)\n            if beta <= alpha:\n                break\n        return best_val\n\n\nif __name__ == \"__main__\":\n    scores = [3, 5, 2, 9, 12, 5, 23, 23]\n    h = int(math.log2(len(scores)))\n    result = minimax_ab(0, 0, True, scores, h, float('-inf'), float('inf'))\n    print(f\"The optimal value is: {result}\")\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "min_max_ab_pruning.rs",
+          "content": "use std::cmp;\n\nfn minimax_ab(depth: usize, node_index: usize, is_max: bool, scores: &[i32], h: usize, mut alpha: i32, mut beta: i32) -> i32 {\n    if depth == h {\n        return scores[node_index];\n    }\n\n    if is_max {\n        let mut best_val = i32::MIN;\n        for &child_index in &[node_index * 2, node_index * 2 + 1] {\n            let child_value = minimax_ab(depth + 1, child_index, false, scores, h, alpha, beta);\n            best_val = cmp::max(best_val, child_value);\n            alpha = cmp::max(alpha, best_val);\n            if beta <= alpha {\n                break;\n            }\n        }\n        best_val\n    } else {\n        let mut best_val = i32::MAX;\n        for &child_index in &[node_index * 2, node_index * 2 + 1] {\n            let child_value = minimax_ab(depth + 1, child_index, true, scores, h, alpha, beta);\n            best_val = cmp::min(best_val, child_value);\n            beta = cmp::min(beta, best_val);\n            if beta <= alpha {\n                break;\n            }\n        }\n        best_val\n    }\n}\n\nfn main() {\n    let scores = [3, 5, 2, 9, 12, 5, 23, 23];\n    let h = (scores.len() as f64).log2() as usize;\n    let result = minimax_ab(0, 0, true, &scores, h, i32::MIN, i32::MAX);\n    println!(\"The optimal value is: {}\", result);\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "MinMaxABPruning.scala",
+          "content": "object MinMaxABPruning {\n  def minimaxAB(depth: Int, nodeIndex: Int, isMax: Boolean, scores: Array[Int], h: Int, alpha: Int, beta: Int): Int = {\n    if (depth == h) return scores(nodeIndex)\n\n    var a = alpha\n    var b = beta\n\n    if (isMax) {\n      var bestVal = Int.MinValue\n      for (childIndex <- Array(nodeIndex * 2, nodeIndex * 2 + 1)) {\n        val childValue = minimaxAB(depth + 1, childIndex, false, scores, h, a, b)\n        bestVal = math.max(bestVal, childValue)\n        a = math.max(a, bestVal)\n        if (b <= a) return bestVal\n      }\n      bestVal\n    } else {\n      var bestVal = Int.MaxValue\n      for (childIndex <- Array(nodeIndex * 2, nodeIndex * 2 + 1)) {\n        val childValue = minimaxAB(depth + 1, childIndex, true, scores, h, a, b)\n        bestVal = math.min(bestVal, childValue)\n        b = math.min(b, bestVal)\n        if (b <= a) return bestVal\n      }\n      bestVal\n    }\n  }\n\n  def main(args: Array[String]): Unit = {\n    val scores = Array(3, 5, 2, 9, 12, 5, 23, 23)\n    val h = (math.log(scores.length) / math.log(2)).toInt\n    val result = minimaxAB(0, 0, isMax = true, scores, h, Int.MinValue, Int.MaxValue)\n    println(s\"The optimal value is: $result\")\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "MinMaxABPruning.swift",
+          "content": "import Foundation\n\nfunc minimaxAB(depth: Int, nodeIndex: Int, isMax: Bool, scores: [Int], h: Int, alpha: Int, beta: Int) -> Int {\n    if depth == h {\n        return scores[nodeIndex]\n    }\n\n    var a = alpha\n    var b = beta\n\n    if isMax {\n        var bestVal = Int.min\n        for childIndex in [nodeIndex * 2, nodeIndex * 2 + 1] {\n            let childValue = minimaxAB(depth: depth + 1, nodeIndex: childIndex, isMax: false,\n                                        scores: scores, h: h, alpha: a, beta: b)\n            bestVal = max(bestVal, childValue)\n            a = max(a, bestVal)\n            if b <= a { break }\n        }\n        return bestVal\n    } else {\n        var bestVal = Int.max\n        for childIndex in [nodeIndex * 2, nodeIndex * 2 + 1] {\n            let childValue = minimaxAB(depth: depth + 1, nodeIndex: childIndex, isMax: true,\n                                        scores: scores, h: h, alpha: a, beta: b)\n            bestVal = min(bestVal, childValue)\n            b = min(b, bestVal)\n            if b <= a { break }\n        }\n        return bestVal\n    }\n}\n\nlet scores = [3, 5, 2, 9, 12, 5, 23, 23]\nlet h = Int(log2(Double(scores.count)))\nlet result = minimaxAB(depth: 0, nodeIndex: 0, isMax: true, scores: scores, h: h,\n                        alpha: Int.min, beta: Int.max)\nprint(\"The optimal value is: \\(result)\")\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "minMaxABPruning.ts",
+          "content": "function minimaxABRecursive(\n    depth: number,\n    nodeIndex: number,\n    isMax: boolean,\n    scores: number[],\n    h: number,\n    alpha: number,\n    beta: number,\n): number {\n    if (depth === h) return scores[nodeIndex];\n\n    if (isMax) {\n        let bestVal = -Infinity;\n        for (const childIndex of [nodeIndex * 2, nodeIndex * 2 + 1]) {\n            const childValue = minimaxABRecursive(depth + 1, childIndex, false, scores, h, alpha, beta);\n            bestVal = Math.max(bestVal, childValue);\n            alpha = Math.max(alpha, bestVal);\n            if (beta <= alpha) break;\n        }\n        return bestVal;\n    } else {\n        let bestVal = Infinity;\n        for (const childIndex of [nodeIndex * 2, nodeIndex * 2 + 1]) {\n            const childValue = minimaxABRecursive(depth + 1, childIndex, true, scores, h, alpha, beta);\n            bestVal = Math.min(bestVal, childValue);\n            beta = Math.min(beta, bestVal);\n            if (beta <= alpha) break;\n        }\n        return bestVal;\n    }\n}\n\nexport function minimaxAB(treeValues: number[], depth: number, isMaximizing: boolean): number {\n    return minimaxABRecursive(0, 0, isMaximizing, treeValues, depth, -Infinity, Infinity);\n}\n\nconst scores = [3, 5, 2, 9, 12, 5, 23, 23];\nconst h = Math.log2(scores.length);\nconst result = minimaxAB(scores, h, true);\nconsole.log(`The optimal value is: ${result}`);\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "readme": "# Minimax with Alpha-Beta Pruning\n\n## Overview\n\nAlpha-Beta Pruning is an optimization of the minimax algorithm that significantly reduces the number of nodes evaluated in the game tree. It maintains two bounds -- alpha (the minimum score the maximizing player is assured of) and beta (the maximum score the minimizing player is assured of) -- and prunes branches that cannot possibly influence the final decision. In the best case, alpha-beta pruning reduces the effective branching factor from b to sqrt(b), evaluating O(b^(d/2)) nodes instead of O(b^d).\n\nDeveloped independently by several researchers in the 1950s and 1960s, alpha-beta pruning is essential for practical game-playing programs. It allows chess engines to search twice as deep as pure minimax with the same computational budget.\n\n## How It Works\n\nThe algorithm is identical to minimax but passes alpha and beta bounds through the recursion. At a MAX node, if a child's value exceeds beta, the remaining children are pruned (the MIN parent would never allow this path). At a MIN node, if a child's value is less than alpha, the remaining children are pruned (the MAX grandparent would never allow this path).\n\n### Example\n\nGame tree with alpha-beta pruning:\n\n```\n              MAX\n             /   \\\n          MIN     MIN\n         / \\     / \\\n       MAX MAX MAX MAX\n       /\\  /\\  /\\  /\\\n      3 5 6 9 1 2 0 7\n```\n\n**Evaluation with alpha-beta pruning:**\n\n| Step | Node | alpha | beta | Value | Action |\n|------|------|-------|------|-------|--------|\n| 1 | Leaf 3 | -inf | +inf | 3 | Return 3 |\n| 2 | Leaf 5 | -inf | +inf | 5 | Return 5 |\n| 3 | MAX node | -inf | +inf | max(3,5)=5 | Return 5 |\n| 4 | Leaf 6 | -inf | 5 | 6 | Return 6 |\n| 5 | MAX node | -inf | 5 | 6 > beta=5 | **Prune!** Skip leaf 9 |\n| 6 | MIN node | -inf | +inf | min(5, 6)=5 | Return 5, update alpha=5 |\n| 7 | Leaf 1 | 5 | +inf | 1 | Return 1 |\n| 8 | MAX node | 5 | +inf | 1 | Continue |\n| 9 | Leaf 2 | 5 | +inf | 2 | Return 2 |\n| 10 | MAX node | 5 | +inf | max(1,2)=2 | Return 2 |\n| 11 | MIN node | 5 | +inf | 2 < alpha=5 | **Prune!** Skip right MAX node |\n| 12 | Root MAX | | | max(5, 2)=5 | Return 5 |\n\n**Nodes pruned:** Leaf 9 (step 5) and the entire right subtree of the second MIN node (step 11).\n\nWithout pruning: 8 leaf nodes evaluated.\nWith pruning: **5 leaf nodes evaluated** -- a 37.5% reduction.\n\n## Pseudocode\n\n```\nfunction alphabeta(state, depth, alpha, beta, isMaximizing):\n    if depth == 0 or state is terminal:\n        return evaluate(state)\n\n    if isMaximizing:\n        maxEval = -infinity\n        for each child of state:\n            eval = alphabeta(child, depth - 1, alpha, beta, false)\n            maxEval = max(maxEval, eval)\n            alpha = max(alpha, eval)\n            if beta <= alpha:\n                break    // beta cutoff\n        return maxEval\n    else:\n        minEval = +infinity\n        for each child of state:\n            eval = alphabeta(child, depth - 1, alpha, beta, true)\n            minEval = min(minEval, eval)\n            beta = min(beta, eval)\n            if beta <= alpha:\n                break    // alpha cutoff\n        return minEval\n\n// Initial call:\nalphabeta(rootState, maxDepth, -infinity, +infinity, true)\n```\n\nThe key addition over standard minimax is the alpha-beta window and the `break` statements that prune unnecessary branches.\n\n## Complexity Analysis\n\n| Case    | Time         | Space   |\n|---------|-------------|---------|\n| Best    | O(b^(d/2))  | O(b*d)  |\n| Average | O(b^(3d/4)) | O(b*d)  |\n| Worst   | O(b^d)      | O(b*d)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(b^(d/2)):** With perfect move ordering (best moves examined first), alpha-beta prunes maximally, effectively doubling the searchable depth. The number of evaluated nodes drops to O(b^(d/2)).\n\n- **Average Case -- O(b^(3d/4)):** With random move ordering, alpha-beta achieves an intermediate level of pruning. The effective branching factor is approximately b^(3/4).\n\n- **Worst Case -- O(b^d):** With the worst possible move ordering (worst moves examined first), no pruning occurs, and the algorithm degenerates to standard minimax.\n\n- **Space -- O(b*d):** The recursion stack depth is d, and at each level the algorithm may examine up to b children. The space complexity is the same as minimax.\n\n## When to Use\n\n- **Two-player, zero-sum games with perfect information:** Chess, checkers, Othello, Connect Four.\n- **When combined with move ordering heuristics:** Iterative deepening, killer moves, and history heuristics improve the likelihood of best-case pruning.\n- **When minimax is too slow:** Alpha-beta is always at least as fast as minimax and typically much faster.\n- **As a component of game engines:** Nearly all classical game engines use alpha-beta as their core search algorithm.\n\n## When NOT to Use\n\n- **Games with very high branching factors (b > 100):** Even with pruning, the tree is too large. Use Monte Carlo Tree Search instead.\n- **Imperfect information games:** Hidden information (poker, etc.) invalidates the pruning assumptions.\n- **When evaluation functions are unreliable:** Poor evaluation functions negate the benefit of deeper search.\n- **Real-time games with continuous action spaces:** Alpha-beta assumes discrete, enumerable moves.\n\n## Comparison with Similar Algorithms\n\n| Algorithm            | Time         | Space   | Notes                                        |\n|---------------------|-------------|---------|----------------------------------------------|\n| Minimax              | O(b^d)      | O(b*d)  | No pruning; explores full tree                |\n| Alpha-Beta Pruning   | O(b^(d/2))* | O(b*d)  | *Best case; move ordering critical            |\n| NegaScout (PVS)      | O(b^(d/2))* | O(b*d)  | Refinement of alpha-beta; null-window search  |\n| Monte Carlo TS       | O(iterations)| O(n)   | Sampling-based; no pruning needed             |\n| SSS*                 | O(b^(d/2))  | O(b^(d/2))| Best-first; high memory usage               |\n\n## Implementations\n\n| Language | File |\n|----------|------|\n| Java     | [MiniMaxWithABPruning.java](java/MiniMaxWithABPruning.java) |\n\n## References\n\n- Knuth, D. E., & Moore, R. W. (1975). An analysis of alpha-beta pruning. *Artificial Intelligence*, 6(4), 293-326.\n- Russell, S., & Norvig, P. (2020). *Artificial Intelligence: A Modern Approach* (4th ed.). Pearson. Chapter 5.3: Alpha-Beta Pruning.\n- [Alpha-Beta Pruning -- Wikipedia](https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning)\n"
+}

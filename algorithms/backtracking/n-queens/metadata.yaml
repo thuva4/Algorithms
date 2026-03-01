@@ -1,0 +1,21 @@
+name: "N-Queens"
+slug: "n-queens"
+category: "backtracking"
+subcategory: "constraint-satisfaction"
+difficulty: "intermediate"
+tags: [backtracking, recursion, constraint-satisfaction]
+complexity:
+  time:
+    best: "O(n!)"
+    average: "O(n!)"
+    worst: "O(n!)"
+  space: "O(n)"
+stable: false
+in_place: false
+related: [permutations, sudoku-solver, subset-sum]
+implementations: [python, java, cpp, c, go, typescript, kotlin, rust, swift, scala, csharp]
+visualization: false
+patterns:
+  - subsets
+patternDifficulty: advanced
+practiceOrder: 3

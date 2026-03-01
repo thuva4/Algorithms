@@ -1,0 +1,34 @@
+algorithm: "topological-sort"
+function_signature:
+  name: "topological_sort"
+  input: [adjacency_list]
+  output: array_of_nodes_in_topological_order
+test_cases:
+  - name: "simple DAG"
+    input: [{"0": [1, 2], "1": [3], "2": [3], "3": []}]
+    expected: [0, 1, 2, 3]
+    note: "Multiple valid orderings; 0 must come before 1,2; 1,2 must come before 3"
+  - name: "single node"
+    input: [{"0": []}]
+    expected: [0]
+  - name: "two nodes"
+    input: [{"0": [1], "1": []}]
+    expected: [0, 1]
+  - name: "linear chain"
+    input: [{"0": [1], "1": [2], "2": [3], "3": []}]
+    expected: [0, 1, 2, 3]
+  - name: "independent nodes"
+    input: [{"0": [], "1": [], "2": []}]
+    expected: [0, 1, 2]
+    note: "Any permutation is valid"
+  - name: "diamond DAG"
+    input: [{"0": [1, 2], "1": [3], "2": [3], "3": [4], "4": []}]
+    expected: [0, 1, 2, 3, 4]
+    note: "0 before 1,2; 1,2 before 3; 3 before 4"
+  - name: "complex DAG"
+    input: [{"0": [2, 3], "1": [3, 4], "2": [5], "3": [5], "4": [5], "5": []}]
+    expected: [0, 1, 2, 3, 4, 5]
+    note: "0,1 have no prerequisites; 5 depends on 2,3,4"
+  - name: "wide DAG"
+    input: [{"0": [1, 2, 3, 4], "1": [], "2": [], "3": [], "4": []}]
+    expected: [0, 1, 2, 3, 4]

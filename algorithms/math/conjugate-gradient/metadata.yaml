@@ -1,0 +1,17 @@
+name: "Conjugate Gradient"
+slug: "conjugate-gradient"
+category: "math"
+subcategory: "numerical-methods"
+difficulty: "advanced"
+tags: [math, optimization, linear-algebra, conjugate-gradient, iterative-solver]
+complexity:
+  time:
+    best: "O(n * sqrt(k))"
+    average: "O(n * sqrt(k))"
+    worst: "O(n^2 * sqrt(k))"
+  space: "O(n)"
+stable: false
+in_place: false
+related: []
+implementations: [python, cpp]
+visualization: false

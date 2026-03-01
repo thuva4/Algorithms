@@ -1,0 +1,183 @@
+name: PR Validation
+
+on:
+  pull_request:
+    branches: [master]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validate-algorithms:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Detect changed algorithm directories
+        id: changes
+        run: |
+          # Get list of changed files compared to base branch
+          CHANGED=$(git diff --name-only origin/${{ github.base_ref }}...HEAD -- 'algorithms/')
+
+          if [ -z "$CHANGED" ]; then
+            echo "dirs=" >> "$GITHUB_OUTPUT"
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # Extract unique algorithm directories (algorithms/{category}/{slug})
+          DIRS=$(echo "$CHANGED" | sed -n 's|\(algorithms/[^/]*/[^/]*\)/.*|\1|p' | sort -u)
+          echo "has_changes=true" >> "$GITHUB_OUTPUT"
+
+          # Write dirs to a file for the next step
+          echo "$DIRS" > /tmp/changed-dirs.txt
+          echo "Detected changed algorithm directories:"
+          cat /tmp/changed-dirs.txt
+
+      - name: Validate changed algorithms
+        if: steps.changes.outputs.has_changes == 'true'
+        id: validate
+        run: |
+          VALID_CATEGORIES="sorting searching graph dynamic-programming trees strings math greedy backtracking divide-and-conquer bit-manipulation geometry cryptography data-structures"
+          VALID_DIFFICULTIES="beginner intermediate advanced"
+          REQUIRED_META_FIELDS="name slug category difficulty complexity"
+
+          ERRORS=""
+          WARNINGS=""
+          PASS=true
+
+          while IFS= read -r dir; do
+            [ -z "$dir" ] && continue
+            echo "Checking: $dir"
+
+            # Extract category and slug
+            CATEGORY=$(echo "$dir" | cut -d'/' -f2)
+            SLUG=$(echo "$dir" | cut -d'/' -f3)
+
+            # Check metadata.yaml exists
+            if [ ! -f "$dir/metadata.yaml" ]; then
+              ERRORS="$ERRORS\n- \`$dir\`: Missing \`metadata.yaml\`"
+              PASS=false
+              continue
+            fi
+
+            # Validate category
+            if ! echo "$VALID_CATEGORIES" | grep -qw "$CATEGORY"; then
+              ERRORS="$ERRORS\n- \`$dir\`: Invalid category \`$CATEGORY\`"
+              PASS=false
+            fi
+
+            # Check README.md exists
+            if [ ! -f "$dir/README.md" ]; then
+              ERRORS="$ERRORS\n- \`$dir\`: Missing \`README.md\`"
+              PASS=false
+            fi
+
+            # Check tests/cases.yaml exists
+            if [ ! -f "$dir/tests/cases.yaml" ]; then
+              ERRORS="$ERRORS\n- \`$dir\`: Missing \`tests/cases.yaml\`"
+              PASS=false
+            else
+              # Check for at least 1 test case
+              TEST_COUNT=$(grep -c "^\s*- name:" "$dir/tests/cases.yaml" 2>/dev/null || echo "0")
+              if [ "$TEST_COUNT" -lt 1 ]; then
+                ERRORS="$ERRORS\n- \`$dir\`: \`tests/cases.yaml\` has no test cases"
+                PASS=false
+              fi
+            fi
+
+            # Validate metadata fields using node
+            node -e "
+              const fs = require('fs');
+              const YAML = require('yaml');
+              const meta = YAML.parse(fs.readFileSync('$dir/metadata.yaml', 'utf-8'));
+              const required = '$REQUIRED_META_FIELDS'.split(' ');
+              const missing = required.filter(f => !meta || meta[f] === undefined || meta[f] === null || meta[f] === '');
+              if (missing.length > 0) {
+                console.log('MISSING:' + missing.join(','));
+              }
+              const validDiff = '$VALID_DIFFICULTIES'.split(' ');
+              if (meta && meta.difficulty && !validDiff.includes(meta.difficulty)) {
+                console.log('BAD_DIFFICULTY:' + meta.difficulty);
+              }
+            " 2>/dev/null | while IFS= read -r line; do
+              if echo "$line" | grep -q "^MISSING:"; then
+                FIELDS=$(echo "$line" | sed 's/^MISSING://')
+                echo "::error::$dir: metadata.yaml missing required fields: $FIELDS"
+              fi
+              if echo "$line" | grep -q "^BAD_DIFFICULTY:"; then
+                DIFF=$(echo "$line" | sed 's/^BAD_DIFFICULTY://')
+                echo "::error::$dir: Invalid difficulty '$DIFF'"
+              fi
+            done
+
+          done < /tmp/changed-dirs.txt
+
+          # Build summary
+          {
+            echo "## PR Validation Results"
+            echo ""
+            if [ "$PASS" = true ]; then
+              echo "All checks passed."
+            else
+              echo "### Errors"
+              echo ""
+              echo -e "$ERRORS"
+            fi
+          } > /tmp/validation-summary.md
+
+          echo "pass=$PASS" >> "$GITHUB_OUTPUT"
+
+      - name: Comment on PR
+        if: steps.changes.outputs.has_changes == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const body = fs.readFileSync('/tmp/validation-summary.md', 'utf-8');
+
+            // Find existing bot comment to update
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+            const botComment = comments.find(c =>
+              c.user.type === 'Bot' && c.body.includes('PR Validation Results')
+            );
+
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body,
+              });
+            }
+
+      - name: Fail if validation errors
+        if: steps.validate.outputs.pass == 'false'
+        run: |
+          echo "Validation failed. See PR comment for details."
+          exit 1
+
+      - name: Run full structure validation
+        run: node scripts/validate-structure.mjs

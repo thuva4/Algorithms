@@ -1,0 +1,148 @@
+{
+  "name": "Fibonacci Search",
+  "slug": "fibonacci-search",
+  "category": "searching",
+  "subcategory": "sorted-array",
+  "difficulty": "intermediate",
+  "tags": [
+    "searching",
+    "sorted",
+    "fibonacci",
+    "comparison",
+    "divide-and-conquer"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(1)",
+      "average": "O(log n)",
+      "worst": "O(log n)"
+    },
+    "space": "O(1)"
+  },
+  "stable": null,
+  "in_place": true,
+  "related": [
+    "binary-search",
+    "interpolation-search"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "fibonacci_search.c",
+          "content": "#include \"fibonacci_search.h\"\n\n#define MIN(a,b) (((a)<(b))?(a):(b))\n\nint fibonacci_search(int arr[], int n, int target) {\n    if (n == 0) return -1;\n    \n    int fibMMm2 = 0; // (m-2)'th Fibonacci No.\n    int fibMMm1 = 1; // (m-1)'th Fibonacci No.\n    int fibM = fibMMm2 + fibMMm1; // m'th Fibonacci\n    \n    while (fibM < n) {\n        fibMMm2 = fibMMm1;\n        fibMMm1 = fibM;\n        fibM = fibMMm2 + fibMMm1;\n    }\n    \n    int offset = -1;\n    \n    while (fibM > 1) {\n        int i = MIN(offset + fibMMm2, n - 1);\n        \n        if (arr[i] < target) {\n            fibM = fibMMm1;\n            fibMMm1 = fibMMm2;\n            fibMMm2 = fibM - fibMMm1;\n            offset = i;\n        } else if (arr[i] > target) {\n            fibM = fibMMm2;\n            fibMMm1 = fibMMm1 - fibMMm2;\n            fibMMm2 = fibM - fibMMm1;\n        } else {\n            return i;\n        }\n    }\n    \n    if (fibMMm1 && offset + 1 < n && arr[offset + 1] == target)\n        return offset + 1;\n        \n    return -1;\n}\n"
+        },
+        {
+          "filename": "fibonacci_search.h",
+          "content": "#ifndef FIBONACCI_SEARCH_H\n#define FIBONACCI_SEARCH_H\n\nint fibonacci_search(int arr[], int n, int target);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "fibonacci_search.cpp",
+          "content": "#include \"fibonacci_search.h\"\n#include <vector>\n#include <algorithm>\n\nint fibonacci_search(const std::vector<int>& arr, int target) {\n    int n = arr.size();\n    if (n == 0) return -1;\n    \n    int fibMMm2 = 0;\n    int fibMMm1 = 1;\n    int fibM = fibMMm2 + fibMMm1;\n    \n    while (fibM < n) {\n        fibMMm2 = fibMMm1;\n        fibMMm1 = fibM;\n        fibM = fibMMm2 + fibMMm1;\n    }\n    \n    int offset = -1;\n    \n    while (fibM > 1) {\n        int i = std::min(offset + fibMMm2, n - 1);\n        \n        if (arr[i] < target) {\n            fibM = fibMMm1;\n            fibMMm1 = fibMMm2;\n            fibMMm2 = fibM - fibMMm1;\n            offset = i;\n        } else if (arr[i] > target) {\n            fibM = fibMMm2;\n            fibMMm1 = fibMMm1 - fibMMm2;\n            fibMMm2 = fibM - fibMMm1;\n        } else {\n            return i;\n        }\n    }\n    \n    if (fibMMm1 && offset + 1 < n && arr[offset + 1] == target)\n        return offset + 1;\n        \n    return -1;\n}\n"
+        },
+        {
+          "filename": "fibonacci_search.h",
+          "content": "#ifndef FIBONACCI_SEARCH_H\n#define FIBONACCI_SEARCH_H\n\n#include <vector>\n\nint fibonacci_search(const std::vector<int>& arr, int target);\n\n#endif\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "FibonacciSearch.cs",
+          "content": "using System;\n\nnamespace Algorithms.Searching.FibonacciSearch\n{\n    public class FibonacciSearch\n    {\n        public static int Search(int[] arr, int target)\n        {\n            int n = arr.Length;\n            if (n == 0) return -1;\n\n            int fibMMm2 = 0;\n            int fibMMm1 = 1;\n            int fibM = fibMMm2 + fibMMm1;\n\n            while (fibM < n)\n            {\n                fibMMm2 = fibMMm1;\n                fibMMm1 = fibM;\n                fibM = fibMMm2 + fibMMm1;\n            }\n\n            int offset = -1;\n\n            while (fibM > 1)\n            {\n                int i = Math.Min(offset + fibMMm2, n - 1);\n\n                if (arr[i] < target)\n                {\n                    fibM = fibMMm1;\n                    fibMMm1 = fibMMm2;\n                    fibMMm2 = fibM - fibMMm1;\n                    offset = i;\n                }\n                else if (arr[i] > target)\n                {\n                    fibM = fibMMm2;\n                    fibMMm1 = fibMMm1 - fibMMm2;\n                    fibMMm2 = fibM - fibMMm1;\n                }\n                else\n                {\n                    return i;\n                }\n            }\n\n            if (fibMMm1 == 1 && offset + 1 < n && arr[offset + 1] == target)\n                return offset + 1;\n\n            return -1;\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "fibonacci_search.go",
+          "content": "package fibonaccisearch\n\nfunc FibonacciSearch(arr []int, target int) int {\n\tn := len(arr)\n\tif n == 0 {\n\t\treturn -1\n\t}\n\n\tfibMMm2 := 0\n\tfibMMm1 := 1\n\tfibM := fibMMm2 + fibMMm1\n\n\tfor fibM < n {\n\t\tfibMMm2 = fibMMm1\n\t\tfibMMm1 = fibM\n\t\tfibM = fibMMm2 + fibMMm1\n\t}\n\n\toffset := -1\n\n\tfor fibM > 1 {\n\t\ti := min(offset+fibMMm2, n-1)\n\n\t\tif arr[i] < target {\n\t\t\tfibM = fibMMm1\n\t\t\tfibMMm1 = fibMMm2\n\t\t\tfibMMm2 = fibM - fibMMm1\n\t\t\toffset = i\n\t\t} else if arr[i] > target {\n\t\t\tfibM = fibMMm2\n\t\t\tfibMMm1 = fibMMm1 - fibMMm2\n\t\t\tfibMMm2 = fibM - fibMMm1\n\t\t} else {\n\t\t\treturn i\n\t\t}\n\t}\n\n\tif fibMMm1 == 1 && offset+1 < n && arr[offset+1] == target {\n\t\treturn offset + 1\n\t}\n\n\treturn -1\n}\n\nfunc min(a, b int) int {\n\tif a < b {\n\t\treturn a\n\t}\n\treturn b\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "FibonacciSearch.java",
+          "content": "package algorithms.searching.fibonaccisearch;\n\npublic class FibonacciSearch {\n    public static int search(int[] arr, int target) {\n        int n = arr.length;\n        if (n == 0) return -1;\n        \n        int fibMMm2 = 0;\n        int fibMMm1 = 1;\n        int fibM = fibMMm2 + fibMMm1;\n        \n        while (fibM < n) {\n            fibMMm2 = fibMMm1;\n            fibMMm1 = fibM;\n            fibM = fibMMm2 + fibMMm1;\n        }\n        \n        int offset = -1;\n        \n        while (fibM > 1) {\n            int i = Math.min(offset + fibMMm2, n - 1);\n            \n            if (arr[i] < target) {\n                fibM = fibMMm1;\n                fibMMm1 = fibMMm2;\n                fibMMm2 = fibM - fibMMm1;\n                offset = i;\n            } else if (arr[i] > target) {\n                fibM = fibMMm2;\n                fibMMm1 = fibMMm1 - fibMMm2;\n                fibMMm2 = fibM - fibMMm1;\n            } else {\n                return i;\n            }\n        }\n        \n        if (fibMMm1 == 1 && offset + 1 < n && arr[offset + 1] == target)\n            return offset + 1;\n            \n        return -1;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "FibonacciSearch.kt",
+          "content": "package algorithms.searching.fibonaccisearch\n\nimport kotlin.math.min\n\nclass FibonacciSearch {\n    fun search(arr: IntArray, target: Int): Int {\n        val n = arr.size\n        if (n == 0) return -1\n        \n        var fibMMm2 = 0\n        var fibMMm1 = 1\n        var fibM = fibMMm2 + fibMMm1\n        \n        while (fibM < n) {\n            fibMMm2 = fibMMm1\n            fibMMm1 = fibM\n            fibM = fibMMm2 + fibMMm1\n        }\n        \n        var offset = -1\n        \n        while (fibM > 1) {\n            val i = min(offset + fibMMm2, n - 1)\n            \n            if (arr[i] < target) {\n                fibM = fibMMm1\n                fibMMm1 = fibMMm2\n                fibMMm2 = fibM - fibMMm1\n                offset = i\n            } else if (arr[i] > target) {\n                fibM = fibMMm2\n                fibMMm1 = fibMMm1 - fibMMm2\n                fibMMm2 = fibM - fibMMm1\n            } else {\n                return i\n            }\n        }\n        \n        if (fibMMm1 == 1 && offset + 1 < n && arr[offset + 1] == target)\n            return offset + 1\n            \n        return -1;\n    }\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "fibonacci_search.py",
+          "content": "def fibonacci_search(arr, target):\n    n = len(arr)\n    if n == 0:\n        return -1\n        \n    fibMMm2 = 0\n    fibMMm1 = 1\n    fibM = fibMMm2 + fibMMm1\n    \n    while fibM < n:\n        fibMMm2 = fibMMm1\n        fibMMm1 = fibM\n        fibM = fibMMm2 + fibMMm1\n        \n    offset = -1\n    \n    while fibM > 1:\n        i = min(offset + fibMMm2, n - 1)\n        \n        if arr[i] < target:\n            fibM = fibMMm1\n            fibMMm1 = fibMMm2\n            fibMMm2 = fibM - fibMMm1\n            offset = i\n        elif arr[i] > target:\n            fibM = fibMMm2\n            fibMMm1 = fibMMm1 - fibMMm2\n            fibMMm2 = fibM - fibMMm1\n        else:\n            return i\n            \n    if fibMMm1 == 1 and offset + 1 < n and arr[offset + 1] == target:\n        return offset + 1\n        \n    return -1\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "fibonacci_search.rs",
+          "content": "use std::cmp::min;\n\npub fn fibonacci_search(arr: &[i32], target: i32) -> i32 {\n    let n = arr.len();\n    if n == 0 {\n        return -1;\n    }\n\n    let mut fib_m_m2 = 0;\n    let mut fib_m_m1 = 1;\n    let mut fib_m = fib_m_m2 + fib_m_m1;\n\n    while fib_m < n {\n        fib_m_m2 = fib_m_m1;\n        fib_m_m1 = fib_m;\n        fib_m = fib_m_m2 + fib_m_m1;\n    }\n\n    let mut offset = -1isize;\n\n    while fib_m > 1 {\n        let i = min((offset + fib_m_m2 as isize) as usize, n - 1);\n\n        if arr[i] < target {\n            fib_m = fib_m_m1;\n            fib_m_m1 = fib_m_m2;\n            fib_m_m2 = fib_m - fib_m_m1;\n            offset = i as isize;\n        } else if arr[i] > target {\n            fib_m = fib_m_m2;\n            fib_m_m1 = fib_m_m1 - fib_m_m2;\n            fib_m_m2 = fib_m - fib_m_m1;\n        } else {\n            return i as i32;\n        }\n    }\n\n    if fib_m_m1 == 1 && (offset + 1) < n as isize && arr[(offset + 1) as usize] == target {\n        return (offset + 1) as i32;\n    }\n\n    -1\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "FibonacciSearch.scala",
+          "content": "object FibonacciSearch {\n  def search(arr: Array[Int], target: Int): Int = {\n    val n = arr.length\n    if (n == 0) return -1\n    \n    var fibMMm2 = 0\n    var fibMMm1 = 1\n    var fibM = fibMMm2 + fibMMm1\n    \n    while (fibM < n) {\n      fibMMm2 = fibMMm1\n      fibMMm1 = fibM\n      fibM = fibMMm2 + fibMMm1\n    }\n    \n    var offset = -1\n    \n    while (fibM > 1) {\n      val i = math.min(offset + fibMMm2, n - 1)\n      \n      if (arr(i) < target) {\n        fibM = fibMMm1\n        fibMMm1 = fibMMm2\n        fibMMm2 = fibM - fibMMm1\n        offset = i\n      } else if (arr(i) > target) {\n        fibM = fibMMm2\n        fibMMm1 = fibMMm1 - fibMMm2\n        fibMMm2 = fibM - fibMMm1\n      } else {\n        return i\n      }\n    }\n    \n    if (fibMMm1 == 1 && offset + 1 < n && arr(offset + 1) == target)\n      return offset + 1\n      \n    -1\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "FibonacciSearch.swift",
+          "content": "class FibonacciSearch {\n    static func search(_ arr: [Int], _ target: Int) -> Int {\n        let n = arr.count\n        if n == 0 { return -1 }\n        \n        var fibMMm2 = 0\n        var fibMMm1 = 1\n        var fibM = fibMMm2 + fibMMm1\n        \n        while fibM < n {\n            fibMMm2 = fibMMm1\n            fibMMm1 = fibM\n            fibM = fibMMm2 + fibMMm1\n        }\n        \n        var offset = -1\n        \n        while fibM > 1 {\n            let i = min(offset + fibMMm2, n - 1)\n            \n            if arr[i] < target {\n                fibM = fibMMm1\n                fibMMm1 = fibMMm2\n                fibMMm2 = fibM - fibMMm1\n                offset = i\n            } else if arr[i] > target {\n                fibM = fibMMm2\n                fibMMm1 = fibMMm1 - fibMMm2\n                fibMMm2 = fibM - fibMMm1\n            } else {\n                return i\n            }\n        }\n        \n        if fibMMm1 == 1 && offset + 1 < n && arr[offset + 1] == target {\n            return offset + 1\n        }\n        \n        return -1\n    }\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "fibonacci-search.ts",
+          "content": "export function fibonacciSearch(arr: number[], target: number): number {\n  const n = arr.length;\n  if (n === 0) return -1;\n  \n  let fibMMm2 = 0;\n  let fibMMm1 = 1;\n  let fibM = fibMMm2 + fibMMm1;\n  \n  while (fibM < n) {\n    fibMMm2 = fibMMm1;\n    fibMMm1 = fibM;\n    fibM = fibMMm2 + fibMMm1;\n  }\n  \n  let offset = -1;\n  \n  while (fibM > 1) {\n    const i = Math.min(offset + fibMMm2, n - 1);\n    \n    if (arr[i] < target) {\n      fibM = fibMMm1;\n      fibMMm1 = fibMMm2;\n      fibMMm2 = fibM - fibMMm1;\n      offset = i;\n    } else if (arr[i] > target) {\n      fibM = fibMMm2;\n      fibMMm1 = fibMMm1 - fibMMm2;\n      fibMMm2 = fibM - fibMMm1;\n    } else {\n      return i;\n    }\n  }\n  \n  if (fibMMm1 === 1 && offset + 1 < n && arr[offset + 1] === target) {\n    return offset + 1;\n  }\n  \n  return -1;\n}\n"
+        },
+        {
+          "filename": "fibonacciSearch.ts",
+          "content": "export function fibonacciSearch(arr: number[], target: number): number {\n    const n = arr.length;\n    if (n === 0) return -1;\n\n    let fib2 = 0;\n    let fib1 = 1;\n    let fib = fib1 + fib2;\n\n    while (fib < n) {\n        fib2 = fib1;\n        fib1 = fib;\n        fib = fib1 + fib2;\n    }\n\n    let offset = -1;\n\n    while (fib > 1) {\n        const i = Math.min(offset + fib2, n - 1);\n\n        if (arr[i] < target) {\n            fib = fib1;\n            fib1 = fib2;\n            fib2 = fib - fib1;\n            offset = i;\n        } else if (arr[i] > target) {\n            fib = fib2;\n            fib1 = fib1 - fib2;\n            fib2 = fib - fib1;\n        } else {\n            return i;\n        }\n    }\n\n    if (fib1 === 1 && offset + 1 < n && arr[offset + 1] === target) {\n        return offset + 1;\n    }\n\n    return -1;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "patterns": [
+    "modified-binary-search"
+  ],
+  "patternDifficulty": "intermediate",
+  "practiceOrder": 5,
+  "readme": "# Fibonacci Search\n\n## Overview\n\nFibonacci Search is a comparison-based search algorithm for sorted arrays that uses Fibonacci numbers to divide the search space into unequal parts. Unlike binary search, which splits the array in half, Fibonacci Search splits it according to consecutive Fibonacci numbers. This approach can be advantageous on systems where accessing later elements is more expensive than accessing earlier ones (for example, data stored on magnetic tape), because Fibonacci Search tends to examine elements closer to the beginning of the array first.\n\nThe algorithm was described by Kiefer in 1953 and later formalized by Ferguson in 1960. It operates in O(log n) time, the same as binary search, but uses only addition and subtraction (no division), which can be beneficial on hardware where division is slow.\n\n## How It Works\n\n1. Find the smallest Fibonacci number `F(m)` that is greater than or equal to the array length `n`. Let `F(m-1)` and `F(m-2)` be the two preceding Fibonacci numbers.\n2. Set an offset of -1 (the start of the eliminated range).\n3. While `F(m-2)` is greater than 0:\n   - Compute the index `i = min(offset + F(m-2), n - 1)`.\n   - If `arr[i]` equals the target, return `i`.\n   - If `arr[i]` is less than the target, move the Fibonacci numbers two steps down: `F(m) = F(m-1)`, `F(m-1) = F(m-2)`, and update the offset to `i`.\n   - If `arr[i]` is greater than the target, move the Fibonacci numbers one step down: `F(m) = F(m-2)`, `F(m-1) = F(m-1) - F(m-2)`.\n4. If there is one remaining element, check whether it matches the target.\n5. Return -1 if the target is not found.\n\n## Worked Example\n\nArray: `[4, 8, 14, 21, 33, 47, 55, 68, 72, 89, 91, 98]` (length 12), Target: `47`\n\nThe Fibonacci numbers: 1, 1, 2, 3, 5, 8, 13. The smallest Fibonacci number >= 12 is **13**.\nSo: `F(m) = 13`, `F(m-1) = 8`, `F(m-2) = 5`, offset = -1.\n\n| Step | F(m) | F(m-1) | F(m-2) | offset | Index i            | arr[i] | Comparison      | Action              |\n|------|------|--------|--------|--------|--------------------|--------|-----------------|---------------------|\n| 1    | 13   | 8      | 5      | -1     | min(-1+5, 11) = 4  | 33     | 33 < 47         | Move two steps down; offset = 4 |\n| 2    | 8    | 5      | 3      | 4      | min(4+3, 11) = 7   | 68     | 68 > 47         | Move one step down  |\n| 3    | 3    | 2      | 1      | 4      | min(4+1, 11) = 5   | 47     | 47 == 47        | Found!              |\n\nResult: Target `47` found at index **5**.\n\n## Pseudocode\n\n```\nfunction fibonacciSearch(array, target):\n    n = length(array)\n\n    // Initialize Fibonacci numbers\n    fib2 = 0             // F(m-2)\n    fib1 = 1             // F(m-1)\n    fib  = fib1 + fib2   // F(m)\n\n    while fib < n:\n        fib2 = fib1\n        fib1 = fib\n        fib  = fib1 + fib2\n\n    offset = -1\n\n    while fib2 > 0:\n        i = min(offset + fib2, n - 1)\n\n        if array[i] < target:\n            fib  = fib1\n            fib1 = fib2\n            fib2 = fib - fib1\n            offset = i\n        else if array[i] > target:\n            fib  = fib2\n            fib1 = fib1 - fib2\n            fib2 = fib - fib1\n        else:\n            return i\n\n    // Check the last remaining element\n    if fib1 == 1 and offset + 1 < n and array[offset + 1] == target:\n        return offset + 1\n\n    return -1\n```\n\n## Complexity Analysis\n\n| Case    | Time     | Space |\n|---------|----------|-------|\n| Best    | O(1)     | O(1)  |\n| Average | O(log n) | O(1)  |\n| Worst   | O(log n) | O(1)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(1):** The target is located at the first index examined, requiring only one comparison.\n\n- **Average and Worst Case -- O(log n):** Each iteration reduces the search space by at least one-third (since Fibonacci numbers grow exponentially, roughly by a factor of the golden ratio ~1.618). This means the number of iterations is proportional to the logarithm of n, specifically about log_phi(n) where phi is the golden ratio.\n\n- **Space -- O(1):** The algorithm only uses a constant number of variables to track the current Fibonacci numbers and the offset.\n\n## When to Use\n\n- **Sequential or semi-sequential access:** On storage media where accessing elements at lower indices is cheaper, Fibonacci Search has an advantage because it tends to probe positions nearer the beginning.\n- **Hardware without fast division:** Fibonacci Search uses only addition and subtraction to compute probe positions, avoiding the integer division required by binary search.\n- **Sorted arrays where O(log n) search is needed:** It offers the same asymptotic performance as binary search with different practical trade-offs.\n- **When cache locality matters:** The non-uniform splitting may yield better cache behavior in some memory hierarchies.\n\n## When NOT to Use\n\n- **Unsorted data:** Like all comparison-based search algorithms for sorted arrays, Fibonacci Search requires the input to be sorted.\n- **Uniformly distributed data:** Interpolation Search achieves O(log log n) on uniformly distributed data, outperforming Fibonacci Search.\n- **Small arrays:** For very small datasets, linear search is simpler and has comparable performance due to lower constant overhead.\n- **When code simplicity is paramount:** Binary search is simpler to implement and understand, and performs equally well on random-access data structures.\n\n## Comparison with Similar Algorithms\n\n| Algorithm            | Time (avg)    | Space | Division-Free | Notes                                              |\n|----------------------|---------------|-------|---------------|----------------------------------------------------|\n| Fibonacci Search     | O(log n)      | O(1)  | Yes           | Uses only addition/subtraction; good for sequential access |\n| Binary Search        | O(log n)      | O(1)  | No            | Simplest O(log n) search; requires division         |\n| Exponential Search   | O(log i)      | O(1)  | No            | Better when target is near the beginning            |\n| Interpolation Search | O(log log n)  | O(1)  | No            | Fastest for uniformly distributed data              |\n| Jump Search          | O(sqrt(n))    | O(1)  | No            | Simpler; good for sequential access                 |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [fibonacci_search.py](python/fibonacci_search.py) |\n| Java       | [FibonacciSearch.java](java/FibonacciSearch.java) |\n| C++        | [fibonacci_search.cpp](cpp/fibonacci_search.cpp) |\n| C          | [fibonacci_search.c](c/fibonacci_search.c) |\n| Go         | [fibonacci_search.go](go/fibonacci_search.go) |\n| TypeScript | [fibonacciSearch.ts](typescript/fibonacciSearch.ts) |\n| Rust       | [fibonacci_search.rs](rust/fibonacci_search.rs) |\n| Kotlin     | [FibonacciSearch.kt](kotlin/FibonacciSearch.kt) |\n| Swift      | [FibonacciSearch.swift](swift/FibonacciSearch.swift) |\n| Scala      | [FibonacciSearch.scala](scala/FibonacciSearch.scala) |\n| C#         | [FibonacciSearch.cs](csharp/FibonacciSearch.cs) |\n\n## References\n\n- Kiefer, J. (1953). \"Sequential minimax search for a maximum.\" *Proceedings of the American Mathematical Society*, 4(3), 502-506.\n- Ferguson, D. E. (1960). \"Fibonaccian searching.\" *Communications of the ACM*, 3(12), 648.\n- Knuth, D. E. (1998). *The Art of Computer Programming, Volume 3: Sorting and Searching* (2nd ed.). Addison-Wesley. Section 6.2.1.\n- [Fibonacci Search -- Wikipedia](https://en.wikipedia.org/wiki/Fibonacci_search_technique)\n"
+}

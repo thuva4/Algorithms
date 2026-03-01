@@ -1,0 +1,24 @@
+algorithm: "edit-distance"
+function_signature:
+  name: "edit_distance"
+  input: [string1, string2]
+  output: integer
+test_cases:
+  - name: "standard"
+    input: ["kitten", "sitting"]
+    expected: 3
+  - name: "identical"
+    input: ["abc", "abc"]
+    expected: 0
+  - name: "empty to string"
+    input: ["", "abc"]
+    expected: 3
+  - name: "string to empty"
+    input: ["abc", ""]
+    expected: 3
+  - name: "both empty"
+    input: ["", ""]
+    expected: 0
+  - name: "single char"
+    input: ["a", "b"]
+    expected: 1

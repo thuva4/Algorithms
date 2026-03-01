@@ -1,0 +1,139 @@
+{
+  "name": "Partial Sort",
+  "slug": "partial-sort",
+  "category": "sorting",
+  "subcategory": "other",
+  "difficulty": "intermediate",
+  "tags": [
+    "sorting",
+    "comparison",
+    "selection",
+    "heap"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n log k)",
+      "average": "O(n log k)",
+      "worst": "O(n log k)"
+    },
+    "space": "O(k)"
+  },
+  "stable": false,
+  "in_place": false,
+  "related": [
+    "quick-select",
+    "heap-sort",
+    "selection-sort"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "partial_sort.c",
+          "content": "#include \"partial_sort.h\"\n#include <stdlib.h>\n#include <string.h>\n\nstatic int compare(const void *a, const void *b) {\n    return (*(int *)a - *(int *)b);\n}\n\nvoid partial_sort(const int arr[], int n, int k, int result[]) {\n    if (k <= 0) return;\n    if (k > n) k = n;\n\n    // For C, a simple approach is to copy and qsort\n    // More efficient partial sorts exist (e.g. heap-based), but qsort is standard\n    int *temp = (int *)malloc(n * sizeof(int));\n    if (!temp) return;\n\n    memcpy(temp, arr, n * sizeof(int));\n    qsort(temp, n, sizeof(int), compare);\n\n    memcpy(result, temp, k * sizeof(int));\n    free(temp);\n}\n"
+        },
+        {
+          "filename": "partial_sort.h",
+          "content": "#ifndef PARTIAL_SORT_H\n#define PARTIAL_SORT_H\n\n/**\n * Partial Sort implementation.\n * Returns the smallest k elements of the array in sorted order.\n * The result is stored in the first k elements of the 'result' array.\n * The caller is responsible for ensuring 'result' has enough space.\n * @param arr the input array\n * @param n the number of elements in the array\n * @param k the number of smallest elements to return\n * @param result the output array to store the k smallest elements\n */\nvoid partial_sort(const int arr[], int n, int k, int result[]);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "partial_sort.cpp",
+          "content": "#include <vector>\n#include <algorithm>\n\n/**\n * Partial Sort implementation.\n * Returns the smallest k elements of the array in sorted order.\n * If k >= len(arr), returns the fully sorted array.\n * @param arr the input vector\n * @param k the number of smallest elements to return\n * @returns a sorted vector containing the k smallest elements\n */\nstd::vector<int> partial_sort(std::vector<int> arr, int k) {\n    if (k <= 0) {\n        return {};\n    }\n    if (k >= static_cast<int>(arr.size())) {\n        std::sort(arr.begin(), arr.end());\n        return arr;\n    }\n\n    std::partial_sort(arr.begin(), arr.begin() + k, arr.end());\n    arr.resize(k);\n    return arr;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "PartialSort.cs",
+          "content": "using System;\nusing System.Collections.Generic;\nusing System.Linq;\n\nnamespace Algorithms.Sorting.Partial\n{\n    /**\n     * Partial Sort implementation.\n     * Returns the smallest k elements of the array in sorted order.\n     */\n    public static class PartialSort\n    {\n        public static int[] Sort(int[] arr, int k)\n        {\n            if (arr == null || k <= 0)\n            {\n                return new int[0];\n            }\n            if (k >= arr.Length)\n            {\n                int[] result = (int[])arr.Clone();\n                Array.Sort(result);\n                return result;\n            }\n\n            // A simple implementation using LINQ.\n            // For performance-critical scenarios, a heap-based approach would be better.\n            return arr.OrderBy(x => x).Take(k).ToArray();\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "partial_sort.go",
+          "content": "package partialsort\n\nimport (\n\t\"sort\"\n)\n\n/**\n * PartialSort implementation.\n * Returns the smallest k elements of the array in sorted order.\n * If k >= len(arr), returns the fully sorted array.\n * It returns a new sorted slice without modifying the original input.\n */\nfunc PartialSort(arr []int, k int) []int {\n\tif k <= 0 {\n\t\treturn []int{}\n\t}\n\tif k > len(arr) {\n\t\tk = len(arr)\n\t}\n\n\tresult := make([]int, len(arr))\n\tcopy(result, arr)\n\tsort.Ints(result)\n\n\treturn result[:k]\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "PartialSort.java",
+          "content": "import java.util.Arrays;\nimport java.util.PriorityQueue;\nimport java.util.Collections;\n\npublic class PartialSort {\n    public static int[] partialSort(int[] arr) {\n        if (arr == null) {\n            return new int[0];\n        }\n        int[] result = arr.clone();\n        Arrays.sort(result);\n        return result;\n    }\n\n    /**\n     * Partial Sort implementation.\n     * Returns the smallest k elements of the array in sorted order.\n     * If k >= len(arr), returns the fully sorted array.\n     * @param arr the input array\n     * @param k the number of smallest elements to return\n     * @return a sorted array containing the k smallest elements\n     */\n    public static int[] sort(int[] arr, int k) {\n        if (arr == null || k <= 0) {\n            return new int[0];\n        }\n        if (k >= arr.length) {\n            int[] result = arr.clone();\n            Arrays.sort(result);\n            return result;\n        }\n\n        // Use a max-heap to keep track of the k smallest elements\n        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());\n\n        for (int num : arr) {\n            maxHeap.offer(num);\n            if (maxHeap.size() > k) {\n                maxHeap.poll();\n            }\n        }\n\n        int[] result = new int[k];\n        for (int i = k - 1; i >= 0; i--) {\n            result[i] = maxHeap.poll();\n        }\n\n        return result;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "PartialSort.kt",
+          "content": "package algorithms.sorting.partial\n\nimport java.util.PriorityQueue\nimport java.util.Collections\n\nfun partialSort(arr: IntArray): IntArray {\n    return PartialSort.sort(arr, arr.size)\n}\n\n/**\n * Partial Sort implementation.\n * Returns the smallest k elements of the array in sorted order.\n */\nobject PartialSort {\n    fun sort(arr: IntArray, k: Int): IntArray {\n        if (k <= 0) {\n            return IntArray(0)\n        }\n        if (k >= arr.size) {\n            val result = arr.copyOf()\n            result.sort()\n            return result\n        }\n\n        val maxHeap = PriorityQueue<Int>(Collections.reverseOrder())\n\n        for (num in arr) {\n            maxHeap.offer(num)\n            if (maxHeap.size > k) {\n                maxHeap.poll()\n            }\n        }\n\n        val result = IntArray(k)\n        for (i in k - 1 downTo 0) {\n            result[i] = maxHeap.poll()\n        }\n\n        return result\n    }\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "partial_sort.py",
+          "content": "import heapq\n\ndef partial_sort(arr: list[int], k: int) -> list[int]:\n    \"\"\"\n    Partial Sort implementation.\n    Returns the smallest k elements of the array in sorted order.\n    If k >= len(arr), returns the fully sorted array.\n    \"\"\"\n    if k <= 0:\n        return []\n    if k >= len(arr):\n        return sorted(arr)\n    \n    return heapq.nsmallest(k, arr)\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "partial_sort.rs",
+          "content": "use std::collections::BinaryHeap;\n\n/**\n * Partial Sort implementation.\n * Returns the smallest k elements of the array in sorted order.\n */\npub fn partial_sort(arr: &[i32], k: usize) -> Vec<i32> {\n    if k == 0 {\n        return Vec::new();\n    }\n    if k >= arr.len() {\n        let mut result = arr.to_vec();\n        result.sort_unstable();\n        return result;\n    }\n\n    let mut max_heap = BinaryHeap::new();\n\n    for &num in arr {\n        max_heap.push(num);\n        if max_heap.len() > k {\n            max_heap.pop();\n        }\n    }\n\n    let mut result = max_heap.into_sorted_vec();\n    // into_sorted_vec returns ascending order\n    result\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "PartialSort.scala",
+          "content": "package algorithms.sorting.partial\n\nimport scala.collection.mutable.PriorityQueue\n\n/**\n * Partial Sort implementation.\n * Returns the smallest k elements of the array in sorted order.\n */\nobject PartialSort {\n  def sort(arr: Array[Int], k: Int): Array[Int] = {\n    if (k <= 0) {\n      return Array.empty[Int]\n    }\n    if (k >= arr.length) {\n      val result = arr.clone()\n      java.util.Arrays.sort(result)\n      return result\n    }\n\n    // Use a max-heap to keep track of the k smallest elements\n    val maxHeap = PriorityQueue.empty[Int]\n\n    for (num <- arr) {\n      maxHeap.enqueue(num)\n      if (maxHeap.size > k) {\n        maxHeap.dequeue()\n      }\n    }\n\n    val result = new Array[Int](k)\n    for (i <- k - 1 to 0 by -1) {\n      result(i) = maxHeap.dequeue()\n    }\n\n    result\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "PartialSort.swift",
+          "content": "/**\n * Partial Sort implementation.\n * Returns the smallest k elements of the array in sorted order.\n */\npublic class PartialSort {\n    public static func sort(_ arr: [Int], _ k: Int) -> [Int] {\n        if k <= 0 {\n            return []\n        }\n        let sortedArr = arr.sorted()\n        if k >= arr.count {\n            return sortedArr\n        }\n        return Array(sortedArr.prefix(k))\n    }\n}\n\nfunc partialSort(_ arr: [Int]) -> [Int] {\n    PartialSort.sort(arr, arr.count)\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "index.js",
+          "content": "export function partialSort(arr) {\n  return [...arr].sort((a, b) => a - b);\n}\n"
+        },
+        {
+          "filename": "partialSort.ts",
+          "content": "/**\n * Partial Sort implementation.\n * Returns the smallest k elements of the array in sorted order.\n * If k >= len(arr), returns the fully sorted array.\n * @param arr the input array\n * @param k the number of smallest elements to return\n * @returns a sorted copy of the array containing the k smallest elements\n */\nexport function partialSort(arr: number[], k: number): number[] {\n    if (k <= 0) {\n        return [];\n    }\n    const result = [...arr];\n    result.sort((a, b) => a - b);\n    return result.slice(0, k);\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "readme": "# Partial Sort\n\n## Overview\n\nPartial Sort is an algorithm that rearranges elements such that the first k elements of the array are the k smallest elements in sorted order, while the remaining elements are left in an unspecified order. This is more efficient than fully sorting the array when you only need the top-k or bottom-k elements. The most common implementation uses a max-heap of size k, achieving O(n log k) time. Partial sort is the algorithm behind C++'s `std::partial_sort` and is widely used in database query processing (ORDER BY ... LIMIT k), recommendation systems, and statistical computations.\n\n## How It Works\n\n**Heap-based approach (most common):**\n\n1. Build a max-heap from the first k elements of the array.\n2. For each remaining element (index k to n-1):\n   - If the element is smaller than the heap's maximum (root), replace the root with this element and heapify down to restore the heap property.\n3. Extract elements from the heap in order (or sort the heap) to get the k smallest elements in sorted order.\n\n**Quickselect-based approach (alternative):**\n\n1. Use the Quickselect algorithm to partition the array so that the k-th smallest element is at position k-1.\n2. Sort only the first k elements using any efficient sorting algorithm.\n\n## Example\n\nGiven input: `[7, 2, 9, 1, 5, 8, 3, 6]`, k = 3 (find the 3 smallest in sorted order)\n\n**Heap-based approach:**\n\n| Step | Action | Max-Heap (size 3) | Array State |\n|------|--------|-------------------|-------------|\n| 1 | Build heap from first 3 | `[9, 2, 7]` | -- |\n| 2 | Process 1: 1 < 9, replace | `[7, 2, 1]` | -- |\n| 3 | Process 5: 5 < 7, replace | `[5, 2, 1]` | -- |\n| 4 | Process 8: 8 > 5, skip | `[5, 2, 1]` | -- |\n| 5 | Process 3: 3 < 5, replace | `[3, 2, 1]` | -- |\n| 6 | Process 6: 6 > 3, skip | `[3, 2, 1]` | -- |\n\nSort the heap: `[1, 2, 3]`\n\nResult: `[1, 2, 3, ?, ?, ?, ?, ?]` -- first 3 elements are the 3 smallest in sorted order.\n\n## Pseudocode\n\n```\nfunction partialSort(array, k):\n    n = length(array)\n    k = min(k, n)\n\n    // Build max-heap from first k elements\n    heap = maxHeap(array[0..k-1])\n\n    // Process remaining elements\n    for i from k to n - 1:\n        if array[i] < heap.peek():\n            heap.replaceRoot(array[i])\n            heap.heapifyDown()\n\n    // Extract sorted result\n    result = array of size k\n    for i from k - 1 down to 0:\n        result[i] = heap.extractMax()\n\n    // Place sorted elements back\n    for i from 0 to k - 1:\n        array[i] = result[i]\n\n    return array\n```\n\n## Complexity Analysis\n\n| Case    | Time         | Space |\n|---------|-------------|-------|\n| Best    | O(n + k log k) | O(k) |\n| Average | O(n log k)  | O(k)  |\n| Worst   | O(n log k)  | O(k)  |\n\n**Why these complexities?**\n\n- **Time -- O(n log k):** Building the initial heap of size k takes O(k) time. Processing each of the remaining n-k elements involves at most one heap operation costing O(log k). The final extraction of k sorted elements costs O(k log k). Total: O(k) + O((n-k) log k) + O(k log k) = O(n log k).\n\n- **Best Case -- O(n + k log k):** When the first k elements happen to be the smallest, no replacements occur during the scan phase. Only the initial heap build O(k) and final sort O(k log k) are needed, plus the O(n) scan.\n\n- **Space -- O(k):** The max-heap requires O(k) space. If performed in-place on the array (as in `std::partial_sort`), only O(1) extra space is needed beyond the input.\n\n## When to Use\n\n- **Top-k queries:** Finding the k largest or smallest elements in a dataset (e.g., \"top 10 scores\", \"cheapest 5 flights\").\n- **Database LIMIT clauses:** Implementing `SELECT ... ORDER BY ... LIMIT k` efficiently without sorting the entire result set.\n- **Streaming data:** Maintaining a running top-k over a data stream using a fixed-size heap.\n- **Statistical measures:** Computing the median, percentiles, or trimmed means where only partial ordering is needed.\n- **Recommendation systems:** Selecting the top-k most relevant items from a large candidate pool.\n\n## When NOT to Use\n\n- **When you need the full sorted order:** If k is close to n, a full sort (O(n log n)) is more efficient than partial sort since the overhead difference is minimal.\n- **When you only need the k-th element:** If you do not need the elements in sorted order, Quickselect (O(n) average) is faster than partial sort.\n- **When k = 1:** Simply finding the minimum or maximum in O(n) with a linear scan is much simpler.\n- **When elements are already sorted:** A full sort check or binary search would be more appropriate.\n\n## Comparison\n\n| Algorithm | Finds | Time | Space | Sorted Output |\n|-----------|-------|------|-------|---------------|\n| Partial Sort (heap) | k smallest, sorted | O(n log k) | O(k) | Yes |\n| Quickselect | k-th element only | O(n) avg | O(1) | No |\n| Full Sort | All n elements | O(n log n) | O(n) or O(1) | Yes |\n| Tournament Tree | k smallest | O(n + k log n) | O(n) | Yes |\n| Introselect | k-th element | O(n) worst | O(1) | No |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [partial_sort.py](python/partial_sort.py) |\n| Java       | [PartialSort.java](java/PartialSort.java) |\n| C++        | [partial_sort.cpp](cpp/partial_sort.cpp) |\n| C          | [partial_sort.c](c/partial_sort.c) |\n| Go         | [partial_sort.go](go/partial_sort.go) |\n| TypeScript | [partialSort.ts](typescript/partialSort.ts) |\n| Kotlin     | [PartialSort.kt](kotlin/PartialSort.kt) |\n| Rust       | [partial_sort.rs](rust/partial_sort.rs) |\n| Swift      | [PartialSort.swift](swift/PartialSort.swift) |\n| Scala      | [PartialSort.scala](scala/PartialSort.scala) |\n| C#         | [PartialSort.cs](csharp/PartialSort.cs) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 6: Heapsort; Chapter 9: Medians and Order Statistics.\n- Musser, D. R. (1997). \"Introspective Sorting and Selection Algorithms.\" *Software: Practice and Experience*, 27(8), 983-993.\n- [Partial Sorting -- Wikipedia](https://en.wikipedia.org/wiki/Partial_sorting)\n"
+}

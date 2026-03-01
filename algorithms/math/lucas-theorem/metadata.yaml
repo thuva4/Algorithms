@@ -1,0 +1,17 @@
+name: "Lucas' Theorem"
+slug: "lucas-theorem"
+category: "math"
+subcategory: "combinatorics"
+difficulty: "intermediate"
+tags: [math, combinatorics, lucas-theorem, binomial-coefficient, modular-arithmetic]
+complexity:
+  time:
+    best: "O(p log_p(n))"
+    average: "O(p log_p(n))"
+    worst: "O(p + log_p(n))"
+  space: "O(p)"
+stable: null
+in_place: false
+related: [combination, modular-exponentiation]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

@@ -1,0 +1,402 @@
+{
+  "AStarSearch": {
+    "slug": "a-star-search",
+    "category": "graph"
+  },
+  "AhoCorasick": {
+    "slug": "aho-corasick",
+    "category": "strings"
+  },
+  "BellmanFord": {
+    "slug": "bellman-ford",
+    "category": "graph"
+  },
+  "BestFirstSearch": {
+    "slug": "best-first-search",
+    "category": "searching"
+  },
+  "BinaryGCD": {
+    "slug": "binary-gcd",
+    "category": "math"
+  },
+  "BinarySearch": {
+    "slug": "binary-search",
+    "category": "searching"
+  },
+  "BinaryTree": {
+    "slug": "binary-tree",
+    "category": "trees"
+  },
+  "BitapAlgorithm": {
+    "slug": "bitap-algorithm",
+    "category": "strings"
+  },
+  "BitonicSort": {
+    "slug": "bitonic-sort",
+    "category": "sorting"
+  },
+  "BloomFilter": {
+    "slug": "bloom-filter",
+    "category": "data-structures"
+  },
+  "BorweinsAlgorithm": {
+    "slug": "borweins-algorithm",
+    "category": "math"
+  },
+  "BreadthFirstSearch": {
+    "slug": "breadth-first-search",
+    "category": "graph"
+  },
+  "BubbleSort": {
+    "slug": "bubble-sort",
+    "category": "sorting"
+  },
+  "CocktailSort": {
+    "slug": "cocktail-sort",
+    "category": "sorting"
+  },
+  "Cocktailshakersort": {
+    "slug": "cocktail-shaker-sort",
+    "category": "sorting"
+  },
+  "CoinChange": {
+    "slug": "coin-change",
+    "category": "dynamic-programming"
+  },
+  "Combination": {
+    "slug": "combination",
+    "category": "math"
+  },
+  "ConjugateGradient": {
+    "slug": "conjugate-gradient",
+    "category": "math"
+  },
+  "ConnectedComponentLabeling": {
+    "slug": "connected-component-labeling",
+    "category": "graph"
+  },
+  "CountingInversions": {
+    "slug": "counting-inversions",
+    "category": "divide-and-conquer"
+  },
+  "CountingSort": {
+    "slug": "counting-sort",
+    "category": "sorting"
+  },
+  "CycleSort": {
+    "slug": "cycle-sort",
+    "category": "sorting"
+  },
+  "DepthFirstSearch": {
+    "slug": "depth-first-search",
+    "category": "graph"
+  },
+  "DiffieHellman": {
+    "slug": "diffie-hellman",
+    "category": "cryptography"
+  },
+  "Dijkstras": {
+    "slug": "dijkstras",
+    "category": "graph"
+  },
+  "Doomsday": {
+    "slug": "doomsday",
+    "category": "math"
+  },
+  "DungeonGame": {
+    "slug": "dungeon-game",
+    "category": "dynamic-programming"
+  },
+  "DynamicProgramming": {
+    "slug": "dynamic-programming",
+    "category": "dynamic-programming"
+  },
+  "EditDistance": {
+    "slug": "edit-distance",
+    "category": "dynamic-programming"
+  },
+  "EdmondsKarp": {
+    "slug": "edmonds-karp",
+    "category": "graph"
+  },
+  "ElevatorAlgorithm": {
+    "slug": "elevator-algorithm",
+    "category": "greedy"
+  },
+  "EulerToient": {
+    "slug": "euler-toient",
+    "category": "math"
+  },
+  "ExtendedEuclidean": {
+    "slug": "extended-euclidean",
+    "category": "math"
+  },
+  "Factorial": {
+    "slug": "factorial",
+    "category": "math"
+  },
+  "FastFourierTransform": {
+    "slug": "fast-fourier-transform",
+    "category": "math"
+  },
+  "FenwickTree": {
+    "slug": "fenwick-tree",
+    "category": "trees"
+  },
+  "Fibonacci": {
+    "slug": "fibonacci",
+    "category": "dynamic-programming"
+  },
+  "FisherYatesShuffle": {
+    "slug": "fisher-yates-shuffle",
+    "category": "math"
+  },
+  "FloodFill": {
+    "slug": "flood-fill",
+    "category": "graph"
+  },
+  "FloydsAlgorithm": {
+    "slug": "floyds-algorithm",
+    "category": "graph"
+  },
+  "GreatestCommonDivisor": {
+    "slug": "greatest-common-divisor",
+    "category": "math"
+  },
+  "HammingDistance": {
+    "slug": "hamming-distance",
+    "category": "bit-manipulation"
+  },
+  "HeapSort": {
+    "slug": "heap-sort",
+    "category": "sorting"
+  },
+  "HeavyLightDecomposition": {
+    "slug": "heavy-light-decomposition",
+    "category": "trees"
+  },
+  "HistogramEqualization": {
+    "slug": "histogram-equalization",
+    "category": "math"
+  },
+  "InFixToPostFix": {
+    "slug": "infix-to-postfix",
+    "category": "data-structures"
+  },
+  "InsertionSort": {
+    "slug": "insertion-sort",
+    "category": "sorting"
+  },
+  "InverseFastFourierTransform": {
+    "slug": "inverse-fast-fourier-transform",
+    "category": "math"
+  },
+  "JohnsonAlgorithm": {
+    "slug": "johnson-algorithm",
+    "category": "graph"
+  },
+  "JosephusProblem": {
+    "slug": "josephus-problem",
+    "category": "math"
+  },
+  "Kadanes": {
+    "slug": "kadanes",
+    "category": "dynamic-programming"
+  },
+  "Knapsack": {
+    "slug": "knapsack",
+    "category": "dynamic-programming"
+  },
+  "KnuthMorrisPrath": {
+    "slug": "knuth-morris-pratt",
+    "category": "strings"
+  },
+  "KruskalsAlgorithm": {
+    "slug": "kruskals-algorithm",
+    "category": "graph"
+  },
+  "LeakyBucket": {
+    "slug": "leaky-bucket",
+    "category": "greedy"
+  },
+  "LinearSearch": {
+    "slug": "linear-search",
+    "category": "searching"
+  },
+  "LongestBitonicSubsequence": {
+    "slug": "longest-bitonic-subsequence",
+    "category": "dynamic-programming"
+  },
+  "LongestCommonSubsequence": {
+    "slug": "longest-common-subsequence",
+    "category": "dynamic-programming"
+  },
+  "LongestIncreasingSubsequence": {
+    "slug": "longest-increasing-subsequence",
+    "category": "dynamic-programming"
+  },
+  "LongestPath": {
+    "slug": "longest-path",
+    "category": "graph"
+  },
+  "LongestSubsetZeroSum": {
+    "slug": "longest-subset-zero-sum",
+    "category": "dynamic-programming"
+  },
+  "Luhn": {
+    "slug": "luhn",
+    "category": "math"
+  },
+  "MatrixExponentiation": {
+    "slug": "matrix-exponentiation",
+    "category": "math"
+  },
+  "MergeSort": {
+    "slug": "merge-sort",
+    "category": "sorting"
+  },
+  "MinMaxABPruning": {
+    "slug": "min-max-ab-pruning",
+    "category": "backtracking"
+  },
+  "Minimax": {
+    "slug": "minimax",
+    "category": "backtracking"
+  },
+  "ModifiedBinarySearch": {
+    "slug": "modified-binary-search",
+    "category": "searching"
+  },
+  "PartialSort": {
+    "slug": "partial-sort",
+    "category": "sorting"
+  },
+  "PearsonHashing": {
+    "slug": "pearson-hashing",
+    "category": "cryptography"
+  },
+  "Permutations": {
+    "slug": "permutations",
+    "category": "backtracking"
+  },
+  "PersistentDataStructures": {
+    "slug": "persistent-data-structures",
+    "category": "data-structures"
+  },
+  "PostmanSort": {
+    "slug": "postman-sort",
+    "category": "sorting"
+  },
+  "PrimalityTests": {
+    "slug": "primality-tests",
+    "category": "math"
+  },
+  "PrimeCheck": {
+    "slug": "prime-check",
+    "category": "math"
+  },
+  "Prims": {
+    "slug": "prims",
+    "category": "graph"
+  },
+  "PruferCode": {
+    "slug": "prufer-code",
+    "category": "trees"
+  },
+  "QuickSelect": {
+    "slug": "quick-select",
+    "category": "searching"
+  },
+  "QuickSort": {
+    "slug": "quick-sort",
+    "category": "sorting"
+  },
+  "RabinKarp": {
+    "slug": "rabin-karp",
+    "category": "strings"
+  },
+  "RadixSort": {
+    "slug": "radix-sort",
+    "category": "sorting"
+  },
+  "RodCuttingAlgorithm": {
+    "slug": "rod-cutting-algorithm",
+    "category": "dynamic-programming"
+  },
+  "SegmentTree": {
+    "slug": "segment-tree",
+    "category": "trees"
+  },
+  "SegmentedSieve": {
+    "slug": "segmented-sieve",
+    "category": "math"
+  },
+  "SelectionSort": {
+    "slug": "selection-sort",
+    "category": "sorting"
+  },
+  "SequenceAlignment": {
+    "slug": "sequence-alignment",
+    "category": "dynamic-programming"
+  },
+  "ShellSort": {
+    "slug": "shell-sort",
+    "category": "sorting"
+  },
+  "SieveOfEratosthenes": {
+    "slug": "sieve-of-eratosthenes",
+    "category": "math"
+  },
+  "SieveofEratosthenes": {
+    "slug": "sieve-of-eratosthenes",
+    "category": "math"
+  },
+  "StringToToken": {
+    "slug": "string-to-token",
+    "category": "strings"
+  },
+  "StronglyConnectedGraph": {
+    "slug": "strongly-connected-graph",
+    "category": "graph"
+  },
+  "Sumset": {
+    "slug": "sumset",
+    "category": "math"
+  },
+  "Swap": {
+    "slug": "swap-two-variables",
+    "category": "math"
+  },
+  "TarjansOfflineLCA": {
+    "slug": "tarjans-offline-lca",
+    "category": "trees"
+  },
+  "TernarySearch": {
+    "slug": "ternary-search",
+    "category": "searching"
+  },
+  "TopologicalSort": {
+    "slug": "topological-sort",
+    "category": "graph"
+  },
+  "UnaryCoding": {
+    "slug": "unary-coding",
+    "category": "bit-manipulation"
+  },
+  "UnionFind": {
+    "slug": "union-find",
+    "category": "data-structures"
+  },
+  "VEGASAlgorithm": {
+    "slug": "vegas-algorithm",
+    "category": "math"
+  },
+  "XorSwap": {
+    "slug": "xor-swap",
+    "category": "bit-manipulation"
+  },
+  "knapsack": {
+    "slug": "knapsack",
+    "category": "dynamic-programming"
+  }
+}

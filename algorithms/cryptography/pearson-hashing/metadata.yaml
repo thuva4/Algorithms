@@ -1,0 +1,17 @@
+name: "Pearson Hashing"
+slug: "pearson-hashing"
+category: "cryptography"
+subcategory: "hashing"
+difficulty: "beginner"
+tags: [cryptography, hashing, pearson, non-cryptographic, byte-hash]
+complexity:
+  time:
+    best: "O(n)"
+    average: "O(n)"
+    worst: "O(n)"
+  space: "O(1)"
+stable: false
+in_place: true
+related: []
+implementations: [java]
+visualization: false

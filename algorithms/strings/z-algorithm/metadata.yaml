@@ -1,0 +1,15 @@
+name: "Z-Algorithm"
+slug: "z-algorithm"
+category: "strings"
+subcategory: "pattern-matching"
+difficulty: "intermediate"
+tags: [strings, pattern-matching, z-function, z-array, prefix]
+complexity:
+  time:
+    best: "O(n)"
+    average: "O(n)"
+    worst: "O(n)"
+  space: "O(n)"
+related: [knuth-morris-pratt, rabin-karp]
+implementations: [python, java, cpp, c, go, typescript, kotlin, rust, swift, scala, csharp]
+visualization: true

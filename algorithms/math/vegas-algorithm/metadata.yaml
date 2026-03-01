@@ -1,0 +1,17 @@
+name: "Vegas Algorithm"
+slug: "vegas-algorithm"
+category: "math"
+subcategory: "randomized-algorithms"
+difficulty: "advanced"
+tags: [math, randomized, las-vegas, probabilistic, always-correct]
+complexity:
+  time:
+    best: "O(1)"
+    average: "O(n)"
+    worst: "unbounded"
+  space: "O(1)"
+stable: false
+in_place: true
+related: [fisher-yates-shuffle]
+implementations: [cpp]
+visualization: false

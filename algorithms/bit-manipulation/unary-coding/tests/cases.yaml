@@ -1,0 +1,21 @@
+algorithm: "unary-coding"
+function_signature:
+  name: "unary_encode"
+  input: [n]
+  output: unary_string
+test_cases:
+  - name: "encode zero"
+    input: [0]
+    expected: "0"
+  - name: "encode one"
+    input: [1]
+    expected: "10"
+  - name: "encode three"
+    input: [3]
+    expected: "1110"
+  - name: "encode five"
+    input: [5]
+    expected: "111110"
+  - name: "encode two"
+    input: [2]
+    expected: "110"

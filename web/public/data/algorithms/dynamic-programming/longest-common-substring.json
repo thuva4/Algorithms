@@ -1,0 +1,129 @@
+{
+  "name": "Longest Common Substring",
+  "slug": "longest-common-substring",
+  "category": "dynamic-programming",
+  "subcategory": "strings",
+  "difficulty": "intermediate",
+  "tags": [
+    "dynamic-programming",
+    "strings",
+    "substring"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n*m)",
+      "average": "O(n*m)",
+      "worst": "O(n*m)"
+    },
+    "space": "O(n*m)"
+  },
+  "stable": null,
+  "in_place": null,
+  "related": [
+    "longest-common-subsequence",
+    "edit-distance"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "longest_common_substring.c",
+          "content": "#include <stdio.h>\n\n/**\n * Find the length of the longest contiguous subarray common to both arrays.\n *\n * arr1: first array of integers\n * arr2: second array of integers\n * n: length of arr1\n * m: length of arr2\n * Returns: length of the longest common contiguous subarray\n */\nint longest_common_substring(int arr1[], int n, int arr2[], int m) {\n    int max_len = 0;\n    int dp[n + 1][m + 1];\n    int i, j;\n\n    for (i = 0; i <= n; i++)\n        for (j = 0; j <= m; j++)\n            dp[i][j] = 0;\n\n    for (i = 1; i <= n; i++) {\n        for (j = 1; j <= m; j++) {\n            if (arr1[i - 1] == arr2[j - 1]) {\n                dp[i][j] = dp[i - 1][j - 1] + 1;\n                if (dp[i][j] > max_len) {\n                    max_len = dp[i][j];\n                }\n            } else {\n                dp[i][j] = 0;\n            }\n        }\n    }\n\n    return max_len;\n}\n\nint main() {\n    int a1[] = {1, 2, 3, 4, 5};\n    int a2[] = {3, 4, 5, 6, 7};\n    printf(\"%d\\n\", longest_common_substring(a1, 5, a2, 5));  /* 3 */\n\n    int b1[] = {1, 2, 3};\n    int b2[] = {4, 5, 6};\n    printf(\"%d\\n\", longest_common_substring(b1, 3, b2, 3));  /* 0 */\n\n    int c1[] = {1, 2, 3, 4};\n    int c2[] = {1, 2, 3, 4};\n    printf(\"%d\\n\", longest_common_substring(c1, 4, c2, 4));  /* 4 */\n\n    int d1[] = {1};\n    int d2[] = {1};\n    printf(\"%d\\n\", longest_common_substring(d1, 1, d2, 1));  /* 1 */\n\n    int e1[] = {1, 2, 3, 2, 1};\n    int e2[] = {3, 2, 1, 4, 7};\n    printf(\"%d\\n\", longest_common_substring(e1, 5, e2, 5));  /* 3 */\n\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "longest_common_substring.cpp",
+          "content": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n\n/**\n * Find the length of the longest contiguous subarray common to both arrays.\n *\n * arr1: first vector of integers\n * arr2: second vector of integers\n * Returns: length of the longest common contiguous subarray\n */\nint longestCommonSubstring(const vector<int>& arr1, const vector<int>& arr2) {\n    int n = arr1.size();\n    int m = arr2.size();\n    int maxLen = 0;\n\n    vector<vector<int>> dp(n + 1, vector<int>(m + 1, 0));\n\n    for (int i = 1; i <= n; i++) {\n        for (int j = 1; j <= m; j++) {\n            if (arr1[i - 1] == arr2[j - 1]) {\n                dp[i][j] = dp[i - 1][j - 1] + 1;\n                if (dp[i][j] > maxLen) {\n                    maxLen = dp[i][j];\n                }\n            } else {\n                dp[i][j] = 0;\n            }\n        }\n    }\n\n    return maxLen;\n}\n\nint main() {\n    cout << longestCommonSubstring({1, 2, 3, 4, 5}, {3, 4, 5, 6, 7}) << endl;  // 3\n    cout << longestCommonSubstring({1, 2, 3}, {4, 5, 6}) << endl;                // 0\n    cout << longestCommonSubstring({1, 2, 3, 4}, {1, 2, 3, 4}) << endl;          // 4\n    cout << longestCommonSubstring({1}, {1}) << endl;                             // 1\n    cout << longestCommonSubstring({1, 2, 3, 2, 1}, {3, 2, 1, 4, 7}) << endl;   // 3\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "LongestCommonSubstring.cs",
+          "content": "using System;\n\npublic class LongestCommonSubstring\n{\n    /// <summary>\n    /// Find the length of the longest contiguous subarray common to both arrays.\n    /// </summary>\n    /// <param name=\"arr1\">First array of integers</param>\n    /// <param name=\"arr2\">Second array of integers</param>\n    /// <returns>Length of the longest common contiguous subarray</returns>\n    public static int Solve(int[] arr1, int[] arr2)\n    {\n        int n = arr1.Length;\n        int m = arr2.Length;\n        int maxLen = 0;\n\n        int[,] dp = new int[n + 1, m + 1];\n\n        for (int i = 1; i <= n; i++)\n        {\n            for (int j = 1; j <= m; j++)\n            {\n                if (arr1[i - 1] == arr2[j - 1])\n                {\n                    dp[i, j] = dp[i - 1, j - 1] + 1;\n                    if (dp[i, j] > maxLen)\n                    {\n                        maxLen = dp[i, j];\n                    }\n                }\n                else\n                {\n                    dp[i, j] = 0;\n                }\n            }\n        }\n\n        return maxLen;\n    }\n\n    static void Main(string[] args)\n    {\n        Console.WriteLine(Solve(\n            new int[] { 1, 2, 3, 4, 5 }, new int[] { 3, 4, 5, 6, 7 }));   // 3\n        Console.WriteLine(Solve(\n            new int[] { 1, 2, 3 }, new int[] { 4, 5, 6 }));                 // 0\n        Console.WriteLine(Solve(\n            new int[] { 1, 2, 3, 4 }, new int[] { 1, 2, 3, 4 }));           // 4\n        Console.WriteLine(Solve(\n            new int[] { 1 }, new int[] { 1 }));                              // 1\n        Console.WriteLine(Solve(\n            new int[] { 1, 2, 3, 2, 1 }, new int[] { 3, 2, 1, 4, 7 }));    // 3\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "LongestCommonSubstring.go",
+          "content": "package main\n\nimport \"fmt\"\n\n// LongestCommonSubstring finds the length of the longest contiguous subarray\n// common to both arrays.\nfunc LongestCommonSubstring(arr1 []int, arr2 []int) int {\n\tn := len(arr1)\n\tm := len(arr2)\n\tmaxLen := 0\n\n\tdp := make([][]int, n+1)\n\tfor i := range dp {\n\t\tdp[i] = make([]int, m+1)\n\t}\n\n\tfor i := 1; i <= n; i++ {\n\t\tfor j := 1; j <= m; j++ {\n\t\t\tif arr1[i-1] == arr2[j-1] {\n\t\t\t\tdp[i][j] = dp[i-1][j-1] + 1\n\t\t\t\tif dp[i][j] > maxLen {\n\t\t\t\t\tmaxLen = dp[i][j]\n\t\t\t\t}\n\t\t\t} else {\n\t\t\t\tdp[i][j] = 0\n\t\t\t}\n\t\t}\n\t}\n\n\treturn maxLen\n}\n\nfunc main() {\n\tfmt.Println(LongestCommonSubstring([]int{1, 2, 3, 4, 5}, []int{3, 4, 5, 6, 7}))  // 3\n\tfmt.Println(LongestCommonSubstring([]int{1, 2, 3}, []int{4, 5, 6}))                // 0\n\tfmt.Println(LongestCommonSubstring([]int{1, 2, 3, 4}, []int{1, 2, 3, 4}))          // 4\n\tfmt.Println(LongestCommonSubstring([]int{1}, []int{1}))                             // 1\n\tfmt.Println(LongestCommonSubstring([]int{1, 2, 3, 2, 1}, []int{3, 2, 1, 4, 7}))   // 3\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "LongestCommonSubstring.java",
+          "content": "public class LongestCommonSubstring {\n\n    /**\n     * Find the length of the longest contiguous subarray common to both arrays.\n     *\n     * @param arr1 first array of integers\n     * @param arr2 second array of integers\n     * @return length of the longest common contiguous subarray\n     */\n    public static int longestCommonSubstring(int[] arr1, int[] arr2) {\n        int n = arr1.length;\n        int m = arr2.length;\n        int maxLen = 0;\n\n        int[][] dp = new int[n + 1][m + 1];\n\n        for (int i = 1; i <= n; i++) {\n            for (int j = 1; j <= m; j++) {\n                if (arr1[i - 1] == arr2[j - 1]) {\n                    dp[i][j] = dp[i - 1][j - 1] + 1;\n                    if (dp[i][j] > maxLen) {\n                        maxLen = dp[i][j];\n                    }\n                } else {\n                    dp[i][j] = 0;\n                }\n            }\n        }\n\n        return maxLen;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(longestCommonSubstring(\n            new int[]{1, 2, 3, 4, 5}, new int[]{3, 4, 5, 6, 7}));  // 3\n        System.out.println(longestCommonSubstring(\n            new int[]{1, 2, 3}, new int[]{4, 5, 6}));                // 0\n        System.out.println(longestCommonSubstring(\n            new int[]{1, 2, 3, 4}, new int[]{1, 2, 3, 4}));          // 4\n        System.out.println(longestCommonSubstring(\n            new int[]{1}, new int[]{1}));                             // 1\n        System.out.println(longestCommonSubstring(\n            new int[]{1, 2, 3, 2, 1}, new int[]{3, 2, 1, 4, 7}));   // 3\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "LongestCommonSubstring.kt",
+          "content": "/**\n * Find the length of the longest contiguous subarray common to both arrays.\n *\n * @param arr1 first array of integers\n * @param arr2 second array of integers\n * @return length of the longest common contiguous subarray\n */\nfun longestCommonSubstring(arr1: IntArray, arr2: IntArray): Int {\n    val n = arr1.size\n    val m = arr2.size\n    var maxLen = 0\n\n    val dp = Array(n + 1) { IntArray(m + 1) }\n\n    for (i in 1..n) {\n        for (j in 1..m) {\n            if (arr1[i - 1] == arr2[j - 1]) {\n                dp[i][j] = dp[i - 1][j - 1] + 1\n                if (dp[i][j] > maxLen) {\n                    maxLen = dp[i][j]\n                }\n            } else {\n                dp[i][j] = 0\n            }\n        }\n    }\n\n    return maxLen\n}\n\nfun main() {\n    println(longestCommonSubstring(intArrayOf(1, 2, 3, 4, 5), intArrayOf(3, 4, 5, 6, 7)))  // 3\n    println(longestCommonSubstring(intArrayOf(1, 2, 3), intArrayOf(4, 5, 6)))                // 0\n    println(longestCommonSubstring(intArrayOf(1, 2, 3, 4), intArrayOf(1, 2, 3, 4)))          // 4\n    println(longestCommonSubstring(intArrayOf(1), intArrayOf(1)))                             // 1\n    println(longestCommonSubstring(intArrayOf(1, 2, 3, 2, 1), intArrayOf(3, 2, 1, 4, 7)))   // 3\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "longest_common_substring.py",
+          "content": "def longest_common_substring(arr1, arr2):\n    \"\"\"\n    Find the length of the longest contiguous subarray common to both arrays.\n\n    arr1: first list of integers\n    arr2: second list of integers\n    Returns: length of the longest common contiguous subarray\n    \"\"\"\n    n = len(arr1)\n    m = len(arr2)\n    max_len = 0\n\n    # dp[i][j] = length of longest common suffix ending at arr1[i-1] and arr2[j-1]\n    dp = [[0] * (m + 1) for _ in range(n + 1)]\n\n    for i in range(1, n + 1):\n        for j in range(1, m + 1):\n            if arr1[i - 1] == arr2[j - 1]:\n                dp[i][j] = dp[i - 1][j - 1] + 1\n                if dp[i][j] > max_len:\n                    max_len = dp[i][j]\n            else:\n                dp[i][j] = 0\n\n    return max_len\n\n\nif __name__ == \"__main__\":\n    print(longest_common_substring([1, 2, 3, 4, 5], [3, 4, 5, 6, 7]))  # 3\n    print(longest_common_substring([1, 2, 3], [4, 5, 6]))              # 0\n    print(longest_common_substring([1, 2, 3, 4], [1, 2, 3, 4]))        # 4\n    print(longest_common_substring([1], [1]))                            # 1\n    print(longest_common_substring([1, 2, 3, 2, 1], [3, 2, 1, 4, 7]))  # 3\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "longest_common_substring.rs",
+          "content": "use std::cmp;\n\n/// Find the length of the longest contiguous subarray common to both slices.\n///\n/// # Arguments\n/// * `arr1` - first slice of integers\n/// * `arr2` - second slice of integers\n///\n/// # Returns\n/// Length of the longest common contiguous subarray\npub fn longest_common_substring(arr1: &[i32], arr2: &[i32]) -> i32 {\n    let n = arr1.len();\n    let m = arr2.len();\n    let mut max_len = 0;\n\n    let mut dp = vec![vec![0; m + 1]; n + 1];\n\n    for i in 1..=n {\n        for j in 1..=m {\n            if arr1[i - 1] == arr2[j - 1] {\n                dp[i][j] = dp[i - 1][j - 1] + 1;\n                max_len = cmp::max(max_len, dp[i][j]);\n            } else {\n                dp[i][j] = 0;\n            }\n        }\n    }\n\n    max_len\n}\n\nfn main() {\n    println!(\"{}\", longest_common_substring(&[1, 2, 3, 4, 5], &[3, 4, 5, 6, 7]));  // 3\n    println!(\"{}\", longest_common_substring(&[1, 2, 3], &[4, 5, 6]));                // 0\n    println!(\"{}\", longest_common_substring(&[1, 2, 3, 4], &[1, 2, 3, 4]));          // 4\n    println!(\"{}\", longest_common_substring(&[1], &[1]));                             // 1\n    println!(\"{}\", longest_common_substring(&[1, 2, 3, 2, 1], &[3, 2, 1, 4, 7]));   // 3\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "LongestCommonSubstring.scala",
+          "content": "object LongestCommonSubstring {\n\n  /**\n   * Find the length of the longest contiguous subarray common to both arrays.\n   *\n   * @param arr1 first array of integers\n   * @param arr2 second array of integers\n   * @return length of the longest common contiguous subarray\n   */\n  def longestCommonSubstring(arr1: Array[Int], arr2: Array[Int]): Int = {\n    val n = arr1.length\n    val m = arr2.length\n    var maxLen = 0\n\n    val dp = Array.ofDim[Int](n + 1, m + 1)\n\n    for (i <- 1 to n) {\n      for (j <- 1 to m) {\n        if (arr1(i - 1) == arr2(j - 1)) {\n          dp(i)(j) = dp(i - 1)(j - 1) + 1\n          if (dp(i)(j) > maxLen) {\n            maxLen = dp(i)(j)\n          }\n        } else {\n          dp(i)(j) = 0\n        }\n      }\n    }\n\n    maxLen\n  }\n\n  def main(args: Array[String]): Unit = {\n    println(longestCommonSubstring(Array(1, 2, 3, 4, 5), Array(3, 4, 5, 6, 7)))  // 3\n    println(longestCommonSubstring(Array(1, 2, 3), Array(4, 5, 6)))                // 0\n    println(longestCommonSubstring(Array(1, 2, 3, 4), Array(1, 2, 3, 4)))          // 4\n    println(longestCommonSubstring(Array(1), Array(1)))                             // 1\n    println(longestCommonSubstring(Array(1, 2, 3, 2, 1), Array(3, 2, 1, 4, 7)))   // 3\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "LongestCommonSubstring.swift",
+          "content": "/// Find the length of the longest contiguous subarray common to both arrays.\n///\n/// - Parameter arr1: first array of integers\n/// - Parameter arr2: second array of integers\n/// - Returns: length of the longest common contiguous subarray\nfunc longestCommonSubstring(_ arr1: [Int], _ arr2: [Int]) -> Int {\n    let n = arr1.count\n    let m = arr2.count\n    var maxLen = 0\n\n    var dp = Array(repeating: Array(repeating: 0, count: m + 1), count: n + 1)\n\n    for i in 1...n {\n        for j in 1...m {\n            if arr1[i - 1] == arr2[j - 1] {\n                dp[i][j] = dp[i - 1][j - 1] + 1\n                if dp[i][j] > maxLen {\n                    maxLen = dp[i][j]\n                }\n            } else {\n                dp[i][j] = 0\n            }\n        }\n    }\n\n    return maxLen\n}\n\nprint(longestCommonSubstring([1, 2, 3, 4, 5], [3, 4, 5, 6, 7]))  // 3\nprint(longestCommonSubstring([1, 2, 3], [4, 5, 6]))                // 0\nprint(longestCommonSubstring([1, 2, 3, 4], [1, 2, 3, 4]))          // 4\nprint(longestCommonSubstring([1], [1]))                             // 1\nprint(longestCommonSubstring([1, 2, 3, 2, 1], [3, 2, 1, 4, 7]))   // 3\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "longestCommonSubstring.ts",
+          "content": "/**\n * Find the length of the longest contiguous subarray common to both arrays.\n *\n * @param arr1 - first array of numbers\n * @param arr2 - second array of numbers\n * @returns length of the longest common contiguous subarray\n */\nexport function longestCommonSubstring(arr1: number[], arr2: number[]): number {\n    const n = arr1.length;\n    const m = arr2.length;\n    let maxLen = 0;\n\n    const dp: number[][] = Array.from({ length: n + 1 }, () =>\n        new Array(m + 1).fill(0)\n    );\n\n    for (let i = 1; i <= n; i++) {\n        for (let j = 1; j <= m; j++) {\n            if (arr1[i - 1] === arr2[j - 1]) {\n                dp[i][j] = dp[i - 1][j - 1] + 1;\n                if (dp[i][j] > maxLen) {\n                    maxLen = dp[i][j];\n                }\n            } else {\n                dp[i][j] = 0;\n            }\n        }\n    }\n\n    return maxLen;\n}\n\nconsole.log(longestCommonSubstring([1, 2, 3, 4, 5], [3, 4, 5, 6, 7]));  // 3\nconsole.log(longestCommonSubstring([1, 2, 3], [4, 5, 6]));                // 0\nconsole.log(longestCommonSubstring([1, 2, 3, 4], [1, 2, 3, 4]));          // 4\nconsole.log(longestCommonSubstring([1], [1]));                             // 1\nconsole.log(longestCommonSubstring([1, 2, 3, 2, 1], [3, 2, 1, 4, 7]));   // 3\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Longest Common Substring\n\n## Overview\n\nThe Longest Common Substring problem finds the length of the longest contiguous sequence of elements that appears in both of two given sequences. Unlike the Longest Common Subsequence (LCS), which allows gaps, the Longest Common Substring requires that the matching elements be consecutive in both sequences.\n\nFor example, given arrays [1, 2, 3, 4, 5] and [3, 4, 5, 6, 7], the longest common substring (contiguous subarray) is [3, 4, 5] with length 3. This problem has applications in plagiarism detection, DNA sequence analysis, data deduplication, and file comparison tools.\n\n## How It Works\n\nThe algorithm builds a 2D table `dp[i][j]` where each entry represents the length of the longest common suffix of the subarrays ending at index i-1 in the first array and index j-1 in the second array.\n\n1. **Initialize:** Create a table of size (n+1) x (m+1) filled with zeros, where n and m are the lengths of the two arrays.\n2. **Fill the table:** For each pair (i, j), if arr1[i-1] equals arr2[j-1], then `dp[i][j] = dp[i-1][j-1] + 1`. Otherwise, `dp[i][j] = 0`.\n3. **Track maximum:** Keep track of the maximum value seen in the table.\n4. **Result:** The maximum value in the table is the length of the longest common substring.\n\n### Example\n\nGiven arr1 = [1, 2, 3, 2, 1] and arr2 = [3, 2, 1, 4, 7]:\n\n**DP Table:**\n\n|     |   | 3 | 2 | 1 | 4 | 7 |\n|-----|---|---|---|---|---|---|\n|     | 0 | 0 | 0 | 0 | 0 | 0 |\n| 1   | 0 | 0 | 0 | 1 | 0 | 0 |\n| 2   | 0 | 0 | 1 | 0 | 0 | 0 |\n| 3   | 0 | 1 | 0 | 0 | 0 | 0 |\n| 2   | 0 | 0 | 2 | 0 | 0 | 0 |\n| 1   | 0 | 0 | 0 | 3 | 0 | 0 |\n\nThe maximum value is **3**, corresponding to the common substring [3, 2, 1] (indices 2-4 of arr1 and indices 0-2 of arr2).\n\n## Pseudocode\n\n```\nfunction longestCommonSubstring(arr1, arr2):\n    n = length(arr1)\n    m = length(arr2)\n    dp = 2D array of size (n+1) x (m+1), initialized to 0\n    maxLen = 0\n\n    for i from 1 to n:\n        for j from 1 to m:\n            if arr1[i-1] == arr2[j-1]:\n                dp[i][j] = dp[i-1][j-1] + 1\n                maxLen = max(maxLen, dp[i][j])\n            else:\n                dp[i][j] = 0\n\n    return maxLen\n```\n\n## Complexity Analysis\n\n| Case    | Time    | Space   |\n|---------|---------|---------|\n| Best    | O(n*m)  | O(n*m)  |\n| Average | O(n*m)  | O(n*m)  |\n| Worst   | O(n*m)  | O(n*m)  |\n\n**Why these complexities?**\n\n- **Time -- O(n*m):** The algorithm fills every cell of the (n+1) x (m+1) table exactly once, with O(1) work per cell.\n\n- **Space -- O(n*m):** The full 2D table is stored. Note: space can be optimized to O(min(n, m)) by keeping only the previous row, since each cell depends only on the diagonal predecessor.\n\n## Applications\n\n- **Plagiarism detection:** Finding the longest copied passage between two documents.\n- **DNA sequence analysis:** Identifying the longest common gene segment between two DNA sequences.\n- **Data deduplication:** Finding repeated data blocks across files or storage systems.\n- **Diff tools:** File comparison utilities use variants of this to find matching regions.\n- **Version control:** Identifying unchanged regions between file revisions.\n\n## When NOT to Use\n\n- **When gaps are allowed:** Use Longest Common Subsequence instead if the common elements do not need to be contiguous.\n- **Very long sequences:** For extremely long sequences, the O(n*m) time and space may be prohibitive. Suffix tree/array approaches achieve O(n+m) time.\n- **Approximate matching:** When fuzzy or approximate matches are acceptable, edit distance or other similarity measures are more appropriate.\n\n## Comparison with Similar Algorithms\n\n| Algorithm                   | Time      | Space     | Notes                                    |\n|-----------------------------|-----------|-----------|------------------------------------------|\n| Longest Common Substring    | O(n*m)    | O(n*m)    | Contiguous match required                |\n| Longest Common Subsequence  | O(n*m)    | O(n*m)    | Gaps allowed; more general               |\n| Edit Distance               | O(n*m)    | O(n*m)    | Measures total difference                 |\n| Suffix Tree approach        | O(n+m)    | O(n+m)    | Faster but more complex to implement      |\n| Suffix Array approach       | O((n+m)log(n+m)) | O(n+m) | Good practical performance          |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [longest_common_substring.py](python/longest_common_substring.py) |\n| Java       | [LongestCommonSubstring.java](java/LongestCommonSubstring.java) |\n| TypeScript | [longestCommonSubstring.ts](typescript/longestCommonSubstring.ts) |\n| C++        | [longest_common_substring.cpp](cpp/longest_common_substring.cpp) |\n| C          | [longest_common_substring.c](c/longest_common_substring.c) |\n| Go         | [LongestCommonSubstring.go](go/LongestCommonSubstring.go) |\n| Rust       | [longest_common_substring.rs](rust/longest_common_substring.rs) |\n| Kotlin     | [LongestCommonSubstring.kt](kotlin/LongestCommonSubstring.kt) |\n| Swift      | [LongestCommonSubstring.swift](swift/LongestCommonSubstring.swift) |\n| Scala      | [LongestCommonSubstring.scala](scala/LongestCommonSubstring.scala) |\n| C#         | [LongestCommonSubstring.cs](csharp/LongestCommonSubstring.cs) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 15: Dynamic Programming.\n- Gusfield, D. (1997). *Algorithms on Strings, Trees, and Sequences*. Cambridge University Press.\n- [Longest Common Substring Problem -- Wikipedia](https://en.wikipedia.org/wiki/Longest_common_substring_problem)\n"
+}

@@ -1,0 +1,17 @@
+name: "Elevator Algorithm"
+slug: "elevator-algorithm"
+category: "greedy"
+subcategory: "scheduling"
+difficulty: "intermediate"
+tags: [greedy, scheduling, elevator, scan, disk-scheduling]
+complexity:
+  time:
+    best: "O(n log n)"
+    average: "O(n log n)"
+    worst: "O(n log n)"
+  space: "O(n)"
+stable: false
+in_place: false
+related: []
+implementations: [java]
+visualization: true

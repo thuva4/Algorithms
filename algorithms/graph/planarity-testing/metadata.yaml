@@ -1,0 +1,17 @@
+name: "Planarity Testing (Euler's Formula)"
+slug: "planarity-testing"
+category: "graph"
+subcategory: "properties"
+difficulty: "advanced"
+tags: [graph, planar, euler-formula, planarity, simple-graph]
+complexity:
+  time:
+    best: "O(V + E)"
+    average: "O(V + E)"
+    worst: "O(V + E)"
+  space: "O(V + E)"
+stable: null
+in_place: false
+related: [bridges, articulation-points]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

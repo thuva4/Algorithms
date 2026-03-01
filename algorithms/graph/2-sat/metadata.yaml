@@ -1,0 +1,17 @@
+name: "2-SAT"
+slug: "2-sat"
+category: "graph"
+subcategory: "satisfiability"
+difficulty: "advanced"
+tags: [graph, 2-sat, implication-graph, scc, boolean-satisfiability]
+complexity:
+  time:
+    best: "O(V + E)"
+    average: "O(V + E)"
+    worst: "O(V + E)"
+  space: "O(V + E)"
+stable: null
+in_place: false
+related: [tarjans-scc]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

@@ -1,0 +1,21 @@
+algorithm: "bidirectional-bfs"
+function_signature:
+  name: "bidirectional_bfs"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "direct edge"
+    input: [[4, 4, 0, 3, 0, 1, 1, 2, 2, 3, 0, 3]]
+    expected: 1
+  - name: "path through graph"
+    input: [[4, 3, 0, 3, 0, 1, 1, 2, 2, 3]]
+    expected: 3
+  - name: "same source and target"
+    input: [[3, 2, 1, 1, 0, 1, 1, 2]]
+    expected: 0
+  - name: "unreachable"
+    input: [[4, 2, 0, 3, 0, 1, 2, 3]]
+    expected: -1
+  - name: "two nodes"
+    input: [[2, 1, 0, 1, 0, 1]]
+    expected: 1

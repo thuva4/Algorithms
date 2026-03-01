@@ -1,0 +1,17 @@
+name: "B-Tree"
+slug: "b-tree"
+category: "trees"
+subcategory: "balanced-trees"
+difficulty: "advanced"
+tags: [tree, balanced, self-balancing, disk-based, database, b-tree]
+complexity:
+  time:
+    best: "O(log n)"
+    average: "O(log n)"
+    worst: "O(log n)"
+  space: "O(n)"
+stable: null
+in_place: false
+related: [binary-search-tree, avl-tree, red-black-tree]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

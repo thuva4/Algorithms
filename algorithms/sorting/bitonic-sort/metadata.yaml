@@ -1,0 +1,17 @@
+name: "Bitonic Sort"
+slug: "bitonic-sort"
+category: "sorting"
+subcategory: "comparison-based"
+difficulty: "advanced"
+tags: [sorting, comparison, parallel, network-sort]
+complexity:
+  time:
+    best: "O(n log^2 n)"
+    average: "O(n log^2 n)"
+    worst: "O(n log^2 n)"
+  space: "O(n log^2 n)"
+stable: false
+in_place: false
+related: [merge-sort, shell-sort]
+implementations: [python, java, cpp, c, go, typescript, kotlin, rust, swift, scala, csharp]
+visualization: true

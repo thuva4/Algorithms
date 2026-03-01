@@ -1,0 +1,18 @@
+algorithm: "lz77-compression"
+function_signature:
+  name: "lz77_compression"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "repeated pattern"
+    input: [[1, 2, 3, 1, 2, 3]]
+    expected: 1
+  - name: "all same"
+    input: [[5, 5, 5, 5]]
+    expected: 1
+  - name: "no repeats"
+    input: [[1, 2, 3, 4]]
+    expected: 0
+  - name: "two back-references"
+    input: [[1, 2, 1, 2, 3, 4, 3, 4]]
+    expected: 2

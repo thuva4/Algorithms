@@ -1,0 +1,17 @@
+name: "Doomsday Algorithm"
+slug: "doomsday"
+category: "math"
+subcategory: "calendar"
+difficulty: "intermediate"
+tags: [math, calendar, day-of-week, doomsday, date]
+complexity:
+  time:
+    best: "O(1)"
+    average: "O(1)"
+    worst: "O(1)"
+  space: "O(1)"
+stable: false
+in_place: true
+related: []
+implementations: [python, java, cpp, go, csharp, typescript, kotlin, swift]
+visualization: false

@@ -1,0 +1,36 @@
+algorithm: "lucas-theorem"
+function_signature:
+  name: "lucas_theorem"
+  input: [n, k, p]
+  output: binomial_mod_p
+test_cases:
+  - name: "C(10, 3) mod 7"
+    input:
+      n: 10
+      k: 3
+      p: 7
+    expected: 1
+  - name: "C(5, 2) mod 3"
+    input:
+      n: 5
+      k: 2
+      p: 3
+    expected: 1
+  - name: "C(100, 50) mod 13"
+    input:
+      n: 100
+      k: 50
+      p: 13
+    expected: 0
+  - name: "k greater than n"
+    input:
+      n: 3
+      k: 5
+      p: 7
+    expected: 0
+  - name: "C(0, 0) mod 5"
+    input:
+      n: 0
+      k: 0
+      p: 5
+    expected: 1

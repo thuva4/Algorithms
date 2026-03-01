@@ -1,0 +1,142 @@
+{
+  "name": "Strand Sort",
+  "slug": "strand-sort",
+  "category": "sorting",
+  "subcategory": "comparison-based",
+  "difficulty": "intermediate",
+  "tags": [
+    "sorting",
+    "comparison",
+    "merge",
+    "subsequence"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "average": "O(n^2)",
+      "worst": "O(n^2)"
+    },
+    "space": "O(n)"
+  },
+  "stable": true,
+  "in_place": false,
+  "related": [
+    "merge-sort",
+    "tim-sort"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "strand_sort.c",
+          "content": "#include \"strand_sort.h\"\n#include <stdlib.h>\n\ntypedef struct Node {\n    int data;\n    struct Node* next;\n} Node;\n\nstatic void push(Node** head_ref, int new_data) {\n    Node* new_node = (Node*)malloc(sizeof(Node));\n    new_node->data = new_data;\n    new_node->next = (*head_ref);\n    (*head_ref) = new_node;\n}\n\nstatic void merge(Node** sorted, Node* strand) {\n    if (*sorted == NULL) {\n        *sorted = strand;\n        return;\n    }\n\n    Node* head = NULL;\n    Node** tail = &head;\n    Node* a = *sorted;\n    Node* b = strand;\n\n    while (a && b) {\n        if (a->data <= b->data) {\n            *tail = a;\n            a = a->next;\n        } else {\n            *tail = b;\n            b = b->next;\n        }\n        tail = &((*tail)->next);\n    }\n\n    if (a) *tail = a;\n    if (b) *tail = b;\n\n    *sorted = head;\n}\n\nvoid strand_sort(int arr[], int n) {\n    if (n <= 0) return;\n\n    Node* head = NULL;\n    for (int i = n - 1; i >= 0; i--) {\n        push(&head, arr[i]);\n    }\n\n    Node* sorted = NULL;\n\n    while (head != NULL) {\n        Node* strand = head;\n        Node** tail_strand = &strand->next;\n        head = head->next;\n        *tail_strand = NULL;\n\n        Node* curr = head;\n        Node** prev = &head;\n\n        while (curr != NULL) {\n            if (curr->data >= strand->data) {\n                // Determine if curr should be appended to strand\n                // We need to compare with the last element of strand\n                Node* last = strand;\n                while (last->next != NULL) last = last->next;\n                \n                if (curr->data >= last->data) {\n                    // Move curr from list to strand\n                    *prev = curr->next;\n                    curr->next = NULL;\n                    last->next = curr;\n                    curr = *prev;\n                    continue;\n                }\n            }\n            prev = &curr->next;\n            curr = curr->next;\n        }\n        merge(&sorted, strand);\n    }\n\n    int i = 0;\n    while (sorted != NULL) {\n        arr[i++] = sorted->data;\n        Node* temp = sorted;\n        sorted = sorted->next;\n        free(temp);\n    }\n}\n"
+        },
+        {
+          "filename": "strand_sort.h",
+          "content": "#ifndef STRAND_SORT_H\n#define STRAND_SORT_H\n\nvoid strand_sort(int arr[], int n);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "strand_sort.cpp",
+          "content": "#include \"strand_sort.h\"\n#include <list>\n#include <vector>\n\nvoid strand_sort(std::vector<int>& arr) {\n    if (arr.empty()) return;\n\n    std::list<int> lst(arr.begin(), arr.end());\n    std::list<int> sorted;\n\n    while (!lst.empty()) {\n        std::list<int> strand;\n        strand.push_back(lst.front());\n        lst.pop_front();\n\n        for (auto it = lst.begin(); it != lst.end(); ) {\n            if (*it >= strand.back()) {\n                strand.push_back(*it);\n                it = lst.erase(it);\n            } else {\n                ++it;\n            }\n        }\n        sorted.merge(strand);\n    }\n\n    int i = 0;\n    for (int x : sorted) {\n        arr[i++] = x;\n    }\n}\n"
+        },
+        {
+          "filename": "strand_sort.h",
+          "content": "#ifndef STRAND_SORT_H\n#define STRAND_SORT_H\n\n#include <vector>\n\nvoid strand_sort(std::vector<int>& arr);\n\n#endif\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "StrandSort.cs",
+          "content": "using System;\nusing System.Collections.Generic;\n\nnamespace Algorithms.Sorting.StrandSort\n{\n    public class StrandSort\n    {\n        public static void Sort(int[] arr)\n        {\n            if (arr == null || arr.Length <= 1) return;\n\n            LinkedList<int> list = new LinkedList<int>(arr);\n            LinkedList<int> sorted = new LinkedList<int>();\n\n            while (list.Count > 0)\n            {\n                LinkedList<int> strand = new LinkedList<int>();\n                strand.AddLast(list.First.Value);\n                list.RemoveFirst();\n\n                LinkedListNode<int> current = list.First;\n                while (current != null)\n                {\n                    LinkedListNode<int> next = current.Next;\n                    if (current.Value >= strand.Last.Value)\n                    {\n                        strand.AddLast(current.Value);\n                        list.Remove(current);\n                    }\n                    current = next;\n                }\n\n                Merge(sorted, strand);\n            }\n\n            list = sorted;\n            int i = 0;\n            foreach (int val in sorted)\n            {\n                arr[i++] = val;\n            }\n        }\n\n        private static void Merge(LinkedList<int> sorted, LinkedList<int> strand)\n        {\n            if (sorted.Count == 0)\n            {\n                foreach (var item in strand) sorted.AddLast(item);\n                return;\n            }\n\n            LinkedListNode<int> sortedNode = sorted.First;\n            LinkedListNode<int> strandNode = strand.First;\n\n            while (sortedNode != null && strandNode != null)\n            {\n                if (strandNode.Value < sortedNode.Value)\n                {\n                    sorted.AddBefore(sortedNode, strandNode.Value);\n                    strandNode = strandNode.Next;\n                }\n                else\n                {\n                    sortedNode = sortedNode.Next;\n                }\n            }\n\n            while (strandNode != null)\n            {\n                sorted.AddLast(strandNode.Value);\n                strandNode = strandNode.Next;\n            }\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "strand_sort.go",
+          "content": "package strandsort\n\n// StrandSort sorts an array of integers using the Strand Sort algorithm.\nfunc StrandSort(arr []int) {\n\tif len(arr) <= 1 {\n\t\treturn\n\t}\n\n\t// Use a slice as a list\n\tlist := make([]int, len(arr))\n\tcopy(list, arr)\n\t\n\tvar sorted []int\n\n\tfor len(list) > 0 {\n\t\tvar strand []int\n\t\tstrand = append(strand, list[0])\n\t\t\n\t\t// Remaining list after extracting strand\n\t\tvar remaining []int\n\t\t\n\t\t// Start checking from the second element\n\t\tfor i := 1; i < len(list); i++ {\n\t\t\tif list[i] >= strand[len(strand)-1] {\n\t\t\t\tstrand = append(strand, list[i])\n\t\t\t} else {\n\t\t\t\tremaining = append(remaining, list[i])\n\t\t\t}\n\t\t}\n\t\t\n\t\tlist = remaining\n\t\tsorted = merge(sorted, strand)\n\t}\n\n\tcopy(arr, sorted)\n}\n\nfunc merge(sorted, strand []int) []int {\n\tresult := make([]int, 0, len(sorted)+len(strand))\n\ti, j := 0, 0\n\t\n\tfor i < len(sorted) && j < len(strand) {\n\t\tif sorted[i] <= strand[j] {\n\t\t\tresult = append(result, sorted[i])\n\t\t\ti++\n\t\t} else {\n\t\t\tresult = append(result, strand[j])\n\t\t\tj++\n\t\t}\n\t}\n\t\n\tfor i < len(sorted) {\n\t\tresult = append(result, sorted[i])\n\t\ti++\n\t}\n\tfor j < len(strand) {\n\t\tresult = append(result, strand[j])\n\t\tj++\n\t}\n\t\n\treturn result\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "StrandSort.java",
+          "content": "package algorithms.sorting.strand;\n\nimport java.util.Iterator;\nimport java.util.LinkedList;\n\npublic class StrandSort {\n    public static void sort(int[] arr) {\n        if (arr == null || arr.length <= 1) return;\n\n        LinkedList<Integer> list = new LinkedList<>();\n        for (int i : arr) list.add(i);\n\n        LinkedList<Integer> sorted = new LinkedList<>();\n\n        while (!list.isEmpty()) {\n            LinkedList<Integer> strand = new LinkedList<>();\n            strand.add(list.removeFirst());\n\n            Iterator<Integer> it = list.iterator();\n            while (it.hasNext()) {\n                int val = it.next();\n                if (val >= strand.getLast()) {\n                    strand.add(val);\n                    it.remove();\n                }\n            }\n\n            sorted = merge(sorted, strand);\n        }\n\n        int i = 0;\n        for (int val : sorted) {\n            arr[i++] = val;\n        }\n    }\n\n    private static LinkedList<Integer> merge(LinkedList<Integer> sorted, LinkedList<Integer> strand) {\n        LinkedList<Integer> result = new LinkedList<>();\n        while (!sorted.isEmpty() && !strand.isEmpty()) {\n            if (sorted.getFirst() <= strand.getFirst()) {\n                result.add(sorted.removeFirst());\n            } else {\n                result.add(strand.removeFirst());\n            }\n        }\n        result.addAll(sorted);\n        result.addAll(strand);\n        return result;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "StrandSort.kt",
+          "content": "package algorithms.sorting.strandsort\n\nimport java.util.LinkedList\n\nclass StrandSort {\n    fun sort(arr: IntArray) {\n        if (arr.size <= 1) return\n\n        val list = LinkedList<Int>()\n        for (i in arr) list.add(i)\n\n        var sorted = LinkedList<Int>()\n\n        while (list.isNotEmpty()) {\n            val strand = LinkedList<Int>()\n            strand.add(list.removeFirst())\n\n            val it = list.iterator()\n            while (it.hasNext()) {\n                val value = it.next()\n                if (value >= strand.last) {\n                    strand.add(value)\n                    it.remove()\n                }\n            }\n\n            sorted = merge(sorted, strand)\n        }\n\n        for (i in arr.indices) {\n            arr[i] = sorted[i]\n        }\n    }\n\n    private fun merge(sorted: LinkedList<Int>, strand: LinkedList<Int>): LinkedList<Int> {\n        val result = LinkedList<Int>()\n        while (sorted.isNotEmpty() && strand.isNotEmpty()) {\n            if (sorted.first <= strand.first) {\n                result.add(sorted.removeFirst())\n            } else {\n                result.add(strand.removeFirst())\n            }\n        }\n        result.addAll(sorted)\n        result.addAll(strand)\n        return result\n    }\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "strand_sort.py",
+          "content": "def strand_sort(arr):\n    if not arr:\n        return arr\n    \n    items = arr[:]\n    sorted_list = []\n    \n    while items:\n        strand = [items.pop(0)]\n        remaining = []\n        \n        for item in items:\n            if item >= strand[-1]:\n                strand.append(item)\n            else:\n                remaining.append(item)\n        \n        items = remaining\n        sorted_list = merge(sorted_list, strand)\n    \n    # Copy back to original array\n    for i in range(len(arr)):\n        arr[i] = sorted_list[i]\n        \n    return arr\n\ndef merge(sorted_list, strand):\n    result = []\n    while sorted_list and strand:\n        if sorted_list[0] <= strand[0]:\n            result.append(sorted_list.pop(0))\n        else:\n            result.append(strand.pop(0))\n    \n    result.extend(sorted_list)\n    result.extend(strand)\n    return result\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "strand_sort.rs",
+          "content": "pub fn strand_sort(arr: &mut [i32]) {\n    if arr.len() <= 1 {\n        return;\n    }\n\n    let mut list: Vec<i32> = arr.to_vec();\n    let mut sorted: Vec<i32> = Vec::new();\n\n    while !list.is_empty() {\n        let mut strand: Vec<i32> = Vec::new();\n        let mut remaining: Vec<i32> = Vec::new();\n\n        strand.push(list.remove(0));\n\n        for &item in &list {\n            if item >= *strand.last().unwrap() {\n                strand.push(item);\n            } else {\n                remaining.push(item);\n            }\n        }\n\n        list = remaining;\n        sorted = merge(sorted, strand);\n    }\n\n    arr.copy_from_slice(&sorted);\n}\n\nfn merge(sorted: Vec<i32>, strand: Vec<i32>) -> Vec<i32> {\n    let mut result = Vec::with_capacity(sorted.len() + strand.len());\n    let mut i = 0;\n    let mut j = 0;\n\n    while i < sorted.len() && j < strand.len() {\n        if sorted[i] <= strand[j] {\n            result.push(sorted[i]);\n            i += 1;\n        } else {\n            result.push(strand[j]);\n            j += 1;\n        }\n    }\n\n    while i < sorted.len() {\n        result.push(sorted[i]);\n        i += 1;\n    }\n\n    while j < strand.len() {\n        result.push(strand[j]);\n        j += 1;\n    }\n\n    result\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "StrandSort.scala",
+          "content": "object StrandSort {\n  def sort(arr: Array[Int]): Unit = {\n    if (arr.length <= 1) return\n\n    var list = arr.toList\n    var sorted = List[Int]()\n\n    while (list.nonEmpty) {\n      var strand = List(list.head)\n      var remaining = List[Int]()\n      \n      for (item <- list.tail) {\n        if (item >= strand.last) {\n          strand = strand :+ item\n        } else {\n          remaining = remaining :+ item\n        }\n      }\n      \n      list = remaining\n      sorted = merge(sorted, strand)\n    }\n\n    for (i <- arr.indices) {\n      arr(i) = sorted(i)\n    }\n  }\n\n  private def merge(left: List[Int], right: List[Int]): List[Int] = {\n    (left, right) match {\n      case (Nil, _) => right\n      case (_, Nil) => left\n      case (l :: ls, r :: rs) =>\n        if (l <= r) l :: merge(ls, right)\n        else r :: merge(left, rs)\n    }\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "StrandSort.swift",
+          "content": "class StrandSort {\n    static func sort(_ arr: inout [Int]) {\n        if arr.count <= 1 { return }\n        \n        var list = arr\n        var sorted: [Int] = []\n        \n        while !list.isEmpty {\n            var strand: [Int] = []\n            strand.append(list.removeFirst())\n            \n            var i = 0\n            while i < list.count {\n                if list[i] >= strand.last! {\n                    strand.append(list.remove(at: i))\n                } else {\n                    i += 1\n                }\n            }\n            \n            sorted = merge(sorted, strand)\n        }\n        \n        arr = sorted\n    }\n    \n    private static func merge(_ left: [Int], _ right: [Int]) -> [Int] {\n        var result: [Int] = []\n        var i = 0\n        var j = 0\n        \n        while i < left.count && j < right.count {\n            if left[i] <= right[j] {\n                result.append(left[i])\n                i += 1\n            } else {\n                result.append(right[j])\n                j += 1\n            }\n        }\n        \n        while i < left.count {\n            result.append(left[i])\n            i += 1\n        }\n        \n        while j < right.count {\n            result.append(right[j])\n            j += 1\n        }\n        \n        return result\n    }\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "strand-sort.ts",
+          "content": "export function strandSort(arr: number[]): number[] {\n  if (arr.length <= 1) return arr;\n\n  let list = [...arr];\n  let sorted: number[] = [];\n\n  while (list.length > 0) {\n    const strand: number[] = [list.shift()!];\n    const remaining: number[] = [];\n\n    for (const item of list) {\n      if (item >= strand[strand.length - 1]) {\n        strand.push(item);\n      } else {\n        remaining.push(item);\n      }\n    }\n\n    list = remaining;\n    sorted = merge(sorted, strand);\n  }\n\n  // Copy back to original array (in-place modification simulation)\n  for (let i = 0; i < arr.length; i++) {\n    arr[i] = sorted[i];\n  }\n  \n  return arr;\n}\n\nfunction merge(left: number[], right: number[]): number[] {\n  const result: number[] = [];\n  let i = 0;\n  let j = 0;\n\n  while (i < left.length && j < right.length) {\n    if (left[i] <= right[j]) {\n      result.push(left[i]);\n      i++;\n    } else {\n      result.push(right[j]);\n      j++;\n    }\n  }\n\n  return result.concat(left.slice(i)).concat(right.slice(j));\n}\n"
+        },
+        {
+          "filename": "strandSort.ts",
+          "content": "function mergeSorted(a: number[], b: number[]): number[] {\n    const result: number[] = [];\n    let i = 0, j = 0;\n    while (i < a.length && j < b.length) {\n        if (a[i] <= b[j]) result.push(a[i++]);\n        else result.push(b[j++]);\n    }\n    while (i < a.length) result.push(a[i++]);\n    while (j < b.length) result.push(b[j++]);\n    return result;\n}\n\nexport function strandSort(arr: number[]): number[] {\n    if (arr.length <= 1) return [...arr];\n\n    const remaining = [...arr];\n    let output: number[] = [];\n\n    while (remaining.length > 0) {\n        const strand: number[] = [remaining.shift()!];\n\n        let i = 0;\n        while (i < remaining.length) {\n            if (remaining[i] >= strand[strand.length - 1]) {\n                strand.push(remaining.splice(i, 1)[0]);\n            } else {\n                i++;\n            }\n        }\n\n        output = mergeSorted(output, strand);\n    }\n\n    return output;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Strand Sort\n\n## Overview\n\nStrand Sort is a sorting algorithm that repeatedly pulls sorted subsequences (strands) out of the unsorted input and merges them into the output. It works by scanning the input list to extract an increasing subsequence, then merging that subsequence into the growing sorted output. This process repeats until the input is exhausted. Strand Sort is particularly efficient on data that already contains long sorted runs, as it can extract and merge them in fewer iterations.\n\nThe algorithm was first described by R. W. Hamming and is notable for its elegant use of the merge operation, similar to merge sort, combined with a greedy extraction of naturally occurring sorted subsequences.\n\n## How It Works\n\n1. **Extract a strand:** Move the first element from the input into a new sublist (strand). Then scan through the remaining input: whenever an element is greater than or equal to the last element of the strand, remove it from the input and append it to the strand.\n2. **Merge the strand:** Merge the extracted strand into the sorted output list using a standard sorted merge (like the merge step in merge sort).\n3. **Repeat** steps 1-2 until the input list is empty.\n\n## Example\n\nGiven input: `[6, 2, 4, 7, 1, 3, 8, 5]`\n\n**Iteration 1 -- Extract strand:**\n- Start with `6`. Scan: 2 < 6 (skip), 4 < 6 (skip), 7 >= 6 (take), 1 < 7 (skip), 3 < 7 (skip), 8 >= 7 (take), 5 < 8 (skip).\n- Strand: `[6, 7, 8]`\n- Remaining input: `[2, 4, 1, 3, 5]`\n- Merge `[6, 7, 8]` into output `[]`: Output = `[6, 7, 8]`\n\n**Iteration 2 -- Extract strand:**\n- Start with `2`. Scan: 4 >= 2 (take), 1 < 4 (skip), 3 < 4 (skip), 5 >= 4 (take).\n- Strand: `[2, 4, 5]`\n- Remaining input: `[1, 3]`\n- Merge `[2, 4, 5]` into `[6, 7, 8]`: Output = `[2, 4, 5, 6, 7, 8]`\n\n**Iteration 3 -- Extract strand:**\n- Start with `1`. Scan: 3 >= 1 (take).\n- Strand: `[1, 3]`\n- Remaining input: `[]`\n- Merge `[1, 3]` into `[2, 4, 5, 6, 7, 8]`: Output = `[1, 2, 3, 4, 5, 6, 7, 8]`\n\nResult: `[1, 2, 3, 4, 5, 6, 7, 8]`\n\n## Pseudocode\n\n```\nfunction strandSort(input):\n    output = empty list\n\n    while input is not empty:\n        // Extract a strand\n        strand = [input.removeFirst()]\n\n        i = 0\n        while i < length(input):\n            if input[i] >= strand.last():\n                strand.append(input.remove(i))\n            else:\n                i = i + 1\n\n        // Merge strand into output\n        output = merge(output, strand)\n\n    return output\n\nfunction merge(a, b):\n    result = empty list\n    while a is not empty and b is not empty:\n        if a.first() <= b.first():\n            result.append(a.removeFirst())\n        else:\n            result.append(b.removeFirst())\n    result.extend(a)\n    result.extend(b)\n    return result\n```\n\n## Complexity Analysis\n\n| Case    | Time     | Space |\n|---------|----------|-------|\n| Best    | O(n)     | O(n)  |\n| Average | O(n^2)   | O(n)  |\n| Worst   | O(n^2)   | O(n)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(n):** When the input is already sorted, the entire array is extracted as a single strand in one pass (O(n)), and it is merged into the empty output (O(n)). Total: O(n).\n\n- **Average Case -- O(n^2):** On average, each strand extraction pulls out O(sqrt(n)) elements (the expected length of a longest increasing subsequence in a random permutation). This means O(sqrt(n)) strands are extracted, and each merge into the output takes O(n). Total: O(n * sqrt(n)), but the worst case analysis gives O(n^2) since strands can be as short as 1 element.\n\n- **Worst Case -- O(n^2):** When the input is sorted in reverse order, each strand contains only one element. This requires n strands, and each merge takes O(n) in the worst case, giving O(n^2) total.\n\n- **Space -- O(n):** The output list, strands, and remaining input together hold all n elements, requiring O(n) total space.\n\n## When to Use\n\n- **Partially sorted data:** Strand Sort excels when the data contains long naturally occurring sorted subsequences (runs). In the best case with already-sorted data, it runs in O(n).\n- **Linked list data:** The algorithm is naturally suited for linked lists, where element removal from the middle is O(1). On arrays, removal is O(n) which hurts performance.\n- **When simplicity is valued:** The algorithm is conceptually simple and easy to implement correctly.\n- **Adaptive sorting:** When you want an algorithm that naturally adapts to the existing order in the data.\n\n## When NOT to Use\n\n- **Random or reverse-sorted data:** With few or short natural runs, the algorithm degrades to O(n^2).\n- **Array-based implementations:** Removing elements from the middle of an array is O(n), making the algorithm O(n^2) even in favorable cases unless using linked lists.\n- **Large datasets:** O(n^2) worst case makes it unsuitable for large inputs. Use Tim Sort or merge sort instead, which also exploit natural runs but guarantee O(n log n).\n- **When stability is critical:** While Strand Sort is stable in principle, implementations must be careful with the merge step to maintain stability.\n\n## Comparison\n\n| Algorithm    | Time (avg)   | Time (best) | Space | Stable | Adapts to Runs |\n|--------------|-------------|-------------|-------|--------|----------------|\n| Strand Sort  | O(n^2)      | O(n)        | O(n)  | Yes    | Yes |\n| Tim Sort     | O(n log n)  | O(n)        | O(n)  | Yes    | Yes (optimally) |\n| Merge Sort   | O(n log n)  | O(n log n)  | O(n)  | Yes    | No |\n| Insertion Sort| O(n^2)     | O(n)        | O(1)  | Yes    | Partially |\n| Natural Merge Sort | O(n log n) | O(n)   | O(n)  | Yes    | Yes |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [strand_sort.py](python/strand_sort.py) |\n| Java       | [StrandSort.java](java/StrandSort.java) |\n| C++        | [strand_sort.cpp](cpp/strand_sort.cpp) |\n| C          | [strand_sort.c](c/strand_sort.c) |\n| Go         | [strand_sort.go](go/strand_sort.go) |\n| TypeScript | [strandSort.ts](typescript/strandSort.ts) |\n| Rust       | [strand_sort.rs](rust/strand_sort.rs) |\n| Kotlin     | [StrandSort.kt](kotlin/StrandSort.kt) |\n| Swift      | [StrandSort.swift](swift/StrandSort.swift) |\n| Scala      | [StrandSort.scala](scala/StrandSort.scala) |\n| C#         | [StrandSort.cs](csharp/StrandSort.cs) |\n\n## References\n\n- Knuth, D. E. (1998). *The Art of Computer Programming, Volume 3: Sorting and Searching* (2nd ed.). Addison-Wesley. Section 5.2.4: Sorting by Merging.\n- [Strand Sort -- Wikipedia](https://en.wikipedia.org/wiki/Strand_sort)\n- Chandramouli, B., & Goldstein, J. (2014). \"Patience is a Virtue: Revisiting Merge and Sort on Modern Processors.\" *SIGMOD*, 731-742.\n"
+}

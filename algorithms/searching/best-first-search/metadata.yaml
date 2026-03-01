@@ -1,0 +1,17 @@
+name: "Best-First Search"
+slug: "best-first-search"
+category: "searching"
+subcategory: "heuristic"
+difficulty: "advanced"
+tags: [searching, heuristic, graph, greedy, priority-queue]
+complexity:
+  time:
+    best: "O(1)"
+    average: "O(b^d)"
+    worst: "O(b^d)"
+  space: "O(b^d)"
+stable: null
+in_place: null
+related: [linear-search, binary-search]
+implementations: [java]
+visualization: true

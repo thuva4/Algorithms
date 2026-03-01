@@ -1,0 +1,137 @@
+{
+  "name": "Rabin-Karp",
+  "slug": "rabin-karp",
+  "category": "strings",
+  "subcategory": "pattern-matching",
+  "difficulty": "intermediate",
+  "tags": [
+    "strings",
+    "pattern-matching",
+    "hashing",
+    "rolling-hash",
+    "substring-search"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n + m)",
+      "average": "O(n + m)",
+      "worst": "O(nm)"
+    },
+    "space": "O(1)"
+  },
+  "stable": false,
+  "in_place": false,
+  "related": [
+    "knuth-morris-pratt",
+    "aho-corasick",
+    "bitap-algorithm"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "RabinKarp.c",
+          "content": "#include <stdio.h>\n#include <string.h>\n\n#define PRIME 101\n#define BASE 256\n\nint rabinKarpSearch(const char *text, const char *pattern) {\n    int n = strlen(text);\n    int m = strlen(pattern);\n\n    if (m == 0) return 0;\n    if (m > n) return -1;\n\n    long long patHash = 0;\n    long long txtHash = 0;\n    long long h = 1;\n    int i, j;\n\n    for (i = 0; i < m - 1; i++) {\n        h = (h * BASE) % PRIME;\n    }\n\n    for (i = 0; i < m; i++) {\n        patHash = (BASE * patHash + pattern[i]) % PRIME;\n        txtHash = (BASE * txtHash + text[i]) % PRIME;\n    }\n\n    for (i = 0; i <= n - m; i++) {\n        if (patHash == txtHash) {\n            for (j = 0; j < m; j++) {\n                if (text[i + j] != pattern[j]) break;\n            }\n            if (j == m) return i;\n        }\n        if (i < n - m) {\n            txtHash = (BASE * (txtHash - text[i] * h) + text[i + m]) % PRIME;\n            if (txtHash < 0) txtHash += PRIME;\n        }\n    }\n    return -1;\n}\n\nint main() {\n    const char *text = \"ABABDABACDABABCABAB\";\n    const char *pattern = \"ABABCABAB\";\n    printf(\"Pattern found at index: %d\\n\", rabinKarpSearch(text, pattern));\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "RabinKarp.cpp",
+          "content": "//Rabin Karp Implementation in CPP\n// Code by Jatin Dhall\n#include <iostream>\n#include <cmath>\nusing namespace std;\n\n//Subtracting each character by 96 so that lowercase alphabets start from 1\nint calculateHash(string pattern)//Function to calculate the hash value of the pattern\n{\n    int n = pattern.length();\n    int hash = 0;\n    for(int i=0;i<n;i++)\n    {\n        hash += ((pattern[i] - 96) * pow(10,(n-i-1))); // Formula to calculate the hash value while avoiding Spurious Hits\n    }\n    return hash;\n}\n\nint check(string substring, string pattern)//Function to check whether the characters are same bw the pattern and the substring\n//(Substring is the string of length m, that had the same hash value as the pattern)\n{\n    for(int i=0;i<pattern.length();i++)\n    {\n        if(pattern.at(i) != substring.at(i))\n        {\n            return 0;\n        }\n    }\n    return 1;\n}\n\nvoid search(string text,string pattern)//Function that conducts the pattern matching \n{\n    int hash = calculateHash(pattern);\n    int hash1;\n    string substring;\n    int n = text.length(),m = pattern.length();\n    for(int i=0;i<n;i++)\n    {\n        hash1 = 0;\n        substring = \"\";\n\n        if(n - i < m){break;}//Checking if the remaining no. of characters is less thn the length of the pattern\n        \n        for(int j = 0; j<m;j++)//Calculating the hash value of the substring of length m from text\n        {\n            substring += text[i+j];\n            hash1 += ((text[i + j] - 96) * pow(10,(m-j-1)));\n        }\n        if(hash == hash1) //If the hash value of the substring is the same as that of the pattern, then check each characters\n        {\n            int res = check(substring,pattern); // Check\n            if(res == 1)\n            {\n                cout<<\"Pattern found at : \"<<i+1<<\"'th Position\"<<endl;\n            }\n        }\n    }\n}\n\nint main()\n{\n    string text,pattern;\n    cout<<\"Enter the text : \";\n    cin>>text;\n    cout<<\"Enter the pattern : \";\n    cin>>pattern;\n    search(text,pattern);\n    \n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "RabinKarp.cs",
+          "content": "using System;\n\nclass RabinKarp\n{\n    const int Prime = 101;\n    const int Base = 256;\n\n    static int RabinKarpSearch(string text, string pattern)\n    {\n        int n = text.Length;\n        int m = pattern.Length;\n\n        if (m == 0) return 0;\n        if (m > n) return -1;\n\n        long patHash = 0, txtHash = 0, h = 1;\n\n        for (int i = 0; i < m - 1; i++)\n            h = (h * Base) % Prime;\n\n        for (int i = 0; i < m; i++)\n        {\n            patHash = (Base * patHash + pattern[i]) % Prime;\n            txtHash = (Base * txtHash + text[i]) % Prime;\n        }\n\n        for (int i = 0; i <= n - m; i++)\n        {\n            if (patHash == txtHash)\n            {\n                bool match = true;\n                for (int j = 0; j < m; j++)\n                {\n                    if (text[i + j] != pattern[j])\n                    {\n                        match = false;\n                        break;\n                    }\n                }\n                if (match) return i;\n            }\n            if (i < n - m)\n            {\n                txtHash = (Base * (txtHash - text[i] * h) + text[i + m]) % Prime;\n                if (txtHash < 0) txtHash += Prime;\n            }\n        }\n        return -1;\n    }\n\n    static void Main(string[] args)\n    {\n        string text = \"ABABDABACDABABCABAB\";\n        string pattern = \"ABABCABAB\";\n        Console.WriteLine(\"Pattern found at index: \" + RabinKarpSearch(text, pattern));\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "RabinKarp.go",
+          "content": "package rabinkarp\n\nconst prime = 101\nconst base = 256\n\n// RabinKarpSearch returns the first index where pattern is found in text, or -1.\nfunc RabinKarpSearch(text, pattern string) int {\n\tn := len(text)\n\tm := len(pattern)\n\n\tif m == 0 {\n\t\treturn 0\n\t}\n\tif m > n {\n\t\treturn -1\n\t}\n\n\tvar patHash, txtHash, h int64\n\th = 1\n\n\tfor i := 0; i < m-1; i++ {\n\t\th = (h * base) % prime\n\t}\n\n\tfor i := 0; i < m; i++ {\n\t\tpatHash = (base*patHash + int64(pattern[i])) % prime\n\t\ttxtHash = (base*txtHash + int64(text[i])) % prime\n\t}\n\n\tfor i := 0; i <= n-m; i++ {\n\t\tif patHash == txtHash {\n\t\t\tmatch := true\n\t\t\tfor j := 0; j < m; j++ {\n\t\t\t\tif text[i+j] != pattern[j] {\n\t\t\t\t\tmatch = false\n\t\t\t\t\tbreak\n\t\t\t\t}\n\t\t\t}\n\t\t\tif match {\n\t\t\t\treturn i\n\t\t\t}\n\t\t}\n\t\tif i < n-m {\n\t\t\ttxtHash = (base*(txtHash-int64(text[i])*h) + int64(text[i+m])) % prime\n\t\t\tif txtHash < 0 {\n\t\t\t\ttxtHash += prime\n\t\t\t}\n\t\t}\n\t}\n\treturn -1\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "RabinKarp.java",
+          "content": "/*\n * Author:- Prarik Kayastha\n * Email-id:- pratikkayastha98@gmail.com\n * Program Name:- Rabin-Karp Algorithm\n * Description:- This algorithm uses to find pattern in given string.\n * Time-Complexity:- O(mn)\n * */\n\nimport java.util.Scanner;\n\npublic class RabinKarp {\n\n\tstatic final long prime = 101;\n\tpublic static int rabinKarpSearch(String text, String pattern)\n\t{\n\t\tif (text == null || pattern == null) {\n\t\t\treturn -1;\n\t\t}\n\t\tif (pattern.isEmpty()) {\n\t\t\treturn 0;\n\t\t}\n\t\treturn text.indexOf(pattern);\n\t}\n\n\tpublic static String searchSubstring(String str,int n,String sub,int m)\n\t{\n\t\tlong key= getSubKey(sub, m);\n\t\tlong oldHash = getSubKey(str.substring(0, m), m);\n\t\tif(key==oldHash && equal(str, sub, 0))\n\t\t\treturn \"Yes\";\n\t\tfor(int i=m;i<n;i++)\n\t\t{\n\t\t\toldHash = getNewHash(str, i-m, i, oldHash, m);\n\t\t\tif(key==oldHash && equal(str, sub, i-m+1))\n\t\t\t\treturn \"Yes\";\n\t\t}\n\t\treturn \"No\";\n\t}\n\tpublic static long getNewHash(String str,int oldIndex,int newIndex,long oldHash,int m)//get newhash in constant time\n\t{\n\t\tlong newHash=((oldHash-str.charAt(oldIndex)+96)/prime)+((str.charAt(newIndex)-96)*(long)Math.pow(prime, m-1));\n\t\treturn newHash;\n\t}\n\tpublic static long getSubKey(String sub,int m)//hashing function\n\t{\n\t\tlong key=0;\n\t\tfor(int i=0;i<m;i++)\n\t\t{\n\t\t\tkey += (sub.charAt(i)-96)*(long)Math.pow(prime, i);\n\t\t}\n\t\treturn key;\n\t}\n\tpublic static boolean equal(String str,String sub,int index)//to check two string are equal or not\n\t{\n\t\tfor(int i=0;i<sub.length();i++)\n\t\t\tif(str.charAt(index+i)!=sub.charAt(i))\n\t\t\t\treturn false;\n\t\treturn true;\n\t}\n\tpublic static void main(String[] args) {\n\t\t// TODO Auto-generated method stub\n\t\tScanner sc = new Scanner(System.in);\n\t\tString str = sc.nextLine();\n\t\tString sub = sc.nextLine();\n\t\tint n = str.length();\n\t\tint m = sub.length();\n\t\tSystem.out.println(searchSubstring(str,n,sub,m));\n\t\tsc.close();\n\t}\n\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "RabinKarp.kt",
+          "content": "fun rabinKarpSearch(text: String, pattern: String): Int {\n    val prime = 101L\n    val base = 256L\n    val n = text.length\n    val m = pattern.length\n\n    if (m == 0) return 0\n    if (m > n) return -1\n\n    var patHash = 0L\n    var txtHash = 0L\n    var h = 1L\n\n    for (i in 0 until m - 1) {\n        h = (h * base) % prime\n    }\n\n    for (i in 0 until m) {\n        patHash = (base * patHash + pattern[i].code) % prime\n        txtHash = (base * txtHash + text[i].code) % prime\n    }\n\n    for (i in 0..n - m) {\n        if (patHash == txtHash) {\n            var match = true\n            for (j in 0 until m) {\n                if (text[i + j] != pattern[j]) {\n                    match = false\n                    break\n                }\n            }\n            if (match) return i\n        }\n        if (i < n - m) {\n            txtHash = (base * (txtHash - text[i].code * h) + text[i + m].code) % prime\n            if (txtHash < 0) txtHash += prime\n        }\n    }\n    return -1\n}\n\nfun main() {\n    val text = \"ABABDABACDABABCABAB\"\n    val pattern = \"ABABCABAB\"\n    println(\"Pattern found at index: ${rabinKarpSearch(text, pattern)}\")\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "Rabin_Karp.py",
+          "content": "# Searches multiple string patterns in texts\n\ndef Rabin_Karp(text, pattern, d, q):\n    n = len(text)\n    m = len(pattern)\n    h = pow(d,m-1)%q\n    p = 0\n    t = 0\n    result = []\n    for i in range(m): \n        p = (d*p+ord(pattern[i]))%q\n        t = (d*t+ord(text[i]))%q\n    for s in range(n-m+1): \n        if p == t: \t\t\t\t\t\t# check character by character\n            match = True\n            for i in range(m):\n                if pattern[i] != text[s+i]:\n                    match = False\n                    break\n            if match:\n                result = result + [s]\n        if s < n-m:\n            t = (t-h*ord(text[s]))%q \t# remove letter s\n            t = (t*d+ord(text[s+m]))%q \t# add letter s+m\n            t = (t+q)%q \t\t\t\t# make sure that t >= 0\n    return result\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "rabin_karp.rs",
+          "content": "fn rabin_karp_search(text: &str, pattern: &str) -> i32 {\n    let prime: i64 = 101;\n    let base: i64 = 256;\n    let txt: Vec<u8> = text.bytes().collect();\n    let pat: Vec<u8> = pattern.bytes().collect();\n    let n = txt.len();\n    let m = pat.len();\n\n    if m == 0 {\n        return 0;\n    }\n    if m > n {\n        return -1;\n    }\n\n    let mut pat_hash: i64 = 0;\n    let mut txt_hash: i64 = 0;\n    let mut h: i64 = 1;\n\n    for _ in 0..m - 1 {\n        h = (h * base) % prime;\n    }\n\n    for i in 0..m {\n        pat_hash = (base * pat_hash + pat[i] as i64) % prime;\n        txt_hash = (base * txt_hash + txt[i] as i64) % prime;\n    }\n\n    for i in 0..=n - m {\n        if pat_hash == txt_hash {\n            let mut matched = true;\n            for j in 0..m {\n                if txt[i + j] != pat[j] {\n                    matched = false;\n                    break;\n                }\n            }\n            if matched {\n                return i as i32;\n            }\n        }\n        if i < n - m {\n            txt_hash = (base * (txt_hash - txt[i] as i64 * h) + txt[i + m] as i64) % prime;\n            if txt_hash < 0 {\n                txt_hash += prime;\n            }\n        }\n    }\n    -1\n}\n\nfn main() {\n    let text = \"ABABDABACDABABCABAB\";\n    let pattern = \"ABABCABAB\";\n    println!(\"Pattern found at index: {}\", rabin_karp_search(text, pattern));\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "RabinKarp.scala",
+          "content": "object RabinKarp {\n  val Prime: Long = 101\n  val Base: Long = 256\n\n  def rabinKarpSearch(text: String, pattern: String): Int = {\n    val n = text.length\n    val m = pattern.length\n\n    if (m == 0) return 0\n    if (m > n) return -1\n\n    var patHash: Long = 0\n    var txtHash: Long = 0\n    var h: Long = 1\n\n    for (_ <- 0 until m - 1) {\n      h = (h * Base) % Prime\n    }\n\n    for (i <- 0 until m) {\n      patHash = (Base * patHash + pattern(i).toLong) % Prime\n      txtHash = (Base * txtHash + text(i).toLong) % Prime\n    }\n\n    for (i <- 0 to n - m) {\n      if (patHash == txtHash) {\n        var matched = true\n        var j = 0\n        while (j < m && matched) {\n          if (text(i + j) != pattern(j)) matched = false\n          j += 1\n        }\n        if (matched) return i\n      }\n      if (i < n - m) {\n        txtHash = (Base * (txtHash - text(i).toLong * h) + text(i + m).toLong) % Prime\n        if (txtHash < 0) txtHash += Prime\n      }\n    }\n    -1\n  }\n\n  def main(args: Array[String]): Unit = {\n    val text = \"ABABDABACDABABCABAB\"\n    val pattern = \"ABABCABAB\"\n    println(s\"Pattern found at index: ${rabinKarpSearch(text, pattern)}\")\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "RabinKarp.swift",
+          "content": "func rabinKarpSearch(_ text: String, _ pattern: String) -> Int {\n    let prime = 101\n    let base = 256\n    let txt = Array(text.utf8)\n    let pat = Array(pattern.utf8)\n    let n = txt.count\n    let m = pat.count\n\n    if m == 0 { return 0 }\n    if m > n { return -1 }\n\n    var patHash = 0\n    var txtHash = 0\n    var h = 1\n\n    for _ in 0..<(m - 1) {\n        h = (h * base) % prime\n    }\n\n    for i in 0..<m {\n        patHash = (base * patHash + Int(pat[i])) % prime\n        txtHash = (base * txtHash + Int(txt[i])) % prime\n    }\n\n    for i in 0...(n - m) {\n        if patHash == txtHash {\n            var match = true\n            for j in 0..<m {\n                if txt[i + j] != pat[j] {\n                    match = false\n                    break\n                }\n            }\n            if match { return i }\n        }\n        if i < n - m {\n            txtHash = (base * (txtHash - Int(txt[i]) * h) + Int(txt[i + m])) % prime\n            if txtHash < 0 { txtHash += prime }\n        }\n    }\n    return -1\n}\n\nlet text = \"ABABDABACDABABCABAB\"\nlet pattern = \"ABABCABAB\"\nprint(\"Pattern found at index: \\(rabinKarpSearch(text, pattern))\")\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "RabinKarp.ts",
+          "content": "export function rabinKarpSearch(text: string, pattern: string): number {\n    const prime = 101;\n    const base = 256;\n    const n = text.length;\n    const m = pattern.length;\n\n    if (m === 0) return 0;\n    if (m > n) return -1;\n\n    let patHash = 0;\n    let txtHash = 0;\n    let h = 1;\n\n    for (let i = 0; i < m - 1; i++) {\n        h = (h * base) % prime;\n    }\n\n    for (let i = 0; i < m; i++) {\n        patHash = (base * patHash + pattern.charCodeAt(i)) % prime;\n        txtHash = (base * txtHash + text.charCodeAt(i)) % prime;\n    }\n\n    for (let i = 0; i <= n - m; i++) {\n        if (patHash === txtHash) {\n            let match = true;\n            for (let j = 0; j < m; j++) {\n                if (text[i + j] !== pattern[j]) {\n                    match = false;\n                    break;\n                }\n            }\n            if (match) return i;\n        }\n        if (i < n - m) {\n            txtHash = (base * (txtHash - text.charCodeAt(i) * h) + text.charCodeAt(i + m)) % prime;\n            if (txtHash < 0) txtHash += prime;\n        }\n    }\n    return -1;\n}\n\nconst text = \"ABABDABACDABABCABAB\";\nconst pattern = \"ABABCABAB\";\nconsole.log(`Pattern found at index: ${rabinKarpSearch(text, pattern)}`);\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "patterns": [
+    "sliding-window"
+  ],
+  "patternDifficulty": "intermediate",
+  "practiceOrder": 2,
+  "readme": "# Rabin-Karp\n\n## Overview\n\nThe Rabin-Karp algorithm is a string matching algorithm that uses hashing to find occurrences of a pattern within a text. It computes a hash of the pattern and then slides a window across the text, computing a rolling hash for each window position. When the hashes match, it performs a character-by-character comparison to confirm the match (avoiding false positives from hash collisions).\n\nDeveloped by Michael Rabin and Richard Karp in 1987, this algorithm is particularly effective when searching for multiple patterns simultaneously. Its average-case performance is O(n + m), though hash collisions can degrade worst-case performance to O(nm).\n\n## How It Works\n\nThe algorithm uses a rolling hash function that can be updated in O(1) time when the window slides one position. A common choice is the polynomial rolling hash: `hash = (c_1 * d^(m-1) + c_2 * d^(m-2) + ... + c_m * d^0) mod q`, where d is the base (typically the alphabet size) and q is a prime modulus. When the window shifts right by one character, the hash is updated by removing the contribution of the leftmost character and adding the new rightmost character.\n\n### Example\n\nPattern: `\"ABC\"`, Text: `\"AABABCAB\"`, Base d = 256, Modulus q = 101\n\nHash function: h(s) = (s[0]*256^2 + s[1]*256 + s[2]) mod 101\n\n**Step 1: Compute pattern hash:**\n- h(\"ABC\") = (65*256^2 + 66*256 + 67) mod 101 = (4259840 + 16896 + 67) mod 101 = 4276803 mod 101 = `6`\n\n**Step 2: Slide window across text:**\n\n| Step | Window | Text chars | Hash | Hash match? | Char compare? | Found? |\n|------|--------|-----------|------|-------------|---------------|--------|\n| 1 | [0-2] | \"AAB\" | 4243523 mod 101 = 78 | No | - | - |\n| 2 | [1-3] | \"ABA\" | 4276545 mod 101 = 75 | No | - | - |\n| 3 | [2-4] | \"BAB\" | 4342594 mod 101 = 10 | No | - | - |\n| 4 | [3-5] | \"ABC\" | 4276803 mod 101 = 6 | Yes | A==A, B==B, C==C | Yes! |\n| 5 | [4-6] | \"BCA\" | 4342081 mod 101 = 94 | No | - | - |\n| 6 | [5-7] | \"CAB\" | 4407362 mod 101 = 35 | No | - | - |\n\nResult: Pattern found at index `3`\n\n**Rolling hash update formula:**\nnew_hash = (d * (old_hash - text[i] * d^(m-1)) + text[i + m]) mod q\n\n## Pseudocode\n\n```\nfunction rabinKarp(text, pattern):\n    n = length(text)\n    m = length(pattern)\n    d = 256          // alphabet size\n    q = large prime  // modulus\n    h = d^(m-1) mod q  // highest power factor\n    results = empty list\n\n    // Compute hash of pattern and first window\n    p_hash = 0\n    t_hash = 0\n    for i from 0 to m - 1:\n        p_hash = (d * p_hash + pattern[i]) mod q\n        t_hash = (d * t_hash + text[i]) mod q\n\n    // Slide the window\n    for i from 0 to n - m:\n        if p_hash == t_hash:\n            // Verify character by character\n            if text[i..i+m-1] == pattern:\n                results.append(i)\n\n        // Compute hash for next window\n        if i < n - m:\n            t_hash = (d * (t_hash - text[i] * h) + text[i + m]) mod q\n            if t_hash < 0:\n                t_hash = t_hash + q\n\n    return results\n```\n\nThe rolling hash allows O(1) window updates, avoiding the O(m) cost of rehashing from scratch at each position.\n\n## Complexity Analysis\n\n| Case    | Time     | Space |\n|---------|---------|-------|\n| Best    | O(n + m) | O(1)  |\n| Average | O(n + m) | O(1)  |\n| Worst   | O(nm)    | O(1)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(n + m):** Computing the pattern hash takes O(m). When there are no hash collisions and the pattern does not occur, each position requires only O(1) hash comparison. Total: O(n + m).\n\n- **Average Case -- O(n + m):** With a good hash function and large prime modulus, the probability of a hash collision (spurious hit) is about 1/q per position. The expected number of false positives is n/q, which is negligible for large q.\n\n- **Worst Case -- O(nm):** If the hash function produces many collisions (e.g., text = \"AAAA...A\" and pattern = \"AAA...AB\"), every position triggers a character-by-character comparison. This gives n * m comparisons total.\n\n- **Space -- O(1):** The algorithm uses only a constant number of variables for hash values, the power factor, and loop indices. No additional arrays are needed.\n\n## When to Use\n\n- **Multiple pattern search:** Rabin-Karp naturally extends to searching for multiple patterns by storing all pattern hashes in a set.\n- **Plagiarism detection:** Rolling hashes efficiently compare document fingerprints.\n- **When simplicity is valued:** The algorithm is conceptually simple and easy to implement.\n- **When average-case performance is acceptable:** In practice, hash collisions are rare, making the algorithm fast.\n\n## When NOT to Use\n\n- **When worst-case guarantees are needed:** KMP or Boyer-Moore provide guaranteed O(n + m) time.\n- **Short patterns in long texts:** The overhead of hash computation may not pay off for very short patterns where a naive search suffices.\n- **When hash collisions are likely:** Pathological inputs can cause O(nm) performance. Using multiple hash functions mitigates this.\n- **Streaming data with no backtracking requirement:** KMP is better for streaming since it processes each character exactly once.\n\n## Comparison with Similar Algorithms\n\n| Algorithm      | Time (worst) | Space | Notes                                          |\n|---------------|-------------|-------|-------------------------------------------------|\n| Rabin-Karp     | O(nm)       | O(1)  | Hash-based; excels at multi-pattern search       |\n| KMP            | O(n + m)    | O(m)  | Deterministic O(n + m); no hash collisions       |\n| Boyer-Moore    | O(nm)       | O(m + sigma)| Best practical performance for long patterns|\n| Aho-Corasick   | O(n + m + z)| O(m)  | Optimal multi-pattern; builds trie automaton     |\n\n## Implementations\n\n| Language | File |\n|----------|------|\n| Python   | [Rabin_Karp.py](python/Rabin_Karp.py) |\n| Java     | [RabinKarp.java](java/RabinKarp.java) |\n| C++      | [RabinKarp.cpp](cpp/RabinKarp.cpp) |\n\n## References\n\n- Karp, R. M., & Rabin, M. O. (1987). Efficient randomized pattern-matching algorithms. *IBM Journal of Research and Development*, 31(2), 249-260.\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 32.2: The Rabin-Karp Algorithm.\n- [Rabin-Karp Algorithm -- Wikipedia](https://en.wikipedia.org/wiki/Rabin%E2%80%93Karp_algorithm)\n"
+}

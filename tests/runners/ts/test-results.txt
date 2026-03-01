@@ -1,0 +1,27 @@
+
+> algorithm-test-runners-ts@1.0.0 test
+> vitest run
+
+
+ RUN  v3.2.4 /Users/thuvarakantharmarajasingam/Desktop/Projects/Algorithms/tests/runners/ts
+
+stdout | run-tests.test.ts > backtracking/min-max-ab-pruning > simple game tree
+The optimal value is: 12
+
+stdout | run-tests.test.ts > backtracking/minimax > simple game tree
+The optimal value is: 12
+
+stdout | run-tests.test.ts > cryptography/aes-simplified > 4-byte block
+[ [33m105[39m, [33m104[39m, [33m105[39m, [33m83[39m ]
+[ [33m99[39m, [33m99[39m, [33m99[39m, [33m99[39m ]
+
+stdout | run-tests.test.ts > cryptography/rsa-algorithm > small primes
+[33m65[39m
+[33m42[39m
+[33m9[39m
+
+stdout | run-tests.test.ts > data-structures/cuckoo-hashing > basic insertion
+[33m3[39m
+[33m1[39m
+[33m5[39m
+

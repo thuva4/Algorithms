@@ -1,0 +1,15 @@
+name: "Manacher's Algorithm"
+slug: "manachers-algorithm"
+category: "strings"
+subcategory: "palindrome"
+difficulty: "advanced"
+tags: [strings, palindrome, manachers, linear-time]
+complexity:
+  time:
+    best: "O(n)"
+    average: "O(n)"
+    worst: "O(n)"
+  space: "O(n)"
+related: [longest-palindromic-substring, z-algorithm]
+implementations: [python, java, cpp, c, go, typescript, kotlin, rust, swift, scala, csharp]
+visualization: true

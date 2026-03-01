@@ -1,0 +1,136 @@
+{
+  "name": "Range Tree",
+  "slug": "range-tree",
+  "category": "trees",
+  "subcategory": "range-query",
+  "difficulty": "advanced",
+  "tags": [
+    "trees",
+    "range-tree",
+    "orthogonal-range-query",
+    "balanced-bst",
+    "counting"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(log n)",
+      "average": "O(log n)",
+      "worst": "O(log n + k)"
+    },
+    "space": "O(n log n)"
+  },
+  "stable": null,
+  "in_place": false,
+  "related": [
+    "interval-tree",
+    "kd-tree",
+    "segment-tree"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "range_tree.c",
+          "content": "#include <stdio.h>\n#include <stdlib.h>\n#include \"range_tree.h\"\n\nstatic int cmp(const void *a, const void *b) {\n    return (*(int *)a) - (*(int *)b);\n}\n\nint range_tree(const int *data, int data_len) {\n    int n = data[0];\n    int *points = (int *)malloc(n * sizeof(int));\n    for (int i = 0; i < n; i++) points[i] = data[1 + i];\n    qsort(points, n, sizeof(int), cmp);\n\n    int lo = data[1 + n], hi = data[2 + n];\n    int count = 0;\n    for (int i = 0; i < n; i++) {\n        if (points[i] >= lo && points[i] <= hi) count++;\n    }\n    free(points);\n    return count;\n}\n\nint main(void) {\n    int d1[] = {5, 1, 3, 5, 7, 9, 2, 6};\n    printf(\"%d\\n\", range_tree(d1, 8));\n    int d2[] = {4, 2, 4, 6, 8, 1, 10};\n    printf(\"%d\\n\", range_tree(d2, 7));\n    return 0;\n}\n"
+        },
+        {
+          "filename": "range_tree.h",
+          "content": "#ifndef RANGE_TREE_H\n#define RANGE_TREE_H\n\nint range_tree(const int *data, int data_len);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "range_tree.cpp",
+          "content": "#include <vector>\n#include <algorithm>\n#include <iostream>\nusing namespace std;\n\nint range_tree(const vector<int>& data) {\n    int n = data[0];\n    vector<int> points(data.begin() + 1, data.begin() + 1 + n);\n    sort(points.begin(), points.end());\n    int lo = data[1 + n], hi = data[2 + n];\n    auto left = lower_bound(points.begin(), points.end(), lo);\n    auto right = upper_bound(points.begin(), points.end(), hi);\n    return (int)(right - left);\n}\n\nint main() {\n    cout << range_tree({5, 1, 3, 5, 7, 9, 2, 6}) << endl;\n    cout << range_tree({4, 2, 4, 6, 8, 1, 10}) << endl;\n    cout << range_tree({3, 1, 2, 3, 10, 20}) << endl;\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "RangeTree.cs",
+          "content": "using System;\nusing System.Linq;\n\npublic class RangeTree\n{\n    public static int RangeTreeQuery(int[] data)\n    {\n        int n = data[0];\n        int[] points = new int[n];\n        Array.Copy(data, 1, points, 0, n);\n        Array.Sort(points);\n        int lo = data[1 + n], hi = data[2 + n];\n        return points.Count(p => p >= lo && p <= hi);\n    }\n\n    public static void Main(string[] args)\n    {\n        Console.WriteLine(RangeTreeQuery(new int[] { 5, 1, 3, 5, 7, 9, 2, 6 }));\n        Console.WriteLine(RangeTreeQuery(new int[] { 4, 2, 4, 6, 8, 1, 10 }));\n        Console.WriteLine(RangeTreeQuery(new int[] { 3, 1, 2, 3, 10, 20 }));\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "range_tree.go",
+          "content": "package main\n\nimport (\n\t\"fmt\"\n\t\"sort\"\n)\n\nfunc rangeTree(data []int) int {\n\tn := data[0]\n\tpoints := make([]int, n)\n\tcopy(points, data[1:1+n])\n\tsort.Ints(points)\n\tlo, hi := data[1+n], data[2+n]\n\tleft := sort.SearchInts(points, lo)\n\tright := sort.SearchInts(points, hi+1)\n\treturn right - left\n}\n\nfunc main() {\n\tfmt.Println(rangeTree([]int{5, 1, 3, 5, 7, 9, 2, 6}))\n\tfmt.Println(rangeTree([]int{4, 2, 4, 6, 8, 1, 10}))\n\tfmt.Println(rangeTree([]int{3, 1, 2, 3, 10, 20}))\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "RangeTree.java",
+          "content": "import java.util.Arrays;\n\npublic class RangeTree {\n    public static int rangeTree(int[] data) {\n        int n = data[0];\n        int[] points = Arrays.copyOfRange(data, 1, 1 + n);\n        Arrays.sort(points);\n        int lo = data[1 + n], hi = data[2 + n];\n\n        int left = lowerBound(points, lo);\n        int right = upperBound(points, hi);\n        return right - left;\n    }\n\n    private static int lowerBound(int[] arr, int val) {\n        int lo = 0, hi = arr.length;\n        while (lo < hi) {\n            int mid = (lo + hi) / 2;\n            if (arr[mid] < val) lo = mid + 1;\n            else hi = mid;\n        }\n        return lo;\n    }\n\n    private static int upperBound(int[] arr, int val) {\n        int lo = 0, hi = arr.length;\n        while (lo < hi) {\n            int mid = (lo + hi) / 2;\n            if (arr[mid] <= val) lo = mid + 1;\n            else hi = mid;\n        }\n        return lo;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(rangeTree(new int[]{5, 1, 3, 5, 7, 9, 2, 6}));\n        System.out.println(rangeTree(new int[]{4, 2, 4, 6, 8, 1, 10}));\n        System.out.println(rangeTree(new int[]{3, 1, 2, 3, 10, 20}));\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "RangeTree.kt",
+          "content": "fun rangeTree(data: IntArray): Int {\n    val n = data[0]\n    val points = data.sliceArray(1 until 1 + n).also { it.sort() }\n    val lo = data[1 + n]; val hi = data[2 + n]\n    val left = points.indexOfFirst { it >= lo }.let { if (it == -1) n else it }\n    val right = points.indexOfLast { it <= hi }.let { if (it == -1) -1 else it }\n    return if (right < left) 0 else right - left + 1\n}\n\nfun main() {\n    println(rangeTree(intArrayOf(5, 1, 3, 5, 7, 9, 2, 6)))\n    println(rangeTree(intArrayOf(4, 2, 4, 6, 8, 1, 10)))\n    println(rangeTree(intArrayOf(3, 1, 2, 3, 10, 20)))\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "range_tree.py",
+          "content": "import bisect\n\n\ndef range_tree(data):\n    n = data[0]\n    points = sorted(data[1:1 + n])\n    lo = data[1 + n]\n    hi = data[2 + n]\n    left = bisect.bisect_left(points, lo)\n    right = bisect.bisect_right(points, hi)\n    return right - left\n\n\nif __name__ == \"__main__\":\n    print(range_tree([5, 1, 3, 5, 7, 9, 2, 6]))\n    print(range_tree([4, 2, 4, 6, 8, 1, 10]))\n    print(range_tree([3, 1, 2, 3, 10, 20]))\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "range_tree.rs",
+          "content": "fn range_tree(data: &[i32]) -> i32 {\n    let n = data[0] as usize;\n    let mut points: Vec<i32> = data[1..1 + n].to_vec();\n    points.sort();\n    let lo = data[1 + n];\n    let hi = data[2 + n];\n\n    let left = points.partition_point(|&x| x < lo);\n    let right = points.partition_point(|&x| x <= hi);\n    (right - left) as i32\n}\n\nfn main() {\n    println!(\"{}\", range_tree(&[5, 1, 3, 5, 7, 9, 2, 6]));\n    println!(\"{}\", range_tree(&[4, 2, 4, 6, 8, 1, 10]));\n    println!(\"{}\", range_tree(&[3, 1, 2, 3, 10, 20]));\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "RangeTree.scala",
+          "content": "object RangeTree {\n  def rangeTree(data: Array[Int]): Int = {\n    val n = data(0)\n    val points = data.slice(1, 1 + n).sorted\n    val lo = data(1 + n); val hi = data(2 + n)\n    points.count(p => p >= lo && p <= hi)\n  }\n\n  def main(args: Array[String]): Unit = {\n    println(rangeTree(Array(5, 1, 3, 5, 7, 9, 2, 6)))\n    println(rangeTree(Array(4, 2, 4, 6, 8, 1, 10)))\n    println(rangeTree(Array(3, 1, 2, 3, 10, 20)))\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "RangeTree.swift",
+          "content": "func rangeTree(_ data: [Int]) -> Int {\n    let n = data[0]\n    let points = Array(data[1..<(1 + n)]).sorted()\n    let lo = data[1 + n], hi = data[2 + n]\n    var count = 0\n    for p in points {\n        if p >= lo && p <= hi { count += 1 }\n    }\n    return count\n}\n\nprint(rangeTree([5, 1, 3, 5, 7, 9, 2, 6]))\nprint(rangeTree([4, 2, 4, 6, 8, 1, 10]))\nprint(rangeTree([3, 1, 2, 3, 10, 20]))\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "rangeTree.ts",
+          "content": "export function rangeTree(data: number[]): number {\n    const n = data[0];\n    const points = data.slice(1, 1 + n).sort((a, b) => a - b);\n    const lo = data[1 + n], hi = data[2 + n];\n\n    const lowerBound = (arr: number[], val: number): number => {\n        let l = 0, r = arr.length;\n        while (l < r) { const m = (l + r) >> 1; arr[m] < val ? l = m + 1 : r = m; }\n        return l;\n    };\n    const upperBound = (arr: number[], val: number): number => {\n        let l = 0, r = arr.length;\n        while (l < r) { const m = (l + r) >> 1; arr[m] <= val ? l = m + 1 : r = m; }\n        return l;\n    };\n\n    return upperBound(points, hi) - lowerBound(points, lo);\n}\n\nconsole.log(rangeTree([5, 1, 3, 5, 7, 9, 2, 6]));\nconsole.log(rangeTree([4, 2, 4, 6, 8, 1, 10]));\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Range Tree\n\n## Overview\n\nA Range Tree is a multi-level balanced binary search tree for answering orthogonal range queries efficiently. In its 1D form, it answers range counting queries (how many points lie in [lo, hi]) in O(log n) time. In higher dimensions, a d-dimensional range tree answers d-dimensional orthogonal range queries in O(log^d n + k) time, where k is the number of reported points. The key idea is that each node of the primary tree stores a secondary (associated) structure for the next dimension, creating a layered tree-of-trees.\n\n## How It Works\n\n### 1D Range Tree\n1. **Build:** Sort the points and store them in a balanced BST. Each node stores a point value, and the subtree rooted at each node represents a contiguous range of sorted values.\n2. **Range Query [lo, hi]:** Search for `lo` and `hi` in the BST. The paths from the root to these two leaves split at some node. All subtrees hanging between these two paths are \"canonical subsets\" that lie entirely within [lo, hi]. Count or report them.\n\n### 2D Range Tree\n1. **Build:** Build a balanced BST on the x-coordinates (primary tree). Each internal node stores a secondary 1D range tree (or sorted array) containing all points in its subtree, sorted by y-coordinate.\n2. **Query [x1, x2] x [y1, y2]:** Find the O(log n) canonical nodes in the primary tree whose x-ranges are contained in [x1, x2]. For each such node, query its secondary structure for y in [y1, y2].\n\n### Fractional Cascading (optimization)\nThe O(log^2 n) query time for 2D can be reduced to O(log n + k) using fractional cascading, which avoids repeated binary searches in the secondary structures.\n\n## Example\n\n**1D Example:** Points = {2, 5, 8, 12, 15, 19, 23}\n\nBuild a balanced BST:\n```\n            12\n          /     \\\n        5        19\n       / \\      /  \\\n      2   8   15   23\n```\n\n**Query: count points in [6, 20].**\n\n1. Search for 6: go right from 5 (6 > 5), reach 8. Left boundary path: root -> 5 -> 8.\n2. Search for 20: go right from 19 (20 > 19), reach 23. Right boundary path: root -> 19 -> 23.\n3. Split node: root (12).\n4. Canonical subsets: node 8 (in range), subtree rooted at 12 itself (12 is in range), node 19 (in range), node 15 (in range).\n5. Points in [6, 20]: {8, 12, 15, 19}. **Count = 4.**\n\n**2D Example:** Points = {(2,7), (5,3), (8,9), (12,1), (15,6)}\n\nQuery: find all points in [3, 13] x [2, 8].\n\n1. Primary tree splits on x. Canonical nodes with x in [3, 13]: subtrees covering {5, 8, 12}.\n2. For each canonical node, query secondary structure for y in [2, 8]:\n   - Point (5, 3): y=3 in [2, 8]? Yes.\n   - Point (8, 9): y=9 in [2, 8]? No.\n   - Point (12, 1): y=1 in [2, 8]? No.\n3. **Result: {(5, 3)}.** Count = 1.\n\n## Pseudocode\n\n```\n// 1D Range Tree\nfunction BUILD_1D(points):\n    sort points\n    return BUILD_BST(points, 0, len(points) - 1)\n\nfunction BUILD_BST(points, lo, hi):\n    if lo > hi: return NULL\n    mid = (lo + hi) / 2\n    node = new Node(points[mid])\n    node.size = hi - lo + 1\n    node.left = BUILD_BST(points, lo, mid - 1)\n    node.right = BUILD_BST(points, mid + 1, hi)\n    return node\n\nfunction COUNT_IN_RANGE(node, lo, hi):\n    if node is NULL: return 0\n    if lo <= node.value <= hi:\n        count = 1\n        count += COUNT_IN_RANGE(node.left, lo, hi)\n        count += COUNT_IN_RANGE(node.right, lo, hi)\n        return count\n    if node.value < lo:\n        return COUNT_IN_RANGE(node.right, lo, hi)\n    if node.value > hi:\n        return COUNT_IN_RANGE(node.left, lo, hi)\n\n// Optimized: decompose into O(log n) canonical subsets\nfunction RANGE_COUNT(root, lo, hi):\n    split = FIND_SPLIT(root, lo, hi)\n    count = 0\n    // Count from split to lo boundary\n    node = split.left\n    while node != NULL:\n        if lo <= node.value:\n            count += SIZE(node.right) + 1\n            node = node.left\n        else:\n            node = node.right\n    // Count from split to hi boundary (symmetric)\n    // ... similar traversal on right side\n    return count\n```\n\n## Complexity Analysis\n\n| Operation | 1D | 2D | 2D with Fractional Cascading |\n|-----------|----|----|------------------------------|\n| Build | O(n log n) | O(n log n) | O(n log n) |\n| Range count | O(log n) | O(log^2 n) | O(log n) |\n| Range report | O(log n + k) | O(log^2 n + k) | O(log n + k) |\n| Space | O(n) | O(n log n) | O(n log n) |\n\nFor d dimensions: build O(n log^(d-1) n), query O(log^d n + k), space O(n log^(d-1) n). With fractional cascading, query improves to O(log^(d-1) n + k).\n\n## When to Use\n\n- **Multi-dimensional orthogonal range queries:** Finding or counting all points within a d-dimensional box [lo1, hi1] x [lo2, hi2] x ...\n- **Computational geometry:** Windowing queries, geographic data retrieval.\n- **Database indexing:** Multi-attribute range queries (e.g., \"find all employees with salary between X and Y and age between A and B\").\n- **When query time must be polylogarithmic:** Range trees guarantee O(log^d n) time regardless of data distribution.\n- **Static point sets:** When the point set does not change after construction.\n\n## When NOT to Use\n\n- **1D range queries with updates:** A segment tree or Fenwick tree is simpler and supports updates in O(log n).\n- **Single-dimension range queries:** A simple sorted array with binary search answers 1D range counting in O(log n) with O(n) space -- no need for the complexity of a range tree.\n- **High dimensions (d > 4):** The O(n log^(d-1) n) space and O(log^d n) query time become impractical. Consider KD-Trees (which degrade gracefully) or approximate methods.\n- **Dynamic point sets:** Range trees do not efficiently support insertions and deletions. Use a dynamic structure like a balanced BST with augmentation or a KD-Tree with periodic rebuilding.\n\n## Comparison\n\n| Feature | Range Tree (2D) | KD-Tree | 2D Segment Tree | R-Tree |\n|---------|----------------|---------|-----------------|--------|\n| Range count | O(log^2 n) | O(sqrt(n)) avg | O(log^2 n) | O(log n + k) |\n| Range report | O(log^2 n + k) | O(sqrt(n) + k) | O(log^2 n + k) | O(log n + k) |\n| Space | O(n log n) | O(n) | O(n^2) naive | O(n) |\n| Build | O(n log n) | O(n log n) | O(n^2) | O(n log n) |\n| Dynamic | No | Degrades | No | Yes |\n| Dimensions | Any d | Any d | 2D | Any d |\n| Guaranteed bounds | Yes | Average case | Yes | Amortized |\n\n## References\n\n- Bentley, J. L. (1980). \"Multidimensional divide-and-conquer.\" *Communications of the ACM*, 23(4), 214-229.\n- Lueker, G. S. (1978). \"A data structure for orthogonal range queries.\" *FOCS*, pp. 28-34.\n- Chazelle, B. (1986). \"Filtering search: A new approach to query-answering.\" *SIAM Journal on Computing*, 15(3), 703-724.\n- de Berg, M.; Cheong, O.; van Kreveld, M.; Overmars, M. (2008). *Computational Geometry: Algorithms and Applications*, 3rd ed. Springer. Chapter 5: Orthogonal Range Searching.\n- Cormen, T. H.; Leiserson, C. E.; Rivest, R. L.; Stein, C. (2009). *Introduction to Algorithms*, 3rd ed. MIT Press.\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [range_tree.py](python/range_tree.py) |\n| Java       | [RangeTree.java](java/RangeTree.java) |\n| C++        | [range_tree.cpp](cpp/range_tree.cpp) |\n| C          | [range_tree.c](c/range_tree.c) |\n| Go         | [range_tree.go](go/range_tree.go) |\n| TypeScript | [rangeTree.ts](typescript/rangeTree.ts) |\n| Rust       | [range_tree.rs](rust/range_tree.rs) |\n| Kotlin     | [RangeTree.kt](kotlin/RangeTree.kt) |\n| Swift      | [RangeTree.swift](swift/RangeTree.swift) |\n| Scala      | [RangeTree.scala](scala/RangeTree.scala) |\n| C#         | [RangeTree.cs](csharp/RangeTree.cs) |\n"
+}

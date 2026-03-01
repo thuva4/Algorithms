@@ -1,0 +1,134 @@
+{
+  "name": "Tarjan's Strongly Connected Components",
+  "slug": "tarjans-scc",
+  "category": "graph",
+  "subcategory": "connectivity",
+  "difficulty": "advanced",
+  "tags": [
+    "graph",
+    "directed",
+    "strongly-connected-components",
+    "dfs",
+    "tarjan"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(V + E)",
+      "average": "O(V + E)",
+      "worst": "O(V + E)"
+    },
+    "space": "O(V)"
+  },
+  "related": [
+    "kosarajus-scc",
+    "depth-first-search",
+    "articulation-points"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "tarjans_scc.c",
+          "content": "#include \"tarjans_scc.h\"\n#include <string.h>\n\n#define MAX_V 1000\n#define MAX_E 10000\n\nstatic int adj[MAX_V][MAX_V];\nstatic int adj_count[MAX_V];\nstatic int disc[MAX_V], low_val[MAX_V], stack_arr[MAX_V];\nstatic int on_stack[MAX_V];\nstatic int index_counter, scc_count, stack_top;\n\nstatic void strongconnect(int v) {\n    disc[v] = index_counter;\n    low_val[v] = index_counter;\n    index_counter++;\n    stack_arr[stack_top++] = v;\n    on_stack[v] = 1;\n\n    for (int i = 0; i < adj_count[v]; i++) {\n        int w = adj[v][i];\n        if (disc[w] == -1) {\n            strongconnect(w);\n            if (low_val[w] < low_val[v]) low_val[v] = low_val[w];\n        } else if (on_stack[w]) {\n            if (disc[w] < low_val[v]) low_val[v] = disc[w];\n        }\n    }\n\n    if (low_val[v] == disc[v]) {\n        scc_count++;\n        while (1) {\n            int w = stack_arr[--stack_top];\n            on_stack[w] = 0;\n            if (w == v) break;\n        }\n    }\n}\n\nint tarjans_scc(int arr[], int size) {\n    int n = arr[0];\n    int m = arr[1];\n\n    memset(adj_count, 0, sizeof(int) * n);\n    memset(on_stack, 0, sizeof(int) * n);\n    memset(disc, -1, sizeof(int) * n);\n\n    for (int i = 0; i < m; i++) {\n        int u = arr[2 + 2 * i];\n        int v = arr[2 + 2 * i + 1];\n        adj[u][adj_count[u]++] = v;\n    }\n\n    index_counter = 0;\n    scc_count = 0;\n    stack_top = 0;\n\n    for (int v = 0; v < n; v++) {\n        if (disc[v] == -1) {\n            strongconnect(v);\n        }\n    }\n\n    return scc_count;\n}\n"
+        },
+        {
+          "filename": "tarjans_scc.h",
+          "content": "#ifndef TARJANS_SCC_H\n#define TARJANS_SCC_H\n\nint tarjans_scc(int arr[], int size);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "tarjans_scc.cpp",
+          "content": "#include <vector>\n#include <stack>\n#include <algorithm>\n\nusing namespace std;\n\nstatic int indexCounter, sccCount;\nstatic vector<int> disc, low;\nstatic vector<bool> onStack;\nstatic stack<int> st;\nstatic vector<vector<int>> adj;\n\nstatic void strongconnect(int v) {\n    disc[v] = indexCounter;\n    low[v] = indexCounter;\n    indexCounter++;\n    st.push(v);\n    onStack[v] = true;\n\n    for (int w : adj[v]) {\n        if (disc[w] == -1) {\n            strongconnect(w);\n            low[v] = min(low[v], low[w]);\n        } else if (onStack[w]) {\n            low[v] = min(low[v], disc[w]);\n        }\n    }\n\n    if (low[v] == disc[v]) {\n        sccCount++;\n        while (true) {\n            int w = st.top();\n            st.pop();\n            onStack[w] = false;\n            if (w == v) break;\n        }\n    }\n}\n\nint tarjans_scc(vector<int> arr) {\n    int n = arr[0];\n    int m = arr[1];\n    adj.assign(n, vector<int>());\n    for (int i = 0; i < m; i++) {\n        int u = arr[2 + 2 * i];\n        int v = arr[2 + 2 * i + 1];\n        adj[u].push_back(v);\n    }\n\n    indexCounter = 0;\n    sccCount = 0;\n    disc.assign(n, -1);\n    low.assign(n, 0);\n    onStack.assign(n, false);\n    while (!st.empty()) st.pop();\n\n    for (int v = 0; v < n; v++) {\n        if (disc[v] == -1) {\n            strongconnect(v);\n        }\n    }\n\n    return sccCount;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "TarjansScc.cs",
+          "content": "using System;\nusing System.Collections.Generic;\n\npublic class TarjansScc\n{\n    private static int indexCounter;\n    private static int sccCount;\n    private static int[] disc;\n    private static int[] low;\n    private static bool[] onStack;\n    private static Stack<int> stack;\n    private static List<int>[] adj;\n\n    public static int Solve(int[] arr)\n    {\n        int n = arr[0];\n        int m = arr[1];\n        adj = new List<int>[n];\n        for (int i = 0; i < n; i++)\n            adj[i] = new List<int>();\n        for (int i = 0; i < m; i++)\n        {\n            int u = arr[2 + 2 * i];\n            int v = arr[2 + 2 * i + 1];\n            adj[u].Add(v);\n        }\n\n        indexCounter = 0;\n        sccCount = 0;\n        disc = new int[n];\n        low = new int[n];\n        onStack = new bool[n];\n        stack = new Stack<int>();\n        for (int i = 0; i < n; i++) disc[i] = -1;\n\n        for (int v = 0; v < n; v++)\n        {\n            if (disc[v] == -1)\n                Strongconnect(v);\n        }\n\n        return sccCount;\n    }\n\n    private static void Strongconnect(int v)\n    {\n        disc[v] = indexCounter;\n        low[v] = indexCounter;\n        indexCounter++;\n        stack.Push(v);\n        onStack[v] = true;\n\n        foreach (int w in adj[v])\n        {\n            if (disc[w] == -1)\n            {\n                Strongconnect(w);\n                low[v] = Math.Min(low[v], low[w]);\n            }\n            else if (onStack[w])\n            {\n                low[v] = Math.Min(low[v], disc[w]);\n            }\n        }\n\n        if (low[v] == disc[v])\n        {\n            sccCount++;\n            while (true)\n            {\n                int w = stack.Pop();\n                onStack[w] = false;\n                if (w == v) break;\n            }\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "tarjans_scc.go",
+          "content": "package tarjansscc\n\nfunc TarjansScc(arr []int) int {\n\tn := arr[0]\n\tm := arr[1]\n\tadj := make([][]int, n)\n\tfor i := 0; i < n; i++ {\n\t\tadj[i] = []int{}\n\t}\n\tfor i := 0; i < m; i++ {\n\t\tu := arr[2+2*i]\n\t\tv := arr[2+2*i+1]\n\t\tadj[u] = append(adj[u], v)\n\t}\n\n\tindexCounter := 0\n\tsccCount := 0\n\tdisc := make([]int, n)\n\tlow := make([]int, n)\n\tonStack := make([]bool, n)\n\tstack := []int{}\n\tfor i := 0; i < n; i++ {\n\t\tdisc[i] = -1\n\t}\n\n\tvar strongconnect func(v int)\n\tstrongconnect = func(v int) {\n\t\tdisc[v] = indexCounter\n\t\tlow[v] = indexCounter\n\t\tindexCounter++\n\t\tstack = append(stack, v)\n\t\tonStack[v] = true\n\n\t\tfor _, w := range adj[v] {\n\t\t\tif disc[w] == -1 {\n\t\t\t\tstrongconnect(w)\n\t\t\t\tif low[w] < low[v] {\n\t\t\t\t\tlow[v] = low[w]\n\t\t\t\t}\n\t\t\t} else if onStack[w] {\n\t\t\t\tif disc[w] < low[v] {\n\t\t\t\t\tlow[v] = disc[w]\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\n\t\tif low[v] == disc[v] {\n\t\t\tsccCount++\n\t\t\tfor {\n\t\t\t\tw := stack[len(stack)-1]\n\t\t\t\tstack = stack[:len(stack)-1]\n\t\t\t\tonStack[w] = false\n\t\t\t\tif w == v {\n\t\t\t\t\tbreak\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\n\tfor v := 0; v < n; v++ {\n\t\tif disc[v] == -1 {\n\t\t\tstrongconnect(v)\n\t\t}\n\t}\n\n\treturn sccCount\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "TarjansScc.java",
+          "content": "import java.util.*;\n\npublic class TarjansScc {\n\n    private static int indexCounter;\n    private static int sccCount;\n    private static int[] disc;\n    private static int[] low;\n    private static boolean[] onStack;\n    private static Deque<Integer> stack;\n    private static List<List<Integer>> adj;\n\n    public static int tarjansScc(int[] arr) {\n        int n = arr[0];\n        int m = arr[1];\n        adj = new ArrayList<>();\n        for (int i = 0; i < n; i++) {\n            adj.add(new ArrayList<>());\n        }\n        for (int i = 0; i < m; i++) {\n            int u = arr[2 + 2 * i];\n            int v = arr[2 + 2 * i + 1];\n            adj.get(u).add(v);\n        }\n\n        indexCounter = 0;\n        sccCount = 0;\n        disc = new int[n];\n        low = new int[n];\n        onStack = new boolean[n];\n        stack = new ArrayDeque<>();\n        Arrays.fill(disc, -1);\n\n        for (int v = 0; v < n; v++) {\n            if (disc[v] == -1) {\n                strongconnect(v);\n            }\n        }\n\n        return sccCount;\n    }\n\n    private static void strongconnect(int v) {\n        disc[v] = indexCounter;\n        low[v] = indexCounter;\n        indexCounter++;\n        stack.push(v);\n        onStack[v] = true;\n\n        for (int w : adj.get(v)) {\n            if (disc[w] == -1) {\n                strongconnect(w);\n                low[v] = Math.min(low[v], low[w]);\n            } else if (onStack[w]) {\n                low[v] = Math.min(low[v], disc[w]);\n            }\n        }\n\n        if (low[v] == disc[v]) {\n            sccCount++;\n            while (true) {\n                int w = stack.pop();\n                onStack[w] = false;\n                if (w == v) break;\n            }\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "TarjansScc.kt",
+          "content": "fun tarjansScc(arr: IntArray): Int {\n    val n = arr[0]\n    val m = arr[1]\n    val adj = Array(n) { mutableListOf<Int>() }\n    for (i in 0 until m) {\n        val u = arr[2 + 2 * i]\n        val v = arr[2 + 2 * i + 1]\n        adj[u].add(v)\n    }\n\n    var indexCounter = 0\n    var sccCount = 0\n    val disc = IntArray(n) { -1 }\n    val low = IntArray(n)\n    val onStack = BooleanArray(n)\n    val stack = ArrayDeque<Int>()\n\n    fun strongconnect(v: Int) {\n        disc[v] = indexCounter\n        low[v] = indexCounter\n        indexCounter++\n        stack.addLast(v)\n        onStack[v] = true\n\n        for (w in adj[v]) {\n            if (disc[w] == -1) {\n                strongconnect(w)\n                low[v] = minOf(low[v], low[w])\n            } else if (onStack[w]) {\n                low[v] = minOf(low[v], disc[w])\n            }\n        }\n\n        if (low[v] == disc[v]) {\n            sccCount++\n            while (true) {\n                val w = stack.removeLast()\n                onStack[w] = false\n                if (w == v) break\n            }\n        }\n    }\n\n    for (v in 0 until n) {\n        if (disc[v] == -1) {\n            strongconnect(v)\n        }\n    }\n\n    return sccCount\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "tarjans_scc.py",
+          "content": "def tarjans_scc(arr: list[int]) -> int:\n    n = arr[0]\n    m = arr[1]\n    adj = [[] for _ in range(n)]\n    for i in range(m):\n        u = arr[2 + 2 * i]\n        v = arr[2 + 2 * i + 1]\n        adj[u].append(v)\n\n    index_counter = [0]\n    stack = []\n    on_stack = [False] * n\n    index = [-1] * n\n    lowlink = [0] * n\n    scc_count = [0]\n\n    def strongconnect(v):\n        index[v] = index_counter[0]\n        lowlink[v] = index_counter[0]\n        index_counter[0] += 1\n        stack.append(v)\n        on_stack[v] = True\n\n        for w in adj[v]:\n            if index[w] == -1:\n                strongconnect(w)\n                lowlink[v] = min(lowlink[v], lowlink[w])\n            elif on_stack[w]:\n                lowlink[v] = min(lowlink[v], index[w])\n\n        if lowlink[v] == index[v]:\n            scc_count[0] += 1\n            while True:\n                w = stack.pop()\n                on_stack[w] = False\n                if w == v:\n                    break\n\n    for v in range(n):\n        if index[v] == -1:\n            strongconnect(v)\n\n    return scc_count[0]\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "tarjans_scc.rs",
+          "content": "pub fn tarjans_scc(arr: &[i32]) -> i32 {\n    let n = arr[0] as usize;\n    let m = arr[1] as usize;\n    let mut adj = vec![vec![]; n];\n    for i in 0..m {\n        let u = arr[2 + 2 * i] as usize;\n        let v = arr[2 + 2 * i + 1] as usize;\n        adj[u].push(v);\n    }\n\n    let mut index_counter: i32 = 0;\n    let mut scc_count: i32 = 0;\n    let mut disc = vec![-1i32; n];\n    let mut low = vec![0i32; n];\n    let mut on_stack = vec![false; n];\n    let mut stack = Vec::new();\n\n    fn strongconnect(\n        v: usize,\n        adj: &Vec<Vec<usize>>,\n        disc: &mut Vec<i32>,\n        low: &mut Vec<i32>,\n        on_stack: &mut Vec<bool>,\n        stack: &mut Vec<usize>,\n        index_counter: &mut i32,\n        scc_count: &mut i32,\n    ) {\n        disc[v] = *index_counter;\n        low[v] = *index_counter;\n        *index_counter += 1;\n        stack.push(v);\n        on_stack[v] = true;\n\n        for &w in &adj[v] {\n            if disc[w] == -1 {\n                strongconnect(w, adj, disc, low, on_stack, stack, index_counter, scc_count);\n                low[v] = low[v].min(low[w]);\n            } else if on_stack[w] {\n                low[v] = low[v].min(disc[w]);\n            }\n        }\n\n        if low[v] == disc[v] {\n            *scc_count += 1;\n            loop {\n                let w = stack.pop().unwrap();\n                on_stack[w] = false;\n                if w == v {\n                    break;\n                }\n            }\n        }\n    }\n\n    for v in 0..n {\n        if disc[v] == -1 {\n            strongconnect(v, &adj, &mut disc, &mut low, &mut on_stack, &mut stack, &mut index_counter, &mut scc_count);\n        }\n    }\n\n    scc_count\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "TarjansScc.scala",
+          "content": "object TarjansScc {\n\n  def tarjansScc(arr: Array[Int]): Int = {\n    val n = arr(0)\n    val m = arr(1)\n    val adj = Array.fill(n)(scala.collection.mutable.ListBuffer[Int]())\n    for (i <- 0 until m) {\n      val u = arr(2 + 2 * i)\n      val v = arr(2 + 2 * i + 1)\n      adj(u) += v\n    }\n\n    var indexCounter = 0\n    var sccCount = 0\n    val disc = Array.fill(n)(-1)\n    val low = Array.fill(n)(0)\n    val onStack = Array.fill(n)(false)\n    val stack = scala.collection.mutable.Stack[Int]()\n\n    def strongconnect(v: Int): Unit = {\n      disc(v) = indexCounter\n      low(v) = indexCounter\n      indexCounter += 1\n      stack.push(v)\n      onStack(v) = true\n\n      for (w <- adj(v)) {\n        if (disc(w) == -1) {\n          strongconnect(w)\n          low(v) = math.min(low(v), low(w))\n        } else if (onStack(w)) {\n          low(v) = math.min(low(v), disc(w))\n        }\n      }\n\n      if (low(v) == disc(v)) {\n        sccCount += 1\n        var done = false\n        while (!done) {\n          val w = stack.pop()\n          onStack(w) = false\n          if (w == v) done = true\n        }\n      }\n    }\n\n    for (v <- 0 until n) {\n      if (disc(v) == -1) {\n        strongconnect(v)\n      }\n    }\n\n    sccCount\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "TarjansScc.swift",
+          "content": "func tarjansScc(_ arr: [Int]) -> Int {\n    let n = arr[0]\n    let m = arr[1]\n    var adj = [[Int]](repeating: [], count: n)\n    for i in 0..<m {\n        let u = arr[2 + 2 * i]\n        let v = arr[2 + 2 * i + 1]\n        adj[u].append(v)\n    }\n\n    var indexCounter = 0\n    var sccCount = 0\n    var disc = [Int](repeating: -1, count: n)\n    var low = [Int](repeating: 0, count: n)\n    var onStack = [Bool](repeating: false, count: n)\n    var stack = [Int]()\n\n    func strongconnect(_ v: Int) {\n        disc[v] = indexCounter\n        low[v] = indexCounter\n        indexCounter += 1\n        stack.append(v)\n        onStack[v] = true\n\n        for w in adj[v] {\n            if disc[w] == -1 {\n                strongconnect(w)\n                low[v] = min(low[v], low[w])\n            } else if onStack[w] {\n                low[v] = min(low[v], disc[w])\n            }\n        }\n\n        if low[v] == disc[v] {\n            sccCount += 1\n            while true {\n                let w = stack.removeLast()\n                onStack[w] = false\n                if w == v { break }\n            }\n        }\n    }\n\n    for v in 0..<n {\n        if disc[v] == -1 {\n            strongconnect(v)\n        }\n    }\n\n    return sccCount\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "tarjansScc.ts",
+          "content": "export function tarjansScc(arr: number[]): number {\n    const n = arr[0];\n    const m = arr[1];\n    const adj: number[][] = Array.from({ length: n }, () => []);\n    for (let i = 0; i < m; i++) {\n        const u = arr[2 + 2 * i];\n        const v = arr[2 + 2 * i + 1];\n        adj[u].push(v);\n    }\n\n    let indexCounter = 0;\n    let sccCount = 0;\n    const disc = new Array(n).fill(-1);\n    const low = new Array(n).fill(0);\n    const onStack = new Array(n).fill(false);\n    const stack: number[] = [];\n\n    function strongconnect(v: number): void {\n        disc[v] = indexCounter;\n        low[v] = indexCounter;\n        indexCounter++;\n        stack.push(v);\n        onStack[v] = true;\n\n        for (const w of adj[v]) {\n            if (disc[w] === -1) {\n                strongconnect(w);\n                low[v] = Math.min(low[v], low[w]);\n            } else if (onStack[w]) {\n                low[v] = Math.min(low[v], disc[w]);\n            }\n        }\n\n        if (low[v] === disc[v]) {\n            sccCount++;\n            while (true) {\n                const w = stack.pop()!;\n                onStack[w] = false;\n                if (w === v) break;\n            }\n        }\n    }\n\n    for (let v = 0; v < n; v++) {\n        if (disc[v] === -1) {\n            strongconnect(v);\n        }\n    }\n\n    return sccCount;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "readme": "# Tarjan's Strongly Connected Components\n\n## Overview\n\nTarjan's algorithm finds all strongly connected components (SCCs) in a directed graph in a single pass of depth-first search. A strongly connected component is a maximal set of vertices such that there is a path from each vertex to every other vertex in the set. The algorithm uses a stack and discovery/low-link values to efficiently identify SCCs. Published by Robert Tarjan in 1972, it remains one of the most elegant and widely used algorithms in graph theory.\n\n## How It Works\n\nThe algorithm performs a DFS traversal, assigning each vertex a discovery index and a low-link value. The low-link value of a vertex is the smallest discovery index reachable from that vertex through the DFS tree and back edges. Vertices are pushed onto a stack as they are discovered. When the DFS finishes processing a vertex whose low-link value equals its discovery index, all vertices on the stack above it (including itself) form a strongly connected component.\n\nDetailed steps:\n\n1. Initialize a global counter, an empty stack, and arrays for discovery index, low-link value, and on-stack status.\n2. For each unvisited vertex v, call DFS(v):\n   a. Set disc[v] = low[v] = counter++, push v onto the stack.\n   b. For each neighbor w of v:\n      - If w is unvisited: recurse DFS(w), then low[v] = min(low[v], low[w]).\n      - If w is on the stack: low[v] = min(low[v], disc[w]).\n   c. If low[v] == disc[v]: pop vertices from the stack until v is popped; these form an SCC.\n\n## Example\n\nGiven input: `[5, 5, 0,1, 1,2, 2,0, 3,4, 4,3]` (5 vertices, 5 edges)\n\nGraph edges: 0->1, 1->2, 2->0, 3->4, 4->3\n\n**DFS Trace:**\n\n| Step | Vertex | disc | low | Stack         | Action                       |\n|------|--------|------|-----|---------------|------------------------------|\n| 1    | 0      | 0    | 0   | [0]           | Visit 0                     |\n| 2    | 1      | 1    | 1   | [0, 1]        | Visit 1 (from 0)            |\n| 3    | 2      | 2    | 2   | [0, 1, 2]     | Visit 2 (from 1)            |\n| 4    | 2      | 2    | 0   | [0, 1, 2]     | Edge 2->0, 0 on stack: low[2]=min(2,0)=0 |\n| 5    | 1      | 1    | 0   | [0, 1, 2]     | Backtrack: low[1]=min(1,0)=0 |\n| 6    | 0      | 0    | 0   | [0, 1, 2]     | Backtrack: low[0]=min(0,0)=0 |\n| 7    | 0      | 0    | 0   | []            | low[0]==disc[0]: pop SCC {2,1,0} |\n| 8    | 3      | 3    | 3   | [3]           | Visit 3                     |\n| 9    | 4      | 4    | 4   | [3, 4]        | Visit 4 (from 3)            |\n| 10   | 4      | 4    | 3   | [3, 4]        | Edge 4->3, 3 on stack: low[4]=min(4,3)=3 |\n| 11   | 3      | 3    | 3   | [3, 4]        | Backtrack: low[3]=min(3,3)=3 |\n| 12   | 3      | 3    | 3   | []            | low[3]==disc[3]: pop SCC {4,3} |\n\nSCCs found: {0, 1, 2} and {3, 4} -- Result: **2**\n\n## Pseudocode\n\n```\nfunction tarjanSCC(n, edges):\n    disc = array of size n, initialized to -1\n    low = array of size n\n    on_stack = array of size n, initialized to false\n    stack = empty stack\n    counter = 0\n    scc_count = 0\n\n    function dfs(v):\n        disc[v] = low[v] = counter++\n        stack.push(v)\n        on_stack[v] = true\n\n        for each neighbor w of v:\n            if disc[w] == -1:       // w not yet visited\n                dfs(w)\n                low[v] = min(low[v], low[w])\n            else if on_stack[w]:    // w is on the stack (in current SCC path)\n                low[v] = min(low[v], disc[w])\n\n        // If v is a root of an SCC\n        if low[v] == disc[v]:\n            scc_count++\n            while true:\n                u = stack.pop()\n                on_stack[u] = false\n                if u == v: break\n\n    for v from 0 to n - 1:\n        if disc[v] == -1:\n            dfs(v)\n\n    return scc_count\n```\n\n## Complexity Analysis\n\n| Case    | Time     | Space |\n|---------|----------|-------|\n| Best    | O(V + E) | O(V)  |\n| Average | O(V + E) | O(V)  |\n| Worst   | O(V + E) | O(V)  |\n\nEach vertex is visited exactly once during DFS, and each edge is examined exactly once, giving O(V + E) time. Each vertex is pushed onto and popped from the stack exactly once. The space is O(V) for the stack, discovery, low-link, and on-stack arrays.\n\n## Applications\n\n- **Detecting cycles in directed graphs:** If the number of SCCs equals the number of vertices, the graph is a DAG (no cycles).\n- **Solving 2-SAT problems:** The implication graph's SCC structure determines satisfiability and variable assignments.\n- **Computing condensation graphs:** Collapsing each SCC into a single node produces a DAG useful for reachability and dependency analysis.\n- **Analyzing dependencies in software modules:** Identifying circular dependencies in build systems, package managers, and import graphs.\n- **Compiler optimization:** Detecting loops in control flow graphs for loop optimization passes.\n\n## When NOT to Use\n\n- **Undirected graphs:** For undirected graphs, use connected components (BFS/DFS/Union-Find) or biconnected components (also by Tarjan, but a different algorithm).\n- **When only cycle detection is needed:** A simple DFS with back-edge detection is sufficient and simpler to implement.\n- **Very large graphs that do not fit in memory:** The recursive DFS may cause stack overflow on extremely deep graphs. An iterative implementation or Kosaraju's algorithm (which uses explicit stacks) may be preferable.\n- **Distributed or parallel settings:** Tarjan's algorithm is inherently sequential due to its DFS nature. For parallel SCC computation, consider parallel graph algorithms.\n\n## Comparison\n\n| Algorithm         | Time     | Space    | DFS Passes | Notes                              |\n|-------------------|----------|----------|------------|------------------------------------|\n| Tarjan's (this)   | O(V + E) | O(V)     | 1          | Most widely used; single DFS pass  |\n| Kosaraju's        | O(V + E) | O(V + E) | 2          | Needs transpose graph              |\n| Path-based        | O(V + E) | O(V)     | 1          | Two stacks; no low-link values     |\n| Forward-backward  | O(V + E) | O(V + E) | varies     | Parallelizable; divide and conquer |\n\nTarjan's algorithm is generally preferred for its single-pass DFS and minimal space usage. Kosaraju's is simpler conceptually (just two DFS traversals) but requires building the transpose graph. The path-based approach has the same complexity as Tarjan's but uses two explicit stacks instead of low-link values.\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [tarjans_scc.py](python/tarjans_scc.py) |\n| Java       | [TarjansScc.java](java/TarjansScc.java) |\n| C++        | [tarjans_scc.cpp](cpp/tarjans_scc.cpp) |\n| C          | [tarjans_scc.c](c/tarjans_scc.c) |\n| Go         | [tarjans_scc.go](go/tarjans_scc.go) |\n| TypeScript | [tarjansScc.ts](typescript/tarjansScc.ts) |\n| Rust       | [tarjans_scc.rs](rust/tarjans_scc.rs) |\n| Kotlin     | [TarjansScc.kt](kotlin/TarjansScc.kt) |\n| Swift      | [TarjansScc.swift](swift/TarjansScc.swift) |\n| Scala      | [TarjansScc.scala](scala/TarjansScc.scala) |\n| C#         | [TarjansScc.cs](csharp/TarjansScc.cs) |\n\n## References\n\n- Tarjan, R. E. (1972). \"Depth-first search and linear graph algorithms.\" *SIAM Journal on Computing*. 1(2): 146-160.\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 22.5: Strongly connected components.\n- [Tarjan's strongly connected components algorithm -- Wikipedia](https://en.wikipedia.org/wiki/Tarjan%27s_strongly_connected_components_algorithm)\n"
+}

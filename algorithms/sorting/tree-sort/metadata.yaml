@@ -1,0 +1,17 @@
+name: "Tree Sort"
+slug: "tree-sort"
+category: "sorting"
+subcategory: "comparison-based"
+difficulty: "intermediate"
+tags: [sorting, comparison, tree, bst, in-order]
+complexity:
+  time:
+    best: "O(n log n)"
+    average: "O(n log n)"
+    worst: "O(n^2)"
+  space: "O(n)"
+stable: false
+in_place: false
+related: [binary-search-tree, insertion-sort]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

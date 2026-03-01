@@ -1,0 +1,17 @@
+name: "Sieve of Eratosthenes"
+slug: "sieve-of-eratosthenes"
+category: "math"
+subcategory: "prime-numbers"
+difficulty: "intermediate"
+tags: [math, primes, sieve, number-theory]
+complexity:
+  time:
+    best: "O(n log log n)"
+    average: "O(n log log n)"
+    worst: "O(n log log n)"
+  space: "O(n)"
+stable: false
+in_place: false
+related: [prime-check, segmented-sieve, primality-tests]
+implementations: [python, java, cpp, c, csharp, typescript]
+visualization: true

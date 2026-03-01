@@ -1,0 +1,21 @@
+name: "Coin Change"
+slug: "coin-change"
+category: "dynamic-programming"
+subcategory: "optimization"
+difficulty: "intermediate"
+tags: [dynamic-programming, optimization, greedy, combinatorial]
+complexity:
+  time:
+    best: "O(nS)"
+    average: "O(nS)"
+    worst: "O(nS)"
+  space: "O(S)"
+stable: null
+in_place: null
+related: [knapsack, rod-cutting-algorithm]
+implementations: [cpp]
+visualization: true
+patterns:
+  - knapsack-dp
+patternDifficulty: intermediate
+practiceOrder: 2

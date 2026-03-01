@@ -1,0 +1,21 @@
+algorithm: "stack-operations"
+function_signature:
+  name: "stack_ops"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "push and pop"
+    input: [[4, 1,5, 1,3, 2,0, 2,0]]
+    expected: 8
+  - name: "pop from empty"
+    input: [[2, 2,0, 2,0]]
+    expected: -2
+  - name: "push only"
+    input: [[2, 1,10, 1,20]]
+    expected: 0
+  - name: "single pop"
+    input: [[2, 1,42, 2,0]]
+    expected: 42
+  - name: "mixed operations"
+    input: [[5, 1,1, 1,2, 2,0, 1,3, 2,0]]
+    expected: 5

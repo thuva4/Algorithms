@@ -1,0 +1,15 @@
+name: "Strassen's Matrix Multiplication"
+slug: "strassens-matrix"
+category: "divide-and-conquer"
+subcategory: "matrix"
+difficulty: "advanced"
+tags: [divide-and-conquer, matrix, multiplication, strassen]
+complexity:
+  time:
+    best: "O(n^2.807)"
+    average: "O(n^2.807)"
+    worst: "O(n^2.807)"
+  space: "O(n^2)"
+related: [karatsuba-multiplication, matrix-chain-multiplication]
+implementations: [python, java, cpp, c, go, typescript, kotlin, rust, swift, scala, csharp]
+visualization: false

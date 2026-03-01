@@ -1,0 +1,17 @@
+name: "Prime Check"
+slug: "prime-check"
+category: "math"
+subcategory: "prime-numbers"
+difficulty: "beginner"
+tags: [math, primes, primality, number-theory]
+complexity:
+  time:
+    best: "O(1)"
+    average: "O(sqrt(n))"
+    worst: "O(sqrt(n))"
+  space: "O(1)"
+stable: false
+in_place: true
+related: [sieve-of-eratosthenes, primality-tests, segmented-sieve]
+implementations: [python, cpp, c]
+visualization: false

@@ -1,0 +1,37 @@
+algorithm: "fenwick-tree"
+function_signature:
+  name: "fenwick_tree_operations"
+  input: [array, queries]
+  output: query_results
+test_cases:
+  - name: "prefix sum query"
+    input:
+      array: [1, 2, 3, 4, 5]
+      queries:
+        - type: "sum"
+          index: 3
+    expected: [10]
+  - name: "point update and query"
+    input:
+      array: [1, 2, 3, 4, 5]
+      queries:
+        - type: "update"
+          index: 2
+          value: 5
+        - type: "sum"
+          index: 3
+    expected: [12]
+  - name: "single element sum"
+    input:
+      array: [10]
+      queries:
+        - type: "sum"
+          index: 0
+    expected: [10]
+  - name: "full range sum"
+    input:
+      array: [1, 1, 1, 1, 1]
+      queries:
+        - type: "sum"
+          index: 4
+    expected: [5]

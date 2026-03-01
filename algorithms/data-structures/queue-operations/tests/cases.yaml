@@ -1,0 +1,21 @@
+algorithm: "queue-operations"
+function_signature:
+  name: "queue_ops"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "enqueue and dequeue"
+    input: [[4, 1,5, 1,3, 2,0, 2,0]]
+    expected: 8
+  - name: "single enqueue and dequeue"
+    input: [[2, 1,10, 2,0]]
+    expected: 10
+  - name: "dequeue from empty"
+    input: [[1, 2,0]]
+    expected: 0
+  - name: "fifo order"
+    input: [[3, 1,1, 1,2, 2,0]]
+    expected: 1
+  - name: "multiple operations"
+    input: [[5, 1,10, 1,20, 2,0, 2,0, 1,30]]
+    expected: 30

@@ -1,0 +1,138 @@
+{
+  "name": "Partition Problem",
+  "slug": "partition-problem",
+  "category": "dynamic-programming",
+  "subcategory": "subset-sum",
+  "difficulty": "intermediate",
+  "tags": [
+    "dynamic-programming",
+    "subset-sum",
+    "partition",
+    "knapsack"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n * S)",
+      "average": "O(n * S)",
+      "worst": "O(n * S)"
+    },
+    "space": "O(S)"
+  },
+  "related": [
+    "knapsack",
+    "coin-change",
+    "longest-subset-zero-sum"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "can_partition.c",
+          "content": "#include \"can_partition.h\"\n#include <string.h>\n\n#define MAX_SUM 100000\n\nstatic int dp[MAX_SUM + 1];\n\nint can_partition(int arr[], int n) {\n    int total = 0;\n    for (int i = 0; i < n; i++) total += arr[i];\n    if (total % 2 != 0) return 0;\n    int target = total / 2;\n\n    memset(dp, 0, sizeof(int) * (target + 1));\n    dp[0] = 1;\n    for (int i = 0; i < n; i++) {\n        for (int j = target; j >= arr[i]; j--) {\n            if (dp[j - arr[i]]) dp[j] = 1;\n        }\n    }\n    return dp[target];\n}\n"
+        },
+        {
+          "filename": "can_partition.h",
+          "content": "#ifndef CAN_PARTITION_H\n#define CAN_PARTITION_H\n\nint can_partition(int arr[], int n);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "can_partition.cpp",
+          "content": "#include <vector>\nusing namespace std;\n\nint can_partition(vector<int> arr) {\n    int total = 0;\n    for (int x : arr) total += x;\n    if (total % 2 != 0) return 0;\n    int target = total / 2;\n    vector<bool> dp(target + 1, false);\n    dp[0] = true;\n    for (int num : arr) {\n        for (int j = target; j >= num; j--) {\n            dp[j] = dp[j] || dp[j - num];\n        }\n    }\n    return dp[target] ? 1 : 0;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "CanPartition.cs",
+          "content": "using System;\nusing System.Linq;\n\npublic class CanPartition\n{\n    public static int Solve(int[] arr)\n    {\n        int total = arr.Sum();\n        if (total % 2 != 0) return 0;\n        int target = total / 2;\n        bool[] dp = new bool[target + 1];\n        dp[0] = true;\n        foreach (int num in arr)\n        {\n            for (int j = target; j >= num; j--)\n            {\n                dp[j] = dp[j] || dp[j - num];\n            }\n        }\n        return dp[target] ? 1 : 0;\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "can_partition.go",
+          "content": "package partitionproblem\n\nfunc CanPartition(arr []int) int {\n\ttotal := 0\n\tfor _, x := range arr {\n\t\ttotal += x\n\t}\n\tif total%2 != 0 {\n\t\treturn 0\n\t}\n\ttarget := total / 2\n\tdp := make([]bool, target+1)\n\tdp[0] = true\n\tfor _, num := range arr {\n\t\tfor j := target; j >= num; j-- {\n\t\t\tdp[j] = dp[j] || dp[j-num]\n\t\t}\n\t}\n\tif dp[target] {\n\t\treturn 1\n\t}\n\treturn 0\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "CanPartition.java",
+          "content": "public class CanPartition {\n\n    public static int canPartition(int[] arr) {\n        int total = 0;\n        for (int x : arr) total += x;\n        if (total % 2 != 0) return 0;\n        int target = total / 2;\n        boolean[] dp = new boolean[target + 1];\n        dp[0] = true;\n        for (int num : arr) {\n            for (int j = target; j >= num; j--) {\n                dp[j] = dp[j] || dp[j - num];\n            }\n        }\n        return dp[target] ? 1 : 0;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "CanPartition.kt",
+          "content": "fun canPartition(arr: IntArray): Int {\n    val total = arr.sum()\n    if (total % 2 != 0) return 0\n    val target = total / 2\n    val dp = BooleanArray(target + 1)\n    dp[0] = true\n    for (num in arr) {\n        for (j in target downTo num) {\n            dp[j] = dp[j] || dp[j - num]\n        }\n    }\n    return if (dp[target]) 1 else 0\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "can_partition.py",
+          "content": "def can_partition(arr: list[int]) -> int:\n    total = sum(arr)\n    if total % 2 != 0:\n        return 0\n    target = total // 2\n    dp = [False] * (target + 1)\n    dp[0] = True\n    for num in arr:\n        for j in range(target, num - 1, -1):\n            dp[j] = dp[j] or dp[j - num]\n    return 1 if dp[target] else 0\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "can_partition.rs",
+          "content": "pub fn can_partition(arr: &[i32]) -> i32 {\n    let total: i32 = arr.iter().sum();\n    if total % 2 != 0 { return 0; }\n    let target = (total / 2) as usize;\n    let mut dp = vec![false; target + 1];\n    dp[0] = true;\n    for &num in arr {\n        let num = num as usize;\n        for j in (num..=target).rev() {\n            dp[j] = dp[j] || dp[j - num];\n        }\n    }\n    if dp[target] { 1 } else { 0 }\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "CanPartition.scala",
+          "content": "object CanPartition {\n\n  def canPartition(arr: Array[Int]): Int = {\n    val total = arr.sum\n    if (total % 2 != 0) return 0\n    val target = total / 2\n    val dp = Array.fill(target + 1)(false)\n    dp(0) = true\n    for (num <- arr) {\n      for (j <- target to num by -1) {\n        dp(j) = dp(j) || dp(j - num)\n      }\n    }\n    if (dp(target)) 1 else 0\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "CanPartition.swift",
+          "content": "func canPartition(_ arr: [Int]) -> Int {\n    let total = arr.reduce(0, +)\n    if total % 2 != 0 { return 0 }\n    let target = total / 2\n    var dp = [Bool](repeating: false, count: target + 1)\n    dp[0] = true\n    for num in arr {\n        for j in stride(from: target, through: num, by: -1) {\n            dp[j] = dp[j] || dp[j - num]\n        }\n    }\n    return dp[target] ? 1 : 0\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "canPartition.ts",
+          "content": "export function canPartition(arr: number[]): number {\n    const total = arr.reduce((a, b) => a + b, 0);\n    if (total % 2 !== 0) return 0;\n    const target = total / 2;\n    const dp = new Array(target + 1).fill(false);\n    dp[0] = true;\n    for (const num of arr) {\n        for (let j = target; j >= num; j--) {\n            dp[j] = dp[j] || dp[j - num];\n        }\n    }\n    return dp[target] ? 1 : 0;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "patterns": [
+    "knapsack-dp"
+  ],
+  "patternDifficulty": "intermediate",
+  "practiceOrder": 3,
+  "readme": "# Partition Problem\n\n## Overview\n\nThe partition problem determines whether a given array can be partitioned into two subsets with equal sum. This is a special case of the subset sum problem. It uses dynamic programming to check if a subset with sum equal to half the total sum exists. The partition problem is one of Karp's original 21 NP-complete problems (1972), making it a cornerstone of computational complexity theory. Despite being NP-complete in general, the pseudo-polynomial time DP solution is efficient when the sum of elements is not too large.\n\n## How It Works\n\n1. Calculate the total sum S. If S is odd, return 0 (impossible to split into two equal integer sums).\n2. Set the target to S/2. The problem reduces to: does any subset sum to exactly S/2?\n3. Use a 1D boolean DP array where `dp[j] = true` if a subset with sum j is achievable.\n4. Initialize `dp[0] = true` (the empty subset has sum 0).\n5. For each element `num` in the array, iterate j from S/2 down to `num`, setting `dp[j] = dp[j] OR dp[j - num]`.\n6. The answer is `dp[S/2]`.\n\nThe reverse iteration in step 5 ensures each element is used at most once (0/1 knapsack style).\n\n## Example\n\nGiven input: `[1, 5, 11, 5]`\n\nTotal sum = 22, target = 11.\n\nProcessing elements one by one (showing which sums become reachable):\n\n| After element | Reachable sums                |\n|---------------|-------------------------------|\n| (initial)     | {0}                           |\n| 1             | {0, 1}                        |\n| 5             | {0, 1, 5, 6}                 |\n| 11            | {0, 1, 5, 6, 11, 12, 16, 17} |\n| 5             | {0, 1, 5, 6, 10, 11, ...}    |\n\nSince 11 is reachable, the answer is **1** (can partition). Subsets: {1, 5, 5} and {11}.\n\nGiven input: `[1, 2, 3, 5]`\n\nTotal sum = 11, which is odd. Answer: **0** (cannot partition).\n\n## Pseudocode\n\n```\nfunction canPartition(arr, n):\n    S = sum(arr)\n    if S is odd:\n        return 0\n\n    target = S / 2\n    dp = boolean array of size target + 1, initialized to false\n    dp[0] = true\n\n    for each num in arr:\n        for j from target down to num:\n            dp[j] = dp[j] OR dp[j - num]\n\n    return 1 if dp[target] else 0\n```\n\n## Complexity Analysis\n\n| Case    | Time    | Space |\n|---------|---------|-------|\n| Best    | O(n*S)  | O(S)  |\n| Average | O(n*S)  | O(S)  |\n| Worst   | O(n*S)  | O(S)  |\n\nWhere S is the total sum of elements. The time complexity is pseudo-polynomial -- polynomial in the numeric value of the input but exponential in the number of bits needed to represent it. The 1D DP array reduces space from O(n*S) (2D table) to O(S).\n\n## Applications\n\n- **Load balancing:** Distributing tasks across two processors to minimize the difference in total workload.\n- **Resource allocation:** Splitting a set of resources between two teams as fairly as possible.\n- **Task scheduling:** Assigning jobs to two machines to equalize completion times.\n- **Fair division problems:** Dividing assets in a way that both parties receive equal total value.\n- **Cryptography:** The hardness of the subset sum problem (parent of partition) underlies certain cryptographic schemes.\n\n## When NOT to Use\n\n- **When the sum is very large:** The O(n*S) complexity becomes impractical if S is in the billions. Consider approximation algorithms or meet-in-the-middle approaches.\n- **More than two partitions:** This algorithm only handles two-way partitioning. The k-way partition problem requires different techniques (e.g., dynamic programming over subsets for k=3).\n- **Minimizing difference rather than exact equality:** If you want to minimize |sum1 - sum2| rather than requiring exact equality, a modified DP is needed.\n- **Floating-point values:** The DP approach relies on integer indexing. Floating-point sums require different handling.\n\n## Comparison\n\n| Algorithm           | Time        | Space  | Notes                                    |\n|---------------------|-------------|--------|------------------------------------------|\n| DP (this)           | O(n*S)      | O(S)   | Pseudo-polynomial; exact answer           |\n| Brute Force         | O(2^n)      | O(n)   | Exponential; checks all subsets           |\n| Meet in the Middle  | O(2^(n/2))  | O(2^(n/2)) | Better for small n, large S           |\n| Greedy (LPT)       | O(n log n)  | O(1)   | Heuristic; no exact guarantee             |\n| Karmarkar-Karp      | O(n log n)  | O(n)   | Differencing heuristic; good in practice  |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [can_partition.py](python/can_partition.py) |\n| Java       | [CanPartition.java](java/CanPartition.java) |\n| C++        | [can_partition.cpp](cpp/can_partition.cpp) |\n| C          | [can_partition.c](c/can_partition.c) |\n| Go         | [can_partition.go](go/can_partition.go) |\n| TypeScript | [canPartition.ts](typescript/canPartition.ts) |\n| Rust       | [can_partition.rs](rust/can_partition.rs) |\n| Kotlin     | [CanPartition.kt](kotlin/CanPartition.kt) |\n| Swift      | [CanPartition.swift](swift/CanPartition.swift) |\n| Scala      | [CanPartition.scala](scala/CanPartition.scala) |\n| C#         | [CanPartition.cs](csharp/CanPartition.cs) |\n\n## References\n\n- Karp, R. M. (1972). \"Reducibility among combinatorial problems.\" In *Complexity of Computer Computations*, pp. 85-103.\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 16: Dynamic Programming.\n- [Partition problem -- Wikipedia](https://en.wikipedia.org/wiki/Partition_problem)\n"
+}

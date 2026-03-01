@@ -1,0 +1,136 @@
+{
+  "name": "Parallel Topological Sort",
+  "slug": "topological-sort-parallel",
+  "category": "graph",
+  "subcategory": "ordering",
+  "difficulty": "advanced",
+  "tags": [
+    "graph",
+    "topological-sort",
+    "parallel",
+    "dag",
+    "kahn",
+    "scheduling"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(V + E)",
+      "average": "O(V + E)",
+      "worst": "O(V + E)"
+    },
+    "space": "O(V + E)"
+  },
+  "stable": null,
+  "in_place": false,
+  "related": [
+    "topological-sort",
+    "topological-sort-kahn"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "topological_sort_parallel.c",
+          "content": "#include \"topological_sort_parallel.h\"\n#include <stdlib.h>\n#include <string.h>\n\nint topological_sort_parallel(const int data[], int data_len) {\n    int n = data[0];\n    int m = data[1];\n\n    int *indegree = (int *)calloc(n, sizeof(int));\n    int *adj_start = (int *)calloc(n + 1, sizeof(int));\n    int *adj_count = (int *)calloc(n, sizeof(int));\n    int *edges = (int *)malloc(m * sizeof(int));\n    int *queue = (int *)malloc(n * sizeof(int));\n\n    int idx = 2;\n    int i, e;\n\n    /* Count outgoing edges */\n    for (e = 0; e < m; e++) {\n        int u = data[idx + 2 * e];\n        adj_count[u]++;\n    }\n\n    /* Build adjacency list offsets */\n    adj_start[0] = 0;\n    for (i = 0; i < n; i++) {\n        adj_start[i + 1] = adj_start[i] + adj_count[i];\n    }\n\n    int *pos = (int *)calloc(n, sizeof(int));\n    for (e = 0; e < m; e++) {\n        int u = data[idx + 2 * e];\n        int v = data[idx + 2 * e + 1];\n        edges[adj_start[u] + pos[u]] = v;\n        pos[u]++;\n        indegree[v]++;\n    }\n\n    int head = 0, tail = 0;\n    for (i = 0; i < n; i++) {\n        if (indegree[i] == 0) queue[tail++] = i;\n    }\n\n    int rounds = 0;\n    int processed = 0;\n\n    while (head < tail) {\n        int size = tail - head;\n        for (i = 0; i < size; i++) {\n            int node = queue[head++];\n            processed++;\n            int j;\n            for (j = adj_start[node]; j < adj_start[node] + adj_count[node]; j++) {\n                int neighbor = edges[j];\n                indegree[neighbor]--;\n                if (indegree[neighbor] == 0) {\n                    queue[tail++] = neighbor;\n                }\n            }\n        }\n        rounds++;\n    }\n\n    free(indegree);\n    free(adj_start);\n    free(adj_count);\n    free(edges);\n    free(queue);\n    free(pos);\n\n    return processed == n ? rounds : -1;\n}\n"
+        },
+        {
+          "filename": "topological_sort_parallel.h",
+          "content": "#ifndef TOPOLOGICAL_SORT_PARALLEL_H\n#define TOPOLOGICAL_SORT_PARALLEL_H\n\nint topological_sort_parallel(const int data[], int data_len);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "topological_sort_parallel.cpp",
+          "content": "#include <vector>\n#include <queue>\n\nint topological_sort_parallel(const std::vector<int>& data) {\n    int n = data[0];\n    int m = data[1];\n\n    std::vector<std::vector<int>> adj(n);\n    std::vector<int> indegree(n, 0);\n\n    int idx = 2;\n    for (int e = 0; e < m; e++) {\n        int u = data[idx], v = data[idx + 1];\n        adj[u].push_back(v);\n        indegree[v]++;\n        idx += 2;\n    }\n\n    std::queue<int> q;\n    for (int i = 0; i < n; i++) {\n        if (indegree[i] == 0) q.push(i);\n    }\n\n    int rounds = 0;\n    int processed = 0;\n\n    while (!q.empty()) {\n        int size = static_cast<int>(q.size());\n        for (int i = 0; i < size; i++) {\n            int node = q.front(); q.pop();\n            processed++;\n            for (int neighbor : adj[node]) {\n                indegree[neighbor]--;\n                if (indegree[neighbor] == 0) {\n                    q.push(neighbor);\n                }\n            }\n        }\n        rounds++;\n    }\n\n    return processed == n ? rounds : -1;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "TopologicalSortParallel.cs",
+          "content": "using System.Collections.Generic;\n\npublic class TopologicalSortParallel\n{\n    public static int Solve(int[] data)\n    {\n        int n = data[0];\n        int m = data[1];\n\n        List<int>[] adj = new List<int>[n];\n        for (int i = 0; i < n; i++) adj[i] = new List<int>();\n        int[] indegree = new int[n];\n\n        int idx = 2;\n        for (int e = 0; e < m; e++)\n        {\n            int u = data[idx], v = data[idx + 1];\n            adj[u].Add(v);\n            indegree[v]++;\n            idx += 2;\n        }\n\n        Queue<int> queue = new Queue<int>();\n        for (int i = 0; i < n; i++)\n        {\n            if (indegree[i] == 0) queue.Enqueue(i);\n        }\n\n        int rounds = 0;\n        int processed = 0;\n\n        while (queue.Count > 0)\n        {\n            int size = queue.Count;\n            for (int i = 0; i < size; i++)\n            {\n                int node = queue.Dequeue();\n                processed++;\n                foreach (int neighbor in adj[node])\n                {\n                    indegree[neighbor]--;\n                    if (indegree[neighbor] == 0)\n                    {\n                        queue.Enqueue(neighbor);\n                    }\n                }\n            }\n            rounds++;\n        }\n\n        return processed == n ? rounds : -1;\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "topological_sort_parallel.go",
+          "content": "package main\n\nfunc TopologicalSortParallel(data []int) int {\n\tn := data[0]\n\tm := data[1]\n\n\tadj := make([][]int, n)\n\tfor i := range adj {\n\t\tadj[i] = []int{}\n\t}\n\tindegree := make([]int, n)\n\n\tidx := 2\n\tfor e := 0; e < m; e++ {\n\t\tu, v := data[idx], data[idx+1]\n\t\tadj[u] = append(adj[u], v)\n\t\tindegree[v]++\n\t\tidx += 2\n\t}\n\n\tqueue := []int{}\n\tfor i := 0; i < n; i++ {\n\t\tif indegree[i] == 0 {\n\t\t\tqueue = append(queue, i)\n\t\t}\n\t}\n\n\trounds := 0\n\tprocessed := 0\n\n\tfor len(queue) > 0 {\n\t\tsize := len(queue)\n\t\tfor i := 0; i < size; i++ {\n\t\t\tnode := queue[i]\n\t\t\tprocessed++\n\t\t\tfor _, neighbor := range adj[node] {\n\t\t\t\tindegree[neighbor]--\n\t\t\t\tif indegree[neighbor] == 0 {\n\t\t\t\t\tqueue = append(queue, neighbor)\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t\tqueue = queue[size:]\n\t\trounds++\n\t}\n\n\tif processed == n {\n\t\treturn rounds\n\t}\n\treturn -1\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "TopologicalSortParallel.java",
+          "content": "import java.util.*;\n\npublic class TopologicalSortParallel {\n\n    public static int topologicalSortParallel(int[] data) {\n        int n = data[0];\n        int m = data[1];\n\n        List<List<Integer>> adj = new ArrayList<>();\n        for (int i = 0; i < n; i++) adj.add(new ArrayList<>());\n        int[] indegree = new int[n];\n\n        int idx = 2;\n        for (int e = 0; e < m; e++) {\n            int u = data[idx], v = data[idx + 1];\n            adj.get(u).add(v);\n            indegree[v]++;\n            idx += 2;\n        }\n\n        Queue<Integer> queue = new LinkedList<>();\n        for (int i = 0; i < n; i++) {\n            if (indegree[i] == 0) queue.add(i);\n        }\n\n        int rounds = 0;\n        int processed = 0;\n\n        while (!queue.isEmpty()) {\n            int size = queue.size();\n            for (int i = 0; i < size; i++) {\n                int node = queue.poll();\n                processed++;\n                for (int neighbor : adj.get(node)) {\n                    indegree[neighbor]--;\n                    if (indegree[neighbor] == 0) {\n                        queue.add(neighbor);\n                    }\n                }\n            }\n            rounds++;\n        }\n\n        return processed == n ? rounds : -1;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "TopologicalSortParallel.kt",
+          "content": "fun topologicalSortParallel(data: IntArray): Int {\n    val n = data[0]\n    val m = data[1]\n\n    val adj = Array(n) { mutableListOf<Int>() }\n    val indegree = IntArray(n)\n\n    var idx = 2\n    repeat(m) {\n        val u = data[idx]; val v = data[idx + 1]\n        adj[u].add(v)\n        indegree[v]++\n        idx += 2\n    }\n\n    var queue = mutableListOf<Int>()\n    for (i in 0 until n) {\n        if (indegree[i] == 0) queue.add(i)\n    }\n\n    var rounds = 0\n    var processed = 0\n\n    while (queue.isNotEmpty()) {\n        val nextQueue = mutableListOf<Int>()\n        for (node in queue) {\n            processed++\n            for (neighbor in adj[node]) {\n                indegree[neighbor]--\n                if (indegree[neighbor] == 0) {\n                    nextQueue.add(neighbor)\n                }\n            }\n        }\n        queue = nextQueue\n        rounds++\n    }\n\n    return if (processed == n) rounds else -1\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "topological_sort_parallel.py",
+          "content": "from collections import deque\n\n\ndef topological_sort_parallel(data: list[int]) -> int:\n    n = data[0]\n    m = data[1]\n\n    adj = [[] for _ in range(n)]\n    indegree = [0] * n\n\n    idx = 2\n    for _ in range(m):\n        u, v = data[idx], data[idx + 1]\n        adj[u].append(v)\n        indegree[v] += 1\n        idx += 2\n\n    queue = deque()\n    for i in range(n):\n        if indegree[i] == 0:\n            queue.append(i)\n\n    rounds = 0\n    processed = 0\n\n    while queue:\n        size = len(queue)\n        for _ in range(size):\n            node = queue.popleft()\n            processed += 1\n            for neighbor in adj[node]:\n                indegree[neighbor] -= 1\n                if indegree[neighbor] == 0:\n                    queue.append(neighbor)\n        rounds += 1\n\n    return rounds if processed == n else -1\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "topological_sort_parallel.rs",
+          "content": "use std::collections::VecDeque;\n\npub fn topological_sort_parallel(data: &[i32]) -> i32 {\n    let n = data[0] as usize;\n    let m = data[1] as usize;\n\n    let mut adj = vec![vec![]; n];\n    let mut indegree = vec![0i32; n];\n\n    let mut idx = 2;\n    for _ in 0..m {\n        let u = data[idx] as usize;\n        let v = data[idx + 1] as usize;\n        adj[u].push(v);\n        indegree[v] += 1;\n        idx += 2;\n    }\n\n    let mut queue: VecDeque<usize> = VecDeque::new();\n    for i in 0..n {\n        if indegree[i] == 0 {\n            queue.push_back(i);\n        }\n    }\n\n    let mut rounds = 0;\n    let mut processed = 0;\n\n    while !queue.is_empty() {\n        let size = queue.len();\n        for _ in 0..size {\n            let node = queue.pop_front().unwrap();\n            processed += 1;\n            for &neighbor in &adj[node] {\n                indegree[neighbor] -= 1;\n                if indegree[neighbor] == 0 {\n                    queue.push_back(neighbor);\n                }\n            }\n        }\n        rounds += 1;\n    }\n\n    if processed == n as i32 { rounds } else { -1 }\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "TopologicalSortParallel.scala",
+          "content": "import scala.collection.mutable\n\nobject TopologicalSortParallel {\n\n  def topologicalSortParallel(data: Array[Int]): Int = {\n    val n = data(0)\n    val m = data(1)\n\n    val adj = Array.fill(n)(mutable.ListBuffer[Int]())\n    val indegree = new Array[Int](n)\n\n    var idx = 2\n    for (_ <- 0 until m) {\n      val u = data(idx); val v = data(idx + 1)\n      adj(u) += v\n      indegree(v) += 1\n      idx += 2\n    }\n\n    var queue = mutable.Queue[Int]()\n    for (i <- 0 until n) {\n      if (indegree(i) == 0) queue.enqueue(i)\n    }\n\n    var rounds = 0\n    var processed = 0\n\n    while (queue.nonEmpty) {\n      val size = queue.size\n      for (_ <- 0 until size) {\n        val node = queue.dequeue()\n        processed += 1\n        for (neighbor <- adj(node)) {\n          indegree(neighbor) -= 1\n          if (indegree(neighbor) == 0) {\n            queue.enqueue(neighbor)\n          }\n        }\n      }\n      rounds += 1\n    }\n\n    if (processed == n) rounds else -1\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "TopologicalSortParallel.swift",
+          "content": "func topologicalSortParallel(_ data: [Int]) -> Int {\n    let n = data[0]\n    let m = data[1]\n\n    var adj = [[Int]](repeating: [], count: n)\n    var indegree = [Int](repeating: 0, count: n)\n\n    var idx = 2\n    for _ in 0..<m {\n        let u = data[idx], v = data[idx + 1]\n        adj[u].append(v)\n        indegree[v] += 1\n        idx += 2\n    }\n\n    var queue = [Int]()\n    for i in 0..<n {\n        if indegree[i] == 0 { queue.append(i) }\n    }\n\n    var rounds = 0\n    var processed = 0\n\n    while !queue.isEmpty {\n        var nextQueue = [Int]()\n        for node in queue {\n            processed += 1\n            for neighbor in adj[node] {\n                indegree[neighbor] -= 1\n                if indegree[neighbor] == 0 {\n                    nextQueue.append(neighbor)\n                }\n            }\n        }\n        queue = nextQueue\n        rounds += 1\n    }\n\n    return processed == n ? rounds : -1\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "topologicalSortParallel.ts",
+          "content": "export function topologicalSortParallel(data: number[]): number {\n    const n = data[0];\n    const m = data[1];\n\n    const adj: number[][] = Array.from({ length: n }, () => []);\n    const indegree = new Array(n).fill(0);\n\n    let idx = 2;\n    for (let e = 0; e < m; e++) {\n        const u = data[idx], v = data[idx + 1];\n        adj[u].push(v);\n        indegree[v]++;\n        idx += 2;\n    }\n\n    let queue: number[] = [];\n    for (let i = 0; i < n; i++) {\n        if (indegree[i] === 0) queue.push(i);\n    }\n\n    let rounds = 0;\n    let processed = 0;\n\n    while (queue.length > 0) {\n        const nextQueue: number[] = [];\n        for (const node of queue) {\n            processed++;\n            for (const neighbor of adj[node]) {\n                indegree[neighbor]--;\n                if (indegree[neighbor] === 0) {\n                    nextQueue.push(neighbor);\n                }\n            }\n        }\n        queue = nextQueue;\n        rounds++;\n    }\n\n    return processed === n ? rounds : -1;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Parallel Topological Sort\n\n## Overview\n\nParallel Topological Sort is a variant of Kahn's algorithm that identifies the maximum parallelism in a DAG. Instead of processing one node at a time, it processes all zero-indegree nodes simultaneously in each \"round.\" The number of rounds represents the critical path length, or the minimum number of steps needed if unlimited parallelism is available. This is essential for scheduling tasks on multiple processors, determining build parallelism, and computing the longest path in a DAG.\n\nInput format: [n, m, u1, v1, u2, v2, ...] where n = nodes, m = edges, followed by m directed edges (0-indexed). Output: number of rounds needed (or -1 if a cycle exists).\n\n## How It Works\n\n1. Compute the in-degree of every node.\n2. Collect all nodes with in-degree 0 into the current round.\n3. Process the entire round: remove all current nodes and decrement in-degrees of their neighbors.\n4. Increment the round counter.\n5. Repeat until all nodes are processed.\n6. Return the number of rounds (or -1 if a cycle exists, detected when some nodes are never processed).\n\nThe key difference from standard Kahn's algorithm is that all available nodes are processed simultaneously in each round, rather than one at a time. This gives the round count, which equals the length of the longest path in the DAG plus one.\n\n## Example\n\nConsider a DAG with 6 vertices and edges:\n\n```\n0 -> 2,  1 -> 2,  2 -> 3,  2 -> 4,  3 -> 5,  4 -> 5\n```\n\nInput: `[6, 6, 0,2, 1,2, 2,3, 2,4, 3,5, 4,5]`\n\n**In-degrees:** 0:0, 1:0, 2:2, 3:1, 4:1, 5:2\n\n**Round-by-round processing:**\n\n| Round | Nodes processed | Updated in-degrees         | Remaining |\n|-------|----------------|---------------------------|-----------|\n| 1     | {0, 1}         | 2: 2->0                   | {2,3,4,5} |\n| 2     | {2}            | 3: 1->0, 4: 1->0         | {3,4,5}   |\n| 3     | {3, 4}         | 5: 2->0                   | {5}       |\n| 4     | {5}            | (none)                    | {}        |\n\nResult: **4** rounds needed.\n\nThis means even with unlimited processors, the tasks require at least 4 sequential steps due to dependency chains (e.g., 0 -> 2 -> 3 -> 5).\n\n## Pseudocode\n\n```\nfunction parallelTopologicalSort(n, edges):\n    adj = adjacency list from edges\n    in_degree = array of size n, computed from edges\n    processed = 0\n    rounds = 0\n\n    queue = all vertices v where in_degree[v] == 0\n\n    while queue is not empty:\n        rounds++\n        next_queue = empty list\n\n        for each vertex v in queue:\n            processed++\n            for each neighbor w of v:\n                in_degree[w] -= 1\n                if in_degree[w] == 0:\n                    next_queue.append(w)\n\n        queue = next_queue\n\n    if processed != n:\n        return -1    // cycle detected\n    return rounds\n```\n\n## Complexity Analysis\n\n| Case    | Time     | Space    |\n|---------|----------|----------|\n| Best    | O(V + E) | O(V + E) |\n| Average | O(V + E) | O(V + E) |\n| Worst   | O(V + E) | O(V + E) |\n\nEach vertex is enqueued and dequeued exactly once, and each edge is examined exactly once when its source vertex is processed. The space stores the adjacency list O(V + E), in-degree array O(V), and queues O(V). The number of rounds does not affect the asymptotic complexity -- it only determines how the work is partitioned across rounds.\n\n## When to Use\n\n- **Task scheduling with dependencies:** Determining the minimum makespan (total time) for a set of tasks with precedence constraints when unlimited workers are available.\n- **Build system optimization:** Finding the critical path in a build dependency graph to estimate minimum build time with parallel compilation.\n- **Pipeline depth analysis:** Computing the minimum number of pipeline stages needed to process a DAG of operations.\n- **Critical path method (CPM):** In project management, the number of rounds corresponds to the critical path length, which determines the project duration.\n- **Cycle detection in DAGs:** The algorithm naturally detects cycles (returns -1 if not all nodes are processed), serving double duty.\n\n## When NOT to Use\n\n- **When you need a single linear ordering:** Standard Kahn's or DFS-based topological sort is simpler if you just need one valid ordering without round information.\n- **When parallelism is limited:** If you have a fixed number of processors (not unlimited), use list scheduling algorithms that respect processor count constraints.\n- **Weighted tasks:** If tasks have different execution times, the round model (assuming unit-time tasks) is inadequate. Use the weighted critical path method instead.\n- **Undirected or cyclic graphs:** Topological sorting only applies to DAGs.\n\n## Comparison\n\n| Algorithm                    | Time     | Space    | Output                             |\n|------------------------------|----------|----------|------------------------------------|\n| Parallel topo sort (this)    | O(V + E) | O(V + E) | Round count (critical path length) |\n| Kahn's algorithm             | O(V + E) | O(V + E) | Single linear ordering             |\n| DFS-based topological sort   | O(V + E) | O(V + E) | Single linear ordering             |\n| All topological orderings    | O(V! * V)| O(V + E) | Count of all valid orderings       |\n| Longest path in DAG          | O(V + E) | O(V + E) | Length of longest path             |\n\nThe parallel topological sort and longest-path-in-DAG computations are closely related: the number of rounds equals the longest path length plus one. The parallel sort computes this using a BFS-like approach, while the longest path typically uses DFS with memoization.\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [topological_sort_parallel.py](python/topological_sort_parallel.py) |\n| Java       | [TopologicalSortParallel.java](java/TopologicalSortParallel.java) |\n| C++        | [topological_sort_parallel.cpp](cpp/topological_sort_parallel.cpp) |\n| C          | [topological_sort_parallel.c](c/topological_sort_parallel.c) |\n| Go         | [topological_sort_parallel.go](go/topological_sort_parallel.go) |\n| TypeScript | [topologicalSortParallel.ts](typescript/topologicalSortParallel.ts) |\n| Rust       | [topological_sort_parallel.rs](rust/topological_sort_parallel.rs) |\n| Kotlin     | [TopologicalSortParallel.kt](kotlin/TopologicalSortParallel.kt) |\n| Swift      | [TopologicalSortParallel.swift](swift/TopologicalSortParallel.swift) |\n| Scala      | [TopologicalSortParallel.scala](scala/TopologicalSortParallel.scala) |\n| C#         | [TopologicalSortParallel.cs](csharp/TopologicalSortParallel.cs) |\n\n## References\n\n- Kahn, A. B. (1962). \"Topological sorting of large networks.\" *Communications of the ACM*. 5(11): 558-562.\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 22.4: Topological Sort; Chapter 24.2: Single-source shortest paths in DAGs.\n- [Topological Sorting -- Wikipedia](https://en.wikipedia.org/wiki/Topological_sorting)\n"
+}

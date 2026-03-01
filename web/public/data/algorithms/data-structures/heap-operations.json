@@ -1,0 +1,140 @@
+{
+  "name": "Binary Heap",
+  "slug": "heap-operations",
+  "category": "data-structures",
+  "subcategory": "heaps",
+  "difficulty": "beginner",
+  "tags": [
+    "data-structures",
+    "heap",
+    "min-heap",
+    "priority-queue",
+    "sorting"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n log n)",
+      "average": "O(n log n)",
+      "worst": "O(n log n)"
+    },
+    "space": "O(n)"
+  },
+  "stable": null,
+  "in_place": null,
+  "related": [
+    "priority-queue",
+    "heap-sort"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "heap_operations.c",
+          "content": "#include \"heap_operations.h\"\n\nstatic void sift_up(int* heap, int i) {\n    while (i > 0) {\n        int parent = (i - 1) / 2;\n        if (heap[i] < heap[parent]) {\n            int temp = heap[i]; heap[i] = heap[parent]; heap[parent] = temp;\n            i = parent;\n        } else break;\n    }\n}\n\nstatic void sift_down(int* heap, int i, int size) {\n    while (1) {\n        int smallest = i;\n        int left = 2 * i + 1, right = 2 * i + 2;\n        if (left < size && heap[left] < heap[smallest]) smallest = left;\n        if (right < size && heap[right] < heap[smallest]) smallest = right;\n        if (smallest != i) {\n            int temp = heap[i]; heap[i] = heap[smallest]; heap[smallest] = temp;\n            i = smallest;\n        } else break;\n    }\n}\n\nvoid heap_sort_via_extract(const int* arr, int n, int* result, int* result_size) {\n    int heap[10000];\n    int size = 0;\n\n    for (int i = 0; i < n; i++) {\n        heap[size] = arr[i];\n        sift_up(heap, size);\n        size++;\n    }\n\n    *result_size = 0;\n    while (size > 0) {\n        result[(*result_size)++] = heap[0];\n        size--;\n        heap[0] = heap[size];\n        if (size > 0) sift_down(heap, 0, size);\n    }\n}\n"
+        },
+        {
+          "filename": "heap_operations.h",
+          "content": "#ifndef HEAP_OPERATIONS_H\n#define HEAP_OPERATIONS_H\n\nvoid heap_sort_via_extract(const int* arr, int n, int* result, int* result_size);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "heap_operations.cpp",
+          "content": "#include <vector>\n\nstd::vector<int> heap_sort_via_extract(std::vector<int> arr) {\n    std::vector<int> heap;\n\n    auto siftUp = [&](int i) {\n        while (i > 0) {\n            int parent = (i - 1) / 2;\n            if (heap[i] < heap[parent]) {\n                std::swap(heap[i], heap[parent]);\n                i = parent;\n            } else break;\n        }\n    };\n\n    auto siftDown = [&](int i, int size) {\n        while (true) {\n            int smallest = i;\n            int left = 2 * i + 1, right = 2 * i + 2;\n            if (left < size && heap[left] < heap[smallest]) smallest = left;\n            if (right < size && heap[right] < heap[smallest]) smallest = right;\n            if (smallest != i) {\n                std::swap(heap[i], heap[smallest]);\n                i = smallest;\n            } else break;\n        }\n    };\n\n    for (int val : arr) {\n        heap.push_back(val);\n        siftUp(static_cast<int>(heap.size()) - 1);\n    }\n\n    std::vector<int> result;\n    int size = static_cast<int>(heap.size());\n    for (int r = 0; r < static_cast<int>(arr.size()); r++) {\n        result.push_back(heap[0]);\n        size--;\n        heap[0] = heap[size];\n        heap.pop_back();\n        if (!heap.empty()) siftDown(0, static_cast<int>(heap.size()));\n    }\n\n    return result;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "HeapOperations.cs",
+          "content": "using System.Collections.Generic;\n\npublic class HeapOperations\n{\n    public static int[] HeapSortViaExtract(int[] arr)\n    {\n        var heap = new List<int>();\n\n        void SiftUp(int idx)\n        {\n            int i = idx;\n            while (i > 0)\n            {\n                int parent = (i - 1) / 2;\n                if (heap[i] < heap[parent])\n                {\n                    int tmp = heap[i]; heap[i] = heap[parent]; heap[parent] = tmp;\n                    i = parent;\n                }\n                else break;\n            }\n        }\n\n        void SiftDown(int idx, int size)\n        {\n            int i = idx;\n            while (true)\n            {\n                int smallest = i;\n                int left = 2 * i + 1, right = 2 * i + 2;\n                if (left < size && heap[left] < heap[smallest]) smallest = left;\n                if (right < size && heap[right] < heap[smallest]) smallest = right;\n                if (smallest != i)\n                {\n                    int tmp = heap[i]; heap[i] = heap[smallest]; heap[smallest] = tmp;\n                    i = smallest;\n                }\n                else break;\n            }\n        }\n\n        foreach (int val in arr)\n        {\n            heap.Add(val);\n            SiftUp(heap.Count - 1);\n        }\n\n        var result = new List<int>();\n        while (heap.Count > 0)\n        {\n            result.Add(heap[0]);\n            heap[0] = heap[heap.Count - 1];\n            heap.RemoveAt(heap.Count - 1);\n            if (heap.Count > 0) SiftDown(0, heap.Count);\n        }\n        return result.ToArray();\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "heap_operations.go",
+          "content": "package heapoperations\n\n// HeapSortViaExtract builds a min-heap and extracts all elements in sorted order.\nfunc HeapSortViaExtract(arr []int) []int {\n\theap := make([]int, 0, len(arr))\n\n\tsiftUp := func(i int) {\n\t\tfor i > 0 {\n\t\t\tparent := (i - 1) / 2\n\t\t\tif heap[i] < heap[parent] {\n\t\t\t\theap[i], heap[parent] = heap[parent], heap[i]\n\t\t\t\ti = parent\n\t\t\t} else {\n\t\t\t\tbreak\n\t\t\t}\n\t\t}\n\t}\n\n\tsiftDown := func(i, size int) {\n\t\tfor {\n\t\t\tsmallest := i\n\t\t\tleft, right := 2*i+1, 2*i+2\n\t\t\tif left < size && heap[left] < heap[smallest] {\n\t\t\t\tsmallest = left\n\t\t\t}\n\t\t\tif right < size && heap[right] < heap[smallest] {\n\t\t\t\tsmallest = right\n\t\t\t}\n\t\t\tif smallest != i {\n\t\t\t\theap[i], heap[smallest] = heap[smallest], heap[i]\n\t\t\t\ti = smallest\n\t\t\t} else {\n\t\t\t\tbreak\n\t\t\t}\n\t\t}\n\t}\n\n\tfor _, val := range arr {\n\t\theap = append(heap, val)\n\t\tsiftUp(len(heap) - 1)\n\t}\n\n\tresult := make([]int, 0, len(arr))\n\tfor len(heap) > 0 {\n\t\tresult = append(result, heap[0])\n\t\theap[0] = heap[len(heap)-1]\n\t\theap = heap[:len(heap)-1]\n\t\tif len(heap) > 0 {\n\t\t\tsiftDown(0, len(heap))\n\t\t}\n\t}\n\n\treturn result\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "HeapOperations.java",
+          "content": "public class HeapOperations {\n\n    public static int[] heapSortViaExtract(int[] arr) {\n        int n = arr.length;\n        if (n == 0) return new int[0];\n\n        int[] heap = new int[n];\n        int size = 0;\n\n        for (int val : arr) {\n            heap[size] = val;\n            int i = size;\n            size++;\n            while (i > 0) {\n                int parent = (i - 1) / 2;\n                if (heap[i] < heap[parent]) {\n                    int temp = heap[i]; heap[i] = heap[parent]; heap[parent] = temp;\n                    i = parent;\n                } else break;\n            }\n        }\n\n        int[] result = new int[n];\n        for (int r = 0; r < n; r++) {\n            result[r] = heap[0];\n            size--;\n            heap[0] = heap[size];\n            int i = 0;\n            while (true) {\n                int smallest = i;\n                int left = 2 * i + 1, right = 2 * i + 2;\n                if (left < size && heap[left] < heap[smallest]) smallest = left;\n                if (right < size && heap[right] < heap[smallest]) smallest = right;\n                if (smallest != i) {\n                    int temp = heap[i]; heap[i] = heap[smallest]; heap[smallest] = temp;\n                    i = smallest;\n                } else break;\n            }\n        }\n        return result;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "HeapOperations.kt",
+          "content": "fun heapSortViaExtract(arr: IntArray): IntArray {\n    val heap = mutableListOf<Int>()\n\n    fun siftUp(idx: Int) {\n        var i = idx\n        while (i > 0) {\n            val parent = (i - 1) / 2\n            if (heap[i] < heap[parent]) {\n                val tmp = heap[i]; heap[i] = heap[parent]; heap[parent] = tmp\n                i = parent\n            } else break\n        }\n    }\n\n    fun siftDown(idx: Int, size: Int) {\n        var i = idx\n        while (true) {\n            var smallest = i\n            val left = 2 * i + 1; val right = 2 * i + 2\n            if (left < size && heap[left] < heap[smallest]) smallest = left\n            if (right < size && heap[right] < heap[smallest]) smallest = right\n            if (smallest != i) {\n                val tmp = heap[i]; heap[i] = heap[smallest]; heap[smallest] = tmp\n                i = smallest\n            } else break\n        }\n    }\n\n    for (v in arr) {\n        heap.add(v)\n        siftUp(heap.size - 1)\n    }\n\n    val result = mutableListOf<Int>()\n    while (heap.isNotEmpty()) {\n        result.add(heap[0])\n        heap[0] = heap[heap.size - 1]\n        heap.removeAt(heap.size - 1)\n        if (heap.isNotEmpty()) siftDown(0, heap.size)\n    }\n    return result.toIntArray()\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "heap_operations.py",
+          "content": "def heap_sort_via_extract(arr: list[int]) -> list[int]:\n    heap: list[int] = []\n\n    def sift_up(i: int) -> None:\n        while i > 0:\n            parent = (i - 1) // 2\n            if heap[i] < heap[parent]:\n                heap[i], heap[parent] = heap[parent], heap[i]\n                i = parent\n            else:\n                break\n\n    def sift_down(i: int, size: int) -> None:\n        while True:\n            smallest = i\n            left = 2 * i + 1\n            right = 2 * i + 2\n            if left < size and heap[left] < heap[smallest]:\n                smallest = left\n            if right < size and heap[right] < heap[smallest]:\n                smallest = right\n            if smallest != i:\n                heap[i], heap[smallest] = heap[smallest], heap[i]\n                i = smallest\n            else:\n                break\n\n    for val in arr:\n        heap.append(val)\n        sift_up(len(heap) - 1)\n\n    result: list[int] = []\n    size = len(heap)\n    for _ in range(size):\n        result.append(heap[0])\n        heap[0] = heap[len(heap) - 1]\n        heap.pop()\n        if heap:\n            sift_down(0, len(heap))\n\n    return result\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "heap_operations.rs",
+          "content": "pub fn heap_sort_via_extract(arr: &[i32]) -> Vec<i32> {\n    let mut heap: Vec<i32> = Vec::new();\n\n    fn sift_up(heap: &mut Vec<i32>, mut i: usize) {\n        while i > 0 {\n            let parent = (i - 1) / 2;\n            if heap[i] < heap[parent] {\n                heap.swap(i, parent);\n                i = parent;\n            } else {\n                break;\n            }\n        }\n    }\n\n    fn sift_down(heap: &mut Vec<i32>, mut i: usize, size: usize) {\n        loop {\n            let mut smallest = i;\n            let left = 2 * i + 1;\n            let right = 2 * i + 2;\n            if left < size && heap[left] < heap[smallest] { smallest = left; }\n            if right < size && heap[right] < heap[smallest] { smallest = right; }\n            if smallest != i {\n                heap.swap(i, smallest);\n                i = smallest;\n            } else {\n                break;\n            }\n        }\n    }\n\n    for &val in arr {\n        heap.push(val);\n        sift_up(&mut heap, heap.len() - 1);\n    }\n\n    let mut result = Vec::new();\n    while !heap.is_empty() {\n        result.push(heap[0]);\n        let last = heap.len() - 1;\n        heap[0] = heap[last];\n        heap.pop();\n        if !heap.is_empty() {\n            sift_down(&mut heap, 0, heap.len());\n        }\n    }\n\n    result\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "HeapOperations.scala",
+          "content": "object HeapOperations {\n\n  def heapSortViaExtract(arr: Array[Int]): Array[Int] = {\n    val heap = scala.collection.mutable.ArrayBuffer[Int]()\n\n    def siftUp(idx: Int): Unit = {\n      var i = idx\n      while (i > 0) {\n        val parent = (i - 1) / 2\n        if (heap(i) < heap(parent)) {\n          val tmp = heap(i); heap(i) = heap(parent); heap(parent) = tmp\n          i = parent\n        } else return\n      }\n    }\n\n    def siftDown(idx: Int, size: Int): Unit = {\n      var i = idx\n      var continue_ = true\n      while (continue_) {\n        var smallest = i\n        val left = 2 * i + 1; val right = 2 * i + 2\n        if (left < size && heap(left) < heap(smallest)) smallest = left\n        if (right < size && heap(right) < heap(smallest)) smallest = right\n        if (smallest != i) {\n          val tmp = heap(i); heap(i) = heap(smallest); heap(smallest) = tmp\n          i = smallest\n        } else continue_ = false\n      }\n    }\n\n    for (v <- arr) {\n      heap += v\n      siftUp(heap.size - 1)\n    }\n\n    val result = scala.collection.mutable.ArrayBuffer[Int]()\n    while (heap.nonEmpty) {\n      result += heap(0)\n      heap(0) = heap(heap.size - 1)\n      heap.remove(heap.size - 1)\n      if (heap.nonEmpty) siftDown(0, heap.size)\n    }\n    result.toArray\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "HeapOperations.swift",
+          "content": "func heapSortViaExtract(_ arr: [Int]) -> [Int] {\n    var heap: [Int] = []\n\n    func siftUp(_ idx: Int) {\n        var i = idx\n        while i > 0 {\n            let parent = (i - 1) / 2\n            if heap[i] < heap[parent] {\n                heap.swapAt(i, parent)\n                i = parent\n            } else { break }\n        }\n    }\n\n    func siftDown(_ idx: Int, _ size: Int) {\n        var i = idx\n        while true {\n            var smallest = i\n            let left = 2 * i + 1, right = 2 * i + 2\n            if left < size && heap[left] < heap[smallest] { smallest = left }\n            if right < size && heap[right] < heap[smallest] { smallest = right }\n            if smallest != i {\n                heap.swapAt(i, smallest)\n                i = smallest\n            } else { break }\n        }\n    }\n\n    for val in arr {\n        heap.append(val)\n        siftUp(heap.count - 1)\n    }\n\n    var result: [Int] = []\n    while !heap.isEmpty {\n        result.append(heap[0])\n        heap[0] = heap[heap.count - 1]\n        heap.removeLast()\n        if !heap.isEmpty { siftDown(0, heap.count) }\n    }\n    return result\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "heapOperations.ts",
+          "content": "export function heapSortViaExtract(arr: number[]): number[] {\n    const heap: number[] = [];\n\n    function siftUp(i: number): void {\n        while (i > 0) {\n            const parent = Math.floor((i - 1) / 2);\n            if (heap[i] < heap[parent]) {\n                [heap[i], heap[parent]] = [heap[parent], heap[i]];\n                i = parent;\n            } else break;\n        }\n    }\n\n    function siftDown(i: number, size: number): void {\n        while (true) {\n            let smallest = i;\n            const left = 2 * i + 1, right = 2 * i + 2;\n            if (left < size && heap[left] < heap[smallest]) smallest = left;\n            if (right < size && heap[right] < heap[smallest]) smallest = right;\n            if (smallest !== i) {\n                [heap[i], heap[smallest]] = [heap[smallest], heap[i]];\n                i = smallest;\n            } else break;\n        }\n    }\n\n    for (const val of arr) {\n        heap.push(val);\n        siftUp(heap.length - 1);\n    }\n\n    const result: number[] = [];\n    while (heap.length > 0) {\n        result.push(heap[0]);\n        heap[0] = heap[heap.length - 1];\n        heap.pop();\n        if (heap.length > 0) siftDown(0, heap.length);\n    }\n\n    return result;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "patterns": [
+    "two-heaps"
+  ],
+  "patternDifficulty": "beginner",
+  "practiceOrder": 2,
+  "readme": "# Binary Heap\n\n## Overview\n\nA Binary Heap is a complete binary tree stored in an array that satisfies the heap property: in a min-heap, every parent node is less than or equal to its children; in a max-heap, every parent is greater than or equal to its children. This array-based representation is compact and cache-friendly, making it the most practical implementation of a priority queue.\n\nBinary heaps support efficient insertion and extraction of the minimum (or maximum) element. This implementation builds a min-heap from an array of integers and extracts all elements in sorted order, effectively performing heap sort.\n\n## How It Works\n\n1. **Array Representation**: A complete binary tree is stored in a flat array where for element at index i:\n   - Parent: floor((i - 1) / 2)\n   - Left child: 2i + 1\n   - Right child: 2i + 2\n\n2. **Sift Up (for insertion)**: After placing a new element at the end of the array, compare it with its parent and swap upward until the heap property is restored.\n\n3. **Sift Down (for extract-min)**: After removing the root (minimum), move the last element to the root and swap it downward with its smaller child until the heap property is restored.\n\n4. **Build Heap**: Start from the last non-leaf node and sift down each node. This bottom-up approach runs in O(n), which is faster than inserting elements one by one (O(n log n)).\n\n## Worked Example\n\nBuild a min-heap from `[4, 1, 3, 2, 5]`:\n\n**Step 1 -- Initial array layout as a tree:**\n```\n        4\n       / \\\n      1    3\n     / \\\n    2    5\n```\n\n**Step 2 -- Build heap (bottom-up sift-down):**\n\nProcess index 1 (value 1): children are 2 and 5. 1 < 2, heap property satisfied.\nProcess index 0 (value 4): children are 1 and 3. Swap 4 and 1.\n```\n        1\n       / \\\n      4    3\n     / \\\n    2    5\n```\nNow sift down 4 at index 1: children are 2 and 5. Swap 4 and 2.\n```\n        1\n       / \\\n      2    3\n     / \\\n    4    5\n```\nArray: `[1, 2, 3, 4, 5]`\n\n**Step 3 -- Extract elements:**\n- Extract 1 (swap with last, sift down): yields 1, heap becomes [2, 4, 3, 5]\n- Extract 2: yields 2, heap becomes [3, 4, 5]\n- Extract 3: yields 3, heap becomes [4, 5]\n- Extract 4: yields 4, heap becomes [5]\n- Extract 5: yields 5\n\nResult: `[1, 2, 3, 4, 5]`\n\n## Pseudocode\n\n```\nfunction buildMinHeap(arr, n):\n    for i = (n / 2) - 1 downto 0:\n        siftDown(arr, i, n)\n\nfunction siftDown(arr, i, n):\n    smallest = i\n    left = 2 * i + 1\n    right = 2 * i + 2\n\n    if left < n and arr[left] < arr[smallest]:\n        smallest = left\n    if right < n and arr[right] < arr[smallest]:\n        smallest = right\n\n    if smallest != i:\n        swap(arr[i], arr[smallest])\n        siftDown(arr, smallest, n)\n\nfunction siftUp(arr, i):\n    while i > 0:\n        parent = (i - 1) / 2\n        if arr[i] < arr[parent]:\n            swap(arr[i], arr[parent])\n            i = parent\n        else:\n            break\n\nfunction extractMin(arr, n):\n    min = arr[0]\n    arr[0] = arr[n - 1]\n    siftDown(arr, 0, n - 1)\n    return min\n```\n\n## Complexity Analysis\n\n| Operation   | Time       | Space |\n|-------------|------------|-------|\n| Build Heap  | O(n)       | O(n)  |\n| Insert      | O(log n)   | O(1)  |\n| Extract-Min | O(log n)   | O(1)  |\n| Peek-Min    | O(1)       | O(1)  |\n| Heap Sort   | O(n log n) | O(1)  |\n\n**Why these complexities?**\n\n- **Build Heap -- O(n):** Although sift-down is O(log n), most nodes are near the bottom of the tree and need very few swaps. The sum over all levels is: n/4 * 1 + n/8 * 2 + n/16 * 3 + ... = O(n), by the convergence of the geometric series.\n\n- **Insert -- O(log n):** Sift-up traverses from a leaf to the root, a path of length at most log(n) in a complete binary tree.\n\n- **Extract-Min -- O(log n):** Sift-down traverses from the root to a leaf, at most log(n) levels.\n\n- **Space -- O(n):** The heap is stored in a flat array with no additional pointers. This is one of the most space-efficient tree representations.\n\n## Applications\n\n- **Priority queues**: The standard implementation of a priority queue in most standard libraries (e.g., Python's `heapq`, Java's `PriorityQueue`, C++'s `priority_queue`).\n- **Heap sort**: Extract all elements to produce a sorted array in O(n log n) time and O(1) extra space.\n- **Finding k smallest/largest elements**: Extract k elements from a heap of size n in O(n + k log n) time.\n- **Median maintenance**: Use two heaps (a max-heap for the lower half and a min-heap for the upper half) to maintain the running median in O(log n) per insertion.\n- **Dijkstra's algorithm**: Binary heaps are the standard priority queue for Dijkstra's in practice, giving O((V + E) log V) time.\n\n## When NOT to Use\n\n- **When O(1) decrease-key is needed**: Binary heaps require O(log n) for decrease-key. If your algorithm calls decrease-key frequently (e.g., dense graph Dijkstra's), consider a Fibonacci heap for better asymptotic performance.\n- **When merge operations are needed**: Merging two binary heaps takes O(n) time. If you need efficient merge, use a binomial or Fibonacci heap (O(log n) or O(1)).\n- **When sorted traversal is needed**: A binary heap is not sorted; in-order traversal does not yield sorted output. Use a balanced BST if sorted iteration is required.\n- **When all elements need to be accessed**: A binary heap only efficiently accesses the min (or max). Searching for an arbitrary element is O(n).\n\n## Comparison with Similar Structures\n\n| Structure      | Insert     | Extract-Min | Decrease-Key | Merge  | Space  |\n|---------------|-----------|-------------|-------------|--------|--------|\n| Binary Heap    | O(log n)  | O(log n)    | O(log n)    | O(n)   | O(n)   |\n| Fibonacci Heap | O(1)*     | O(log n)*   | O(1)*       | O(1)*  | O(n)   |\n| Binomial Heap  | O(1)*     | O(log n)    | O(log n)    | O(log n)| O(n)  |\n| Sorted Array   | O(n)      | O(1)        | O(n)        | O(n)   | O(n)   |\n| Unsorted Array | O(1)      | O(n)        | O(1)        | O(1)   | O(n)   |\n\n\\* = amortized\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [heap_operations.py](python/heap_operations.py) |\n| Java       | [HeapOperations.java](java/HeapOperations.java) |\n| C++        | [heap_operations.cpp](cpp/heap_operations.cpp) |\n| C          | [heap_operations.c](c/heap_operations.c) |\n| Go         | [heap_operations.go](go/heap_operations.go) |\n| TypeScript | [heapOperations.ts](typescript/heapOperations.ts) |\n| Rust       | [heap_operations.rs](rust/heap_operations.rs) |\n| Kotlin     | [HeapOperations.kt](kotlin/HeapOperations.kt) |\n| Swift      | [HeapOperations.swift](swift/HeapOperations.swift) |\n| Scala      | [HeapOperations.scala](scala/HeapOperations.scala) |\n| C#         | [HeapOperations.cs](csharp/HeapOperations.cs) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 6: Heapsort.\n- Williams, J. W. J. (1964). Algorithm 232: Heapsort. *Communications of the ACM*, 7(6), 347-348.\n- Floyd, R. W. (1964). Algorithm 245: Treesort. *Communications of the ACM*, 7(12), 701.\n- [Binary Heap -- Wikipedia](https://en.wikipedia.org/wiki/Binary_heap)\n"
+}

@@ -1,0 +1,17 @@
+name: "Max Flow (Edmonds-Karp)"
+slug: "max-flow-min-cut"
+category: "graph"
+subcategory: "network-flow"
+difficulty: "advanced"
+tags: [graph, network-flow, max-flow, min-cut, bfs, edmonds-karp]
+complexity:
+  time:
+    best: "O(VE^2)"
+    average: "O(VE^2)"
+    worst: "O(VE^2)"
+  space: "O(V^2)"
+stable: null
+in_place: false
+related: [ford-fulkerson, dinic, breadth-first-search]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

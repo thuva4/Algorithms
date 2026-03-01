@@ -1,0 +1,17 @@
+name: "Chromatic Number"
+slug: "chromatic-number"
+category: "graph"
+subcategory: "coloring"
+difficulty: "advanced"
+tags: [graph, coloring, chromatic-number, backtracking, pruning]
+complexity:
+  time:
+    best: "O(k^V)"
+    average: "O(k^V)"
+    worst: "O(k^V)"
+  space: "O(V + E)"
+stable: null
+in_place: false
+related: [graph-coloring, n-queens]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

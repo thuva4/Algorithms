@@ -1,0 +1,18 @@
+algorithm: "suffix-array"
+function_signature:
+  name: "suffix_array"
+  input: [array_of_integers]
+  output: array_of_integers
+test_cases:
+  - name: "simple array"
+    input: [[3, 1, 2]]
+    expected: [1, 2, 0]
+  - name: "repeated elements"
+    input: [[1, 1, 2]]
+    expected: [0, 1, 2]
+  - name: "single element"
+    input: [[5]]
+    expected: [0]
+  - name: "descending"
+    input: [[4, 3, 2, 1]]
+    expected: [3, 2, 1, 0]

@@ -1,0 +1,133 @@
+{
+  "name": "Graph Coloring",
+  "slug": "graph-coloring",
+  "category": "graph",
+  "subcategory": "coloring",
+  "difficulty": "intermediate",
+  "tags": [
+    "graph",
+    "undirected",
+    "coloring",
+    "chromatic-number",
+    "backtracking"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(V * 2^V)",
+      "average": "O(V * 2^V)",
+      "worst": "O(V * 2^V)"
+    },
+    "space": "O(V)"
+  },
+  "related": [
+    "bipartite-check",
+    "depth-first-search"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "chromatic_number.c",
+          "content": "#include \"chromatic_number.h\"\n#include <string.h>\n\n#define MAX_V 100\n\nstatic int adj_list[MAX_V][MAX_V], adj_cnt[MAX_V];\nstatic int colors_arr[MAX_V];\nstatic int num_v;\n\nstatic int is_safe(int v, int c) {\n    for (int i = 0; i < adj_cnt[v]; i++) {\n        if (colors_arr[adj_list[v][i]] == c) return 0;\n    }\n    return 1;\n}\n\nstatic int solve(int v, int k) {\n    if (v == num_v) return 1;\n    for (int c = 1; c <= k; c++) {\n        if (is_safe(v, c)) {\n            colors_arr[v] = c;\n            if (solve(v + 1, k)) return 1;\n            colors_arr[v] = 0;\n        }\n    }\n    return 0;\n}\n\nint chromatic_number(int arr[], int size) {\n    num_v = arr[0];\n    int m = arr[1];\n    if (num_v == 0) return 0;\n    if (m == 0) return 1;\n\n    memset(adj_cnt, 0, sizeof(int) * num_v);\n    for (int i = 0; i < m; i++) {\n        int u = arr[2 + 2 * i];\n        int v = arr[2 + 2 * i + 1];\n        adj_list[u][adj_cnt[u]++] = v;\n        adj_list[v][adj_cnt[v]++] = u;\n    }\n\n    for (int k = 1; k <= num_v; k++) {\n        memset(colors_arr, 0, sizeof(int) * num_v);\n        if (solve(0, k)) return k;\n    }\n    return num_v;\n}\n"
+        },
+        {
+          "filename": "chromatic_number.h",
+          "content": "#ifndef CHROMATIC_NUMBER_H\n#define CHROMATIC_NUMBER_H\n\nint chromatic_number(int arr[], int size);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "chromatic_number.cpp",
+          "content": "#include <vector>\nusing namespace std;\n\nstatic vector<vector<int>> adj;\nstatic vector<int> colors;\nstatic int n_vertices;\n\nstatic bool isSafe(int v, int c) {\n    for (int u : adj[v]) {\n        if (colors[u] == c) return false;\n    }\n    return true;\n}\n\nstatic bool solve(int v, int k) {\n    if (v == n_vertices) return true;\n    for (int c = 1; c <= k; c++) {\n        if (isSafe(v, c)) {\n            colors[v] = c;\n            if (solve(v + 1, k)) return true;\n            colors[v] = 0;\n        }\n    }\n    return false;\n}\n\nint chromatic_number(vector<int> arr) {\n    n_vertices = arr[0];\n    int m = arr[1];\n    if (n_vertices == 0) return 0;\n    if (m == 0) return 1;\n\n    adj.assign(n_vertices, vector<int>());\n    for (int i = 0; i < m; i++) {\n        int u = arr[2 + 2 * i];\n        int v = arr[2 + 2 * i + 1];\n        adj[u].push_back(v);\n        adj[v].push_back(u);\n    }\n\n    for (int k = 1; k <= n_vertices; k++) {\n        colors.assign(n_vertices, 0);\n        if (solve(0, k)) return k;\n    }\n    return n_vertices;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "ChromaticNumber.cs",
+          "content": "using System;\nusing System.Collections.Generic;\n\npublic class ChromaticNumber\n{\n    private static List<int>[] adj;\n    private static int n;\n\n    public static int Solve(int[] arr)\n    {\n        n = arr[0];\n        int m = arr[1];\n        if (n == 0) return 0;\n        if (m == 0) return 1;\n\n        adj = new List<int>[n];\n        for (int i = 0; i < n; i++) adj[i] = new List<int>();\n        for (int i = 0; i < m; i++)\n        {\n            int u = arr[2 + 2 * i];\n            int v = arr[2 + 2 * i + 1];\n            adj[u].Add(v);\n            adj[v].Add(u);\n        }\n\n        for (int k = 1; k <= n; k++)\n        {\n            int[] colors = new int[n];\n            if (CanColor(colors, 0, k)) return k;\n        }\n        return n;\n    }\n\n    private static bool IsSafe(int[] colors, int v, int c)\n    {\n        foreach (int u in adj[v])\n            if (colors[u] == c) return false;\n        return true;\n    }\n\n    private static bool CanColor(int[] colors, int v, int k)\n    {\n        if (v == n) return true;\n        for (int c = 1; c <= k; c++)\n        {\n            if (IsSafe(colors, v, c))\n            {\n                colors[v] = c;\n                if (CanColor(colors, v + 1, k)) return true;\n                colors[v] = 0;\n            }\n        }\n        return false;\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "chromatic_number.go",
+          "content": "package graphcoloring\n\nfunc ChromaticNumber(arr []int) int {\n\tn := arr[0]\n\tm := arr[1]\n\tif n == 0 {\n\t\treturn 0\n\t}\n\tif m == 0 {\n\t\treturn 1\n\t}\n\n\tadj := make([][]int, n)\n\tfor i := 0; i < n; i++ {\n\t\tadj[i] = []int{}\n\t}\n\tfor i := 0; i < m; i++ {\n\t\tu := arr[2+2*i]\n\t\tv := arr[2+2*i+1]\n\t\tadj[u] = append(adj[u], v)\n\t\tadj[v] = append(adj[v], u)\n\t}\n\n\tisSafe := func(colors []int, v, c int) bool {\n\t\tfor _, u := range adj[v] {\n\t\t\tif colors[u] == c {\n\t\t\t\treturn false\n\t\t\t}\n\t\t}\n\t\treturn true\n\t}\n\n\tvar solve func(colors []int, v, k int) bool\n\tsolve = func(colors []int, v, k int) bool {\n\t\tif v == n {\n\t\t\treturn true\n\t\t}\n\t\tfor c := 1; c <= k; c++ {\n\t\t\tif isSafe(colors, v, c) {\n\t\t\t\tcolors[v] = c\n\t\t\t\tif solve(colors, v+1, k) {\n\t\t\t\t\treturn true\n\t\t\t\t}\n\t\t\t\tcolors[v] = 0\n\t\t\t}\n\t\t}\n\t\treturn false\n\t}\n\n\tfor k := 1; k <= n; k++ {\n\t\tcolors := make([]int, n)\n\t\tif solve(colors, 0, k) {\n\t\t\treturn k\n\t\t}\n\t}\n\treturn n\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "ChromaticNumber.java",
+          "content": "import java.util.*;\n\npublic class ChromaticNumber {\n\n    private static List<List<Integer>> adj;\n    private static int n;\n    private static int[] colors;\n\n    public static int chromaticNumber(int[] arr) {\n        n = arr[0];\n        int m = arr[1];\n        if (n == 0) return 0;\n        if (m == 0) return 1;\n\n        adj = new ArrayList<>();\n        for (int i = 0; i < n; i++) adj.add(new ArrayList<>());\n        for (int i = 0; i < m; i++) {\n            int u = arr[2 + 2 * i];\n            int v = arr[2 + 2 * i + 1];\n            adj.get(u).add(v);\n            adj.get(v).add(u);\n        }\n\n        for (int k = 1; k <= n; k++) {\n            colors = new int[n];\n            if (solve(0, k)) return k;\n        }\n        return n;\n    }\n\n    private static boolean isSafe(int v, int c) {\n        for (int u : adj.get(v)) {\n            if (colors[u] == c) return false;\n        }\n        return true;\n    }\n\n    private static boolean solve(int v, int k) {\n        if (v == n) return true;\n        for (int c = 1; c <= k; c++) {\n            if (isSafe(v, c)) {\n                colors[v] = c;\n                if (solve(v + 1, k)) return true;\n                colors[v] = 0;\n            }\n        }\n        return false;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "ChromaticNumber.kt",
+          "content": "fun chromaticNumber(arr: IntArray): Int {\n    val n = arr[0]\n    val m = arr[1]\n    if (n == 0) return 0\n    if (m == 0) return 1\n\n    val adj = Array(n) { mutableListOf<Int>() }\n    for (i in 0 until m) {\n        val u = arr[2 + 2 * i]\n        val v = arr[2 + 2 * i + 1]\n        adj[u].add(v)\n        adj[v].add(u)\n    }\n\n    fun isSafe(colors: IntArray, v: Int, c: Int): Boolean {\n        for (u in adj[v]) {\n            if (colors[u] == c) return false\n        }\n        return true\n    }\n\n    fun solve(colors: IntArray, v: Int, k: Int): Boolean {\n        if (v == n) return true\n        for (c in 1..k) {\n            if (isSafe(colors, v, c)) {\n                colors[v] = c\n                if (solve(colors, v + 1, k)) return true\n                colors[v] = 0\n            }\n        }\n        return false\n    }\n\n    for (k in 1..n) {\n        val colors = IntArray(n)\n        if (solve(colors, 0, k)) return k\n    }\n    return n\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "chromatic_number.py",
+          "content": "def chromatic_number(arr: list[int]) -> int:\n    n = arr[0]\n    m = arr[1]\n    if n == 0:\n        return 0\n    if m == 0:\n        return 1\n\n    adj = [[] for _ in range(n)]\n    for i in range(m):\n        u = arr[2 + 2 * i]\n        v = arr[2 + 2 * i + 1]\n        adj[u].append(v)\n        adj[v].append(u)\n\n    def can_color(k):\n        colors = [0] * n\n\n        def is_safe(v, c):\n            for u in adj[v]:\n                if colors[u] == c:\n                    return False\n            return True\n\n        def solve(v):\n            if v == n:\n                return True\n            for c in range(1, k + 1):\n                if is_safe(v, c):\n                    colors[v] = c\n                    if solve(v + 1):\n                        return True\n                    colors[v] = 0\n            return False\n\n        return solve(0)\n\n    for k in range(1, n + 1):\n        if can_color(k):\n            return k\n\n    return n\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "chromatic_number.rs",
+          "content": "pub fn chromatic_number(arr: &[i32]) -> i32 {\n    let n = arr[0] as usize;\n    let m = arr[1] as usize;\n    if n == 0 { return 0; }\n    if m == 0 { return 1; }\n\n    let mut adj = vec![vec![]; n];\n    for i in 0..m {\n        let u = arr[2 + 2 * i] as usize;\n        let v = arr[2 + 2 * i + 1] as usize;\n        adj[u].push(v);\n        adj[v].push(u);\n    }\n\n    fn is_safe(adj: &Vec<Vec<usize>>, colors: &Vec<i32>, v: usize, c: i32) -> bool {\n        for &u in &adj[v] {\n            if colors[u] == c { return false; }\n        }\n        true\n    }\n\n    fn solve(adj: &Vec<Vec<usize>>, colors: &mut Vec<i32>, v: usize, n: usize, k: i32) -> bool {\n        if v == n { return true; }\n        for c in 1..=k {\n            if is_safe(adj, colors, v, c) {\n                colors[v] = c;\n                if solve(adj, colors, v + 1, n, k) { return true; }\n                colors[v] = 0;\n            }\n        }\n        false\n    }\n\n    for k in 1..=(n as i32) {\n        let mut colors = vec![0i32; n];\n        if solve(&adj, &mut colors, 0, n, k) { return k; }\n    }\n    n as i32\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "ChromaticNumber.scala",
+          "content": "object ChromaticNumber {\n\n  def chromaticNumber(arr: Array[Int]): Int = {\n    val n = arr(0)\n    val m = arr(1)\n    if (n == 0) return 0\n    if (m == 0) return 1\n\n    val adj = Array.fill(n)(scala.collection.mutable.ListBuffer[Int]())\n    for (i <- 0 until m) {\n      val u = arr(2 + 2 * i)\n      val v = arr(2 + 2 * i + 1)\n      adj(u) += v\n      adj(v) += u\n    }\n\n    def isSafe(colors: Array[Int], v: Int, c: Int): Boolean = {\n      for (u <- adj(v)) {\n        if (colors(u) == c) return false\n      }\n      true\n    }\n\n    def solve(colors: Array[Int], v: Int, k: Int): Boolean = {\n      if (v == n) return true\n      for (c <- 1 to k) {\n        if (isSafe(colors, v, c)) {\n          colors(v) = c\n          if (solve(colors, v + 1, k)) return true\n          colors(v) = 0\n        }\n      }\n      false\n    }\n\n    for (k <- 1 to n) {\n      val colors = Array.fill(n)(0)\n      if (solve(colors, 0, k)) return k\n    }\n    n\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "ChromaticNumber.swift",
+          "content": "func chromaticNumber(_ arr: [Int]) -> Int {\n    let n = arr[0]\n    let m = arr[1]\n    if n == 0 { return 0 }\n    if m == 0 { return 1 }\n\n    var adj = [[Int]](repeating: [], count: n)\n    for i in 0..<m {\n        let u = arr[2 + 2 * i]\n        let v = arr[2 + 2 * i + 1]\n        adj[u].append(v)\n        adj[v].append(u)\n    }\n\n    func isSafe(_ colors: [Int], _ v: Int, _ c: Int) -> Bool {\n        for u in adj[v] {\n            if colors[u] == c { return false }\n        }\n        return true\n    }\n\n    func solve(_ colors: inout [Int], _ v: Int, _ k: Int) -> Bool {\n        if v == n { return true }\n        for c in 1...k {\n            if isSafe(colors, v, c) {\n                colors[v] = c\n                if solve(&colors, v + 1, k) { return true }\n                colors[v] = 0\n            }\n        }\n        return false\n    }\n\n    for k in 1...n {\n        var colors = [Int](repeating: 0, count: n)\n        if solve(&colors, 0, k) { return k }\n    }\n    return n\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "chromaticNumber.ts",
+          "content": "export function chromaticNumber(arr: number[]): number {\n    const n = arr[0];\n    const m = arr[1];\n    if (n === 0) return 0;\n    if (m === 0) return 1;\n\n    const adj: number[][] = Array.from({ length: n }, () => []);\n    for (let i = 0; i < m; i++) {\n        const u = arr[2 + 2 * i];\n        const v = arr[2 + 2 * i + 1];\n        adj[u].push(v);\n        adj[v].push(u);\n    }\n\n    function isSafe(colors: number[], v: number, c: number): boolean {\n        for (const u of adj[v]) {\n            if (colors[u] === c) return false;\n        }\n        return true;\n    }\n\n    function solve(colors: number[], v: number, k: number): boolean {\n        if (v === n) return true;\n        for (let c = 1; c <= k; c++) {\n            if (isSafe(colors, v, c)) {\n                colors[v] = c;\n                if (solve(colors, v + 1, k)) return true;\n                colors[v] = 0;\n            }\n        }\n        return false;\n    }\n\n    for (let k = 1; k <= n; k++) {\n        const colors = new Array(n).fill(0);\n        if (solve(colors, 0, k)) return k;\n    }\n    return n;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "readme": "# Graph Coloring\n\n## Overview\n\nGraph coloring assigns colors to vertices such that no two adjacent vertices share the same color. The chromatic number is the minimum number of colors needed. This problem is NP-hard in general, but can be solved exactly for small graphs using backtracking or incremental checking.\n\n## How It Works\n\nThe algorithm tries to color the graph with k colors, starting from k=1 and incrementing. For each k, it uses backtracking to attempt a valid coloring. The first k that succeeds is the chromatic number.\n\n### Example\n\nGiven input: `[3, 3, 0,1, 1,2, 2,0]` (triangle)\n\nA triangle requires 3 colors. Result: 3\n\n## Complexity Analysis\n\n| Case    | Time        | Space |\n|---------|-------------|-------|\n| Best    | O(V * 2^V)  | O(V)  |\n| Average | O(V * 2^V)  | O(V)  |\n| Worst   | O(V * 2^V)  | O(V)  |\n\n## Pseudocode\n\n```\nfunction graphColoring(graph, n):\n    for k = 1 to n:\n        colors = array of size n, initialized to 0\n        if tryColor(graph, n, k, colors, 0):\n            return k\n    return n  // worst case: n colors\n\nfunction tryColor(graph, n, k, colors, vertex):\n    if vertex == n:\n        return true\n\n    for c = 1 to k:\n        if canAssign(graph, vertex, colors, c):\n            colors[vertex] = c\n            if tryColor(graph, n, k, colors, vertex + 1):\n                return true\n            colors[vertex] = 0\n\n    return false\n\nfunction canAssign(graph, vertex, colors, c):\n    for each neighbor v of vertex:\n        if colors[v] == c:\n            return false\n    return true\n```\n\n## Applications\n\n- Register allocation in compilers (interference graph coloring)\n- Scheduling problems (exam scheduling, meeting scheduling)\n- Map coloring (coloring regions so no adjacent regions share a color)\n- Frequency assignment in wireless networks (channel allocation)\n- Sudoku solving (9-coloring of a constraint graph)\n\n## When NOT to Use\n\n- **Large graphs**: The exponential time makes exact coloring impractical for large graphs; use greedy heuristics (Welsh-Powell, DSatur) instead\n- **When an approximation suffices**: Greedy coloring uses at most d+1 colors (d = max degree) in O(V + E) time\n- **Planar graphs**: The Four Color Theorem guarantees 4 colors suffice; specialized algorithms exist\n- **Interval or chordal graphs**: These special graph classes admit optimal polynomial-time coloring via perfect elimination orderings\n\n## Comparison\n\n| Algorithm | Time | Optimal | Notes |\n|-----------|------|---------|-------|\n| Backtracking (this) | O(V * 2^V) | Yes | Exact, practical for small graphs |\n| Greedy (first-fit) | O(V + E) | No | At most d+1 colors |\n| DSatur (saturation degree) | O(V^2) | No | Often near-optimal heuristic |\n| Welsh-Powell | O(V^2) | No | Order by degree, greedy assign |\n| Inclusion-Exclusion | O(2^V * V) | Yes | Faster exact method |\n\n## References\n\n- Brelaz, D. (1979). \"New methods to color the vertices of a graph.\" Communications of the ACM, 22(4), 251-256.\n- [Graph coloring -- Wikipedia](https://en.wikipedia.org/wiki/Graph_coloring)\n- Lawler, E. L. (1976). \"A Note on the Complexity of the Chromatic Number Problem.\" Information Processing Letters, 5(3), 66-67.\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [chromatic_number.py](python/chromatic_number.py) |\n| Java       | [ChromaticNumber.java](java/ChromaticNumber.java) |\n| C++        | [chromatic_number.cpp](cpp/chromatic_number.cpp) |\n| C          | [chromatic_number.c](c/chromatic_number.c) |\n| Go         | [chromatic_number.go](go/chromatic_number.go) |\n| TypeScript | [chromaticNumber.ts](typescript/chromaticNumber.ts) |\n| Rust       | [chromatic_number.rs](rust/chromatic_number.rs) |\n| Kotlin     | [ChromaticNumber.kt](kotlin/ChromaticNumber.kt) |\n| Swift      | [ChromaticNumber.swift](swift/ChromaticNumber.swift) |\n| Scala      | [ChromaticNumber.scala](scala/ChromaticNumber.scala) |\n| C#         | [ChromaticNumber.cs](csharp/ChromaticNumber.cs) |\n"
+}

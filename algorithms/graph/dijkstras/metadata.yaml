@@ -1,0 +1,17 @@
+name: "Dijkstra's Algorithm"
+slug: "dijkstras"
+category: "graph"
+subcategory: "shortest-path"
+difficulty: "intermediate"
+tags: [graph, shortest-path, greedy, priority-queue, weighted]
+complexity:
+  time:
+    best: "O((V+E) log V)"
+    average: "O((V+E) log V)"
+    worst: "O((V+E) log V)"
+  space: "O(V)"
+stable: null
+in_place: null
+related: [bellman-ford, floyds-algorithm, a-star-search, breadth-first-search]
+implementations: [cpp, csharp, go, java, python, typescript]
+visualization: true

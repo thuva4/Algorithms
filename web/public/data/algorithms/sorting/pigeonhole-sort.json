@@ -1,0 +1,134 @@
+{
+  "name": "Pigeonhole Sort",
+  "slug": "pigeonhole-sort",
+  "category": "sorting",
+  "subcategory": "distribution-based",
+  "difficulty": "intermediate",
+  "tags": [
+    "sorting",
+    "distribution",
+    "non-comparison",
+    "integer"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n + k)",
+      "average": "O(n + k)",
+      "worst": "O(n + k)"
+    },
+    "space": "O(n + k)"
+  },
+  "stable": true,
+  "in_place": false,
+  "related": [
+    "counting-sort",
+    "bucket-sort"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "pigeonhole_sort.c",
+          "content": "#include \"pigeonhole_sort.h\"\n#include <stdlib.h>\n#include <string.h>\n\nvoid pigeonhole_sort(int arr[], int n) {\n    if (n <= 0) return;\n\n    int min_val = arr[0];\n    int max_val = arr[0];\n\n    for (int i = 1; i < n; i++) {\n        if (arr[i] < min_val) min_val = arr[i];\n        if (arr[i] > max_val) max_val = arr[i];\n    }\n\n    int range = max_val - min_val + 1;\n    int *holes = (int *)calloc(range, sizeof(int));\n    if (!holes) return;\n\n    for (int i = 0; i < n; i++) {\n        holes[arr[i] - min_val]++;\n    }\n\n    int index = 0;\n    for (int i = 0; i < range; i++) {\n        while (holes[i] > 0) {\n            arr[index++] = i + min_val;\n            holes[i]--;\n        }\n    }\n\n    free(holes);\n}\n"
+        },
+        {
+          "filename": "pigeonhole_sort.h",
+          "content": "#ifndef PIGEONHOLE_SORT_H\n#define PIGEONHOLE_SORT_H\n\n/**\n * Pigeonhole Sort implementation.\n * Efficient for sorting lists of integers where the number of elements is roughly the same as the number of possible key values.\n * @param arr the input array (modified in-place)\n * @param n the number of elements in the array\n */\nvoid pigeonhole_sort(int arr[], int n);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "pigeonhole_sort.cpp",
+          "content": "#include <vector>\n#include <algorithm>\n\n/**\n * Pigeonhole Sort implementation.\n * Efficient for sorting lists of integers where the number of elements is roughly the same as the number of possible key values.\n * @param arr the input vector\n * @returns a sorted copy of the vector\n */\nstd::vector<int> pigeonhole_sort(const std::vector<int>& arr) {\n    if (arr.empty()) {\n        return {};\n    }\n\n    int min_val = *std::min_element(arr.begin(), arr.end());\n    int max_val = *std::max_element(arr.begin(), arr.end());\n    int range = max_val - min_val + 1;\n\n    std::vector<std::vector<int>> holes(range);\n\n    for (int x : arr) {\n        holes[x - min_val].push_back(x);\n    }\n\n    std::vector<int> result;\n    result.reserve(arr.size());\n    for (const auto& hole : holes) {\n        for (int x : hole) {\n            result.push_back(x);\n        }\n    }\n\n    return result;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "PigeonholeSort.cs",
+          "content": "using System;\nusing System.Collections.Generic;\nusing System.Linq;\n\nnamespace Algorithms.Sorting.Pigeonhole\n{\n    /**\n     * Pigeonhole Sort implementation.\n     * Efficient for sorting lists of integers where the number of elements is roughly the same as the number of possible key values.\n     */\n    public static class PigeonholeSort\n    {\n        public static int[] Sort(int[] arr)\n        {\n            if (arr == null || arr.Length == 0)\n            {\n                return new int[0];\n            }\n\n            int minVal = arr.Min();\n            int maxVal = arr.Max();\n            int range = maxVal - minVal + 1;\n\n            List<int>[] holes = new List<int>[range];\n            for (int i = 0; i < range; i++)\n            {\n                holes[i] = new List<int>();\n            }\n\n            foreach (int x in arr)\n            {\n                holes[x - minVal].Add(x);\n            }\n\n            int[] result = new int[arr.Length];\n            int index = 0;\n            foreach (var hole in holes)\n            {\n                foreach (int val in hole)\n                {\n                    result[index++] = val;\n                }\n            }\n\n            return result;\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "pigeonhole_sort.go",
+          "content": "package pigeonholesort\n\n/**\n * PigeonholeSort implementation.\n * Efficient for sorting lists of integers where the number of elements is roughly the same as the number of possible key values.\n * It returns a new sorted slice without modifying the original input.\n */\nfunc PigeonholeSort(arr []int) []int {\n\tif len(arr) == 0 {\n\t\treturn []int{}\n\t}\n\n\tminVal, maxVal := arr[0], arr[0]\n\tfor _, v := range arr {\n\t\tif v < minVal {\n\t\t\tminVal = v\n\t\t}\n\t\tif v > maxVal {\n\t\t\tmaxVal = v\n\t\t}\n\t}\n\n\trangeVal := maxVal - minVal + 1\n\tholes := make([][]int, rangeVal)\n\n\tfor _, v := range arr {\n\t\tholes[v-minVal] = append(holes[v-minVal], v)\n\t}\n\n\tresult := make([]int, 0, len(arr))\n\tfor _, hole := range holes {\n\t\tresult = append(result, hole...)\n\t}\n\n\treturn result\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "PigeonholeSort.java",
+          "content": "import java.util.ArrayList;\nimport java.util.Arrays;\nimport java.util.List;\n\npublic class PigeonholeSort {\n    /**\n     * Pigeonhole Sort implementation.\n     * Efficient for sorting lists of integers where the number of elements is roughly the same as the number of possible key values.\n     * @param arr the input array\n     * @return a sorted copy of the array\n     */\n    public static int[] sort(int[] arr) {\n        if (arr == null || arr.length == 0) {\n            return new int[0];\n        }\n\n        int min = arr[0];\n        int max = arr[0];\n\n        for (int i = 1; i < arr.length; i++) {\n            if (arr[i] < min) min = arr[i];\n            if (arr[i] > max) max = arr[i];\n        }\n\n        int range = max - min + 1;\n        List<List<Integer>> holes = new ArrayList<>(range);\n        for (int i = 0; i < range; i++) {\n            holes.add(new ArrayList<>());\n        }\n\n        for (int i = 0; i < arr.length; i++) {\n            holes.get(arr[i] - min).add(arr[i]);\n        }\n\n        int[] result = new int[arr.length];\n        int index = 0;\n        for (List<Integer> hole : holes) {\n            for (int val : hole) {\n                result[index++] = val;\n            }\n        }\n\n        return result;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "PigeonholeSort.kt",
+          "content": "package algorithms.sorting.pigeonhole\n\n/**\n * Pigeonhole Sort implementation.\n * Efficient for sorting lists of integers where the number of elements is roughly the same as the number of possible key values.\n */\nobject PigeonholeSort {\n    fun sort(arr: IntArray): IntArray {\n        if (arr.isEmpty()) {\n            return IntArray(0)\n        }\n\n        var min = arr[0]\n        var max = arr[0]\n\n        for (i in 1 until arr.size) {\n            if (arr[i] < min) min = arr[i]\n            if (arr[i] > max) max = arr[i]\n        }\n\n        val range = max - min + 1\n        val holes = Array(range) { mutableListOf<Int>() }\n\n        for (x in arr) {\n            holes[x - min].add(x)\n        }\n\n        val result = IntArray(arr.size)\n        var k = 0\n        for (hole in holes) {\n            for (x in hole) {\n                result[k++] = x\n            }\n        }\n\n        return result\n    }\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "pigeonhole_sort.py",
+          "content": "def pigeonhole_sort(arr: list[int]) -> list[int]:\n    \"\"\"\n    Pigeonhole Sort implementation.\n    Efficient for sorting lists of integers where the number of elements is roughly the same as the number of possible key values.\n    \"\"\"\n    if len(arr) == 0:\n        return []\n\n    min_val = min(arr)\n    max_val = max(arr)\n    size = max_val - min_val + 1\n\n    holes: list[list[int]] = [[] for _ in range(size)]\n\n    for x in arr:\n        holes[x - min_val].append(x)\n\n    result: list[int] = []\n    for hole in holes:\n        result.extend(hole)\n\n    return result\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "pigeonhole_sort.rs",
+          "content": "/**\n * Pigeonhole Sort implementation.\n * Efficient for sorting lists of integers where the number of elements is roughly the same as the number of possible key values.\n */\npub fn pigeonhole_sort(arr: &[i32]) -> Vec<i32> {\n    if arr.is_empty() {\n        return Vec::new();\n    }\n\n    let min_val = *arr.iter().min().unwrap();\n    let max_val = *arr.iter().max().unwrap();\n    let range = (max_val - min_val + 1) as usize;\n\n    let mut holes: Vec<Vec<i32>> = vec![Vec::new(); range];\n\n    for &x in arr {\n        holes[(x - min_val) as usize].push(x);\n    }\n\n    let mut result = Vec::with_capacity(arr.len());\n    for hole in holes {\n        result.extend(hole);\n    }\n\n    result\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "PigeonholeSort.scala",
+          "content": "package algorithms.sorting.pigeonhole\n\nimport scala.collection.mutable.ListBuffer\n\n/**\n * Pigeonhole Sort implementation.\n * Efficient for sorting lists of integers where the number of elements is roughly the same as the number of possible key values.\n */\nobject PigeonholeSort {\n  def sort(arr: Array[Int]): Array[Int] = {\n    if (arr.isEmpty) {\n      return Array.empty[Int]\n    }\n\n    val minVal = arr.min\n    val maxVal = arr.max\n    val range = maxVal - minVal + 1\n\n    val holes = Array.fill(range)(ListBuffer.empty[Int])\n\n    for (x <- arr) {\n      holes(x - minVal) += x\n    }\n\n    val result = new Array[Int](arr.length)\n    var k = 0\n    for (hole <- holes) {\n      for (x <- hole) {\n        result(k) = x\n        k += 1\n      }\n    }\n\n    result\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "PigeonholeSort.swift",
+          "content": "/**\n * Pigeonhole Sort implementation.\n * Efficient for sorting lists of integers where the number of elements is roughly the same as the number of possible key values.\n */\npublic class PigeonholeSort {\n    public static func sort(_ arr: [Int]) -> [Int] {\n        guard !arr.isEmpty else {\n            return []\n        }\n\n        let minVal = arr.min()!\n        let maxVal = arr.max()!\n        let range = maxVal - minVal + 1\n\n        var holes = [[Int]](repeating: [], count: range)\n\n        for x in arr {\n            holes[x - minVal].append(x)\n        }\n\n        var result = [Int]()\n        result.reserveCapacity(arr.count)\n        for hole in holes {\n            result.append(contentsOf: hole)\n        }\n\n        return result\n    }\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "pigeonholeSort.ts",
+          "content": "/**\n * Pigeonhole Sort implementation.\n * Efficient for sorting lists of integers where the number of elements is roughly the same as the number of possible key values.\n * @param arr the input array\n * @returns a sorted copy of the array\n */\nexport function pigeonholeSort(arr: number[]): number[] {\n    if (arr.length === 0) {\n        return [];\n    }\n\n    let min = arr[0];\n    let max = arr[0];\n\n    for (const val of arr) {\n        if (val < min) min = val;\n        if (val > max) max = val;\n    }\n\n    const range = max - min + 1;\n    const holes: number[][] = Array.from({ length: range }, () => []);\n\n    for (const val of arr) {\n        holes[val - min].push(val);\n    }\n\n    const result: number[] = [];\n    for (const hole of holes) {\n        result.push(...hole);\n    }\n\n    return result;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "readme": "# Pigeonhole Sort\n\n## Overview\n\nPigeonhole Sort is a non-comparison sorting algorithm suitable for sorting elements where the range of key values is approximately equal to the number of elements. It works by distributing elements into \"pigeonholes\" (one for each possible key value in the range) and then collecting them in order. The algorithm is a specialized form of counting sort that handles duplicate values naturally by storing lists of elements in each pigeonhole rather than just counts.\n\nPigeonhole Sort is named after the Pigeonhole Principle in mathematics, which states that if n items are placed into m containers with n > m, at least one container must hold more than one item.\n\n## How It Works\n\n1. **Find the range:** Determine the minimum and maximum values in the input array. The range is `max - min + 1`.\n2. **Create pigeonholes:** Allocate an array of empty lists (pigeonholes) with size equal to the range.\n3. **Distribute:** Place each element into its corresponding pigeonhole at index `value - min`.\n4. **Collect:** Iterate through the pigeonholes in order and concatenate all elements back into the output array.\n\n## Example\n\nGiven input: `[8, 3, 2, 7, 4, 6, 8, 2, 5]`\n\n**Step 1 -- Find range:** min = 2, max = 8, range = 7\n\n**Step 2 -- Create 7 pigeonholes** (indices 0 through 6, representing values 2 through 8):\n\n**Step 3 -- Distribute elements:**\n\n| Pigeonhole Index | Value | Elements |\n|-----------------|-------|----------|\n| 0 | 2 | `[2, 2]` |\n| 1 | 3 | `[3]` |\n| 2 | 4 | `[4]` |\n| 3 | 5 | `[5]` |\n| 4 | 6 | `[6]` |\n| 5 | 7 | `[7]` |\n| 6 | 8 | `[8, 8]` |\n\n**Step 4 -- Collect in order:**\n\nResult: `[2, 2, 3, 4, 5, 6, 7, 8, 8]`\n\n## Pseudocode\n\n```\nfunction pigeonholeSort(array):\n    n = length(array)\n    if n == 0:\n        return array\n\n    // Step 1: Find range\n    min_val = minimum(array)\n    max_val = maximum(array)\n    range = max_val - min_val + 1\n\n    // Step 2: Create pigeonholes\n    holes = array of 'range' empty lists\n\n    // Step 3: Distribute elements\n    for each element in array:\n        holes[element - min_val].append(element)\n\n    // Step 4: Collect elements\n    index = 0\n    for i from 0 to range - 1:\n        for each element in holes[i]:\n            array[index] = element\n            index = index + 1\n\n    return array\n```\n\n## Complexity Analysis\n\n| Case    | Time          | Space     |\n|---------|--------------|-----------|\n| Best    | O(n + range)  | O(n + range) |\n| Average | O(n + range)  | O(n + range) |\n| Worst   | O(n + range)  | O(n + range) |\n\nWhere range = max - min + 1.\n\n**Why these complexities?**\n\n- **Time -- O(n + range):** Finding min and max requires O(n). Creating pigeonholes requires O(range). Distributing n elements takes O(n). Collecting elements requires iterating over all pigeonholes O(range) plus moving all n elements O(n). Total: O(n + range).\n\n- **Space -- O(n + range):** The pigeonhole array requires O(range) entries, and storing all n elements across the pigeonholes requires O(n) total space. When range is approximately n, this is O(n).\n\n## When to Use\n\n- **Dense integer data:** When the range of values is close to the number of elements (range is approximately n). For example, sorting employee ages, exam scores (0-100), or ratings (1-5).\n- **When stability is required:** Pigeonhole Sort is naturally stable -- elements with equal keys maintain their relative input order.\n- **Known, bounded range:** When the minimum and maximum values are known in advance or the range is guaranteed to be small.\n- **Sorting with satellite data:** Unlike Counting Sort (which only counts), Pigeonhole Sort stores the actual elements, making it easy to sort objects by a numeric key while preserving associated data.\n\n## When NOT to Use\n\n- **Large, sparse ranges:** If the range is much larger than n (e.g., sorting 100 elements with values between 1 and 1,000,000), the algorithm wastes enormous amounts of memory on empty pigeonholes and time initializing them.\n- **Floating-point or non-integer data:** The algorithm requires integer-like keys that can serve as array indices. For floating-point data, use bucket sort instead.\n- **Unknown or unbounded ranges:** If the range of values is not known in advance or can be arbitrarily large, Pigeonhole Sort is impractical.\n- **Memory-constrained environments:** The O(range) space requirement can be prohibitive for large ranges.\n\n## Comparison\n\n| Algorithm       | Time          | Space       | Stable | Requirement |\n|-----------------|--------------|-------------|--------|-------------|\n| Pigeonhole Sort | O(n + range)  | O(n + range) | Yes   | range ~ n |\n| Counting Sort   | O(n + k)      | O(k)        | Yes    | Integer keys in [0, k) |\n| Bucket Sort     | O(n + k)      | O(n + k)    | Yes    | Uniform distribution |\n| Radix Sort      | O(n * d)      | O(n + b)    | Yes    | Fixed-length keys |\n| Insertion Sort  | O(n^2)        | O(1)        | Yes    | None |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [pigeonhole_sort.py](python/pigeonhole_sort.py) |\n| Java       | [PigeonholeSort.java](java/PigeonholeSort.java) |\n| C++        | [pigeonhole_sort.cpp](cpp/pigeonhole_sort.cpp) |\n| C          | [pigeonhole_sort.c](c/pigeonhole_sort.c) |\n| Go         | [pigeonhole_sort.go](go/pigeonhole_sort.go) |\n| TypeScript | [pigeonholeSort.ts](typescript/pigeonholeSort.ts) |\n| Kotlin     | [PigeonholeSort.kt](kotlin/PigeonholeSort.kt) |\n| Rust       | [pigeonhole_sort.rs](rust/pigeonhole_sort.rs) |\n| Swift      | [PigeonholeSort.swift](swift/PigeonholeSort.swift) |\n| Scala      | [PigeonholeSort.scala](scala/PigeonholeSort.scala) |\n| C#         | [PigeonholeSort.cs](csharp/PigeonholeSort.cs) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 8: Sorting in Linear Time.\n- Knuth, D. E. (1998). *The Art of Computer Programming, Volume 3: Sorting and Searching* (2nd ed.). Addison-Wesley. Section 5.2.5: Sorting by Distribution.\n- [Pigeonhole Sort -- Wikipedia](https://en.wikipedia.org/wiki/Pigeonhole_sort)\n"
+}

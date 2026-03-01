@@ -1,0 +1,134 @@
+{
+  "name": "Sum over Subsets DP",
+  "slug": "sos-dp",
+  "category": "dynamic-programming",
+  "subcategory": "bitmask",
+  "difficulty": "advanced",
+  "tags": [
+    "dynamic-programming",
+    "bitmask",
+    "subset-sum",
+    "sos"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n * 2^n)",
+      "average": "O(n * 2^n)",
+      "worst": "O(n * 2^n)"
+    },
+    "space": "O(2^n)"
+  },
+  "stable": null,
+  "in_place": true,
+  "related": [
+    "bitmask-dp",
+    "subset-sum"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "sos_dp.c",
+          "content": "#include <stdio.h>\n#include <string.h>\n#include \"sos_dp.h\"\n\nvoid sos_dp(int n, int* f, int* sos) {\n    int size = 1 << n;\n    memcpy(sos, f, size * sizeof(int));\n\n    for (int i = 0; i < n; i++) {\n        for (int mask = 0; mask < size; mask++) {\n            if (mask & (1 << i)) {\n                sos[mask] += sos[mask ^ (1 << i)];\n            }\n        }\n    }\n}\n\nint main(void) {\n    int n;\n    scanf(\"%d\", &n);\n    int size = 1 << n;\n    int f[1 << 20];\n    int result[1 << 20];\n    for (int i = 0; i < size; i++) scanf(\"%d\", &f[i]);\n    sos_dp(n, f, result);\n    for (int i = 0; i < size; i++) {\n        if (i > 0) printf(\" \");\n        printf(\"%d\", result[i]);\n    }\n    printf(\"\\n\");\n    return 0;\n}\n"
+        },
+        {
+          "filename": "sos_dp.h",
+          "content": "#ifndef SOS_DP_H\n#define SOS_DP_H\n\nvoid sos_dp(int n, int* f, int* sos);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "sos_dp.cpp",
+          "content": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nvector<int> sosDp(int n, vector<int>& f) {\n    int size = 1 << n;\n    vector<int> sos(f.begin(), f.end());\n\n    for (int i = 0; i < n; i++) {\n        for (int mask = 0; mask < size; mask++) {\n            if (mask & (1 << i)) {\n                sos[mask] += sos[mask ^ (1 << i)];\n            }\n        }\n    }\n    return sos;\n}\n\nint main() {\n    int n;\n    cin >> n;\n    int size = 1 << n;\n    vector<int> f(size);\n    for (int i = 0; i < size; i++) cin >> f[i];\n    vector<int> result = sosDp(n, f);\n    for (int i = 0; i < size; i++) {\n        if (i > 0) cout << ' ';\n        cout << result[i];\n    }\n    cout << endl;\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "SosDp.cs",
+          "content": "using System;\nusing System.Linq;\n\nclass SosDp {\n    public static int[] Solve(int n, int[] f) {\n        int size = 1 << n;\n        int[] sos = (int[])f.Clone();\n\n        for (int i = 0; i < n; i++) {\n            for (int mask = 0; mask < size; mask++) {\n                if ((mask & (1 << i)) != 0) {\n                    sos[mask] += sos[mask ^ (1 << i)];\n                }\n            }\n        }\n        return sos;\n    }\n\n    static void Main(string[] args) {\n        int n = int.Parse(Console.ReadLine().Trim());\n        int[] f = Console.ReadLine().Trim().Split(' ').Select(int.Parse).ToArray();\n        int[] result = Solve(n, f);\n        Console.WriteLine(string.Join(\" \", result));\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "sos_dp.go",
+          "content": "package main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc sosDp(n int, f []int) []int {\n\tsize := 1 << n\n\tsos := make([]int, size)\n\tcopy(sos, f)\n\n\tfor i := 0; i < n; i++ {\n\t\tfor mask := 0; mask < size; mask++ {\n\t\t\tif mask&(1<<i) != 0 {\n\t\t\t\tsos[mask] += sos[mask^(1<<i)]\n\t\t\t}\n\t\t}\n\t}\n\treturn sos\n}\n\nfunc main() {\n\tvar n int\n\tfmt.Scan(&n)\n\tsize := 1 << n\n\tf := make([]int, size)\n\tfor i := 0; i < size; i++ {\n\t\tfmt.Scan(&f[i])\n\t}\n\tresult := sosDp(n, f)\n\tstrs := make([]string, size)\n\tfor i, v := range result {\n\t\tstrs[i] = fmt.Sprintf(\"%d\", v)\n\t}\n\tfmt.Println(strings.Join(strs, \" \"))\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "SosDp.java",
+          "content": "import java.util.Scanner;\n\npublic class SosDp {\n    public static int[] sosDp(int n, int[] f) {\n        int size = 1 << n;\n        int[] sos = new int[size];\n        System.arraycopy(f, 0, sos, 0, size);\n\n        for (int i = 0; i < n; i++) {\n            for (int mask = 0; mask < size; mask++) {\n                if ((mask & (1 << i)) != 0) {\n                    sos[mask] += sos[mask ^ (1 << i)];\n                }\n            }\n        }\n        return sos;\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int size = 1 << n;\n        int[] f = new int[size];\n        for (int i = 0; i < size; i++) f[i] = sc.nextInt();\n        int[] result = sosDp(n, f);\n        StringBuilder sb = new StringBuilder();\n        for (int i = 0; i < size; i++) {\n            if (i > 0) sb.append(' ');\n            sb.append(result[i]);\n        }\n        System.out.println(sb.toString());\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "SosDp.kt",
+          "content": "fun sosDp(n: Int, f: IntArray): IntArray {\n    val size = 1 shl n\n    val sos = f.copyOf()\n\n    for (i in 0 until n) {\n        for (mask in 0 until size) {\n            if (mask and (1 shl i) != 0) {\n                sos[mask] += sos[mask xor (1 shl i)]\n            }\n        }\n    }\n    return sos\n}\n\nfun main() {\n    val br = System.`in`.bufferedReader()\n    val n = br.readLine().trim().toInt()\n    val f = br.readLine().trim().split(\" \").map { it.toInt() }.toIntArray()\n    val result = sosDp(n, f)\n    println(result.joinToString(\" \"))\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "sos_dp.py",
+          "content": "import sys\n\ndef sos_dp(n, f):\n    \"\"\"Compute sum over subsets for each bitmask.\"\"\"\n    sos = f[:]\n    for i in range(n):\n        for mask in range(1 << n):\n            if mask & (1 << i):\n                sos[mask] += sos[mask ^ (1 << i)]\n    return sos\n\n\nif __name__ == \"__main__\":\n    data = sys.stdin.read().split()\n    idx = 0\n    n = int(data[idx]); idx += 1\n    f = [int(data[idx + i]) for i in range(1 << n)]\n    result = sos_dp(n, f)\n    print(' '.join(map(str, result)))\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "sos_dp.rs",
+          "content": "use std::io::{self, Read};\n\nfn sos_dp(n: usize, f: &[i64]) -> Vec<i64> {\n    let size = 1 << n;\n    let mut sos: Vec<i64> = f.to_vec();\n\n    for i in 0..n {\n        for mask in 0..size {\n            if mask & (1 << i) != 0 {\n                sos[mask] += sos[mask ^ (1 << i)];\n            }\n        }\n    }\n    sos\n}\n\nfn main() {\n    let mut input = String::new();\n    io::stdin().read_to_string(&mut input).unwrap();\n    let mut iter = input.split_whitespace();\n    let n: usize = iter.next().unwrap().parse().unwrap();\n    let size = 1 << n;\n    let f: Vec<i64> = (0..size).map(|_| iter.next().unwrap().parse().unwrap()).collect();\n    let result = sos_dp(n, &f);\n    let strs: Vec<String> = result.iter().map(|x| x.to_string()).collect();\n    println!(\"{}\", strs.join(\" \"));\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "SosDp.scala",
+          "content": "object SosDp {\n  def sosDp(n: Int, f: Array[Int]): Array[Int] = {\n    val size = 1 << n\n    val sos = f.clone()\n\n    for (i <- 0 until n) {\n      for (mask <- 0 until size) {\n        if ((mask & (1 << i)) != 0) {\n          sos(mask) += sos(mask ^ (1 << i))\n        }\n      }\n    }\n    sos\n  }\n\n  def main(args: Array[String]): Unit = {\n    val br = scala.io.StdIn\n    val n = br.readLine().trim.toInt\n    val f = br.readLine().trim.split(\" \").map(_.toInt)\n    val result = sosDp(n, f)\n    println(result.mkString(\" \"))\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "SosDp.swift",
+          "content": "import Foundation\n\nfunc sosDp(_ n: Int, _ f: [Int]) -> [Int] {\n    let size = 1 << n\n    var sos = f\n\n    for i in 0..<n {\n        for mask in 0..<size {\n            if mask & (1 << i) != 0 {\n                sos[mask] += sos[mask ^ (1 << i)]\n            }\n        }\n    }\n    return sos\n}\n\nlet n = Int(readLine()!)!\nlet f = readLine()!.split(separator: \" \").map { Int($0)! }\nlet result = sosDp(n, f)\nprint(result.map { String($0) }.joined(separator: \" \"))\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "sosDp.ts",
+          "content": "export function sosDp(n: number, f: number[]): number[] {\n    const size = 1 << n;\n    const sos = [...f];\n\n    for (let i = 0; i < n; i++) {\n        for (let mask = 0; mask < size; mask++) {\n            if (mask & (1 << i)) {\n                sos[mask] += sos[mask ^ (1 << i)];\n            }\n        }\n    }\n    return sos;\n}\n\nconst readline = require('readline');\nconst rl = readline.createInterface({ input: process.stdin });\nconst lines: string[] = [];\nrl.on('line', (line: string) => lines.push(line.trim()));\nrl.on('close', () => {\n    const n = parseInt(lines[0]);\n    const f = lines[1].split(' ').map(Number);\n    const result = sosDp(n, f);\n    console.log(result.join(' '));\n});\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Sum over Subsets DP (SOS DP)\n\n## Overview\n\nSum over Subsets (SOS) DP computes, for every bitmask, the sum of function values over all its submasks. Given an array `f` of size 2^n indexed by bitmasks, it computes `sos[mask] = sum of f[sub] for all sub that are submasks of mask`. The naive approach of iterating over all submasks for each mask takes O(3^n) time, but SOS DP reduces this to O(n * 2^n) by iterating over bits one at a time.\n\nThis technique is fundamental in competitive programming and combinatorial optimization. It generalizes to any associative operation (min, max, OR, GCD) beyond just summation, and it is essentially a multi-dimensional prefix sum over the Boolean hypercube.\n\n## How It Works\n\n1. Initialize `sos[mask] = f[mask]` for all masks.\n2. For each bit position i from 0 to n-1:\n   - For each mask from 0 to 2^n - 1:\n     - If bit i is set in mask: `sos[mask] += sos[mask ^ (1 << i)]`\n3. After processing all bits, `sos[mask]` contains the sum over all submasks of mask.\n\nThe key insight is that each iteration \"absorbs\" one more dimension of the hypercube. After processing bit i, `sos[mask]` accounts for all submasks that differ from `mask` only in bits 0 through i.\n\n## Example\n\nn=2, f = [1, 2, 3, 4] (indexed as f[00]=1, f[01]=2, f[10]=3, f[11]=4)\n\n**Initial state:** `sos = [1, 2, 3, 4]`\n\n**After processing bit 0:**\n- mask=00: bit 0 not set, skip. sos[00] = 1\n- mask=01: bit 0 set, sos[01] += sos[00] = 2 + 1 = 3\n- mask=10: bit 0 not set, skip. sos[10] = 3\n- mask=11: bit 0 set, sos[11] += sos[10] = 4 + 3 = 7\n\nState: `sos = [1, 3, 3, 7]`\n\n**After processing bit 1:**\n- mask=00: bit 1 not set, skip. sos[00] = 1\n- mask=01: bit 1 not set, skip. sos[01] = 3\n- mask=10: bit 1 set, sos[10] += sos[00] = 3 + 1 = 4\n- mask=11: bit 1 set, sos[11] += sos[01] = 7 + 3 = 10\n\n**Final result:** `sos = [1, 3, 4, 10]`\n\nVerification:\n- sos[00] = f[00] = 1\n- sos[01] = f[00] + f[01] = 1 + 2 = 3\n- sos[10] = f[00] + f[10] = 1 + 3 = 4\n- sos[11] = f[00] + f[01] + f[10] + f[11] = 1 + 2 + 3 + 4 = 10\n\n## Pseudocode\n\n```\nfunction sosDp(f, n):\n    sos = copy of f    // sos has 2^n entries\n\n    for i from 0 to n - 1:\n        for mask from 0 to 2^n - 1:\n            if mask AND (1 << i) != 0:\n                sos[mask] += sos[mask XOR (1 << i)]\n\n    return sos\n```\n\nFor the **superset sum** variant (summing over all supermasks), the condition is inverted:\n\n```\nfunction supersetSum(f, n):\n    sos = copy of f\n\n    for i from 0 to n - 1:\n        for mask from 0 to 2^n - 1:\n            if mask AND (1 << i) == 0:\n                sos[mask] += sos[mask OR (1 << i)]\n\n    return sos\n```\n\n## Complexity Analysis\n\n| Case    | Time          | Space    |\n|---------|---------------|----------|\n| Best    | O(n * 2^n)    | O(2^n)   |\n| Average | O(n * 2^n)    | O(2^n)   |\n| Worst   | O(n * 2^n)    | O(2^n)   |\n\nThe algorithm performs n passes over the array of 2^n elements, giving O(n * 2^n) time. This is a significant improvement over the naive O(3^n) approach. The space requirement is O(2^n) for the sos array. Note that 3^n grows much faster than n * 2^n: for n=20, 3^20 is about 3.5 billion, while 20 * 2^20 is about 21 million.\n\n## When to Use\n\n- **Counting subsets with specific properties:** When you need to aggregate values over all submasks of every mask, such as counting how many subsets of a set satisfy a condition.\n- **Inclusion-exclusion computations:** SOS DP can replace explicit inclusion-exclusion, which would otherwise require iterating over all subsets.\n- **Bitmask DP problems:** Problems involving sets represented as bitmasks where you need to combine information across subsets.\n- **Competitive programming:** Appears in problems involving AND/OR convolutions, subset convolutions, and Mobius inversion over the subset lattice.\n- **Combinatorial optimization:** Problems where you need to evaluate a function over all subsets efficiently.\n\n## When NOT to Use\n\n- **Large n (> 25):** The 2^n space requirement makes this impractical for n beyond about 25. For n=25, the array alone requires over 100 MB of memory.\n- **Sparse data:** If only a small number of masks have non-zero values, iterating over submasks directly with the O(3^n) approach (or the O(2^k) per mask enumeration trick) may be faster in practice.\n- **Non-subset relationships:** SOS DP works specifically with the subset/superset lattice. For other partial orders, different techniques are needed.\n- **When only a single query is needed:** If you only need the sum over submasks for one specific mask, direct enumeration of its submasks in O(2^popcount(mask)) is more efficient.\n\n## Comparison\n\n| Approach                     | Time       | Space  | Notes                                       |\n|------------------------------|------------|--------|---------------------------------------------|\n| SOS DP (this)                | O(n * 2^n) | O(2^n) | Optimal for computing all submask sums      |\n| Naive submask enumeration    | O(3^n)     | O(2^n) | Simpler but much slower                     |\n| Single-mask enumeration      | O(2^k)     | O(1)   | Per query; k = popcount(mask)               |\n| Zeta/Mobius transform        | O(n * 2^n) | O(2^n) | Same complexity; SOS DP is the zeta transform |\n\nSOS DP is mathematically equivalent to the zeta transform on the Boolean lattice. The Mobius transform (inverse) can undo it to recover the original values.\n\n## Implementations\n\n| Language   | File                                  |\n|------------|---------------------------------------|\n| Python     | [sos_dp.py](python/sos_dp.py)         |\n| Java       | [SosDp.java](java/SosDp.java)        |\n| C++        | [sos_dp.cpp](cpp/sos_dp.cpp)         |\n| C          | [sos_dp.c](c/sos_dp.c)              |\n| Go         | [sos_dp.go](go/sos_dp.go)           |\n| TypeScript | [sosDp.ts](typescript/sosDp.ts)      |\n| Rust       | [sos_dp.rs](rust/sos_dp.rs)         |\n| Kotlin     | [SosDp.kt](kotlin/SosDp.kt)        |\n| Swift      | [SosDp.swift](swift/SosDp.swift)    |\n| Scala      | [SosDp.scala](scala/SosDp.scala)   |\n| C#         | [SosDp.cs](csharp/SosDp.cs)        |\n\n## References\n\n- [SOS DP -- Codeforces Tutorial](https://codeforces.com/blog/entry/45223)\n- [Subset Sum over Subsets -- CP-Algorithms](https://cp-algorithms.com/algebra/all-submasks.html)\n- Yates, F. (1937). \"The Design and Analysis of Factorial Experiments.\" *Imperial Bureau of Soil Science*. (The original Yates's algorithm, which SOS DP generalizes.)\n"
+}

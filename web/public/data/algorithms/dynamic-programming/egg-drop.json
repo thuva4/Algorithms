@@ -1,0 +1,134 @@
+{
+  "name": "Egg Drop Problem",
+  "slug": "egg-drop",
+  "category": "dynamic-programming",
+  "subcategory": "optimization",
+  "difficulty": "intermediate",
+  "tags": [
+    "dynamic-programming",
+    "optimization",
+    "decision",
+    "egg-drop"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(e * f^2)",
+      "average": "O(e * f^2)",
+      "worst": "O(e * f^2)"
+    },
+    "space": "O(e * f)"
+  },
+  "stable": null,
+  "in_place": null,
+  "related": [
+    "knapsack",
+    "coin-change"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "egg_drop.c",
+          "content": "#include \"egg_drop.h\"\n#include <limits.h>\n\nint egg_drop(const int* arr, int n) {\n    int eggs = arr[0], floors = arr[1];\n    int dp[100][1000];\n    for (int e = 0; e <= eggs; e++)\n        for (int f = 0; f <= floors; f++)\n            dp[e][f] = 0;\n    for (int f = 1; f <= floors; f++) dp[1][f] = f;\n    for (int e = 2; e <= eggs; e++) {\n        for (int f = 1; f <= floors; f++) {\n            dp[e][f] = INT_MAX;\n            for (int x = 1; x <= f; x++) {\n                int a = dp[e-1][x-1], b = dp[e][f-x];\n                int worst = 1 + (a > b ? a : b);\n                if (worst < dp[e][f]) dp[e][f] = worst;\n            }\n        }\n    }\n    return dp[eggs][floors];\n}\n"
+        },
+        {
+          "filename": "egg_drop.h",
+          "content": "#ifndef EGG_DROP_H\n#define EGG_DROP_H\n\nint egg_drop(const int* arr, int n);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "egg_drop.cpp",
+          "content": "#include <vector>\n#include <algorithm>\n#include <climits>\n\nint egg_drop(std::vector<int> arr) {\n    int eggs = arr[0], floors = arr[1];\n    std::vector<std::vector<int>> dp(eggs + 1, std::vector<int>(floors + 1, 0));\n    for (int f = 1; f <= floors; f++) dp[1][f] = f;\n    for (int e = 2; e <= eggs; e++) {\n        for (int f = 1; f <= floors; f++) {\n            dp[e][f] = INT_MAX;\n            for (int x = 1; x <= f; x++) {\n                int worst = 1 + std::max(dp[e - 1][x - 1], dp[e][f - x]);\n                dp[e][f] = std::min(dp[e][f], worst);\n            }\n        }\n    }\n    return dp[eggs][floors];\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "EggDrop.cs",
+          "content": "using System;\n\npublic class EggDrop\n{\n    public static int Solve(int[] arr)\n    {\n        int eggs = arr[0], floors = arr[1];\n        int[,] dp = new int[eggs + 1, floors + 1];\n        for (int f = 1; f <= floors; f++) dp[1, f] = f;\n        for (int e = 2; e <= eggs; e++) {\n            for (int f = 1; f <= floors; f++) {\n                dp[e, f] = int.MaxValue;\n                for (int x = 1; x <= f; x++) {\n                    int worst = 1 + Math.Max(dp[e - 1, x - 1], dp[e, f - x]);\n                    dp[e, f] = Math.Min(dp[e, f], worst);\n                }\n            }\n        }\n        return dp[eggs, floors];\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "egg_drop.go",
+          "content": "package eggdrop\n\nimport \"math\"\n\n// EggDrop returns the minimum number of trials for the egg drop problem.\nfunc EggDrop(arr []int) int {\n\teggs, floors := arr[0], arr[1]\n\tdp := make([][]int, eggs+1)\n\tfor i := range dp { dp[i] = make([]int, floors+1) }\n\tfor f := 1; f <= floors; f++ { dp[1][f] = f }\n\tfor e := 2; e <= eggs; e++ {\n\t\tfor f := 1; f <= floors; f++ {\n\t\t\tdp[e][f] = math.MaxInt32\n\t\t\tfor x := 1; x <= f; x++ {\n\t\t\t\tworst := 1 + max(dp[e-1][x-1], dp[e][f-x])\n\t\t\t\tif worst < dp[e][f] { dp[e][f] = worst }\n\t\t\t}\n\t\t}\n\t}\n\treturn dp[eggs][floors]\n}\n\nfunc max(a, b int) int { if a > b { return a }; return b }\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "EggDrop.java",
+          "content": "public class EggDrop {\n\n    public static int eggDrop(int[] arr) {\n        int eggs = arr[0], floors = arr[1];\n        int[][] dp = new int[eggs + 1][floors + 1];\n        for (int f = 1; f <= floors; f++) dp[1][f] = f;\n        for (int e = 2; e <= eggs; e++) {\n            for (int f = 1; f <= floors; f++) {\n                dp[e][f] = Integer.MAX_VALUE;\n                for (int x = 1; x <= f; x++) {\n                    int worst = 1 + Math.max(dp[e - 1][x - 1], dp[e][f - x]);\n                    dp[e][f] = Math.min(dp[e][f], worst);\n                }\n            }\n        }\n        return dp[eggs][floors];\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "EggDrop.kt",
+          "content": "fun eggDrop(arr: IntArray): Int {\n    val eggs = arr[0]; val floors = arr[1]\n    val dp = Array(eggs + 1) { IntArray(floors + 1) }\n    for (f in 1..floors) dp[1][f] = f\n    for (e in 2..eggs) {\n        for (f in 1..floors) {\n            dp[e][f] = Int.MAX_VALUE\n            for (x in 1..f) {\n                val worst = 1 + maxOf(dp[e - 1][x - 1], dp[e][f - x])\n                dp[e][f] = minOf(dp[e][f], worst)\n            }\n        }\n    }\n    return dp[eggs][floors]\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "egg_drop.py",
+          "content": "def egg_drop(arr: list[int]) -> int:\n    eggs, floors = arr[0], arr[1]\n    dp = [[0] * (floors + 1) for _ in range(eggs + 1)]\n    for f in range(1, floors + 1):\n        dp[1][f] = f\n    for e in range(2, eggs + 1):\n        for f in range(1, floors + 1):\n            dp[e][f] = float('inf')\n            for x in range(1, f + 1):\n                worst = 1 + max(dp[e - 1][x - 1], dp[e][f - x])\n                dp[e][f] = min(dp[e][f], worst)\n    return dp[eggs][floors]\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "egg_drop.rs",
+          "content": "pub fn egg_drop(arr: &[i32]) -> i32 {\n    let eggs = arr[0] as usize;\n    let floors = arr[1] as usize;\n    let mut dp = vec![vec![0i32; floors + 1]; eggs + 1];\n    for f in 1..=floors { dp[1][f] = f as i32; }\n    for e in 2..=eggs {\n        for f in 1..=floors {\n            dp[e][f] = i32::MAX;\n            for x in 1..=f {\n                let worst = 1 + dp[e - 1][x - 1].max(dp[e][f - x]);\n                dp[e][f] = dp[e][f].min(worst);\n            }\n        }\n    }\n    dp[eggs][floors]\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "EggDrop.scala",
+          "content": "object EggDrop {\n\n  def eggDrop(arr: Array[Int]): Int = {\n    val eggs = arr(0); val floors = arr(1)\n    val dp = Array.ofDim[Int](eggs + 1, floors + 1)\n    for (f <- 1 to floors) dp(1)(f) = f\n    for (e <- 2 to eggs; f <- 1 to floors) {\n      dp(e)(f) = Int.MaxValue\n      for (x <- 1 to f) {\n        val worst = 1 + math.max(dp(e - 1)(x - 1), dp(e)(f - x))\n        dp(e)(f) = math.min(dp(e)(f), worst)\n      }\n    }\n    dp(eggs)(floors)\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "EggDrop.swift",
+          "content": "func eggDrop(_ arr: [Int]) -> Int {\n    let eggs = arr[0], floors = arr[1]\n    var dp = Array(repeating: Array(repeating: 0, count: floors + 1), count: eggs + 1)\n    if floors > 0 {\n        for f in 1...floors { dp[1][f] = f }\n    }\n    if eggs >= 2 && floors > 0 {\n        for e in 2...eggs {\n            for f in 1...floors {\n                dp[e][f] = Int.max\n                for x in 1...f {\n                    let worst = 1 + max(dp[e - 1][x - 1], dp[e][f - x])\n                    dp[e][f] = min(dp[e][f], worst)\n                }\n            }\n        }\n    }\n    return dp[eggs][floors]\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "eggDrop.ts",
+          "content": "export function eggDrop(arr: number[]): number {\n    const eggs = arr[0], floors = arr[1];\n    const dp: number[][] = Array.from({ length: eggs + 1 }, () => new Array(floors + 1).fill(0));\n    for (let f = 1; f <= floors; f++) dp[1][f] = f;\n    for (let e = 2; e <= eggs; e++) {\n        for (let f = 1; f <= floors; f++) {\n            dp[e][f] = Infinity;\n            for (let x = 1; x <= f; x++) {\n                const worst = 1 + Math.max(dp[e - 1][x - 1], dp[e][f - x]);\n                dp[e][f] = Math.min(dp[e][f], worst);\n            }\n        }\n    }\n    return dp[eggs][floors];\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Egg Drop Problem\n\n## Overview\n\nThe Egg Drop Problem determines the minimum number of trials needed in the worst case to find the critical floor from which an egg breaks, given a certain number of eggs and floors. If an egg is dropped from above the critical floor, it breaks; if dropped from below, it survives. The challenge is to design a strategy that minimizes the worst-case number of drops needed to identify the exact critical floor.\n\nThis is a classic dynamic programming problem that models decision-making under uncertainty with limited resources. It generalizes binary search to the case where the \"probe\" can fail (the egg breaks), limiting further exploration.\n\n## How It Works\n\nUse dynamic programming where `dp[e][f]` represents the minimum number of trials needed with `e` eggs and `f` floors.\n\nFor each floor `x` from 1 to f, try dropping an egg:\n- **If it breaks:** The critical floor is below x. Search floors 1 to x-1 with e-1 eggs: `dp[e-1][x-1]`.\n- **If it survives:** The critical floor is at or above x. Search floors x+1 to f with e eggs: `dp[e][f-x]`.\n- Take the **worst case** (max of break/survive) for each choice of x, and **minimize** over all choices.\n\nRecurrence: `dp[e][f] = 1 + min over x in [1..f] of max(dp[e-1][x-1], dp[e][f-x])`\n\nBase cases:\n- `dp[e][0] = 0` (no floors means no trials needed)\n- `dp[e][1] = 1` (one floor means one trial)\n- `dp[1][f] = f` (one egg means linear search from floor 1)\n\n## Worked Example\n\n**2 eggs, 10 floors:**\n\nBuilding the DP table (showing key entries):\n\n| Eggs\\Floors | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |\n|-------------|---|---|---|---|---|---|---|---|---|---|-----|\n| 1           | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10  |\n| 2           | 0 | 1 | 2 | 2 | 3 | 3 | 3 | 4 | 4 | 4 | 4   |\n\nFor dp[2][10], the optimal first drop is at floor 4:\n- **Breaks (floor 4):** Search floors 1-3 with 1 egg: dp[1][3] = 3 trials.\n- **Survives (floor 4):** Search floors 5-10 with 2 eggs: dp[2][6] = 3 trials.\n- Worst case: max(3, 3) = 3. Plus the current trial: 1 + 3 = **4**.\n\n**Answer: dp[2][10] = 4.** The strategy: drop first egg at floor 4, then 7, then 9, then 10 (adjusting after breaks with linear search).\n\n## Pseudocode\n\n```\nfunction eggDrop(eggs, floors):\n    // dp[e][f] = min trials with e eggs and f floors\n    dp = 2D array of size (eggs+1) x (floors+1)\n\n    // Base cases\n    for e = 1 to eggs:\n        dp[e][0] = 0\n        dp[e][1] = 1\n    for f = 1 to floors:\n        dp[1][f] = f\n\n    // Fill table\n    for e = 2 to eggs:\n        for f = 2 to floors:\n            dp[e][f] = infinity\n            for x = 1 to f:\n                worstCase = 1 + max(dp[e-1][x-1], dp[e][f-x])\n                dp[e][f] = min(dp[e][f], worstCase)\n\n    return dp[eggs][floors]\n```\n\nNote: The inner loop over x can be optimized to O(log f) using binary search on the crossover point where dp[e-1][x-1] >= dp[e][f-x], since dp[e-1][x-1] is increasing in x and dp[e][f-x] is decreasing in x.\n\n## Complexity Analysis\n\n| Case    | Time      | Space   |\n|---------|-----------|---------|\n| All     | O(e*f^2)  | O(e*f)  |\n\n**Why these complexities?**\n\n- **Time -- O(e * f^2):** For each of the e*f states, we try up to f possible floors, each in O(1). With the binary search optimization, this improves to O(e * f * log f).\n\n- **Space -- O(e * f):** The 2D DP table has e rows and f columns. This can be reduced to O(f) by noting that dp[e] only depends on dp[e-1].\n\nAn alternative O(e * f) formulation exists: define `dp[t][e]` = maximum floors checkable with t trials and e eggs. Then `dp[t][e] = dp[t-1][e-1] + dp[t-1][e] + 1`. Binary search on t to find the smallest t where dp[t][eggs] >= floors.\n\n## When to Use\n\n- **Testing strategies with limited resources:** When destructive testing is involved and you want to minimize the number of tests in the worst case.\n- **Software testing:** Determining a failure threshold (e.g., maximum load before a server crashes) with a limited number of test environments.\n- **Reliability engineering:** Finding the breaking point of a component with limited test specimens.\n- **Decision theory:** Any scenario where you make sequential decisions, each of which either \"succeeds\" or \"fails,\" permanently consuming a resource on failure.\n- **Binary search with fault tolerance:** Generalizing binary search to cases where failed probes eliminate the probe itself.\n\n## When NOT to Use\n\n- **Unlimited eggs:** With unlimited eggs, binary search finds the answer in O(log f) trials. No DP is needed.\n- **Very large e and f:** When both parameters are very large, even the O(e * f * log f) approach may be too slow. Use the mathematical formulation with `dp[t][e]` and binary search on t for O(e * log f) time.\n- **When the cost function is not uniform:** If different floors have different dropping costs, the standard formulation does not apply directly.\n- **Probabilistic models:** If eggs break with some probability rather than deterministically above a threshold, different techniques (e.g., information-theoretic approaches) are needed.\n\n## Comparison\n\n| Algorithm                  | Time           | Space  | Notes                                    |\n|---------------------------|----------------|--------|------------------------------------------|\n| **Standard DP**            | **O(e*f^2)**   | **O(e*f)** | **Simple; direct recurrence**          |\n| Binary Search Optimized DP | O(e*f*log f)   | O(e*f) | Uses monotonicity of optimal floor      |\n| Inverse DP (dp[t][e])      | O(e*log f)     | O(e)   | Fastest; binary search on trials        |\n| Binary Search (unlimited)  | O(log f)       | O(1)   | Only works with unlimited eggs          |\n| Linear Search              | O(f)           | O(1)   | Only 1 egg needed; worst case           |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [egg_drop.py](python/egg_drop.py) |\n| Java       | [EggDrop.java](java/EggDrop.java) |\n| C++        | [egg_drop.cpp](cpp/egg_drop.cpp) |\n| C          | [egg_drop.c](c/egg_drop.c) |\n| Go         | [egg_drop.go](go/egg_drop.go) |\n| TypeScript | [eggDrop.ts](typescript/eggDrop.ts) |\n| Rust       | [egg_drop.rs](rust/egg_drop.rs) |\n| Kotlin     | [EggDrop.kt](kotlin/EggDrop.kt) |\n| Swift      | [EggDrop.swift](swift/EggDrop.swift) |\n| Scala      | [EggDrop.scala](scala/EggDrop.scala) |\n| C#         | [EggDrop.cs](csharp/EggDrop.cs) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Problem 15-2.\n- Kleinberg, J., & Tardos, E. (2006). *Algorithm Design*. Pearson. Chapter 6: Dynamic Programming.\n- [Egg Dropping Puzzle -- Wikipedia](https://en.wikipedia.org/wiki/Egg_dropping_puzzle)\n- [Egg Drop Problem -- GeeksforGeeks](https://www.geeksforgeeks.org/egg-dropping-puzzle-dp-11/)\n"
+}

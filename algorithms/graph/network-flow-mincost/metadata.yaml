@@ -1,0 +1,17 @@
+name: "Minimum Cost Maximum Flow"
+slug: "network-flow-mincost"
+category: "graph"
+subcategory: "network-flow"
+difficulty: "advanced"
+tags: [graph, network-flow, min-cost, max-flow, spfa, shortest-path]
+complexity:
+  time:
+    best: "O(V * E * flow)"
+    average: "O(V * E * flow)"
+    worst: "O(V * E * flow)"
+  space: "O(V + E)"
+stable: null
+in_place: false
+related: [max-flow-min-cut, dijkstras, bellman-ford]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

@@ -1,0 +1,21 @@
+name: "Hamming Distance"
+slug: "hamming-distance"
+category: "bit-manipulation"
+subcategory: "bitwise-operations"
+difficulty: "beginner"
+tags: [bit-manipulation, hamming, distance, xor, error-detection]
+complexity:
+  time:
+    best: "O(1)"
+    average: "O(1)"
+    worst: "O(1)"
+  space: "O(1)"
+stable: false
+in_place: true
+related: [xor-swap, unary-coding]
+implementations: [python, java, cpp, c, go, typescript]
+visualization: false
+patterns:
+  - bitwise-xor
+patternDifficulty: intermediate
+practiceOrder: 3

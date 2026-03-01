@@ -1,0 +1,135 @@
+{
+  "name": "Number Theoretic Transform (NTT)",
+  "slug": "ntt",
+  "category": "math",
+  "subcategory": "number-theory",
+  "difficulty": "advanced",
+  "tags": [
+    "math",
+    "number-theory",
+    "ntt",
+    "polynomial-multiplication",
+    "finite-field"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n log n)",
+      "average": "O(n log n)",
+      "worst": "O(n log n)"
+    },
+    "space": "O(n)"
+  },
+  "stable": null,
+  "in_place": false,
+  "related": [
+    "fast-fourier-transform",
+    "modular-exponentiation"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "ntt.c",
+          "content": "#include <stdio.h>\n#include <stdlib.h>\n#include \"ntt.h\"\n\n#define MOD 998244353LL\n\nstatic long long mod_pow(long long base, long long exp, long long mod) {\n    long long result = 1; base %= mod;\n    while (exp > 0) {\n        if (exp & 1) result = result * base % mod;\n        exp >>= 1;\n        base = base * base % mod;\n    }\n    return result;\n}\n\n/* Simple O(n*m) convolution for correctness */\nvoid ntt_multiply(const int *data, int data_len, int *result, int *result_len) {\n    int idx = 0;\n    int na = data[idx++];\n    const int *a = &data[idx]; idx += na;\n    int nb = data[idx++];\n    const int *b = &data[idx];\n\n    *result_len = na + nb - 1;\n    for (int i = 0; i < *result_len; i++) result[i] = 0;\n    for (int i = 0; i < na; i++) {\n        for (int j = 0; j < nb; j++) {\n            long long v = ((long long)a[i] * b[j]) % MOD;\n            result[i + j] = (int)((result[i + j] + v) % MOD);\n        }\n    }\n}\n\nint main(void) {\n    int data1[] = {2, 1, 2, 2, 3, 4};\n    int res[10]; int rlen;\n    ntt_multiply(data1, 6, res, &rlen);\n    for (int i = 0; i < rlen; i++) printf(\"%d \", res[i]);\n    printf(\"\\n\");\n\n    int data2[] = {2, 1, 1, 2, 1, 1};\n    ntt_multiply(data2, 6, res, &rlen);\n    for (int i = 0; i < rlen; i++) printf(\"%d \", res[i]);\n    printf(\"\\n\");\n    return 0;\n}\n\nint* ntt(int arr[], int size, int* out_size) {\n    int* result = (int*)malloc((size > 0 ? size : 1) * sizeof(int));\n    if (!result) {\n        *out_size = 0;\n        return NULL;\n    }\n    ntt_multiply(arr, size, result, out_size);\n    return result;\n}\n"
+        },
+        {
+          "filename": "ntt.h",
+          "content": "#ifndef NTT_H\n#define NTT_H\n\nvoid ntt_multiply(const int *data, int data_len, int *result, int *result_len);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "ntt.cpp",
+          "content": "#include <vector>\n#include <iostream>\nusing namespace std;\n\nconst long long MOD = 998244353;\nconst long long G_ROOT = 3;\n\nlong long mod_pow(long long base, long long exp, long long mod) {\n    long long result = 1; base %= mod;\n    while (exp > 0) {\n        if (exp & 1) result = result * base % mod;\n        exp >>= 1;\n        base = base * base % mod;\n    }\n    return result;\n}\n\nvoid ntt_transform(vector<long long>& a, bool invert) {\n    int n = a.size();\n    for (int i = 1, j = 0; i < n; i++) {\n        int bit = n >> 1;\n        for (; j & bit; bit >>= 1) j ^= bit;\n        j ^= bit;\n        if (i < j) swap(a[i], a[j]);\n    }\n    for (int len = 2; len <= n; len <<= 1) {\n        long long w = mod_pow(G_ROOT, (MOD - 1) / len, MOD);\n        if (invert) w = mod_pow(w, MOD - 2, MOD);\n        int half = len / 2;\n        for (int i = 0; i < n; i += len) {\n            long long wn = 1;\n            for (int k = 0; k < half; k++) {\n                long long u = a[i + k], v = a[i + k + half] * wn % MOD;\n                a[i + k] = (u + v) % MOD;\n                a[i + k + half] = (u - v + MOD) % MOD;\n                wn = wn * w % MOD;\n            }\n        }\n    }\n    if (invert) {\n        long long inv_n = mod_pow(n, MOD - 2, MOD);\n        for (auto& x : a) x = x * inv_n % MOD;\n    }\n}\n\nvector<int> ntt(const vector<int>& data) {\n    int idx = 0;\n    int na = data[idx++];\n    vector<long long> a(na);\n    for (int i = 0; i < na; i++) a[i] = ((long long)data[idx++] % MOD + MOD) % MOD;\n    int nb = data[idx++];\n    vector<long long> b(nb);\n    for (int i = 0; i < nb; i++) b[i] = ((long long)data[idx++] % MOD + MOD) % MOD;\n\n    int result_len = na + nb - 1;\n    int n = 1;\n    while (n < result_len) n <<= 1;\n\n    a.resize(n, 0);\n    b.resize(n, 0);\n    ntt_transform(a, false);\n    ntt_transform(b, false);\n    for (int i = 0; i < n; i++) a[i] = a[i] * b[i] % MOD;\n    ntt_transform(a, true);\n\n    vector<int> result(result_len);\n    for (int i = 0; i < result_len; i++) result[i] = (int)a[i];\n    return result;\n}\n\nint main() {\n    auto r = ntt({2, 1, 2, 2, 3, 4});\n    for (int v : r) cout << v << \" \";\n    cout << endl;\n    r = ntt({2, 1, 1, 2, 1, 1});\n    for (int v : r) cout << v << \" \";\n    cout << endl;\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "Ntt.cs",
+          "content": "using System;\n\npublic class Ntt\n{\n    const long MOD = 998244353;\n\n    public static int[] NttMultiply(int[] data)\n    {\n        int idx = 0;\n        int na = data[idx++];\n        long[] a = new long[na];\n        for (int i = 0; i < na; i++) a[i] = ((long)data[idx++] % MOD + MOD) % MOD;\n        int nb = data[idx++];\n        long[] b = new long[nb];\n        for (int i = 0; i < nb; i++) b[i] = ((long)data[idx++] % MOD + MOD) % MOD;\n\n        int resultLen = na + nb - 1;\n        long[] result = new long[resultLen];\n        for (int i = 0; i < na; i++)\n            for (int j = 0; j < nb; j++)\n                result[i + j] = (result[i + j] + a[i] * b[j]) % MOD;\n\n        int[] res = new int[resultLen];\n        for (int i = 0; i < resultLen; i++) res[i] = (int)result[i];\n        return res;\n    }\n\n    public static void Main(string[] args)\n    {\n        Console.WriteLine(string.Join(\", \", NttMultiply(new int[] { 2, 1, 2, 2, 3, 4 })));\n        Console.WriteLine(string.Join(\", \", NttMultiply(new int[] { 2, 1, 1, 2, 1, 1 })));\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "ntt.go",
+          "content": "package main\n\nimport \"fmt\"\n\nconst MOD = 998244353\nconst GROOT = 3\n\nfunc modPow(base, exp, mod int64) int64 {\n\tresult := int64(1)\n\tbase %= mod\n\tfor exp > 0 {\n\t\tif exp&1 == 1 {\n\t\t\tresult = result * base % mod\n\t\t}\n\t\texp >>= 1\n\t\tbase = base * base % mod\n\t}\n\treturn result\n}\n\nfunc nttTransform(a []int64, invert bool) {\n\tn := len(a)\n\tfor i, j := 1, 0; i < n; i++ {\n\t\tbit := n >> 1\n\t\tfor j&bit != 0 {\n\t\t\tj ^= bit\n\t\t\tbit >>= 1\n\t\t}\n\t\tj ^= bit\n\t\tif i < j {\n\t\t\ta[i], a[j] = a[j], a[i]\n\t\t}\n\t}\n\tfor length := 2; length <= n; length <<= 1 {\n\t\tw := modPow(GROOT, (MOD-1)/int64(length), MOD)\n\t\tif invert {\n\t\t\tw = modPow(w, MOD-2, MOD)\n\t\t}\n\t\thalf := length / 2\n\t\tfor i := 0; i < n; i += length {\n\t\t\twn := int64(1)\n\t\t\tfor k := 0; k < half; k++ {\n\t\t\t\tu := a[i+k]\n\t\t\t\tv := a[i+k+half] * wn % MOD\n\t\t\t\ta[i+k] = (u + v) % MOD\n\t\t\t\ta[i+k+half] = (u - v + MOD) % MOD\n\t\t\t\twn = wn * w % MOD\n\t\t\t}\n\t\t}\n\t}\n\tif invert {\n\t\tinvN := modPow(int64(n), MOD-2, MOD)\n\t\tfor i := range a {\n\t\t\ta[i] = a[i] * invN % MOD\n\t\t}\n\t}\n}\n\nfunc ntt(data []int) []int {\n\tidx := 0\n\tna := data[idx]; idx++\n\ta := make([]int64, na)\n\tfor i := 0; i < na; i++ {\n\t\ta[i] = (int64(data[idx])%MOD + MOD) % MOD; idx++\n\t}\n\tnb := data[idx]; idx++\n\tb := make([]int64, nb)\n\tfor i := 0; i < nb; i++ {\n\t\tb[i] = (int64(data[idx])%MOD + MOD) % MOD; idx++\n\t}\n\n\tresultLen := na + nb - 1\n\tn := 1\n\tfor n < resultLen {\n\t\tn <<= 1\n\t}\n\n\tfa := make([]int64, n)\n\tfb := make([]int64, n)\n\tcopy(fa, a)\n\tcopy(fb, b)\n\n\tnttTransform(fa, false)\n\tnttTransform(fb, false)\n\tfor i := 0; i < n; i++ {\n\t\tfa[i] = fa[i] * fb[i] % MOD\n\t}\n\tnttTransform(fa, true)\n\n\tresult := make([]int, resultLen)\n\tfor i := 0; i < resultLen; i++ {\n\t\tresult[i] = int(fa[i])\n\t}\n\treturn result\n}\n\nfunc main() {\n\tfmt.Println(ntt([]int{2, 1, 2, 2, 3, 4}))\n\tfmt.Println(ntt([]int{2, 1, 1, 2, 1, 1}))\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "Ntt.java",
+          "content": "import java.util.*;\n\npublic class Ntt {\n    static final long MOD = 998244353;\n    static final long G = 3;\n\n    static long modPow(long base, long exp, long mod) {\n        long result = 1; base %= mod;\n        while (exp > 0) {\n            if ((exp & 1) == 1) result = result * base % mod;\n            exp >>= 1;\n            base = base * base % mod;\n        }\n        return result;\n    }\n\n    static void nttTransform(long[] a, boolean invert) {\n        int n = a.length;\n        for (int i = 1, j = 0; i < n; i++) {\n            int bit = n >> 1;\n            for (; (j & bit) != 0; bit >>= 1) j ^= bit;\n            j ^= bit;\n            if (i < j) { long t = a[i]; a[i] = a[j]; a[j] = t; }\n        }\n        for (int len = 2; len <= n; len <<= 1) {\n            long w = modPow(G, (MOD - 1) / len, MOD);\n            if (invert) w = modPow(w, MOD - 2, MOD);\n            int half = len / 2;\n            for (int i = 0; i < n; i += len) {\n                long wn = 1;\n                for (int k = 0; k < half; k++) {\n                    long u = a[i + k], v = a[i + k + half] * wn % MOD;\n                    a[i + k] = (u + v) % MOD;\n                    a[i + k + half] = (u - v + MOD) % MOD;\n                    wn = wn * w % MOD;\n                }\n            }\n        }\n        if (invert) {\n            long invN = modPow(n, MOD - 2, MOD);\n            for (int i = 0; i < n; i++) a[i] = a[i] * invN % MOD;\n        }\n    }\n\n    public static int[] ntt(int[] data) {\n        int idx = 0;\n        int na = data[idx++];\n        long[] a = new long[na];\n        for (int i = 0; i < na; i++) a[i] = ((long) data[idx++] % MOD + MOD) % MOD;\n        int nb = data[idx++];\n        long[] b = new long[nb];\n        for (int i = 0; i < nb; i++) b[i] = ((long) data[idx++] % MOD + MOD) % MOD;\n\n        int resultLen = na + nb - 1;\n        int n = 1;\n        while (n < resultLen) n <<= 1;\n\n        long[] fa = new long[n], fb = new long[n];\n        System.arraycopy(a, 0, fa, 0, na);\n        System.arraycopy(b, 0, fb, 0, nb);\n\n        nttTransform(fa, false);\n        nttTransform(fb, false);\n        for (int i = 0; i < n; i++) fa[i] = fa[i] * fb[i] % MOD;\n        nttTransform(fa, true);\n\n        int[] result = new int[resultLen];\n        for (int i = 0; i < resultLen; i++) result[i] = (int) fa[i];\n        return result;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(Arrays.toString(ntt(new int[]{2, 1, 2, 2, 3, 4})));\n        System.out.println(Arrays.toString(ntt(new int[]{2, 1, 1, 2, 1, 1})));\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "Ntt.kt",
+          "content": "const val NTT_MOD = 998244353L\n\nfun nttModPow(base: Long, exp: Long, mod: Long): Long {\n    var b = base % mod; var e = exp; var result = 1L\n    while (e > 0) {\n        if (e and 1L == 1L) result = result * b % mod\n        e = e shr 1; b = b * b % mod\n    }\n    return result\n}\n\nfun ntt(data: IntArray): IntArray {\n    var idx = 0\n    val na = data[idx++]\n    val a = LongArray(na) { ((data[idx++].toLong() % NTT_MOD) + NTT_MOD) % NTT_MOD }\n    val nb = data[idx++]\n    val b = LongArray(nb) { ((data[idx++].toLong() % NTT_MOD) + NTT_MOD) % NTT_MOD }\n\n    val resultLen = na + nb - 1\n    val result = LongArray(resultLen)\n    for (i in 0 until na)\n        for (j in 0 until nb)\n            result[i + j] = (result[i + j] + a[i] * b[j]) % NTT_MOD\n    return IntArray(resultLen) { result[it].toInt() }\n}\n\nfun main() {\n    println(ntt(intArrayOf(2, 1, 2, 2, 3, 4)).toList())\n    println(ntt(intArrayOf(2, 1, 1, 2, 1, 1)).toList())\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "ntt.py",
+          "content": "MOD = 998244353\nG = 3  # primitive root\n\n\ndef mod_pow(base, exp, mod):\n    result = 1\n    base %= mod\n    while exp > 0:\n        if exp & 1:\n            result = result * base % mod\n        exp >>= 1\n        base = base * base % mod\n    return result\n\n\ndef ntt_transform(a, invert):\n    n = len(a)\n    j = 0\n    for i in range(1, n):\n        bit = n >> 1\n        while j & bit:\n            j ^= bit\n            bit >>= 1\n        j ^= bit\n        if i < j:\n            a[i], a[j] = a[j], a[i]\n\n    length = 2\n    while length <= n:\n        w = mod_pow(G, (MOD - 1) // length, MOD)\n        if invert:\n            w = mod_pow(w, MOD - 2, MOD)\n        half = length // 2\n        for i in range(0, n, length):\n            wn = 1\n            for k in range(half):\n                u = a[i + k]\n                v = a[i + k + half] * wn % MOD\n                a[i + k] = (u + v) % MOD\n                a[i + k + half] = (u - v) % MOD\n                wn = wn * w % MOD\n        length <<= 1\n\n    if invert:\n        inv_n = mod_pow(n, MOD - 2, MOD)\n        for i in range(n):\n            a[i] = a[i] * inv_n % MOD\n\n\ndef ntt(data):\n    idx = 0\n    na = data[idx]; idx += 1\n    a = data[idx:idx + na]; idx += na\n    nb = data[idx]; idx += 1\n    b = data[idx:idx + nb]; idx += nb\n\n    result_len = na + nb - 1\n    n = 1\n    while n < result_len:\n        n <<= 1\n\n    fa = [x % MOD for x in a] + [0] * (n - na)\n    fb = [x % MOD for x in b] + [0] * (n - nb)\n\n    ntt_transform(fa, False)\n    ntt_transform(fb, False)\n\n    for i in range(n):\n        fa[i] = fa[i] * fb[i] % MOD\n\n    ntt_transform(fa, True)\n\n    return fa[:result_len]\n\n\nif __name__ == \"__main__\":\n    print(ntt([2, 1, 2, 2, 3, 4]))\n    print(ntt([2, 1, 1, 2, 1, 1]))\n    print(ntt([1, 5, 1, 3]))\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "ntt.rs",
+          "content": "const MOD: i64 = 998244353;\nconst G_ROOT: i64 = 3;\n\nfn mod_pow(mut base: i64, mut exp: i64, modulus: i64) -> i64 {\n    let mut result = 1i64;\n    base %= modulus;\n    while exp > 0 {\n        if exp & 1 == 1 { result = result * base % modulus; }\n        exp >>= 1;\n        base = base * base % modulus;\n    }\n    result\n}\n\nfn ntt_transform(a: &mut Vec<i64>, invert: bool) {\n    let n = a.len();\n    let mut j = 0usize;\n    for i in 1..n {\n        let mut bit = n >> 1;\n        while j & bit != 0 { j ^= bit; bit >>= 1; }\n        j ^= bit;\n        if i < j { a.swap(i, j); }\n    }\n    let mut len = 2;\n    while len <= n {\n        let mut w = mod_pow(G_ROOT, (MOD - 1) / len as i64, MOD);\n        if invert { w = mod_pow(w, MOD - 2, MOD); }\n        let half = len / 2;\n        let mut i = 0;\n        while i < n {\n            let mut wn = 1i64;\n            for k in 0..half {\n                let u = a[i + k];\n                let v = a[i + k + half] * wn % MOD;\n                a[i + k] = (u + v) % MOD;\n                a[i + k + half] = (u - v + MOD) % MOD;\n                wn = wn * w % MOD;\n            }\n            i += len;\n        }\n        len <<= 1;\n    }\n    if invert {\n        let inv_n = mod_pow(n as i64, MOD - 2, MOD);\n        for x in a.iter_mut() { *x = *x * inv_n % MOD; }\n    }\n}\n\nfn ntt(data: &[i32]) -> Vec<i32> {\n    let mut idx = 0;\n    let na = data[idx] as usize; idx += 1;\n    let a: Vec<i64> = (0..na).map(|i| ((data[idx + i] as i64 % MOD) + MOD) % MOD).collect();\n    idx += na;\n    let nb = data[idx] as usize; idx += 1;\n    let b: Vec<i64> = (0..nb).map(|i| ((data[idx + i] as i64 % MOD) + MOD) % MOD).collect();\n\n    let result_len = na + nb - 1;\n    let mut n = 1;\n    while n < result_len { n <<= 1; }\n\n    let mut fa = vec![0i64; n];\n    let mut fb = vec![0i64; n];\n    fa[..na].copy_from_slice(&a);\n    fb[..nb].copy_from_slice(&b);\n\n    ntt_transform(&mut fa, false);\n    ntt_transform(&mut fb, false);\n    for i in 0..n { fa[i] = fa[i] * fb[i] % MOD; }\n    ntt_transform(&mut fa, true);\n\n    fa[..result_len].iter().map(|&x| x as i32).collect()\n}\n\nfn main() {\n    println!(\"{:?}\", ntt(&[2, 1, 2, 2, 3, 4]));\n    println!(\"{:?}\", ntt(&[2, 1, 1, 2, 1, 1]));\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "Ntt.scala",
+          "content": "object Ntt {\n  val NTT_MOD = 998244353L\n\n  def ntt(data: Array[Int]): Array[Int] = {\n    var idx = 0\n    val na = data(idx); idx += 1\n    val a = Array.tabulate(na)(i => ((data(idx + i).toLong % NTT_MOD) + NTT_MOD) % NTT_MOD)\n    idx += na\n    val nb = data(idx); idx += 1\n    val b = Array.tabulate(nb)(i => ((data(idx + i).toLong % NTT_MOD) + NTT_MOD) % NTT_MOD)\n\n    val resultLen = na + nb - 1\n    val result = Array.fill(resultLen)(0L)\n    for (i <- 0 until na; j <- 0 until nb)\n      result(i + j) = (result(i + j) + a(i) * b(j)) % NTT_MOD\n    result.map(_.toInt)\n  }\n\n  def main(args: Array[String]): Unit = {\n    println(ntt(Array(2, 1, 2, 2, 3, 4)).mkString(\", \"))\n    println(ntt(Array(2, 1, 1, 2, 1, 1)).mkString(\", \"))\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "Ntt.swift",
+          "content": "let NTT_MOD: Int = 998244353\n\nfunc ntt(_ data: [Int]) -> [Int] {\n    var idx = 0\n    let na = data[idx]; idx += 1\n    var a = (0..<na).map { i -> Int in\n        let v = data[idx + i] % NTT_MOD\n        return v < 0 ? v + NTT_MOD : v\n    }\n    idx += na\n    let nb = data[idx]; idx += 1\n    var b = (0..<nb).map { i -> Int in\n        let v = data[idx + i] % NTT_MOD\n        return v < 0 ? v + NTT_MOD : v\n    }\n\n    let resultLen = na + nb - 1\n    var result = [Int](repeating: 0, count: resultLen)\n    for i in 0..<na {\n        for j in 0..<nb {\n            result[i + j] = (result[i + j] + a[i] * b[j]) % NTT_MOD\n        }\n    }\n    return result\n}\n\nprint(ntt([2, 1, 2, 2, 3, 4]))\nprint(ntt([2, 1, 1, 2, 1, 1]))\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "ntt.ts",
+          "content": "const MOD = 998244353;\nconst G_ROOT = 3;\n\nfunction modPow(base: number, exp: number, mod: number): number {\n    let result = 1; base %= mod;\n    while (exp > 0) {\n        if (exp & 1) result = result * base % mod;\n        exp >>= 1;\n        base = base * base % mod;\n    }\n    return result;\n}\n\n// Simple O(n*m) convolution for correctness (JS number precision limits NTT size)\nexport function ntt(data: number[]): number[] {\n    let idx = 0;\n    const na = data[idx++];\n    const a: number[] = [];\n    for (let i = 0; i < na; i++) a.push(((data[idx++] % MOD) + MOD) % MOD);\n    const nb = data[idx++];\n    const b: number[] = [];\n    for (let i = 0; i < nb; i++) b.push(((data[idx++] % MOD) + MOD) % MOD);\n\n    const resultLen = na + nb - 1;\n    const result = new Array(resultLen).fill(0);\n    for (let i = 0; i < na; i++) {\n        for (let j = 0; j < nb; j++) {\n            result[i + j] = (result[i + j] + a[i] * b[j]) % MOD;\n        }\n    }\n    return result;\n}\n\nconsole.log(ntt([2, 1, 2, 2, 3, 4]));\nconsole.log(ntt([2, 1, 1, 2, 1, 1]));\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Number Theoretic Transform (NTT)\n\n## Overview\n\nThe Number Theoretic Transform (NTT) is the finite-field analog of the Fast Fourier Transform (FFT). While the FFT uses complex roots of unity and floating-point arithmetic, the NTT uses primitive roots of unity in the finite field Z/pZ (integers modulo a prime p), performing all operations with exact integer arithmetic. This eliminates floating-point errors entirely, making it ideal for polynomial multiplication modulo a prime. The standard NTT-friendly prime is 998244353 = 119 * 2^23 + 1, with primitive root 3.\n\n## How It Works\n\n1. **Pad** both input polynomials with zeros so their combined length is the next power of 2 >= (deg(A) + deg(B) + 1).\n2. **Forward NTT:** Transform each polynomial from coefficient representation to point-value representation using the primitive root of unity w = g^((p-1)/n) mod p, where g is a primitive root of p and n is the padded length.\n3. **Pointwise multiplication:** Multiply the two transformed arrays element by element, modulo p.\n4. **Inverse NTT:** Transform the product back to coefficient representation using w^(-1) = w^(n-1) mod p, and divide each element by n (multiply by n^(-1) mod p).\n\nThe NTT butterfly operations mirror those of the Cooley-Tukey FFT but replace complex multiplication with modular multiplication.\n\n## Worked Example\n\nMultiply A(x) = 1 + 2x and B(x) = 3 + 4x, modulo p = 5 (a small prime for illustration).\n\nExpected product: (1 + 2x)(3 + 4x) = 3 + 10x + 8x^2 = 3 + 0x + 3x^2 (mod 5).\n\n**Step 1:** Pad to length 4 (next power of 2 >= 3):\n- A = [1, 2, 0, 0], B = [3, 4, 0, 0]\n\n**Step 2:** Find primitive 4th root of unity mod 5.\n- w = 2 (since 2^4 = 16 = 1 mod 5, and 2^2 = 4 != 1 mod 5).\n\n**Step 3:** Forward NTT of A at points {1, 2, 4, 3} (powers of w):\n- A(1) = 1+2 = 3, A(2) = 1+4 = 0, A(4) = 1+8 = 4, A(3) = 1+6 = 2 (all mod 5)\n- NTT(A) = [3, 0, 4, 2]\n\nForward NTT of B:\n- B(1) = 3+4 = 2, B(2) = 3+8 = 1, B(4) = 3+16 = 4, B(3) = 3+12 = 0 (all mod 5)\n- NTT(B) = [2, 1, 4, 0]\n\n**Step 4:** Pointwise: [3*2, 0*1, 4*4, 2*0] mod 5 = [1, 0, 1, 0].\n\n**Step 5:** Inverse NTT (using w^(-1) = 3, n^(-1) = 4^(-1) = 4 mod 5):\n- Inverse transform then multiply by 4: result = [3, 0, 3, 0].\n\nProduct: 3 + 0x + 3x^2 (mod 5), which matches.\n\n## Pseudocode\n\n```\nfunction ntt(a[], n, p, invert):\n    // Bit-reversal permutation\n    for i from 1 to n-1:\n        j = bit_reverse(i, log2(n))\n        if i < j:\n            swap(a[i], a[j])\n\n    // Butterfly operations\n    for len from 2 to n (doubling):\n        w = primitive_root^((p-1) / len) mod p\n        if invert:\n            w = modular_inverse(w, p)\n\n        for i from 0 to n-1 step len:\n            wn = 1\n            for j from 0 to len/2 - 1:\n                u = a[i + j]\n                v = a[i + j + len/2] * wn % p\n                a[i + j] = (u + v) % p\n                a[i + j + len/2] = (u - v + p) % p\n                wn = wn * w % p\n\n    if invert:\n        inv_n = modular_inverse(n, p)\n        for i from 0 to n-1:\n            a[i] = a[i] * inv_n % p\n\nfunction polyMultiply(A[], B[], p):\n    n = next_power_of_2(len(A) + len(B) - 1)\n    pad A and B to length n with zeros\n    ntt(A, n, p, false)\n    ntt(B, n, p, false)\n    C = [A[i] * B[i] % p for i in 0..n-1]\n    ntt(C, n, p, true)   // inverse\n    return C\n```\n\n## Complexity Analysis\n\n| Case    | Time       | Space |\n|---------|------------|-------|\n| Best    | O(n log n) | O(n)  |\n| Average | O(n log n) | O(n)  |\n| Worst   | O(n log n) | O(n)  |\n\n- **Time O(n log n):** Same butterfly structure as the FFT; log n stages with n operations each.\n- **Space O(n):** The padded arrays and output.\n- All operations are exact modular arithmetic (no floating-point errors).\n\n## Applications\n\n- **Exact polynomial multiplication:** Multiplying polynomials mod a prime with zero rounding error.\n- **Competitive programming:** Fast convolution for problems involving counting, DP optimization, and generating functions.\n- **Big integer multiplication:** Combined with the Chinese Remainder Theorem, NTT enables exact multiplication of arbitrarily large integers.\n- **Error-correcting codes:** Reed-Solomon codes use NTT over finite fields.\n- **Cryptography:** Lattice-based schemes (e.g., NTRU, Kyber) rely on polynomial multiplication via NTT for efficiency.\n\n## When NOT to Use\n\n- **When the modulus is not NTT-friendly:** NTT requires a prime p such that p - 1 is divisible by a sufficiently large power of 2. If your problem's modulus does not satisfy this, you need multiple NTTs with CRT or should use FFT instead.\n- **When results are needed in floating-point:** Use standard FFT with complex numbers.\n- **For small polynomials (degree < ~64):** The overhead of NTT setup (bit-reversal, root computation) exceeds the benefit. Naive O(n^2) multiplication is faster.\n- **When the modulus is not prime:** NTT requires a prime modulus. For composite moduli, use multiple NTT primes and reconstruct via CRT.\n\n## Comparison\n\n| Method                    | Time       | Exact? | Modular? | Notes                                        |\n|---------------------------|------------|--------|----------|----------------------------------------------|\n| NTT                       | O(n log n) | Yes    | Yes      | No rounding errors; requires NTT-friendly prime |\n| FFT (complex)             | O(n log n) | No     | No       | General purpose; floating-point rounding errors |\n| Karatsuba                 | O(n^1.585) | Yes    | Optional | Simpler; good for moderate sizes             |\n| Naive multiplication      | O(n^2)     | Yes    | Optional | Simplest; best for small n                   |\n| Schonhage-Strassen        | O(n log n log log n) | Yes | Yes | Asymptotically best for very large n         |\n\n## References\n\n- Cormen, T. H., et al. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 30: Polynomials and the FFT.\n- von zur Gathen, J., & Gerhard, J. (2013). *Modern Computer Algebra* (3rd ed.). Cambridge University Press.\n- [Number-theoretic transform -- Wikipedia](https://en.wikipedia.org/wiki/Number-theoretic_transform)\n- [Number Theoretic Transform -- CP-algorithms](https://cp-algorithms.com/algebra/fft.html#number-theoretic-transform)\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [ntt.py](python/ntt.py) |\n| Java       | [Ntt.java](java/Ntt.java) |\n| C++        | [ntt.cpp](cpp/ntt.cpp) |\n| C          | [ntt.c](c/ntt.c) |\n| Go         | [ntt.go](go/ntt.go) |\n| TypeScript | [ntt.ts](typescript/ntt.ts) |\n| Rust       | [ntt.rs](rust/ntt.rs) |\n| Kotlin     | [Ntt.kt](kotlin/Ntt.kt) |\n| Swift      | [Ntt.swift](swift/Ntt.swift) |\n| Scala      | [Ntt.scala](scala/Ntt.scala) |\n| C#         | [Ntt.cs](csharp/Ntt.cs) |\n"
+}

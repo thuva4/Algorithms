@@ -1,0 +1,17 @@
+name: "Linear Search"
+slug: "linear-search"
+category: "searching"
+subcategory: "linear"
+difficulty: "beginner"
+tags: [searching, linear, sequential, unsorted]
+complexity:
+  time:
+    best: "O(1)"
+    average: "O(n)"
+    worst: "O(n)"
+  space: "O(1)"
+stable: null
+in_place: null
+related: [binary-search, ternary-search]
+implementations: [c, cpp, csharp, go, java, kotlin, python, rust, scala, swift, typescript]
+visualization: true

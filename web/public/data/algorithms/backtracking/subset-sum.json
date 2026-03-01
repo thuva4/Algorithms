@@ -1,0 +1,135 @@
+{
+  "name": "Subset Sum",
+  "slug": "subset-sum",
+  "category": "backtracking",
+  "subcategory": "combinatorics",
+  "difficulty": "intermediate",
+  "tags": [
+    "backtracking",
+    "recursion",
+    "dynamic-programming"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "average": "O(2^n)",
+      "worst": "O(2^n)"
+    },
+    "space": "O(n)"
+  },
+  "stable": false,
+  "in_place": false,
+  "related": [
+    "permutations",
+    "n-queens",
+    "knapsack"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "subset_sum.c",
+          "content": "static int backtrack(int arr[], int n, int index, int remaining) {\n    if (remaining == 0) {\n        return 1;\n    }\n    if (index >= n) {\n        return 0;\n    }\n    /* Include arr[index] */\n    if (backtrack(arr, n, index + 1, remaining - arr[index])) {\n        return 1;\n    }\n    /* Exclude arr[index] */\n    if (backtrack(arr, n, index + 1, remaining)) {\n        return 1;\n    }\n    return 0;\n}\n\nint subset_sum(int arr[], int n, int target) {\n    return backtrack(arr, n, 0, target);\n}\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "subset_sum.cpp",
+          "content": "#include <vector>\n\nstatic bool backtrack(const std::vector<int>& arr, int index, int remaining) {\n    if (remaining == 0) {\n        return true;\n    }\n    if (index >= static_cast<int>(arr.size())) {\n        return false;\n    }\n    // Include arr[index]\n    if (backtrack(arr, index + 1, remaining - arr[index])) {\n        return true;\n    }\n    // Exclude arr[index]\n    if (backtrack(arr, index + 1, remaining)) {\n        return true;\n    }\n    return false;\n}\n\nint subsetSum(std::vector<int> arr, int target) {\n    return backtrack(arr, 0, target) ? 1 : 0;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "SubsetSum.cs",
+          "content": "public class SubsetSum\n{\n    public static int SubsetSumSolve(int[] arr, int target)\n    {\n        return Backtrack(arr, 0, target) ? 1 : 0;\n    }\n\n    private static bool Backtrack(int[] arr, int index, int remaining)\n    {\n        if (remaining == 0)\n        {\n            return true;\n        }\n        if (index >= arr.Length)\n        {\n            return false;\n        }\n        // Include arr[index]\n        if (Backtrack(arr, index + 1, remaining - arr[index]))\n        {\n            return true;\n        }\n        // Exclude arr[index]\n        if (Backtrack(arr, index + 1, remaining))\n        {\n            return true;\n        }\n        return false;\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "subset_sum.go",
+          "content": "package subsetsum\n\n// SubsetSum returns 1 if any subset of arr sums to target, 0 otherwise.\nfunc SubsetSum(arr []int, target int) int {\n\tif backtrack(arr, 0, target) {\n\t\treturn 1\n\t}\n\treturn 0\n}\n\nfunc backtrack(arr []int, index int, remaining int) bool {\n\tif remaining == 0 {\n\t\treturn true\n\t}\n\tif index >= len(arr) {\n\t\treturn false\n\t}\n\t// Include arr[index]\n\tif backtrack(arr, index+1, remaining-arr[index]) {\n\t\treturn true\n\t}\n\t// Exclude arr[index]\n\tif backtrack(arr, index+1, remaining) {\n\t\treturn true\n\t}\n\treturn false\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "SubsetSum.java",
+          "content": "public class SubsetSum {\n\n    public static int subsetSum(int[] arr, int target) {\n        return backtrack(arr, 0, target) ? 1 : 0;\n    }\n\n    private static boolean backtrack(int[] arr, int index, int remaining) {\n        if (remaining == 0) {\n            return true;\n        }\n        if (index >= arr.length) {\n            return false;\n        }\n        // Include arr[index]\n        if (backtrack(arr, index + 1, remaining - arr[index])) {\n            return true;\n        }\n        // Exclude arr[index]\n        if (backtrack(arr, index + 1, remaining)) {\n            return true;\n        }\n        return false;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "SubsetSum.kt",
+          "content": "fun subsetSum(arr: IntArray, target: Int): Int {\n    return if (backtrack(arr, 0, target)) 1 else 0\n}\n\nprivate fun backtrack(arr: IntArray, index: Int, remaining: Int): Boolean {\n    if (remaining == 0) return true\n    if (index >= arr.size) return false\n\n    // Include arr[index]\n    if (backtrack(arr, index + 1, remaining - arr[index])) return true\n\n    // Exclude arr[index]\n    if (backtrack(arr, index + 1, remaining)) return true\n\n    return false\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "subset_sum.py",
+          "content": "def subset_sum(arr: list[int], target: int) -> int:\n    \"\"\"Determine if any subset of arr sums to target.\n\n    Returns 1 if such a subset exists, 0 otherwise.\n    \"\"\"\n\n    def backtrack(index: int, remaining: int) -> bool:\n        if remaining == 0:\n            return True\n        if index >= len(arr):\n            return False\n        # Include arr[index]\n        if backtrack(index + 1, remaining - arr[index]):\n            return True\n        # Exclude arr[index]\n        if backtrack(index + 1, remaining):\n            return True\n        return False\n\n    return 1 if backtrack(0, target) else 0\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "subset_sum.rs",
+          "content": "pub fn subset_sum(arr: &[i32], target: i32) -> i32 {\n    if backtrack(arr, 0, target) {\n        1\n    } else {\n        0\n    }\n}\n\nfn backtrack(arr: &[i32], index: usize, remaining: i32) -> bool {\n    if remaining == 0 {\n        return true;\n    }\n    if index >= arr.len() {\n        return false;\n    }\n    // Include arr[index]\n    if backtrack(arr, index + 1, remaining - arr[index]) {\n        return true;\n    }\n    // Exclude arr[index]\n    if backtrack(arr, index + 1, remaining) {\n        return true;\n    }\n    false\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "SubsetSum.scala",
+          "content": "object SubsetSum {\n\n  def subsetSum(arr: Array[Int], target: Int): Int = {\n    if (backtrack(arr, 0, target)) 1 else 0\n  }\n\n  private def backtrack(arr: Array[Int], index: Int, remaining: Int): Boolean = {\n    if (remaining == 0) return true\n    if (index >= arr.length) return false\n\n    // Include arr(index)\n    if (backtrack(arr, index + 1, remaining - arr(index))) return true\n\n    // Exclude arr(index)\n    if (backtrack(arr, index + 1, remaining)) return true\n\n    false\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "SubsetSum.swift",
+          "content": "func subsetSum(_ arr: [Int], _ target: Int) -> Int {\n    func backtrack(_ index: Int, _ remaining: Int) -> Bool {\n        if remaining == 0 {\n            return true\n        }\n        if index >= arr.count {\n            return false\n        }\n        // Include arr[index]\n        if backtrack(index + 1, remaining - arr[index]) {\n            return true\n        }\n        // Exclude arr[index]\n        if backtrack(index + 1, remaining) {\n            return true\n        }\n        return false\n    }\n\n    return backtrack(0, target) ? 1 : 0\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "subsetSum.ts",
+          "content": "export function subsetSum(arr: number[], target: number): number {\n    function backtrack(index: number, remaining: number): boolean {\n        if (remaining === 0) {\n            return true;\n        }\n        if (index >= arr.length) {\n            return false;\n        }\n        // Include arr[index]\n        if (backtrack(index + 1, remaining - arr[index])) {\n            return true;\n        }\n        // Exclude arr[index]\n        if (backtrack(index + 1, remaining)) {\n            return true;\n        }\n        return false;\n    }\n\n    return backtrack(0, target) ? 1 : 0;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "patterns": [
+    "subsets"
+  ],
+  "patternDifficulty": "intermediate",
+  "practiceOrder": 2,
+  "readme": "# Subset Sum\n\n## Overview\n\nThe Subset Sum problem asks whether there exists a subset of a given set of integers that sums to a specified target value. For example, given the set {3, 34, 4, 12, 5, 2} and target 9, the answer is yes because the subset {4, 3, 2} sums to 9. This is one of the fundamental problems in computer science and is known to be NP-complete.\n\nThe backtracking approach explores all possible subsets by making a binary choice at each element: include it or exclude it. At each step, if the remaining target becomes zero, a valid subset has been found. If the remaining target becomes negative or all elements have been considered without reaching zero, the algorithm backtracks. Pruning -- skipping branches that cannot possibly lead to a solution -- can significantly reduce the search space in practice.\n\nThe Subset Sum problem has deep connections to cryptography (knapsack-based cryptosystems), resource allocation (selecting items within a budget), and computational complexity theory (it is one of Karp's 21 NP-complete problems).\n\n## How It Works\n\n### Steps:\n\n1. Start with the full array and the target sum.\n2. For each element, make two recursive calls:\n   - **Include** the element: subtract its value from the target and recurse on the remaining elements.\n   - **Exclude** the element: keep the target unchanged and recurse on the remaining elements.\n3. **Base cases:**\n   - If the target equals 0, return true (a valid subset has been found -- the empty subset sums to 0).\n   - If no elements remain and the target is not 0, return false.\n4. If either branch returns true, the answer is true.\n\n## Pseudocode\n\n```\nfunction subsetSum(arr, n, target):\n    return backtrack(arr, n, 0, target)\n\nfunction backtrack(arr, n, index, remaining):\n    // Base case: target reached\n    if remaining == 0:\n        return true\n\n    // Base case: no elements left or remaining became negative\n    if index >= n or remaining < 0:\n        return false\n\n    // Pruning: if array is sorted and current element exceeds remaining,\n    // no further elements can help either\n    if arr[index] > remaining:\n        return backtrack(arr, n, index + 1, remaining)   // skip (exclude)\n\n    // Branch 1: include arr[index]\n    if backtrack(arr, n, index + 1, remaining - arr[index]):\n        return true\n\n    // Branch 2: exclude arr[index]\n    return backtrack(arr, n, index + 1, remaining)\n```\n\n**Optimization with sorting:** If the input array is sorted in ascending order before the search begins, the pruning condition `arr[index] > remaining` allows the algorithm to skip all remaining elements at once, since they are all at least as large. This can dramatically reduce the search space.\n\n## Example\n\nArray: [3, 34, 4, 12, 5, 2], Target: 9\n\n| Step | Index | Element | Action   | Remaining target | Result     |\n|------|-------|---------|----------|-----------------|------------|\n| 1    | 0     | 3       | Include  | 9 - 3 = 6       | Recurse    |\n| 2    | 1     | 34      | Exclude  | 6                | 34 > 6, skip |\n| 3    | 2     | 4       | Include  | 6 - 4 = 2       | Recurse    |\n| 4    | 3     | 12      | Exclude  | 2                | 12 > 2, skip |\n| 5    | 4     | 5       | Exclude  | 2                | 5 > 2, skip  |\n| 6    | 5     | 2       | Include  | 2 - 2 = 0       | Found!     |\n\nSubset found: {3, 4, 2} sums to 9.\n\n### Decision tree (abbreviated):\n\n```\n                        target=9, idx=0\n                       /                \\\n              include 3                 exclude 3\n             target=6, idx=1           target=9, idx=1\n            /            \\                  ...\n      include 34      exclude 34\n      (34>6, prune)   target=6, idx=2\n                      /            \\\n               include 4        exclude 4\n              target=2, idx=3   target=6, idx=3\n                   ...              ...\n              (eventually: include 2, target=0 -> FOUND)\n```\n\n## Complexity Analysis\n\n| Case    | Time   | Space |\n|---------|--------|-------|\n| Best    | O(n)   | O(n)  |\n| Average | O(2^n) | O(n)  |\n| Worst   | O(2^n) | O(n)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(n):** If the target is 0, the algorithm immediately returns true (the empty subset). If a greedy path finds a solution without backtracking, only n elements are examined.\n\n- **Average/Worst Case -- O(2^n):** Each element has two choices (include or exclude), creating a binary tree of depth n with up to 2^n leaf nodes. Without additional pruning or memoization, all subsets may need to be examined.\n\n- **Space -- O(n):** The recursion depth is at most n (one level per element). No additional data structures beyond the call stack are needed.\n\n**Note:** A dynamic programming approach can solve this in O(n * target) time using O(target) space, which is pseudo-polynomial. The backtracking approach presented here is more memory-efficient for large targets but slower in the worst case.\n\n## Applications\n\n- **Cryptography:** Knapsack-based public-key cryptosystems (Merkle-Hellman).\n- **Resource allocation:** Selecting projects or tasks that fit within a budget.\n- **Bin packing:** Determining if items can fill a container exactly.\n- **Financial auditing:** Finding combinations of transactions that match a total.\n- **Computational complexity:** Canonical NP-complete problem used in reductions.\n\n## When NOT to Use\n\n- **When the target value is small relative to n:** Dynamic programming (DP) solves the problem in O(n * target) time, which is far more efficient when the target is polynomially bounded. For example, with n=20 elements and target=100, DP performs ~2,000 operations versus up to 2^20 = ~1,000,000 for backtracking.\n- **When approximate answers suffice:** Fully polynomial-time approximation schemes (FPTAS) can find a subset that sums close to the target in polynomial time, avoiding the exponential cost entirely.\n- **Very large input sets (n > 40) without pruning opportunities:** Even with pruning, backtracking can be impractical for large n. Meet-in-the-middle splits the set into two halves and solves each in O(2^(n/2)) time, which is significantly faster.\n- **When all subsets summing to the target are needed for large n:** Enumerating all solutions is inherently exponential and no algorithm can avoid this. However, DP-based counting can determine the number of solutions efficiently without listing them.\n- **Negative numbers in the input:** The standard pruning technique (skipping elements larger than the remaining target) does not apply when negative numbers are present, as including a negative number can reduce the running sum. The backtracking approach must be modified or replaced with DP.\n\n## Comparison\n\n| Approach | Time | Space | Handles Negatives? | Notes |\n|----------|------|-------|--------------------|-------|\n| Backtracking (this) | O(2^n) | O(n) | Yes (but less pruning) | Simple; effective for small n with good pruning |\n| Backtracking + sorting | O(2^n) | O(n) | No (requires non-negative) | Sorting enables early termination; practical speedup |\n| Dynamic Programming | O(n * target) | O(target) | Yes (with offset) | Pseudo-polynomial; best when target is small |\n| Meet-in-the-Middle | O(2^(n/2) * n) | O(2^(n/2)) | Yes | Splits problem in half; practical for n up to ~40 |\n| Randomized / FPTAS | Polynomial | Polynomial | Depends | Approximation only; useful when exact answer is not required |\n\nFor most practical applications with moderate n (up to about 20-25), backtracking with sorting and pruning is simple and effective. For larger instances or when the target is bounded, dynamic programming is the standard choice.\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [subset_sum.py](python/subset_sum.py) |\n| Java       | [SubsetSum.java](java/SubsetSum.java) |\n| C++        | [subset_sum.cpp](cpp/subset_sum.cpp) |\n| C          | [subset_sum.c](c/subset_sum.c) |\n| Go         | [subset_sum.go](go/subset_sum.go) |\n| TypeScript | [subsetSum.ts](typescript/subsetSum.ts) |\n| Rust       | [subset_sum.rs](rust/subset_sum.rs) |\n| Kotlin     | [SubsetSum.kt](kotlin/SubsetSum.kt) |\n| Swift      | [SubsetSum.swift](swift/SubsetSum.swift) |\n| Scala      | [SubsetSum.scala](scala/SubsetSum.scala) |\n| C#         | [SubsetSum.cs](csharp/SubsetSum.cs) |\n\n## References\n\n- Karp, R. M. (1972). Reducibility among Combinatorial Problems. In *Complexity of Computer Computations*, pp. 85-103. Plenum Press.\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 35.5.\n- [Subset sum problem -- Wikipedia](https://en.wikipedia.org/wiki/Subset_sum_problem)\n"
+}

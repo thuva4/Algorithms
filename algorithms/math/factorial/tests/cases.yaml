@@ -1,0 +1,27 @@
+algorithm: "factorial"
+function_signature:
+  name: "factorial"
+  input: [n]
+  output: n_factorial
+test_cases:
+  - name: "zero factorial"
+    input: [0]
+    expected: 1
+  - name: "one factorial"
+    input: [1]
+    expected: 1
+  - name: "small number"
+    input: [5]
+    expected: 120
+  - name: "medium number"
+    input: [10]
+    expected: 3628800
+  - name: "two factorial"
+    input: [2]
+    expected: 2
+  - name: "three factorial"
+    input: [3]
+    expected: 6
+  - name: "larger number"
+    input: [12]
+    expected: 479001600

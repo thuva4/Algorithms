@@ -1,0 +1,129 @@
+{
+  "name": "Matrix Chain Multiplication",
+  "slug": "matrix-chain-multiplication",
+  "category": "dynamic-programming",
+  "subcategory": "optimization",
+  "difficulty": "intermediate",
+  "tags": [
+    "dynamic-programming",
+    "optimization",
+    "matrices"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n^3)",
+      "average": "O(n^3)",
+      "worst": "O(n^3)"
+    },
+    "space": "O(n^2)"
+  },
+  "stable": null,
+  "in_place": null,
+  "related": [
+    "knapsack",
+    "rod-cutting-algorithm"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "matrix_chain_order.c",
+          "content": "#include <stdio.h>\n#include <limits.h>\n\n/**\n * Given a sequence of matrix dimensions, find the minimum number\n * of scalar multiplications needed to compute the chain product.\n *\n * dims: array where matrix i has dimensions dims[i-1] x dims[i]\n * num_dims: length of dims array\n * Returns: minimum number of scalar multiplications\n */\nint matrix_chain_order(int dims[], int num_dims) {\n    int n = num_dims - 1; /* number of matrices */\n\n    if (n <= 0) return 0;\n\n    int m[n][n];\n    int i, j, k, chainLen;\n\n    for (i = 0; i < n; i++)\n        for (j = 0; j < n; j++)\n            m[i][j] = 0;\n\n    for (chainLen = 2; chainLen <= n; chainLen++) {\n        for (i = 0; i < n - chainLen + 1; i++) {\n            j = i + chainLen - 1;\n            m[i][j] = INT_MAX;\n            for (k = i; k < j; k++) {\n                int cost = m[i][k] + m[k + 1][j]\n                         + dims[i] * dims[k + 1] * dims[j + 1];\n                if (cost < m[i][j]) {\n                    m[i][j] = cost;\n                }\n            }\n        }\n    }\n\n    return m[0][n - 1];\n}\n\nint main() {\n    int d1[] = {10, 20, 30};\n    printf(\"%d\\n\", matrix_chain_order(d1, 3));  /* 6000 */\n\n    int d2[] = {40, 20, 30, 10, 30};\n    printf(\"%d\\n\", matrix_chain_order(d2, 5));  /* 26000 */\n\n    int d3[] = {10, 20, 30, 40, 30};\n    printf(\"%d\\n\", matrix_chain_order(d3, 5));  /* 30000 */\n\n    int d4[] = {1, 2, 3, 4};\n    printf(\"%d\\n\", matrix_chain_order(d4, 4));  /* 18 */\n\n    int d5[] = {5, 10, 3, 12, 5, 50, 6};\n    printf(\"%d\\n\", matrix_chain_order(d5, 7));  /* 2010 */\n\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "matrix_chain_order.cpp",
+          "content": "#include <iostream>\n#include <vector>\n#include <climits>\nusing namespace std;\n\n/**\n * Given a sequence of matrix dimensions, find the minimum number\n * of scalar multiplications needed to compute the chain product.\n *\n * dims: vector where matrix i has dimensions dims[i-1] x dims[i]\n * Returns: minimum number of scalar multiplications\n */\nint matrixChainOrder(const vector<int>& dims) {\n    int n = dims.size() - 1; // number of matrices\n\n    if (n <= 0) return 0;\n\n    vector<vector<int>> m(n, vector<int>(n, 0));\n\n    for (int chainLen = 2; chainLen <= n; chainLen++) {\n        for (int i = 0; i < n - chainLen + 1; i++) {\n            int j = i + chainLen - 1;\n            m[i][j] = INT_MAX;\n            for (int k = i; k < j; k++) {\n                int cost = m[i][k] + m[k + 1][j]\n                         + dims[i] * dims[k + 1] * dims[j + 1];\n                if (cost < m[i][j]) {\n                    m[i][j] = cost;\n                }\n            }\n        }\n    }\n\n    return m[0][n - 1];\n}\n\nint main() {\n    cout << matrixChainOrder({10, 20, 30}) << endl;              // 6000\n    cout << matrixChainOrder({40, 20, 30, 10, 30}) << endl;      // 26000\n    cout << matrixChainOrder({10, 20, 30, 40, 30}) << endl;      // 30000\n    cout << matrixChainOrder({1, 2, 3, 4}) << endl;              // 18\n    cout << matrixChainOrder({5, 10, 3, 12, 5, 50, 6}) << endl;  // 2010\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "MatrixChainMultiplication.cs",
+          "content": "using System;\n\npublic class MatrixChainMultiplication\n{\n    /// <summary>\n    /// Given a sequence of matrix dimensions, find the minimum number\n    /// of scalar multiplications needed to compute the chain product.\n    /// </summary>\n    /// <param name=\"dims\">Array where matrix i has dimensions dims[i-1] x dims[i]</param>\n    /// <returns>Minimum number of scalar multiplications</returns>\n    public static int MatrixChainOrder(int[] dims)\n    {\n        int n = dims.Length - 1; // number of matrices\n\n        if (n <= 0) return 0;\n\n        int[,] m = new int[n, n];\n\n        for (int chainLen = 2; chainLen <= n; chainLen++)\n        {\n            for (int i = 0; i < n - chainLen + 1; i++)\n            {\n                int j = i + chainLen - 1;\n                m[i, j] = int.MaxValue;\n                for (int k = i; k < j; k++)\n                {\n                    int cost = m[i, k] + m[k + 1, j]\n                             + dims[i] * dims[k + 1] * dims[j + 1];\n                    if (cost < m[i, j])\n                    {\n                        m[i, j] = cost;\n                    }\n                }\n            }\n        }\n\n        return m[0, n - 1];\n    }\n\n    static void Main(string[] args)\n    {\n        Console.WriteLine(MatrixChainOrder(new int[] { 10, 20, 30 }));              // 6000\n        Console.WriteLine(MatrixChainOrder(new int[] { 40, 20, 30, 10, 30 }));      // 26000\n        Console.WriteLine(MatrixChainOrder(new int[] { 10, 20, 30, 40, 30 }));      // 30000\n        Console.WriteLine(MatrixChainOrder(new int[] { 1, 2, 3, 4 }));              // 18\n        Console.WriteLine(MatrixChainOrder(new int[] { 5, 10, 3, 12, 5, 50, 6 }));  // 2010\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "MatrixChainOrder.go",
+          "content": "package main\n\nimport (\n\t\"fmt\"\n\t\"math\"\n)\n\n// MatrixChainOrder finds the minimum number of scalar multiplications\n// needed to compute the chain product of matrices.\n// dims is an array where matrix i has dimensions dims[i-1] x dims[i].\nfunc MatrixChainOrder(dims []int) int {\n\tn := len(dims) - 1 // number of matrices\n\n\tif n <= 0 {\n\t\treturn 0\n\t}\n\n\tm := make([][]int, n)\n\tfor i := range m {\n\t\tm[i] = make([]int, n)\n\t}\n\n\tfor chainLen := 2; chainLen <= n; chainLen++ {\n\t\tfor i := 0; i < n-chainLen+1; i++ {\n\t\t\tj := i + chainLen - 1\n\t\t\tm[i][j] = math.MaxInt32\n\t\t\tfor k := i; k < j; k++ {\n\t\t\t\tcost := m[i][k] + m[k+1][j] + dims[i]*dims[k+1]*dims[j+1]\n\t\t\t\tif cost < m[i][j] {\n\t\t\t\t\tm[i][j] = cost\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\n\treturn m[0][n-1]\n}\n\nfunc main() {\n\tfmt.Println(MatrixChainOrder([]int{10, 20, 30}))              // 6000\n\tfmt.Println(MatrixChainOrder([]int{40, 20, 30, 10, 30}))      // 26000\n\tfmt.Println(MatrixChainOrder([]int{10, 20, 30, 40, 30}))      // 30000\n\tfmt.Println(MatrixChainOrder([]int{1, 2, 3, 4}))              // 18\n\tfmt.Println(MatrixChainOrder([]int{5, 10, 3, 12, 5, 50, 6}))  // 2010\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "MatrixChainMultiplication.java",
+          "content": "public class MatrixChainMultiplication {\n\n    /**\n     * Given a sequence of matrix dimensions, find the minimum number\n     * of scalar multiplications needed to compute the chain product.\n     *\n     * @param dims array where matrix i has dimensions dims[i-1] x dims[i]\n     * @return minimum number of scalar multiplications\n     */\n    public static int matrixChainOrder(int[] dims) {\n        int n = dims.length - 1; // number of matrices\n\n        if (n <= 0) return 0;\n\n        int[][] m = new int[n][n];\n\n        for (int chainLen = 2; chainLen <= n; chainLen++) {\n            for (int i = 0; i < n - chainLen + 1; i++) {\n                int j = i + chainLen - 1;\n                m[i][j] = Integer.MAX_VALUE;\n                for (int k = i; k < j; k++) {\n                    int cost = m[i][k] + m[k + 1][j]\n                             + dims[i] * dims[k + 1] * dims[j + 1];\n                    if (cost < m[i][j]) {\n                        m[i][j] = cost;\n                    }\n                }\n            }\n        }\n\n        return m[0][n - 1];\n    }\n\n    public static void main(String[] args) {\n        System.out.println(matrixChainOrder(new int[]{10, 20, 30}));            // 6000\n        System.out.println(matrixChainOrder(new int[]{40, 20, 30, 10, 30}));    // 26000\n        System.out.println(matrixChainOrder(new int[]{10, 20, 30, 40, 30}));    // 30000\n        System.out.println(matrixChainOrder(new int[]{1, 2, 3, 4}));            // 18\n        System.out.println(matrixChainOrder(new int[]{5, 10, 3, 12, 5, 50, 6})); // 2010\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "MatrixChainMultiplication.kt",
+          "content": "/**\n * Given a sequence of matrix dimensions, find the minimum number\n * of scalar multiplications needed to compute the chain product.\n *\n * @param dims array where matrix i has dimensions dims[i-1] x dims[i]\n * @return minimum number of scalar multiplications\n */\nfun matrixChainOrder(dims: IntArray): Int {\n    val n = dims.size - 1 // number of matrices\n\n    if (n <= 0) return 0\n\n    val m = Array(n) { IntArray(n) }\n\n    for (chainLen in 2..n) {\n        for (i in 0..n - chainLen) {\n            val j = i + chainLen - 1\n            m[i][j] = Int.MAX_VALUE\n            for (k in i until j) {\n                val cost = m[i][k] + m[k + 1][j] +\n                           dims[i] * dims[k + 1] * dims[j + 1]\n                if (cost < m[i][j]) {\n                    m[i][j] = cost\n                }\n            }\n        }\n    }\n\n    return m[0][n - 1]\n}\n\nfun main() {\n    println(matrixChainOrder(intArrayOf(10, 20, 30)))              // 6000\n    println(matrixChainOrder(intArrayOf(40, 20, 30, 10, 30)))      // 26000\n    println(matrixChainOrder(intArrayOf(10, 20, 30, 40, 30)))      // 30000\n    println(matrixChainOrder(intArrayOf(1, 2, 3, 4)))              // 18\n    println(matrixChainOrder(intArrayOf(5, 10, 3, 12, 5, 50, 6)))  // 2010\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "matrix_chain_order.py",
+          "content": "import sys\n\n\ndef matrix_chain_order(dims):\n    \"\"\"\n    Given a sequence of matrix dimensions, find the minimum number\n    of scalar multiplications needed to compute the chain product.\n\n    dims: list of integers where matrix i has dimensions dims[i-1] x dims[i]\n    Returns: minimum number of scalar multiplications\n    \"\"\"\n    n = len(dims) - 1  # number of matrices\n\n    if n <= 0:\n        return 0\n\n    # m[i][j] = minimum cost of multiplying matrices i..j (0-indexed)\n    m = [[0] * n for _ in range(n)]\n\n    # chain_len is the length of the chain being considered\n    for chain_len in range(2, n + 1):\n        for i in range(n - chain_len + 1):\n            j = i + chain_len - 1\n            m[i][j] = sys.maxsize\n            for k in range(i, j):\n                cost = m[i][k] + m[k + 1][j] + dims[i] * dims[k + 1] * dims[j + 1]\n                if cost < m[i][j]:\n                    m[i][j] = cost\n\n    return m[0][n - 1]\n\n\nif __name__ == \"__main__\":\n    print(matrix_chain_order([10, 20, 30]))          # 6000\n    print(matrix_chain_order([40, 20, 30, 10, 30]))   # 26000\n    print(matrix_chain_order([10, 20, 30, 40, 30]))    # 30000\n    print(matrix_chain_order([1, 2, 3, 4]))            # 18\n    print(matrix_chain_order([5, 10, 3, 12, 5, 50, 6]))  # 2010\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "matrix_chain_order.rs",
+          "content": "use std::cmp;\n\n/// Given a sequence of matrix dimensions, find the minimum number\n/// of scalar multiplications needed to compute the chain product.\n///\n/// dims: slice where matrix i has dimensions dims[i-1] x dims[i]\n/// Returns: minimum number of scalar multiplications\npub fn matrix_chain_order(dims: &[i32]) -> i32 {\n    let n = dims.len() as i32 - 1; // number of matrices\n\n    if n <= 0 {\n        return 0;\n    }\n\n    let n = n as usize;\n    let mut m = vec![vec![0i64; n]; n];\n\n    for chain_len in 2..=n {\n        for i in 0..n - chain_len + 1 {\n            let j = i + chain_len - 1;\n            m[i][j] = i64::MAX;\n            for k in i..j {\n                let cost = m[i][k] + m[k + 1][j]\n                    + (dims[i] as i64) * (dims[k + 1] as i64) * (dims[j + 1] as i64);\n                if cost < m[i][j] {\n                    m[i][j] = cost;\n                }\n            }\n        }\n    }\n\n    m[0][n - 1] as i32\n}\n\nfn main() {\n    println!(\"{}\", matrix_chain_order(&[10, 20, 30]));              // 6000\n    println!(\"{}\", matrix_chain_order(&[40, 20, 30, 10, 30]));      // 26000\n    println!(\"{}\", matrix_chain_order(&[10, 20, 30, 40, 30]));      // 30000\n    println!(\"{}\", matrix_chain_order(&[1, 2, 3, 4]));              // 18\n    println!(\"{}\", matrix_chain_order(&[5, 10, 3, 12, 5, 50, 6]));  // 2010\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "MatrixChainMultiplication.scala",
+          "content": "object MatrixChainMultiplication {\n\n  /**\n   * Given a sequence of matrix dimensions, find the minimum number\n   * of scalar multiplications needed to compute the chain product.\n   *\n   * @param dims array where matrix i has dimensions dims(i-1) x dims(i)\n   * @return minimum number of scalar multiplications\n   */\n  def matrixChainOrder(dims: Array[Int]): Int = {\n    val n = dims.length - 1 // number of matrices\n\n    if (n <= 0) return 0\n\n    val m = Array.ofDim[Int](n, n)\n\n    for (chainLen <- 2 to n) {\n      for (i <- 0 to n - chainLen) {\n        val j = i + chainLen - 1\n        m(i)(j) = Int.MaxValue\n        for (k <- i until j) {\n          val cost = m(i)(k) + m(k + 1)(j) +\n                     dims(i) * dims(k + 1) * dims(j + 1)\n          if (cost < m(i)(j)) {\n            m(i)(j) = cost\n          }\n        }\n      }\n    }\n\n    m(0)(n - 1)\n  }\n\n  def main(args: Array[String]): Unit = {\n    println(matrixChainOrder(Array(10, 20, 30)))              // 6000\n    println(matrixChainOrder(Array(40, 20, 30, 10, 30)))      // 26000\n    println(matrixChainOrder(Array(10, 20, 30, 40, 30)))      // 30000\n    println(matrixChainOrder(Array(1, 2, 3, 4)))              // 18\n    println(matrixChainOrder(Array(5, 10, 3, 12, 5, 50, 6)))  // 2010\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "MatrixChainMultiplication.swift",
+          "content": "/// Given a sequence of matrix dimensions, find the minimum number\n/// of scalar multiplications needed to compute the chain product.\n///\n/// - Parameter dims: array where matrix i has dimensions dims[i-1] x dims[i]\n/// - Returns: minimum number of scalar multiplications\nfunc matrixChainOrder(_ dims: [Int]) -> Int {\n    let n = dims.count - 1 // number of matrices\n\n    if n <= 0 { return 0 }\n\n    var m = Array(repeating: Array(repeating: 0, count: n), count: n)\n\n    for chainLen in 2...n {\n        for i in 0...(n - chainLen) {\n            let j = i + chainLen - 1\n            m[i][j] = Int.max\n            for k in i..<j {\n                let cost = m[i][k] + m[k + 1][j]\n                         + dims[i] * dims[k + 1] * dims[j + 1]\n                if cost < m[i][j] {\n                    m[i][j] = cost\n                }\n            }\n        }\n    }\n\n    return m[0][n - 1]\n}\n\nprint(matrixChainOrder([10, 20, 30]))              // 6000\nprint(matrixChainOrder([40, 20, 30, 10, 30]))      // 26000\nprint(matrixChainOrder([10, 20, 30, 40, 30]))      // 30000\nprint(matrixChainOrder([1, 2, 3, 4]))              // 18\nprint(matrixChainOrder([5, 10, 3, 12, 5, 50, 6]))  // 2010\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "matrixChainOrder.ts",
+          "content": "/**\n * Given a sequence of matrix dimensions, find the minimum number\n * of scalar multiplications needed to compute the chain product.\n *\n * @param dims - array where matrix i has dimensions dims[i-1] x dims[i]\n * @returns minimum number of scalar multiplications\n */\nexport function matrixChainOrder(dims: number[]): number {\n    const n = dims.length - 1; // number of matrices\n\n    if (n <= 0) return 0;\n\n    const m: number[][] = Array.from({ length: n }, () => new Array(n).fill(0));\n\n    for (let chainLen = 2; chainLen <= n; chainLen++) {\n        for (let i = 0; i < n - chainLen + 1; i++) {\n            const j = i + chainLen - 1;\n            m[i][j] = Infinity;\n            for (let k = i; k < j; k++) {\n                const cost = m[i][k] + m[k + 1][j]\n                           + dims[i] * dims[k + 1] * dims[j + 1];\n                if (cost < m[i][j]) {\n                    m[i][j] = cost;\n                }\n            }\n        }\n    }\n\n    return m[0][n - 1];\n}\n\nconsole.log(matrixChainOrder([10, 20, 30]));            // 6000\nconsole.log(matrixChainOrder([40, 20, 30, 10, 30]));    // 26000\nconsole.log(matrixChainOrder([10, 20, 30, 40, 30]));    // 30000\nconsole.log(matrixChainOrder([1, 2, 3, 4]));            // 18\nconsole.log(matrixChainOrder([5, 10, 3, 12, 5, 50, 6])); // 2010\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Matrix Chain Multiplication\n\n## Overview\n\nThe Matrix Chain Multiplication problem determines the most efficient way to multiply a chain of matrices. The problem is not about performing the multiplications themselves, but about finding the optimal order (parenthesization) in which to multiply the matrices so that the total number of scalar multiplications is minimized.\n\nGiven a chain of n matrices A1, A2, ..., An, where matrix Ai has dimensions p[i-1] x p[i], the algorithm finds the minimum number of scalar multiplications needed to compute the product A1 * A2 * ... * An. Matrix multiplication is associative, so all parenthesizations yield the same result, but the computational cost varies dramatically depending on the order.\n\nFor example, given three matrices with dimensions 10x20, 20x30, and the dimension array [10, 20, 30], the only way to multiply them costs 10 * 20 * 30 = 6000 scalar multiplications. With more matrices, the difference between the best and worst parenthesization can be enormous.\n\n## How It Works\n\nThe algorithm uses a bottom-up dynamic programming approach. It builds a 2D table `m[i][j]` where each entry represents the minimum cost of multiplying the subchain from matrix i to matrix j.\n\n1. **Base case:** A single matrix requires zero multiplications, so `m[i][i] = 0` for all i.\n2. **Chain length iteration:** For chain lengths from 2 to n, consider all possible subchains of that length.\n3. **Split point:** For each subchain from i to j, try every possible split point k (where i <= k < j). Splitting at k means multiplying the subchain (Ai...Ak) and (Ak+1...Aj) separately, then combining the results.\n4. **Cost formula:** `m[i][j] = min over all k of { m[i][k] + m[k+1][j] + p[i-1] * p[k] * p[j] }`\n5. **Result:** `m[1][n]` contains the minimum number of scalar multiplications for the entire chain.\n\n### Example\n\nGiven dimensions `[10, 20, 30, 40, 30]` (four matrices: 10x20, 20x30, 30x40, 40x30):\n\n**Building the DP table (1-indexed):**\n\nChain length 2:\n- m[1][2] = 10 * 20 * 30 = 6000\n- m[2][3] = 20 * 30 * 40 = 24000\n- m[3][4] = 30 * 40 * 30 = 36000\n\nChain length 3:\n- m[1][3] = min(m[1][1] + m[2][3] + 10*20*40, m[1][2] + m[3][3] + 10*30*40) = min(0 + 24000 + 8000, 6000 + 0 + 12000) = min(32000, 18000) = 18000\n- m[2][4] = min(m[2][2] + m[3][4] + 20*30*30, m[2][3] + m[4][4] + 20*40*30) = min(0 + 36000 + 18000, 24000 + 0 + 24000) = min(54000, 48000) = 48000\n\nChain length 4:\n- m[1][4] = min over k=1,2,3 of:\n  - k=1: m[1][1] + m[2][4] + 10*20*30 = 0 + 48000 + 6000 = 54000\n  - k=2: m[1][2] + m[3][4] + 10*30*30 = 6000 + 36000 + 9000 = 51000\n  - k=3: m[1][3] + m[4][4] + 10*40*30 = 18000 + 0 + 12000 = 30000\n- m[1][4] = 30000\n\nResult: **30000** scalar multiplications.\n\n## Pseudocode\n\n```\nfunction matrixChainOrder(p):\n    n = length(p) - 1           // number of matrices\n    m = 2D array of size n x n, initialized to 0\n\n    for chainLen from 2 to n:\n        for i from 1 to n - chainLen + 1:\n            j = i + chainLen - 1\n            m[i][j] = infinity\n            for k from i to j - 1:\n                cost = m[i][k] + m[k+1][j] + p[i-1] * p[k] * p[j]\n                if cost < m[i][j]:\n                    m[i][j] = cost\n\n    return m[1][n]\n```\n\n## Complexity Analysis\n\n| Case    | Time     | Space   |\n|---------|----------|---------|\n| Best    | O(n^3)   | O(n^2)  |\n| Average | O(n^3)   | O(n^2)  |\n| Worst   | O(n^3)   | O(n^2)  |\n\n**Why these complexities?**\n\n- **Time -- O(n^3):** There are O(n^2) subproblems (all pairs i, j), and for each subproblem we try up to O(n) split points. Each split point evaluation takes O(1) time, giving O(n^3) overall.\n\n- **Space -- O(n^2):** The algorithm stores the 2D table `m[i][j]` of size n x n. An optional second table stores the optimal split points for reconstruction.\n\n## Applications\n\n- **Compiler optimization:** Optimizing the evaluation order of chained operations.\n- **Database query optimization:** Finding the best order to join multiple tables.\n- **Polygon triangulation:** The problem of finding the minimum-cost triangulation of a convex polygon has the same structure.\n- **Parsing:** CYK (Cocke-Younger-Kasami) parsing algorithm for context-free grammars uses a similar DP structure.\n- **Scientific computing:** Optimizing tensor contractions in physics and machine learning.\n\n## When NOT to Use\n\n- **Only two matrices:** With two matrices, there is only one way to multiply them.\n- **Matrices of uniform dimension:** When all matrices are square and the same size, all parenthesizations have the same cost.\n- **When approximate solutions suffice:** For very long chains, heuristic approaches may be faster.\n\n## Comparison with Similar Algorithms\n\n| Algorithm                     | Time     | Space   | Notes                                        |\n|-------------------------------|----------|---------|----------------------------------------------|\n| Matrix Chain Multiplication   | O(n^3)   | O(n^2)  | Finds optimal parenthesization               |\n| Hu-Shing Algorithm            | O(n log n)| O(n)   | Specialized for this problem; more complex    |\n| Rod Cutting                   | O(n^2)   | O(n)    | 1D variant of similar optimization structure  |\n| Optimal BST                   | O(n^3)   | O(n^2)  | Same DP pattern for binary search trees       |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [matrix_chain_order.py](python/matrix_chain_order.py) |\n| Java       | [MatrixChainMultiplication.java](java/MatrixChainMultiplication.java) |\n| TypeScript | [matrixChainOrder.ts](typescript/matrixChainOrder.ts) |\n| C++        | [matrix_chain_order.cpp](cpp/matrix_chain_order.cpp) |\n| C          | [matrix_chain_order.c](c/matrix_chain_order.c) |\n| Go         | [MatrixChainOrder.go](go/MatrixChainOrder.go) |\n| Rust       | [matrix_chain_order.rs](rust/matrix_chain_order.rs) |\n| Kotlin     | [MatrixChainMultiplication.kt](kotlin/MatrixChainMultiplication.kt) |\n| Swift      | [MatrixChainMultiplication.swift](swift/MatrixChainMultiplication.swift) |\n| Scala      | [MatrixChainMultiplication.scala](scala/MatrixChainMultiplication.scala) |\n| C#         | [MatrixChainMultiplication.cs](csharp/MatrixChainMultiplication.cs) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Section 15.2: Matrix-chain multiplication.\n- Hu, T. C., & Shing, M. T. (1982). Computation of matrix chain products. Part I. *SIAM Journal on Computing*, 11(2), 362-373.\n- [Matrix Chain Multiplication -- Wikipedia](https://en.wikipedia.org/wiki/Matrix_chain_multiplication)\n"
+}

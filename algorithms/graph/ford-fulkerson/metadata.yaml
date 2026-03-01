@@ -1,0 +1,17 @@
+name: "Ford-Fulkerson"
+slug: "ford-fulkerson"
+category: "graph"
+subcategory: "network-flow"
+difficulty: "advanced"
+tags: [graph, network-flow, max-flow, dfs, ford-fulkerson]
+complexity:
+  time:
+    best: "O(E * max_flow)"
+    average: "O(E * max_flow)"
+    worst: "O(E * max_flow)"
+  space: "O(V^2)"
+stable: null
+in_place: false
+related: [max-flow-min-cut, dinic, depth-first-search]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

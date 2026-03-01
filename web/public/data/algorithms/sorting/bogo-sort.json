@@ -1,0 +1,133 @@
+{
+  "name": "Bogo Sort",
+  "slug": "bogo-sort",
+  "category": "sorting",
+  "subcategory": "comparison-based",
+  "difficulty": "beginner",
+  "tags": [
+    "sorting",
+    "random",
+    "inefficient",
+    "educational"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "average": "O((n+1)!)",
+      "worst": "O(infinity)"
+    },
+    "space": "O(1)"
+  },
+  "stable": false,
+  "in_place": true,
+  "related": [
+    "bubble-sort"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "bogo_sort.c",
+          "content": "#include \"bogo_sort.h\"\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n#include <stdbool.h>\n#include <time.h>\n\n/**\n * Bogo Sort implementation.\n * Repeatedly shuffles the array until it's sorted.\n * WARNING: Highly inefficient for large arrays.\n */\n\nbool is_sorted(int *arr, int n) {\n    for (int i = 0; i < n - 1; i++) {\n        if (arr[i] > arr[i + 1]) {\n            return false;\n        }\n    }\n    return true;\n}\n\nvoid shuffle(int *arr, int n) {\n    for (int i = n - 1; i > 0; i--) {\n        int j = rand() % (i + 1);\n        int temp = arr[i];\n        arr[i] = arr[j];\n        arr[j] = temp;\n    }\n}\n\nvoid bogo_sort(int *arr, int n) {\n    if (n <= 1) return;\n\n    srand(time(NULL));\n\n    while (!is_sorted(arr, n)) {\n        shuffle(arr, n);\n    }\n}\n"
+        },
+        {
+          "filename": "bogo_sort.h",
+          "content": "#ifndef BOGO_SORT_H\n#define BOGO_SORT_H\n\nvoid bogo_sort(int arr[], int n);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "bogo_sort.cpp",
+          "content": "#include <vector>\n#include <algorithm>\n#include <random>\n#include <iostream>\n\n/**\n * Bogo Sort implementation.\n * Repeatedly shuffles the array until it's sorted.\n * WARNING: Highly inefficient for large arrays.\n */\nnamespace bogo {\n\nbool is_sorted(const std::vector<int>& arr) {\n    for (size_t i = 0; i + 1 < arr.size(); ++i) {\n        if (arr[i] > arr[i + 1]) {\n            return false;\n        }\n    }\n    return true;\n}\n\nstd::vector<int> bogo_sort(const std::vector<int>& arr) {\n    if (arr.size() <= 1) {\n        return arr;\n    }\n\n    std::vector<int> result = arr;\n    std::random_device rd;\n    std::mt19937 g(rd());\n\n    while (!is_sorted(result)) {\n        std::shuffle(result.begin(), result.end(), g);\n    }\n    return result;\n}\n\n} // namespace bogo\n\nint main() {\n    std::vector<int> a = {3, 1, 2};\n    std::vector<int> sorted = bogo::bogo_sort(a);\n    std::cout << \"Sorted array: \";\n    for (int x : sorted) {\n        std::cout << x << \" \";\n    }\n    std::cout << std::endl;\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "BogoSort.cs",
+          "content": "using System;\n\nnamespace Algorithms.Sorting.Bogo\n{\n    /**\n     * Bogo Sort implementation.\n     * Repeatedly shuffles the array until it's sorted.\n     * WARNING: Highly inefficient for large arrays.\n     */\n    public static class BogoSort\n    {\n        private static readonly Random random = new Random();\n\n        public static int[] Sort(int[] arr)\n        {\n            if (arr == null || arr.Length <= 1)\n            {\n                return arr == null ? new int[0] : (int[])arr.Clone();\n            }\n\n            int[] result = (int[])arr.Clone();\n            while (!IsSorted(result))\n            {\n                Shuffle(result);\n            }\n            return result;\n        }\n\n        private static bool IsSorted(int[] arr)\n        {\n            for (int i = 0; i < arr.Length - 1; i++)\n            {\n                if (arr[i] > arr[i + 1])\n                {\n                    return false;\n                }\n            }\n            return true;\n        }\n\n        private static void Shuffle(int[] arr)\n        {\n            for (int i = arr.Length - 1; i > 0; i--)\n            {\n                int j = random.Next(i + 1);\n                int temp = arr[i];\n                arr[i] = arr[j];\n                arr[j] = temp;\n            }\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "bogo_sort.go",
+          "content": "package bogo\n\nimport (\n\t\"math/rand\"\n\t\"time\"\n)\n\n// BogoSort implementation.\n// Repeatedly shuffles the array until it's sorted.\n// WARNING: Highly inefficient for large arrays.\nfunc BogoSort(arr []int) []int {\n\tif len(arr) <= 1 {\n\t\treturn append([]int{}, arr...)\n\t}\n\n\tresult := make([]int, len(arr))\n\tcopy(result, arr)\n\n\tr := rand.New(rand.NewSource(time.Now().UnixNano()))\n\n\tfor !isSorted(result) {\n\t\tr.Shuffle(len(result), func(i, j int) {\n\t\t\tresult[i], result[j] = result[j], result[i]\n\t\t})\n\t}\n\n\treturn result\n}\n\nfunc isSorted(arr []int) bool {\n\tfor i := 0; i < len(arr)-1; i++ {\n\t\tif arr[i] > arr[i+1] {\n\t\t\treturn false\n\t\t}\n\t}\n\treturn true\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "BogoSort.java",
+          "content": "import java.util.Arrays;\nimport java.util.Random;\n\npublic class BogoSort {\n    private static final Random random = new Random();\n\n    /**\n     * Bogo Sort implementation.\n     * Repeatedly shuffles the array until it's sorted.\n     * WARNING: Highly inefficient for large arrays.\n     * @param arr the input array\n     * @return a sorted copy of the array\n     */\n    public static int[] sort(int[] arr) {\n        if (arr == null || arr.length <= 1) {\n            return arr == null ? new int[0] : Arrays.copyOf(arr, arr.length);\n        }\n\n        int[] result = Arrays.copyOf(arr, arr.length);\n        while (!isSorted(result)) {\n            shuffle(result);\n        }\n        return result;\n    }\n\n    private static boolean isSorted(int[] arr) {\n        for (int i = 0; i < arr.length - 1; i++) {\n            if (arr[i] > arr[i + 1]) {\n                return false;\n            }\n        }\n        return true;\n    }\n\n    private static void shuffle(int[] arr) {\n        for (int i = arr.length - 1; i > 0; i--) {\n            int j = random.nextInt(i + 1);\n            int temp = arr[i];\n            arr[i] = arr[j];\n            arr[j] = temp;\n        }\n    }\n\n    public static void main(String[] args) {\n        int[] a = {3, 1, 2};\n        int[] sorted = sort(a);\n        System.out.println(\"Sorted array: \" + Arrays.toString(sorted));\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "BogoSort.kt",
+          "content": "package algorithms.sorting.bogo\n\nimport java.util.Random\n\n/**\n * Bogo Sort implementation.\n * Repeatedly shuffles the array until it's sorted.\n * WARNING: Highly inefficient for large arrays.\n */\nobject BogoSort {\n    private val random = Random()\n\n    fun sort(arr: IntArray): IntArray {\n        if (arr.size <= 1) {\n            return arr.copyOf()\n        }\n\n        val result = arr.copyOf()\n        while (!isSorted(result)) {\n            shuffle(result)\n        }\n        return result\n    }\n\n    private fun isSorted(arr: IntArray): Boolean {\n        for (i in 0 until arr.size - 1) {\n            if (arr[i] > arr[i + 1]) {\n                return false\n            }\n        }\n        return true\n    }\n\n    private fun shuffle(arr: IntArray) {\n        for (i in arr.size - 1 downTo 1) {\n            val j = random.nextInt(i + 1)\n            val temp = arr[i]\n            arr[i] = arr[j]\n            arr[j] = temp\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "bogo_sort.py",
+          "content": "import random\n\ndef is_sorted(arr: list[int]) -> bool:\n    \"\"\"Check whether the array is sorted in non-decreasing order.\"\"\"\n    for i in range(len(arr) - 1):\n        if arr[i] > arr[i + 1]:\n            return False\n    return True\n\ndef bogo_sort(arr: list[int]) -> list[int]:\n    \"\"\"\n    Bogo Sort implementation.\n    Repeatedly shuffles the array until it's sorted.\n    WARNING: Highly inefficient for large arrays.\n    \"\"\"\n    result = arr[:]\n    while not is_sorted(result):\n        random.shuffle(result)\n    return result\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "bogo_sort.rs",
+          "content": "use rand::seq::SliceRandom;\nuse rand::thread_rng;\n\n/**\n * Bogo Sort implementation.\n * Repeatedly shuffles the array until it's sorted.\n * WARNING: Highly inefficient for large arrays.\n */\npub fn bogo_sort(arr: &[i32]) -> Vec<i32> {\n    if arr.len() <= 1 {\n        return arr.to_vec();\n    }\n\n    let mut result = arr.to_vec();\n    let mut rng = thread_rng();\n\n    while !is_sorted(&result) {\n        result.shuffle(&mut rng);\n    }\n\n    result\n}\n\nfn is_sorted(arr: &[i32]) -> bool {\n    for i in 0..arr.len().saturating_sub(1) {\n        if arr[i] > arr[i + 1] {\n            return false;\n        }\n    }\n    true\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "BogoSort.scala",
+          "content": "package algorithms.sorting.bogo\n\nimport scala.util.Random\n\n/**\n * Bogo Sort implementation.\n * Repeatedly shuffles the array until it's sorted.\n * WARNING: Highly inefficient for large arrays.\n */\nobject BogoSort {\n  private val random = new Random()\n\n  def sort(arr: Array[Int]): Array[Int] = {\n    if (arr.length <= 1) {\n      return arr.clone()\n    }\n\n    val result = arr.clone()\n    while (!isSorted(result)) {\n      shuffle(result)\n    }\n    result\n  }\n\n  private def isSorted(arr: Array[Int]): Boolean = {\n    for (i <- 0 until arr.length - 1) {\n      if (arr[i] > arr[i + 1]) {\n        return false\n      }\n    }\n    true\n  }\n\n  private def shuffle(arr: Array[Int]): Unit = {\n    for (i <- arr.length - 1 to 1 by -1) {\n      val j = random.nextInt(i + 1)\n      val temp = arr[i]\n      arr[i] = arr[j]\n      arr[j] = temp\n    }\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "BogoSort.swift",
+          "content": "/**\n * Bogo Sort implementation.\n * Repeatedly shuffles the array until it's sorted.\n * WARNING: Highly inefficient for large arrays.\n */\npublic class BogoSort {\n    public static func sort(_ arr: [Int]) -> [Int] {\n        if arr.count <= 1 {\n            return arr\n        }\n\n        var result = arr\n        while !isSorted(result) {\n            result.shuffle()\n        }\n        return result\n    }\n\n    private static func isSorted(_ arr: [Int]) -> Bool {\n        for i in 0..<(arr.count - 1) {\n            if arr[i] > arr[i + 1] {\n                return false\n            }\n        }\n        return true\n    }\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "bogoSort.ts",
+          "content": "function isSorted(arr: number[]): boolean {\n    for (let i = 0; i < arr.length - 1; i++) {\n        if (arr[i] > arr[i + 1]) {\n            return false;\n        }\n    }\n    return true;\n}\n\nfunction shuffle(arr: number[]): void {\n    for (let i = arr.length - 1; i > 0; i--) {\n        const j = Math.floor(Math.random() * (i + 1));\n        [arr[i], arr[j]] = [arr[j], arr[i]];\n    }\n}\n\n/**\n * Bogo Sort implementation.\n * Repeatedly shuffles the array until it's sorted.\n * WARNING: Highly inefficient for large arrays.\n */\nexport function bogoSort(arr: number[]): number[] {\n    const result = [...arr];\n    while (!isSorted(result)) {\n        shuffle(result);\n    }\n    return result;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Bogo Sort\n\n## Overview\n\nBogo Sort (also known as permutation sort, stupid sort, or monkey sort) is a deliberately inefficient sorting algorithm based on the generate-and-test paradigm. It works by repeatedly checking whether the array is sorted and, if not, randomly shuffling it. The algorithm continues until the shuffle happens to produce a sorted arrangement. Bogo Sort serves primarily as an educational example and a humorous contrast to efficient algorithms, illustrating the importance of algorithmic design.\n\nThe name \"bogo\" is derived from \"bogus.\" The algorithm is sometimes used in theoretical computer science to demonstrate worst-case behavior, as its expected running time is O((n+1)!).\n\n## How It Works\n\n1. Check if the array is sorted in non-decreasing order.\n2. If sorted, return the array.\n3. If not sorted, randomly shuffle the entire array.\n4. Repeat from step 1.\n\n## Worked Example\n\nArray: `[3, 1, 2]`\n\n| Attempt | Shuffled Array | Sorted? | Action          |\n|---------|---------------|---------|-----------------|\n| 1       | [3, 1, 2]     | No      | Shuffle again   |\n| 2       | [2, 3, 1]     | No      | Shuffle again   |\n| 3       | [1, 3, 2]     | No      | Shuffle again   |\n| 4       | [1, 2, 3]     | Yes     | Return result   |\n\nResult: `[1, 2, 3]` (after a lucky 4th shuffle).\n\nIn practice, the number of shuffles is random. For an array of 3 elements, there are 3! = 6 permutations, so on average it takes 6 attempts. For 10 elements, the expected number of attempts is 10! = 3,628,800.\n\n## Pseudocode\n\n```\nfunction isSorted(array):\n    for i from 0 to length(array) - 2:\n        if array[i] > array[i + 1]:\n            return false\n    return true\n\nfunction bogoSort(array):\n    while not isSorted(array):\n        shuffle(array)   // random permutation\n    return array\n```\n\n## Complexity Analysis\n\n| Case    | Time          | Space |\n|---------|---------------|-------|\n| Best    | O(n)          | O(1)  |\n| Average | O((n+1)!)     | O(1)  |\n| Worst   | O(infinity)   | O(1)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(n):** The array is already sorted. The `isSorted` check takes O(n), and no shuffles are needed.\n\n- **Average Case -- O((n+1)!):** There are n! possible permutations. Each shuffle produces a uniformly random permutation, so the probability of hitting the sorted one is 1/n!. The expected number of shuffles is n!, and each shuffle plus sort-check costs O(n), giving O(n * n!) = O((n+1)!).\n\n- **Worst Case -- O(infinity):** Since the shuffles are random, there is no guarantee that the sorted permutation will ever be produced. The algorithm is not guaranteed to terminate (though it terminates with probability 1).\n\n- **Space -- O(1):** The algorithm works in-place, requiring only a temporary variable for swaps during the shuffle.\n\n## When to Use\n\n- **Educational purposes:** Bogo Sort is an excellent teaching tool for demonstrating why algorithm design matters and for comparing against efficient sorting algorithms.\n- **Extremely small arrays (n <= 3):** For trivially small inputs, the expected number of shuffles is small enough to be practical (but there is still no reason to prefer it over simpler sorts).\n- **Humor and theoretical discussions:** It is often used in academic settings to illustrate concepts like expected running time and probabilistic termination.\n\n## When NOT to Use\n\n- **Any practical application:** Bogo Sort should never be used in production code. Even for moderately small arrays (n > 10), the expected running time becomes astronomical.\n- **Time-sensitive contexts:** The runtime is unbounded and unpredictable.\n- **When determinism is required:** The random version is non-deterministic, meaning repeated runs on the same input may take vastly different amounts of time.\n\n## Comparison with Similar Algorithms\n\n| Algorithm      | Time (avg) | Space | Stable | Notes                                          |\n|----------------|-----------|-------|--------|-------------------------------------------------|\n| Bogo Sort      | O((n+1)!) | O(1)  | No     | Deliberately impractical; educational only       |\n| Bubble Sort    | O(n^2)    | O(1)  | Yes    | Simple but much faster than Bogo Sort            |\n| Insertion Sort | O(n^2)    | O(1)  | Yes    | Efficient for small or nearly sorted data        |\n| Quick Sort     | O(n log n)| O(log n)| No   | Practical general-purpose sort                   |\n| Merge Sort     | O(n log n)| O(n)  | Yes    | Guaranteed O(n log n); stable                    |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [bogo_sort.py](python/bogo_sort.py) |\n| Java       | [BogoSort.java](java/BogoSort.java) |\n| C++        | [bogo_sort.cpp](cpp/bogo_sort.cpp) |\n| C          | [bogo_sort.c](c/bogo_sort.c) |\n| Go         | [bogo_sort.go](go/bogo_sort.go) |\n| TypeScript | [bogoSort.ts](typescript/bogoSort.ts) |\n| Rust       | [bogo_sort.rs](rust/bogo_sort.rs) |\n| Kotlin     | [BogoSort.kt](kotlin/BogoSort.kt) |\n| Swift      | [BogoSort.swift](swift/BogoSort.swift) |\n| Scala      | [BogoSort.scala](scala/BogoSort.scala) |\n| C#         | [BogoSort.cs](csharp/BogoSort.cs) |\n\n## References\n\n- Gruber, H., Holzer, M., & Ruepp, O. (2007). \"Sorting the slow way: an analysis of perversely awful randomized sorting algorithms.\" *International Conference on Fun with Algorithms*, 183-197.\n- [Bogosort -- Wikipedia](https://en.wikipedia.org/wiki/Bogosort)\n"
+}

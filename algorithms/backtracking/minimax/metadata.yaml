@@ -1,0 +1,17 @@
+name: "Minimax"
+slug: "minimax"
+category: "backtracking"
+subcategory: "game-theory"
+difficulty: "intermediate"
+tags: [backtracking, game-theory, minimax, adversarial-search, decision-tree]
+complexity:
+  time:
+    best: "O(b^d)"
+    average: "O(b^d)"
+    worst: "O(b^d)"
+  space: "O(b * d)"
+stable: false
+in_place: false
+related: [min-max-ab-pruning]
+implementations: [cpp, go]
+visualization: true

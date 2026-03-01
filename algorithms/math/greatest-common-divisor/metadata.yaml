@@ -1,0 +1,17 @@
+name: "Greatest Common Divisor"
+slug: "greatest-common-divisor"
+category: "math"
+subcategory: "number-theory"
+difficulty: "beginner"
+tags: [math, gcd, euclidean, number-theory, divisor]
+complexity:
+  time:
+    best: "O(1)"
+    average: "O(log(min(a,b)))"
+    worst: "O(log(min(a,b)))"
+  space: "O(1)"
+stable: false
+in_place: true
+related: [binary-gcd, extended-euclidean]
+implementations: [python, java, cpp, c, go, typescript, kotlin, csharp, scala]
+visualization: false

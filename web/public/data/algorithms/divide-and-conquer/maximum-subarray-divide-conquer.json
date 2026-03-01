@@ -1,0 +1,132 @@
+{
+  "name": "Maximum Subarray (Divide and Conquer)",
+  "slug": "maximum-subarray-divide-conquer",
+  "category": "divide-and-conquer",
+  "subcategory": "array",
+  "difficulty": "intermediate",
+  "tags": [
+    "divide-and-conquer",
+    "maximum-subarray",
+    "array"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n log n)",
+      "average": "O(n log n)",
+      "worst": "O(n log n)"
+    },
+    "space": "O(log n)"
+  },
+  "stable": null,
+  "in_place": true,
+  "related": [
+    "kadanes"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "maximum_subarray_divide_conquer.c",
+          "content": "#include <stdio.h>\n#include <stdlib.h>\n#include <limits.h>\n#include \"maximum_subarray_divide_conquer.h\"\n\nstatic long long max_ll(long long a, long long b) { return a > b ? a : b; }\n\nstatic long long helper(const int* arr, int lo, int hi) {\n    if (lo == hi) return arr[lo];\n    int mid = (lo + hi) / 2;\n\n    long long left_sum = LLONG_MIN, s = 0;\n    for (int i = mid; i >= lo; i--) { s += arr[i]; if (s > left_sum) left_sum = s; }\n    long long right_sum = LLONG_MIN; s = 0;\n    for (int i = mid + 1; i <= hi; i++) { s += arr[i]; if (s > right_sum) right_sum = s; }\n\n    long long cross = left_sum + right_sum;\n    long long left_max = helper(arr, lo, mid);\n    long long right_max = helper(arr, mid + 1, hi);\n    return max_ll(max_ll(left_max, right_max), cross);\n}\n\nlong long max_subarray_dc(const int* arr, int n) {\n    return helper(arr, 0, n - 1);\n}\n\nint main(void) {\n    int n; scanf(\"%d\", &n);\n    int* arr = (int*)malloc(n * sizeof(int));\n    for (int i = 0; i < n; i++) scanf(\"%d\", &arr[i]);\n    printf(\"%lld\\n\", max_subarray_dc(arr, n));\n    free(arr);\n    return 0;\n}\n"
+        },
+        {
+          "filename": "maximum_subarray_divide_conquer.h",
+          "content": "#ifndef MAXIMUM_SUBARRAY_DIVIDE_CONQUER_H\n#define MAXIMUM_SUBARRAY_DIVIDE_CONQUER_H\n\nlong long max_subarray_dc(const int* arr, int n);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "maximum_subarray_divide_conquer.cpp",
+          "content": "#include <iostream>\n#include <vector>\n#include <algorithm>\n#include <climits>\nusing namespace std;\n\nlong long helper(const vector<int>& arr, int lo, int hi) {\n    if (lo == hi) return arr[lo];\n    int mid = (lo + hi) / 2;\n\n    long long leftSum = LLONG_MIN, s = 0;\n    for (int i = mid; i >= lo; i--) { s += arr[i]; leftSum = max(leftSum, s); }\n    long long rightSum = LLONG_MIN; s = 0;\n    for (int i = mid + 1; i <= hi; i++) { s += arr[i]; rightSum = max(rightSum, s); }\n\n    long long cross = leftSum + rightSum;\n    long long leftMax = helper(arr, lo, mid);\n    long long rightMax = helper(arr, mid + 1, hi);\n    return max({leftMax, rightMax, cross});\n}\n\nlong long max_subarray_dc(const vector<int>& arr) {\n    return helper(arr, 0, arr.size() - 1);\n}\n\nint main() {\n    int n; cin >> n;\n    vector<int> arr(n);\n    for (int i = 0; i < n; i++) cin >> arr[i];\n    cout << max_subarray_dc(arr) << endl;\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "MaximumSubarrayDivideConquer.cs",
+          "content": "using System;\n\npublic class MaximumSubarrayDivideConquer\n{\n    public static long MaxSubarrayDC(int[] arr)\n    {\n        return Helper(arr, 0, arr.Length - 1);\n    }\n\n    private static long Helper(int[] arr, int lo, int hi)\n    {\n        if (lo == hi) return arr[lo];\n        int mid = (lo + hi) / 2;\n\n        long leftSum = long.MinValue, s = 0;\n        for (int i = mid; i >= lo; i--) { s += arr[i]; if (s > leftSum) leftSum = s; }\n        long rightSum = long.MinValue; s = 0;\n        for (int i = mid + 1; i <= hi; i++) { s += arr[i]; if (s > rightSum) rightSum = s; }\n\n        long cross = leftSum + rightSum;\n        long leftMax = Helper(arr, lo, mid);\n        long rightMax = Helper(arr, mid + 1, hi);\n        return Math.Max(Math.Max(leftMax, rightMax), cross);\n    }\n\n    public static void Main(string[] args)\n    {\n        var tokens = Console.ReadLine().Trim().Split();\n        int n = int.Parse(tokens[0]);\n        int[] arr = new int[n];\n        for (int i = 0; i < n; i++) arr[i] = int.Parse(tokens[i + 1]);\n        Console.WriteLine(MaxSubarrayDC(arr));\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "maximum_subarray_divide_conquer.go",
+          "content": "package main\n\nimport (\n\t\"fmt\"\n\t\"math\"\n)\n\nfunc maxSubarrayDC(arr []int) int64 {\n\treturn helper(arr, 0, len(arr)-1)\n}\n\nfunc helper(arr []int, lo, hi int) int64 {\n\tif lo == hi {\n\t\treturn int64(arr[lo])\n\t}\n\tmid := (lo + hi) / 2\n\n\tleftSum := int64(math.MinInt64)\n\ts := int64(0)\n\tfor i := mid; i >= lo; i-- {\n\t\ts += int64(arr[i])\n\t\tif s > leftSum {\n\t\t\tleftSum = s\n\t\t}\n\t}\n\trightSum := int64(math.MinInt64)\n\ts = 0\n\tfor i := mid + 1; i <= hi; i++ {\n\t\ts += int64(arr[i])\n\t\tif s > rightSum {\n\t\t\trightSum = s\n\t\t}\n\t}\n\n\tcross := leftSum + rightSum\n\tleftMax := helper(arr, lo, mid)\n\trightMax := helper(arr, mid+1, hi)\n\tresult := leftMax\n\tif rightMax > result {\n\t\tresult = rightMax\n\t}\n\tif cross > result {\n\t\tresult = cross\n\t}\n\treturn result\n}\n\nfunc main() {\n\tvar n int\n\tfmt.Scan(&n)\n\tarr := make([]int, n)\n\tfor i := 0; i < n; i++ {\n\t\tfmt.Scan(&arr[i])\n\t}\n\tfmt.Println(maxSubarrayDC(arr))\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "MaximumSubarrayDivideConquer.java",
+          "content": "import java.util.Scanner;\n\npublic class MaximumSubarrayDivideConquer {\n\n    public static long maxSubarrayDC(int[] arr) {\n        return helper(arr, 0, arr.length - 1);\n    }\n\n    private static long helper(int[] arr, int lo, int hi) {\n        if (lo == hi) return arr[lo];\n        int mid = (lo + hi) / 2;\n\n        long leftSum = Long.MIN_VALUE, s = 0;\n        for (int i = mid; i >= lo; i--) { s += arr[i]; leftSum = Math.max(leftSum, s); }\n        long rightSum = Long.MIN_VALUE; s = 0;\n        for (int i = mid + 1; i <= hi; i++) { s += arr[i]; rightSum = Math.max(rightSum, s); }\n\n        long cross = leftSum + rightSum;\n        long leftMax = helper(arr, lo, mid);\n        long rightMax = helper(arr, mid + 1, hi);\n        return Math.max(Math.max(leftMax, rightMax), cross);\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int[] arr = new int[n];\n        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();\n        System.out.println(maxSubarrayDC(arr));\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "MaximumSubarrayDivideConquer.kt",
+          "content": "fun maxSubarrayDC(arr: IntArray): Long {\n    fun helper(lo: Int, hi: Int): Long {\n        if (lo == hi) return arr[lo].toLong()\n        val mid = (lo + hi) / 2\n\n        var leftSum = Long.MIN_VALUE; var s = 0L\n        for (i in mid downTo lo) { s += arr[i]; if (s > leftSum) leftSum = s }\n        var rightSum = Long.MIN_VALUE; s = 0\n        for (i in mid + 1..hi) { s += arr[i]; if (s > rightSum) rightSum = s }\n\n        val cross = leftSum + rightSum\n        val leftMax = helper(lo, mid)\n        val rightMax = helper(mid + 1, hi)\n        return maxOf(leftMax, rightMax, cross)\n    }\n    return helper(0, arr.size - 1)\n}\n\nfun main() {\n    val input = System.`in`.bufferedReader().readText().trim().split(\"\\\\s+\".toRegex()).map { it.toInt() }\n    val n = input[0]\n    val arr = IntArray(n) { input[it + 1] }\n    println(maxSubarrayDC(arr))\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "maximum_subarray_divide_conquer.py",
+          "content": "import sys\n\n\ndef max_subarray_dc(arr):\n    \"\"\"Find maximum subarray sum using divide and conquer.\"\"\"\n    def helper(lo, hi):\n        if lo == hi:\n            return arr[lo]\n        mid = (lo + hi) // 2\n\n        # Max crossing subarray\n        left_sum = float('-inf')\n        s = 0\n        for i in range(mid, lo - 1, -1):\n            s += arr[i]\n            left_sum = max(left_sum, s)\n        right_sum = float('-inf')\n        s = 0\n        for i in range(mid + 1, hi + 1):\n            s += arr[i]\n            right_sum = max(right_sum, s)\n\n        cross = left_sum + right_sum\n        left_max = helper(lo, mid)\n        right_max = helper(mid + 1, hi)\n        return max(left_max, right_max, cross)\n\n    return helper(0, len(arr) - 1)\n\n\nif __name__ == \"__main__\":\n    data = sys.stdin.read().split()\n    idx = 0\n    n = int(data[idx]); idx += 1\n    arr = [int(data[idx + i]) for i in range(n)]\n    print(max_subarray_dc(arr))\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "maximum_subarray_divide_conquer.rs",
+          "content": "use std::io::{self, Read};\n\nfn helper(arr: &[i64], lo: usize, hi: usize) -> i64 {\n    if lo == hi { return arr[lo]; }\n    let mid = (lo + hi) / 2;\n\n    let mut left_sum = i64::MIN;\n    let mut s: i64 = 0;\n    for i in (lo..=mid).rev() { s += arr[i]; left_sum = left_sum.max(s); }\n    let mut right_sum = i64::MIN;\n    s = 0;\n    for i in (mid + 1)..=hi { s += arr[i]; right_sum = right_sum.max(s); }\n\n    let cross = left_sum + right_sum;\n    let left_max = helper(arr, lo, mid);\n    let right_max = helper(arr, mid + 1, hi);\n    cross.max(left_max).max(right_max)\n}\n\nfn max_subarray_dc(arr: &[i64]) -> i64 {\n    helper(arr, 0, arr.len() - 1)\n}\n\nfn main() {\n    let mut input = String::new();\n    io::stdin().read_to_string(&mut input).unwrap();\n    let nums: Vec<i64> = input.split_whitespace().map(|x| x.parse().unwrap()).collect();\n    let n = nums[0] as usize;\n    let arr: Vec<i64> = nums[1..1 + n].to_vec();\n    println!(\"{}\", max_subarray_dc(&arr));\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "MaximumSubarrayDivideConquer.scala",
+          "content": "object MaximumSubarrayDivideConquer {\n\n  def maxSubarrayDC(arr: Array[Int]): Long = {\n    def helper(lo: Int, hi: Int): Long = {\n      if (lo == hi) return arr(lo).toLong\n      val mid = (lo + hi) / 2\n\n      var leftSum = Long.MinValue; var s = 0L\n      for (i <- mid to lo by -1) { s += arr(i); if (s > leftSum) leftSum = s }\n      var rightSum = Long.MinValue; s = 0\n      for (i <- mid + 1 to hi) { s += arr(i); if (s > rightSum) rightSum = s }\n\n      val cross = leftSum + rightSum\n      val leftMax = helper(lo, mid)\n      val rightMax = helper(mid + 1, hi)\n      math.max(math.max(leftMax, rightMax), cross)\n    }\n    helper(0, arr.length - 1)\n  }\n\n  def main(args: Array[String]): Unit = {\n    val input = scala.io.StdIn.readLine().trim.split(\"\\\\s+\").map(_.toInt)\n    val n = input(0)\n    val arr = input.slice(1, 1 + n)\n    println(maxSubarrayDC(arr))\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "MaximumSubarrayDivideConquer.swift",
+          "content": "import Foundation\n\nfunc maxSubarrayDC(_ arr: [Int]) -> Int {\n    func helper(_ lo: Int, _ hi: Int) -> Int {\n        if lo == hi { return arr[lo] }\n        let mid = (lo + hi) / 2\n\n        var leftSum = Int.min; var s = 0\n        for i in stride(from: mid, through: lo, by: -1) { s += arr[i]; leftSum = max(leftSum, s) }\n        var rightSum = Int.min; s = 0\n        for i in (mid + 1)...hi { s += arr[i]; rightSum = max(rightSum, s) }\n\n        let cross = leftSum + rightSum\n        let leftMax = helper(lo, mid)\n        let rightMax = helper(mid + 1, hi)\n        return max(leftMax, rightMax, cross)\n    }\n    return helper(0, arr.count - 1)\n}\n\nlet data = readLine()!.split(separator: \" \").map { Int($0)! }\nlet n = data[0]\nlet arr = Array(data[1...n])\nprint(maxSubarrayDC(arr))\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "maximumSubarrayDivideConquer.ts",
+          "content": "export function maxSubarrayDC(arr: number[]): number {\n    if (arr.length === 0) return 0;\n\n    function helper(lo: number, hi: number): number {\n        if (lo === hi) return arr[lo];\n        const mid = (lo + hi) >> 1;\n\n        let leftSum = -Infinity, s = 0;\n        for (let i = mid; i >= lo; i--) { s += arr[i]; leftSum = Math.max(leftSum, s); }\n        let rightSum = -Infinity; s = 0;\n        for (let i = mid + 1; i <= hi; i++) { s += arr[i]; rightSum = Math.max(rightSum, s); }\n\n        const cross = leftSum + rightSum;\n        const leftMax = helper(lo, mid);\n        const rightMax = helper(mid + 1, hi);\n        return Math.max(leftMax, rightMax, cross);\n    }\n    return helper(0, arr.length - 1);\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Maximum Subarray (Divide and Conquer)\n\n## Overview\n\nThe Maximum Subarray problem finds the contiguous subarray within a one-dimensional array of numbers that has the largest sum. While Kadane's algorithm solves this in O(n), the divide-and-conquer approach runs in O(n log n) and serves as an important pedagogical example of the divide-and-conquer paradigm. This approach was presented in the classic textbook *Introduction to Algorithms* by Cormen et al. (CLRS) as a motivating example for divide-and-conquer before introducing Strassen's algorithm.\n\nThe problem has applications in stock trading (finding the best buy/sell window), image processing (maximum brightness region), and genomics (finding regions of high GC content in DNA sequences).\n\n## How It Works\n\n1. **Base case:** A single element -- the maximum subarray is the element itself.\n2. **Divide:** Split the array at the midpoint into left and right halves.\n3. **Conquer:** Recursively find the maximum subarray in each half.\n4. **Combine:** Find the maximum subarray that crosses the midpoint by extending greedily in both directions from the midpoint.\n5. Return the maximum of left_max, right_max, and cross_max.\n\nThe crossing subarray must include at least one element from each half. To find it, scan left from mid to find the best left extension, then scan right from mid+1 to find the best right extension. Their sum is the crossing maximum.\n\n## Worked Example\n\nGiven array: `[-2, 1, -3, 4, -1, 2, 1, -5, 4]`\n\n**Level 1: Split at index 4**\n- Left half: `[-2, 1, -3, 4, -1]`\n- Right half: `[2, 1, -5, 4]`\n\n**Left half recursion (split at index 2):**\n- Left-left: `[-2, 1, -3]` --> best = 1 (just element `1`)\n- Left-right: `[4, -1]` --> best = 4 (just element `4`)\n- Cross from index 2: extend left from index 2: -3, then -3+1=-2, then -2+(-2)=-4. Best left sum = -3 at index 2. Extend right from index 3: 4, then 4+(-1)=3. Best right sum = 4 at index 3. Cross = -3 + 4 = 1.\n- Left half maximum = max(1, 4, 1) = **4**\n\n**Right half recursion (split at index 6):**\n- Right-left: `[2, 1]` --> best = 3 (both elements)\n- Right-right: `[-5, 4]` --> best = 4 (just element `4`)\n- Cross from index 6: extend left: 1, then 1+2=3. Best = 3. Extend right: -5. Best = -5. Cross = 3 + (-5) = -2.\n- Right half maximum = max(3, 4, -2) = **4**\n\n**Crossing subarray at level 1 (crossing index 4):**\n- Extend left from index 4: -1, -1+4=3, 3+(-3)=0, 0+1=1, 1+(-2)=-1. Best left sum = 3 (indices 3-4).\n- Extend right from index 5: 2, 2+1=3, 3+(-5)=-2, -2+4=2. Best right sum = 3 (indices 5-6).\n- Cross = 3 + 3 = **6** (subarray `[4, -1, 2, 1]`)\n\n**Final answer:** max(4, 4, 6) = **6**, corresponding to subarray `[4, -1, 2, 1]`.\n\n## Pseudocode\n\n```\nfunction maxSubarrayDC(arr, low, high):\n    if low == high:\n        return arr[low]\n\n    mid = floor((low + high) / 2)\n\n    left_max = maxSubarrayDC(arr, low, mid)\n    right_max = maxSubarrayDC(arr, mid + 1, high)\n    cross_max = maxCrossingSubarray(arr, low, mid, high)\n\n    return max(left_max, right_max, cross_max)\n\nfunction maxCrossingSubarray(arr, low, mid, high):\n    // Find best sum extending left from mid\n    left_sum = -infinity\n    sum = 0\n    for i = mid downto low:\n        sum = sum + arr[i]\n        if sum > left_sum:\n            left_sum = sum\n\n    // Find best sum extending right from mid+1\n    right_sum = -infinity\n    sum = 0\n    for j = mid + 1 to high:\n        sum = sum + arr[j]\n        if sum > right_sum:\n            right_sum = sum\n\n    return left_sum + right_sum\n```\n\n## Complexity Analysis\n\n| Case    | Time       | Space    |\n|---------|-----------|----------|\n| Best    | O(n log n) | O(log n) |\n| Average | O(n log n) | O(log n) |\n| Worst   | O(n log n) | O(log n) |\n\n**Why these complexities?**\n\n- **Time -- O(n log n):** The algorithm divides the problem into two halves (each of size n/2) and performs O(n) work to find the crossing subarray. By the Master Theorem, T(n) = 2T(n/2) + O(n) gives T(n) = O(n log n). There are log n levels in the recursion tree, and each level performs O(n) total work.\n\n- **Space -- O(log n):** The recursion depth is O(log n), and each recursive call uses O(1) extra space. No auxiliary arrays are needed since the algorithm works in-place on the original array.\n\n## When to Use\n\n- **Teaching divide-and-conquer:** This is an excellent example for introducing the paradigm because the problem is easy to understand and the three-way decomposition (left, right, crossing) is intuitive.\n- **When you need subarray boundaries:** The divide-and-conquer approach naturally tracks the indices of the maximum subarray, which can be useful for further processing.\n- **Parallel computing:** The left and right recursive calls are independent and can be executed in parallel, giving O(n) span with O(n log n) work, achieving efficient parallelism.\n- **When the problem generalizes:** The technique extends to higher dimensions (e.g., maximum sum rectangle in a 2D matrix).\n\n## When NOT to Use\n\n- **When O(n) is needed:** Kadane's algorithm solves the same problem in O(n) time and O(1) space, making it strictly better for serial execution. Always prefer Kadane's for production code.\n- **When all elements are negative:** Both approaches handle this correctly, but it is important to decide the convention (return the least negative element, or return 0 for an empty subarray).\n- **Very large arrays in memory-constrained environments:** While O(log n) space is efficient, Kadane's O(1) space is even better.\n\n## Comparison\n\n| Algorithm             | Time       | Space    | Notes                                    |\n|----------------------|-----------|----------|------------------------------------------|\n| Kadane's Algorithm    | O(n)      | O(1)     | Optimal serial solution; simple to code  |\n| **Divide & Conquer**  | **O(n log n)** | **O(log n)** | **Parallelizable; good for teaching**   |\n| Brute Force           | O(n^2)    | O(1)     | Try all subarrays; simple but slow       |\n| Prefix Sum            | O(n)      | O(n)     | Uses prefix sums; equivalent to Kadane's |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [maximum_subarray_divide_conquer.py](python/maximum_subarray_divide_conquer.py) |\n| Java       | [MaximumSubarrayDivideConquer.java](java/MaximumSubarrayDivideConquer.java) |\n| C++        | [maximum_subarray_divide_conquer.cpp](cpp/maximum_subarray_divide_conquer.cpp) |\n| C          | [maximum_subarray_divide_conquer.c](c/maximum_subarray_divide_conquer.c) |\n| Go         | [maximum_subarray_divide_conquer.go](go/maximum_subarray_divide_conquer.go) |\n| TypeScript | [maximumSubarrayDivideConquer.ts](typescript/maximumSubarrayDivideConquer.ts) |\n| Rust       | [maximum_subarray_divide_conquer.rs](rust/maximum_subarray_divide_conquer.rs) |\n| Kotlin     | [MaximumSubarrayDivideConquer.kt](kotlin/MaximumSubarrayDivideConquer.kt) |\n| Swift      | [MaximumSubarrayDivideConquer.swift](swift/MaximumSubarrayDivideConquer.swift) |\n| Scala      | [MaximumSubarrayDivideConquer.scala](scala/MaximumSubarrayDivideConquer.scala) |\n| C#         | [MaximumSubarrayDivideConquer.cs](csharp/MaximumSubarrayDivideConquer.cs) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Section 4.1: The Maximum-Subarray Problem.\n- Bentley, J. (1984). \"Programming Pearls: Algorithm Design Techniques.\" *Communications of the ACM*, 27(9), 865-873.\n- Kadane, J. B. (original algorithm, 1984, as cited in Bentley's column).\n- [Maximum Subarray Problem -- Wikipedia](https://en.wikipedia.org/wiki/Maximum_subarray_problem)\n"
+}

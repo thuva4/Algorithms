@@ -1,0 +1,22 @@
+name: "Counting Inversions"
+slug: "counting-inversions"
+category: "divide-and-conquer"
+subcategory: "sorting-based"
+difficulty: "intermediate"
+tags: [divide-and-conquer, inversions, merge-sort, counting, sorting]
+complexity:
+  time:
+    best: "O(n log n)"
+    average: "O(n log n)"
+    worst: "O(n log n)"
+  space: "O(n)"
+stable: true
+in_place: false
+related: []
+implementations: [cpp, go, java]
+visualization: false
+patterns:
+  - merge-intervals
+  - k-way-merge
+patternDifficulty: advanced
+practiceOrder: 3

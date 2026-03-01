@@ -1,0 +1,133 @@
+{
+  "name": "Line Segment Intersection",
+  "slug": "line-intersection",
+  "category": "geometry",
+  "subcategory": "intersection",
+  "difficulty": "intermediate",
+  "tags": [
+    "geometry",
+    "intersection",
+    "line-segment",
+    "computational-geometry"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(1)",
+      "average": "O(1)",
+      "worst": "O(1)"
+    },
+    "space": "O(1)"
+  },
+  "related": [
+    "convex-hull",
+    "closest-pair-of-points",
+    "point-in-polygon"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "line_intersection.c",
+          "content": "#include \"line_intersection.h\"\n\nstatic int max_int(int a, int b) { return a > b ? a : b; }\nstatic int min_int(int a, int b) { return a < b ? a : b; }\n\nstatic int orientation(int px, int py, int qx, int qy, int rx, int ry) {\n    int val = (qy - py) * (rx - qx) - (qx - px) * (ry - qy);\n    if (val == 0) return 0;\n    return val > 0 ? 1 : 2;\n}\n\nstatic int on_segment(int px, int py, int qx, int qy, int rx, int ry) {\n    return qx <= max_int(px, rx) && qx >= min_int(px, rx) &&\n           qy <= max_int(py, ry) && qy >= min_int(py, ry);\n}\n\nint line_intersection(int* arr, int len) {\n    int x1 = arr[0], y1 = arr[1], x2 = arr[2], y2 = arr[3];\n    int x3 = arr[4], y3 = arr[5], x4 = arr[6], y4 = arr[7];\n\n    int o1 = orientation(x1, y1, x2, y2, x3, y3);\n    int o2 = orientation(x1, y1, x2, y2, x4, y4);\n    int o3 = orientation(x3, y3, x4, y4, x1, y1);\n    int o4 = orientation(x3, y3, x4, y4, x2, y2);\n\n    if (o1 != o2 && o3 != o4) return 1;\n\n    if (o1 == 0 && on_segment(x1, y1, x3, y3, x2, y2)) return 1;\n    if (o2 == 0 && on_segment(x1, y1, x4, y4, x2, y2)) return 1;\n    if (o3 == 0 && on_segment(x3, y3, x1, y1, x4, y4)) return 1;\n    if (o4 == 0 && on_segment(x3, y3, x2, y2, x4, y4)) return 1;\n\n    return 0;\n}\n"
+        },
+        {
+          "filename": "line_intersection.h",
+          "content": "#ifndef LINE_INTERSECTION_H\n#define LINE_INTERSECTION_H\n\nint line_intersection(int* arr, int len);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "line_intersection.cpp",
+          "content": "#include <vector>\n#include <algorithm>\n\nusing namespace std;\n\nstatic int orientation(int px, int py, int qx, int qy, int rx, int ry) {\n    int val = (qy - py) * (rx - qx) - (qx - px) * (ry - qy);\n    if (val == 0) return 0;\n    return val > 0 ? 1 : 2;\n}\n\nstatic bool onSegment(int px, int py, int qx, int qy, int rx, int ry) {\n    return qx <= max(px, rx) && qx >= min(px, rx) &&\n           qy <= max(py, ry) && qy >= min(py, ry);\n}\n\nint line_intersection(vector<int> arr) {\n    int x1 = arr[0], y1 = arr[1], x2 = arr[2], y2 = arr[3];\n    int x3 = arr[4], y3 = arr[5], x4 = arr[6], y4 = arr[7];\n\n    int o1 = orientation(x1, y1, x2, y2, x3, y3);\n    int o2 = orientation(x1, y1, x2, y2, x4, y4);\n    int o3 = orientation(x3, y3, x4, y4, x1, y1);\n    int o4 = orientation(x3, y3, x4, y4, x2, y2);\n\n    if (o1 != o2 && o3 != o4) return 1;\n\n    if (o1 == 0 && onSegment(x1, y1, x3, y3, x2, y2)) return 1;\n    if (o2 == 0 && onSegment(x1, y1, x4, y4, x2, y2)) return 1;\n    if (o3 == 0 && onSegment(x3, y3, x1, y1, x4, y4)) return 1;\n    if (o4 == 0 && onSegment(x3, y3, x2, y2, x4, y4)) return 1;\n\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "LineIntersection.cs",
+          "content": "using System;\n\npublic class LineIntersection\n{\n    public static int CheckIntersection(int[] arr)\n    {\n        int x1 = arr[0], y1 = arr[1], x2 = arr[2], y2 = arr[3];\n        int x3 = arr[4], y3 = arr[5], x4 = arr[6], y4 = arr[7];\n\n        int o1 = Orientation(x1, y1, x2, y2, x3, y3);\n        int o2 = Orientation(x1, y1, x2, y2, x4, y4);\n        int o3 = Orientation(x3, y3, x4, y4, x1, y1);\n        int o4 = Orientation(x3, y3, x4, y4, x2, y2);\n\n        if (o1 != o2 && o3 != o4) return 1;\n\n        if (o1 == 0 && OnSegment(x1, y1, x3, y3, x2, y2)) return 1;\n        if (o2 == 0 && OnSegment(x1, y1, x4, y4, x2, y2)) return 1;\n        if (o3 == 0 && OnSegment(x3, y3, x1, y1, x4, y4)) return 1;\n        if (o4 == 0 && OnSegment(x3, y3, x2, y2, x4, y4)) return 1;\n\n        return 0;\n    }\n\n    private static int Orientation(int px, int py, int qx, int qy, int rx, int ry)\n    {\n        int val = (qy - py) * (rx - qx) - (qx - px) * (ry - qy);\n        if (val == 0) return 0;\n        return val > 0 ? 1 : 2;\n    }\n\n    private static bool OnSegment(int px, int py, int qx, int qy, int rx, int ry)\n    {\n        return qx <= Math.Max(px, rx) && qx >= Math.Min(px, rx) &&\n               qy <= Math.Max(py, ry) && qy >= Math.Min(py, ry);\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "line_intersection.go",
+          "content": "package lineintersection\n\nfunc orientation(px, py, qx, qy, rx, ry int) int {\n\tval := (qy-py)*(rx-qx) - (qx-px)*(ry-qy)\n\tif val == 0 {\n\t\treturn 0\n\t}\n\tif val > 0 {\n\t\treturn 1\n\t}\n\treturn 2\n}\n\nfunc onSegment(px, py, qx, qy, rx, ry int) bool {\n\treturn qx <= max(px, rx) && qx >= min(px, rx) &&\n\t\tqy <= max(py, ry) && qy >= min(py, ry)\n}\n\nfunc max(a, b int) int {\n\tif a > b {\n\t\treturn a\n\t}\n\treturn b\n}\n\nfunc min(a, b int) int {\n\tif a < b {\n\t\treturn a\n\t}\n\treturn b\n}\n\nfunc LineIntersection(arr []int) int {\n\tx1, y1, x2, y2 := arr[0], arr[1], arr[2], arr[3]\n\tx3, y3, x4, y4 := arr[4], arr[5], arr[6], arr[7]\n\n\to1 := orientation(x1, y1, x2, y2, x3, y3)\n\to2 := orientation(x1, y1, x2, y2, x4, y4)\n\to3 := orientation(x3, y3, x4, y4, x1, y1)\n\to4 := orientation(x3, y3, x4, y4, x2, y2)\n\n\tif o1 != o2 && o3 != o4 {\n\t\treturn 1\n\t}\n\n\tif o1 == 0 && onSegment(x1, y1, x3, y3, x2, y2) {\n\t\treturn 1\n\t}\n\tif o2 == 0 && onSegment(x1, y1, x4, y4, x2, y2) {\n\t\treturn 1\n\t}\n\tif o3 == 0 && onSegment(x3, y3, x1, y1, x4, y4) {\n\t\treturn 1\n\t}\n\tif o4 == 0 && onSegment(x3, y3, x2, y2, x4, y4) {\n\t\treturn 1\n\t}\n\n\treturn 0\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "LineIntersection.java",
+          "content": "public class LineIntersection {\n\n    public static int lineIntersection(int[] arr) {\n        int x1 = arr[0], y1 = arr[1], x2 = arr[2], y2 = arr[3];\n        int x3 = arr[4], y3 = arr[5], x4 = arr[6], y4 = arr[7];\n\n        int o1 = orientation(x1, y1, x2, y2, x3, y3);\n        int o2 = orientation(x1, y1, x2, y2, x4, y4);\n        int o3 = orientation(x3, y3, x4, y4, x1, y1);\n        int o4 = orientation(x3, y3, x4, y4, x2, y2);\n\n        if (o1 != o2 && o3 != o4) return 1;\n\n        if (o1 == 0 && onSegment(x1, y1, x3, y3, x2, y2)) return 1;\n        if (o2 == 0 && onSegment(x1, y1, x4, y4, x2, y2)) return 1;\n        if (o3 == 0 && onSegment(x3, y3, x1, y1, x4, y4)) return 1;\n        if (o4 == 0 && onSegment(x3, y3, x2, y2, x4, y4)) return 1;\n\n        return 0;\n    }\n\n    private static int orientation(int px, int py, int qx, int qy, int rx, int ry) {\n        int val = (qy - py) * (rx - qx) - (qx - px) * (ry - qy);\n        if (val == 0) return 0;\n        return val > 0 ? 1 : 2;\n    }\n\n    private static boolean onSegment(int px, int py, int qx, int qy, int rx, int ry) {\n        return qx <= Math.max(px, rx) && qx >= Math.min(px, rx) &&\n               qy <= Math.max(py, ry) && qy >= Math.min(py, ry);\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "LineIntersection.kt",
+          "content": "fun lineIntersection(arr: IntArray): Int {\n    val x1 = arr[0]; val y1 = arr[1]; val x2 = arr[2]; val y2 = arr[3]\n    val x3 = arr[4]; val y3 = arr[5]; val x4 = arr[6]; val y4 = arr[7]\n\n    fun orientation(px: Int, py: Int, qx: Int, qy: Int, rx: Int, ry: Int): Int {\n        val v = (qy - py) * (rx - qx) - (qx - px) * (ry - qy)\n        return when {\n            v == 0 -> 0\n            v > 0 -> 1\n            else -> 2\n        }\n    }\n\n    fun onSegment(px: Int, py: Int, qx: Int, qy: Int, rx: Int, ry: Int): Boolean {\n        return qx <= maxOf(px, rx) && qx >= minOf(px, rx) &&\n               qy <= maxOf(py, ry) && qy >= minOf(py, ry)\n    }\n\n    val o1 = orientation(x1, y1, x2, y2, x3, y3)\n    val o2 = orientation(x1, y1, x2, y2, x4, y4)\n    val o3 = orientation(x3, y3, x4, y4, x1, y1)\n    val o4 = orientation(x3, y3, x4, y4, x2, y2)\n\n    if (o1 != o2 && o3 != o4) return 1\n\n    if (o1 == 0 && onSegment(x1, y1, x3, y3, x2, y2)) return 1\n    if (o2 == 0 && onSegment(x1, y1, x4, y4, x2, y2)) return 1\n    if (o3 == 0 && onSegment(x3, y3, x1, y1, x4, y4)) return 1\n    if (o4 == 0 && onSegment(x3, y3, x2, y2, x4, y4)) return 1\n\n    return 0\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "line_intersection.py",
+          "content": "def line_intersection(arr: list[int]) -> int:\n    x1, y1, x2, y2 = arr[0], arr[1], arr[2], arr[3]\n    x3, y3, x4, y4 = arr[4], arr[5], arr[6], arr[7]\n\n    def orientation(px, py, qx, qy, rx, ry):\n        val = (qy - py) * (rx - qx) - (qx - px) * (ry - qy)\n        if val == 0:\n            return 0\n        return 1 if val > 0 else 2\n\n    def on_segment(px, py, qx, qy, rx, ry):\n        return (min(px, rx) <= qx <= max(px, rx) and\n                min(py, ry) <= qy <= max(py, ry))\n\n    o1 = orientation(x1, y1, x2, y2, x3, y3)\n    o2 = orientation(x1, y1, x2, y2, x4, y4)\n    o3 = orientation(x3, y3, x4, y4, x1, y1)\n    o4 = orientation(x3, y3, x4, y4, x2, y2)\n\n    if o1 != o2 and o3 != o4:\n        return 1\n\n    if o1 == 0 and on_segment(x1, y1, x3, y3, x2, y2):\n        return 1\n    if o2 == 0 and on_segment(x1, y1, x4, y4, x2, y2):\n        return 1\n    if o3 == 0 and on_segment(x3, y3, x1, y1, x4, y4):\n        return 1\n    if o4 == 0 and on_segment(x3, y3, x2, y2, x4, y4):\n        return 1\n\n    return 0\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "line_intersection.rs",
+          "content": "pub fn line_intersection(arr: &[i32]) -> i32 {\n    let (x1, y1, x2, y2) = (arr[0], arr[1], arr[2], arr[3]);\n    let (x3, y3, x4, y4) = (arr[4], arr[5], arr[6], arr[7]);\n\n    fn orientation(px: i32, py: i32, qx: i32, qy: i32, rx: i32, ry: i32) -> i32 {\n        let val = (qy - py) * (rx - qx) - (qx - px) * (ry - qy);\n        if val == 0 { 0 } else if val > 0 { 1 } else { 2 }\n    }\n\n    fn on_segment(px: i32, py: i32, qx: i32, qy: i32, rx: i32, ry: i32) -> bool {\n        qx <= px.max(rx) && qx >= px.min(rx) &&\n        qy <= py.max(ry) && qy >= py.min(ry)\n    }\n\n    let o1 = orientation(x1, y1, x2, y2, x3, y3);\n    let o2 = orientation(x1, y1, x2, y2, x4, y4);\n    let o3 = orientation(x3, y3, x4, y4, x1, y1);\n    let o4 = orientation(x3, y3, x4, y4, x2, y2);\n\n    if o1 != o2 && o3 != o4 { return 1; }\n\n    if o1 == 0 && on_segment(x1, y1, x3, y3, x2, y2) { return 1; }\n    if o2 == 0 && on_segment(x1, y1, x4, y4, x2, y2) { return 1; }\n    if o3 == 0 && on_segment(x3, y3, x1, y1, x4, y4) { return 1; }\n    if o4 == 0 && on_segment(x3, y3, x2, y2, x4, y4) { return 1; }\n\n    0\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "LineIntersection.scala",
+          "content": "object LineIntersection {\n\n  def lineIntersection(arr: Array[Int]): Int = {\n    val (x1, y1, x2, y2) = (arr(0), arr(1), arr(2), arr(3))\n    val (x3, y3, x4, y4) = (arr(4), arr(5), arr(6), arr(7))\n\n    def orientation(px: Int, py: Int, qx: Int, qy: Int, rx: Int, ry: Int): Int = {\n      val v = (qy - py) * (rx - qx) - (qx - px) * (ry - qy)\n      if (v == 0) 0 else if (v > 0) 1 else 2\n    }\n\n    def onSegment(px: Int, py: Int, qx: Int, qy: Int, rx: Int, ry: Int): Boolean = {\n      qx <= math.max(px, rx) && qx >= math.min(px, rx) &&\n      qy <= math.max(py, ry) && qy >= math.min(py, ry)\n    }\n\n    val o1 = orientation(x1, y1, x2, y2, x3, y3)\n    val o2 = orientation(x1, y1, x2, y2, x4, y4)\n    val o3 = orientation(x3, y3, x4, y4, x1, y1)\n    val o4 = orientation(x3, y3, x4, y4, x2, y2)\n\n    if (o1 != o2 && o3 != o4) return 1\n\n    if (o1 == 0 && onSegment(x1, y1, x3, y3, x2, y2)) return 1\n    if (o2 == 0 && onSegment(x1, y1, x4, y4, x2, y2)) return 1\n    if (o3 == 0 && onSegment(x3, y3, x1, y1, x4, y4)) return 1\n    if (o4 == 0 && onSegment(x3, y3, x2, y2, x4, y4)) return 1\n\n    0\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "LineIntersection.swift",
+          "content": "func lineIntersection(_ arr: [Int]) -> Int {\n    let (x1, y1, x2, y2) = (arr[0], arr[1], arr[2], arr[3])\n    let (x3, y3, x4, y4) = (arr[4], arr[5], arr[6], arr[7])\n\n    func orientation(_ px: Int, _ py: Int, _ qx: Int, _ qy: Int, _ rx: Int, _ ry: Int) -> Int {\n        let val2 = (qy - py) * (rx - qx) - (qx - px) * (ry - qy)\n        if val2 == 0 { return 0 }\n        return val2 > 0 ? 1 : 2\n    }\n\n    func onSegment(_ px: Int, _ py: Int, _ qx: Int, _ qy: Int, _ rx: Int, _ ry: Int) -> Bool {\n        return qx <= max(px, rx) && qx >= min(px, rx) &&\n               qy <= max(py, ry) && qy >= min(py, ry)\n    }\n\n    let o1 = orientation(x1, y1, x2, y2, x3, y3)\n    let o2 = orientation(x1, y1, x2, y2, x4, y4)\n    let o3 = orientation(x3, y3, x4, y4, x1, y1)\n    let o4 = orientation(x3, y3, x4, y4, x2, y2)\n\n    if o1 != o2 && o3 != o4 { return 1 }\n\n    if o1 == 0 && onSegment(x1, y1, x3, y3, x2, y2) { return 1 }\n    if o2 == 0 && onSegment(x1, y1, x4, y4, x2, y2) { return 1 }\n    if o3 == 0 && onSegment(x3, y3, x1, y1, x4, y4) { return 1 }\n    if o4 == 0 && onSegment(x3, y3, x2, y2, x4, y4) { return 1 }\n\n    return 0\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "lineIntersection.ts",
+          "content": "export function lineIntersection(arr: number[]): number {\n    const [x1, y1, x2, y2, x3, y3, x4, y4] = arr;\n\n    function orientation(px: number, py: number, qx: number, qy: number, rx: number, ry: number): number {\n        const val = (qy - py) * (rx - qx) - (qx - px) * (ry - qy);\n        if (val === 0) return 0;\n        return val > 0 ? 1 : 2;\n    }\n\n    function onSegment(px: number, py: number, qx: number, qy: number, rx: number, ry: number): boolean {\n        return qx <= Math.max(px, rx) && qx >= Math.min(px, rx) &&\n               qy <= Math.max(py, ry) && qy >= Math.min(py, ry);\n    }\n\n    const o1 = orientation(x1, y1, x2, y2, x3, y3);\n    const o2 = orientation(x1, y1, x2, y2, x4, y4);\n    const o3 = orientation(x3, y3, x4, y4, x1, y1);\n    const o4 = orientation(x3, y3, x4, y4, x2, y2);\n\n    if (o1 !== o2 && o3 !== o4) return 1;\n\n    if (o1 === 0 && onSegment(x1, y1, x3, y3, x2, y2)) return 1;\n    if (o2 === 0 && onSegment(x1, y1, x4, y4, x2, y2)) return 1;\n    if (o3 === 0 && onSegment(x3, y3, x1, y1, x4, y4)) return 1;\n    if (o4 === 0 && onSegment(x3, y3, x2, y2, x4, y4)) return 1;\n\n    return 0;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Line Segment Intersection\n\n## Overview\n\nThe Line Segment Intersection algorithm determines whether two line segments in the plane intersect. It uses the concept of orientation of ordered triplets of points to efficiently decide intersection without computing the actual intersection point. This is a fundamental primitive in computational geometry, serving as a building block for more complex algorithms such as polygon clipping, sweep line algorithms, and map overlay operations.\n\nThe algorithm handles both the general case (segments cross each other) and special collinear cases (segments overlap or touch at endpoints).\n\n## How It Works\n\nThe algorithm relies on the **orientation test** for three ordered points (p, q, r):\n\n- **Counterclockwise (CCW):** The points make a left turn.\n- **Clockwise (CW):** The points make a right turn.\n- **Collinear:** The points are on the same line.\n\nThe orientation is computed using the cross product of vectors (pq) and (qr):\n`orientation = (q.y - p.y) * (r.x - q.x) - (q.x - p.x) * (r.y - q.y)`\n\nTwo segments (p1,q1) and (p2,q2) intersect if and only if:\n\n1. **General case:** The orientations of (p1,q1,p2) and (p1,q1,q2) are different AND the orientations of (p2,q2,p1) and (p2,q2,q1) are different. This means each segment straddles the line containing the other.\n2. **Collinear special case:** If any triplet is collinear, check whether the corresponding endpoint lies on the other segment (using a bounding-box containment test).\n\n## Worked Example\n\n**Example 1 -- Intersecting segments:**\n\nSegment A: (1,1) to (4,4), Segment B: (1,4) to (4,1)\n\n| Triplet | Orientation | Value |\n|---------|-------------|-------|\n| (1,1), (4,4), (1,4) | Counterclockwise | positive |\n| (1,1), (4,4), (4,1) | Clockwise | negative |\n| (1,4), (4,1), (1,1) | Clockwise | negative |\n| (1,4), (4,1), (4,4) | Counterclockwise | positive |\n\nOrientations differ in both pairs: (CCW != CW) and (CW != CCW). Result: **segments intersect**.\n\n**Example 2 -- Non-intersecting segments:**\n\nSegment A: (1,1) to (2,2), Segment B: (3,3) to (4,4)\n\n| Triplet | Orientation | Value |\n|---------|-------------|-------|\n| (1,1), (2,2), (3,3) | Collinear | 0 |\n| (1,1), (2,2), (4,4) | Collinear | 0 |\n\nAll triplets are collinear. Check if any endpoint of one segment lies on the other: (3,3) is not between (1,1) and (2,2), and (1,1) is not between (3,3) and (4,4). Result: **segments do not intersect**.\n\n**Example 3 -- Collinear overlapping segments:**\n\nSegment A: (1,1) to (3,3), Segment B: (2,2) to (4,4)\n\nAll triplets are collinear. Point (2,2) lies on segment A (between (1,1) and (3,3)). Result: **segments intersect**.\n\n## Pseudocode\n\n```\nfunction orientation(p, q, r):\n    val = (q.y - p.y) * (r.x - q.x) - (q.x - p.x) * (r.y - q.y)\n    if val == 0: return COLLINEAR\n    if val > 0:  return CLOCKWISE\n    return COUNTERCLOCKWISE\n\nfunction onSegment(p, q, r):\n    // Check if q lies on segment pr (given p, q, r are collinear)\n    if q.x <= max(p.x, r.x) and q.x >= min(p.x, r.x) and\n       q.y <= max(p.y, r.y) and q.y >= min(p.y, r.y):\n        return true\n    return false\n\nfunction doIntersect(p1, q1, p2, q2):\n    o1 = orientation(p1, q1, p2)\n    o2 = orientation(p1, q1, q2)\n    o3 = orientation(p2, q2, p1)\n    o4 = orientation(p2, q2, q1)\n\n    // General case\n    if o1 != o2 and o3 != o4:\n        return true\n\n    // Collinear special cases\n    if o1 == COLLINEAR and onSegment(p1, p2, q1): return true\n    if o2 == COLLINEAR and onSegment(p1, q2, q1): return true\n    if o3 == COLLINEAR and onSegment(p2, p1, q2): return true\n    if o4 == COLLINEAR and onSegment(p2, q1, q2): return true\n\n    return false\n```\n\n## Complexity Analysis\n\n| Case    | Time | Space |\n|---------|------|-------|\n| Best    | O(1) | O(1)  |\n| Average | O(1) | O(1)  |\n| Worst   | O(1) | O(1)  |\n\n- **Time -- O(1):** The algorithm performs a fixed number of arithmetic operations (cross products and comparisons) regardless of input. There is no dependence on any variable size.\n- **Space -- O(1):** Only a constant number of variables are needed.\n\nNote: When testing intersections among n segments (the segment intersection problem), the per-pair test is O(1), but a naive all-pairs check is O(n^2). The Bentley-Ottmann sweep line algorithm finds all k intersections among n segments in O((n + k) log n) time.\n\n## When to Use\n\n- **Collision detection in games and simulations:** Determining if moving objects (represented by line segments or edges) collide.\n- **Computer graphics rendering:** Line clipping against viewport boundaries, polygon fill algorithms.\n- **Geographic information systems:** Map overlay, determining if roads cross rivers, boundary intersections.\n- **Computational geometry algorithms:** Building block for polygon intersection, triangulation, and Voronoi diagrams.\n- **Robotics:** Path planning to check if a planned movement crosses an obstacle edge.\n\n## When NOT to Use\n\n- **Need the intersection point coordinates:** This algorithm only returns a boolean (intersect or not). To find the actual intersection point, you need to solve the parametric line equations.\n- **Many-segment intersection problems:** For detecting all intersections among n segments, use the Bentley-Ottmann sweep line algorithm rather than checking all O(n^2) pairs.\n- **Curved paths or arcs:** The orientation-based approach applies only to straight line segments. For curves, numerical or parametric methods are needed.\n- **Floating-point precision concerns:** The cross product computation can suffer from numerical errors near collinear or near-touching configurations. Use exact arithmetic or epsilon-based comparisons for robust implementations.\n\n## Comparison\n\n| Method | Time per Test | Finds Point? | Handles Collinear? | Notes |\n|--------|--------------|-------------|-------------------|-------|\n| Orientation-based (this) | O(1) | No | Yes | Standard approach, robust with special-case handling |\n| Parametric equations | O(1) | Yes | With care | Solves for t,u parameters; returns intersection coordinates |\n| Cross product only | O(1) | No | No | Simpler but misses collinear overlaps |\n| Bentley-Ottmann (n segments) | O((n+k) log n) total | Yes | Yes | Sweep line for batch processing |\n\nThe orientation-based approach is the standard choice for a boolean intersection test. If the intersection coordinates are needed, the parametric approach is better. For batch processing of many segments, the Bentley-Ottmann sweep line algorithm is far more efficient than pairwise testing.\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [line_intersection.py](python/line_intersection.py) |\n| Java       | [LineIntersection.java](java/LineIntersection.java) |\n| C++        | [line_intersection.cpp](cpp/line_intersection.cpp) |\n| C          | [line_intersection.c](c/line_intersection.c) |\n| Go         | [line_intersection.go](go/line_intersection.go) |\n| TypeScript | [lineIntersection.ts](typescript/lineIntersection.ts) |\n| Rust       | [line_intersection.rs](rust/line_intersection.rs) |\n| Kotlin     | [LineIntersection.kt](kotlin/LineIntersection.kt) |\n| Swift      | [LineIntersection.swift](swift/LineIntersection.swift) |\n| Scala      | [LineIntersection.scala](scala/LineIntersection.scala) |\n| C#         | [LineIntersection.cs](csharp/LineIntersection.cs) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 33.1: Line-segment properties.\n- de Berg, M., Cheong, O., van Kreveld, M., & Overmars, M. (2008). *Computational Geometry: Algorithms and Applications* (3rd ed.). Springer. Chapter 2: Line Segment Intersection.\n- O'Rourke, J. (1998). *Computational Geometry in C* (2nd ed.). Cambridge University Press. Chapter 1.\n- [Line-line intersection -- Wikipedia](https://en.wikipedia.org/wiki/Line%E2%80%93line_intersection)\n"
+}

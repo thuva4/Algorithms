@@ -1,0 +1,17 @@
+name: "Sequence Alignment"
+slug: "sequence-alignment"
+category: "dynamic-programming"
+subcategory: "string"
+difficulty: "advanced"
+tags: [dynamic-programming, string, alignment, bioinformatics, hirschberg]
+complexity:
+  time:
+    best: "O(mn)"
+    average: "O(mn)"
+    worst: "O(mn)"
+  space: "O(m)"
+stable: null
+in_place: null
+related: [edit-distance, longest-common-subsequence]
+implementations: [cpp]
+visualization: true

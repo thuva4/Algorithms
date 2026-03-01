@@ -1,0 +1,17 @@
+name: "Dungeon Game"
+slug: "dungeon-game"
+category: "dynamic-programming"
+subcategory: "grid"
+difficulty: "advanced"
+tags: [dynamic-programming, grid, pathfinding, bottom-up]
+complexity:
+  time:
+    best: "O(mn)"
+    average: "O(mn)"
+    worst: "O(mn)"
+  space: "O(mn)"
+stable: null
+in_place: null
+related: [knapsack, edit-distance]
+implementations: [cpp]
+visualization: true

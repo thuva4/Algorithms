@@ -1,0 +1,18 @@
+algorithm: "line-intersection"
+function_signature:
+  name: "line_intersection"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "intersecting segments"
+    input: [[1, 1, 10, 1, 1, 2, 10, 2]]
+    expected: 0
+  - name: "crossing segments"
+    input: [[0, 0, 10, 10, 0, 10, 10, 0]]
+    expected: 1
+  - name: "shared endpoint"
+    input: [[0, 0, 5, 5, 5, 5, 10, 0]]
+    expected: 1
+  - name: "collinear overlapping"
+    input: [[0, 0, 4, 0, 2, 0, 6, 0]]
+    expected: 1

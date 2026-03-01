@@ -1,0 +1,18 @@
+algorithm: "palindrome-partitioning"
+function_signature:
+  name: "palindrome_partitioning"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "already palindrome"
+    input: [[1, 2, 1]]
+    expected: 0
+  - name: "needs one cut"
+    input: [[1, 2, 3, 2]]
+    expected: 1
+  - name: "all different"
+    input: [[1, 2, 3]]
+    expected: 2
+  - name: "single element"
+    input: [[5]]
+    expected: 0

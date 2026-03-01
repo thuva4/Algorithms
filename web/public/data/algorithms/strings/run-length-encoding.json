@@ -1,0 +1,133 @@
+{
+  "name": "Run-Length Encoding",
+  "slug": "run-length-encoding",
+  "category": "strings",
+  "subcategory": "compression",
+  "difficulty": "beginner",
+  "tags": [
+    "strings",
+    "compression",
+    "encoding",
+    "rle"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "average": "O(n)",
+      "worst": "O(n)"
+    },
+    "space": "O(n)"
+  },
+  "stable": null,
+  "in_place": false,
+  "related": [
+    "levenshtein-distance"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "run_length_encoding.c",
+          "content": "#include \"run_length_encoding.h\"\n#include <stdlib.h>\n\nint* run_length_encoding(int* arr, int n, int* out_size) {\n    if (n == 0) { *out_size = 0; return NULL; }\n    int* result = (int*)malloc(2 * n * sizeof(int));\n    int idx = 0, count = 1;\n    for (int i = 1; i < n; i++) {\n        if (arr[i] == arr[i-1]) { count++; }\n        else { result[idx++] = arr[i-1]; result[idx++] = count; count = 1; }\n    }\n    result[idx++] = arr[n-1]; result[idx++] = count;\n    *out_size = idx;\n    return result;\n}\n"
+        },
+        {
+          "filename": "run_length_encoding.h",
+          "content": "#ifndef RUN_LENGTH_ENCODING_H\n#define RUN_LENGTH_ENCODING_H\n\nint* run_length_encoding(int* arr, int n, int* out_size);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "run_length_encoding.cpp",
+          "content": "#include <vector>\n\nstd::vector<int> run_length_encoding(std::vector<int> arr) {\n    if (arr.empty()) return {};\n    std::vector<int> result;\n    int count = 1;\n    for (int i = 1; i < (int)arr.size(); i++) {\n        if (arr[i] == arr[i-1]) { count++; }\n        else { result.push_back(arr[i-1]); result.push_back(count); count = 1; }\n    }\n    result.push_back(arr.back()); result.push_back(count);\n    return result;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "RunLengthEncoding.cs",
+          "content": "using System.Collections.Generic;\n\npublic class RunLengthEncoding\n{\n    public static int[] Run(int[] arr)\n    {\n        if (arr.Length == 0) return new int[0];\n        List<int> result = new List<int>();\n        int count = 1;\n        for (int i = 1; i < arr.Length; i++)\n        {\n            if (arr[i] == arr[i-1]) count++;\n            else { result.Add(arr[i-1]); result.Add(count); count = 1; }\n        }\n        result.Add(arr[arr.Length-1]); result.Add(count);\n        return result.ToArray();\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "run_length_encoding.go",
+          "content": "package runlengthencoding\n\n// RunLengthEncoding encodes an array using run-length encoding.\nfunc RunLengthEncoding(arr []int) []int {\n\tif len(arr) == 0 { return []int{} }\n\tresult := []int{}\n\tcount := 1\n\tfor i := 1; i < len(arr); i++ {\n\t\tif arr[i] == arr[i-1] { count++ } else {\n\t\t\tresult = append(result, arr[i-1], count)\n\t\t\tcount = 1\n\t\t}\n\t}\n\tresult = append(result, arr[len(arr)-1], count)\n\treturn result\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "RunLengthEncoding.java",
+          "content": "import java.util.*;\n\npublic class RunLengthEncoding {\n    public static int[] runLengthEncoding(int[] arr) {\n        if (arr.length == 0) return new int[0];\n        List<Integer> result = new ArrayList<>();\n        int count = 1;\n        for (int i = 1; i < arr.length; i++) {\n            if (arr[i] == arr[i - 1]) { count++; }\n            else { result.add(arr[i - 1]); result.add(count); count = 1; }\n        }\n        result.add(arr[arr.length - 1]); result.add(count);\n        return result.stream().mapToInt(Integer::intValue).toArray();\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "RunLengthEncoding.kt",
+          "content": "fun runLengthEncoding(arr: IntArray): IntArray {\n    if (arr.isEmpty()) return intArrayOf()\n    val result = mutableListOf<Int>()\n    var count = 1\n    for (i in 1 until arr.size) {\n        if (arr[i] == arr[i-1]) count++\n        else { result.add(arr[i-1]); result.add(count); count = 1 }\n    }\n    result.add(arr.last()); result.add(count)\n    return result.toIntArray()\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "run_length_encoding.py",
+          "content": "def run_length_encoding(arr: list[int]) -> list[int]:\n    if not arr:\n        return []\n    result = []\n    count = 1\n    for i in range(1, len(arr)):\n        if arr[i] == arr[i - 1]:\n            count += 1\n        else:\n            result.extend([arr[i - 1], count])\n            count = 1\n    result.extend([arr[-1], count])\n    return result\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "run_length_encoding.rs",
+          "content": "pub fn run_length_encoding(arr: &[i32]) -> Vec<i32> {\n    if arr.is_empty() { return vec![]; }\n    let mut result = Vec::new();\n    let mut count = 1;\n    for i in 1..arr.len() {\n        if arr[i] == arr[i-1] { count += 1; }\n        else { result.push(arr[i-1]); result.push(count); count = 1; }\n    }\n    result.push(*arr.last().unwrap());\n    result.push(count);\n    result\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "RunLengthEncoding.scala",
+          "content": "object RunLengthEncoding {\n  def runLengthEncoding(arr: Array[Int]): Array[Int] = {\n    if (arr.isEmpty) return Array.empty[Int]\n    val result = scala.collection.mutable.ArrayBuffer[Int]()\n    var count = 1\n    for (i <- 1 until arr.length) {\n      if (arr(i) == arr(i-1)) count += 1\n      else { result += arr(i-1); result += count; count = 1 }\n    }\n    result += arr.last; result += count\n    result.toArray\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "RunLengthEncoding.swift",
+          "content": "func runLengthEncoding(_ arr: [Int]) -> [Int] {\n    if arr.isEmpty { return [] }\n    var result: [Int] = []\n    var count = 1\n    for i in 1..<arr.count {\n        if arr[i] == arr[i-1] { count += 1 }\n        else { result.append(contentsOf: [arr[i-1], count]); count = 1 }\n    }\n    result.append(contentsOf: [arr.last!, count])\n    return result\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "runLengthEncoding.ts",
+          "content": "export function runLengthEncoding(arr: number[]): number[] {\n    if (arr.length === 0) return [];\n    const result: number[] = [];\n    let count = 1;\n    for (let i = 1; i < arr.length; i++) {\n        if (arr[i] === arr[i - 1]) { count++; }\n        else { result.push(arr[i - 1], count); count = 1; }\n    }\n    result.push(arr[arr.length - 1], count);\n    return result;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Run-Length Encoding\n\n## Overview\n\nRun-Length Encoding (RLE) is one of the simplest and oldest forms of lossless data compression. It replaces consecutive runs of the same value with a pair: the value followed by the count of consecutive occurrences. RLE is highly effective on data with many long runs of repeated values, such as simple graphics, fax transmissions, and certain binary data formats.\n\n## How It Works\n\n1. Scan the input array from left to right.\n2. For each group of consecutive identical elements, output the value followed by the count.\n3. Continue until the entire array has been processed.\n\nFor decoding, read each (value, count) pair and repeat the value count times.\n\n## Worked Example\n\n**Encoding:**\n\nGiven input: `[4, 4, 4, 2, 2, 7, 7, 7, 7, 1]`\n\n- Elements 0-2: three `4`s -- emit `(4, 3)`\n- Elements 3-4: two `2`s -- emit `(2, 2)`\n- Elements 5-8: four `7`s -- emit `(7, 4)`\n- Element 9: one `1` -- emit `(1, 1)`\n\n**Encoded output:** `[4, 3, 2, 2, 7, 4, 1, 1]`\n\nThe original 10 elements were compressed to 8 elements (a modest reduction). With longer runs, the compression improves dramatically.\n\n**Decoding:**\n\nGiven encoded: `[4, 3, 2, 2, 7, 4, 1, 1]`\n\n- `(4, 3)` -- `[4, 4, 4]`\n- `(2, 2)` -- `[2, 2]`\n- `(7, 4)` -- `[7, 7, 7, 7]`\n- `(1, 1)` -- `[1]`\n\n**Decoded output:** `[4, 4, 4, 2, 2, 7, 7, 7, 7, 1]`\n\n## Pseudocode\n\n```\nfunction rleEncode(arr):\n    if arr is empty: return []\n    result = []\n    count = 1\n\n    for i from 1 to length(arr) - 1:\n        if arr[i] == arr[i - 1]:\n            count = count + 1\n        else:\n            result.append(arr[i - 1])\n            result.append(count)\n            count = 1\n\n    // Don't forget the last run\n    result.append(arr[length(arr) - 1])\n    result.append(count)\n\n    return result\n\nfunction rleDecode(encoded):\n    result = []\n    for i from 0 to length(encoded) - 1 step 2:\n        value = encoded[i]\n        count = encoded[i + 1]\n        repeat value count times and append to result\n    return result\n```\n\n## Complexity Analysis\n\n| Case    | Time | Space |\n|---------|------|-------|\n| Best    | O(n) | O(1)  |\n| Average | O(n) | O(n)  |\n| Worst   | O(n) | O(2n) |\n\n- **Time O(n):** A single pass through the input, examining each element exactly once.\n- **Best case space O(1):** When the entire array is a single run (e.g., `[5, 5, 5, 5]`), the output is just `[5, 4]` -- two elements regardless of input size.\n- **Worst case space O(2n):** When no two consecutive elements are the same (e.g., `[1, 2, 3, 4]`), every element becomes a pair `(value, 1)`, doubling the output size. In this case, RLE actually expands the data.\n\n## When to Use\n\n- Images with large areas of solid color (BMP, TIFF, PCX formats)\n- Fax transmission (ITU-T Group 3 and Group 4 standards)\n- Binary data with long runs (e.g., bitmasks, sparse binary arrays)\n- As a preprocessing step before other compression algorithms\n- Game level data or tile maps with repeated tiles\n- Simple telemetry data compression where sensor readings change infrequently\n- When implementation simplicity and speed are priorities\n\n## When NOT to Use\n\n- **Natural language text:** Text rarely has long runs of the same character, so RLE will typically expand the data rather than compress it.\n- **Random data or high-entropy data:** Without repeated runs, RLE produces output up to 2x larger than the input.\n- **Photographic images:** Natural photos have complex color variation. Use JPEG, PNG, or WebP instead.\n- **Audio or video:** These require domain-specific compression (MP3, AAC, H.264, etc.).\n- **When better compression is needed:** LZ77, LZ78, Huffman coding, or their combinations (DEFLATE, Brotli) achieve much higher compression ratios on general data.\n\n## Comparison\n\n| Algorithm  | Compression Ratio | Speed      | Best For                     | Complexity |\n|------------|-------------------|------------|------------------------------|------------|\n| RLE        | Poor-Excellent*   | Very fast  | Data with long repeated runs | O(n)       |\n| Huffman    | Moderate          | Fast       | Variable-frequency symbols   | O(n log n) |\n| LZ77       | Good              | Fast       | Repeated patterns (general)  | O(n * w)   |\n| DEFLATE    | Good              | Fast       | General-purpose              | O(n)       |\n| Arithmetic | Good-Excellent    | Moderate   | Skewed probability data      | O(n)       |\n\n*RLE compression ratio is highly data-dependent. On data with long runs it achieves excellent compression; on data without runs it expands the data.\n\nRLE is unmatched in simplicity and speed. It serves as an excellent first-pass compressor when the data is known to have long runs, often combined with other methods (e.g., BWT + MTF + RLE in bzip2).\n\n## References\n\n- Salomon, D. (2007). *Data Compression: The Complete Reference* (4th ed.), Chapter 2. Springer.\n- Sayood, K. (2017). *Introduction to Data Compression* (5th ed.), Chapter 3. Morgan Kaufmann.\n- Nelson, M. and Gailly, J.L. (1996). *The Data Compression Book* (2nd ed.). M&T Books.\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [run_length_encoding.py](python/run_length_encoding.py) |\n| Java       | [RunLengthEncoding.java](java/RunLengthEncoding.java) |\n| C++        | [run_length_encoding.cpp](cpp/run_length_encoding.cpp) |\n| C          | [run_length_encoding.c](c/run_length_encoding.c) |\n| Go         | [run_length_encoding.go](go/run_length_encoding.go) |\n| TypeScript | [runLengthEncoding.ts](typescript/runLengthEncoding.ts) |\n| Rust       | [run_length_encoding.rs](rust/run_length_encoding.rs) |\n| Kotlin     | [RunLengthEncoding.kt](kotlin/RunLengthEncoding.kt) |\n| Swift      | [RunLengthEncoding.swift](swift/RunLengthEncoding.swift) |\n| Scala      | [RunLengthEncoding.scala](scala/RunLengthEncoding.scala) |\n| C#         | [RunLengthEncoding.cs](csharp/RunLengthEncoding.cs) |\n"
+}

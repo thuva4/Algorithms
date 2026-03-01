@@ -1,0 +1,130 @@
+{
+  "name": "Edit Distance",
+  "slug": "edit-distance",
+  "category": "dynamic-programming",
+  "subcategory": "string",
+  "difficulty": "intermediate",
+  "tags": [
+    "dynamic-programming",
+    "string",
+    "levenshtein",
+    "distance"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(mn)",
+      "average": "O(mn)",
+      "worst": "O(mn)"
+    },
+    "space": "O(mn)"
+  },
+  "stable": null,
+  "in_place": null,
+  "related": [
+    "longest-common-subsequence",
+    "sequence-alignment"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "editdistance.c",
+          "content": "#include <stdio.h>\n#include <string.h>\n\nint min(int a, int b, int c) {\n    int m = a;\n    if (b < m) m = b;\n    if (c < m) m = c;\n    return m;\n}\n\nint edit_distance(const char *s1, const char *s2) {\n    int m = strlen(s1);\n    int n = strlen(s2);\n\n    int dp[m + 1][n + 1];\n\n    for (int i = 0; i <= m; i++)\n        dp[i][0] = i;\n    for (int j = 0; j <= n; j++)\n        dp[0][j] = j;\n\n    for (int i = 1; i <= m; i++) {\n        for (int j = 1; j <= n; j++) {\n            int cost = (s1[i - 1] != s2[j - 1]) ? 1 : 0;\n            dp[i][j] = min(\n                dp[i - 1][j] + 1,\n                dp[i][j - 1] + 1,\n                dp[i - 1][j - 1] + cost\n            );\n        }\n    }\n\n    return dp[m][n];\n}\n\nint main() {\n    printf(\"%d\\n\", edit_distance(\"kitten\", \"sitting\")); // 3\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "edit_distance_backtracking.cpp",
+          "content": "#include <algorithm>\n#include <string>\n#include <vector>\n\nint edit_distance(const std::string& first, const std::string& second) {\n    const std::size_t rows = first.size() + 1;\n    const std::size_t cols = second.size() + 1;\n    std::vector<std::vector<int>> dp(rows, std::vector<int>(cols, 0));\n\n    for (std::size_t row = 0; row < rows; ++row) {\n        dp[row][0] = static_cast<int>(row);\n    }\n    for (std::size_t col = 0; col < cols; ++col) {\n        dp[0][col] = static_cast<int>(col);\n    }\n\n    for (std::size_t row = 1; row < rows; ++row) {\n        for (std::size_t col = 1; col < cols; ++col) {\n            int replace_cost = dp[row - 1][col - 1] + (first[row - 1] == second[col - 1] ? 0 : 1);\n            int insert_cost = dp[row][col - 1] + 1;\n            int delete_cost = dp[row - 1][col] + 1;\n            dp[row][col] = std::min(replace_cost, std::min(insert_cost, delete_cost));\n        }\n    }\n\n    return dp.back().back();\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "EditDistance.cs",
+          "content": "using System;\n\npublic class EditDistance\n{\n    public static int Solve(string s1, string s2)\n    {\n        int m = s1.Length;\n        int n = s2.Length;\n        int[,] dp = new int[m + 1, n + 1];\n\n        for (int i = 0; i <= m; i++)\n            dp[i, 0] = i;\n        for (int j = 0; j <= n; j++)\n            dp[0, j] = j;\n\n        for (int i = 1; i <= m; i++)\n        {\n            for (int j = 1; j <= n; j++)\n            {\n                int cost = (s1[i - 1] != s2[j - 1]) ? 1 : 0;\n                dp[i, j] = Math.Min(\n                    Math.Min(dp[i - 1, j] + 1, dp[i, j - 1] + 1),\n                    dp[i - 1, j - 1] + cost\n                );\n            }\n        }\n\n        return dp[m, n];\n    }\n\n    static void Main(string[] args)\n    {\n        Console.WriteLine(Solve(\"kitten\", \"sitting\")); // 3\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "EditDistance.go",
+          "content": "package main\n\nimport \"fmt\"\n\nfunc min(a, b, c int) int {\n\tm := a\n\tif b < m {\n\t\tm = b\n\t}\n\tif c < m {\n\t\tm = c\n\t}\n\treturn m\n}\n\nfunc editDistance(s1, s2 string) int {\n\tm := len(s1)\n\tn := len(s2)\n\n\tdp := make([][]int, m+1)\n\tfor i := range dp {\n\t\tdp[i] = make([]int, n+1)\n\t\tdp[i][0] = i\n\t}\n\tfor j := 0; j <= n; j++ {\n\t\tdp[0][j] = j\n\t}\n\n\tfor i := 1; i <= m; i++ {\n\t\tfor j := 1; j <= n; j++ {\n\t\t\tcost := 1\n\t\t\tif s1[i-1] == s2[j-1] {\n\t\t\t\tcost = 0\n\t\t\t}\n\t\t\tdp[i][j] = min(\n\t\t\t\tdp[i-1][j]+1,\n\t\t\t\tdp[i][j-1]+1,\n\t\t\t\tdp[i-1][j-1]+cost,\n\t\t\t)\n\t\t}\n\t}\n\n\treturn dp[m][n]\n}\n\nfunc main() {\n\tfmt.Println(editDistance(\"kitten\", \"sitting\")) // 3\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "EditDistance.java",
+          "content": "public class EditDistance {\n\n    public static int editDistance(String s1, String s2) {\n        int m = s1.length();\n        int n = s2.length();\n        int[][] dp = new int[m + 1][n + 1];\n\n        for (int i = 0; i <= m; i++)\n            dp[i][0] = i;\n        for (int j = 0; j <= n; j++)\n            dp[0][j] = j;\n\n        for (int i = 1; i <= m; i++) {\n            for (int j = 1; j <= n; j++) {\n                int cost = (s1.charAt(i - 1) != s2.charAt(j - 1)) ? 1 : 0;\n                dp[i][j] = Math.min(\n                    Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1),\n                    dp[i - 1][j - 1] + cost\n                );\n            }\n        }\n\n        return dp[m][n];\n    }\n\n    public static void main(String[] args) {\n        System.out.println(editDistance(\"kitten\", \"sitting\")); // 3\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "EditDistance.kt",
+          "content": "fun editDistance(s1: String, s2: String): Int {\n    val m = s1.length\n    val n = s2.length\n    val dp = Array(m + 1) { IntArray(n + 1) }\n\n    for (i in 0..m) dp[i][0] = i\n    for (j in 0..n) dp[0][j] = j\n\n    for (i in 1..m) {\n        for (j in 1..n) {\n            val cost = if (s1[i - 1] != s2[j - 1]) 1 else 0\n            dp[i][j] = minOf(\n                dp[i - 1][j] + 1,\n                dp[i][j - 1] + 1,\n                dp[i - 1][j - 1] + cost\n            )\n        }\n    }\n\n    return dp[m][n]\n}\n\nfun main() {\n    println(editDistance(\"kitten\", \"sitting\")) // 3\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "edit_distance.py",
+          "content": "# Helpful tutorial: https://www.youtube.com/watch?v=We3YDTzNXEk\n# Useful link: https://en.wikipedia.org/wiki/Edit_distance\ndef get_edit_distance(s1, s2):\n\n    l1 = len(s1) + 1\n    l2 = len(s2) + 1\n    edit_table = {}\n    for i in range(l1):\n        edit_table[i, 0] = i\n\n    for j in range(l2):\n        edit_table[0, j] = j\n\n    for i in range(1, l1):\n        for j in range(1, l2):\n            edit_table[i, j] = min(edit_table[i - 1, j], edit_table[i, j - 1],\n                                   edit_table[i - 1, j - 1])\n            if s1[i - 1] != s2[j - 1]:\n                edit_table[i, j] += 1\n\n    return edit_table[i, j]\n\n\nif __name__ == '__main__':\n    # returns 1 as adding 'a' in 2nd postion to\n    # 'hello' will make it 'haello'\n    print get_edit_distance('hello', 'haello')\n    # returns 2 as replacing 'o' in 'redor' and adding 'e' at the end will make\n    # 'redare'\n    print get_edit_distance('redor', 'redare')\n\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "edit_distance.rs",
+          "content": "use std::cmp;\n\npub fn edit_distance(s1: &str, s2: &str) -> usize {\n    let m = s1.len();\n    let n = s2.len();\n    let s1_bytes = s1.as_bytes();\n    let s2_bytes = s2.as_bytes();\n\n    let mut dp = vec![vec![0usize; n + 1]; m + 1];\n\n    for i in 0..=m {\n        dp[i][0] = i;\n    }\n    for j in 0..=n {\n        dp[0][j] = j;\n    }\n\n    for i in 1..=m {\n        for j in 1..=n {\n            let cost = if s1_bytes[i - 1] != s2_bytes[j - 1] { 1 } else { 0 };\n            dp[i][j] = cmp::min(\n                cmp::min(dp[i - 1][j] + 1, dp[i][j - 1] + 1),\n                dp[i - 1][j - 1] + cost,\n            );\n        }\n    }\n\n    dp[m][n]\n}\n\nfn main() {\n    println!(\"{}\", edit_distance(\"kitten\", \"sitting\")); // 3\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "EditDistance.scala",
+          "content": "object EditDistance {\n\n  def editDistance(s1: String, s2: String): Int = {\n    val m = s1.length\n    val n = s2.length\n    val dp = Array.ofDim[Int](m + 1, n + 1)\n\n    for (i <- 0 to m) dp(i)(0) = i\n    for (j <- 0 to n) dp(0)(j) = j\n\n    for (i <- 1 to m) {\n      for (j <- 1 to n) {\n        val cost = if (s1(i - 1) != s2(j - 1)) 1 else 0\n        dp(i)(j) = math.min(\n          math.min(dp(i - 1)(j) + 1, dp(i)(j - 1) + 1),\n          dp(i - 1)(j - 1) + cost\n        )\n      }\n    }\n\n    dp(m)(n)\n  }\n\n  def main(args: Array[String]): Unit = {\n    println(editDistance(\"kitten\", \"sitting\")) // 3\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "Edit_Distance.swift",
+          "content": "/**\n Copyright 2019 Rare\n Licensed under the Apache License, Version 2.0 (the \"License\");\n you may not use this file except in compliance with the License.\n You may obtain a copy of the License at\n   http://www.apache.org/licenses/LICENSE-2.0\n Unless required by applicable law or agreed to in writing, software\n distributed under the License is distributed on an \"AS IS\" BASIS,\n WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n See the License for the specific language governing permissions and\n limitations under the License.\n */\n\n/*\n The below function uses the Levenshtein distance algorithm\n to calculate the edit distance between two given strings.\n It calculates the cost of editing by counting each of the\n minimum insertions, deletions, and replacements which are\n needed to make one of the strings similar to the other one.\n For example, the minimum cost or the edit distance for having\n \"abcd\" as \"abnde\" would be one replacement and one of either\n deletion or insertion, therefore two operations.\n You might find this article:\n    https://en.wikipedia.org/wiki/Levenshtein_distance\n and this youtube video:\n    https://www.youtube.com/watch?v=MiqoA-yF-0M\n useful about the algorithm.\n */\n\n\nfunc editCost(firstString str1: String, secondString str2: String) -> Int {\n    \n    // Calculating the length of the strings\n    let length1 = str1.count, length2 = str2.count\n    \n    //defining a table for Levenshtein distance algorithm\n    //with one extra row and one extra column than the size of the string\n    var table = Array(repeating: Array(repeating: 0, count: length2 + 1), count: length1 + 1)\n    \n    //initializing the first column from 0 to length1\n    for i in 0 ... length1 { table[i][0] = i }\n    \n    //initializing the first row from 0 to length2\n    for j in 0 ... length2 { table[0][j] = j }\n    \n    //initializing the rest of the table based on min value of the precedent neighbors\n    if length1 > 0 && length2 > 0 {\n        for i in 1 ... length1 {\n            for j in 1 ... length2 {\n                table[i][j] = min( table[i-1][j], table[i][j-1], table[i-1][j-1] )\n                \n                //considering the characters of the first string as the headers of the rows from 1 to length1\n                //considering the characters of the second string as the headers of the columns from 1 to length2\n                //if corresponding characters to the cell at [i][j] are not the same, add one to the minimum that we just got\n                //because if characters are not the same, it will apply a cost to edit it\n                if str1[str1.index(str1.startIndex, offsetBy: i-1)].lowercased() !=\n                    str2[str2.index(str2.startIndex, offsetBy: j-1)].lowercased()\n                { table[i][j] += 1 }\n                \n            }\n        }\n    }\n    \n    //returning the last value in the table\n    //this value is the acomulated value of costs (needed operations)\n    return table[length1][length2]\n    \n}\n\n\n\n// Usage:\n\n\nprint(editCost(firstString: \"sunday\", secondString: \"saturday\"))\n//  1 insertion  : a before u in sunday   --> saunday\n//  1 insertion  : t before u in sunday   --> satunday\n//  1 replacement: n with r in sunday     --> saturday\n//cost: 3\n\nprint(editCost(firstString: \"kitten\", secondString: \"sitting\"))\n//3\n\nprint(editCost(firstString: \"abcd\", secondString: \"abbde\"))\n//2\n\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "editDistance.ts",
+          "content": "export function editDistance(s1: string, s2: string): number {\n    const m = s1.length;\n    const n = s2.length;\n\n    const dp: number[][] = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));\n\n    for (let i = 0; i <= m; i++) dp[i][0] = i;\n    for (let j = 0; j <= n; j++) dp[0][j] = j;\n\n    for (let i = 1; i <= m; i++) {\n        for (let j = 1; j <= n; j++) {\n            const cost = s1[i - 1] !== s2[j - 1] ? 1 : 0;\n            dp[i][j] = Math.min(\n                dp[i - 1][j] + 1,\n                dp[i][j - 1] + 1,\n                dp[i - 1][j - 1] + cost\n            );\n        }\n    }\n\n    return dp[m][n];\n}\n\nconsole.log(editDistance(\"kitten\", \"sitting\")); // 3\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "readme": "# Edit Distance\n\n## Overview\n\nEdit Distance (also known as Levenshtein Distance) measures the minimum number of single-character operations required to transform one string into another. The three permitted operations are insertion, deletion, and substitution. For example, the edit distance between \"kitten\" and \"sitting\" is 3: substitute 'k' with 's', substitute 'e' with 'i', and insert 'g' at the end.\n\nEdit distance is widely used in spell checkers, DNA sequence analysis, natural language processing, and information retrieval. It provides a quantitative measure of how similar or different two strings are.\n\n## How It Works\n\nThe algorithm builds a 2D table where `dp[i][j]` represents the minimum edit distance between the first `i` characters of string X and the first `j` characters of string Y. For each cell, we consider three operations: inserting a character into X (cost from cell above + 1), deleting a character from X (cost from cell to the left + 1), or substituting (cost from diagonal + 0 if characters match, or + 1 if they differ).\n\n### Example\n\nGiven `X = \"SUNDAY\"` and `Y = \"SATURDAY\"`:\n\n**Building the DP table:**\n\n|   |   | S | A | T | U | R | D | A | Y |\n|---|---|---|---|---|---|---|---|---|---|\n|   | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |\n| S | 1 | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |\n| U | 2 | 1 | 1 | 2 | 2 | 3 | 4 | 5 | 6 |\n| N | 3 | 2 | 2 | 2 | 3 | 3 | 4 | 5 | 6 |\n| D | 4 | 3 | 3 | 3 | 3 | 4 | 3 | 4 | 5 |\n| A | 5 | 4 | 3 | 4 | 4 | 4 | 4 | 3 | 4 |\n| Y | 6 | 5 | 4 | 4 | 5 | 5 | 5 | 4 | 3 |\n\n**Key cell computations:**\n\n| Cell | X[i] vs Y[j] | Insert | Delete | Sub/Match | Min | Action |\n|------|---------------|--------|--------|-----------|-----|--------|\n| (1,1) | S vs S | dp[0][1]+1=2 | dp[1][0]+1=2 | dp[0][0]+0=0 | 0 | Match |\n| (2,4) | U vs U | dp[1][4]+1=4 | dp[2][3]+1=3 | dp[1][3]+0=2 | 2 | Match |\n| (4,6) | D vs D | dp[3][6]+1=5 | dp[4][5]+1=5 | dp[3][5]+0=3 | 3 | Match |\n| (6,8) | Y vs Y | dp[5][8]+1=5 | dp[6][7]+1=5 | dp[5][7]+0=3 | 3 | Match |\n\nResult: Edit Distance = `3` (insert 'A', insert 'T', substitute 'N' with 'R')\n\n## Pseudocode\n\n```\nfunction editDistance(X, Y):\n    m = length(X)\n    n = length(Y)\n    dp = 2D array of size (m + 1) x (n + 1)\n\n    // Base cases: transforming empty string\n    for i from 0 to m:\n        dp[i][0] = i\n    for j from 0 to n:\n        dp[0][j] = j\n\n    for i from 1 to m:\n        for j from 1 to n:\n            if X[i - 1] == Y[j - 1]:\n                dp[i][j] = dp[i - 1][j - 1]       // no operation needed\n            else:\n                dp[i][j] = 1 + min(dp[i - 1][j],    // delete from X\n                                   dp[i][j - 1],     // insert into X\n                                   dp[i - 1][j - 1]) // substitute\n\n    return dp[m][n]\n```\n\nThe base cases represent transforming a string to/from the empty string, which requires exactly as many insertions or deletions as the string length.\n\n## Complexity Analysis\n\n| Case    | Time   | Space  |\n|---------|--------|--------|\n| Best    | O(mn)  | O(mn)  |\n| Average | O(mn)  | O(mn)  |\n| Worst   | O(mn)  | O(mn)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(mn):** Even if the strings are identical, the algorithm must fill every cell of the m x n table to confirm that no edits are needed.\n\n- **Average Case -- O(mn):** Each cell computation requires O(1) work (comparing characters and taking the minimum of three values). There are (m+1) * (n+1) cells total.\n\n- **Worst Case -- O(mn):** The computation is uniform regardless of how different the strings are. Every cell is computed exactly once.\n\n- **Space -- O(mn):** The standard implementation uses an (m+1) x (n+1) table. If only the distance is needed (not the edit sequence), space can be reduced to O(min(m, n)) by keeping only two rows.\n\n## When to Use\n\n- **Spell checking and autocorrect:** Finding the closest dictionary word to a misspelled word by computing edit distances.\n- **DNA/protein sequence comparison:** Measuring the evolutionary distance between biological sequences.\n- **Fuzzy string matching:** Finding approximate matches in search engines or databases.\n- **Plagiarism detection:** Quantifying the similarity between documents at the character or word level.\n- **When you need the exact minimum number of operations:** Edit distance gives an optimal answer, unlike heuristic similarity measures.\n\n## When NOT to Use\n\n- **When only checking equality:** A simple string comparison is O(n) and sufficient.\n- **Very long strings with tight time constraints:** O(mn) can be slow for strings of length 10,000+. Consider approximate methods or banded edit distance.\n- **When different operations have different costs:** Weighted edit distance requires modifications to the standard algorithm.\n- **When you need substring matching:** Use pattern matching algorithms (KMP, Rabin-Karp) instead.\n\n## Comparison with Similar Algorithms\n\n| Algorithm           | Time   | Space   | Notes                                          |\n|--------------------|--------|---------|------------------------------------------------|\n| Edit Distance (DP) | O(mn)  | O(mn)   | Standard Levenshtein; insert, delete, substitute|\n| LCS-based Distance | O(mn)  | O(mn)   | Distance = m + n - 2*LCS; no substitution       |\n| Hamming Distance   | O(n)   | O(1)    | Only for equal-length strings; substitution only |\n| Sequence Alignment  | O(mn)  | O(m)    | Generalized with gap penalties                   |\n| Damerau-Levenshtein| O(mn)  | O(mn)   | Also allows transpositions                       |\n\n## Implementations\n\n| Language | File |\n|----------|------|\n| C++      | [edit_distance_backtracking.cpp](cpp/edit_distance_backtracking.cpp) |\n| Python   | [edit_distance.py](python/edit_distance.py) |\n| Swift    | [Edit_Distance.swift](swift/Edit_Distance.swift) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Problem 15-5: Edit Distance.\n- Levenshtein, V. I. (1966). Binary codes capable of correcting deletions, insertions, and reversals. *Soviet Physics Doklady*, 10(8), 707-710.\n- Wagner, R. A., & Fischer, M. J. (1974). The string-to-string correction problem. *Journal of the ACM*, 21(1), 168-173.\n- [Edit Distance -- Wikipedia](https://en.wikipedia.org/wiki/Edit_distance)\n"
+}

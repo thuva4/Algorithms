@@ -1,0 +1,21 @@
+algorithm: "fractional-knapsack"
+function_signature:
+  name: "fractional_knapsack"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "standard example"
+    input: [[50, 3, 60, 10, 100, 20, 120, 30]]
+    expected: 24000
+  - name: "all items fit"
+    input: [[100, 2, 50, 10, 60, 20]]
+    expected: 11000
+  - name: "single item partial"
+    input: [[5, 1, 100, 10]]
+    expected: 5000
+  - name: "single item fits"
+    input: [[20, 1, 100, 10]]
+    expected: 10000
+  - name: "zero capacity"
+    input: [[0, 2, 60, 10, 100, 20]]
+    expected: 0

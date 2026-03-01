@@ -1,0 +1,30 @@
+algorithm: "hamming-distance"
+function_signature:
+  name: "hamming_distance"
+  input: [a, b]
+  output: integer_distance
+test_cases:
+  - name: "identical numbers"
+    input: [0, 0]
+    expected: 0
+  - name: "one bit difference"
+    input: [1, 0]
+    expected: 1
+  - name: "classic example"
+    input: [1, 4]
+    expected: 2
+  - name: "all bits different (small)"
+    input: [0, 15]
+    expected: 4
+  - name: "adjacent numbers"
+    input: [7, 8]
+    expected: 4
+  - name: "same number"
+    input: [255, 255]
+    expected: 0
+  - name: "one and two"
+    input: [1, 2]
+    expected: 2
+  - name: "larger values"
+    input: [93, 73]
+    expected: 2

@@ -1,0 +1,137 @@
+{
+  "name": "Kahn's Topological Sort",
+  "slug": "topological-sort-kahn",
+  "category": "graph",
+  "difficulty": "intermediate",
+  "tags": [
+    "graph",
+    "topological-sort",
+    "bfs",
+    "dag"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(V+E)",
+      "average": "O(V+E)",
+      "worst": "O(V+E)"
+    },
+    "space": "O(V)"
+  },
+  "related": [
+    "topological-sort",
+    "breadth-first-search",
+    "depth-first-search"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "topological_sort_kahn.c",
+          "content": "#include \"topological_sort_kahn.h\"\n#include <stdlib.h>\n\nint *topological_sort_kahn(int arr[], int size, int *out_size) {\n    *out_size = 0;\n    if (size < 2) {\n        return NULL;\n    }\n\n    int num_vertices = arr[0];\n    int num_edges = arr[1];\n\n    int *in_degree = (int *)calloc(num_vertices, sizeof(int));\n    int **adj = (int **)calloc(num_vertices, sizeof(int *));\n    int *adj_count = (int *)calloc(num_vertices, sizeof(int));\n    int *adj_cap = (int *)calloc(num_vertices, sizeof(int));\n\n    for (int i = 0; i < num_vertices; i++) {\n        adj_cap[i] = 4;\n        adj[i] = (int *)malloc(adj_cap[i] * sizeof(int));\n    }\n\n    for (int i = 0; i < num_edges; i++) {\n        int u = arr[2 + 2 * i];\n        int v = arr[2 + 2 * i + 1];\n        if (adj_count[u] >= adj_cap[u]) {\n            adj_cap[u] *= 2;\n            adj[u] = (int *)realloc(adj[u], adj_cap[u] * sizeof(int));\n        }\n        adj[u][adj_count[u]++] = v;\n        in_degree[v]++;\n    }\n\n    int *queue = (int *)malloc(num_vertices * sizeof(int));\n    int front = 0, back = 0;\n\n    for (int v = 0; v < num_vertices; v++) {\n        if (in_degree[v] == 0) {\n            queue[back++] = v;\n        }\n    }\n\n    int *result = (int *)malloc(num_vertices * sizeof(int));\n    int count = 0;\n\n    while (front < back) {\n        int u = queue[front++];\n        result[count++] = u;\n        for (int i = 0; i < adj_count[u]; i++) {\n            int v = adj[u][i];\n            in_degree[v]--;\n            if (in_degree[v] == 0) {\n                queue[back++] = v;\n            }\n        }\n    }\n\n    for (int i = 0; i < num_vertices; i++) {\n        free(adj[i]);\n    }\n    free(adj);\n    free(adj_count);\n    free(adj_cap);\n    free(in_degree);\n    free(queue);\n\n    if (count == num_vertices) {\n        *out_size = count;\n        return result;\n    }\n\n    free(result);\n    *out_size = 0;\n    return NULL;\n}\n"
+        },
+        {
+          "filename": "topological_sort_kahn.h",
+          "content": "#ifndef TOPOLOGICAL_SORT_KAHN_H\n#define TOPOLOGICAL_SORT_KAHN_H\n\nint *topological_sort_kahn(int arr[], int size, int *out_size);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "topological_sort_kahn.cpp",
+          "content": "#include <vector>\n#include <queue>\n\nstd::vector<int> topologicalSortKahn(std::vector<int> arr) {\n    if (arr.size() < 2) {\n        return {};\n    }\n\n    int numVertices = arr[0];\n    int numEdges = arr[1];\n\n    std::vector<std::vector<int>> adj(numVertices);\n    std::vector<int> inDegree(numVertices, 0);\n\n    for (int i = 0; i < numEdges; i++) {\n        int u = arr[2 + 2 * i];\n        int v = arr[2 + 2 * i + 1];\n        adj[u].push_back(v);\n        inDegree[v]++;\n    }\n\n    std::queue<int> q;\n    for (int v = 0; v < numVertices; v++) {\n        if (inDegree[v] == 0) {\n            q.push(v);\n        }\n    }\n\n    std::vector<int> result;\n    while (!q.empty()) {\n        int u = q.front();\n        q.pop();\n        result.push_back(u);\n        for (int v : adj[u]) {\n            inDegree[v]--;\n            if (inDegree[v] == 0) {\n                q.push(v);\n            }\n        }\n    }\n\n    if (static_cast<int>(result.size()) == numVertices) {\n        return result;\n    }\n    return {};\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "TopologicalSortKahn.cs",
+          "content": "using System;\nusing System.Collections.Generic;\n\npublic class TopologicalSortKahn\n{\n    public static int[] Sort(int[] arr)\n    {\n        if (arr.Length < 2)\n        {\n            return new int[0];\n        }\n\n        int numVertices = arr[0];\n        int numEdges = arr[1];\n\n        List<int>[] adj = new List<int>[numVertices];\n        for (int i = 0; i < numVertices; i++)\n        {\n            adj[i] = new List<int>();\n        }\n\n        int[] inDegree = new int[numVertices];\n\n        for (int i = 0; i < numEdges; i++)\n        {\n            int u = arr[2 + 2 * i];\n            int v = arr[2 + 2 * i + 1];\n            adj[u].Add(v);\n            inDegree[v]++;\n        }\n\n        Queue<int> queue = new Queue<int>();\n        for (int v = 0; v < numVertices; v++)\n        {\n            if (inDegree[v] == 0)\n            {\n                queue.Enqueue(v);\n            }\n        }\n\n        List<int> result = new List<int>();\n        while (queue.Count > 0)\n        {\n            int u = queue.Dequeue();\n            result.Add(u);\n            foreach (int v in adj[u])\n            {\n                inDegree[v]--;\n                if (inDegree[v] == 0)\n                {\n                    queue.Enqueue(v);\n                }\n            }\n        }\n\n        if (result.Count == numVertices)\n        {\n            return result.ToArray();\n        }\n        return new int[0];\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "topological_sort_kahn.go",
+          "content": "package toposortkahn\n\n// TopologicalSortKahn performs topological sort using Kahn's algorithm.\n// Input: arr encodes [numVertices, numEdges, u1, v1, u2, v2, ...].\n// Returns topological order, or empty slice if a cycle exists.\nfunc TopologicalSortKahn(arr []int) []int {\n\tif len(arr) < 2 {\n\t\treturn []int{}\n\t}\n\n\tnumVertices := arr[0]\n\tnumEdges := arr[1]\n\n\tadj := make([][]int, numVertices)\n\tfor i := range adj {\n\t\tadj[i] = []int{}\n\t}\n\tinDegree := make([]int, numVertices)\n\n\tfor i := 0; i < numEdges; i++ {\n\t\tu := arr[2+2*i]\n\t\tv := arr[2+2*i+1]\n\t\tadj[u] = append(adj[u], v)\n\t\tinDegree[v]++\n\t}\n\n\tqueue := []int{}\n\tfor v := 0; v < numVertices; v++ {\n\t\tif inDegree[v] == 0 {\n\t\t\tqueue = append(queue, v)\n\t\t}\n\t}\n\n\tresult := []int{}\n\tfor len(queue) > 0 {\n\t\tu := queue[0]\n\t\tqueue = queue[1:]\n\t\tresult = append(result, u)\n\t\tfor _, v := range adj[u] {\n\t\t\tinDegree[v]--\n\t\t\tif inDegree[v] == 0 {\n\t\t\t\tqueue = append(queue, v)\n\t\t\t}\n\t\t}\n\t}\n\n\tif len(result) == numVertices {\n\t\treturn result\n\t}\n\treturn []int{}\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "TopologicalSortKahn.java",
+          "content": "import java.util.ArrayList;\nimport java.util.LinkedList;\nimport java.util.List;\nimport java.util.Queue;\n\npublic class TopologicalSortKahn {\n\n    public static int[] topologicalSortKahn(int[] arr) {\n        if (arr.length < 2) {\n            return new int[0];\n        }\n\n        int numVertices = arr[0];\n        int numEdges = arr[1];\n\n        List<List<Integer>> adj = new ArrayList<>();\n        for (int i = 0; i < numVertices; i++) {\n            adj.add(new ArrayList<>());\n        }\n\n        int[] inDegree = new int[numVertices];\n\n        for (int i = 0; i < numEdges; i++) {\n            int u = arr[2 + 2 * i];\n            int v = arr[2 + 2 * i + 1];\n            adj.get(u).add(v);\n            inDegree[v]++;\n        }\n\n        Queue<Integer> queue = new LinkedList<>();\n        for (int v = 0; v < numVertices; v++) {\n            if (inDegree[v] == 0) {\n                queue.add(v);\n            }\n        }\n\n        List<Integer> result = new ArrayList<>();\n        while (!queue.isEmpty()) {\n            int u = queue.poll();\n            result.add(u);\n            for (int v : adj.get(u)) {\n                inDegree[v]--;\n                if (inDegree[v] == 0) {\n                    queue.add(v);\n                }\n            }\n        }\n\n        if (result.size() == numVertices) {\n            return result.stream().mapToInt(Integer::intValue).toArray();\n        }\n        return new int[0];\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "TopologicalSortKahn.kt",
+          "content": "import java.util.LinkedList\n\nfun topologicalSortKahn(arr: IntArray): IntArray {\n    if (arr.size < 2) {\n        return intArrayOf()\n    }\n\n    val numVertices = arr[0]\n    val numEdges = arr[1]\n\n    val adj = Array(numVertices) { mutableListOf<Int>() }\n    val inDegree = IntArray(numVertices)\n\n    for (i in 0 until numEdges) {\n        val u = arr[2 + 2 * i]\n        val v = arr[2 + 2 * i + 1]\n        adj[u].add(v)\n        inDegree[v]++\n    }\n\n    val queue = LinkedList<Int>()\n    for (v in 0 until numVertices) {\n        if (inDegree[v] == 0) {\n            queue.add(v)\n        }\n    }\n\n    val result = mutableListOf<Int>()\n    while (queue.isNotEmpty()) {\n        val u = queue.poll()\n        result.add(u)\n        for (v in adj[u]) {\n            inDegree[v]--\n            if (inDegree[v] == 0) {\n                queue.add(v)\n            }\n        }\n    }\n\n    return if (result.size == numVertices) {\n        result.toIntArray()\n    } else {\n        intArrayOf()\n    }\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "topological_sort_kahn.py",
+          "content": "from collections import deque\n\n\ndef topological_sort_kahn(arr: list[int]) -> list[int]:\n    if len(arr) < 2:\n        return []\n\n    num_vertices = arr[0]\n    num_edges = arr[1]\n\n    adj: list[list[int]] = [[] for _ in range(num_vertices)]\n    in_degree = [0] * num_vertices\n\n    for i in range(num_edges):\n        u = arr[2 + 2 * i]\n        v = arr[2 + 2 * i + 1]\n        adj[u].append(v)\n        in_degree[v] += 1\n\n    queue = deque()\n    for v in range(num_vertices):\n        if in_degree[v] == 0:\n            queue.append(v)\n\n    result: list[int] = []\n    while queue:\n        u = queue.popleft()\n        result.append(u)\n        for v in adj[u]:\n            in_degree[v] -= 1\n            if in_degree[v] == 0:\n                queue.append(v)\n\n    if len(result) == num_vertices:\n        return result\n    return []\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "topological_sort_kahn.rs",
+          "content": "use std::collections::VecDeque;\n\npub fn topological_sort_kahn(arr: &[i32]) -> Vec<i32> {\n    if arr.len() < 2 {\n        return vec![];\n    }\n\n    let num_vertices = arr[0] as usize;\n    let num_edges = arr[1] as usize;\n\n    let mut adj: Vec<Vec<usize>> = vec![vec![]; num_vertices];\n    let mut in_degree = vec![0usize; num_vertices];\n\n    for i in 0..num_edges {\n        let u = arr[2 + 2 * i] as usize;\n        let v = arr[2 + 2 * i + 1] as usize;\n        adj[u].push(v);\n        in_degree[v] += 1;\n    }\n\n    let mut queue = VecDeque::new();\n    for v in 0..num_vertices {\n        if in_degree[v] == 0 {\n            queue.push_back(v);\n        }\n    }\n\n    let mut result = Vec::new();\n    while let Some(u) = queue.pop_front() {\n        result.push(u as i32);\n        for &v in &adj[u] {\n            in_degree[v] -= 1;\n            if in_degree[v] == 0 {\n                queue.push_back(v);\n            }\n        }\n    }\n\n    if result.len() == num_vertices {\n        result\n    } else {\n        vec![]\n    }\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "TopologicalSortKahn.scala",
+          "content": "import scala.collection.mutable\n\nobject TopologicalSortKahn {\n\n  def topologicalSortKahn(arr: Array[Int]): Array[Int] = {\n    if (arr.length < 2) return Array.empty[Int]\n\n    val numVertices = arr(0)\n    val numEdges = arr(1)\n\n    val adj = Array.fill(numVertices)(mutable.ListBuffer[Int]())\n    val inDegree = Array.fill(numVertices)(0)\n\n    for (i <- 0 until numEdges) {\n      val u = arr(2 + 2 * i)\n      val v = arr(2 + 2 * i + 1)\n      adj(u) += v\n      inDegree(v) += 1\n    }\n\n    val queue = mutable.Queue[Int]()\n    for (v <- 0 until numVertices) {\n      if (inDegree(v) == 0) {\n        queue.enqueue(v)\n      }\n    }\n\n    val result = mutable.ListBuffer[Int]()\n    while (queue.nonEmpty) {\n      val u = queue.dequeue()\n      result += u\n      for (v <- adj(u)) {\n        inDegree(v) -= 1\n        if (inDegree(v) == 0) {\n          queue.enqueue(v)\n        }\n      }\n    }\n\n    if (result.size == numVertices) result.toArray\n    else Array.empty[Int]\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "TopologicalSortKahn.swift",
+          "content": "func topologicalSortKahn(_ arr: [Int]) -> [Int] {\n    if arr.count < 2 {\n        return []\n    }\n\n    let numVertices = arr[0]\n    let numEdges = arr[1]\n\n    var adj = [[Int]](repeating: [], count: numVertices)\n    var inDegree = [Int](repeating: 0, count: numVertices)\n\n    for i in 0..<numEdges {\n        let u = arr[2 + 2 * i]\n        let v = arr[2 + 2 * i + 1]\n        adj[u].append(v)\n        inDegree[v] += 1\n    }\n\n    var queue: [Int] = []\n    for v in 0..<numVertices {\n        if inDegree[v] == 0 {\n            queue.append(v)\n        }\n    }\n\n    var result: [Int] = []\n    var front = 0\n    while front < queue.count {\n        let u = queue[front]\n        front += 1\n        result.append(u)\n        for v in adj[u] {\n            inDegree[v] -= 1\n            if inDegree[v] == 0 {\n                queue.append(v)\n            }\n        }\n    }\n\n    if result.count == numVertices {\n        return result\n    }\n    return []\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "topologicalSortKahn.ts",
+          "content": "export function topologicalSortKahn(arr: number[]): number[] {\n    if (arr.length < 2) {\n        return [];\n    }\n\n    const numVertices = arr[0];\n    const numEdges = arr[1];\n\n    const adj: number[][] = Array.from({ length: numVertices }, () => []);\n    const inDegree = new Array(numVertices).fill(0);\n\n    for (let i = 0; i < numEdges; i++) {\n        const u = arr[2 + 2 * i];\n        const v = arr[2 + 2 * i + 1];\n        adj[u].push(v);\n        inDegree[v]++;\n    }\n\n    const queue: number[] = [];\n    for (let v = 0; v < numVertices; v++) {\n        if (inDegree[v] === 0) {\n            queue.push(v);\n        }\n    }\n\n    const result: number[] = [];\n    let front = 0;\n    while (front < queue.length) {\n        const u = queue[front++];\n        result.push(u);\n        for (const v of adj[u]) {\n            inDegree[v]--;\n            if (inDegree[v] === 0) {\n                queue.push(v);\n            }\n        }\n    }\n\n    if (result.length === numVertices) {\n        return result;\n    }\n    return [];\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "patterns": [
+    "topological-sort"
+  ],
+  "patternDifficulty": "beginner",
+  "practiceOrder": 1,
+  "readme": "# Kahn's Topological Sort\n\n## Overview\n\nKahn's algorithm finds a topological ordering of a directed acyclic graph (DAG) using an iterative approach based on in-degree reduction. A topological ordering is a linear ordering of vertices such that for every directed edge (u, v), vertex u comes before vertex v in the ordering.\n\nUnlike the DFS-based topological sort, Kahn's algorithm uses BFS and provides a natural way to detect cycles: if the algorithm cannot process all vertices, the graph contains a cycle.\n\n## How It Works\n\n1. Compute the in-degree (number of incoming edges) of every vertex.\n2. Add all vertices with in-degree 0 to a queue.\n3. While the queue is not empty:\n   a. Dequeue a vertex u and add it to the result.\n   b. For each neighbor v of u, decrement v's in-degree by 1.\n   c. If v's in-degree becomes 0, add v to the queue.\n4. If the result contains all vertices, return it. Otherwise, the graph has a cycle; return an empty array.\n\n### Example\n\nGiven input: `[4, 4, 0, 1, 0, 2, 1, 3, 2, 3]`\n\nThis encodes: 4 vertices, 4 edges: 0->1, 0->2, 1->3, 2->3\n\n```\n0 --> 1\n|     |\nv     v\n2 --> 3\n```\n\n**Step-by-step:**\n\n| Step | Queue | Action | In-degrees | Result |\n|------|-------|--------|-----------|--------|\n| Init | [0] | In-degrees: [0,1,1,2] | {0:0, 1:1, 2:1, 3:2} | [] |\n| 1 | [] | Dequeue 0, decrement 1,2 | {1:0, 2:0, 3:2} | [0] |\n| 2 | [1,2] | Enqueue 1,2 (in-degree=0) | {1:0, 2:0, 3:2} | [0] |\n| 3 | [2] | Dequeue 1, decrement 3 | {2:0, 3:1} | [0,1] |\n| 4 | [] | Dequeue 2, decrement 3 | {3:0} | [0,1,2] |\n| 5 | [3] | Enqueue 3 (in-degree=0) | {} | [0,1,2] |\n| 6 | [] | Dequeue 3 | {} | [0,1,2,3] |\n\nResult: `[0, 1, 2, 3]` (all 4 vertices processed -- valid topological order)\n\n## Pseudocode\n\n```\nfunction topologicalSortKahn(arr):\n    numVertices = arr[0]\n    numEdges = arr[1]\n\n    adjacencyList = empty list of lists\n    inDegree = array of zeros, size numVertices\n\n    for i from 0 to numEdges - 1:\n        u = arr[2 + 2*i]\n        v = arr[2 + 2*i + 1]\n        adjacencyList[u].add(v)\n        inDegree[v] += 1\n\n    queue = []\n    for v from 0 to numVertices - 1:\n        if inDegree[v] == 0:\n            queue.add(v)\n\n    result = []\n    while queue is not empty:\n        u = queue.dequeue()\n        result.add(u)\n        for each neighbor v of u:\n            inDegree[v] -= 1\n            if inDegree[v] == 0:\n                queue.add(v)\n\n    if length(result) == numVertices:\n        return result\n    else:\n        return []  // cycle detected\n```\n\n## Complexity Analysis\n\n| Case    | Time   | Space |\n|---------|--------|-------|\n| Best    | O(V+E) | O(V)  |\n| Average | O(V+E) | O(V)  |\n| Worst   | O(V+E) | O(V)  |\n\n- **Time -- O(V+E):** Each vertex is enqueued and dequeued exactly once (O(V)). Each edge is examined exactly once when reducing in-degrees (O(E)). Total: O(V+E).\n- **Space -- O(V):** The in-degree array, queue, and result array each use O(V) space. The adjacency list uses O(V+E) space.\n\n## Applications\n\n- **Build systems:** Determining compilation order (e.g., Make, Gradle).\n- **Task scheduling:** Ordering tasks with dependencies.\n- **Course prerequisites:** Finding a valid course sequence.\n- **Package managers:** Resolving dependency installation order.\n- **Spreadsheet evaluation:** Computing cell values in dependency order.\n- **Cycle detection:** Detecting circular dependencies in any directed graph.\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [topological_sort_kahn.py](python/topological_sort_kahn.py) |\n| Java       | [TopologicalSortKahn.java](java/TopologicalSortKahn.java) |\n| C++        | [topological_sort_kahn.cpp](cpp/topological_sort_kahn.cpp) |\n| C          | [topological_sort_kahn.c](c/topological_sort_kahn.c) |\n| Go         | [topological_sort_kahn.go](go/topological_sort_kahn.go) |\n| TypeScript | [topologicalSortKahn.ts](typescript/topologicalSortKahn.ts) |\n| Kotlin     | [TopologicalSortKahn.kt](kotlin/TopologicalSortKahn.kt) |\n| Rust       | [topological_sort_kahn.rs](rust/topological_sort_kahn.rs) |\n| Swift      | [TopologicalSortKahn.swift](swift/TopologicalSortKahn.swift) |\n| Scala      | [TopologicalSortKahn.scala](scala/TopologicalSortKahn.scala) |\n| C#         | [TopologicalSortKahn.cs](csharp/TopologicalSortKahn.cs) |\n\n## References\n\n- Kahn, A. B. (1962). \"Topological sorting of large networks.\" *Communications of the ACM*, 5(11), 558-562.\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 22.4: Topological Sort.\n- [Topological Sorting -- Wikipedia](https://en.wikipedia.org/wiki/Topological_sorting)\n"
+}

@@ -1,0 +1,135 @@
+{
+  "name": "SPFA (Shortest Path Faster Algorithm)",
+  "slug": "spfa",
+  "category": "graph",
+  "subcategory": "shortest-path",
+  "difficulty": "intermediate",
+  "tags": [
+    "graph",
+    "shortest-path",
+    "bellman-ford",
+    "queue",
+    "optimization"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(E)",
+      "average": "O(E)",
+      "worst": "O(VE)"
+    },
+    "space": "O(V)"
+  },
+  "stable": null,
+  "in_place": false,
+  "related": [
+    "bellman-ford",
+    "dijkstras"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "spfa.c",
+          "content": "#include \"spfa.h\"\n#include <string.h>\n#include <limits.h>\n\n#define MAX_V 1000\n#define MAX_E 10000\n\nstatic int adj_to[MAX_E], adj_w[MAX_E], adj_next[MAX_E], head[MAX_V];\nstatic int edge_count;\n\nstatic void add_edge(int u, int v, int w) {\n    adj_to[edge_count] = v;\n    adj_w[edge_count] = w;\n    adj_next[edge_count] = head[u];\n    head[u] = edge_count++;\n}\n\nint spfa(int arr[], int size) {\n    int n = arr[0];\n    int m = arr[1];\n    int src = arr[2];\n    edge_count = 0;\n    memset(head, -1, sizeof(int) * n);\n\n    for (int i = 0; i < m; i++) {\n        int u = arr[3 + 3 * i];\n        int v = arr[3 + 3 * i + 1];\n        int w = arr[3 + 3 * i + 2];\n        add_edge(u, v, w);\n    }\n\n    int INF = INT_MAX / 2;\n    int dist[MAX_V];\n    int in_queue[MAX_V];\n    int queue[MAX_V * 10];\n    int qfront = 0, qback = 0;\n\n    for (int i = 0; i < n; i++) { dist[i] = INF; in_queue[i] = 0; }\n    dist[src] = 0;\n    queue[qback++] = src;\n    in_queue[src] = 1;\n\n    while (qfront < qback) {\n        int u = queue[qfront++];\n        in_queue[u] = 0;\n        for (int e = head[u]; e != -1; e = adj_next[e]) {\n            int v = adj_to[e], w = adj_w[e];\n            if (dist[u] + w < dist[v]) {\n                dist[v] = dist[u] + w;\n                if (!in_queue[v]) {\n                    queue[qback++] = v;\n                    in_queue[v] = 1;\n                }\n            }\n        }\n    }\n\n    return dist[n - 1] == INF ? -1 : dist[n - 1];\n}\n"
+        },
+        {
+          "filename": "spfa.h",
+          "content": "#ifndef SPFA_H\n#define SPFA_H\n\nint spfa(int arr[], int size);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "spfa.cpp",
+          "content": "#include <vector>\n#include <queue>\n#include <climits>\n\nusing namespace std;\n\nint spfa(vector<int> arr) {\n    int n = arr[0];\n    int m = arr[1];\n    int src = arr[2];\n    vector<vector<pair<int,int>>> adj(n);\n    for (int i = 0; i < m; i++) {\n        int u = arr[3 + 3 * i];\n        int v = arr[3 + 3 * i + 1];\n        int w = arr[3 + 3 * i + 2];\n        adj[u].push_back({v, w});\n    }\n\n    int INF = INT_MAX / 2;\n    vector<int> dist(n, INF);\n    dist[src] = 0;\n    vector<bool> inQueue(n, false);\n    queue<int> q;\n    q.push(src);\n    inQueue[src] = true;\n\n    while (!q.empty()) {\n        int u = q.front(); q.pop();\n        inQueue[u] = false;\n        for (auto& [v, w] : adj[u]) {\n            if (dist[u] + w < dist[v]) {\n                dist[v] = dist[u] + w;\n                if (!inQueue[v]) {\n                    q.push(v);\n                    inQueue[v] = true;\n                }\n            }\n        }\n    }\n\n    return dist[n - 1] == INF ? -1 : dist[n - 1];\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "Spfa.cs",
+          "content": "using System;\nusing System.Collections.Generic;\n\npublic class Spfa\n{\n    public static int Solve(int[] arr)\n    {\n        int n = arr[0];\n        int m = arr[1];\n        int src = arr[2];\n        var adj = new List<(int v, int w)>[n];\n        for (int i = 0; i < n; i++) adj[i] = new List<(int, int)>();\n        for (int i = 0; i < m; i++)\n        {\n            int u = arr[3 + 3 * i];\n            int v = arr[3 + 3 * i + 1];\n            int w = arr[3 + 3 * i + 2];\n            adj[u].Add((v, w));\n        }\n\n        int INF = int.MaxValue / 2;\n        int[] dist = new int[n];\n        for (int i = 0; i < n; i++) dist[i] = INF;\n        dist[src] = 0;\n        bool[] inQueue = new bool[n];\n        var queue = new Queue<int>();\n        queue.Enqueue(src);\n        inQueue[src] = true;\n\n        while (queue.Count > 0)\n        {\n            int u = queue.Dequeue();\n            inQueue[u] = false;\n            foreach (var (v, w) in adj[u])\n            {\n                if (dist[u] + w < dist[v])\n                {\n                    dist[v] = dist[u] + w;\n                    if (!inQueue[v])\n                    {\n                        queue.Enqueue(v);\n                        inQueue[v] = true;\n                    }\n                }\n            }\n        }\n\n        return dist[n - 1] == INF ? -1 : dist[n - 1];\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "spfa.go",
+          "content": "package spfa\n\nimport \"math\"\n\nfunc Spfa(arr []int) int {\n\tn := arr[0]\n\tm := arr[1]\n\tsrc := arr[2]\n\ttype edge struct{ to, w int }\n\tadj := make([][]edge, n)\n\tfor i := 0; i < n; i++ {\n\t\tadj[i] = []edge{}\n\t}\n\tfor i := 0; i < m; i++ {\n\t\tu := arr[3+3*i]\n\t\tv := arr[3+3*i+1]\n\t\tw := arr[3+3*i+2]\n\t\tadj[u] = append(adj[u], edge{v, w})\n\t}\n\n\tINF := math.MaxInt32 / 2\n\tdist := make([]int, n)\n\tfor i := range dist {\n\t\tdist[i] = INF\n\t}\n\tdist[src] = 0\n\tinQueue := make([]bool, n)\n\tqueue := []int{src}\n\tinQueue[src] = true\n\n\tfor len(queue) > 0 {\n\t\tu := queue[0]\n\t\tqueue = queue[1:]\n\t\tinQueue[u] = false\n\t\tfor _, e := range adj[u] {\n\t\t\tif dist[u]+e.w < dist[e.to] {\n\t\t\t\tdist[e.to] = dist[u] + e.w\n\t\t\t\tif !inQueue[e.to] {\n\t\t\t\t\tqueue = append(queue, e.to)\n\t\t\t\t\tinQueue[e.to] = true\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\n\tif dist[n-1] == INF {\n\t\treturn -1\n\t}\n\treturn dist[n-1]\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "Spfa.java",
+          "content": "import java.util.*;\n\npublic class Spfa {\n\n    public static int spfa(int[] arr) {\n        int n = arr[0];\n        int m = arr[1];\n        int src = arr[2];\n        List<List<int[]>> adj = new ArrayList<>();\n        for (int i = 0; i < n; i++) adj.add(new ArrayList<>());\n        for (int i = 0; i < m; i++) {\n            int u = arr[3 + 3 * i];\n            int v = arr[3 + 3 * i + 1];\n            int w = arr[3 + 3 * i + 2];\n            adj.get(u).add(new int[]{v, w});\n        }\n\n        int INF = Integer.MAX_VALUE / 2;\n        int[] dist = new int[n];\n        Arrays.fill(dist, INF);\n        dist[src] = 0;\n        boolean[] inQueue = new boolean[n];\n        Queue<Integer> queue = new LinkedList<>();\n        queue.add(src);\n        inQueue[src] = true;\n\n        while (!queue.isEmpty()) {\n            int u = queue.poll();\n            inQueue[u] = false;\n            for (int[] edge : adj.get(u)) {\n                int v = edge[0], w = edge[1];\n                if (dist[u] + w < dist[v]) {\n                    dist[v] = dist[u] + w;\n                    if (!inQueue[v]) {\n                        queue.add(v);\n                        inQueue[v] = true;\n                    }\n                }\n            }\n        }\n\n        return dist[n - 1] == INF ? -1 : dist[n - 1];\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "Spfa.kt",
+          "content": "fun spfa(arr: IntArray): Int {\n    val n = arr[0]\n    val m = arr[1]\n    val src = arr[2]\n    val adj = Array(n) { mutableListOf<Pair<Int, Int>>() }\n    for (i in 0 until m) {\n        val u = arr[3 + 3 * i]\n        val v = arr[3 + 3 * i + 1]\n        val w = arr[3 + 3 * i + 2]\n        adj[u].add(Pair(v, w))\n    }\n\n    val INF = Int.MAX_VALUE / 2\n    val dist = IntArray(n) { INF }\n    dist[src] = 0\n    val inQueue = BooleanArray(n)\n    val queue = ArrayDeque<Int>()\n    queue.addLast(src)\n    inQueue[src] = true\n\n    while (queue.isNotEmpty()) {\n        val u = queue.removeFirst()\n        inQueue[u] = false\n        for ((v, w) in adj[u]) {\n            if (dist[u] + w < dist[v]) {\n                dist[v] = dist[u] + w\n                if (!inQueue[v]) {\n                    queue.addLast(v)\n                    inQueue[v] = true\n                }\n            }\n        }\n    }\n\n    return if (dist[n - 1] == INF) -1 else dist[n - 1]\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "spfa.py",
+          "content": "from collections import deque\n\ndef spfa(arr: list[int]) -> int:\n    n = arr[0]\n    m = arr[1]\n    src = arr[2]\n    adj = [[] for _ in range(n)]\n    for i in range(m):\n        u = arr[3 + 3 * i]\n        v = arr[3 + 3 * i + 1]\n        w = arr[3 + 3 * i + 2]\n        adj[u].append((v, w))\n\n    INF = float('inf')\n    dist = [INF] * n\n    dist[src] = 0\n    in_queue = [False] * n\n    queue = deque([src])\n    in_queue[src] = True\n\n    while queue:\n        u = queue.popleft()\n        in_queue[u] = False\n        for v, w in adj[u]:\n            if dist[u] + w < dist[v]:\n                dist[v] = dist[u] + w\n                if not in_queue[v]:\n                    queue.append(v)\n                    in_queue[v] = True\n\n    return dist[n - 1] if dist[n - 1] != INF else -1\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "spfa.rs",
+          "content": "use std::collections::VecDeque;\n\npub fn spfa(arr: &[i32]) -> i32 {\n    let n = arr[0] as usize;\n    let m = arr[1] as usize;\n    let src = arr[2] as usize;\n    let mut adj: Vec<Vec<(usize, i32)>> = vec![vec![]; n];\n    for i in 0..m {\n        let u = arr[3 + 3 * i] as usize;\n        let v = arr[3 + 3 * i + 1] as usize;\n        let w = arr[3 + 3 * i + 2];\n        adj[u].push((v, w));\n    }\n\n    let inf = i32::MAX / 2;\n    let mut dist = vec![inf; n];\n    dist[src] = 0;\n    let mut in_queue = vec![false; n];\n    let mut queue = VecDeque::new();\n    queue.push_back(src);\n    in_queue[src] = true;\n\n    while let Some(u) = queue.pop_front() {\n        in_queue[u] = false;\n        for &(v, w) in &adj[u] {\n            if dist[u] + w < dist[v] {\n                dist[v] = dist[u] + w;\n                if !in_queue[v] {\n                    queue.push_back(v);\n                    in_queue[v] = true;\n                }\n            }\n        }\n    }\n\n    if dist[n - 1] == inf { -1 } else { dist[n - 1] }\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "Spfa.scala",
+          "content": "object Spfa {\n\n  def spfa(arr: Array[Int]): Int = {\n    val n = arr(0)\n    val m = arr(1)\n    val src = arr(2)\n    val adj = Array.fill(n)(scala.collection.mutable.ListBuffer[(Int, Int)]())\n    for (i <- 0 until m) {\n      val u = arr(3 + 3 * i)\n      val v = arr(3 + 3 * i + 1)\n      val w = arr(3 + 3 * i + 2)\n      adj(u) += ((v, w))\n    }\n\n    val INF = Int.MaxValue / 2\n    val dist = Array.fill(n)(INF)\n    dist(src) = 0\n    val inQueue = Array.fill(n)(false)\n    val queue = scala.collection.mutable.Queue[Int]()\n    queue.enqueue(src)\n    inQueue(src) = true\n\n    while (queue.nonEmpty) {\n      val u = queue.dequeue()\n      inQueue(u) = false\n      for ((v, w) <- adj(u)) {\n        if (dist(u) + w < dist(v)) {\n          dist(v) = dist(u) + w\n          if (!inQueue(v)) {\n            queue.enqueue(v)\n            inQueue(v) = true\n          }\n        }\n      }\n    }\n\n    if (dist(n - 1) == INF) -1 else dist(n - 1)\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "Spfa.swift",
+          "content": "func spfa(_ arr: [Int]) -> Int {\n    let n = arr[0]\n    let m = arr[1]\n    let src = arr[2]\n    var adj = [[(Int, Int)]](repeating: [], count: n)\n    for i in 0..<m {\n        let u = arr[3 + 3 * i]\n        let v = arr[3 + 3 * i + 1]\n        let w = arr[3 + 3 * i + 2]\n        adj[u].append((v, w))\n    }\n\n    let INF = Int.max / 2\n    var dist = [Int](repeating: INF, count: n)\n    dist[src] = 0\n    var inQueue = [Bool](repeating: false, count: n)\n    var queue = [Int]()\n    var front = 0\n    queue.append(src)\n    inQueue[src] = true\n\n    while front < queue.count {\n        let u = queue[front]\n        front += 1\n        inQueue[u] = false\n        for (v, w) in adj[u] {\n            if dist[u] + w < dist[v] {\n                dist[v] = dist[u] + w\n                if !inQueue[v] {\n                    queue.append(v)\n                    inQueue[v] = true\n                }\n            }\n        }\n    }\n\n    return dist[n - 1] == INF ? -1 : dist[n - 1]\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "spfa.ts",
+          "content": "export function spfa(arr: number[]): number {\n    const n = arr[0];\n    const m = arr[1];\n    const src = arr[2];\n    const adj: [number, number][][] = Array.from({ length: n }, () => []);\n    for (let i = 0; i < m; i++) {\n        const u = arr[3 + 3 * i];\n        const v = arr[3 + 3 * i + 1];\n        const w = arr[3 + 3 * i + 2];\n        adj[u].push([v, w]);\n    }\n\n    const INF = 1e9;\n    const dist = new Array(n).fill(INF);\n    dist[src] = 0;\n    const inQueue = new Array(n).fill(false);\n    const queue: number[] = [src];\n    inQueue[src] = true;\n\n    while (queue.length > 0) {\n        const u = queue.shift()!;\n        inQueue[u] = false;\n        for (const [v, w] of adj[u]) {\n            if (dist[u] + w < dist[v]) {\n                dist[v] = dist[u] + w;\n                if (!inQueue[v]) {\n                    queue.push(v);\n                    inQueue[v] = true;\n                }\n            }\n        }\n    }\n\n    return dist[n - 1] === INF ? -1 : dist[n - 1];\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# SPFA (Shortest Path Faster Algorithm)\n\n## Overview\n\nSPFA is an optimization of the Bellman-Ford algorithm for finding single-source shortest paths. It uses a queue to process only vertices whose distances have been updated, avoiding redundant relaxation of edges. On average, SPFA runs much faster than Bellman-Ford, though it has the same worst-case complexity of O(VE). SPFA can handle negative edge weights and is widely used in competitive programming, particularly in the Chinese competitive programming community where it originated.\n\n## How It Works\n\n1. Initialize distances: source = 0, all others = infinity.\n2. Push the source into a queue and mark it as in-queue.\n3. While the queue is not empty, dequeue a vertex u and relax all its outgoing edges.\n4. If a neighbor v's distance is improved (dist[u] + w < dist[v]), update it and add v to the queue if not already there.\n5. The algorithm terminates when no more improvements can be made.\n\nTo detect negative cycles, count the number of times each vertex enters the queue. If any vertex enters more than V times, a negative cycle exists.\n\nInput format: [n, m, src, u1, v1, w1, ...]. Output: distance from src to vertex n-1, or -1 if unreachable.\n\n## Worked Example\n\n```\nGraph with 5 vertices, source = 0:\n    0 --(1)--> 1\n    0 --(4)--> 2\n    1 --(2)--> 2\n    1 --(6)--> 3\n    2 --(3)--> 3\n    3 --(1)--> 4\n```\n\n**Initial:** dist = [0, INF, INF, INF, INF]. Queue = [0].\n\n**Dequeue 0:** Relax edges.\n- dist[1] = min(INF, 0+1) = 1. Enqueue 1.\n- dist[2] = min(INF, 0+4) = 4. Enqueue 2.\nQueue = [1, 2].\n\n**Dequeue 1:** Relax edges.\n- dist[2] = min(4, 1+2) = 3. (2 already in queue, no re-enqueue needed.)\n- dist[3] = min(INF, 1+6) = 7. Enqueue 3.\nQueue = [2, 3].\n\n**Dequeue 2:** Relax edges.\n- dist[3] = min(7, 3+3) = 6. (3 already in queue.)\nQueue = [3].\n\n**Dequeue 3:** Relax edges.\n- dist[4] = min(INF, 6+1) = 7. Enqueue 4.\nQueue = [4].\n\n**Dequeue 4:** No outgoing edges. Queue empty.\n\n**Final distances:** [0, 1, 3, 6, 7].\n\nShortest path to vertex 4: 0 -> 1 -> 2 -> 3 -> 4 with distance 7.\n\n## Pseudocode\n\n```\nfunction spfa(n, adj, source):\n    dist = array of size n, all INF\n    inQueue = array of size n, all false\n    dist[source] = 0\n    inQueue[source] = true\n\n    queue = [source]\n\n    while queue is not empty:\n        u = queue.dequeue()\n        inQueue[u] = false\n\n        for each (v, w) in adj[u]:\n            if dist[u] + w < dist[v]:\n                dist[v] = dist[u] + w\n                if not inQueue[v]:\n                    queue.enqueue(v)\n                    inQueue[v] = true\n\n    return dist\n```\n\n## Complexity Analysis\n\n| Case    | Time  | Space |\n|---------|-------|-------|\n| Best    | O(E)  | O(V)  |\n| Average | O(E)  | O(V)  |\n| Worst   | O(VE) | O(V)  |\n\nIn practice, SPFA runs close to O(E) for most random graphs and real-world graphs. However, adversarial inputs can force it to O(VE), matching Bellman-Ford. The SLF (Smallest Label First) and LLL (Large Label Last) optimizations can improve average-case performance.\n\n## When to Use\n\n- Single-source shortest paths with negative edge weights\n- Competitive programming where average-case performance matters\n- Graphs where Dijkstra cannot be used due to negative weights and you want better average performance than Bellman-Ford\n- Detecting negative cycles (vertex queued more than V times)\n- As a subroutine in minimum cost flow algorithms\n\n## When NOT to Use\n\n- When all edge weights are non-negative -- Dijkstra's algorithm with a priority queue is both faster and has better worst-case guarantees.\n- In adversarial or worst-case scenarios -- SPFA degrades to O(VE). Use Dijkstra with Johnson's reweighting if you must avoid negative weights.\n- When you need guaranteed performance bounds -- SPFA's worst case equals Bellman-Ford, but Dijkstra gives O(E log V) guaranteed.\n- For very dense graphs with non-negative weights -- Dijkstra with an array (O(V^2)) is simpler and may be faster.\n\n## Comparison\n\n| Algorithm | Time (Worst) | Time (Average) | Negative Weights? | Notes |\n|-----------|-------------|----------------|-------------------|-------|\n| SPFA (this) | O(VE) | O(E) | Yes | Queue-based; fast in practice |\n| Bellman-Ford | O(VE) | O(VE) | Yes | Guaranteed O(VE); negative cycle detection |\n| Dijkstra (binary heap) | O(E log V) | O(E log V) | No | Best for non-negative weights |\n| Dijkstra (Fibonacci heap) | O(E + V log V) | O(E + V log V) | No | Theoretically optimal for non-negative |\n| DAG Shortest Path | O(V + E) | O(V + E) | Yes | Only for DAGs; fastest possible |\n\n## References\n\n- Duan, F. (1994). \"About the Shortest Path Faster Algorithm\". *Journal of Southwest Jiaotong University*.\n- [Shortest Path Faster Algorithm -- Wikipedia](https://en.wikipedia.org/wiki/Shortest_Path_Faster_Algorithm)\n- Cherkassky, B. V., Goldberg, A. V., & Radzik, T. (1996). \"Shortest paths algorithms: theory and experimental evaluation.\" *Mathematical Programming*, 73(2), 129-174.\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [spfa.py](python/spfa.py) |\n| Java       | [Spfa.java](java/Spfa.java) |\n| C++        | [spfa.cpp](cpp/spfa.cpp) |\n| C          | [spfa.c](c/spfa.c) |\n| Go         | [spfa.go](go/spfa.go) |\n| TypeScript | [spfa.ts](typescript/spfa.ts) |\n| Rust       | [spfa.rs](rust/spfa.rs) |\n| Kotlin     | [Spfa.kt](kotlin/Spfa.kt) |\n| Swift      | [Spfa.swift](swift/Spfa.swift) |\n| Scala      | [Spfa.scala](scala/Spfa.scala) |\n| C#         | [Spfa.cs](csharp/Spfa.cs) |\n"
+}

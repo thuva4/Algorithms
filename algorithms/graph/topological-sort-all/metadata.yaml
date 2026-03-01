@@ -1,0 +1,21 @@
+name: "All Topological Orderings"
+slug: "topological-sort-all"
+category: "graph"
+subcategory: "ordering"
+difficulty: "advanced"
+tags: [graph, topological-sort, backtracking, enumeration, dag]
+complexity:
+  time:
+    best: "O(V! * V)"
+    average: "O(V! * V)"
+    worst: "O(V! * V)"
+  space: "O(V + E)"
+stable: null
+in_place: false
+related: [topological-sort, topological-sort-kahn]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false
+patterns:
+  - topological-sort
+patternDifficulty: intermediate
+practiceOrder: 2

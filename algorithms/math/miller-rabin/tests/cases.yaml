@@ -1,0 +1,18 @@
+algorithm: "miller-rabin"
+function_signature:
+  name: "miller_rabin"
+  input: [integer]
+  output: integer
+test_cases:
+  - name: "prime number 7"
+    input: [7]
+    expected: 1
+  - name: "composite number 15"
+    input: [15]
+    expected: 0
+  - name: "large prime 104729"
+    input: [104729]
+    expected: 1
+  - name: "one"
+    input: [1]
+    expected: 0

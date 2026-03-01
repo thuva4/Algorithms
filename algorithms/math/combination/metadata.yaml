@@ -1,0 +1,17 @@
+name: "Combination"
+slug: "combination"
+category: "math"
+subcategory: "combinatorics"
+difficulty: "beginner"
+tags: [math, combination, nCr, binomial-coefficient, combinatorics]
+complexity:
+  time:
+    best: "O(r)"
+    average: "O(r)"
+    worst: "O(r)"
+  space: "O(1)"
+stable: false
+in_place: true
+related: [factorial, permutations]
+implementations: [cpp]
+visualization: false

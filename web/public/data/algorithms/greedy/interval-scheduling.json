@@ -1,0 +1,137 @@
+{
+  "name": "Interval Scheduling Maximization",
+  "slug": "interval-scheduling",
+  "category": "greedy",
+  "subcategory": "scheduling",
+  "difficulty": "intermediate",
+  "tags": [
+    "greedy",
+    "scheduling",
+    "intervals",
+    "optimization"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n log n)",
+      "average": "O(n log n)",
+      "worst": "O(n log n)"
+    },
+    "space": "O(n)"
+  },
+  "related": [
+    "job-scheduling",
+    "activity-selection"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "interval_scheduling.c",
+          "content": "#include \"interval_scheduling.h\"\n#include <stdlib.h>\n\nstatic int cmp_end(const void* a, const void* b) {\n    int* ia = (int*)a;\n    int* ib = (int*)b;\n    return ia[1] - ib[1];\n}\n\nint interval_scheduling(int* arr, int len) {\n    int n = arr[0];\n    int* intervals = (int*)malloc(n * 2 * sizeof(int));\n\n    for (int i = 0; i < n; i++) {\n        intervals[2*i] = arr[1 + 2*i];\n        intervals[2*i + 1] = arr[1 + 2*i + 1];\n    }\n\n    qsort(intervals, n, 2 * sizeof(int), cmp_end);\n\n    int count = 0, lastEnd = -1;\n    for (int i = 0; i < n; i++) {\n        if (intervals[2*i] >= lastEnd) {\n            count++;\n            lastEnd = intervals[2*i + 1];\n        }\n    }\n\n    free(intervals);\n    return count;\n}\n"
+        },
+        {
+          "filename": "interval_scheduling.h",
+          "content": "#ifndef INTERVAL_SCHEDULING_H\n#define INTERVAL_SCHEDULING_H\n\nint interval_scheduling(int* arr, int len);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "interval_scheduling.cpp",
+          "content": "#include <vector>\n#include <algorithm>\n\nusing namespace std;\n\nint interval_scheduling(vector<int> arr) {\n    int n = arr[0];\n    vector<pair<int,int>> intervals(n);\n    for (int i = 0; i < n; i++) {\n        intervals[i] = {arr[1 + 2*i], arr[1 + 2*i + 1]};\n    }\n\n    sort(intervals.begin(), intervals.end(), [](auto& a, auto& b) {\n        return a.second < b.second;\n    });\n\n    int count = 0, lastEnd = -1;\n    for (auto& iv : intervals) {\n        if (iv.first >= lastEnd) {\n            count++;\n            lastEnd = iv.second;\n        }\n    }\n\n    return count;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "IntervalScheduling.cs",
+          "content": "using System;\nusing System.Linq;\n\npublic class IntervalScheduling\n{\n    public static int Schedule(int[] arr)\n    {\n        int n = arr[0];\n        var intervals = new (int start, int end)[n];\n        for (int i = 0; i < n; i++)\n        {\n            intervals[i] = (arr[1 + 2 * i], arr[1 + 2 * i + 1]);\n        }\n\n        Array.Sort(intervals, (a, b) => a.end.CompareTo(b.end));\n\n        int count = 0;\n        int lastEnd = -1;\n        foreach (var iv in intervals)\n        {\n            if (iv.start >= lastEnd)\n            {\n                count++;\n                lastEnd = iv.end;\n            }\n        }\n\n        return count;\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "interval_scheduling.go",
+          "content": "package intervalscheduling\n\nimport \"sort\"\n\nfunc IntervalScheduling(arr []int) int {\n\tn := arr[0]\n\ttype Interval struct{ start, end int }\n\tintervals := make([]Interval, n)\n\tfor i := 0; i < n; i++ {\n\t\tintervals[i] = Interval{arr[1+2*i], arr[1+2*i+1]}\n\t}\n\n\tsort.Slice(intervals, func(i, j int) bool {\n\t\treturn intervals[i].end < intervals[j].end\n\t})\n\n\tcount := 0\n\tlastEnd := -1\n\tfor _, iv := range intervals {\n\t\tif iv.start >= lastEnd {\n\t\t\tcount++\n\t\t\tlastEnd = iv.end\n\t\t}\n\t}\n\n\treturn count\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "IntervalScheduling.java",
+          "content": "import java.util.Arrays;\n\npublic class IntervalScheduling {\n\n    public static int intervalScheduling(int[] arr) {\n        int n = arr[0];\n        int[][] intervals = new int[n][2];\n        for (int i = 0; i < n; i++) {\n            intervals[i][0] = arr[1 + 2 * i];\n            intervals[i][1] = arr[1 + 2 * i + 1];\n        }\n\n        Arrays.sort(intervals, (a, b) -> a[1] - b[1]);\n\n        int count = 0;\n        int lastEnd = -1;\n\n        for (int[] interval : intervals) {\n            if (interval[0] >= lastEnd) {\n                count++;\n                lastEnd = interval[1];\n            }\n        }\n\n        return count;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "IntervalScheduling.kt",
+          "content": "fun intervalScheduling(arr: IntArray): Int {\n    val n = arr[0]\n    data class Interval(val start: Int, val end: Int)\n\n    val intervals = Array(n) { Interval(arr[1 + 2 * it], arr[1 + 2 * it + 1]) }\n    val sorted = intervals.sortedBy { it.end }\n\n    var count = 0\n    var lastEnd = -1\n    for (iv in sorted) {\n        if (iv.start >= lastEnd) {\n            count++\n            lastEnd = iv.end\n        }\n    }\n\n    return count\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "interval_scheduling.py",
+          "content": "def interval_scheduling(arr: list[int]) -> int:\n    n = arr[0]\n    intervals = [(arr[1 + 2 * i], arr[1 + 2 * i + 1]) for i in range(n)]\n    intervals.sort(key=lambda x: x[1])\n\n    count = 0\n    last_end = -1\n\n    for start, end in intervals:\n        if start >= last_end:\n            count += 1\n            last_end = end\n\n    return count\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "interval_scheduling.rs",
+          "content": "pub fn interval_scheduling(arr: &[i32]) -> i32 {\n    let n = arr[0] as usize;\n    let mut intervals: Vec<(i32, i32)> = (0..n)\n        .map(|i| (arr[1 + 2 * i], arr[1 + 2 * i + 1]))\n        .collect();\n\n    intervals.sort_by_key(|iv| iv.1);\n\n    let mut count = 0;\n    let mut last_end = -1;\n    for (start, end) in &intervals {\n        if *start >= last_end {\n            count += 1;\n            last_end = *end;\n        }\n    }\n\n    count\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "IntervalScheduling.scala",
+          "content": "object IntervalScheduling {\n\n  def intervalScheduling(arr: Array[Int]): Int = {\n    val n = arr(0)\n    val intervals = Array.tabulate(n)(i => (arr(1 + 2 * i), arr(1 + 2 * i + 1)))\n    val sorted = intervals.sortBy(_._2)\n\n    var count = 0\n    var lastEnd = -1\n    for ((start, end) <- sorted) {\n      if (start >= lastEnd) {\n        count += 1\n        lastEnd = end\n      }\n    }\n\n    count\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "IntervalScheduling.swift",
+          "content": "func intervalScheduling(_ arr: [Int]) -> Int {\n    let n = arr[0]\n    var intervals: [(start: Int, end: Int)] = []\n    for i in 0..<n {\n        intervals.append((arr[1 + 2 * i], arr[1 + 2 * i + 1]))\n    }\n\n    intervals.sort { $0.end < $1.end }\n\n    var count = 0\n    var lastEnd = -1\n    for iv in intervals {\n        if iv.start >= lastEnd {\n            count += 1\n            lastEnd = iv.end\n        }\n    }\n\n    return count\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "intervalScheduling.ts",
+          "content": "export function intervalScheduling(arr: number[]): number {\n    const n = arr[0];\n    const intervals: [number, number][] = [];\n    for (let i = 0; i < n; i++) {\n        intervals.push([arr[1 + 2 * i], arr[1 + 2 * i + 1]]);\n    }\n\n    intervals.sort((a, b) => a[1] - b[1]);\n\n    let count = 0;\n    let lastEnd = -1;\n    for (const [start, end] of intervals) {\n        if (start >= lastEnd) {\n            count++;\n            lastEnd = end;\n        }\n    }\n\n    return count;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "patterns": [
+    "merge-intervals"
+  ],
+  "patternDifficulty": "intermediate",
+  "practiceOrder": 1,
+  "readme": "# Interval Scheduling Maximization\n\n## Overview\n\nThe Interval Scheduling Maximization problem finds the maximum number of non-overlapping intervals (activities, jobs, or events) that can be selected from a given set. Each interval has a start time and a finish time, and two intervals conflict if they overlap in time. The goal is to select as many non-conflicting intervals as possible.\n\nThe greedy strategy of always selecting the interval that finishes earliest is provably optimal. This is one of the classic results in greedy algorithm design and serves as a foundational example in algorithms courses for demonstrating the greedy choice property and optimal substructure.\n\n## How It Works\n\n1. **Sort** all intervals by their finish (end) times in ascending order.\n2. **Select** the first interval (the one that finishes earliest).\n3. **Iterate** through the remaining intervals in sorted order:\n   a. If the current interval's start time is greater than or equal to the finish time of the last selected interval (no overlap), select it and update the last finish time.\n   b. Otherwise, skip it (it conflicts with the last selected interval).\n4. **Return** the count of selected intervals.\n\nThe key insight is that by choosing the interval that finishes earliest, we maximize the remaining time available for subsequent intervals. This greedy choice never leads to a suboptimal solution because any optimal solution that does not include the earliest-finishing interval can be modified to include it without reducing the total count.\n\n## Worked Example\n\n**Input intervals:** [(1,4), (3,5), (0,6), (5,7), (3,9), (5,9), (6,10), (8,11), (8,12), (2,14), (12,16)]\n\n**Step 1 -- Sort by finish time:**\n\n| Interval | Start | Finish |\n|----------|-------|--------|\n| A | 1 | 4 |\n| B | 3 | 5 |\n| C | 0 | 6 |\n| D | 5 | 7 |\n| E | 3 | 9 |\n| F | 5 | 9 |\n| G | 6 | 10 |\n| H | 8 | 11 |\n| I | 8 | 12 |\n| J | 2 | 14 |\n| K | 12 | 16 |\n\n**Step 2 -- Greedy selection:**\n\n| Interval | Start | Finish | Last Finish | Action | Reason |\n|----------|-------|--------|-------------|--------|--------|\n| A | 1 | 4 | -- | Select | First interval |\n| B | 3 | 5 | 4 | Skip | 3 < 4 (overlaps) |\n| C | 0 | 6 | 4 | Skip | 0 < 4 (overlaps) |\n| D | 5 | 7 | 4 | Select | 5 >= 4 (no overlap) |\n| E | 3 | 9 | 7 | Skip | 3 < 7 (overlaps) |\n| F | 5 | 9 | 7 | Skip | 5 < 7 (overlaps) |\n| G | 6 | 10 | 7 | Skip | 6 < 7 (overlaps) |\n| H | 8 | 11 | 7 | Select | 8 >= 7 (no overlap) |\n| I | 8 | 12 | 11 | Skip | 8 < 11 (overlaps) |\n| J | 2 | 14 | 11 | Skip | 2 < 11 (overlaps) |\n| K | 12 | 16 | 11 | Select | 12 >= 11 (no overlap) |\n\n**Result:** 4 intervals selected: A(1,4), D(5,7), H(8,11), K(12,16).\n\n## Pseudocode\n\n```\nfunction intervalScheduling(intervals):\n    n = length(intervals)\n    if n == 0:\n        return 0\n\n    sort intervals by finish time ascending\n\n    count = 1\n    lastFinish = intervals[0].finish\n\n    for i from 1 to n - 1:\n        if intervals[i].start >= lastFinish:\n            count += 1\n            lastFinish = intervals[i].finish\n\n    return count\n```\n\n## Complexity Analysis\n\n| Case    | Time       | Space |\n|---------|------------|-------|\n| Best    | O(n log n) | O(n)  |\n| Average | O(n log n) | O(n)  |\n| Worst   | O(n log n) | O(n)  |\n\n- **Time -- O(n log n):** Dominated by the sorting step. The greedy selection pass itself is O(n). If intervals are pre-sorted, the algorithm runs in O(n).\n- **Space -- O(n):** Required for sorting and storing the intervals.\n\n## When to Use\n\n- **Meeting room scheduling:** Maximize the number of meetings that can be held in a single room.\n- **Resource allocation:** Allocate a single resource (machine, room, vehicle) to the maximum number of requests.\n- **Job scheduling on a single machine:** Schedule the most jobs when each job has a fixed start and end time.\n- **Bandwidth or channel allocation:** Maximize the number of non-overlapping transmissions on a shared medium.\n- **Event planning:** Select the maximum number of non-conflicting events to attend.\n\n## When NOT to Use\n\n- **Weighted intervals:** If intervals have different values (weights) and the goal is to maximize total value rather than count, use weighted interval scheduling (solvable by dynamic programming in O(n log n)).\n- **Multiple resources:** If multiple machines or rooms are available, the problem becomes interval partitioning (minimum number of resources needed), which requires a different approach (e.g., sorting by start time with a priority queue).\n- **Intervals can be shifted:** If intervals have flexible start times and only their durations are fixed, the problem becomes a different scheduling variant.\n- **Dependent intervals:** If selecting one interval forces or prevents the selection of others (precedence constraints), the problem is no longer solvable by this greedy approach.\n- **Minimizing idle time:** If the goal is to minimize gaps between scheduled intervals rather than maximizing count, a different objective function is needed.\n\n## Comparison\n\n| Problem | Strategy | Time | Notes |\n|---------|----------|------|-------|\n| Interval Scheduling Maximization (this) | Greedy (earliest finish) | O(n log n) | Maximize count, single resource |\n| Weighted Interval Scheduling | DP + binary search | O(n log n) | Maximize total weight |\n| Interval Partitioning | Greedy (earliest start) | O(n log n) | Minimize number of resources |\n| Activity Selection | Greedy (earliest finish) | O(n log n) | Equivalent problem formulation |\n| Job Scheduling with Deadlines | Greedy (max profit) | O(n^2) or O(n log n) | Different objective (profit, not count) |\n\nInterval Scheduling Maximization and Activity Selection are essentially the same problem with different names. The key variants differ in whether intervals have weights, whether multiple resources are available, and whether the objective is count, total value, or resource minimization.\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [interval_scheduling.py](python/interval_scheduling.py) |\n| Java       | [IntervalScheduling.java](java/IntervalScheduling.java) |\n| C++        | [interval_scheduling.cpp](cpp/interval_scheduling.cpp) |\n| C          | [interval_scheduling.c](c/interval_scheduling.c) |\n| Go         | [interval_scheduling.go](go/interval_scheduling.go) |\n| TypeScript | [intervalScheduling.ts](typescript/intervalScheduling.ts) |\n| Rust       | [interval_scheduling.rs](rust/interval_scheduling.rs) |\n| Kotlin     | [IntervalScheduling.kt](kotlin/IntervalScheduling.kt) |\n| Swift      | [IntervalScheduling.swift](swift/IntervalScheduling.swift) |\n| Scala      | [IntervalScheduling.scala](scala/IntervalScheduling.scala) |\n| C#         | [IntervalScheduling.cs](csharp/IntervalScheduling.cs) |\n\n## References\n\n- Kleinberg, J., & Tardos, E. (2006). *Algorithm Design*. Addison-Wesley. Chapter 4.1: Interval Scheduling.\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 16: Greedy Algorithms.\n- Kolen, A. W. J., Lenstra, J. K., Papadimitriou, C. H., & Spieksma, F. C. R. (2007). \"Interval scheduling: A survey.\" *Naval Research Logistics*, 54(5), 530-543.\n- [Interval scheduling -- Wikipedia](https://en.wikipedia.org/wiki/Interval_scheduling)\n"
+}

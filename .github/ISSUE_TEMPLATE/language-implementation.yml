@@ -1,0 +1,50 @@
+name: Language Implementation Request
+description: Request a new language implementation for an existing algorithm
+title: "[Implementation] "
+labels: ["implementation-request"]
+body:
+  - type: input
+    id: algorithm-name
+    attributes:
+      label: Algorithm Name
+      description: The name of the algorithm that needs a new implementation
+      placeholder: e.g., Bubble Sort
+    validations:
+      required: true
+
+  - type: input
+    id: algorithm-path
+    attributes:
+      label: Algorithm Path
+      description: Path to the algorithm directory
+      placeholder: e.g., algorithms/sorting/bubble-sort
+    validations:
+      required: true
+
+  - type: dropdown
+    id: language
+    attributes:
+      label: Language
+      description: Which language implementation is needed?
+      options:
+        - Python
+        - Java
+        - C++
+        - C
+        - Go
+        - TypeScript
+        - Kotlin
+        - Rust
+        - Swift
+        - Scala
+        - "C#"
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Any notes about the implementation (special considerations, edge cases, etc.)
+    validations:
+      required: false

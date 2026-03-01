@@ -1,0 +1,136 @@
+{
+  "name": "Sudoku Solver",
+  "slug": "sudoku-solver",
+  "category": "backtracking",
+  "subcategory": "constraint-satisfaction",
+  "difficulty": "intermediate",
+  "tags": [
+    "backtracking",
+    "recursion",
+    "constraint-satisfaction",
+    "puzzle"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(1)",
+      "average": "O(9^m)",
+      "worst": "O(9^81)"
+    },
+    "space": "O(81)"
+  },
+  "stable": false,
+  "in_place": false,
+  "related": [
+    "n-queens",
+    "permutations",
+    "subset-sum"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "sudoku_solve.c",
+          "content": "#include <string.h>\n\nstatic int is_valid(int grid[], int pos, int num) {\n    int row = pos / 9;\n    int col = pos % 9;\n\n    /* Check row */\n    for (int c = 0; c < 9; c++) {\n        if (grid[row * 9 + c] == num) return 0;\n    }\n\n    /* Check column */\n    for (int r = 0; r < 9; r++) {\n        if (grid[r * 9 + col] == num) return 0;\n    }\n\n    /* Check 3x3 box */\n    int box_row = 3 * (row / 3);\n    int box_col = 3 * (col / 3);\n    for (int r = box_row; r < box_row + 3; r++) {\n        for (int c = box_col; c < box_col + 3; c++) {\n            if (grid[r * 9 + c] == num) return 0;\n        }\n    }\n\n    return 1;\n}\n\nstatic int solve(int grid[]) {\n    for (int i = 0; i < 81; i++) {\n        if (grid[i] == 0) {\n            for (int num = 1; num <= 9; num++) {\n                if (is_valid(grid, i, num)) {\n                    grid[i] = num;\n                    if (solve(grid)) return 1;\n                    grid[i] = 0;\n                }\n            }\n            return 0;\n        }\n    }\n    return 1;\n}\n\n/**\n * Solve a Sudoku puzzle in-place.\n * board: array of 81 integers (0 = empty cell).\n * result: array of 81 integers to store the solution.\n * Returns 1 if a solution is found, 0 otherwise.\n */\nint sudoku_solve(int board[], int result[], int n) {\n    (void)n; /* n is always 81 */\n    memcpy(result, board, 81 * sizeof(int));\n    return solve(result);\n}\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "sudoku_solve.cpp",
+          "content": "#include <vector>\n\nstatic bool isValid(std::vector<int>& grid, int pos, int num) {\n    int row = pos / 9;\n    int col = pos % 9;\n\n    // Check row\n    for (int c = 0; c < 9; c++) {\n        if (grid[row * 9 + c] == num) return false;\n    }\n\n    // Check column\n    for (int r = 0; r < 9; r++) {\n        if (grid[r * 9 + col] == num) return false;\n    }\n\n    // Check 3x3 box\n    int boxRow = 3 * (row / 3);\n    int boxCol = 3 * (col / 3);\n    for (int r = boxRow; r < boxRow + 3; r++) {\n        for (int c = boxCol; c < boxCol + 3; c++) {\n            if (grid[r * 9 + c] == num) return false;\n        }\n    }\n\n    return true;\n}\n\nstatic bool solve(std::vector<int>& grid) {\n    for (int i = 0; i < 81; i++) {\n        if (grid[i] == 0) {\n            for (int num = 1; num <= 9; num++) {\n                if (isValid(grid, i, num)) {\n                    grid[i] = num;\n                    if (solve(grid)) return true;\n                    grid[i] = 0;\n                }\n            }\n            return false;\n        }\n    }\n    return true;\n}\n\nstd::vector<int> sudokuSolve(std::vector<int> board) {\n    std::vector<int> grid = board;\n    if (solve(grid)) {\n        return grid;\n    }\n    return std::vector<int>();\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "SudokuSolver.cs",
+          "content": "using System;\n\npublic class SudokuSolver\n{\n    public static int[] SudokuSolve(int[] board)\n    {\n        int[] grid = (int[])board.Clone();\n        if (Solve(grid))\n        {\n            return grid;\n        }\n        return Array.Empty<int>();\n    }\n\n    private static bool IsValid(int[] grid, int pos, int num)\n    {\n        int row = pos / 9;\n        int col = pos % 9;\n\n        // Check row\n        for (int c = 0; c < 9; c++)\n        {\n            if (grid[row * 9 + c] == num) return false;\n        }\n\n        // Check column\n        for (int r = 0; r < 9; r++)\n        {\n            if (grid[r * 9 + col] == num) return false;\n        }\n\n        // Check 3x3 box\n        int boxRow = 3 * (row / 3);\n        int boxCol = 3 * (col / 3);\n        for (int r = boxRow; r < boxRow + 3; r++)\n        {\n            for (int c = boxCol; c < boxCol + 3; c++)\n            {\n                if (grid[r * 9 + c] == num) return false;\n            }\n        }\n\n        return true;\n    }\n\n    private static bool Solve(int[] grid)\n    {\n        for (int i = 0; i < 81; i++)\n        {\n            if (grid[i] == 0)\n            {\n                for (int num = 1; num <= 9; num++)\n                {\n                    if (IsValid(grid, i, num))\n                    {\n                        grid[i] = num;\n                        if (Solve(grid)) return true;\n                        grid[i] = 0;\n                    }\n                }\n                return false;\n            }\n        }\n        return true;\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "sudoku_solve.go",
+          "content": "package sudokusolver\n\n// SudokuSolve solves a Sudoku puzzle represented as a flat slice of 81 integers.\n// Empty cells are represented by 0. Returns the solved board or nil if unsolvable.\nfunc SudokuSolve(board []int) []int {\n\tgrid := make([]int, 81)\n\tcopy(grid, board)\n\n\tif solve(grid) {\n\t\treturn grid\n\t}\n\treturn nil\n}\n\nfunc isValid(grid []int, pos int, num int) bool {\n\trow := pos / 9\n\tcol := pos % 9\n\n\t// Check row\n\tfor c := 0; c < 9; c++ {\n\t\tif grid[row*9+c] == num {\n\t\t\treturn false\n\t\t}\n\t}\n\n\t// Check column\n\tfor r := 0; r < 9; r++ {\n\t\tif grid[r*9+col] == num {\n\t\t\treturn false\n\t\t}\n\t}\n\n\t// Check 3x3 box\n\tboxRow := 3 * (row / 3)\n\tboxCol := 3 * (col / 3)\n\tfor r := boxRow; r < boxRow+3; r++ {\n\t\tfor c := boxCol; c < boxCol+3; c++ {\n\t\t\tif grid[r*9+c] == num {\n\t\t\t\treturn false\n\t\t\t}\n\t\t}\n\t}\n\n\treturn true\n}\n\nfunc solve(grid []int) bool {\n\tfor i := 0; i < 81; i++ {\n\t\tif grid[i] == 0 {\n\t\t\tfor num := 1; num <= 9; num++ {\n\t\t\t\tif isValid(grid, i, num) {\n\t\t\t\t\tgrid[i] = num\n\t\t\t\t\tif solve(grid) {\n\t\t\t\t\t\treturn true\n\t\t\t\t\t}\n\t\t\t\t\tgrid[i] = 0\n\t\t\t\t}\n\t\t\t}\n\t\t\treturn false\n\t\t}\n\t}\n\treturn true\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "SudokuSolver.java",
+          "content": "public class SudokuSolver {\n    public static int[] sudokuSolver(int[] board) {\n        return sudokuSolve(board);\n    }\n\n    public static int[] sudokuSolve(int[] board) {\n        int[] grid = board.clone();\n        if (solve(grid)) {\n            return grid;\n        }\n        return new int[0];\n    }\n\n    private static boolean isValid(int[] grid, int pos, int num) {\n        int row = pos / 9;\n        int col = pos % 9;\n\n        // Check row\n        for (int c = 0; c < 9; c++) {\n            if (grid[row * 9 + c] == num) return false;\n        }\n\n        // Check column\n        for (int r = 0; r < 9; r++) {\n            if (grid[r * 9 + col] == num) return false;\n        }\n\n        // Check 3x3 box\n        int boxRow = 3 * (row / 3);\n        int boxCol = 3 * (col / 3);\n        for (int r = boxRow; r < boxRow + 3; r++) {\n            for (int c = boxCol; c < boxCol + 3; c++) {\n                if (grid[r * 9 + c] == num) return false;\n            }\n        }\n\n        return true;\n    }\n\n    private static boolean solve(int[] grid) {\n        for (int i = 0; i < 81; i++) {\n            if (grid[i] == 0) {\n                for (int num = 1; num <= 9; num++) {\n                    if (isValid(grid, i, num)) {\n                        grid[i] = num;\n                        if (solve(grid)) return true;\n                        grid[i] = 0;\n                    }\n                }\n                return false;\n            }\n        }\n        return true;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "SudokuSolver.kt",
+          "content": "fun sudokuSolve(board: IntArray): IntArray {\n    val grid = board.copyOf()\n    return if (solve(grid)) grid else IntArray(0)\n}\n\nprivate fun isValid(grid: IntArray, pos: Int, num: Int): Boolean {\n    val row = pos / 9\n    val col = pos % 9\n\n    // Check row\n    for (c in 0 until 9) {\n        if (grid[row * 9 + c] == num) return false\n    }\n\n    // Check column\n    for (r in 0 until 9) {\n        if (grid[r * 9 + col] == num) return false\n    }\n\n    // Check 3x3 box\n    val boxRow = 3 * (row / 3)\n    val boxCol = 3 * (col / 3)\n    for (r in boxRow until boxRow + 3) {\n        for (c in boxCol until boxCol + 3) {\n            if (grid[r * 9 + c] == num) return false\n        }\n    }\n\n    return true\n}\n\nprivate fun solve(grid: IntArray): Boolean {\n    for (i in 0 until 81) {\n        if (grid[i] == 0) {\n            for (num in 1..9) {\n                if (isValid(grid, i, num)) {\n                    grid[i] = num\n                    if (solve(grid)) return true\n                    grid[i] = 0\n                }\n            }\n            return false\n        }\n    }\n    return true\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "sudoku_solve.py",
+          "content": "def sudoku_solve(board: list[int]) -> list[int]:\n    \"\"\"Solve a Sudoku puzzle represented as a flattened 81-element list.\n\n    Empty cells are represented by 0. Returns the solved board as a\n    flattened 81-element list, or an empty list if no solution exists.\n    \"\"\"\n    grid = list(board)\n\n    def is_valid(pos: int, num: int) -> bool:\n        row, col = divmod(pos, 9)\n\n        # Check row\n        for c in range(9):\n            if grid[row * 9 + c] == num:\n                return False\n\n        # Check column\n        for r in range(9):\n            if grid[r * 9 + col] == num:\n                return False\n\n        # Check 3x3 box\n        box_row, box_col = 3 * (row // 3), 3 * (col // 3)\n        for r in range(box_row, box_row + 3):\n            for c in range(box_col, box_col + 3):\n                if grid[r * 9 + c] == num:\n                    return False\n\n        return True\n\n    def solve() -> bool:\n        for i in range(81):\n            if grid[i] == 0:\n                for num in range(1, 10):\n                    if is_valid(i, num):\n                        grid[i] = num\n                        if solve():\n                            return True\n                        grid[i] = 0\n                return False\n        return True\n\n    if solve():\n        return grid\n    return []\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "sudoku_solve.rs",
+          "content": "pub fn sudoku_solve(board: &[i32]) -> Vec<i32> {\n    let mut grid: Vec<i32> = board.to_vec();\n    if solve(&mut grid) {\n        grid\n    } else {\n        Vec::new()\n    }\n}\n\nfn is_valid(grid: &[i32], pos: usize, num: i32) -> bool {\n    let row = pos / 9;\n    let col = pos % 9;\n\n    // Check row\n    for c in 0..9 {\n        if grid[row * 9 + c] == num {\n            return false;\n        }\n    }\n\n    // Check column\n    for r in 0..9 {\n        if grid[r * 9 + col] == num {\n            return false;\n        }\n    }\n\n    // Check 3x3 box\n    let box_row = 3 * (row / 3);\n    let box_col = 3 * (col / 3);\n    for r in box_row..box_row + 3 {\n        for c in box_col..box_col + 3 {\n            if grid[r * 9 + c] == num {\n                return false;\n            }\n        }\n    }\n\n    true\n}\n\nfn solve(grid: &mut Vec<i32>) -> bool {\n    for i in 0..81 {\n        if grid[i] == 0 {\n            for num in 1..=9 {\n                if is_valid(grid, i, num) {\n                    grid[i] = num;\n                    if solve(grid) {\n                        return true;\n                    }\n                    grid[i] = 0;\n                }\n            }\n            return false;\n        }\n    }\n    true\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "SudokuSolver.scala",
+          "content": "object SudokuSolver {\n\n  def sudokuSolve(board: Array[Int]): Array[Int] = {\n    val grid = board.clone()\n    if (solve(grid)) grid else Array.empty[Int]\n  }\n\n  private def isValid(grid: Array[Int], pos: Int, num: Int): Boolean = {\n    val row = pos / 9\n    val col = pos % 9\n\n    // Check row\n    for (c <- 0 until 9) {\n      if (grid(row * 9 + c) == num) return false\n    }\n\n    // Check column\n    for (r <- 0 until 9) {\n      if (grid(r * 9 + col) == num) return false\n    }\n\n    // Check 3x3 box\n    val boxRow = 3 * (row / 3)\n    val boxCol = 3 * (col / 3)\n    for (r <- boxRow until boxRow + 3) {\n      for (c <- boxCol until boxCol + 3) {\n        if (grid(r * 9 + c) == num) return false\n      }\n    }\n\n    true\n  }\n\n  private def solve(grid: Array[Int]): Boolean = {\n    for (i <- 0 until 81) {\n      if (grid(i) == 0) {\n        for (num <- 1 to 9) {\n          if (isValid(grid, i, num)) {\n            grid(i) = num\n            if (solve(grid)) return true\n            grid(i) = 0\n          }\n        }\n        return false\n      }\n    }\n    true\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "SudokuSolver.swift",
+          "content": "func sudokuSolve(_ board: [Int]) -> [Int] {\n    var grid = board\n\n    func isValid(_ pos: Int, _ num: Int) -> Bool {\n        let row = pos / 9\n        let col = pos % 9\n\n        // Check row\n        for c in 0..<9 {\n            if grid[row * 9 + c] == num { return false }\n        }\n\n        // Check column\n        for r in 0..<9 {\n            if grid[r * 9 + col] == num { return false }\n        }\n\n        // Check 3x3 box\n        let boxRow = 3 * (row / 3)\n        let boxCol = 3 * (col / 3)\n        for r in boxRow..<boxRow + 3 {\n            for c in boxCol..<boxCol + 3 {\n                if grid[r * 9 + c] == num { return false }\n            }\n        }\n\n        return true\n    }\n\n    func solve() -> Bool {\n        for i in 0..<81 {\n            if grid[i] == 0 {\n                for num in 1...9 {\n                    if isValid(i, num) {\n                        grid[i] = num\n                        if solve() { return true }\n                        grid[i] = 0\n                    }\n                }\n                return false\n            }\n        }\n        return true\n    }\n\n    if solve() {\n        return grid\n    }\n    return []\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "sudokuSolve.ts",
+          "content": "export function sudokuSolve(board: number[]): number[] {\n    const grid = [...board];\n\n    function isValid(pos: number, num: number): boolean {\n        const row = Math.floor(pos / 9);\n        const col = pos % 9;\n\n        // Check row\n        for (let c = 0; c < 9; c++) {\n            if (grid[row * 9 + c] === num) return false;\n        }\n\n        // Check column\n        for (let r = 0; r < 9; r++) {\n            if (grid[r * 9 + col] === num) return false;\n        }\n\n        // Check 3x3 box\n        const boxRow = 3 * Math.floor(row / 3);\n        const boxCol = 3 * Math.floor(col / 3);\n        for (let r = boxRow; r < boxRow + 3; r++) {\n            for (let c = boxCol; c < boxCol + 3; c++) {\n                if (grid[r * 9 + c] === num) return false;\n            }\n        }\n\n        return true;\n    }\n\n    function solve(): boolean {\n        for (let i = 0; i < 81; i++) {\n            if (grid[i] === 0) {\n                for (let num = 1; num <= 9; num++) {\n                    if (isValid(i, num)) {\n                        grid[i] = num;\n                        if (solve()) return true;\n                        grid[i] = 0;\n                    }\n                }\n                return false;\n            }\n        }\n        return true;\n    }\n\n    if (solve()) {\n        return grid;\n    }\n    return [];\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "patterns": [
+    "subsets"
+  ],
+  "patternDifficulty": "advanced",
+  "practiceOrder": 4,
+  "readme": "# Sudoku Solver\n\n## Overview\n\nSudoku is a logic-based combinatorial number-placement puzzle. The objective is to fill a 9x9 grid with digits so that each column, each row, and each of the nine 3x3 sub-boxes (also called \"boxes\" or \"regions\") contains all of the digits from 1 to 9. The puzzle setter provides a partially completed grid, which for a well-posed puzzle has a single unique solution.\n\nA backtracking-based Sudoku solver works by trying digits 1-9 in each empty cell, checking constraints, and recursively attempting to fill the rest of the grid. When a conflict is detected (a digit violates the row, column, or box constraint), the solver backtracks and tries the next digit. This approach guarantees finding a solution if one exists.\n\nThe solver presented here accepts a flattened 81-element array (with 0 representing empty cells) and returns the solved flattened array. This representation makes the interface uniform across all programming languages while preserving the full board state.\n\n## How It Works\n\n### Steps:\n\n1. Scan the 81-cell board to find the first empty cell (value 0).\n2. If no empty cell exists, the puzzle is solved -- return the board.\n3. For the empty cell at position (row, col), try each digit from 1 to 9.\n4. For each digit, check if it is valid: the digit must not already appear in the same row, same column, or same 3x3 box.\n5. If the digit is valid, place it and recurse to solve the remaining empty cells.\n6. If recursion succeeds, propagate the solution upward.\n7. If recursion fails (no valid digit works), remove the digit (backtrack) and try the next one.\n8. If no digit 1-9 works for a cell, return failure (trigger backtracking in the caller).\n\n## Pseudocode\n\n```\nfunction solveSudoku(board):\n    cell = findEmptyCell(board)\n    if cell is null:\n        return true          // all cells filled => solved\n\n    row, col = cell\n\n    for digit in 1 to 9:\n        if isValid(board, row, col, digit):\n            board[row][col] = digit\n\n            if solveSudoku(board):\n                return true\n\n            board[row][col] = 0   // backtrack\n\n    return false                  // trigger backtracking in caller\n\nfunction findEmptyCell(board):\n    for row in 0 to 8:\n        for col in 0 to 8:\n            if board[row][col] == 0:\n                return (row, col)\n    return null\n\nfunction isValid(board, row, col, digit):\n    // Check row\n    for c in 0 to 8:\n        if board[row][c] == digit: return false\n\n    // Check column\n    for r in 0 to 8:\n        if board[r][col] == digit: return false\n\n    // Check 3x3 box\n    boxRow = (row / 3) * 3\n    boxCol = (col / 3) * 3\n    for r in boxRow to boxRow+2:\n        for c in boxCol to boxCol+2:\n            if board[r][c] == digit: return false\n\n    return true\n```\n\n**Optimization:** Maintaining sets for each row, column, and box allows O(1) validity checks instead of O(9) scans. This reduces the constant factor significantly without changing the asymptotic complexity.\n\n## Example\n\nGiven a partially filled Sudoku (0 = empty):\n\n```\n5 3 _ | _ 7 _ | _ _ _\n6 _ _ | 1 9 5 | _ _ _\n_ 9 8 | _ _ _ | _ 6 _\n------+-------+------\n8 _ _ | _ 6 _ | _ _ 3\n4 _ _ | 8 _ 3 | _ _ 1\n7 _ _ | _ 2 _ | _ _ 6\n------+-------+------\n_ 6 _ | _ _ _ | 2 8 _\n_ _ _ | 4 1 9 | _ _ 5\n_ _ _ | _ 8 _ | _ 7 9\n```\n\n| Step | Cell (row,col) | Digit tried | Valid? | Action               |\n|------|---------------|-------------|--------|----------------------|\n| 1    | (0,2)         | 1           | No     | 1 in box             |\n| 2    | (0,2)         | 2           | No     | 2 not valid          |\n| 3    | (0,2)         | 4           | Yes    | Place 4, recurse     |\n| 4    | (0,3)         | 6           | Yes    | Place 6, recurse     |\n| 5    | (0,5)         | 8           | Yes    | Place 8, recurse     |\n| ...  | ...           | ...         | ...    | Continue solving     |\n\nThe solver fills all 51 empty cells to produce the unique solution:\n\n```\n5 3 4 | 6 7 8 | 9 1 2\n6 7 2 | 1 9 5 | 3 4 8\n1 9 8 | 3 4 2 | 5 6 7\n------+-------+------\n8 5 9 | 7 6 1 | 4 2 3\n4 2 6 | 8 5 3 | 7 9 1\n7 1 3 | 9 2 4 | 8 5 6\n------+-------+------\n9 6 1 | 5 3 7 | 2 8 4\n2 8 7 | 4 1 9 | 6 3 5\n3 4 5 | 2 8 6 | 1 7 9\n```\n\n## Complexity Analysis\n\n| Case    | Time       | Space  |\n|---------|------------|--------|\n| Best    | O(1)       | O(81)  |\n| Average | O(9^m)     | O(81)  |\n| Worst   | O(9^81)    | O(81)  |\n\nWhere m is the number of empty cells.\n\n**Why these complexities?**\n\n- **Best Case -- O(1):** If the board is already complete and valid, no work is needed beyond validation.\n\n- **Average Case -- O(9^m):** For each of the m empty cells, the solver may try up to 9 digits. In practice, constraint propagation and early pruning reduce this dramatically. Typical well-posed puzzles are solved in milliseconds.\n\n- **Worst Case -- O(9^81):** In the theoretical worst case with an empty board and no pruning, every combination is tried. In practice this never occurs due to constraint checking.\n\n- **Space -- O(81):** The board is a fixed 9x9 = 81 cells. The recursion depth is at most 81 (one call per empty cell). Auxiliary sets for constraint checking use O(27) space (9 rows + 9 columns + 9 boxes).\n\n## Applications\n\n- **Puzzle solving:** Automated Sudoku solvers for games and competitions.\n- **Constraint satisfaction:** Sudoku is a canonical example of CSPs, used in AI education.\n- **SAT solving:** Sudoku can be encoded as a Boolean satisfiability problem.\n- **Combinatorial optimization:** Techniques from Sudoku solving generalize to scheduling and resource allocation.\n- **Algorithm education:** Teaching backtracking, constraint propagation, and search.\n\n## When NOT to Use\n\n- **Puzzles with multiple solutions where all must be found:** While backtracking can be extended to enumerate all solutions, the exponential branching makes it slow for puzzles designed to have many solutions. Constraint propagation or SAT solvers handle multi-solution enumeration more efficiently.\n- **Extremely hard or adversarial puzzles:** Some artificially constructed puzzles with many empty cells and minimal constraints can force backtracking into its worst-case O(9^81) behavior. For such instances, solvers based on constraint propagation (like Norvig's approach) or SAT encoding are orders of magnitude faster.\n- **Non-standard Sudoku variants (larger grids):** For 16x16 or 25x25 Sudoku variants, the branching factor increases from 9 to 16 or 25, making pure backtracking impractical. Constraint-based or SAT-based methods scale better.\n- **When generating puzzles (not solving):** Puzzle generation requires creating a full valid board and then removing clues while ensuring uniqueness. This is a different problem that benefits from randomized construction and uniqueness checking rather than pure backtracking.\n- **Batch solving of thousands of puzzles:** If high throughput is needed (e.g., solving millions of puzzles per second for research), highly optimized solvers using bit manipulation, SIMD instructions, and dancing links far outperform textbook backtracking.\n\n## Comparison\n\n| Solver Approach | Avg Time per Puzzle | Worst Case | Implementation Complexity | Notes |\n|----------------|-------------------|------------|--------------------------|-------|\n| Backtracking (this) | ~1-10 ms | O(9^m) | Low | Simple and correct; sufficient for most puzzles |\n| Backtracking + constraint propagation | ~0.01-1 ms | O(9^m) | Medium | Naked singles, hidden singles reduce search space dramatically |\n| Norvig's solver | ~0.01-0.1 ms | O(9^m) | Medium | Combines constraint propagation with depth-first search |\n| Dancing Links (DLX) | ~0.001-0.01 ms | O(9^m) | High | Knuth's Algorithm X; extremely fast exact cover solver |\n| SAT solver encoding | ~0.01-1 ms | Varies | High (encoding) | Encodes as Boolean CNF; leverages industrial SAT solver optimizations |\n| Stochastic / simulated annealing | Varies | No guarantee | Medium | Can get stuck; no completeness guarantee |\n\nFor educational purposes and standard 9x9 puzzles, simple backtracking is perfectly adequate. Adding constraint propagation (eliminating candidates before guessing) provides a major practical speedup with modest additional complexity. For competitive or research-level solving, dancing links or SAT encodings are the state of the art.\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [sudoku_solve.py](python/sudoku_solve.py) |\n| Java       | [SudokuSolver.java](java/SudokuSolver.java) |\n| C++        | [sudoku_solve.cpp](cpp/sudoku_solve.cpp) |\n| C          | [sudoku_solve.c](c/sudoku_solve.c) |\n| Go         | [sudoku_solve.go](go/sudoku_solve.go) |\n| TypeScript | [sudokuSolve.ts](typescript/sudokuSolve.ts) |\n| Rust       | [sudoku_solve.rs](rust/sudoku_solve.rs) |\n| Kotlin     | [SudokuSolver.kt](kotlin/SudokuSolver.kt) |\n| Swift      | [SudokuSolver.swift](swift/SudokuSolver.swift) |\n| Scala      | [SudokuSolver.scala](scala/SudokuSolver.scala) |\n| C#         | [SudokuSolver.cs](csharp/SudokuSolver.cs) |\n\n## References\n\n- Norvig, P. (2006). Solving Every Sudoku Puzzle. https://norvig.com/sudoku.html\n- Crook, J. F. (2009). A Pencil-and-Paper Algorithm for Solving Sudoku Puzzles. *Notices of the AMS*, 56(4), 460-468.\n- [Sudoku solving algorithms -- Wikipedia](https://en.wikipedia.org/wiki/Sudoku_solving_algorithms)\n"
+}

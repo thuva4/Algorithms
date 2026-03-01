@@ -1,0 +1,22 @@
+algorithm: "aes-simplified"
+function_signature:
+  name: "aes_simplified"
+  input: [data]
+  output: encrypted_block
+test_cases:
+  - name: "4-byte block"
+    input:
+      data: [4, 0, 1, 2, 3, 10, 20, 30, 40]
+    expected: [105, 104, 105, 83]
+  - name: "all zeros block and key"
+    input:
+      data: [4, 0, 0, 0, 0, 0, 0, 0, 0]
+    expected: [99, 99, 99, 99]
+  - name: "single byte"
+    input:
+      data: [1, 255, 0]
+    expected: [22]
+  - name: "two bytes"
+    input:
+      data: [2, 16, 32, 5, 10]
+    expected: [207, 189]

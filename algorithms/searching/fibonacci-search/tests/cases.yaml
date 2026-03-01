@@ -1,0 +1,36 @@
+algorithm: "fibonacci-search"
+function_signature:
+  name: "fibonacci_search"
+  input: [sorted_array_of_integers, target_integer]
+  output: integer_index
+test_cases:
+  - name: "element found in middle"
+    input: [[1, 3, 5, 7, 9, 11], 7]
+    expected: 3
+  - name: "element at beginning"
+    input: [[1, 3, 5, 7, 9], 1]
+    expected: 0
+  - name: "element at end"
+    input: [[1, 3, 5, 7, 9], 9]
+    expected: 4
+  - name: "element not found"
+    input: [[1, 3, 5, 7, 9], 4]
+    expected: -1
+  - name: "single element found"
+    input: [[5], 5]
+    expected: 0
+  - name: "single element not found"
+    input: [[5], 3]
+    expected: -1
+  - name: "empty array"
+    input: [[], 1]
+    expected: -1
+  - name: "two elements search first"
+    input: [[1, 2], 1]
+    expected: 0
+  - name: "two elements search second"
+    input: [[1, 2], 2]
+    expected: 1
+  - name: "negative numbers"
+    input: [[-10, -5, 0, 3, 7], -5]
+    expected: 1

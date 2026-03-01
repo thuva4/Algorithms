@@ -1,0 +1,26 @@
+algorithm: "van-emde-boas-tree"
+function_signature:
+  name: "van_emde_boas_tree"
+  input: [data]
+  output: query_results
+test_cases:
+  - name: "insert and member"
+    input:
+      data: [16, 4, 1, 3, 1, 5, 2, 3, 2, 7]
+    expected: [1, 0]
+  - name: "successor query"
+    input:
+      data: [16, 4, 1, 2, 1, 5, 1, 10, 3, 3]
+    expected: [5]
+  - name: "successor not found"
+    input:
+      data: [16, 2, 1, 3, 3, 3]
+    expected: [-1]
+  - name: "member of empty tree"
+    input:
+      data: [16, 1, 2, 5]
+    expected: [0]
+  - name: "mixed operations"
+    input:
+      data: [16, 6, 1, 1, 1, 4, 1, 9, 2, 4, 3, 4, 3, 9]
+    expected: [1, 9, -1]

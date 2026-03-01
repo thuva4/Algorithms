@@ -1,0 +1,18 @@
+algorithm: "tree-traversals"
+function_signature:
+  name: "tree_traversals"
+  input: [array_of_integers]
+  output: array_of_integers
+test_cases:
+  - name: "complete binary tree"
+    input: [[1, 2, 3, 4, 5, 6, 7]]
+    expected: [4, 2, 5, 1, 6, 3, 7]
+  - name: "tree with nulls"
+    input: [[1, 2, 3, -1, 5]]
+    expected: [2, 5, 1, 3]
+  - name: "single node"
+    input: [[42]]
+    expected: [42]
+  - name: "left-skewed"
+    input: [[1, 2, -1, 3]]
+    expected: [3, 2, 1]

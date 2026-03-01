@@ -1,0 +1,21 @@
+algorithm: "xor-swap"
+function_signature:
+  name: "xor_swap"
+  input: [a, b]
+  output: [b, a]
+test_cases:
+  - name: "basic swap"
+    input: [3, 5]
+    expected: [5, 3]
+  - name: "same values"
+    input: [7, 7]
+    expected: [7, 7]
+  - name: "zero and positive"
+    input: [0, 10]
+    expected: [10, 0]
+  - name: "large numbers"
+    input: [255, 128]
+    expected: [128, 255]
+  - name: "one and zero"
+    input: [1, 0]
+    expected: [0, 1]

@@ -1,0 +1,135 @@
+{
+  "name": "Interval Tree",
+  "slug": "interval-tree",
+  "category": "trees",
+  "subcategory": "augmented-bst",
+  "difficulty": "intermediate",
+  "tags": [
+    "trees",
+    "interval-tree",
+    "range-query",
+    "augmented-bst",
+    "overlap"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(log n)",
+      "average": "O(log n + k)",
+      "worst": "O(n)"
+    },
+    "space": "O(n)"
+  },
+  "stable": null,
+  "in_place": false,
+  "related": [
+    "segment-tree",
+    "range-tree"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "interval_tree.c",
+          "content": "#include <stdio.h>\n#include \"interval_tree.h\"\n\nint interval_tree(const int *data, int data_len) {\n    int n = data[0];\n    int query = data[2 * n + 1];\n    int count = 0;\n    int idx = 1;\n    for (int i = 0; i < n; i++) {\n        int lo = data[idx], hi = data[idx + 1];\n        idx += 2;\n        if (lo <= query && query <= hi) count++;\n    }\n    return count;\n}\n\nint main(void) {\n    int d1[] = {3, 1, 5, 3, 8, 6, 10, 4};\n    printf(\"%d\\n\", interval_tree(d1, 8));\n    int d2[] = {2, 1, 3, 5, 7, 10};\n    printf(\"%d\\n\", interval_tree(d2, 6));\n    int d3[] = {3, 1, 10, 2, 9, 3, 8, 5};\n    printf(\"%d\\n\", interval_tree(d3, 8));\n    return 0;\n}\n"
+        },
+        {
+          "filename": "interval_tree.h",
+          "content": "#ifndef INTERVAL_TREE_H\n#define INTERVAL_TREE_H\n\nint interval_tree(const int *data, int data_len);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "interval_tree.cpp",
+          "content": "#include <vector>\n#include <iostream>\n#include <algorithm>\nusing namespace std;\n\nstruct ITNode {\n    int lo, hi, maxHi;\n    ITNode *left, *right;\n    ITNode(int l, int h) : lo(l), hi(h), maxHi(h), left(nullptr), right(nullptr) {}\n};\n\nITNode* insert(ITNode* root, int lo, int hi) {\n    if (!root) return new ITNode(lo, hi);\n    if (lo < root->lo)\n        root->left = insert(root->left, lo, hi);\n    else\n        root->right = insert(root->right, lo, hi);\n    root->maxHi = max(root->maxHi, hi);\n    return root;\n}\n\nint queryCount(ITNode* root, int q) {\n    if (!root) return 0;\n    int count = 0;\n    if (root->lo <= q && q <= root->hi) count = 1;\n    if (root->left && root->left->maxHi >= q)\n        count += queryCount(root->left, q);\n    if (root->lo <= q)\n        count += queryCount(root->right, q);\n    return count;\n}\n\nint interval_tree(const vector<int>& data) {\n    int n = data[0];\n    ITNode* root = nullptr;\n    int idx = 1;\n    for (int i = 0; i < n; i++) {\n        root = insert(root, data[idx], data[idx + 1]);\n        idx += 2;\n    }\n    int query = data[idx];\n    return queryCount(root, query);\n}\n\nint main() {\n    cout << interval_tree({3, 1, 5, 3, 8, 6, 10, 4}) << endl;\n    cout << interval_tree({2, 1, 3, 5, 7, 10}) << endl;\n    cout << interval_tree({3, 1, 10, 2, 9, 3, 8, 5}) << endl;\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "IntervalTree.cs",
+          "content": "using System;\n\npublic class IntervalTree\n{\n    public static int IntervalTreeQuery(int[] data)\n    {\n        int n = data[0];\n        int query = data[2 * n + 1];\n        int count = 0;\n        int idx = 1;\n        for (int i = 0; i < n; i++)\n        {\n            int lo = data[idx], hi = data[idx + 1];\n            idx += 2;\n            if (lo <= query && query <= hi) count++;\n        }\n        return count;\n    }\n\n    public static void Main(string[] args)\n    {\n        Console.WriteLine(IntervalTreeQuery(new int[] { 3, 1, 5, 3, 8, 6, 10, 4 }));\n        Console.WriteLine(IntervalTreeQuery(new int[] { 2, 1, 3, 5, 7, 10 }));\n        Console.WriteLine(IntervalTreeQuery(new int[] { 3, 1, 10, 2, 9, 3, 8, 5 }));\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "interval_tree.go",
+          "content": "package main\n\nimport \"fmt\"\n\nfunc intervalTree(data []int) int {\n\tn := data[0]\n\tquery := data[2*n+1]\n\tcount := 0\n\tidx := 1\n\tfor i := 0; i < n; i++ {\n\t\tlo, hi := data[idx], data[idx+1]\n\t\tidx += 2\n\t\tif lo <= query && query <= hi {\n\t\t\tcount++\n\t\t}\n\t}\n\treturn count\n}\n\nfunc main() {\n\tfmt.Println(intervalTree([]int{3, 1, 5, 3, 8, 6, 10, 4}))\n\tfmt.Println(intervalTree([]int{2, 1, 3, 5, 7, 10}))\n\tfmt.Println(intervalTree([]int{3, 1, 10, 2, 9, 3, 8, 5}))\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "IntervalTree.java",
+          "content": "public class IntervalTree {\n    public static int intervalTree(int[] data) {\n        int n = data[0];\n        int count = 0;\n        int idx = 1;\n        for (int i = 0; i < n; i++) {\n            int lo = data[idx], hi = data[idx + 1];\n            idx += 2;\n            int query = data[2 * n + 1];\n            if (lo <= query && query <= hi) count++;\n        }\n        return count;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(intervalTree(new int[]{3, 1, 5, 3, 8, 6, 10, 4}));\n        System.out.println(intervalTree(new int[]{2, 1, 3, 5, 7, 10}));\n        System.out.println(intervalTree(new int[]{3, 1, 10, 2, 9, 3, 8, 5}));\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "IntervalTree.kt",
+          "content": "fun intervalTree(data: IntArray): Int {\n    val n = data[0]\n    val query = data[2 * n + 1]\n    var count = 0\n    var idx = 1\n    for (i in 0 until n) {\n        val lo = data[idx]; val hi = data[idx + 1]\n        idx += 2\n        if (lo <= query && query <= hi) count++\n    }\n    return count\n}\n\nfun main() {\n    println(intervalTree(intArrayOf(3, 1, 5, 3, 8, 6, 10, 4)))\n    println(intervalTree(intArrayOf(2, 1, 3, 5, 7, 10)))\n    println(intervalTree(intArrayOf(3, 1, 10, 2, 9, 3, 8, 5)))\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "interval_tree.py",
+          "content": "def interval_tree(data):\n    n = data[0]\n    intervals = []\n    idx = 1\n    for _ in range(n):\n        lo, hi = data[idx], data[idx + 1]\n        intervals.append((lo, hi))\n        idx += 2\n    query = data[idx]\n\n    count = 0\n    for lo, hi in intervals:\n        if lo <= query <= hi:\n            count += 1\n    return count\n\n\nif __name__ == \"__main__\":\n    print(interval_tree([3, 1, 5, 3, 8, 6, 10, 4]))\n    print(interval_tree([2, 1, 3, 5, 7, 10]))\n    print(interval_tree([3, 1, 10, 2, 9, 3, 8, 5]))\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "interval_tree.rs",
+          "content": "fn interval_tree(data: &[i32]) -> i32 {\n    let n = data[0] as usize;\n    let query = data[2 * n + 1];\n    let mut count = 0;\n    let mut idx = 1;\n    for _ in 0..n {\n        let lo = data[idx];\n        let hi = data[idx + 1];\n        idx += 2;\n        if lo <= query && query <= hi {\n            count += 1;\n        }\n    }\n    count\n}\n\nfn main() {\n    println!(\"{}\", interval_tree(&[3, 1, 5, 3, 8, 6, 10, 4]));\n    println!(\"{}\", interval_tree(&[2, 1, 3, 5, 7, 10]));\n    println!(\"{}\", interval_tree(&[3, 1, 10, 2, 9, 3, 8, 5]));\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "IntervalTree.scala",
+          "content": "object IntervalTree {\n  def intervalTree(data: Array[Int]): Int = {\n    val n = data(0)\n    val query = data(2 * n + 1)\n    var count = 0\n    var idx = 1\n    for (_ <- 0 until n) {\n      val lo = data(idx); val hi = data(idx + 1)\n      idx += 2\n      if (lo <= query && query <= hi) count += 1\n    }\n    count\n  }\n\n  def main(args: Array[String]): Unit = {\n    println(intervalTree(Array(3, 1, 5, 3, 8, 6, 10, 4)))\n    println(intervalTree(Array(2, 1, 3, 5, 7, 10)))\n    println(intervalTree(Array(3, 1, 10, 2, 9, 3, 8, 5)))\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "IntervalTree.swift",
+          "content": "func intervalTree(_ data: [Int]) -> Int {\n    let n = data[0]\n    let query = data[2 * n + 1]\n    var count = 0\n    var idx = 1\n    for _ in 0..<n {\n        let lo = data[idx], hi = data[idx + 1]\n        idx += 2\n        if lo <= query && query <= hi { count += 1 }\n    }\n    return count\n}\n\nprint(intervalTree([3, 1, 5, 3, 8, 6, 10, 4]))\nprint(intervalTree([2, 1, 3, 5, 7, 10]))\nprint(intervalTree([3, 1, 10, 2, 9, 3, 8, 5]))\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "intervalTree.ts",
+          "content": "export function intervalTree(data: number[]): number {\n    const n = data[0];\n    const query = data[2 * n + 1];\n    let count = 0;\n    let idx = 1;\n    for (let i = 0; i < n; i++) {\n        const lo = data[idx], hi = data[idx + 1];\n        idx += 2;\n        if (lo <= query && query <= hi) count++;\n    }\n    return count;\n}\n\nconsole.log(intervalTree([3, 1, 5, 3, 8, 6, 10, 4]));\nconsole.log(intervalTree([2, 1, 3, 5, 7, 10]));\nconsole.log(intervalTree([3, 1, 10, 2, 9, 3, 8, 5]));\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Interval Tree\n\n## Overview\n\nAn Interval Tree is an augmented balanced binary search tree designed to efficiently find all intervals that overlap with a given point or interval. Each node stores an interval [lo, hi] and is augmented with the maximum endpoint in its subtree. This augmentation allows pruning of entire subtrees during search, achieving O(log n + k) time to report all k overlapping intervals. Interval trees are fundamental in computational geometry, scheduling, and genomics.\n\n## How It Works\n\n1. **Structure:** Intervals are inserted into a balanced BST (e.g., a Red-Black tree or AVL tree) keyed by their left endpoint (`lo`).\n2. **Augmentation:** Each node stores an additional field `max`, which is the maximum right endpoint (`hi`) in the entire subtree rooted at that node. This is maintained during insertions and deletions.\n3. **Overlap Query (point q):** To find all intervals containing a query point `q`:\n   - If the current node's interval contains `q` (i.e., `lo <= q <= hi`), report it.\n   - If the left child exists and `left.max >= q`, recurse into the left subtree (there may be overlapping intervals there).\n   - If `q > node.lo`, recurse into the right subtree (intervals starting after the current node's `lo` may still contain `q`).\n4. **Overlap Query (interval [qlo, qhi]):** Two intervals [a,b] and [c,d] overlap if and only if `a <= d` and `c <= b`. The search prunes using the `max` augmentation.\n\n## Example\n\nInsert intervals: `[15, 20], [10, 30], [17, 19], [5, 20], [12, 15], [30, 40]`\n\nBST ordered by left endpoint (with max augmentation):\n\n```\n              [15, 20] max=40\n             /               \\\n      [10, 30] max=30     [17, 19] max=40\n       /      \\                  \\\n  [5, 20]  [12, 15]         [30, 40]\n  max=20   max=15            max=40\n```\n\n**Query: find all intervals containing point 19.**\n\n1. Root [15, 20]: 15 <= 19 <= 20? Yes. Report [15, 20].\n2. Left child [10, 30]: left.max = 30 >= 19, so recurse left.\n   - [10, 30]: 10 <= 19 <= 30? Yes. Report [10, 30].\n   - Left [5, 20]: max = 20 >= 19, recurse. 5 <= 19 <= 20? Yes. Report [5, 20].\n   - Right [12, 15]: 12 <= 19 <= 15? No. max = 15 < 19, skip.\n3. Right child [17, 19]: 17 <= 19 <= 19? Yes. Report [17, 19].\n   - Right [30, 40]: 30 <= 19? No. Skip.\n\n**Result:** [15, 20], [10, 30], [5, 20], [17, 19] -- 4 intervals contain point 19.\n\n## Pseudocode\n\n```\nfunction INSERT(node, interval):\n    if node is NULL:\n        return new Node(interval, max = interval.hi)\n    if interval.lo < node.interval.lo:\n        node.left = INSERT(node.left, interval)\n    else:\n        node.right = INSERT(node.right, interval)\n    node.max = max(node.max, interval.hi)\n    // Rebalance if using AVL/Red-Black\n    return node\n\nfunction QUERY_POINT(node, q, results):\n    if node is NULL:\n        return\n    if node.interval.lo <= q and q <= node.interval.hi:\n        results.add(node.interval)\n    if node.left is not NULL and node.left.max >= q:\n        QUERY_POINT(node.left, q, results)\n    if q >= node.interval.lo:\n        QUERY_POINT(node.right, q, results)\n\nfunction QUERY_OVERLAP(node, qlo, qhi, results):\n    if node is NULL:\n        return\n    if node.interval.lo <= qhi and qlo <= node.interval.hi:\n        results.add(node.interval)\n    if node.left is not NULL and node.left.max >= qlo:\n        QUERY_OVERLAP(node.left, qlo, qhi, results)\n    if node.interval.lo <= qhi:\n        QUERY_OVERLAP(node.right, qlo, qhi, results)\n\nfunction DELETE(node, interval):\n    // Standard BST delete, then update max for ancestors\n    // max[node] = max(node.interval.hi, max[left], max[right])\n```\n\n## Complexity Analysis\n\n| Operation | Time         | Space |\n|-----------|-------------|-------|\n| Build (n intervals) | O(n log n) | O(n) |\n| Insert | O(log n) | O(1) |\n| Delete | O(log n) | O(1) |\n| Point query | O(log n + k) | O(k) for results |\n| Interval overlap query | O(log n + k) | O(k) for results |\n| Find any one overlap | O(log n) | O(1) |\n\nHere k is the number of reported intervals. The O(log n + k) bound holds when the underlying BST is balanced.\n\n## When to Use\n\n- **Scheduling conflicts:** Finding all events that overlap with a given time window.\n- **Computational geometry:** Window queries, detecting overlapping segments.\n- **Genomics:** Finding all genes or features that overlap a chromosomal region.\n- **Calendar applications:** Detecting conflicts with a proposed meeting time.\n- **Network routing:** Finding all active connections during a given time interval.\n- **Database query optimization:** Range predicates on temporal columns.\n\n## When NOT to Use\n\n- **Point data only (no intervals):** Use a standard BST, segment tree, or Fenwick tree for point queries and updates.\n- **Static interval stabbing with known universe:** A simple sweep line or segment tree on a discretized range may be faster and simpler.\n- **High-dimensional intervals:** Interval trees work for 1D intervals. For 2D or higher, use R-Trees, KD-Trees, or range trees.\n- **Only need to count overlaps (not report them):** A segment tree or BIT with coordinate compression counts overlaps in O(log n) without enumerating them.\n\n## Comparison\n\n| Feature | Interval Tree | Segment Tree | Sweep Line | R-Tree |\n|---------|--------------|-------------|------------|--------|\n| Query type | Overlap/stabbing | Range aggregate | Event processing | Multi-dimensional |\n| Insert/Delete | O(log n) | O(log n) static rebuild | N/A (offline) | O(log n) amortized |\n| Point stabbing | O(log n + k) | O(log n + k) | O(n log n) offline | O(log n + k) |\n| Interval overlap | O(log n + k) | Complex | Natural | O(log n + k) |\n| Dimensions | 1D | 1D | 1D | Multi-D |\n| Dynamic | Yes | Limited | No | Yes |\n\n## References\n\n- Cormen, T. H.; Leiserson, C. E.; Rivest, R. L.; Stein, C. (2009). *Introduction to Algorithms*, 3rd ed. MIT Press. Chapter 14: Augmenting Data Structures (Section 14.3: Interval Trees).\n- de Berg, M.; Cheong, O.; van Kreveld, M.; Overmars, M. (2008). *Computational Geometry: Algorithms and Applications*, 3rd ed. Springer. Chapter 10.\n- Edelsbrunner, H. (1980). \"Dynamic data structures for orthogonal intersection queries.\" *Report F59*, Institute for Information Processing, Technical University of Graz.\n- Preparata, F. P.; Shamos, M. I. (1985). *Computational Geometry: An Introduction*. Springer.\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [interval_tree.py](python/interval_tree.py) |\n| Java       | [IntervalTree.java](java/IntervalTree.java) |\n| C++        | [interval_tree.cpp](cpp/interval_tree.cpp) |\n| C          | [interval_tree.c](c/interval_tree.c) |\n| Go         | [interval_tree.go](go/interval_tree.go) |\n| TypeScript | [intervalTree.ts](typescript/intervalTree.ts) |\n| Rust       | [interval_tree.rs](rust/interval_tree.rs) |\n| Kotlin     | [IntervalTree.kt](kotlin/IntervalTree.kt) |\n| Swift      | [IntervalTree.swift](swift/IntervalTree.swift) |\n| Scala      | [IntervalTree.scala](scala/IntervalTree.scala) |\n| C#         | [IntervalTree.cs](csharp/IntervalTree.cs) |\n"
+}

@@ -1,0 +1,21 @@
+name: "Exponential Search"
+slug: "exponential-search"
+category: "searching"
+subcategory: "sorted-array"
+difficulty: "intermediate"
+tags: [searching, sorted, binary-search, exponential, comparison]
+complexity:
+  time:
+    best: "O(1)"
+    average: "O(log i)"
+    worst: "O(log n)"
+  space: "O(1)"
+stable: null
+in_place: true
+related: [binary-search, interpolation-search, jump-search]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false
+patterns:
+  - modified-binary-search
+patternDifficulty: intermediate
+practiceOrder: 4

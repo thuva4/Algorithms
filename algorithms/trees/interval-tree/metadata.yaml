@@ -1,0 +1,17 @@
+name: "Interval Tree"
+slug: "interval-tree"
+category: "trees"
+subcategory: "augmented-bst"
+difficulty: "intermediate"
+tags: [trees, interval-tree, range-query, augmented-bst, overlap]
+complexity:
+  time:
+    best: "O(log n)"
+    average: "O(log n + k)"
+    worst: "O(n)"
+  space: "O(n)"
+stable: null
+in_place: false
+related: [segment-tree, range-tree]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

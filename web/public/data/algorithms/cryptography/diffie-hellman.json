@@ -1,0 +1,132 @@
+{
+  "name": "Diffie-Hellman Key Exchange",
+  "slug": "diffie-hellman",
+  "category": "cryptography",
+  "subcategory": "key-exchange",
+  "difficulty": "intermediate",
+  "tags": [
+    "cryptography",
+    "key-exchange",
+    "diffie-hellman",
+    "modular-exponentiation",
+    "public-key"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(log n)",
+      "average": "O(log n)",
+      "worst": "O(log n)"
+    },
+    "space": "O(1)"
+  },
+  "stable": false,
+  "in_place": true,
+  "related": [],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "DiffieHellman.c",
+          "content": "#include <stdio.h>\n\n/* Modular exponentiation: (base^exp) % mod */\nlong long mod_pow(long long base, long long exp, long long mod) {\n    long long result = 1;\n    base %= mod;\n    while (exp > 0) {\n        if (exp & 1)\n            result = (result * base) % mod;\n        exp >>= 1;\n        base = (base * base) % mod;\n    }\n    return result;\n}\n\nint main() {\n    long long p = 23;   /* publicly shared prime */\n    long long g = 5;    /* publicly shared base (generator) */\n\n    long long a = 6;    /* Alice's secret */\n    long long b = 15;   /* Bob's secret */\n\n    /* Alice sends A = g^a mod p */\n    long long A = mod_pow(g, a, p);\n    printf(\"Alice sends: %lld\\n\", A);\n\n    /* Bob sends B = g^b mod p */\n    long long B = mod_pow(g, b, p);\n    printf(\"Bob sends: %lld\\n\", B);\n\n    /* Alice computes shared secret: s = B^a mod p */\n    long long alice_secret = mod_pow(B, a, p);\n    printf(\"Alice's shared secret: %lld\\n\", alice_secret);\n\n    /* Bob computes shared secret: s = A^b mod p */\n    long long bob_secret = mod_pow(A, b, p);\n    printf(\"Bob's shared secret: %lld\\n\", bob_secret);\n\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "DiffieHellman.cpp",
+          "content": "#include <iostream>\nusing namespace std;\n\nlong long modPow(long long base, long long exp, long long mod) {\n    long long result = 1;\n    base %= mod;\n    while (exp > 0) {\n        if (exp & 1)\n            result = (result * base) % mod;\n        exp >>= 1;\n        base = (base * base) % mod;\n    }\n    return result;\n}\n\nint main() {\n    long long p = 23;   // publicly shared prime\n    long long g = 5;    // publicly shared base (generator)\n\n    long long a = 6;    // Alice's secret\n    long long b = 15;   // Bob's secret\n\n    // Alice sends A = g^a mod p\n    long long A = modPow(g, a, p);\n    cout << \"Alice sends: \" << A << endl;\n\n    // Bob sends B = g^b mod p\n    long long B = modPow(g, b, p);\n    cout << \"Bob sends: \" << B << endl;\n\n    // Shared secrets\n    long long aliceSecret = modPow(B, a, p);\n    cout << \"Alice's shared secret: \" << aliceSecret << endl;\n\n    long long bobSecret = modPow(A, b, p);\n    cout << \"Bob's shared secret: \" << bobSecret << endl;\n\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "DiffieHellman.cs",
+          "content": "using System;\n\nclass DiffieHellman\n{\n    static long ModPow(long baseVal, long exp, long mod)\n    {\n        long result = 1;\n        baseVal %= mod;\n        while (exp > 0)\n        {\n            if ((exp & 1) == 1)\n                result = (result * baseVal) % mod;\n            exp >>= 1;\n            baseVal = (baseVal * baseVal) % mod;\n        }\n        return result;\n    }\n\n    static void Main(string[] args)\n    {\n        long p = 23;\n        long g = 5;\n        long a = 6;\n        long b = 15;\n\n        long A = ModPow(g, a, p);\n        Console.WriteLine(\"Alice sends: \" + A);\n\n        long B = ModPow(g, b, p);\n        Console.WriteLine(\"Bob sends: \" + B);\n\n        long aliceSecret = ModPow(B, a, p);\n        Console.WriteLine(\"Alice's shared secret: \" + aliceSecret);\n\n        long bobSecret = ModPow(A, b, p);\n        Console.WriteLine(\"Bob's shared secret: \" + bobSecret);\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "DiffieHellman.go",
+          "content": "package main\n\nimport (\n\t\"math\"\n\t\"math/rand\"\n)\n\n//https://de.wikipedia.org/wiki/Diffie-Hellman-Schl%C3%BCsselaustausch#/media/Datei:Diffie-Hellman-Schl%C3%BCsselaustausch.svg\nfunc diffiehellman() (int, int) {\n\tp := 9999971 //Large prime number\n\tg := 4       //Natural number, smaller than p\n\n\t//Alice secret\n\ta := rand.Intn(p)\n\t//Bobs secret\n\tb := rand.Intn(p)\n\n\t//Alice public key\n\tA := int(math.Pow(float64(g), float64(a))) % p\n\t//Bobs public key\n\tB := int(math.Pow(float64(g), float64(b))) % p\n\n\t/*\n\t\tTransmit A to Bob\n\t\tTransmit B to Alice\n\t*/\n\n\t//Shared key, calculated by Alice\n\tKa := int(math.Pow(float64(B), float64(a))) % p\n\t//Shared key, calculated by Bob\n\tKb := int(math.Pow(float64(A), float64(b))) % p\n\n\treturn Ka, Kb\n}\n"
+        },
+        {
+          "filename": "DiffieHellman_test.go",
+          "content": "package main\n\nimport (\n\t\"testing\"\n\n\t\"github.com/stretchr/testify/assert\"\n)\n\nfunc TestDiffiehellman(t *testing.T) {\n\tka, kb := diffiehellman()\n\n\tassert.Equal(t, ka, kb, \"Keys should be the same\")\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "DiffieHellman.java",
+          "content": "import java.math.BigInteger;\n\npublic class DiffieHellman {\n    public static long modPow(long base, long exp, long mod) {\n        long result = 1;\n        base %= mod;\n        while (exp > 0) {\n            if ((exp & 1) == 1)\n                result = (result * base) % mod;\n            exp >>= 1;\n            base = (base * base) % mod;\n        }\n        return result;\n    }\n\n    public static void main(String[] args) {\n        long p = 23;    // publicly shared prime\n        long g = 5;     // publicly shared base\n\n        long a = 6;     // Alice's secret\n        long b = 15;    // Bob's secret\n\n        long A = modPow(g, a, p);\n        System.out.println(\"Alice sends: \" + A);\n\n        long B = modPow(g, b, p);\n        System.out.println(\"Bob sends: \" + B);\n\n        long aliceSecret = modPow(B, a, p);\n        System.out.println(\"Alice's shared secret: \" + aliceSecret);\n\n        long bobSecret = modPow(A, b, p);\n        System.out.println(\"Bob's shared secret: \" + bobSecret);\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "DiffieHellman.kt",
+          "content": "fun modPow(base: Long, exp: Long, mod: Long): Long {\n    var result = 1L\n    var b = base % mod\n    var e = exp\n    while (e > 0) {\n        if (e and 1L == 1L)\n            result = (result * b) % mod\n        e = e shr 1\n        b = (b * b) % mod\n    }\n    return result\n}\n\nfun main() {\n    val p = 23L\n    val g = 5L\n    val a = 6L\n    val b = 15L\n\n    val publicA = modPow(g, a, p)\n    println(\"Alice sends: $publicA\")\n\n    val publicB = modPow(g, b, p)\n    println(\"Bob sends: $publicB\")\n\n    val aliceSecret = modPow(publicB, a, p)\n    println(\"Alice's shared secret: $aliceSecret\")\n\n    val bobSecret = modPow(publicA, b, p)\n    println(\"Bob's shared secret: $bobSecret\")\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "DiffieHellman.py",
+          "content": "# use Python 3 print function\n# this allows this code to run on python 2.x and 3.x\n \n# Variables Used\nsharedPrime = 23    # p - prime\nsharedBase = 5      # g - generator\n\naliceSecret = 6     # a\nbobSecret = 15      # b\n\n# Begin\nprint( \"Publicly Shared Variables:\")\nprint( \"    Publicly Shared Prime: \" , sharedPrime )\nprint( \"    Publicly Shared Base:  \" , sharedBase )\n\n# Alice Sends Bob A = g^a mod p\nA = (sharedBase**aliceSecret) % sharedPrime\nprint( \"\\n    Alice Sends Over Public Channel: \" , A )\n\n# Bob Sends Alice B = g^b mod p\nB = (sharedBase ** bobSecret) % sharedPrime\nprint(\"    Bob Sends Over Public Channel: \", B )\n\nprint( \"\\n----------------------------------------\\n\" )\nprint( \"Privately Calculated Shared Secret:\" )\n# Alice Computes Shared Secret: s = B^a mod p\naliceSharedSecret = (B ** aliceSecret) % sharedPrime\nprint( \"    Alice Shared Secret: \", aliceSharedSecret )\n\n# Bob Computes Shared Secret: s = A^b mod p\nbobSharedSecret = (A**bobSecret) % sharedPrime\nprint( \"    Bob Shared Secret: \", bobSharedSecret )\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "diffie_hellman.rs",
+          "content": "fn mod_pow(mut base: u64, mut exp: u64, modulus: u64) -> u64 {\n    let mut result = 1u64;\n    base %= modulus;\n    while exp > 0 {\n        if exp & 1 == 1 {\n            result = (result * base) % modulus;\n        }\n        exp >>= 1;\n        base = (base * base) % modulus;\n    }\n    result\n}\n\nfn main() {\n    let p: u64 = 23;\n    let g: u64 = 5;\n    let a: u64 = 6;\n    let b: u64 = 15;\n\n    let public_a = mod_pow(g, a, p);\n    println!(\"Alice sends: {}\", public_a);\n\n    let public_b = mod_pow(g, b, p);\n    println!(\"Bob sends: {}\", public_b);\n\n    let alice_secret = mod_pow(public_b, a, p);\n    println!(\"Alice's shared secret: {}\", alice_secret);\n\n    let bob_secret = mod_pow(public_a, b, p);\n    println!(\"Bob's shared secret: {}\", bob_secret);\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "DiffieHellman.scala",
+          "content": "object DiffieHellman {\n  def modPow(base: Long, exp: Long, mod: Long): Long = {\n    var result = 1L\n    var b = base % mod\n    var e = exp\n    while (e > 0) {\n      if ((e & 1) == 1)\n        result = (result * b) % mod\n      e >>= 1\n      b = (b * b) % mod\n    }\n    result\n  }\n\n  def main(args: Array[String]): Unit = {\n    val p = 23L\n    val g = 5L\n    val a = 6L\n    val b = 15L\n\n    val publicA = modPow(g, a, p)\n    println(s\"Alice sends: $publicA\")\n\n    val publicB = modPow(g, b, p)\n    println(s\"Bob sends: $publicB\")\n\n    val aliceSecret = modPow(publicB, a, p)\n    println(s\"Alice's shared secret: $aliceSecret\")\n\n    val bobSecret = modPow(publicA, b, p)\n    println(s\"Bob's shared secret: $bobSecret\")\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "DiffieHellman.swift",
+          "content": "func modPow(_ base: Int, _ exp: Int, _ mod: Int) -> Int {\n    var result = 1\n    var b = base % mod\n    var e = exp\n    while e > 0 {\n        if e & 1 == 1 {\n            result = (result * b) % mod\n        }\n        e >>= 1\n        b = (b * b) % mod\n    }\n    return result\n}\n\nlet p = 23\nlet g = 5\nlet a = 6\nlet b = 15\n\nlet publicA = modPow(g, a, p)\nprint(\"Alice sends: \\(publicA)\")\n\nlet publicB = modPow(g, b, p)\nprint(\"Bob sends: \\(publicB)\")\n\nlet aliceSecret = modPow(publicB, a, p)\nprint(\"Alice's shared secret: \\(aliceSecret)\")\n\nlet bobSecret = modPow(publicA, b, p)\nprint(\"Bob's shared secret: \\(bobSecret)\")\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "DiffieHellman.ts",
+          "content": "function modPow(base: number, exp: number, mod: number): number {\n    let result = 1;\n    base = base % mod;\n    while (exp > 0) {\n        if (exp % 2 === 1) {\n            result = (result * base) % mod;\n        }\n        exp = Math.floor(exp / 2);\n        base = (base * base) % mod;\n    }\n    return result;\n}\n\nconst p = 23;\nconst g = 5;\nconst a = 6;\nconst b = 15;\n\nconst publicA = modPow(g, a, p);\nconsole.log(`Alice sends: ${publicA}`);\n\nconst publicB = modPow(g, b, p);\nconsole.log(`Bob sends: ${publicB}`);\n\nconst aliceSecret = modPow(publicB, a, p);\nconsole.log(`Alice's shared secret: ${aliceSecret}`);\n\nconst bobSecret = modPow(publicA, b, p);\nconsole.log(`Bob's shared secret: ${bobSecret}`);\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Diffie-Hellman Key Exchange\n\n## Overview\n\nThe Diffie-Hellman key exchange is a cryptographic protocol that allows two parties to establish a shared secret key over an insecure communication channel, without ever transmitting the key itself. Invented by Whitfield Diffie and Martin Hellman in 1976, it was the first practical public-key protocol and remains foundational to modern secure communications.\n\nThe security of Diffie-Hellman relies on the computational difficulty of the discrete logarithm problem: given g, p, and g^a mod p, it is computationally infeasible to determine a. The protocol is used in TLS/SSL (HTTPS), SSH, VPNs, and virtually every secure communication system on the internet.\n\n## How It Works\n\nBoth parties agree on a large prime p and a generator g (a primitive root modulo p). Each party generates a private random number, computes a public value by raising g to their private exponent modulo p, and exchanges the public value. Each party then raises the received public value to their private exponent to arrive at the same shared secret.\n\n### Example\n\n**Setup:** p = 23 (prime), g = 5 (generator)\n\n| Step | Alice | Bob |\n|------|-------|-----|\n| 1. Choose private key | a = 6 (secret) | b = 15 (secret) |\n| 2. Compute public key | A = g^a mod p = 5^6 mod 23 = 8 | B = g^b mod p = 5^15 mod 23 = 19 |\n| 3. Exchange public keys | Alice sends A = 8 to Bob | Bob sends B = 19 to Alice |\n| 4. Compute shared secret | s = B^a mod p = 19^6 mod 23 = 2 | s = A^b mod p = 8^15 mod 23 = 2 |\n\n**Detailed computation of Alice's shared secret:**\n\n| Step | Computation | Result |\n|------|------------|--------|\n| 1 | 19^1 mod 23 | 19 |\n| 2 | 19^2 mod 23 | 361 mod 23 = 16 |\n| 3 | 19^4 mod 23 | 16^2 mod 23 = 256 mod 23 = 3 |\n| 4 | 19^6 mod 23 | 19^4 * 19^2 = 3 * 16 = 48 mod 23 = 2 |\n\n**Both parties arrive at the same shared secret: `2`**\n\nThis works because: B^a = (g^b)^a = g^(ab) = (g^a)^b = A^b (mod p).\n\nAn eavesdropper who sees p = 23, g = 5, A = 8, and B = 19 would need to solve the discrete logarithm to find a or b, which is computationally infeasible for large primes (2048+ bits).\n\n## Pseudocode\n\n```\nfunction diffieHellman():\n    // Public parameters (agreed upon)\n    p = large prime number\n    g = primitive root modulo p\n\n    // Alice's side\n    a = random integer in [2, p - 2]\n    A = modularExponentiation(g, a, p)\n    send A to Bob\n\n    // Bob's side\n    b = random integer in [2, p - 2]\n    B = modularExponentiation(g, b, p)\n    send B to Alice\n\n    // Compute shared secret\n    alice_secret = modularExponentiation(B, a, p)\n    bob_secret = modularExponentiation(A, b, p)\n\n    // alice_secret == bob_secret\n    return shared_secret\n\nfunction modularExponentiation(base, exp, mod):\n    result = 1\n    base = base mod mod\n    while exp > 0:\n        if exp is odd:\n            result = (result * base) mod mod\n        exp = exp >> 1\n        base = (base * base) mod mod\n    return result\n```\n\nModular exponentiation uses the square-and-multiply method to compute g^a mod p in O(log a) multiplications.\n\n## Complexity Analysis\n\n| Case    | Time     | Space |\n|---------|---------|-------|\n| Best    | O(log n) | O(1)  |\n| Average | O(log n) | O(1)  |\n| Worst   | O(log n) | O(1)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(log n):** Modular exponentiation with the square-and-multiply method processes each bit of the exponent, requiring O(log n) multiplications where n is the size of the prime.\n\n- **Average Case -- O(log n):** The number of modular multiplications is proportional to the number of bits in the exponent, which is log(p) for a prime p.\n\n- **Worst Case -- O(log n):** The same as all cases. Each multiplication modulo p takes O(1) for hardware-supported sizes or O(k^2) for k-digit big integers.\n\n- **Space -- O(1):** Only the private key, public key, and shared secret need to be stored. No arrays or data structures are required beyond the arithmetic operands.\n\n## When to Use\n\n- **Establishing shared secrets over insecure channels:** The primary use case -- two parties who have never communicated securely can agree on a shared key.\n- **Forward secrecy:** Ephemeral Diffie-Hellman (with fresh random keys each session) provides forward secrecy, protecting past sessions even if long-term keys are compromised.\n- **TLS/SSL handshakes:** Modern HTTPS connections use (Elliptic Curve) Diffie-Hellman for key exchange.\n- **VPNs and SSH:** Secure tunnels use DH to establish session keys.\n\n## When NOT to Use\n\n- **Without authentication:** Bare Diffie-Hellman is vulnerable to man-in-the-middle attacks. It must be combined with authentication (certificates, digital signatures).\n- **When one-way communication is needed:** DH requires interaction (both parties must exchange values). For non-interactive key exchange, use public-key encryption.\n- **Small primes:** Using small primes makes the discrete logarithm easy to compute. Primes should be at least 2048 bits.\n- **When quantum computers are a concern:** Shor's algorithm can solve the discrete logarithm problem efficiently. Use post-quantum key exchange (e.g., Kyber/CRYSTALS).\n\n## Comparison with Similar Algorithms\n\n| Protocol            | Type          | Security basis           | Notes                                    |\n|--------------------|--------------|-------------------------|------------------------------------------|\n| Diffie-Hellman      | Key exchange | Discrete logarithm       | Classic; requires large primes            |\n| ECDH                | Key exchange | Elliptic curve DLP       | Smaller keys, same security; faster       |\n| RSA Key Exchange    | Key exchange | Integer factorization    | One party chooses the secret              |\n| Kyber (CRYSTALS)    | Key exchange | Lattice problems         | Post-quantum; NIST standard               |\n\n## Implementations\n\n| Language | File |\n|----------|------|\n| Python   | [DiffieHellman.py](python/DiffieHellman.py) |\n| Go       | [DiffieHellman.go](go/DiffieHellman.go) |\n\n## References\n\n- Diffie, W., & Hellman, M. E. (1976). New directions in cryptography. *IEEE Transactions on Information Theory*, 22(6), 644-654.\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 31: Number-Theoretic Algorithms.\n- [Diffie-Hellman Key Exchange -- Wikipedia](https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange)\n"
+}

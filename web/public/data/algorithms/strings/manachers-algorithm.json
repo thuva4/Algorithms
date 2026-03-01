@@ -1,0 +1,132 @@
+{
+  "name": "Manacher's Algorithm",
+  "slug": "manachers-algorithm",
+  "category": "strings",
+  "subcategory": "palindrome",
+  "difficulty": "advanced",
+  "tags": [
+    "strings",
+    "palindrome",
+    "manachers",
+    "linear-time"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "average": "O(n)",
+      "worst": "O(n)"
+    },
+    "space": "O(n)"
+  },
+  "related": [
+    "longest-palindromic-substring",
+    "z-algorithm"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "longest_palindrome_length.c",
+          "content": "#include \"longest_palindrome_length.h\"\n\n#define MAX_N 10000\n\nstatic int t[MAX_N];\nstatic int p[MAX_N];\n\nint longest_palindrome_length(int arr[], int n) {\n    if (n == 0) return 0;\n\n    int tn = 2 * n + 1;\n    for (int i = 0; i < tn; i++) {\n        t[i] = (i % 2 == 0) ? -1 : arr[i / 2];\n    }\n\n    int c = 0, r = 0, max_len = 0;\n    for (int i = 0; i < tn; i++) {\n        p[i] = 0;\n        int mirror = 2 * c - i;\n        if (i < r) {\n            p[i] = r - i < p[mirror] ? r - i : p[mirror];\n        }\n        while (i + p[i] + 1 < tn && i - p[i] - 1 >= 0 && t[i + p[i] + 1] == t[i - p[i] - 1]) {\n            p[i]++;\n        }\n        if (i + p[i] > r) { c = i; r = i + p[i]; }\n        if (p[i] > max_len) max_len = p[i];\n    }\n\n    return max_len;\n}\n"
+        },
+        {
+          "filename": "longest_palindrome_length.h",
+          "content": "#ifndef LONGEST_PALINDROME_LENGTH_H\n#define LONGEST_PALINDROME_LENGTH_H\n\nint longest_palindrome_length(int arr[], int n);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "longest_palindrome_length.cpp",
+          "content": "#include <vector>\n#include <algorithm>\nusing namespace std;\n\nint longest_palindrome_length(vector<int> arr) {\n    if (arr.empty()) return 0;\n\n    vector<int> t;\n    t.push_back(-1);\n    for (int x : arr) {\n        t.push_back(x);\n        t.push_back(-1);\n    }\n\n    int n = (int)t.size();\n    vector<int> p(n, 0);\n    int c = 0, r = 0, maxLen = 0;\n\n    for (int i = 0; i < n; i++) {\n        int mirror = 2 * c - i;\n        if (i < r) p[i] = min(r - i, p[mirror]);\n        while (i + p[i] + 1 < n && i - p[i] - 1 >= 0 && t[i + p[i] + 1] == t[i - p[i] - 1]) {\n            p[i]++;\n        }\n        if (i + p[i] > r) { c = i; r = i + p[i]; }\n        if (p[i] > maxLen) maxLen = p[i];\n    }\n\n    return maxLen;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "LongestPalindromeLength.cs",
+          "content": "using System;\nusing System.Collections.Generic;\n\npublic class LongestPalindromeLength\n{\n    public static int Solve(int[] arr)\n    {\n        if (arr.Length == 0) return 0;\n\n        var t = new List<int> { -1 };\n        foreach (int x in arr)\n        {\n            t.Add(x);\n            t.Add(-1);\n        }\n\n        int n = t.Count;\n        int[] p = new int[n];\n        int c = 0, r = 0, maxLen = 0;\n\n        for (int i = 0; i < n; i++)\n        {\n            int mirror = 2 * c - i;\n            if (i < r && mirror >= 0)\n                p[i] = Math.Min(r - i, p[mirror]);\n            while (i + p[i] + 1 < n && i - p[i] - 1 >= 0 && t[i + p[i] + 1] == t[i - p[i] - 1])\n                p[i]++;\n            if (i + p[i] > r) { c = i; r = i + p[i]; }\n            if (p[i] > maxLen) maxLen = p[i];\n        }\n\n        return maxLen;\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "longest_palindrome_length.go",
+          "content": "package manachersalgorithm\n\nfunc LongestPalindromeLength(arr []int) int {\n\tif len(arr) == 0 {\n\t\treturn 0\n\t}\n\n\tt := []int{-1}\n\tfor _, x := range arr {\n\t\tt = append(t, x, -1)\n\t}\n\n\tn := len(t)\n\tp := make([]int, n)\n\tc, r, maxLen := 0, 0, 0\n\n\tfor i := 0; i < n; i++ {\n\t\tmirror := 2*c - i\n\t\tif i < r {\n\t\t\tp[i] = r - i\n\t\t\tif mirror >= 0 && p[mirror] < p[i] {\n\t\t\t\tp[i] = p[mirror]\n\t\t\t}\n\t\t}\n\t\tfor i+p[i]+1 < n && i-p[i]-1 >= 0 && t[i+p[i]+1] == t[i-p[i]-1] {\n\t\t\tp[i]++\n\t\t}\n\t\tif i+p[i] > r {\n\t\t\tc = i\n\t\t\tr = i + p[i]\n\t\t}\n\t\tif p[i] > maxLen {\n\t\t\tmaxLen = p[i]\n\t\t}\n\t}\n\n\treturn maxLen\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "LongestPalindromeLength.java",
+          "content": "public class LongestPalindromeLength {\n\n    public static int longestPalindromeLength(int[] arr) {\n        if (arr.length == 0) return 0;\n\n        int[] t = new int[2 * arr.length + 1];\n        for (int i = 0; i < t.length; i++) {\n            t[i] = (i % 2 == 0) ? -1 : arr[i / 2];\n        }\n\n        int n = t.length;\n        int[] p = new int[n];\n        int c = 0, r = 0, maxLen = 0;\n\n        for (int i = 0; i < n; i++) {\n            int mirror = 2 * c - i;\n            if (i < r) {\n                p[i] = Math.min(r - i, p[mirror]);\n            }\n            while (i + p[i] + 1 < n && i - p[i] - 1 >= 0 && t[i + p[i] + 1] == t[i - p[i] - 1]) {\n                p[i]++;\n            }\n            if (i + p[i] > r) {\n                c = i;\n                r = i + p[i];\n            }\n            if (p[i] > maxLen) maxLen = p[i];\n        }\n\n        return maxLen;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "LongestPalindromeLength.kt",
+          "content": "fun longestPalindromeLength(arr: IntArray): Int {\n    if (arr.isEmpty()) return 0\n\n    val t = mutableListOf(-1)\n    for (x in arr) {\n        t.add(x)\n        t.add(-1)\n    }\n\n    val n = t.size\n    val p = IntArray(n)\n    var c = 0\n    var r = 0\n    var maxLen = 0\n\n    for (i in 0 until n) {\n        val mirror = 2 * c - i\n        if (i < r && mirror >= 0) {\n            p[i] = minOf(r - i, p[mirror])\n        }\n        while (i + p[i] + 1 < n && i - p[i] - 1 >= 0 && t[i + p[i] + 1] == t[i - p[i] - 1]) {\n            p[i]++\n        }\n        if (i + p[i] > r) { c = i; r = i + p[i] }\n        if (p[i] > maxLen) maxLen = p[i]\n    }\n\n    return maxLen\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "longest_palindrome_length.py",
+          "content": "def longest_palindrome_length(arr: list[int]) -> int:\n    if len(arr) == 0:\n        return 0\n\n    # Transform: insert -1 as sentinel between elements and at boundaries\n    t = [-1]\n    for x in arr:\n        t.append(x)\n        t.append(-1)\n\n    n = len(t)\n    p = [0] * n\n    c = 0\n    r = 0\n    max_len = 0\n\n    for i in range(n):\n        mirror = 2 * c - i\n        if i < r:\n            p[i] = min(r - i, p[mirror])\n        while i + p[i] + 1 < n and i - p[i] - 1 >= 0 and t[i + p[i] + 1] == t[i - p[i] - 1]:\n            p[i] += 1\n        if i + p[i] > r:\n            c = i\n            r = i + p[i]\n        if p[i] > max_len:\n            max_len = p[i]\n\n    return max_len\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "longest_palindrome_length.rs",
+          "content": "pub fn longest_palindrome_length(arr: &[i32]) -> i32 {\n    if arr.is_empty() { return 0; }\n\n    let mut t = vec![-1i32];\n    for &x in arr {\n        t.push(x);\n        t.push(-1);\n    }\n\n    let n = t.len();\n    let mut p = vec![0usize; n];\n    let mut c: usize = 0;\n    let mut r: usize = 0;\n    let mut max_len: usize = 0;\n\n    for i in 0..n {\n        let mirror = if i >= c { 2 * c.wrapping_sub(0) } else { 0 };\n        let mirror = (2 * c).wrapping_sub(i);\n        if i < r && mirror < n {\n            p[i] = (r - i).min(p[mirror]);\n        }\n        while i + p[i] + 1 < n && (i as isize - p[i] as isize - 1) >= 0\n            && t[i + p[i] + 1] == t[i - p[i] - 1] {\n            p[i] += 1;\n        }\n        if i + p[i] > r { c = i; r = i + p[i]; }\n        if p[i] > max_len { max_len = p[i]; }\n    }\n\n    max_len as i32\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "LongestPalindromeLength.scala",
+          "content": "object LongestPalindromeLength {\n\n  def longestPalindromeLength(arr: Array[Int]): Int = {\n    if (arr.isEmpty) return 0\n\n    val t = scala.collection.mutable.ArrayBuffer[Int](-1)\n    for (x <- arr) {\n      t += x\n      t += -1\n    }\n\n    val n = t.length\n    val p = Array.fill(n)(0)\n    var c = 0\n    var r = 0\n    var maxLen = 0\n\n    for (i <- 0 until n) {\n      val mirror = 2 * c - i\n      if (i < r && mirror >= 0) {\n        p(i) = math.min(r - i, p(mirror))\n      }\n      while (i + p(i) + 1 < n && i - p(i) - 1 >= 0 && t(i + p(i) + 1) == t(i - p(i) - 1)) {\n        p(i) += 1\n      }\n      if (i + p(i) > r) { c = i; r = i + p(i) }\n      if (p(i) > maxLen) maxLen = p(i)\n    }\n\n    maxLen\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "LongestPalindromeLength.swift",
+          "content": "func longestPalindromeLength(_ arr: [Int]) -> Int {\n    if arr.isEmpty { return 0 }\n\n    var t = [-1]\n    for x in arr {\n        t.append(x)\n        t.append(-1)\n    }\n\n    let n = t.count\n    var p = [Int](repeating: 0, count: n)\n    var c = 0, r = 0, maxLen = 0\n\n    for i in 0..<n {\n        let mirror = 2 * c - i\n        if i < r && mirror >= 0 {\n            p[i] = min(r - i, p[mirror])\n        }\n        while i + p[i] + 1 < n && i - p[i] - 1 >= 0 && t[i + p[i] + 1] == t[i - p[i] - 1] {\n            p[i] += 1\n        }\n        if i + p[i] > r { c = i; r = i + p[i] }\n        if p[i] > maxLen { maxLen = p[i] }\n    }\n\n    return maxLen\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "longestPalindromeLength.ts",
+          "content": "export function longestPalindromeLength(arr: number[]): number {\n    if (arr.length === 0) return 0;\n\n    const t: number[] = [-1];\n    for (const x of arr) {\n        t.push(x, -1);\n    }\n\n    const n = t.length;\n    const p = new Array(n).fill(0);\n    let c = 0, r = 0, maxLen = 0;\n\n    for (let i = 0; i < n; i++) {\n        const mirror = 2 * c - i;\n        if (i < r) {\n            p[i] = Math.min(r - i, p[mirror]);\n        }\n        while (i + p[i] + 1 < n && i - p[i] - 1 >= 0 && t[i + p[i] + 1] === t[i - p[i] - 1]) {\n            p[i]++;\n        }\n        if (i + p[i] > r) { c = i; r = i + p[i]; }\n        if (p[i] > maxLen) maxLen = p[i];\n    }\n\n    return maxLen;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "readme": "# Manacher's Algorithm\n\n## Overview\n\nManacher's algorithm finds the longest palindromic substring (or subarray) in linear O(n) time. Published by Glenn Manacher in 1975, it is the optimal algorithm for this problem. The key insight is to reuse information from previously computed palindromes: if we already know a large palindrome exists, positions within it have \"mirror\" positions whose palindrome radii provide a lower bound, avoiding redundant comparisons.\n\nThe algorithm transforms the input by inserting sentinel values between elements to handle both odd and even length palindromes uniformly.\n\n## How It Works\n\n1. **Transform the input:** Insert a sentinel value (one not present in the array) between each element and at both ends. For input `[a, b, c]`, the transformed array becomes `[#, a, #, b, #, c, #]`. This ensures every palindrome in the original maps to an odd-length palindrome in the transformed array.\n2. **Maintain state:** Track `center` (center of the rightmost palindrome found so far) and `right` (the right boundary of that palindrome).\n3. **For each position i in the transformed array:**\n   - If `i < right`, use the mirror position `mirror = 2 * center - i`. Initialize `P[i] = min(right - i, P[mirror])`, leveraging the palindrome at the mirror position.\n   - Attempt to expand the palindrome at `i` by comparing elements at `i - P[i] - 1` and `i + P[i] + 1`.\n   - If the palindrome at `i` extends beyond `right`, update `center = i` and `right = i + P[i]`.\n4. The maximum value in `P` gives the length of the longest palindromic subarray in the original input.\n\n## Worked Example\n\nGiven input: `[1, 2, 1, 2, 1]`\n\n**Step 1 -- Transform:** `[#, 1, #, 2, #, 1, #, 2, #, 1, #]` (indices 0-10)\n\n**Step 2 -- Compute P array:**\n\n```\nIndex:     0  1  2  3  4  5  6  7  8  9  10\nTransformed: #  1  #  2  #  1  #  2  #  1  #\nP:         0  1  0  3  0  5  0  3  0  1  0\n```\n\n- At index 5 (element `1`): the palindrome expands to cover `[1,2,1,2,1]` giving P[5] = 5.\n- Positions 7 and 9 use mirror information from positions 3 and 1 respectively.\n\n**Step 3 -- Extract result:** max(P) = 5, so the longest palindrome has length 5: `[1, 2, 1, 2, 1]`.\n\n**Result:** 5\n\n## Pseudocode\n\n```\nfunction manacher(arr):\n    // Transform: insert sentinels\n    t = [SENTINEL]\n    for each element e in arr:\n        t.append(e)\n        t.append(SENTINEL)\n    n = length(t)\n\n    P = array of n zeros\n    center = 0\n    right = 0\n\n    for i from 0 to n - 1:\n        mirror = 2 * center - i\n        if i < right:\n            P[i] = min(right - i, P[mirror])\n\n        // Attempt expansion\n        while i - P[i] - 1 >= 0 and i + P[i] + 1 < n\n              and t[i - P[i] - 1] == t[i + P[i] + 1]:\n            P[i] = P[i] + 1\n\n        // Update center and right boundary\n        if i + P[i] > right:\n            center = i\n            right = i + P[i]\n\n    return max(P)\n```\n\n## Complexity Analysis\n\n| Case    | Time | Space |\n|---------|------|-------|\n| Best    | O(n) | O(n)  |\n| Average | O(n) | O(n)  |\n| Worst   | O(n) | O(n)  |\n\n- **Time O(n):** Although there is an inner while loop for expansion, each element is visited at most twice as the `right` boundary only moves forward. The amortized work per element is O(1).\n- **Space O(n):** The transformed array and the P array each use O(n) space.\n- The linear time bound holds for all inputs, including worst-case inputs like all-same-elements arrays.\n\n## When to Use\n\n- Finding the longest palindromic substring or subarray in optimal linear time\n- Competitive programming problems involving palindromes\n- DNA sequence analysis where palindromic structures indicate biological features (restriction enzyme sites, hairpin loops)\n- Text processing applications requiring palindrome detection on large inputs\n- When the O(n^2) expand-around-center approach is too slow\n\n## When NOT to Use\n\n- **Small inputs (n < 1000):** The simpler expand-around-center approach is easier to implement and equally fast for small data.\n- **When you need all palindromic substrings:** Manacher's finds the longest, but if you need to enumerate all distinct palindromes, consider the Eertree (palindromic tree) data structure.\n- **When the problem is not about contiguous subsequences:** Manacher's works on contiguous subarrays/substrings. For longest palindromic subsequences (not necessarily contiguous), use dynamic programming in O(n^2).\n- **When implementation simplicity is prioritized:** The mirror-based logic can be tricky to implement correctly. The expand-around-center method is more intuitive.\n\n## Comparison\n\n| Algorithm              | Time   | Space | What It Finds                        |\n|------------------------|--------|-------|--------------------------------------|\n| Manacher's Algorithm   | O(n)   | O(n)  | Longest palindromic substring        |\n| Expand Around Center   | O(n^2) | O(1)  | Longest palindromic substring        |\n| DP Table               | O(n^2) | O(n^2)| Longest palindromic substring/subseq |\n| Eertree                | O(n)   | O(n)  | All distinct palindromic substrings  |\n| Suffix Array + LCP     | O(n log n) | O(n) | Longest palindromic substring      |\n\nManacher's algorithm is the gold standard for the longest palindromic substring problem due to its optimal O(n) time. The expand-around-center approach trades speed for simplicity and zero extra space. The Eertree is more powerful if you need to count or enumerate all distinct palindromic substrings.\n\n## References\n\n- Manacher, G. (1975). \"A New Linear-Time 'On-Line' Algorithm for Finding the Smallest Initial Palindrome of a String.\" *Journal of the ACM*, 22(3), 346-351.\n- Gusfield, D. (1997). *Algorithms on Strings, Trees, and Sequences*, Section 9.2. Cambridge University Press.\n- Jeuring, J. (1994). \"The derivation of on-line algorithms, with an application to finding palindromes.\" *Algorithmica*, 11(2), 146-184.\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [longest_palindrome_length.py](python/longest_palindrome_length.py) |\n| Java       | [LongestPalindromeLength.java](java/LongestPalindromeLength.java) |\n| C++        | [longest_palindrome_length.cpp](cpp/longest_palindrome_length.cpp) |\n| C          | [longest_palindrome_length.c](c/longest_palindrome_length.c) |\n| Go         | [longest_palindrome_length.go](go/longest_palindrome_length.go) |\n| TypeScript | [longestPalindromeLength.ts](typescript/longestPalindromeLength.ts) |\n| Rust       | [longest_palindrome_length.rs](rust/longest_palindrome_length.rs) |\n| Kotlin     | [LongestPalindromeLength.kt](kotlin/LongestPalindromeLength.kt) |\n| Swift      | [LongestPalindromeLength.swift](swift/LongestPalindromeLength.swift) |\n| Scala      | [LongestPalindromeLength.scala](scala/LongestPalindromeLength.scala) |\n| C#         | [LongestPalindromeLength.cs](csharp/LongestPalindromeLength.cs) |\n"
+}

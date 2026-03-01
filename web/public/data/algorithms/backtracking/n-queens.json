@@ -1,0 +1,135 @@
+{
+  "name": "N-Queens",
+  "slug": "n-queens",
+  "category": "backtracking",
+  "subcategory": "constraint-satisfaction",
+  "difficulty": "intermediate",
+  "tags": [
+    "backtracking",
+    "recursion",
+    "constraint-satisfaction"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n!)",
+      "average": "O(n!)",
+      "worst": "O(n!)"
+    },
+    "space": "O(n)"
+  },
+  "stable": false,
+  "in_place": false,
+  "related": [
+    "permutations",
+    "sudoku-solver",
+    "subset-sum"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "n_queens.c",
+          "content": "#include <stdlib.h>\n\nstatic int count;\nstatic int *col_used;\nstatic int *diag_used;\nstatic int *anti_diag_used;\n\nstatic void backtrack(int row, int n) {\n    if (row == n) {\n        count++;\n        return;\n    }\n    for (int col = 0; col < n; col++) {\n        int d = row - col + n - 1;\n        int ad = row + col;\n        if (col_used[col] || diag_used[d] || anti_diag_used[ad]) {\n            continue;\n        }\n        col_used[col] = 1;\n        diag_used[d] = 1;\n        anti_diag_used[ad] = 1;\n        backtrack(row + 1, n);\n        col_used[col] = 0;\n        diag_used[d] = 0;\n        anti_diag_used[ad] = 0;\n    }\n}\n\nint n_queens(int n) {\n    if (n <= 0) {\n        return 0;\n    }\n    count = 0;\n    col_used = (int *)calloc(n, sizeof(int));\n    diag_used = (int *)calloc(2 * n - 1, sizeof(int));\n    anti_diag_used = (int *)calloc(2 * n - 1, sizeof(int));\n\n    backtrack(0, n);\n\n    free(col_used);\n    free(diag_used);\n    free(anti_diag_used);\n\n    return count;\n}\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "n_queens.cpp",
+          "content": "#include <unordered_set>\n\nstatic int count;\nstatic std::unordered_set<int> cols;\nstatic std::unordered_set<int> diags;\nstatic std::unordered_set<int> antiDiags;\n\nvoid backtrack(int row, int n) {\n    if (row == n) {\n        count++;\n        return;\n    }\n    for (int col = 0; col < n; col++) {\n        if (cols.count(col) || diags.count(row - col) || antiDiags.count(row + col)) {\n            continue;\n        }\n        cols.insert(col);\n        diags.insert(row - col);\n        antiDiags.insert(row + col);\n        backtrack(row + 1, n);\n        cols.erase(col);\n        diags.erase(row - col);\n        antiDiags.erase(row + col);\n    }\n}\n\nint nQueens(int n) {\n    if (n <= 0) {\n        return 0;\n    }\n    count = 0;\n    cols.clear();\n    diags.clear();\n    antiDiags.clear();\n    backtrack(0, n);\n    return count;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "NQueens.cs",
+          "content": "using System.Collections.Generic;\n\npublic class NQueens\n{\n    public static int NQueensSolve(int n)\n    {\n        if (n <= 0)\n        {\n            return 0;\n        }\n\n        var cols = new HashSet<int>();\n        var diags = new HashSet<int>();\n        var antiDiags = new HashSet<int>();\n        int count = 0;\n\n        void Backtrack(int row)\n        {\n            if (row == n)\n            {\n                count++;\n                return;\n            }\n            for (int col = 0; col < n; col++)\n            {\n                if (cols.Contains(col) || diags.Contains(row - col) || antiDiags.Contains(row + col))\n                {\n                    continue;\n                }\n                cols.Add(col);\n                diags.Add(row - col);\n                antiDiags.Add(row + col);\n                Backtrack(row + 1);\n                cols.Remove(col);\n                diags.Remove(row - col);\n                antiDiags.Remove(row + col);\n            }\n        }\n\n        Backtrack(0);\n        return count;\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "n_queens.go",
+          "content": "package nqueens\n\n// NQueens returns the number of distinct solutions to the N-Queens problem.\nfunc NQueens(n int) int {\n\tif n <= 0 {\n\t\treturn 0\n\t}\n\n\tcols := make(map[int]bool)\n\tdiags := make(map[int]bool)\n\tantiDiags := make(map[int]bool)\n\tcount := 0\n\n\tvar backtrack func(row int)\n\tbacktrack = func(row int) {\n\t\tif row == n {\n\t\t\tcount++\n\t\t\treturn\n\t\t}\n\t\tfor col := 0; col < n; col++ {\n\t\t\tif cols[col] || diags[row-col] || antiDiags[row+col] {\n\t\t\t\tcontinue\n\t\t\t}\n\t\t\tcols[col] = true\n\t\t\tdiags[row-col] = true\n\t\t\tantiDiags[row+col] = true\n\t\t\tbacktrack(row + 1)\n\t\t\tdelete(cols, col)\n\t\t\tdelete(diags, row-col)\n\t\t\tdelete(antiDiags, row+col)\n\t\t}\n\t}\n\n\tbacktrack(0)\n\treturn count\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "NQueens.java",
+          "content": "import java.util.HashSet;\nimport java.util.Set;\n\npublic class NQueens {\n\n    private int count;\n    private Set<Integer> cols;\n    private Set<Integer> diags;\n    private Set<Integer> antiDiags;\n\n    public static int nQueens(int n) {\n        if (n <= 0) {\n            return 0;\n        }\n        NQueens solver = new NQueens();\n        solver.count = 0;\n        solver.cols = new HashSet<>();\n        solver.diags = new HashSet<>();\n        solver.antiDiags = new HashSet<>();\n        solver.backtrack(0, n);\n        return solver.count;\n    }\n\n    private void backtrack(int row, int n) {\n        if (row == n) {\n            count++;\n            return;\n        }\n        for (int col = 0; col < n; col++) {\n            if (cols.contains(col) || diags.contains(row - col) || antiDiags.contains(row + col)) {\n                continue;\n            }\n            cols.add(col);\n            diags.add(row - col);\n            antiDiags.add(row + col);\n            backtrack(row + 1, n);\n            cols.remove(col);\n            diags.remove(row - col);\n            antiDiags.remove(row + col);\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "NQueens.kt",
+          "content": "fun nQueens(n: Int): Int {\n    if (n <= 0) return 0\n\n    val cols = mutableSetOf<Int>()\n    val diags = mutableSetOf<Int>()\n    val antiDiags = mutableSetOf<Int>()\n    var count = 0\n\n    fun backtrack(row: Int) {\n        if (row == n) {\n            count++\n            return\n        }\n        for (col in 0 until n) {\n            if (col in cols || (row - col) in diags || (row + col) in antiDiags) {\n                continue\n            }\n            cols.add(col)\n            diags.add(row - col)\n            antiDiags.add(row + col)\n            backtrack(row + 1)\n            cols.remove(col)\n            diags.remove(row - col)\n            antiDiags.remove(row + col)\n        }\n    }\n\n    backtrack(0)\n    return count\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "n_queens.py",
+          "content": "def n_queens(n: int) -> int:\n    \"\"\"Return the number of distinct solutions to the N-Queens problem.\"\"\"\n    if n <= 0:\n        return 0\n\n    count = 0\n    cols = set()\n    diags = set()\n    anti_diags = set()\n\n    def backtrack(row: int) -> None:\n        nonlocal count\n        if row == n:\n            count += 1\n            return\n        for col in range(n):\n            if col in cols or (row - col) in diags or (row + col) in anti_diags:\n                continue\n            cols.add(col)\n            diags.add(row - col)\n            anti_diags.add(row + col)\n            backtrack(row + 1)\n            cols.remove(col)\n            diags.remove(row - col)\n            anti_diags.remove(row + col)\n\n    backtrack(0)\n    return count\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "n_queens.rs",
+          "content": "use std::collections::HashSet;\n\npub fn n_queens(n: i32) -> i32 {\n    if n <= 0 {\n        return 0;\n    }\n    let mut cols = HashSet::new();\n    let mut diags = HashSet::new();\n    let mut anti_diags = HashSet::new();\n    let mut count = 0;\n    backtrack(0, n, &mut cols, &mut diags, &mut anti_diags, &mut count);\n    count\n}\n\nfn backtrack(\n    row: i32,\n    n: i32,\n    cols: &mut HashSet<i32>,\n    diags: &mut HashSet<i32>,\n    anti_diags: &mut HashSet<i32>,\n    count: &mut i32,\n) {\n    if row == n {\n        *count += 1;\n        return;\n    }\n    for col in 0..n {\n        if cols.contains(&col) || diags.contains(&(row - col)) || anti_diags.contains(&(row + col))\n        {\n            continue;\n        }\n        cols.insert(col);\n        diags.insert(row - col);\n        anti_diags.insert(row + col);\n        backtrack(row + 1, n, cols, diags, anti_diags, count);\n        cols.remove(&col);\n        diags.remove(&(row - col));\n        anti_diags.remove(&(row + col));\n    }\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "NQueens.scala",
+          "content": "import scala.collection.mutable\n\nobject NQueens {\n\n  def nQueens(n: Int): Int = {\n    if (n <= 0) return 0\n\n    val cols = mutable.Set[Int]()\n    val diags = mutable.Set[Int]()\n    val antiDiags = mutable.Set[Int]()\n    var count = 0\n\n    def backtrack(row: Int): Unit = {\n      if (row == n) {\n        count += 1\n        return\n      }\n      for (col <- 0 until n) {\n        if (!cols.contains(col) && !diags.contains(row - col) && !antiDiags.contains(row + col)) {\n          cols.add(col)\n          diags.add(row - col)\n          antiDiags.add(row + col)\n          backtrack(row + 1)\n          cols.remove(col)\n          diags.remove(row - col)\n          antiDiags.remove(row + col)\n        }\n      }\n    }\n\n    backtrack(0)\n    count\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "NQueens.swift",
+          "content": "func nQueens(_ n: Int) -> Int {\n    if n <= 0 {\n        return 0\n    }\n\n    var cols = Set<Int>()\n    var diags = Set<Int>()\n    var antiDiags = Set<Int>()\n    var count = 0\n\n    func backtrack(_ row: Int) {\n        if row == n {\n            count += 1\n            return\n        }\n        for col in 0..<n {\n            if cols.contains(col) || diags.contains(row - col) || antiDiags.contains(row + col) {\n                continue\n            }\n            cols.insert(col)\n            diags.insert(row - col)\n            antiDiags.insert(row + col)\n            backtrack(row + 1)\n            cols.remove(col)\n            diags.remove(row - col)\n            antiDiags.remove(row + col)\n        }\n    }\n\n    backtrack(0)\n    return count\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "nQueens.ts",
+          "content": "export function nQueens(n: number): number {\n    if (n <= 0) {\n        return 0;\n    }\n\n    let count = 0;\n    const cols = new Set<number>();\n    const diags = new Set<number>();\n    const antiDiags = new Set<number>();\n\n    function backtrack(row: number): void {\n        if (row === n) {\n            count++;\n            return;\n        }\n        for (let col = 0; col < n; col++) {\n            if (cols.has(col) || diags.has(row - col) || antiDiags.has(row + col)) {\n                continue;\n            }\n            cols.add(col);\n            diags.add(row - col);\n            antiDiags.add(row + col);\n            backtrack(row + 1);\n            cols.delete(col);\n            diags.delete(row - col);\n            antiDiags.delete(row + col);\n        }\n    }\n\n    backtrack(0);\n    return count;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "patterns": [
+    "subsets"
+  ],
+  "patternDifficulty": "advanced",
+  "practiceOrder": 3,
+  "readme": "# N-Queens\n\n## Overview\n\nThe N-Queens problem is a classic constraint-satisfaction puzzle that asks: how can N chess queens be placed on an NxN chessboard so that no two queens threaten each other? A queen can attack any piece that lies on the same row, column, or diagonal. Therefore, a valid solution requires that no two queens share the same row, column, or diagonal.\n\nThis problem was first posed in 1848 by chess composer Max Bezzel as the \"Eight Queens Puzzle\" and was later generalized to N queens on an NxN board. It is one of the most studied problems in combinatorial optimization and is often used to introduce backtracking algorithms. The problem has practical applications in VLSI testing, constraint satisfaction, parallel memory storage schemes, and deadlock prevention.\n\nThe N-Queens problem has solutions for all natural numbers n >= 1 except n = 2 and n = 3. The number of solutions grows rapidly: 1 solution for n=1, 0 for n=2, 0 for n=3, 2 for n=4, 10 for n=5, 4 for n=6, 40 for n=7, and 92 for n=8.\n\n## How It Works\n\nThe backtracking approach builds a solution one queen at a time, placing one queen per row. At each row, the algorithm tries placing the queen in each column. If the placement is valid (no conflicts with previously placed queens), it recurses to the next row. If no valid column is found, it backtracks to the previous row and tries the next column.\n\n### Steps:\n\n1. Start with an empty board and begin at row 0.\n2. For the current row, try placing a queen in each column (0 to N-1).\n3. Check if the placement is safe: no other queen on the same column, same main diagonal, or same anti-diagonal.\n4. If safe, place the queen and recurse to the next row.\n5. If the next row equals N, a complete valid arrangement has been found -- increment the solution count.\n6. After recursion returns, remove the queen (backtrack) and try the next column.\n7. When all columns in the current row have been tried, return to the previous row.\n\n## Pseudocode\n\n```\nfunction solveNQueens(n):\n    solutions = []\n    columns = {}          // set of occupied columns\n    diagonals = {}        // set of occupied main diagonals (row - col)\n    antiDiagonals = {}    // set of occupied anti-diagonals (row + col)\n    queens = []           // list of column positions for each row\n\n    function backtrack(row):\n        if row == n:\n            solutions.add(copy(queens))\n            return\n\n        for col in 0 to n-1:\n            if col in columns:        continue\n            if (row - col) in diagonals:    continue\n            if (row + col) in antiDiagonals: continue\n\n            // Place queen\n            columns.add(col)\n            diagonals.add(row - col)\n            antiDiagonals.add(row + col)\n            queens.append(col)\n\n            backtrack(row + 1)\n\n            // Remove queen (backtrack)\n            columns.remove(col)\n            diagonals.remove(row - col)\n            antiDiagonals.remove(row + col)\n            queens.removeLast()\n\n    backtrack(0)\n    return solutions\n```\n\n## Example Walkthrough (N=4)\n\nAttempting to place 4 queens on a 4x4 board:\n\n| Step | Row | Column tried | Board state         | Action                          |\n|------|-----|-------------|---------------------|---------------------------------|\n| 1    | 0   | 0           | Q . . .             | Place queen, go to row 1        |\n| 2    | 1   | 0           | conflict (col 0)    | Try next column                 |\n| 3    | 1   | 1           | conflict (diagonal) | Try next column                 |\n| 4    | 1   | 2           | Q . . . / . . Q .   | Place queen, go to row 2        |\n| 5    | 2   | 0-3         | all conflict         | Backtrack to row 1              |\n| 6    | 1   | 3           | Q . . . / . . . Q   | Place queen, go to row 2        |\n| 7    | 2   | 1           | Q . . . / . . . Q / . Q . . | Place, go to row 3     |\n| 8    | 3   | 0-3         | all conflict         | Backtrack to row 2              |\n| 9    | ...  | ...         | ...                 | Continue backtracking           |\n\nThe two valid solutions for N=4 are:\n\n```\nSolution 1:        Solution 2:\n. Q . .            . . Q .\n. . . Q            Q . . .\nQ . . .            . . . Q\n. . Q .            . Q . .\n```\n\n## Complexity Analysis\n\n| Case    | Time  | Space |\n|---------|-------|-------|\n| Best    | O(n!) | O(n)  |\n| Average | O(n!) | O(n)  |\n| Worst   | O(n!) | O(n)  |\n\n**Why these complexities?**\n\n- **Time -- O(n!):** In the first row, there are n choices. In the second row, at least one column is blocked, leaving at most n-1 choices. This continues, giving an upper bound of n! placements to explore. Pruning via conflict detection reduces the actual work significantly, but the worst-case upper bound remains O(n!).\n\n- **Space -- O(n):** The recursion depth is n (one call per row). The auxiliary data structures (columns set, diagonals set, anti-diagonals set) each hold at most n entries. No NxN board needs to be stored -- only the column positions of queens in each row.\n\n## Applications\n\n- **VLSI testing:** Placing test components so they do not interfere with each other.\n- **Constraint satisfaction problems:** The N-Queens problem is a canonical CSP benchmark.\n- **Parallel computing:** Memory storage schemes that avoid bank conflicts.\n- **Deadlock prevention:** Modeling mutual exclusion constraints.\n- **Teaching backtracking:** The most classic example of a backtracking algorithm.\n\n## When NOT to Use\n\n- **Very large N values (N > ~25) where all solutions are needed:** The number of solutions grows exponentially, and pure backtracking without symmetry exploitation becomes impractical. For N > 25, use specialized algorithms such as dancing links (Knuth's Algorithm X) or constraint propagation solvers.\n- **When only one solution is needed for large N:** A constructive (non-search) approach exists that can directly place queens in O(n) time for most values of N, avoiding search altogether. For example, explicit formulae based on modular arithmetic can produce a valid placement without backtracking.\n- **Real-time or latency-sensitive systems:** The worst-case exponential time makes backtracking unsuitable when a guaranteed response time is required.\n- **Problems that are not constraint satisfaction:** If the underlying problem does not involve placing items under mutual exclusion constraints, N-Queens techniques are not applicable.\n\n## Comparison\n\n| Approach | Time Complexity | Space | Finds All Solutions? | Notes |\n|----------|----------------|-------|---------------------|-------|\n| Backtracking (this) | O(n!) | O(n) | Yes | Simple, widely taught; practical for N <= ~25 |\n| Backtracking + bit manipulation | O(n!) | O(n) | Yes | Constant-factor speedup using bitwise conflict tracking |\n| Dancing Links (Algorithm X) | O(n!) | O(n^2) | Yes | Faster in practice due to efficient cover/uncover operations |\n| Constructive placement | O(n) | O(n) | No (one only) | Deterministic formula for most N; fails for small N |\n| Min-conflicts (local search) | Avg O(n) | O(n) | No (one only) | Probabilistic; very fast on average but no worst-case guarantee |\n| Constraint propagation + SAT | Varies | Varies | Yes | Encodes as Boolean SAT; powerful for large instances |\n\nBacktracking is the best starting point for educational purposes and for problems where N is moderate (up to about 15-20). For larger instances or when only a single solution is needed, constructive or local search methods are preferred.\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [n_queens.py](python/n_queens.py) |\n| Java       | [NQueens.java](java/NQueens.java) |\n| C++        | [n_queens.cpp](cpp/n_queens.cpp) |\n| C          | [n_queens.c](c/n_queens.c) |\n| Go         | [n_queens.go](go/n_queens.go) |\n| TypeScript | [nQueens.ts](typescript/nQueens.ts) |\n| Rust       | [n_queens.rs](rust/n_queens.rs) |\n| Kotlin     | [NQueens.kt](kotlin/NQueens.kt) |\n| Swift      | [NQueens.swift](swift/NQueens.swift) |\n| Scala      | [NQueens.scala](scala/NQueens.scala) |\n| C#         | [NQueens.cs](csharp/NQueens.cs) |\n\n## References\n\n- Bezzel, M. (1848). Schachfreund. *Berliner Schachzeitung*, 3, 363.\n- Dijkstra, E. W. (1972). EWD316: A Short Introduction to the Art of Programming.\n- [N-Queens problem -- Wikipedia](https://en.wikipedia.org/wiki/Eight_queens_puzzle)\n"
+}

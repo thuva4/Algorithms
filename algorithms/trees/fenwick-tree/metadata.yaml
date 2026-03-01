@@ -1,0 +1,17 @@
+name: "Fenwick Tree"
+slug: "fenwick-tree"
+category: "trees"
+subcategory: "range-query"
+difficulty: "intermediate"
+tags: [trees, fenwick-tree, binary-indexed-tree, range-query, prefix-sum]
+complexity:
+  time:
+    best: "O(log n)"
+    average: "O(log n)"
+    worst: "O(log n)"
+  space: "O(n)"
+stable: false
+in_place: false
+related: [segment-tree, binary-tree]
+implementations: [cpp]
+visualization: true

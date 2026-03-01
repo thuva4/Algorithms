@@ -1,0 +1,149 @@
+{
+  "name": "Exponential Search",
+  "slug": "exponential-search",
+  "category": "searching",
+  "subcategory": "sorted-array",
+  "difficulty": "intermediate",
+  "tags": [
+    "searching",
+    "sorted",
+    "binary-search",
+    "exponential",
+    "comparison"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(1)",
+      "average": "O(log i)",
+      "worst": "O(log n)"
+    },
+    "space": "O(1)"
+  },
+  "stable": null,
+  "in_place": true,
+  "related": [
+    "binary-search",
+    "interpolation-search",
+    "jump-search"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "exponential_search.c",
+          "content": "#include \"exponential_search.h\"\n\n#define MIN(a,b) (((a)<(b))?(a):(b))\n\nstatic int binary_search(int arr[], int l, int r, int target) {\n    while (l <= r) {\n        int mid = l + (r - l) / 2;\n        if (arr[mid] == target)\n            return mid;\n        if (arr[mid] < target)\n            l = mid + 1;\n        else\n            r = mid - 1;\n    }\n    return -1;\n}\n\nint exponential_search(int arr[], int n, int target) {\n    if (n == 0) return -1;\n    if (arr[0] == target) return 0;\n    \n    int i = 1;\n    while (i < n && arr[i] <= target)\n        i = i * 2;\n        \n    return binary_search(arr, i / 2, MIN(i, n - 1), target);\n}\n"
+        },
+        {
+          "filename": "exponential_search.h",
+          "content": "#ifndef EXPONENTIAL_SEARCH_H\n#define EXPONENTIAL_SEARCH_H\n\nint exponential_search(int arr[], int n, int target);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "exponential_search.cpp",
+          "content": "#include \"exponential_search.h\"\n#include <vector>\n#include <algorithm>\n\nstatic int binary_search(const std::vector<int>& arr, int l, int r, int target) {\n    while (l <= r) {\n        int mid = l + (r - l) / 2;\n        if (arr[mid] == target)\n            return mid;\n        if (arr[mid] < target)\n            l = mid + 1;\n        else\n            r = mid - 1;\n    }\n    return -1;\n}\n\nint exponential_search(const std::vector<int>& arr, int target) {\n    int n = arr.size();\n    if (n == 0) return -1;\n    if (arr[0] == target) return 0;\n    \n    int i = 1;\n    while (i < n && arr[i] <= target)\n        i = i * 2;\n        \n    return binary_search(arr, i / 2, std::min(i, n - 1), target);\n}\n"
+        },
+        {
+          "filename": "exponential_search.h",
+          "content": "#ifndef EXPONENTIAL_SEARCH_H\n#define EXPONENTIAL_SEARCH_H\n\n#include <vector>\n\nint exponential_search(const std::vector<int>& arr, int target);\n\n#endif\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "ExponentialSearch.cs",
+          "content": "using System;\n\nnamespace Algorithms.Searching.ExponentialSearch\n{\n    public class ExponentialSearch\n    {\n        public static int Search(int[] arr, int target)\n        {\n            if (arr == null || arr.Length == 0) return -1;\n            if (arr[0] == target) return 0;\n\n            int i = 1;\n            while (i < arr.Length && arr[i] <= target)\n                i = i * 2;\n\n            return BinarySearch(arr, i / 2, Math.Min(i, arr.Length - 1), target);\n        }\n\n        private static int BinarySearch(int[] arr, int l, int r, int target)\n        {\n            while (l <= r)\n            {\n                int mid = l + (r - l) / 2;\n                if (arr[mid] == target)\n                    return mid;\n                if (arr[mid] < target)\n                    l = mid + 1;\n                else\n                    r = mid - 1;\n            }\n            return -1;\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "exponential_search.go",
+          "content": "package exponentialsearch\n\nfunc ExponentialSearch(arr []int, target int) int {\n\tn := len(arr)\n\tif n == 0 {\n\t\treturn -1\n\t}\n\tif arr[0] == target {\n\t\treturn 0\n\t}\n\n\ti := 1\n\tfor i < n && arr[i] <= target {\n\t\ti = i * 2\n\t}\n\n\treturn binarySearch(arr, i/2, min(i, n-1), target)\n}\n\nfunc binarySearch(arr []int, l, r, target int) int {\n\tfor l <= r {\n\t\tmid := l + (r-l)/2\n\t\tif arr[mid] == target {\n\t\t\treturn mid\n\t\t}\n\t\tif arr[mid] < target {\n\t\t\tl = mid + 1\n\t\t} else {\n\t\t\tr = mid - 1\n\t\t}\n\t}\n\treturn -1\n}\n\nfunc min(a, b int) int {\n\tif a < b {\n\t\treturn a\n\t}\n\treturn b\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "ExponentialSearch.java",
+          "content": "package algorithms.searching.exponentialsearch;\n\nimport java.util.Arrays;\n\npublic class ExponentialSearch {\n    public static int search(int[] arr, int target) {\n        if (arr == null || arr.length == 0) return -1;\n        if (arr[0] == target) return 0;\n        \n        int n = arr.length;\n        int i = 1;\n        while (i < n && arr[i] <= target)\n            i = i * 2;\n            \n        return Arrays.binarySearch(arr, i / 2, Math.min(i, n), target) >= 0 \n               ? Arrays.binarySearch(arr, i / 2, Math.min(i, n), target) \n               : -1;\n    }\n    \n    // Custom binary search if we don't want to rely on Arrays.binarySearch's negative return for not found\n    private static int binarySearch(int[] arr, int l, int r, int target) {\n        while (l <= r) {\n            int mid = l + (r - l) / 2;\n            if (arr[mid] == target)\n                return mid;\n            if (arr[mid] < target)\n                l = mid + 1;\n            else\n                r = mid - 1;\n        }\n        return -1;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "ExponentialSearch.kt",
+          "content": "package algorithms.searching.exponentialsearch\n\nimport kotlin.math.min\n\nclass ExponentialSearch {\n    fun search(arr: IntArray, target: Int): Int {\n        if (arr.isEmpty()) return -1\n        if (arr[0] == target) return 0\n        \n        val n = arr.size\n        var i = 1\n        while (i < n && arr[i] <= target)\n            i *= 2\n            \n        return binarySearch(arr, i / 2, min(i, n) - 1, target)\n    }\n    \n    private fun binarySearch(arr: IntArray, l: Int, r: Int, target: Int): Int {\n        var left = l\n        var right = r\n        while (left <= right) {\n            val mid = left + (right - left) / 2\n            if (arr[mid] == target)\n                return mid\n            if (arr[mid] < target)\n                left = mid + 1\n            else\n                right = mid - 1\n        }\n        return -1\n    }\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "exponential_search.py",
+          "content": "def exponential_search(arr, target):\n    n = len(arr)\n    if n == 0:\n        return -1\n    if arr[0] == target:\n        return 0\n        \n    i = 1\n    while i < n and arr[i] <= target:\n        i = i * 2\n        \n    return binary_search(arr, i // 2, min(i, n - 1), target)\n\ndef binary_search(arr, l, r, target):\n    while l <= r:\n        mid = l + (r - l) // 2\n        if arr[mid] == target:\n            return mid\n        if arr[mid] < target:\n            l = mid + 1\n        else:\n            r = mid - 1\n    return -1\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "exponential_search.rs",
+          "content": "use std::cmp::min;\n\npub fn exponential_search(arr: &[i32], target: i32) -> i32 {\n    let n = arr.len();\n    if n == 0 {\n        return -1;\n    }\n    if arr[0] == target {\n        return 0;\n    }\n\n    let mut i = 1;\n    while i < n && arr[i] <= target {\n        i *= 2;\n    }\n\n    binary_search(arr, i / 2, min(i, n) - 1, target)\n}\n\nfn binary_search(arr: &[i32], l: usize, r: usize, target: i32) -> i32 {\n    let mut left = l;\n    let mut right = r;\n    \n    // Safety check for empty range or right < left if not handled by caller\n    if left > right { return -1; }\n\n    while left <= right {\n        let mid = left + (right - left) / 2;\n        if arr[mid] == target {\n            return mid as i32;\n        }\n        if arr[mid] < target {\n            left = mid + 1;\n        } else {\n            if mid == 0 { break; } // avoid underflow\n            right = mid - 1;\n        }\n    }\n    -1\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "ExponentialSearch.scala",
+          "content": "object ExponentialSearch {\n  def search(arr: Array[Int], target: Int): Int = {\n    if (arr.isEmpty) return -1\n    if (arr(0) == target) return 0\n    \n    val n = arr.length\n    var i = 1\n    while (i < n && arr(i) <= target) {\n      i *= 2\n    }\n    \n    binarySearch(arr, i / 2, math.min(i, n) - 1, target)\n  }\n  \n  private def binarySearch(arr: Array[Int], l: Int, r: Int, target: Int): Int = {\n    var left = l\n    var right = r\n    while (left <= right) {\n      val mid = left + (right - left) / 2\n      if (arr(mid) == target) return mid\n      if (arr(mid) < target) left = mid + 1\n      else right = mid - 1\n    }\n    -1\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "ExponentialSearch.swift",
+          "content": "class ExponentialSearch {\n    static func search(_ arr: [Int], _ target: Int) -> Int {\n        if arr.isEmpty { return -1 }\n        if arr[0] == target { return 0 }\n        \n        let n = arr.count\n        var i = 1\n        while i < n && arr[i] <= target {\n            i *= 2\n        }\n        \n        return binarySearch(arr, i / 2, min(i, n) - 1, target)\n    }\n    \n    private static func binarySearch(_ arr: [Int], _ l: Int, _ r: Int, _ target: Int) -> Int {\n        var left = l\n        var right = r\n        while left <= right {\n            let mid = left + (right - left) / 2\n            if arr[mid] == target { return mid }\n            if arr[mid] < target { left = mid + 1 }\n            else { right = mid - 1 }\n        }\n        return -1\n    }\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "exponential-search.ts",
+          "content": "export function exponentialSearch(arr: number[], target: number): number {\n  const n = arr.length;\n  if (n === 0) return -1;\n  if (arr[0] === target) return 0;\n  \n  let i = 1;\n  while (i < n && arr[i] <= target) {\n    i *= 2;\n  }\n  \n  return binarySearch(arr, Math.floor(i / 2), Math.min(i, n) - 1, target);\n}\n\nfunction binarySearch(arr: number[], l: number, r: number, target: number): number {\n  let left = l;\n  let right = r;\n  \n  while (left <= right) {\n    const mid = left + Math.floor((right - left) / 2);\n    if (arr[mid] === target) return mid;\n    if (arr[mid] < target) left = mid + 1;\n    else right = mid - 1;\n  }\n  return -1;\n}\n"
+        },
+        {
+          "filename": "exponentialSearch.ts",
+          "content": "export function exponentialSearch(arr: number[], target: number): number {\n    const n = arr.length;\n    if (n === 0) return -1;\n\n    if (arr[0] === target) return 0;\n\n    let bound = 1;\n    while (bound < n && arr[bound] <= target) {\n        bound *= 2;\n    }\n\n    let lo = Math.floor(bound / 2);\n    let hi = Math.min(bound, n - 1);\n\n    while (lo <= hi) {\n        const mid = lo + Math.floor((hi - lo) / 2);\n        if (arr[mid] === target) return mid;\n        else if (arr[mid] < target) lo = mid + 1;\n        else hi = mid - 1;\n    }\n\n    return -1;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "patterns": [
+    "modified-binary-search"
+  ],
+  "patternDifficulty": "intermediate",
+  "practiceOrder": 4,
+  "readme": "# Exponential Search\n\n## Overview\n\nExponential Search (also called doubling search or galloping search) is a search algorithm designed for sorted arrays. It works in two phases: first, it finds a range where the target element might exist by exponentially increasing an index bound (1, 2, 4, 8, 16, ...), and then it performs a binary search within that narrowed range. This approach is particularly efficient when the target element is located near the beginning of the array, achieving O(log i) time where i is the position of the target.\n\nExponential Search was introduced by Bentley and Yao in 1976 as an almost-optimal algorithm for unbounded searching. It is commonly used in practice for searching in unbounded or infinite lists and as a building block inside other algorithms such as merging runs in Timsort.\n\n## How It Works\n\n1. Start by checking if the first element matches the target. If so, return index 0.\n2. Set an initial bound of 1, then repeatedly double the bound (1, 2, 4, 8, ...) until either:\n   - The element at the bound is greater than or equal to the target, or\n   - The bound exceeds the length of the array.\n3. Once the range is identified, perform a standard binary search in the subarray from `bound/2` to `min(bound, n - 1)`.\n4. Return the index if the target is found, or -1 if it is not present.\n\n## Worked Example\n\nArray: `[2, 5, 8, 12, 15, 23, 37, 45, 67, 89]`, Target: `23`\n\n**Phase 1 -- Find the range by doubling:**\n\n| Step | Bound | arr[bound] | Comparison        | Action          |\n|------|-------|------------|-------------------|-----------------|\n| 1    | 1     | 5          | 5 < 23            | Double bound    |\n| 2    | 2     | 8          | 8 < 23            | Double bound    |\n| 3    | 4     | 15         | 15 < 23           | Double bound    |\n| 4    | 8     | 67         | 67 >= 23          | Stop doubling   |\n\nRange identified: indices 4 through 8.\n\n**Phase 2 -- Binary search within [4, 8]:**\n\n| Step | Low | High | Mid | arr[mid] | Comparison        | Action       |\n|------|-----|------|-----|----------|-------------------|--------------|\n| 1    | 4   | 8    | 6   | 37       | 37 > 23           | high = 5     |\n| 2    | 4   | 5    | 4   | 15       | 15 < 23           | low = 5      |\n| 3    | 5   | 5    | 5   | 23       | 23 == 23          | Found!       |\n\nResult: Target `23` found at index **5**.\n\n## Pseudocode\n\n```\nfunction exponentialSearch(array, target):\n    n = length(array)\n\n    // Check the first element\n    if array[0] == target:\n        return 0\n\n    // Find the range by doubling\n    bound = 1\n    while bound < n and array[bound] <= target:\n        bound = bound * 2\n\n    // Binary search within the identified range\n    return binarySearch(array, target, bound / 2, min(bound, n - 1))\n```\n\n## Complexity Analysis\n\n| Case    | Time      | Space |\n|---------|-----------|-------|\n| Best    | O(1)      | O(1)  |\n| Average | O(log i)  | O(1)  |\n| Worst   | O(log n)  | O(1)  |\n\nWhere `i` is the index of the target element and `n` is the array length.\n\n**Why these complexities?**\n\n- **Best Case -- O(1):** The target is the first element in the array, so it is found immediately without any doubling or binary search.\n\n- **Average Case -- O(log i):** The doubling phase takes O(log i) steps to find a bound that exceeds the target's position. The subsequent binary search operates on a range of size at most `i`, which also takes O(log i) comparisons. The total is O(log i), which is better than O(log n) when the target is near the beginning.\n\n- **Worst Case -- O(log n):** When the target is near the end of the array, the doubling phase takes O(log n) steps and the binary search also takes O(log n) comparisons, giving O(log n) total.\n\n- **Space -- O(1):** The algorithm uses only a constant number of variables (bound, low, high, mid) regardless of input size.\n\n## When to Use\n\n- **Target is likely near the beginning:** Exponential Search outperforms binary search when the target's index i is much smaller than n, since it runs in O(log i) rather than O(log n).\n- **Unbounded or infinite lists:** The doubling strategy naturally handles cases where the size of the search space is not known in advance.\n- **As a subroutine in other algorithms:** Timsort uses a galloping mode based on exponential search to efficiently merge runs of sorted data.\n- **When random access is available:** Like binary search, it requires O(1) access to arbitrary indices.\n\n## When NOT to Use\n\n- **Unsorted data:** Exponential Search requires the array to be sorted. For unsorted data, use linear search or sort first.\n- **Small arrays:** For very small arrays, the overhead of the doubling phase offers no benefit over a simple linear scan or binary search.\n- **Target is near the end:** When the target is near the end of the array, exponential search has no advantage over standard binary search and involves a slightly larger constant factor.\n- **Linked lists or sequential access:** The algorithm depends on efficient random access. On sequential data structures, jump search or linear search is preferable.\n\n## Comparison with Similar Algorithms\n\n| Algorithm            | Time (avg)    | Space | Notes                                              |\n|----------------------|---------------|-------|----------------------------------------------------|\n| Exponential Search   | O(log i)      | O(1)  | Best when target is near the beginning              |\n| Binary Search        | O(log n)      | O(1)  | General-purpose; always searches the full range     |\n| Interpolation Search | O(log log n)  | O(1)  | Faster for uniformly distributed data               |\n| Jump Search          | O(sqrt(n))    | O(1)  | Simpler; works well on sequential access storage    |\n| Linear Search        | O(n)          | O(1)  | No prerequisites; works on unsorted data            |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [exponential_search.py](python/exponential_search.py) |\n| Java       | [ExponentialSearch.java](java/ExponentialSearch.java) |\n| C++        | [exponential_search.cpp](cpp/exponential_search.cpp) |\n| C          | [exponential_search.c](c/exponential_search.c) |\n| Go         | [exponential_search.go](go/exponential_search.go) |\n| TypeScript | [exponentialSearch.ts](typescript/exponentialSearch.ts) |\n| Rust       | [exponential_search.rs](rust/exponential_search.rs) |\n| Kotlin     | [ExponentialSearch.kt](kotlin/ExponentialSearch.kt) |\n| Swift      | [ExponentialSearch.swift](swift/ExponentialSearch.swift) |\n| Scala      | [ExponentialSearch.scala](scala/ExponentialSearch.scala) |\n| C#         | [ExponentialSearch.cs](csharp/ExponentialSearch.cs) |\n\n## References\n\n- Bentley, J. L., & Yao, A. C. (1976). \"An almost optimal algorithm for unbounded searching.\" *Information Processing Letters*, 5(3), 82-87.\n- Baeza-Yates, R. A., & Salton, G. (1989). \"A comparison of search algorithms.\" In *Algorithms and Data Structures*, 1-14.\n- [Exponential Search -- Wikipedia](https://en.wikipedia.org/wiki/Exponential_search)\n"
+}

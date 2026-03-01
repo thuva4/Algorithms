@@ -1,0 +1,21 @@
+algorithm: "swap-two-variables"
+function_signature:
+  name: "swap"
+  input: [a, b]
+  output: [b, a]
+test_cases:
+  - name: "basic swap"
+    input: [3, 5]
+    expected: [5, 3]
+  - name: "same values"
+    input: [7, 7]
+    expected: [7, 7]
+  - name: "zero and positive"
+    input: [0, 10]
+    expected: [10, 0]
+  - name: "negative numbers"
+    input: [-3, -5]
+    expected: [-5, -3]
+  - name: "mixed signs"
+    input: [-1, 1]
+    expected: [1, -1]

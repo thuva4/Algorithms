@@ -1,0 +1,73 @@
+{
+  "name": "String to Token",
+  "slug": "string-to-token",
+  "category": "strings",
+  "subcategory": "tokenization",
+  "difficulty": "beginner",
+  "tags": [
+    "strings",
+    "tokenization",
+    "parsing",
+    "splitting"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "average": "O(n)",
+      "worst": "O(n)"
+    },
+    "space": "O(n)"
+  },
+  "stable": false,
+  "in_place": false,
+  "related": [],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "tokenize.c",
+          "content": "#include <stddef.h>\n#include <string.h>\n\nchar *tokenize(const char *string, const char *delimiter) {\n    static char output[100000];\n    size_t delim_len = strlen(delimiter);\n    const char *cursor = string;\n    int first = 1;\n\n    output[0] = '\\0';\n    if (delim_len == 0) {\n        if (string[0] != '\\0') {\n            strcpy(output, string);\n        }\n        return output;\n    }\n\n    while (*cursor != '\\0') {\n        const char *match = strstr(cursor, delimiter);\n        size_t len = match ? (size_t)(match - cursor) : strlen(cursor);\n        if (len > 0) {\n            if (!first) {\n                strcat(output, \" \");\n            }\n            strncat(output, cursor, len);\n            first = 0;\n        }\n        if (!match) {\n            break;\n        }\n        cursor = match + delim_len;\n    }\n\n    return output;\n}\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "str_tok.cpp",
+          "content": "// C code to demonstrate working of\n// strtok\n#include <string.h>\n#include <stdio.h>\n \n// Driver function\nint main()\n{\n // Declaration of string\n    char gfg[100] = \" Hacktober fest by Github\";\n \n    // Declaration of delimiter\n    const char s[4] = \"-\";\n    char* tok;\n \n    // Use of strtok\n    // get first token\n    tok = strtok(gfg, s);\n \n    // Checks for delimeter\n    while (tok != 0) {\n        printf(\" %s\\n\", tok);\n \n        // Use of strtok\n        // go through other tokens\n        tok = strtok(0, s);\n    }\n \n    return (0);\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "StringToToken.java",
+          "content": "import java.util.ArrayList;\nimport java.util.List;\n\npublic class StringToToken {\n    public static String[] tokenize(String text, String delimiter) {\n        if (text.isEmpty()) {\n            return new String[0];\n        }\n        if (delimiter.isEmpty()) {\n            return new String[]{text};\n        }\n        String[] parts = text.split(java.util.regex.Pattern.quote(delimiter), -1);\n        List<String> result = new ArrayList<>();\n        for (String part : parts) {\n            if (!part.isEmpty()) {\n                result.add(part);\n            }\n        }\n        return result.toArray(new String[0]);\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "StringToToken.kt",
+          "content": "fun tokenize(text: String, delimiter: String): List<String> {\n    if (text.isEmpty()) {\n        return emptyList()\n    }\n    return text.split(delimiter).filter { it.isNotEmpty() }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "StringToToken.swift",
+          "content": "import Foundation\n\nfunc tokenize(_ string: String, _ delimiter: String) -> [String] {\n    if string.isEmpty { return [] }\n    if delimiter.isEmpty { return [string] }\n    return string\n        .components(separatedBy: delimiter)\n        .filter { !$0.isEmpty }\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# String to Token\n\n## Overview\n\nString tokenization (also known as string splitting) is the process of breaking a string into a sequence of meaningful pieces called tokens, using one or more delimiter characters. For example, tokenizing \"Hello, World! How are you?\" with space as a delimiter produces the tokens [\"Hello,\", \"World!\", \"How\", \"are\", \"you?\"]. This is a fundamental operation in text processing, parsing, and compiler design.\n\nTokenization is the first step in many text processing pipelines, from parsing CSV files and configuration files to lexical analysis in compilers and interpreters. The C standard library provides `strtok()` for this purpose, and most programming languages have built-in string split functions.\n\n## How It Works\n\nThe algorithm scans through the input string character by character. When it encounters a non-delimiter character, it marks the start of a new token. It continues scanning until it finds a delimiter or the end of the string, at which point the token is extracted. Consecutive delimiters are typically treated as a single separator (skipping empty tokens). The process repeats until the entire string has been scanned.\n\n### Example\n\nInput string: `\"one::two:::three::four\"`, Delimiter: `\":\"`\n\n**Step-by-step tokenization:**\n\n| Position | Character | State | Action |\n|----------|-----------|-------|--------|\n| 0-2 | \"one\" | In token | Accumulate characters |\n| 3-4 | \"::\" | Delimiter | Emit token \"one\", skip delimiters |\n| 5-7 | \"two\" | In token | Accumulate characters |\n| 8-10 | \":::\" | Delimiter | Emit token \"two\", skip delimiters |\n| 11-15 | \"three\" | In token | Accumulate characters |\n| 16-17 | \"::\" | Delimiter | Emit token \"three\", skip delimiters |\n| 18-21 | \"four\" | In token | Accumulate characters |\n| End | - | - | Emit token \"four\" |\n\nResult: Tokens = `[\"one\", \"two\", \"three\", \"four\"]`\n\n**Another example with multiple delimiters:**\n\nInput: `\"  Hello   World  \"`, Delimiter: `\" \"`\n\n| Step | Action | Tokens so far |\n|------|--------|---------------|\n| 1 | Skip leading spaces | [] |\n| 2 | Read \"Hello\" | [\"Hello\"] |\n| 3 | Skip spaces | [\"Hello\"] |\n| 4 | Read \"World\" | [\"Hello\", \"World\"] |\n| 5 | Skip trailing spaces | [\"Hello\", \"World\"] |\n\nResult: Tokens = `[\"Hello\", \"World\"]`\n\n## Pseudocode\n\n```\nfunction tokenize(str, delimiters):\n    tokens = empty list\n    i = 0\n    n = length(str)\n\n    while i < n:\n        // Skip delimiters\n        while i < n and str[i] is in delimiters:\n            i = i + 1\n\n        // Find end of token\n        start = i\n        while i < n and str[i] is not in delimiters:\n            i = i + 1\n\n        // Extract token if non-empty\n        if i > start:\n            tokens.append(str[start..i-1])\n\n    return tokens\n```\n\nThe algorithm makes a single pass through the string, alternating between skipping delimiters and accumulating token characters. Each character is examined exactly once.\n\n## Complexity Analysis\n\n| Case    | Time | Space |\n|---------|------|-------|\n| Best    | O(n) | O(n)  |\n| Average | O(n) | O(n)  |\n| Worst   | O(n) | O(n)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(n):** The algorithm makes a single pass through the string of length n. Each character is examined exactly once to determine if it is a delimiter.\n\n- **Average Case -- O(n):** Regardless of the number of tokens or delimiters, every character is processed once. Checking whether a character is a delimiter takes O(1) with a hash set or O(d) with a linear scan (where d is the number of distinct delimiters, typically small).\n\n- **Worst Case -- O(n):** Even if the entire string is delimiters (producing no tokens) or has no delimiters (producing one token), the algorithm scans the entire string once.\n\n- **Space -- O(n):** The output tokens collectively contain all non-delimiter characters, which in the worst case is the entire input string. Additionally, storing references to token positions requires O(k) space where k is the number of tokens.\n\n## When to Use\n\n- **Parsing structured text:** Splitting CSV rows, log entries, or configuration lines by their delimiters.\n- **Lexical analysis:** The first phase of compilers and interpreters tokenizes source code into meaningful symbols.\n- **Natural language processing:** Splitting text into words for further analysis (though NLP often requires more sophisticated tokenizers).\n- **Command-line argument parsing:** Splitting user input into individual commands and arguments.\n\n## When NOT to Use\n\n- **When delimiters can appear within tokens:** Quoted strings (e.g., CSV with commas inside quotes) require a stateful parser, not simple tokenization.\n- **When you need to preserve empty tokens:** Simple tokenization typically skips consecutive delimiters. Use split-with-limit for preserving empty fields.\n- **Complex grammar parsing:** For nested structures or context-dependent parsing, use a proper parser (recursive descent, PEG, etc.).\n- **Unicode-aware word boundary detection:** Natural language word boundaries require Unicode-aware segmentation (ICU, etc.), not simple delimiter splitting.\n\n## Comparison with Similar Algorithms\n\n| Method            | Time | Space | Notes                                          |\n|------------------|------|-------|-------------------------------------------------|\n| strtok (C)        | O(n) | O(1)  | In-place; modifies original string; not reentrant|\n| String.split      | O(n) | O(n)  | Creates new strings; language built-in            |\n| Regex tokenizer   | O(n) | O(n)  | Most flexible; higher constant factor             |\n| Lexer/Scanner     | O(n) | O(n)  | Full lexical analysis; handles complex grammars   |\n\n## Implementations\n\n| Language | File |\n|----------|------|\n| C++      | [str_tok.cpp](cpp/str_tok.cpp) |\n\n## References\n\n- Kernighan, B. W., & Ritchie, D. M. (1988). *The C Programming Language* (2nd ed.). Prentice Hall. Section 7.8.\n- Aho, A. V., Lam, M. S., Sethi, R., & Ullman, J. D. (2006). *Compilers: Principles, Techniques, and Tools* (2nd ed.). Pearson. Chapter 3: Lexical Analysis.\n- [Lexical Analysis -- Wikipedia](https://en.wikipedia.org/wiki/Lexical_analysis)\n"
+}

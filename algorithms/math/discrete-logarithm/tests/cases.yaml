@@ -1,0 +1,36 @@
+algorithm: "discrete-logarithm"
+function_signature:
+  name: "discrete_logarithm"
+  input: [base, target, modulus]
+  output: exponent
+test_cases:
+  - name: "simple case"
+    input:
+      base: 2
+      target: 8
+      modulus: 13
+    expected: 3
+  - name: "target is 1"
+    input:
+      base: 5
+      target: 1
+      modulus: 7
+    expected: 0
+  - name: "base equals target"
+    input:
+      base: 3
+      target: 3
+      modulus: 11
+    expected: 1
+  - name: "no solution"
+    input:
+      base: 2
+      target: 3
+      modulus: 4
+    expected: -1
+  - name: "larger modulus"
+    input:
+      base: 3
+      target: 13
+      modulus: 17
+    expected: 4

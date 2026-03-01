@@ -1,0 +1,133 @@
+{
+  "name": "Wildcard Matching",
+  "slug": "wildcard-matching",
+  "category": "dynamic-programming",
+  "subcategory": "pattern-matching",
+  "difficulty": "intermediate",
+  "tags": [
+    "dynamic-programming",
+    "pattern-matching",
+    "wildcard",
+    "strings"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n * m)",
+      "average": "O(n * m)",
+      "worst": "O(n * m)"
+    },
+    "space": "O(n * m)"
+  },
+  "stable": null,
+  "in_place": false,
+  "related": [
+    "edit-distance"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "wildcard_matching.c",
+          "content": "#include <stdio.h>\n#include <stdlib.h>\n#include \"wildcard_matching.h\"\n\nint wildcard_matching(int* arr, int size) {\n    int idx = 0;\n    int tlen = arr[idx++];\n    int* text = arr + idx; idx += tlen;\n    int plen = arr[idx++];\n    int* pattern = arr + idx;\n    int i, j;\n\n    int** dp = (int**)calloc(tlen + 1, sizeof(int*));\n    for (i = 0; i <= tlen; i++) dp[i] = (int*)calloc(plen + 1, sizeof(int));\n    dp[0][0] = 1;\n    for (j = 1; j <= plen; j++)\n        if (pattern[j-1] == 0) dp[0][j] = dp[0][j-1];\n\n    for (i = 1; i <= tlen; i++)\n        for (j = 1; j <= plen; j++) {\n            if (pattern[j-1] == 0) dp[i][j] = dp[i-1][j] || dp[i][j-1];\n            else if (pattern[j-1] == -1 || pattern[j-1] == text[i-1]) dp[i][j] = dp[i-1][j-1];\n        }\n\n    int result = dp[tlen][plen];\n    for (i = 0; i <= tlen; i++) free(dp[i]);\n    free(dp);\n    return result;\n}\n\nint main() {\n    int a1[] = {3, 1, 2, 3, 3, 1, 2, 3}; printf(\"%d\\n\", wildcard_matching(a1, 8));\n    int a2[] = {3, 1, 2, 3, 1, 0}; printf(\"%d\\n\", wildcard_matching(a2, 6));\n    int a3[] = {3, 1, 2, 3, 3, 1, -1, 3}; printf(\"%d\\n\", wildcard_matching(a3, 8));\n    int a4[] = {2, 1, 2, 2, 3, 4}; printf(\"%d\\n\", wildcard_matching(a4, 6));\n    int a5[] = {0, 1, 0}; printf(\"%d\\n\", wildcard_matching(a5, 3));\n    return 0;\n}\n"
+        },
+        {
+          "filename": "wildcard_matching.h",
+          "content": "#ifndef WILDCARD_MATCHING_H\n#define WILDCARD_MATCHING_H\n\nint wildcard_matching(int* arr, int size);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "wildcard_matching.cpp",
+          "content": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nint wildcardMatching(const vector<int>& arr) {\n    int idx = 0;\n    int tlen = arr[idx++];\n    vector<int> text(arr.begin()+idx, arr.begin()+idx+tlen); idx += tlen;\n    int plen = arr[idx++];\n    vector<int> pattern(arr.begin()+idx, arr.begin()+idx+plen);\n\n    vector<vector<bool>> dp(tlen+1, vector<bool>(plen+1, false));\n    dp[0][0] = true;\n    for (int j = 1; j <= plen; j++)\n        if (pattern[j-1] == 0) dp[0][j] = dp[0][j-1];\n\n    for (int i = 1; i <= tlen; i++)\n        for (int j = 1; j <= plen; j++) {\n            if (pattern[j-1] == 0) dp[i][j] = dp[i-1][j] || dp[i][j-1];\n            else if (pattern[j-1] == -1 || pattern[j-1] == text[i-1]) dp[i][j] = dp[i-1][j-1];\n        }\n\n    return dp[tlen][plen] ? 1 : 0;\n}\n\nint main() {\n    cout << wildcardMatching({3, 1, 2, 3, 3, 1, 2, 3}) << endl;\n    cout << wildcardMatching({3, 1, 2, 3, 1, 0}) << endl;\n    cout << wildcardMatching({3, 1, 2, 3, 3, 1, -1, 3}) << endl;\n    cout << wildcardMatching({2, 1, 2, 2, 3, 4}) << endl;\n    cout << wildcardMatching({0, 1, 0}) << endl;\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "WildcardMatching.cs",
+          "content": "using System;\n\npublic class WildcardMatching\n{\n    public static int Solve(int[] arr)\n    {\n        int idx = 0;\n        int tlen = arr[idx++];\n        int[] text = new int[tlen];\n        for (int i = 0; i < tlen; i++) text[i] = arr[idx++];\n        int plen = arr[idx++];\n        int[] pattern = new int[plen];\n        for (int i = 0; i < plen; i++) pattern[i] = arr[idx++];\n\n        bool[,] dp = new bool[tlen + 1, plen + 1];\n        dp[0, 0] = true;\n        for (int j = 1; j <= plen; j++)\n            if (pattern[j-1] == 0) dp[0, j] = dp[0, j-1];\n\n        for (int i = 1; i <= tlen; i++)\n            for (int j = 1; j <= plen; j++) {\n                if (pattern[j-1] == 0) dp[i, j] = dp[i-1, j] || dp[i, j-1];\n                else if (pattern[j-1] == -1 || pattern[j-1] == text[i-1]) dp[i, j] = dp[i-1, j-1];\n            }\n\n        return dp[tlen, plen] ? 1 : 0;\n    }\n\n    static void Main(string[] args)\n    {\n        Console.WriteLine(Solve(new int[] { 3, 1, 2, 3, 3, 1, 2, 3 }));\n        Console.WriteLine(Solve(new int[] { 3, 1, 2, 3, 1, 0 }));\n        Console.WriteLine(Solve(new int[] { 3, 1, 2, 3, 3, 1, -1, 3 }));\n        Console.WriteLine(Solve(new int[] { 2, 1, 2, 2, 3, 4 }));\n        Console.WriteLine(Solve(new int[] { 0, 1, 0 }));\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "wildcard_matching.go",
+          "content": "package main\n\nimport \"fmt\"\n\nfunc WildcardMatching(arr []int) int {\n\tidx := 0\n\ttlen := arr[idx]; idx++\n\ttext := arr[idx : idx+tlen]; idx += tlen\n\tplen := arr[idx]; idx++\n\tpattern := arr[idx : idx+plen]\n\n\tdp := make([][]bool, tlen+1)\n\tfor i := range dp { dp[i] = make([]bool, plen+1) }\n\tdp[0][0] = true\n\tfor j := 1; j <= plen; j++ {\n\t\tif pattern[j-1] == 0 { dp[0][j] = dp[0][j-1] }\n\t}\n\tfor i := 1; i <= tlen; i++ {\n\t\tfor j := 1; j <= plen; j++ {\n\t\t\tif pattern[j-1] == 0 { dp[i][j] = dp[i-1][j] || dp[i][j-1]\n\t\t\t} else if pattern[j-1] == -1 || pattern[j-1] == text[i-1] { dp[i][j] = dp[i-1][j-1] }\n\t\t}\n\t}\n\tif dp[tlen][plen] { return 1 }\n\treturn 0\n}\n\nfunc main() {\n\tfmt.Println(WildcardMatching([]int{3, 1, 2, 3, 3, 1, 2, 3}))\n\tfmt.Println(WildcardMatching([]int{3, 1, 2, 3, 1, 0}))\n\tfmt.Println(WildcardMatching([]int{3, 1, 2, 3, 3, 1, -1, 3}))\n\tfmt.Println(WildcardMatching([]int{2, 1, 2, 2, 3, 4}))\n\tfmt.Println(WildcardMatching([]int{0, 1, 0}))\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "WildcardMatching.java",
+          "content": "public class WildcardMatching {\n\n    public static int wildcardMatching(int[] arr) {\n        int idx = 0;\n        int tlen = arr[idx++];\n        int[] text = new int[tlen];\n        for (int i = 0; i < tlen; i++) text[i] = arr[idx++];\n        int plen = arr[idx++];\n        int[] pattern = new int[plen];\n        for (int i = 0; i < plen; i++) pattern[i] = arr[idx++];\n\n        boolean[][] dp = new boolean[tlen + 1][plen + 1];\n        dp[0][0] = true;\n        for (int j = 1; j <= plen; j++)\n            if (pattern[j - 1] == 0) dp[0][j] = dp[0][j - 1];\n\n        for (int i = 1; i <= tlen; i++)\n            for (int j = 1; j <= plen; j++) {\n                if (pattern[j - 1] == 0)\n                    dp[i][j] = dp[i - 1][j] || dp[i][j - 1];\n                else if (pattern[j - 1] == -1 || pattern[j - 1] == text[i - 1])\n                    dp[i][j] = dp[i - 1][j - 1];\n            }\n\n        return dp[tlen][plen] ? 1 : 0;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(wildcardMatching(new int[]{3, 1, 2, 3, 3, 1, 2, 3}));\n        System.out.println(wildcardMatching(new int[]{3, 1, 2, 3, 1, 0}));\n        System.out.println(wildcardMatching(new int[]{3, 1, 2, 3, 3, 1, -1, 3}));\n        System.out.println(wildcardMatching(new int[]{2, 1, 2, 2, 3, 4}));\n        System.out.println(wildcardMatching(new int[]{0, 1, 0}));\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "WildcardMatching.kt",
+          "content": "fun wildcardMatching(arr: IntArray): Int {\n    var idx = 0\n    val tlen = arr[idx++]\n    val text = arr.sliceArray(idx until idx + tlen); idx += tlen\n    val plen = arr[idx++]\n    val pattern = arr.sliceArray(idx until idx + plen)\n\n    val dp = Array(tlen + 1) { BooleanArray(plen + 1) }\n    dp[0][0] = true\n    for (j in 1..plen) if (pattern[j-1] == 0) dp[0][j] = dp[0][j-1]\n\n    for (i in 1..tlen) for (j in 1..plen) {\n        if (pattern[j-1] == 0) dp[i][j] = dp[i-1][j] || dp[i][j-1]\n        else if (pattern[j-1] == -1 || pattern[j-1] == text[i-1]) dp[i][j] = dp[i-1][j-1]\n    }\n    return if (dp[tlen][plen]) 1 else 0\n}\n\nfun main() {\n    println(wildcardMatching(intArrayOf(3, 1, 2, 3, 3, 1, 2, 3)))\n    println(wildcardMatching(intArrayOf(3, 1, 2, 3, 1, 0)))\n    println(wildcardMatching(intArrayOf(3, 1, 2, 3, 3, 1, -1, 3)))\n    println(wildcardMatching(intArrayOf(2, 1, 2, 2, 3, 4)))\n    println(wildcardMatching(intArrayOf(0, 1, 0)))\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "wildcard_matching.py",
+          "content": "def wildcard_matching(arr):\n    \"\"\"\n    Match text against pattern with wildcards.\n    0 = '*' (match any sequence), -1 = '?' (match single), positive = literal.\n\n    Input: [text_len, ...text, pattern_len, ...pattern]\n    Returns: 1 if matches, 0 otherwise\n    \"\"\"\n    idx = 0\n    tlen = arr[idx]; idx += 1\n    text = arr[idx:idx + tlen]; idx += tlen\n    plen = arr[idx]; idx += 1\n    pattern = arr[idx:idx + plen]\n\n    # dp[i][j] = does text[0..i-1] match pattern[0..j-1]\n    dp = [[False] * (plen + 1) for _ in range(tlen + 1)]\n    dp[0][0] = True\n\n    for j in range(1, plen + 1):\n        if pattern[j - 1] == 0:  # '*'\n            dp[0][j] = dp[0][j - 1]\n\n    for i in range(1, tlen + 1):\n        for j in range(1, plen + 1):\n            if pattern[j - 1] == 0:  # '*'\n                dp[i][j] = dp[i - 1][j] or dp[i][j - 1]\n            elif pattern[j - 1] == -1 or pattern[j - 1] == text[i - 1]:  # '?' or exact\n                dp[i][j] = dp[i - 1][j - 1]\n\n    return 1 if dp[tlen][plen] else 0\n\n\nif __name__ == \"__main__\":\n    print(wildcard_matching([3, 1, 2, 3, 3, 1, 2, 3]))     # 1\n    print(wildcard_matching([3, 1, 2, 3, 1, 0]))             # 1\n    print(wildcard_matching([3, 1, 2, 3, 3, 1, -1, 3]))     # 1\n    print(wildcard_matching([2, 1, 2, 2, 3, 4]))             # 0\n    print(wildcard_matching([0, 1, 0]))                       # 1\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "wildcard_matching.rs",
+          "content": "pub fn wildcard_matching(arr: &[i32]) -> i32 {\n    let mut idx = 0;\n    let tlen = arr[idx] as usize; idx += 1;\n    let text = &arr[idx..idx+tlen]; idx += tlen;\n    let plen = arr[idx] as usize; idx += 1;\n    let pattern = &arr[idx..idx+plen];\n\n    let mut dp = vec![vec![false; plen+1]; tlen+1];\n    dp[0][0] = true;\n    for j in 1..=plen { if pattern[j-1] == 0 { dp[0][j] = dp[0][j-1]; } }\n\n    for i in 1..=tlen {\n        for j in 1..=plen {\n            if pattern[j-1] == 0 { dp[i][j] = dp[i-1][j] || dp[i][j-1]; }\n            else if pattern[j-1] == -1 || pattern[j-1] == text[i-1] { dp[i][j] = dp[i-1][j-1]; }\n        }\n    }\n    if dp[tlen][plen] { 1 } else { 0 }\n}\n\nfn main() {\n    println!(\"{}\", wildcard_matching(&[3, 1, 2, 3, 3, 1, 2, 3]));\n    println!(\"{}\", wildcard_matching(&[3, 1, 2, 3, 1, 0]));\n    println!(\"{}\", wildcard_matching(&[3, 1, 2, 3, 3, 1, -1, 3]));\n    println!(\"{}\", wildcard_matching(&[2, 1, 2, 2, 3, 4]));\n    println!(\"{}\", wildcard_matching(&[0, 1, 0]));\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "WildcardMatching.scala",
+          "content": "object WildcardMatching {\n\n  def wildcardMatching(arr: Array[Int]): Int = {\n    var idx = 0\n    val tlen = arr(idx); idx += 1\n    val text = arr.slice(idx, idx + tlen); idx += tlen\n    val plen = arr(idx); idx += 1\n    val pattern = arr.slice(idx, idx + plen)\n\n    val dp = Array.ofDim[Boolean](tlen + 1, plen + 1)\n    dp(0)(0) = true\n    for (j <- 1 to plen) if (pattern(j-1) == 0) dp(0)(j) = dp(0)(j-1)\n\n    for (i <- 1 to tlen; j <- 1 to plen) {\n      if (pattern(j-1) == 0) dp(i)(j) = dp(i-1)(j) || dp(i)(j-1)\n      else if (pattern(j-1) == -1 || pattern(j-1) == text(i-1)) dp(i)(j) = dp(i-1)(j-1)\n    }\n    if (dp(tlen)(plen)) 1 else 0\n  }\n\n  def main(args: Array[String]): Unit = {\n    println(wildcardMatching(Array(3, 1, 2, 3, 3, 1, 2, 3)))\n    println(wildcardMatching(Array(3, 1, 2, 3, 1, 0)))\n    println(wildcardMatching(Array(3, 1, 2, 3, 3, 1, -1, 3)))\n    println(wildcardMatching(Array(2, 1, 2, 2, 3, 4)))\n    println(wildcardMatching(Array(0, 1, 0)))\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "WildcardMatching.swift",
+          "content": "func wildcardMatching(_ arr: [Int]) -> Int {\n    var idx = 0\n    let tlen = arr[idx]; idx += 1\n    let text = Array(arr[idx..<idx+tlen]); idx += tlen\n    let plen = arr[idx]; idx += 1\n    let pattern = Array(arr[idx..<idx+plen])\n\n    var dp = Array(repeating: Array(repeating: false, count: plen + 1), count: tlen + 1)\n    dp[0][0] = true\n    if plen > 0 {\n        for j in 1...plen { if pattern[j-1] == 0 { dp[0][j] = dp[0][j-1] } }\n    }\n\n    if tlen > 0 && plen > 0 {\n        for i in 1...tlen { for j in 1...plen {\n            if pattern[j-1] == 0 { dp[i][j] = dp[i-1][j] || dp[i][j-1] }\n            else if pattern[j-1] == -1 || pattern[j-1] == text[i-1] { dp[i][j] = dp[i-1][j-1] }\n        }}\n    }\n    return dp[tlen][plen] ? 1 : 0\n}\n\nprint(wildcardMatching([3, 1, 2, 3, 3, 1, 2, 3]))\nprint(wildcardMatching([3, 1, 2, 3, 1, 0]))\nprint(wildcardMatching([3, 1, 2, 3, 3, 1, -1, 3]))\nprint(wildcardMatching([2, 1, 2, 2, 3, 4]))\nprint(wildcardMatching([0, 1, 0]))\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "wildcardMatching.ts",
+          "content": "export function wildcardMatching(arr: number[]): number {\n    let idx = 0;\n    const tlen = arr[idx++];\n    const text = arr.slice(idx, idx + tlen); idx += tlen;\n    const plen = arr[idx++];\n    const pattern = arr.slice(idx, idx + plen);\n\n    const dp: boolean[][] = Array.from({ length: tlen + 1 }, () => new Array(plen + 1).fill(false));\n    dp[0][0] = true;\n    for (let j = 1; j <= plen; j++)\n        if (pattern[j-1] === 0) dp[0][j] = dp[0][j-1];\n\n    for (let i = 1; i <= tlen; i++)\n        for (let j = 1; j <= plen; j++) {\n            if (pattern[j-1] === 0) dp[i][j] = dp[i-1][j] || dp[i][j-1];\n            else if (pattern[j-1] === -1 || pattern[j-1] === text[i-1]) dp[i][j] = dp[i-1][j-1];\n        }\n\n    return dp[tlen][plen] ? 1 : 0;\n}\n\nconsole.log(wildcardMatching([3, 1, 2, 3, 3, 1, 2, 3]));\nconsole.log(wildcardMatching([3, 1, 2, 3, 1, 0]));\nconsole.log(wildcardMatching([3, 1, 2, 3, 3, 1, -1, 3]));\nconsole.log(wildcardMatching([2, 1, 2, 2, 3, 4]));\nconsole.log(wildcardMatching([0, 1, 0]));\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Wildcard Matching\n\n## Overview\n\nWildcard Matching determines whether a given text matches a pattern that may contain wildcard characters. The `*` wildcard matches any sequence of zero or more elements, while `?` matches exactly one element. This problem is solved efficiently using dynamic programming and is fundamental in file system globbing, database query processing, and text search.\n\nIn this implementation, integers encode the pattern: 0 represents `*` (matches any sequence), -1 represents `?` (matches any single element), and positive integers represent literal matches.\n\n## How It Works\n\nThe algorithm builds a 2D boolean DP table where `dp[i][j]` indicates whether the first `i` elements of the text match the first `j` elements of the pattern.\n\n1. **Base case:** `dp[0][0] = true` (empty text matches empty pattern). For the first row, `dp[0][j] = true` only if all pattern elements up to j are `*` (since `*` can match zero elements).\n2. **Transition rules** for each `(i, j)`:\n   - If `pattern[j-1]` is a literal and equals `text[i-1]`: `dp[i][j] = dp[i-1][j-1]`\n   - If `pattern[j-1]` is `?` (-1): `dp[i][j] = dp[i-1][j-1]` (matches any single element)\n   - If `pattern[j-1]` is `*` (0): `dp[i][j] = dp[i][j-1] OR dp[i-1][j]`\n     - `dp[i][j-1]`: the `*` matches zero elements\n     - `dp[i-1][j]`: the `*` matches one more element (text[i-1])\n3. The answer is `dp[n][m]` where n is the text length and m is the pattern length.\n\nInput format: `[text_len, ...text, pattern_len, ...pattern]`\nOutput: 1 if matches, 0 otherwise\n\n## Example\n\n**Example 1:** Text = `[3, 4, 5]`, Pattern = `[0]` (just `*`)\n\n| dp    | \"\"  | *   |\n|-------|-----|-----|\n| \"\"    | T   | T   |\n| 3     | F   | T   |\n| 3,4   | F   | T   |\n| 3,4,5 | F   | T   |\n\nResult: **1** (the `*` matches everything)\n\n**Example 2:** Text = `[1, 2, 3]`, Pattern = `[1, -1, 3]` (literal 1, `?`, literal 3)\n\n| dp      | \"\"  | 1   | ?   | 3   |\n|---------|-----|-----|-----|-----|\n| \"\"      | T   | F   | F   | F   |\n| 1       | F   | T   | F   | F   |\n| 1,2     | F   | F   | T   | F   |\n| 1,2,3   | F   | F   | F   | T   |\n\nResult: **1** (1 matches 1, `?` matches 2, 3 matches 3)\n\n**Example 3:** Text = `[1, 2, 3]`, Pattern = `[1, 0, 3]` (literal 1, `*`, literal 3)\n\n| dp      | \"\"  | 1   | *   | 3   |\n|---------|-----|-----|-----|-----|\n| \"\"      | T   | F   | F   | F   |\n| 1       | F   | T   | T   | F   |\n| 1,2     | F   | F   | T   | F   |\n| 1,2,3   | F   | F   | T   | T   |\n\nResult: **1** (1 matches 1, `*` matches [2], 3 matches 3)\n\n## Pseudocode\n\n```\nfunction wildcardMatch(text, n, pattern, m):\n    dp = 2D boolean array [n+1][m+1], initialized to false\n    dp[0][0] = true\n\n    // Handle leading '*' patterns that match empty text\n    for j from 1 to m:\n        if pattern[j-1] == STAR:\n            dp[0][j] = dp[0][j-1]\n\n    for i from 1 to n:\n        for j from 1 to m:\n            if pattern[j-1] == STAR:\n                dp[i][j] = dp[i][j-1] OR dp[i-1][j]\n            else if pattern[j-1] == QUESTION or pattern[j-1] == text[i-1]:\n                dp[i][j] = dp[i-1][j-1]\n            // else dp[i][j] remains false\n\n    return 1 if dp[n][m] else 0\n```\n\n## Complexity Analysis\n\n| Case    | Time     | Space    |\n|---------|----------|----------|\n| Best    | O(n * m) | O(n * m) |\n| Average | O(n * m) | O(n * m) |\n| Worst   | O(n * m) | O(n * m) |\n\nWhere n is the text length and m is the pattern length. Each cell in the DP table is computed in O(1) time. Space can be optimized to O(m) using a rolling array since each row only depends on the previous row and the current row.\n\n## When to Use\n\n- **File system globbing:** Matching filenames against patterns like `*.txt` or `data_??.csv`.\n- **Database LIKE queries:** SQL LIKE with `%` (equivalent to `*`) and `_` (equivalent to `?`).\n- **Search filters:** Implementing user-defined search patterns in applications.\n- **Network access control lists:** Matching URLs or IP patterns against allow/deny rules.\n- **Configuration matching:** Pattern matching in configuration files, routing rules, or log filtering.\n\n## When NOT to Use\n\n- **Full regular expression matching:** Wildcard matching only supports `*` and `?`. For complex patterns with alternation, grouping, or quantifiers, use a proper regex engine.\n- **When the pattern has no wildcards:** Simple string comparison in O(n) is sufficient; the DP overhead is unnecessary.\n- **Very long texts with very long patterns:** The O(n * m) time and space may be too expensive. For specific pattern types, more efficient algorithms exist (e.g., two-pointer approaches for patterns with limited `*` usage).\n- **Streaming/incremental matching:** The DP approach requires the full text upfront. For streaming, consider NFA-based approaches.\n\n## Comparison\n\n| Approach              | Time     | Space    | Wildcards Supported     |\n|-----------------------|----------|----------|-------------------------|\n| DP (this algorithm)   | O(n * m) | O(n * m) | `*`, `?`               |\n| DP (space-optimized)  | O(n * m) | O(m)     | `*`, `?`               |\n| Two-pointer / Greedy  | O(n * m) | O(1)     | `*`, `?`               |\n| Regex NFA             | O(n * m) | O(m)     | Full regex             |\n| Regex backtracking    | O(2^n)   | O(n)     | Full regex (worst case) |\n\nThe two-pointer greedy approach can solve wildcard matching with O(1) space by tracking the last `*` position and backtracking when a mismatch occurs. It has the same worst-case time but is faster in practice for patterns with few `*` characters.\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [wildcard_matching.py](python/wildcard_matching.py) |\n| Java       | [WildcardMatching.java](java/WildcardMatching.java) |\n| C++        | [wildcard_matching.cpp](cpp/wildcard_matching.cpp) |\n| C          | [wildcard_matching.c](c/wildcard_matching.c) |\n| Go         | [wildcard_matching.go](go/wildcard_matching.go) |\n| TypeScript | [wildcardMatching.ts](typescript/wildcardMatching.ts) |\n| Rust       | [wildcard_matching.rs](rust/wildcard_matching.rs) |\n| Kotlin     | [WildcardMatching.kt](kotlin/WildcardMatching.kt) |\n| Swift      | [WildcardMatching.swift](swift/WildcardMatching.swift) |\n| Scala      | [WildcardMatching.scala](scala/WildcardMatching.scala) |\n| C#         | [WildcardMatching.cs](csharp/WildcardMatching.cs) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press.\n- [Wildcard Matching -- LeetCode Problem 44](https://leetcode.com/problems/wildcard-matching/)\n- [Glob (programming) -- Wikipedia](https://en.wikipedia.org/wiki/Glob_(programming))\n"
+}

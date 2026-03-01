@@ -1,0 +1,17 @@
+name: "Extended Euclidean"
+slug: "extended-euclidean"
+category: "math"
+subcategory: "number-theory"
+difficulty: "intermediate"
+tags: [math, gcd, extended-euclidean, bezout, modular-inverse]
+complexity:
+  time:
+    best: "O(1)"
+    average: "O(log(min(a,b)))"
+    worst: "O(log(min(a,b)))"
+  space: "O(1)"
+stable: false
+in_place: true
+related: [greatest-common-divisor, binary-gcd]
+implementations: [python, cpp, c, typescript]
+visualization: false

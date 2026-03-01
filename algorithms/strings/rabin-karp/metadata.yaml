@@ -1,0 +1,21 @@
+name: "Rabin-Karp"
+slug: "rabin-karp"
+category: "strings"
+subcategory: "pattern-matching"
+difficulty: "intermediate"
+tags: [strings, pattern-matching, hashing, rolling-hash, substring-search]
+complexity:
+  time:
+    best: "O(n + m)"
+    average: "O(n + m)"
+    worst: "O(nm)"
+  space: "O(1)"
+stable: false
+in_place: false
+related: [knuth-morris-pratt, aho-corasick, bitap-algorithm]
+implementations: [python, java, cpp]
+visualization: true
+patterns:
+  - sliding-window
+patternDifficulty: intermediate
+practiceOrder: 2

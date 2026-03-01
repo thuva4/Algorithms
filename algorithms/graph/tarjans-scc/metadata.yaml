@@ -1,0 +1,15 @@
+name: "Tarjan's Strongly Connected Components"
+slug: "tarjans-scc"
+category: "graph"
+subcategory: "connectivity"
+difficulty: "advanced"
+tags: [graph, directed, strongly-connected-components, dfs, tarjan]
+complexity:
+  time:
+    best: "O(V + E)"
+    average: "O(V + E)"
+    worst: "O(V + E)"
+  space: "O(V)"
+related: [kosarajus-scc, depth-first-search, articulation-points]
+implementations: [python, java, cpp, c, go, typescript, kotlin, rust, swift, scala, csharp]
+visualization: true

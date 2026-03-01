@@ -1,0 +1,27 @@
+algorithm: "trie"
+function_signature:
+  name: "trie_insert_search"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "insert five search five"
+    input: [[1, 2, 3, 4, 5, 1, 3, 5, 7, 9]]
+    expected: 3
+  - name: "insert three search three all found"
+    input: [[10, 20, 30, 10, 20, 30]]
+    expected: 3
+  - name: "insert one search one not found"
+    input: [[5, 10]]
+    expected: 0
+  - name: "search in empty trie"
+    input: [[1]]
+    expected: 0
+  - name: "all searches found"
+    input: [[100, 200, 100, 200]]
+    expected: 2
+  - name: "no searches found"
+    input: [[1, 2, 3, 4, 5, 6]]
+    expected: 0
+  - name: "duplicate inserts"
+    input: [[5, 5, 5, 5, 5, 5]]
+    expected: 3

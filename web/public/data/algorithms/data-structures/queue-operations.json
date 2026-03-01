@@ -1,0 +1,134 @@
+{
+  "name": "Queue",
+  "slug": "queue-operations",
+  "category": "data-structures",
+  "subcategory": "linear",
+  "difficulty": "beginner",
+  "tags": [
+    "data-structures",
+    "queue",
+    "fifo",
+    "linear"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "average": "O(n)",
+      "worst": "O(n)"
+    },
+    "space": "O(n)"
+  },
+  "stable": null,
+  "in_place": null,
+  "related": [
+    "stack-operations",
+    "priority-queue"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "queue_operations.c",
+          "content": "#include \"queue_operations.h\"\n\nint queue_ops(const int* arr, int n) {\n    if (n == 0) return 0;\n    int queue[10000];\n    int front = 0, rear = 0;\n    int op_count = arr[0], idx = 1, total = 0;\n    for (int i = 0; i < op_count; i++) {\n        int type = arr[idx], val = arr[idx + 1]; idx += 2;\n        if (type == 1) queue[rear++] = val;\n        else if (type == 2 && front < rear) total += queue[front++];\n    }\n    return total;\n}\n"
+        },
+        {
+          "filename": "queue_operations.h",
+          "content": "#ifndef QUEUE_OPERATIONS_H\n#define QUEUE_OPERATIONS_H\n\nint queue_ops(const int* arr, int n);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "queue_operations.cpp",
+          "content": "#include <vector>\n#include <queue>\n\nint queue_ops(std::vector<int> arr) {\n    if (arr.empty()) return 0;\n    std::queue<int> q;\n    int opCount = arr[0], idx = 1, total = 0;\n    for (int i = 0; i < opCount; i++) {\n        int type = arr[idx], val = arr[idx + 1]; idx += 2;\n        if (type == 1) q.push(val);\n        else if (type == 2 && !q.empty()) { total += q.front(); q.pop(); }\n    }\n    return total;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "QueueOperations.cs",
+          "content": "using System.Collections.Generic;\n\npublic class QueueOperations\n{\n    public static int QueueOps(int[] arr)\n    {\n        if (arr.Length == 0) return 0;\n        var queue = new Queue<int>();\n        int opCount = arr[0], idx = 1, total = 0;\n        for (int i = 0; i < opCount; i++)\n        {\n            int type = arr[idx], val = arr[idx + 1]; idx += 2;\n            if (type == 1) queue.Enqueue(val);\n            else if (type == 2 && queue.Count > 0) total += queue.Dequeue();\n        }\n        return total;\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "queue_operations.go",
+          "content": "package queueoperations\n\n// QueueOps processes queue operations and returns sum of dequeued values.\nfunc QueueOps(arr []int) int {\n\tif len(arr) == 0 {\n\t\treturn 0\n\t}\n\tqueue := []int{}\n\topCount := arr[0]\n\tidx := 1\n\ttotal := 0\n\tfront := 0\n\tfor i := 0; i < opCount; i++ {\n\t\tt := arr[idx]\n\t\tv := arr[idx+1]\n\t\tidx += 2\n\t\tif t == 1 {\n\t\t\tqueue = append(queue, v)\n\t\t} else if t == 2 && front < len(queue) {\n\t\t\ttotal += queue[front]\n\t\t\tfront++\n\t\t}\n\t}\n\treturn total\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "QueueOperations.java",
+          "content": "import java.util.LinkedList;\nimport java.util.Queue;\n\npublic class QueueOperations {\n\n    public static int queueOps(int[] arr) {\n        if (arr.length == 0) return 0;\n        Queue<Integer> queue = new LinkedList<>();\n        int opCount = arr[0], idx = 1, total = 0;\n        for (int i = 0; i < opCount; i++) {\n            int type = arr[idx], val = arr[idx + 1]; idx += 2;\n            if (type == 1) queue.add(val);\n            else if (type == 2 && !queue.isEmpty()) total += queue.poll();\n        }\n        return total;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "QueueOperations.kt",
+          "content": "import java.util.LinkedList\n\nfun queueOps(arr: IntArray): Int {\n    if (arr.isEmpty()) return 0\n    val queue = LinkedList<Int>()\n    val opCount = arr[0]\n    var idx = 1; var total = 0\n    for (i in 0 until opCount) {\n        val type = arr[idx]; val v = arr[idx + 1]; idx += 2\n        if (type == 1) queue.add(v)\n        else if (type == 2 && queue.isNotEmpty()) total += queue.poll()\n    }\n    return total\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "queue_operations.py",
+          "content": "from collections import deque\n\ndef queue_ops(arr: list[int]) -> int:\n    if not arr:\n        return 0\n    q: deque[int] = deque()\n    op_count = arr[0]\n    idx = 1\n    total = 0\n    for _ in range(op_count):\n        op_type = arr[idx]\n        val = arr[idx + 1]\n        idx += 2\n        if op_type == 1:\n            q.append(val)\n        elif op_type == 2:\n            if q:\n                total += q.popleft()\n    return total\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "queue_operations.rs",
+          "content": "use std::collections::VecDeque;\n\npub fn queue_ops(arr: &[i32]) -> i32 {\n    if arr.is_empty() { return 0; }\n    let mut queue: VecDeque<i32> = VecDeque::new();\n    let op_count = arr[0] as usize;\n    let mut idx = 1;\n    let mut total: i32 = 0;\n    for _ in 0..op_count {\n        let t = arr[idx];\n        let v = arr[idx + 1];\n        idx += 2;\n        if t == 1 { queue.push_back(v); }\n        else if t == 2 {\n            if let Some(val) = queue.pop_front() { total += val; }\n        }\n    }\n    total\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "QueueOperations.scala",
+          "content": "object QueueOperations {\n\n  def queueOps(arr: Array[Int]): Int = {\n    if (arr.isEmpty) return 0\n    val queue = scala.collection.mutable.Queue[Int]()\n    val opCount = arr(0)\n    var idx = 1; var total = 0\n    for (_ <- 0 until opCount) {\n      val tp = arr(idx); val v = arr(idx + 1); idx += 2\n      if (tp == 1) queue.enqueue(v)\n      else if (tp == 2 && queue.nonEmpty) total += queue.dequeue()\n    }\n    total\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "QueueOperations.swift",
+          "content": "func queueOps(_ arr: [Int]) -> Int {\n    if arr.isEmpty { return 0 }\n    var queue: [Int] = []\n    var front = 0\n    let opCount = arr[0]\n    var idx = 1, total = 0\n    for _ in 0..<opCount {\n        let type = arr[idx]; let v = arr[idx + 1]; idx += 2\n        if type == 1 { queue.append(v) }\n        else if type == 2 && front < queue.count { total += queue[front]; front += 1 }\n    }\n    return total\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "queueOperations.ts",
+          "content": "export function queueOps(arr: number[]): number {\n    if (arr.length === 0) return 0;\n    const queue: number[] = [];\n    const opCount = arr[0];\n    let idx = 1, total = 0, front = 0;\n    for (let i = 0; i < opCount; i++) {\n        const type = arr[idx], val = arr[idx + 1]; idx += 2;\n        if (type === 1) queue.push(val);\n        else if (type === 2 && front < queue.length) total += queue[front++];\n    }\n    return total;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Queue\n\n## Overview\n\nA Queue is a linear data structure that follows the First-In-First-Out (FIFO) principle. Elements are added (enqueued) at the rear and removed (dequeued) from the front, just like a line of people waiting -- the first person to arrive is the first person served.\n\nQueues are one of the most fundamental data structures in computer science. They can be implemented using arrays, linked lists, or circular buffers. This implementation processes a sequence of enqueue and dequeue operations and returns the sum of all dequeued values.\n\n## How It Works\n\n1. **Enqueue**: Add an element to the rear of the queue. In an array-based implementation, this appends to the end of the array. In a linked-list implementation, a new node is added after the tail and the tail pointer is updated.\n2. **Dequeue**: Remove and return the element at the front of the queue. The front pointer advances to the next element. If the queue is empty, the operation returns 0.\n3. **Peek/Front**: Return the front element without removing it.\n4. **isEmpty**: Check whether the queue has no elements.\n\nOperations are encoded as a flat array: `[op_count, type, val, ...]` where type 1 = enqueue value, type 2 = dequeue (val ignored, returns 0 if empty). The function returns the sum of all dequeued values.\n\n## Example\n\n**Step-by-step trace** with input `[4, 1,5, 1,3, 2,0, 2,0]`:\n\n```\nOperation 1: ENQUEUE 5\n  Queue (front -> rear): [5]\n\nOperation 2: ENQUEUE 3\n  Queue: [5, 3]\n\nOperation 3: DEQUEUE\n  Remove front element: 5\n  Queue: [3]\n\nOperation 4: DEQUEUE\n  Remove front element: 3\n  Queue: []\n\nSum of dequeued values = 5 + 3 = 8\n```\n\n**Another example** with input `[6, 1,10, 1,20, 1,30, 2,0, 2,0, 2,0]`:\n\n```\nENQUEUE 10  -> Queue: [10]\nENQUEUE 20  -> Queue: [10, 20]\nENQUEUE 30  -> Queue: [10, 20, 30]\nDEQUEUE     -> Returns 10, Queue: [20, 30]\nDEQUEUE     -> Returns 20, Queue: [30]\nDEQUEUE     -> Returns 30, Queue: []\n\nSum = 10 + 20 + 30 = 60\n```\n\n## Pseudocode\n\n```\nclass Queue:\n    front = 0\n    data = []\n\n    function enqueue(value):\n        data.append(value)\n\n    function dequeue():\n        if front >= data.length:\n            return 0              // queue is empty\n        value = data[front]\n        front = front + 1\n        return value\n\n    function isEmpty():\n        return front >= data.length\n\n    function peek():\n        if isEmpty():\n            return null\n        return data[front]\n\nfunction processOperations(ops):\n    q = new Queue()\n    total = 0\n    count = ops[0]\n    idx = 1\n    for i = 0 to count - 1:\n        type = ops[idx]\n        val  = ops[idx + 1]\n        idx += 2\n        if type == 1:\n            q.enqueue(val)\n        else if type == 2:\n            total += q.dequeue()\n    return total\n```\n\n## Complexity Analysis\n\n| Operation | Time | Space |\n|-----------|------|-------|\n| Enqueue   | O(1) | O(n)  |\n| Dequeue   | O(1) | O(n)  |\n| Peek      | O(1) | O(n)  |\n| isEmpty   | O(1) | O(1)  |\n\n- **Enqueue**: Appending to the rear is O(1) amortized for dynamic arrays, or O(1) worst-case for linked lists and circular buffers.\n- **Dequeue**: With a front pointer or linked-list head removal, dequeue is O(1). A naive array implementation that shifts all elements would be O(n), but using an index or linked list avoids this.\n- **Space**: O(n) where n is the number of elements currently in the queue.\n\n### Circular Buffer Optimization\n\nA circular buffer (ring buffer) uses a fixed-size array with two pointers (front and rear) that wrap around. This avoids the wasted space from advancing the front pointer in a simple array and provides O(1) worst-case for both operations without dynamic allocation.\n\n## Applications\n\n- **Breadth-first search (BFS)**: Vertices are explored level by level using a queue.\n- **Print job scheduling**: Documents are printed in the order they are submitted.\n- **Task queues and message queues**: Systems like RabbitMQ and Celery use queues to distribute work among consumers.\n- **CPU process scheduling**: Round-robin scheduling uses a queue of processes.\n- **Buffering**: Data streams (keyboard input, network packets) use queues to buffer data between producer and consumer.\n- **Level-order tree traversal**: Nodes of a tree are visited level by level using a queue.\n\n## When NOT to Use\n\n- **When you need LIFO (last-in-first-out) ordering**: Use a stack instead. For example, function call management, undo operations, and depth-first search all require LIFO behavior.\n- **When you need priority-based access**: A regular queue processes elements strictly in arrival order. If higher-priority items should be served first regardless of when they arrived, use a priority queue.\n- **When you need random access to elements**: Queues only expose the front element. If you need to access or modify elements at arbitrary positions, use an array or deque.\n- **When you need to search for elements**: Searching a queue requires O(n) time. If frequent lookups are needed, use a hash set or balanced BST.\n\n## Comparison\n\n| Data Structure   | Insert    | Remove    | Access Pattern | Order Guarantee |\n|------------------|-----------|-----------|----------------|-----------------|\n| Queue            | O(1) rear | O(1) front| Front only     | FIFO            |\n| Stack            | O(1) top  | O(1) top  | Top only       | LIFO            |\n| Deque            | O(1) both | O(1) both | Both ends      | Insertion order |\n| Priority Queue   | O(log n)  | O(log n)  | Min/Max only   | Priority order  |\n| Linked List      | O(1)*     | O(1)*     | Sequential     | Insertion order |\n| Circular Buffer  | O(1)      | O(1)      | Front only     | FIFO            |\n\n\\* With pointer to insertion/removal point.\n\n**Queue vs. Stack**: Both are O(1) for insert and remove. The key difference is ordering -- FIFO vs. LIFO. BFS uses a queue; DFS uses a stack.\n\n**Queue vs. Deque**: A deque (double-ended queue) supports O(1) insertion and removal at both ends. A queue is a restricted deque. Use a deque when you need both FIFO and LIFO behavior (e.g., work-stealing schedulers).\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.), Section 10.1: Stacks and queues.\n- Sedgewick, R. & Wayne, K. (2011). *Algorithms* (4th ed.), Section 1.3: Bags, Queues, and Stacks.\n- Knuth, D. E. (1997). *The Art of Computer Programming, Volume 1: Fundamental Algorithms* (3rd ed.), Section 2.2.1: Stacks, Queues, and Deques.\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [queue_operations.py](python/queue_operations.py) |\n| Java       | [QueueOperations.java](java/QueueOperations.java) |\n| C++        | [queue_operations.cpp](cpp/queue_operations.cpp) |\n| C          | [queue_operations.c](c/queue_operations.c) |\n| Go         | [queue_operations.go](go/queue_operations.go) |\n| TypeScript | [queueOperations.ts](typescript/queueOperations.ts) |\n| Rust       | [queue_operations.rs](rust/queue_operations.rs) |\n| Kotlin     | [QueueOperations.kt](kotlin/QueueOperations.kt) |\n| Swift      | [QueueOperations.swift](swift/QueueOperations.swift) |\n| Scala      | [QueueOperations.scala](scala/QueueOperations.scala) |\n| C#         | [QueueOperations.cs](csharp/QueueOperations.cs) |\n"
+}

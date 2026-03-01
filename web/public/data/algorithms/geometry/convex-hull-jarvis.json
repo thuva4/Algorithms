@@ -1,0 +1,133 @@
+{
+  "name": "Convex Hull - Jarvis March",
+  "slug": "convex-hull-jarvis",
+  "category": "geometry",
+  "subcategory": "convex-hull",
+  "difficulty": "intermediate",
+  "tags": [
+    "geometry",
+    "convex-hull",
+    "gift-wrapping",
+    "jarvis-march"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(nh)",
+      "average": "O(nh)",
+      "worst": "O(n^2)"
+    },
+    "space": "O(h)"
+  },
+  "related": [
+    "convex-hull",
+    "closest-pair-of-points",
+    "line-intersection"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "convex_hull_jarvis.c",
+          "content": "#include \"convex_hull_jarvis.h\"\n\nstatic int cross(int ox, int oy, int ax, int ay, int bx, int by) {\n    return (ax - ox) * (by - oy) - (ay - oy) * (bx - ox);\n}\n\nstatic int dist_sq(int ax, int ay, int bx, int by) {\n    return (ax - bx) * (ax - bx) + (ay - by) * (ay - by);\n}\n\nint convex_hull_jarvis(int* arr, int len) {\n    int n = arr[0];\n    if (n < 2) return n;\n\n    int* px = arr + 1;\n\n    int start = 0;\n    for (int i = 1; i < n; i++) {\n        if (px[2*i] < px[2*start] || (px[2*i] == px[2*start] && px[2*i+1] < px[2*start+1]))\n            start = i;\n    }\n\n    int hull_count = 0;\n    int current = start;\n    do {\n        hull_count++;\n        int candidate = 0;\n        for (int i = 1; i < n; i++) {\n            if (i == current) continue;\n            if (candidate == current) { candidate = i; continue; }\n            int c = cross(px[2*current], px[2*current+1],\n                         px[2*candidate], px[2*candidate+1],\n                         px[2*i], px[2*i+1]);\n            if (c < 0) {\n                candidate = i;\n            } else if (c == 0) {\n                if (dist_sq(px[2*current], px[2*current+1], px[2*i], px[2*i+1]) >\n                    dist_sq(px[2*current], px[2*current+1], px[2*candidate], px[2*candidate+1]))\n                    candidate = i;\n            }\n        }\n        current = candidate;\n    } while (current != start);\n\n    return hull_count;\n}\n"
+        },
+        {
+          "filename": "convex_hull_jarvis.h",
+          "content": "#ifndef CONVEX_HULL_JARVIS_H\n#define CONVEX_HULL_JARVIS_H\n\nint convex_hull_jarvis(int* arr, int len);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "convex_hull_jarvis.cpp",
+          "content": "#include <vector>\n\nusing namespace std;\n\nint convex_hull_jarvis(vector<int> arr) {\n    int n = arr[0];\n    if (n < 2) return n;\n\n    vector<int> px(n), py(n);\n    for (int i = 0; i < n; i++) {\n        px[i] = arr[1 + 2 * i];\n        py[i] = arr[1 + 2 * i + 1];\n    }\n\n    auto cross = [&](int o, int a, int b) {\n        return (px[a] - px[o]) * (py[b] - py[o]) - (py[a] - py[o]) * (px[b] - px[o]);\n    };\n\n    auto distSq = [&](int a, int b) {\n        return (px[a] - px[b]) * (px[a] - px[b]) + (py[a] - py[b]) * (py[a] - py[b]);\n    };\n\n    int start = 0;\n    for (int i = 1; i < n; i++) {\n        if (px[i] < px[start] || (px[i] == px[start] && py[i] < py[start]))\n            start = i;\n    }\n\n    vector<int> hull;\n    int current = start;\n    do {\n        hull.push_back(current);\n        int candidate = 0;\n        for (int i = 1; i < n; i++) {\n            if (i == current) continue;\n            if (candidate == current) { candidate = i; continue; }\n            int c = cross(current, candidate, i);\n            if (c < 0) candidate = i;\n            else if (c == 0 && distSq(current, i) > distSq(current, candidate))\n                candidate = i;\n        }\n        current = candidate;\n    } while (current != start);\n\n    return (int)hull.size();\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "ConvexHullJarvis.cs",
+          "content": "using System;\nusing System.Collections.Generic;\n\npublic class ConvexHullJarvis\n{\n    public static int Compute(int[] arr)\n    {\n        int n = arr[0];\n        if (n < 2) return n;\n\n        int[] px = new int[n], py = new int[n];\n        for (int i = 0; i < n; i++)\n        {\n            px[i] = arr[1 + 2 * i];\n            py[i] = arr[1 + 2 * i + 1];\n        }\n\n        int start = 0;\n        for (int i = 1; i < n; i++)\n        {\n            if (px[i] < px[start] || (px[i] == px[start] && py[i] < py[start]))\n                start = i;\n        }\n\n        int hullCount = 0;\n        int current = start;\n        do\n        {\n            hullCount++;\n            int candidate = 0;\n            for (int i = 1; i < n; i++)\n            {\n                if (i == current) continue;\n                if (candidate == current) { candidate = i; continue; }\n                int c = Cross(px, py, current, candidate, i);\n                if (c < 0) candidate = i;\n                else if (c == 0 && DistSq(px, py, current, i) > DistSq(px, py, current, candidate))\n                    candidate = i;\n            }\n            current = candidate;\n        } while (current != start);\n\n        return hullCount;\n    }\n\n    private static int Cross(int[] px, int[] py, int o, int a, int b)\n    {\n        return (px[a] - px[o]) * (py[b] - py[o]) - (py[a] - py[o]) * (px[b] - px[o]);\n    }\n\n    private static int DistSq(int[] px, int[] py, int a, int b)\n    {\n        return (px[a] - px[b]) * (px[a] - px[b]) + (py[a] - py[b]) * (py[a] - py[b]);\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "convex_hull_jarvis.go",
+          "content": "package convexhulljarvis\n\nfunc ConvexHullJarvis(arr []int) int {\n\tn := arr[0]\n\tif n < 2 {\n\t\treturn n\n\t}\n\n\tpx := make([]int, n)\n\tpy := make([]int, n)\n\tfor i := 0; i < n; i++ {\n\t\tpx[i] = arr[1+2*i]\n\t\tpy[i] = arr[1+2*i+1]\n\t}\n\n\tcross := func(o, a, b int) int {\n\t\treturn (px[a]-px[o])*(py[b]-py[o]) - (py[a]-py[o])*(px[b]-px[o])\n\t}\n\tdistSq := func(a, b int) int {\n\t\treturn (px[a]-px[b])*(px[a]-px[b]) + (py[a]-py[b])*(py[a]-py[b])\n\t}\n\n\tstart := 0\n\tfor i := 1; i < n; i++ {\n\t\tif px[i] < px[start] || (px[i] == px[start] && py[i] < py[start]) {\n\t\t\tstart = i\n\t\t}\n\t}\n\n\thullCount := 0\n\tcurrent := start\n\tfor {\n\t\thullCount++\n\t\tcandidate := 0\n\t\tfor i := 1; i < n; i++ {\n\t\t\tif i == current {\n\t\t\t\tcontinue\n\t\t\t}\n\t\t\tif candidate == current {\n\t\t\t\tcandidate = i\n\t\t\t\tcontinue\n\t\t\t}\n\t\t\tc := cross(current, candidate, i)\n\t\t\tif c < 0 {\n\t\t\t\tcandidate = i\n\t\t\t} else if c == 0 && distSq(current, i) > distSq(current, candidate) {\n\t\t\t\tcandidate = i\n\t\t\t}\n\t\t}\n\t\tcurrent = candidate\n\t\tif current == start {\n\t\t\tbreak\n\t\t}\n\t}\n\n\treturn hullCount\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "ConvexHullJarvis.java",
+          "content": "import java.util.ArrayList;\nimport java.util.List;\n\npublic class ConvexHullJarvis {\n\n    public static int convexHullJarvis(int[] arr) {\n        int n = arr[0];\n        if (n < 2) return n;\n\n        int[] px = new int[n], py = new int[n];\n        for (int i = 0; i < n; i++) {\n            px[i] = arr[1 + 2 * i];\n            py[i] = arr[1 + 2 * i + 1];\n        }\n\n        int start = 0;\n        for (int i = 1; i < n; i++) {\n            if (px[i] < px[start] || (px[i] == px[start] && py[i] < py[start]))\n                start = i;\n        }\n\n        List<Integer> hull = new ArrayList<>();\n        int current = start;\n        do {\n            hull.add(current);\n            int candidate = 0;\n            for (int i = 1; i < n; i++) {\n                if (i == current) continue;\n                if (candidate == current) { candidate = i; continue; }\n                int c = cross(px[current], py[current], px[candidate], py[candidate], px[i], py[i]);\n                if (c < 0) {\n                    candidate = i;\n                } else if (c == 0) {\n                    if (distSq(px[current], py[current], px[i], py[i]) >\n                        distSq(px[current], py[current], px[candidate], py[candidate]))\n                        candidate = i;\n                }\n            }\n            current = candidate;\n        } while (current != start);\n\n        return hull.size();\n    }\n\n    private static int cross(int ox, int oy, int ax, int ay, int bx, int by) {\n        return (ax - ox) * (by - oy) - (ay - oy) * (bx - ox);\n    }\n\n    private static int distSq(int ax, int ay, int bx, int by) {\n        return (ax - bx) * (ax - bx) + (ay - by) * (ay - by);\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "ConvexHullJarvis.kt",
+          "content": "fun convexHullJarvis(arr: IntArray): Int {\n    val n = arr[0]\n    if (n < 2) return n\n\n    val px = IntArray(n) { arr[1 + 2 * it] }\n    val py = IntArray(n) { arr[1 + 2 * it + 1] }\n\n    fun cross(o: Int, a: Int, b: Int): Int =\n        (px[a] - px[o]) * (py[b] - py[o]) - (py[a] - py[o]) * (px[b] - px[o])\n\n    fun distSq(a: Int, b: Int): Int =\n        (px[a] - px[b]) * (px[a] - px[b]) + (py[a] - py[b]) * (py[a] - py[b])\n\n    var start = 0\n    for (i in 1 until n) {\n        if (px[i] < px[start] || (px[i] == px[start] && py[i] < py[start]))\n            start = i\n    }\n\n    var hullCount = 0\n    var current = start\n    do {\n        hullCount++\n        var candidate = 0\n        for (i in 1 until n) {\n            if (i == current) continue\n            if (candidate == current) { candidate = i; continue }\n            val c = cross(current, candidate, i)\n            if (c < 0) candidate = i\n            else if (c == 0 && distSq(current, i) > distSq(current, candidate))\n                candidate = i\n        }\n        current = candidate\n    } while (current != start)\n\n    return hullCount\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "convex_hull_jarvis.py",
+          "content": "def convex_hull_jarvis(arr: list[int]) -> int:\n    n = arr[0]\n    if n < 2:\n        return n\n\n    points = [(arr[1 + 2 * i], arr[1 + 2 * i + 1]) for i in range(n)]\n\n    def cross(o, a, b):\n        return (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0])\n\n    def dist_sq(a, b):\n        return (a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2\n\n    # Find leftmost point\n    start = 0\n    for i in range(1, n):\n        if points[i][0] < points[start][0] or (points[i][0] == points[start][0] and points[i][1] < points[start][1]):\n            start = i\n\n    hull = []\n    current = start\n    while True:\n        hull.append(current)\n        candidate = 0\n        for i in range(1, n):\n            if i == current:\n                continue\n            if candidate == current:\n                candidate = i\n                continue\n            c = cross(points[current], points[candidate], points[i])\n            if c < 0:\n                candidate = i\n            elif c == 0:\n                if dist_sq(points[current], points[i]) > dist_sq(points[current], points[candidate]):\n                    candidate = i\n\n        current = candidate\n        if current == start:\n            break\n\n    return len(hull)\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "convex_hull_jarvis.rs",
+          "content": "pub fn convex_hull_jarvis(arr: &[i32]) -> i32 {\n    let n = arr[0] as usize;\n    if n < 2 { return n as i32; }\n\n    let px: Vec<i32> = (0..n).map(|i| arr[1 + 2 * i]).collect();\n    let py: Vec<i32> = (0..n).map(|i| arr[1 + 2 * i + 1]).collect();\n\n    let cross = |o: usize, a: usize, b: usize| -> i32 {\n        (px[a] - px[o]) * (py[b] - py[o]) - (py[a] - py[o]) * (px[b] - px[o])\n    };\n\n    let dist_sq = |a: usize, b: usize| -> i32 {\n        (px[a] - px[b]) * (px[a] - px[b]) + (py[a] - py[b]) * (py[a] - py[b])\n    };\n\n    let mut start = 0;\n    for i in 1..n {\n        if px[i] < px[start] || (px[i] == px[start] && py[i] < py[start]) {\n            start = i;\n        }\n    }\n\n    let mut hull_count = 0;\n    let mut current = start;\n    loop {\n        hull_count += 1;\n        let mut candidate = 0;\n        for i in 1..n {\n            if i == current { continue; }\n            if candidate == current { candidate = i; continue; }\n            let c = cross(current, candidate, i);\n            if c < 0 {\n                candidate = i;\n            } else if c == 0 && dist_sq(current, i) > dist_sq(current, candidate) {\n                candidate = i;\n            }\n        }\n        current = candidate;\n        if current == start { break; }\n    }\n\n    hull_count\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "ConvexHullJarvis.scala",
+          "content": "object ConvexHullJarvis {\n\n  def convexHullJarvis(arr: Array[Int]): Int = {\n    val n = arr(0)\n    if (n < 2) return n\n\n    val px = Array.tabulate(n)(i => arr(1 + 2 * i))\n    val py = Array.tabulate(n)(i => arr(1 + 2 * i + 1))\n\n    def cross(o: Int, a: Int, b: Int): Int =\n      (px(a) - px(o)) * (py(b) - py(o)) - (py(a) - py(o)) * (px(b) - px(o))\n\n    def distSq(a: Int, b: Int): Int =\n      (px(a) - px(b)) * (px(a) - px(b)) + (py(a) - py(b)) * (py(a) - py(b))\n\n    var start = 0\n    for (i <- 1 until n) {\n      if (px(i) < px(start) || (px(i) == px(start) && py(i) < py(start)))\n        start = i\n    }\n\n    var hullCount = 0\n    var current = start\n    do {\n      hullCount += 1\n      var candidate = 0\n      for (i <- 1 until n) {\n        if (i != current) {\n          if (candidate == current) {\n            candidate = i\n          } else {\n            val c = cross(current, candidate, i)\n            if (c < 0) candidate = i\n            else if (c == 0 && distSq(current, i) > distSq(current, candidate))\n              candidate = i\n          }\n        }\n      }\n      current = candidate\n    } while (current != start)\n\n    hullCount\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "ConvexHullJarvis.swift",
+          "content": "func convexHullJarvis(_ arr: [Int]) -> Int {\n    let n = arr[0]\n    if n < 2 { return n }\n\n    let px = (0..<n).map { arr[1 + 2 * $0] }\n    let py = (0..<n).map { arr[1 + 2 * $0 + 1] }\n\n    func cross(_ o: Int, _ a: Int, _ b: Int) -> Int {\n        return (px[a] - px[o]) * (py[b] - py[o]) - (py[a] - py[o]) * (px[b] - px[o])\n    }\n\n    func distSq(_ a: Int, _ b: Int) -> Int {\n        return (px[a] - px[b]) * (px[a] - px[b]) + (py[a] - py[b]) * (py[a] - py[b])\n    }\n\n    var start = 0\n    for i in 1..<n {\n        if px[i] < px[start] || (px[i] == px[start] && py[i] < py[start]) {\n            start = i\n        }\n    }\n\n    var hullCount = 0\n    var current = start\n    repeat {\n        hullCount += 1\n        var candidate = 0\n        for i in 1..<n {\n            if i == current { continue }\n            if candidate == current { candidate = i; continue }\n            let c = cross(current, candidate, i)\n            if c < 0 { candidate = i }\n            else if c == 0 && distSq(current, i) > distSq(current, candidate) {\n                candidate = i\n            }\n        }\n        current = candidate\n    } while current != start\n\n    return hullCount\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "convexHullJarvis.ts",
+          "content": "export function convexHullJarvis(arr: number[]): number {\n    const n = arr[0];\n    if (n < 2) return n;\n\n    const px: number[] = [], py: number[] = [];\n    for (let i = 0; i < n; i++) {\n        px.push(arr[1 + 2 * i]);\n        py.push(arr[1 + 2 * i + 1]);\n    }\n\n    const cross = (o: number, a: number, b: number): number =>\n        (px[a] - px[o]) * (py[b] - py[o]) - (py[a] - py[o]) * (px[b] - px[o]);\n\n    const distSq = (a: number, b: number): number =>\n        (px[a] - px[b]) * (px[a] - px[b]) + (py[a] - py[b]) * (py[a] - py[b]);\n\n    let start = 0;\n    for (let i = 1; i < n; i++) {\n        if (px[i] < px[start] || (px[i] === px[start] && py[i] < py[start]))\n            start = i;\n    }\n\n    const hull: number[] = [];\n    let current = start;\n    do {\n        hull.push(current);\n        let candidate = 0;\n        for (let i = 1; i < n; i++) {\n            if (i === current) continue;\n            if (candidate === current) { candidate = i; continue; }\n            const c = cross(current, candidate, i);\n            if (c < 0) candidate = i;\n            else if (c === 0 && distSq(current, i) > distSq(current, candidate))\n                candidate = i;\n        }\n        current = candidate;\n    } while (current !== start);\n\n    return hull.length;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Convex Hull - Jarvis March (Gift Wrapping)\n\n## Overview\n\nJarvis March, also known as the Gift Wrapping algorithm, finds the convex hull of a set of points by simulating the process of wrapping a piece of string around the point set. Starting from a point guaranteed to be on the hull (the leftmost point), the algorithm repeatedly selects the most counterclockwise point relative to the current direction, wrapping around until it returns to the starting point.\n\nThe algorithm has output-sensitive time complexity O(nh), where h is the number of hull vertices. This makes it especially efficient when the number of hull points is small relative to the total number of points.\n\n## How It Works\n\n1. **Find the starting point:** Select the leftmost point (lowest x-coordinate, breaking ties by lowest y-coordinate). This point is guaranteed to be on the hull.\n2. **Initialize:** Set the current point to the starting point.\n3. **Wrapping step:** From the current point, consider all other points. Select the point that makes the smallest counterclockwise angle (i.e., the point such that all other points lie to the left of the line from the current point to the candidate).\n4. **Advance:** Move to the selected point and repeat step 3.\n5. **Terminate:** Stop when the algorithm returns to the starting point.\n\nThe \"most counterclockwise\" test is performed using the cross product: for three points A, B, C, the cross product of vectors AB and AC determines whether C is to the left (positive), right (negative), or collinear (zero) with respect to the line from A to B.\n\n## Worked Example\n\n**Input points:** (0,0), (4,0), (4,4), (0,4), (2,2), (1,3)\n\n**Step 1:** Find leftmost point: (0,0)\n\n**Wrapping steps:**\n\n| Current Point | Candidate Scan | Selected (Most CCW) | Reason |\n|---------------|---------------|---------------------|--------|\n| (0,0) | All points | (4,0) | All other points are left of line (0,0)->(4,0) |\n| (4,0) | All points | (4,4) | All other points are left of line (4,0)->(4,4) |\n| (4,4) | All points | (0,4) | All other points are left of line (4,4)->(0,4) |\n| (0,4) | All points | (0,0) | All other points are left of line (0,4)->(0,0) |\n\n**Result:** Hull = {(0,0), (4,0), (4,4), (0,4)}, h = 4 vertices. Points (2,2) and (1,3) are interior.\n\n## Pseudocode\n\n```\nfunction orientation(p, q, r):\n    val = (q.y - p.y) * (r.x - q.x) - (q.x - p.x) * (r.y - q.y)\n    if val == 0: return COLLINEAR\n    if val > 0:  return CLOCKWISE\n    return COUNTERCLOCKWISE\n\nfunction jarvisMarch(points):\n    n = length(points)\n    if n < 3:\n        return n\n\n    // Find the leftmost point\n    start = index of point with minimum x (then minimum y)\n    hull = []\n    current = start\n\n    do:\n        hull.append(points[current])\n        candidate = (current + 1) % n\n\n        for i from 0 to n - 1:\n            if orientation(points[current], points[i], points[candidate]) == COUNTERCLOCKWISE:\n                candidate = i\n\n        current = candidate\n    while current != start\n\n    return length(hull)\n```\n\n## Complexity Analysis\n\n| Case    | Time   | Space |\n|---------|--------|-------|\n| Best    | O(nh)  | O(h)  |\n| Average | O(nh)  | O(h)  |\n| Worst   | O(n^2) | O(n)  |\n\nWhere h is the number of points on the convex hull.\n\n- **Time -- O(nh):** Each of the h wrapping steps scans all n points to find the most counterclockwise candidate. In the worst case (all points on the hull), h = n, giving O(n^2).\n- **Space -- O(h):** Only the hull vertices need to be stored.\n\n## When to Use\n\n- **Few hull points expected:** When h << n, Jarvis march runs much faster than O(n log n) algorithms.\n- **Simple implementation needed:** The algorithm is straightforward to implement and debug.\n- **Streaming or online contexts:** The algorithm processes one hull edge at a time, which can be useful when you can stop early (e.g., you only need part of the hull).\n- **Computer graphics clipping:** Finding visible polygon edges.\n- **Collision detection:** Computing hull boundaries of small clusters.\n\n## When NOT to Use\n\n- **Many points on the hull:** When h is close to n, the O(nh) = O(n^2) time is much worse than the O(n log n) achievable by algorithms like Graham scan or Andrew's monotone chain.\n- **Performance-critical applications with unknown h:** If you cannot predict h in advance, an O(n log n) algorithm provides a safer worst-case guarantee.\n- **Repeated computation on changing sets:** The algorithm does not benefit from preprocessing; each invocation starts from scratch.\n- **High-dimensional data:** Gift wrapping generalizes to higher dimensions but becomes impractical due to the exponential growth of faces.\n\n## Comparison\n\n| Algorithm | Time | Output-Sensitive? | Notes |\n|-----------|------|-------------------|-------|\n| Jarvis March (Gift Wrapping) | O(nh) | Yes | Best when h is very small |\n| Graham Scan | O(n log n) | No | Reliable worst case, angular sort |\n| Andrew's Monotone Chain | O(n log n) | No | Practical and simple |\n| Quickhull | O(n log n) avg, O(n^2) worst | No | Often fastest in practice |\n| Chan's Algorithm | O(n log h) | Yes | Theoretically optimal, combines Jarvis + Graham |\n\nJarvis march is the simplest output-sensitive hull algorithm. Chan's algorithm improves upon it by combining Jarvis march with Graham scan to achieve O(n log h), which is optimal. For most practical purposes, Andrew's monotone chain or Graham scan are preferred unless h is known to be very small (e.g., O(log n) or constant).\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [convex_hull_jarvis.py](python/convex_hull_jarvis.py) |\n| Java       | [ConvexHullJarvis.java](java/ConvexHullJarvis.java) |\n| C++        | [convex_hull_jarvis.cpp](cpp/convex_hull_jarvis.cpp) |\n| C          | [convex_hull_jarvis.c](c/convex_hull_jarvis.c) |\n| Go         | [convex_hull_jarvis.go](go/convex_hull_jarvis.go) |\n| TypeScript | [convexHullJarvis.ts](typescript/convexHullJarvis.ts) |\n| Rust       | [convex_hull_jarvis.rs](rust/convex_hull_jarvis.rs) |\n| Kotlin     | [ConvexHullJarvis.kt](kotlin/ConvexHullJarvis.kt) |\n| Swift      | [ConvexHullJarvis.swift](swift/ConvexHullJarvis.swift) |\n| Scala      | [ConvexHullJarvis.scala](scala/ConvexHullJarvis.scala) |\n| C#         | [ConvexHullJarvis.cs](csharp/ConvexHullJarvis.cs) |\n\n## References\n\n- Jarvis, R. A. (1973). \"On the identification of the convex hull of a finite set of points in the plane.\" *Information Processing Letters*, 2(1), 18-21.\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 33: Computational Geometry.\n- Preparata, F. P., & Shamos, M. I. (1985). *Computational Geometry: An Introduction*. Springer-Verlag. Chapter 3.\n- [Gift wrapping algorithm -- Wikipedia](https://en.wikipedia.org/wiki/Gift_wrapping_algorithm)\n"
+}

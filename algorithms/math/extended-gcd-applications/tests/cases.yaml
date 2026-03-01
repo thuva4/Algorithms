@@ -1,0 +1,18 @@
+algorithm: "extended-gcd-applications"
+function_signature:
+  name: "extended_gcd_applications"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "inverse exists"
+    input: [[3, 7]]
+    expected: 5
+  - name: "inverse of 1"
+    input: [[1, 13]]
+    expected: 1
+  - name: "no inverse"
+    input: [[6, 9]]
+    expected: -1
+  - name: "large prime"
+    input: [[2, 11]]
+    expected: 6

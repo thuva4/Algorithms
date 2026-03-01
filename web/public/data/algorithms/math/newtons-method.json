@@ -1,0 +1,133 @@
+{
+  "name": "Newton's Method (Integer Square Root)",
+  "slug": "newtons-method",
+  "category": "math",
+  "subcategory": "numerical-methods",
+  "difficulty": "intermediate",
+  "tags": [
+    "math",
+    "numerical",
+    "newton-raphson",
+    "square-root",
+    "approximation"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(log n)",
+      "average": "O(log n)",
+      "worst": "O(log n)"
+    },
+    "space": "O(1)"
+  },
+  "related": [
+    "binary-gcd",
+    "primality-tests"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "integer_sqrt.c",
+          "content": "#include \"integer_sqrt.h\"\n\nint integer_sqrt(int arr[], int size) {\n    long long n = arr[0];\n    if (n <= 1) return (int)n;\n    long long x = n;\n    while (1) {\n        long long x1 = (x + n / x) / 2;\n        if (x1 >= x) return (int)x;\n        x = x1;\n    }\n}\n"
+        },
+        {
+          "filename": "integer_sqrt.h",
+          "content": "#ifndef INTEGER_SQRT_H\n#define INTEGER_SQRT_H\n\nint integer_sqrt(int arr[], int size);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "integer_sqrt.cpp",
+          "content": "#include <vector>\nusing namespace std;\n\nint integer_sqrt(vector<int> arr) {\n    long long n = arr[0];\n    if (n <= 1) return (int)n;\n    long long x = n;\n    while (true) {\n        long long x1 = (x + n / x) / 2;\n        if (x1 >= x) return (int)x;\n        x = x1;\n    }\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "IntegerSqrt.cs",
+          "content": "using System;\n\npublic class IntegerSqrt\n{\n    public static int Solve(int[] arr)\n    {\n        long n = arr[0];\n        if (n <= 1) return (int)n;\n        long x = n;\n        while (true)\n        {\n            long x1 = (x + n / x) / 2;\n            if (x1 >= x) return (int)x;\n            x = x1;\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "integer_sqrt.go",
+          "content": "package newtonsmethod\n\nfunc IntegerSqrt(arr []int) int {\n\tn := arr[0]\n\tif n <= 1 {\n\t\treturn n\n\t}\n\tx := n\n\tfor {\n\t\tx1 := (x + n/x) / 2\n\t\tif x1 >= x {\n\t\t\treturn x\n\t\t}\n\t\tx = x1\n\t}\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "IntegerSqrt.java",
+          "content": "public class IntegerSqrt {\n\n    public static int integerSqrt(int[] arr) {\n        long n = arr[0];\n        if (n <= 1) return (int) n;\n        long x = n;\n        while (true) {\n            long x1 = (x + n / x) / 2;\n            if (x1 >= x) return (int) x;\n            x = x1;\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "IntegerSqrt.kt",
+          "content": "fun integerSqrt(arr: IntArray): Int {\n    val n = arr[0].toLong()\n    if (n <= 1) return n.toInt()\n    var x = n\n    while (true) {\n        val x1 = (x + n / x) / 2\n        if (x1 >= x) return x.toInt()\n        x = x1\n    }\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "integer_sqrt.py",
+          "content": "def integer_sqrt(arr: list[int]) -> int:\n    n = arr[0]\n    if n <= 1:\n        return n\n    x = n\n    while True:\n        x1 = (x + n // x) // 2\n        if x1 >= x:\n            return x\n        x = x1\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "integer_sqrt.rs",
+          "content": "pub fn integer_sqrt(arr: &[i32]) -> i32 {\n    let n = arr[0] as i64;\n    if n <= 1 { return n as i32; }\n    let mut x = n;\n    loop {\n        let x1 = (x + n / x) / 2;\n        if x1 >= x { return x as i32; }\n        x = x1;\n    }\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "IntegerSqrt.scala",
+          "content": "object IntegerSqrt {\n\n  def integerSqrt(arr: Array[Int]): Int = {\n    val n = arr(0).toLong\n    if (n <= 1) return n.toInt\n    var x = n\n    while (true) {\n      val x1 = (x + n / x) / 2\n      if (x1 >= x) return x.toInt\n      x = x1\n    }\n    0 // unreachable\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "IntegerSqrt.swift",
+          "content": "func integerSqrt(_ arr: [Int]) -> Int {\n    let n = arr[0]\n    if n <= 1 { return n }\n    var x = n\n    while true {\n        let x1 = (x + n / x) / 2\n        if x1 >= x { return x }\n        x = x1\n    }\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "integerSqrt.ts",
+          "content": "export function integerSqrt(arr: number[]): number {\n    const n = arr[0];\n    if (n <= 1) return n;\n    let x = n;\n    while (true) {\n        const x1 = Math.floor((x + Math.floor(n / x)) / 2);\n        if (x1 >= x) return x;\n        x = x1;\n    }\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "readme": "# Newton's Method (Integer Square Root)\n\n## Overview\n\nNewton's method (also called the Newton-Raphson method) is an iterative numerical technique for finding roots of equations. Here it is applied to compute the integer square root: floor(sqrt(n)). Starting from an initial guess, the method iteratively refines the approximation using the formula x_new = (x + n/x) / 2, which is derived from applying Newton's method to the function f(x) = x^2 - n. The method converges quadratically, meaning the number of correct digits roughly doubles with each iteration.\n\n## How It Works\n\n1. Start with an initial guess x = n (or a smaller overestimate).\n2. Iteratively update: x = (x + n/x) / 2, using integer (floor) division.\n3. Stop when x no longer changes, i.e., x_new >= x_current. At that point, the sequence has converged.\n4. Return the converged value, which equals floor(sqrt(n)).\n\nThe convergence is guaranteed because:\n- By the AM-GM inequality, (x + n/x) / 2 >= sqrt(n) for all x > 0.\n- The sequence is monotonically decreasing (after at most one step) and bounded below by floor(sqrt(n)).\n\n## Worked Example\n\nCompute floor(sqrt(27)).\n\nStarting guess: x = 27.\n\n| Iteration | x   | n/x (integer) | x_new = (x + n/x) / 2 |\n|-----------|-----|----------------|------------------------|\n| 1         | 27  | 27/27 = 1      | (27 + 1) / 2 = 14     |\n| 2         | 14  | 27/14 = 1      | (14 + 1) / 2 = 7      |\n| 3         | 7   | 27/7 = 3       | (7 + 3) / 2 = 5       |\n| 4         | 5   | 27/5 = 5       | (5 + 5) / 2 = 5       |\n\nx did not change (5 -> 5), so we stop. Result: floor(sqrt(27)) = **5**.\n\nVerification: 5^2 = 25 <= 27 < 36 = 6^2.\n\n## Pseudocode\n\n```\nfunction integerSqrt(n):\n    if n < 0:\n        error \"Square root of negative number\"\n    if n < 2:\n        return n\n\n    x = n\n    while true:\n        x_new = (x + n / x) / 2    // integer division\n        if x_new >= x:\n            return x\n        x = x_new\n```\n\n## Complexity Analysis\n\n| Case    | Time     | Space |\n|---------|----------|-------|\n| Best    | O(log n) | O(1)  |\n| Average | O(log n) | O(1)  |\n| Worst   | O(log n) | O(1)  |\n\n- **Time O(log n):** Newton's method converges quadratically, so the number of iterations is O(log log n) for the precision to settle. However, each iteration involves integer division of an O(log n)-bit number, making the total work O(log n) in the bit-complexity model.\n- **Space O(1):** Only a few variables are stored.\n\n## Applications\n\n- **Computing integer square roots** in languages or contexts without floating-point support.\n- **Competitive programming:** Exact integer sqrt for large numbers (avoids floating-point precision issues).\n- **Cryptography:** Square root computations in modular arithmetic (e.g., Tonelli-Shanks uses Newton-like iterations).\n- **General root-finding:** The Newton-Raphson framework generalizes to finding roots of arbitrary differentiable functions (not just sqrt).\n- **Numerical optimization:** Newton's method on the derivative finds extrema of functions.\n\n## When NOT to Use\n\n- **When a hardware sqrt instruction is available:** Built-in `sqrt` in IEEE 754 is typically faster and correct to 1 ULP for floating-point results.\n- **For non-integer results:** If you need the fractional part of sqrt, use floating-point Newton-Raphson or built-in math libraries instead.\n- **For functions without a good initial guess:** Newton's method can diverge if the initial guess is poor or the function is ill-behaved (e.g., has inflection points near the root). This is not an issue for integer sqrt (where x = n always works).\n- **When the function's derivative is expensive or zero:** Newton's method requires evaluating f'(x); if the derivative is zero or undefined near the root, the method fails.\n\n## Comparison\n\n| Method                  | Time        | Exact integer? | Notes                                        |\n|-------------------------|-------------|----------------|----------------------------------------------|\n| Newton's method (int)   | O(log n)    | Yes            | Quadratic convergence; simple implementation |\n| Binary search           | O(log^2 n)  | Yes            | Simpler; reliable but slower per iteration   |\n| Floating-point sqrt     | O(1)*       | No             | Hardware instruction; may have rounding error|\n| Digit-by-digit method   | O(log n)    | Yes            | Processes one digit at a time; low-level      |\n| Karatsuba + Newton      | O(M(n))     | Yes            | For very large n; uses fast multiplication   |\n\n\\* O(1) assuming constant-time hardware FP sqrt; not exact for large integers.\n\n## References\n\n- Knuth, D. E. (1997). *The Art of Computer Programming, Vol. 2: Seminumerical Algorithms* (3rd ed.). Addison-Wesley. Section 4.1.\n- Press, W. H., et al. (2007). *Numerical Recipes* (3rd ed.). Cambridge University Press. Chapter 9: Root Finding.\n- [Integer square root -- Wikipedia](https://en.wikipedia.org/wiki/Integer_square_root)\n- [Newton's method -- Wikipedia](https://en.wikipedia.org/wiki/Newton%27s_method)\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [integer_sqrt.py](python/integer_sqrt.py) |\n| Java       | [IntegerSqrt.java](java/IntegerSqrt.java) |\n| C++        | [integer_sqrt.cpp](cpp/integer_sqrt.cpp) |\n| C          | [integer_sqrt.c](c/integer_sqrt.c) |\n| Go         | [integer_sqrt.go](go/integer_sqrt.go) |\n| TypeScript | [integerSqrt.ts](typescript/integerSqrt.ts) |\n| Rust       | [integer_sqrt.rs](rust/integer_sqrt.rs) |\n| Kotlin     | [IntegerSqrt.kt](kotlin/IntegerSqrt.kt) |\n| Swift      | [IntegerSqrt.swift](swift/IntegerSqrt.swift) |\n| Scala      | [IntegerSqrt.scala](scala/IntegerSqrt.scala) |\n| C#         | [IntegerSqrt.cs](csharp/IntegerSqrt.cs) |\n"
+}

@@ -1,0 +1,19 @@
+name: "Bit Reversal"
+slug: "bit-reversal"
+category: "bit-manipulation"
+subcategory: "transformation"
+difficulty: "beginner"
+tags: [bit-manipulation, reversal, bitwise, 32-bit]
+complexity:
+  time:
+    best: "O(1)"
+    average: "O(1)"
+    worst: "O(1)"
+  space: "O(1)"
+related: [count-set-bits, power-of-two-check, hamming-distance]
+implementations: [python, java, cpp, c, go, typescript, kotlin, rust, swift, scala, csharp]
+visualization: false
+patterns:
+  - bitwise-xor
+patternDifficulty: intermediate
+practiceOrder: 5

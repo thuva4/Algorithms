@@ -1,0 +1,24 @@
+algorithm: "rod-cutting-algorithm"
+function_signature:
+  name: "rod_cut"
+  input: [prices, length]
+  output: max_revenue
+test_cases:
+  - name: "standard prices"
+    input: [[1, 5, 8, 9, 10, 17, 17, 20], 8]
+    expected: 22
+  - name: "length one"
+    input: [[3], 1]
+    expected: 3
+  - name: "better to not cut"
+    input: [[1, 5, 8, 12], 4]
+    expected: 12
+  - name: "all unit cuts best"
+    input: [[5, 6, 7, 8], 4]
+    expected: 20
+  - name: "length two"
+    input: [[2, 5], 2]
+    expected: 5
+  - name: "zero length"
+    input: [[1, 2, 3], 0]
+    expected: 0

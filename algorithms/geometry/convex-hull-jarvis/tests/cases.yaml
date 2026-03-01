@@ -1,0 +1,18 @@
+algorithm: "convex-hull-jarvis"
+function_signature:
+  name: "convex_hull_jarvis"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "simple triangle"
+    input: [[3, 0, 0, 4, 0, 0, 3]]
+    expected: 3
+  - name: "square with interior point"
+    input: [[5, 0, 0, 4, 0, 4, 4, 0, 4, 2, 2]]
+    expected: 4
+  - name: "collinear points"
+    input: [[3, 0, 0, 1, 0, 2, 0]]
+    expected: 2
+  - name: "pentagon"
+    input: [[5, 0, 0, 2, 0, 3, 1, 2, 3, 0, 2]]
+    expected: 5

@@ -1,0 +1,18 @@
+algorithm: "manachers-algorithm"
+function_signature:
+  name: "longest_palindrome_length"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "full palindrome (odd)"
+    input: [[1, 2, 3, 2, 1]]
+    expected: 5
+  - name: "full palindrome (even)"
+    input: [[1, 2, 2, 1]]
+    expected: 4
+  - name: "no palindrome longer than 1"
+    input: [[1, 2, 3, 4, 5]]
+    expected: 1
+  - name: "single element"
+    input: [[1]]
+    expected: 1

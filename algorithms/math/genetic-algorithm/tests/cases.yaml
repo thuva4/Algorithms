@@ -1,0 +1,27 @@
+algorithm: "genetic-algorithm"
+function_signature:
+  name: "genetic_algorithm"
+  input: [array_of_integers, seed_integer]
+  output: integer
+test_cases:
+  - name: "basic array"
+    input: [[5, 3, 8, 1, 2], 42]
+    expected: 1
+  - name: "single element"
+    input: [[42], 7]
+    expected: 42
+  - name: "negative numbers"
+    input: [[-3, 5, -1, 0, 2], 99]
+    expected: -3
+  - name: "all same"
+    input: [[7, 7, 7, 7], 10]
+    expected: 7
+  - name: "minimum at end"
+    input: [[10, 20, 30, 1], 55]
+    expected: 1
+  - name: "two elements"
+    input: [[9, 4], 123]
+    expected: 4
+  - name: "large range"
+    input: [[100, -100, 0, 50, -50], 0]
+    expected: -100

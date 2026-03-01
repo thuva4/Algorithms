@@ -1,0 +1,21 @@
+name: "Longest Subset with Zero Sum"
+slug: "longest-subset-zero-sum"
+category: "dynamic-programming"
+subcategory: "sequences"
+difficulty: "intermediate"
+tags: [dynamic-programming, sequences, subarray, zero-sum]
+complexity:
+  time:
+    best: "O(n^2)"
+    average: "O(n^2)"
+    worst: "O(n^2)"
+  space: "O(1)"
+stable: null
+in_place: null
+related: [kadanes, longest-increasing-subsequence]
+implementations: [cpp]
+visualization: true
+patterns:
+  - knapsack-dp
+patternDifficulty: intermediate
+practiceOrder: 4

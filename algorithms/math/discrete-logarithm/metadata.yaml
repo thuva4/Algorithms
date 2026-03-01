@@ -1,0 +1,17 @@
+name: "Discrete Logarithm (Baby-step Giant-step)"
+slug: "discrete-logarithm"
+category: "math"
+subcategory: "number-theory"
+difficulty: "advanced"
+tags: [math, number-theory, discrete-logarithm, baby-step-giant-step, modular-arithmetic]
+complexity:
+  time:
+    best: "O(sqrt(p))"
+    average: "O(sqrt(p))"
+    worst: "O(sqrt(p))"
+  space: "O(sqrt(p))"
+stable: null
+in_place: false
+related: [modular-exponentiation]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

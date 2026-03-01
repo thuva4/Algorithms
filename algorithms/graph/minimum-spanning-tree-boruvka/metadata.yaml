@@ -1,0 +1,17 @@
+name: "Minimum Spanning Tree (Boruvka)"
+slug: "minimum-spanning-tree-boruvka"
+category: "graph"
+subcategory: "minimum-spanning-tree"
+difficulty: "intermediate"
+tags: [graph, minimum-spanning-tree, greedy, union-find]
+complexity:
+  time:
+    best: "O(E log V)"
+    average: "O(E log V)"
+    worst: "O(E log V)"
+  space: "O(V + E)"
+stable: null
+in_place: false
+related: [kruskals-algorithm, prims]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

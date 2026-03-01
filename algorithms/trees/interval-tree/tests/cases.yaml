@@ -1,0 +1,26 @@
+algorithm: "interval-tree"
+function_signature:
+  name: "interval_tree"
+  input: [data]
+  output: count_overlapping
+test_cases:
+  - name: "basic overlap"
+    input:
+      data: [3, 1, 5, 3, 8, 6, 10, 4]
+    expected: 2
+  - name: "no overlap"
+    input:
+      data: [2, 1, 3, 5, 7, 10]
+    expected: 0
+  - name: "all overlap"
+    input:
+      data: [3, 1, 10, 2, 9, 3, 8, 5]
+    expected: 3
+  - name: "single interval contains"
+    input:
+      data: [1, 0, 100, 50]
+    expected: 1
+  - name: "boundary point"
+    input:
+      data: [2, 1, 5, 5, 10, 5]
+    expected: 2

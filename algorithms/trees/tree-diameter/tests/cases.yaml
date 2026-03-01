@@ -1,0 +1,18 @@
+algorithm: "tree-diameter"
+function_signature:
+  name: "tree_diameter"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "simple path"
+    input: [[4, 0, 1, 1, 2, 2, 3]]
+    expected: 3
+  - name: "star graph"
+    input: [[5, 0, 1, 0, 2, 0, 3, 0, 4]]
+    expected: 2
+  - name: "single edge"
+    input: [[2, 0, 1]]
+    expected: 1
+  - name: "single node"
+    input: [[1]]
+    expected: 0

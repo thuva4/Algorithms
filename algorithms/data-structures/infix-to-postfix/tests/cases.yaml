@@ -1,0 +1,30 @@
+algorithm: "infix-to-postfix"
+function_signature:
+  name: "infix_to_postfix"
+  input: [expression_string]
+  output: postfix_string
+test_cases:
+  - name: "simple addition"
+    input: ["A+B"]
+    expected: "AB+"
+  - name: "operator precedence"
+    input: ["A+B*C"]
+    expected: "ABC*+"
+  - name: "parentheses"
+    input: ["(A+B)*C"]
+    expected: "AB+C*"
+  - name: "complex expression"
+    input: ["A*(B+C)/D"]
+    expected: "ABC+*D/"
+  - name: "multiple operators same precedence"
+    input: ["A+B-C"]
+    expected: "AB+C-"
+  - name: "nested parentheses"
+    input: ["((A+B)*(C-D))"]
+    expected: "AB+CD-*"
+  - name: "single operand"
+    input: ["A"]
+    expected: "A"
+  - name: "power operator"
+    input: ["A^B^C"]
+    expected: "ABC^^"

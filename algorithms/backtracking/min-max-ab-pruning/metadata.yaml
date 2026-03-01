@@ -1,0 +1,17 @@
+name: "Minimax with Alpha-Beta Pruning"
+slug: "min-max-ab-pruning"
+category: "backtracking"
+subcategory: "game-theory"
+difficulty: "advanced"
+tags: [backtracking, game-theory, minimax, alpha-beta, pruning, optimization]
+complexity:
+  time:
+    best: "O(b^(d/2))"
+    average: "O(b^(3d/4))"
+    worst: "O(b^d)"
+  space: "O(b * d)"
+stable: false
+in_place: false
+related: [minimax]
+implementations: [java]
+visualization: true

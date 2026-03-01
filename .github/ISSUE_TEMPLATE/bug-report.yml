@@ -1,0 +1,63 @@
+name: Bug Report
+description: Report a bug in an algorithm implementation or the website
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the Bug
+      description: A clear and concise description of what the bug is
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to Reproduce
+      description: Steps to reproduce the behavior
+      placeholder: |
+        1. Go to '...'
+        2. Run '...'
+        3. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What you expected to happen
+    validations:
+      required: true
+
+  - type: input
+    id: algorithm
+    attributes:
+      label: Affected Algorithm
+      description: Which algorithm is affected (if applicable)?
+      placeholder: e.g., algorithms/sorting/bubble-sort
+    validations:
+      required: false
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      description: What area of the project is affected?
+      options:
+        - Algorithm implementation
+        - Website / visualization
+        - Documentation
+        - Build / validation scripts
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Any other context, screenshots, or error messages
+    validations:
+      required: false

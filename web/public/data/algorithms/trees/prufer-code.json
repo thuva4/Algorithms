@@ -1,0 +1,76 @@
+{
+  "name": "Prufer Code",
+  "slug": "prufer-code",
+  "category": "trees",
+  "subcategory": "tree-encoding",
+  "difficulty": "intermediate",
+  "tags": [
+    "trees",
+    "encoding",
+    "prufer-sequence",
+    "labeled-tree",
+    "bijection"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n log n)",
+      "average": "O(n log n)",
+      "worst": "O(n log n)"
+    },
+    "space": "O(n)"
+  },
+  "stable": false,
+  "in_place": false,
+  "related": [
+    "binary-tree"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "prufer_encode.c",
+          "content": "#include <stdlib.h>\n\nint *prufer_encode(int arr[], int size, int *out_size) {\n    int idx = 0;\n    int n = size > 0 ? arr[idx++] : 0;\n    int degree[128] = {0};\n    int adj[128][128] = {{0}};\n    int *result;\n\n    if (n <= 2) {\n        *out_size = 0;\n        return (int *)calloc(1, sizeof(int));\n    }\n\n    for (int i = 0; i < n - 1 && idx + 1 < size; i++) {\n        int u = arr[idx++];\n        int v = arr[idx++];\n        adj[u][v] = 1;\n        adj[v][u] = 1;\n        degree[u]++;\n        degree[v]++;\n    }\n\n    *out_size = n - 2;\n    result = (int *)malloc((size_t)(n - 2) * sizeof(int));\n\n    for (int step = 0; step < n - 2; step++) {\n        int leaf = -1;\n        int neighbor = -1;\n\n        for (int i = 0; i < n; i++) {\n            if (degree[i] == 1) {\n                leaf = i;\n                break;\n            }\n        }\n\n        for (int j = 0; j < n; j++) {\n            if (adj[leaf][j]) {\n                neighbor = j;\n                break;\n            }\n        }\n\n        result[step] = neighbor;\n        adj[leaf][neighbor] = 0;\n        adj[neighbor][leaf] = 0;\n        degree[leaf]--;\n        degree[neighbor]--;\n    }\n\n    return result;\n}\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "PruferCode.cpp",
+          "content": "#include <iostream>\n#include <algorithm>\nusing namespace std; \nint main()\n{\n\tint i, j, v, e, min, x;\n \n\tcout<<\"Enter the total number of vertexes of the tree:\\n\";\n\tcin>>v;\n\te = v-1;\n\tint deg[v+1];\n\tint edge[e][2]; \n     for(i=0;i<=v+1;i++){\n     \tdeg[i]=0;\n     }\n\tcout<<\"\\nFor \"<<v<<\" vertexes this connected tree must have exactly \"<<e<<\" edges.\\n\";\n\n\tcout<<\"\\nEnter \"<<e<<\" pair of vertexes for the tree.\\n\";\n\tfor(i = 0; i < e; i++)\n\t{\n\t\tcout<<\"Enter the vertex pair for edge \"<<i+1<<\":\";\n\t\tcout<<\"\\nV(1): \";\n\t\tcin>>edge[i][0];\n\t\tcout<<\"V(2): \";\n\t\tcin>>edge[i][1];\n \n\t\tdeg[edge[i][0]]++;\n\t\tdeg[edge[i][1]]++;\n\t}\n\tcout<<\"\\nThe Prufer code for the given tree is: { \";\n\tfor(i = 0; i < v-2; i++)\n\t{\n\t\tmin = 10000;\n\t\tfor(j = 0; j < e; j++)\n\t\t{\n\t\t\tif(deg[edge[j][0]] == 1)\n\t\t\t{\n\t\t\t\tif(min > edge[j][0])\n\t\t\t\t{\n\t\t\t\t\tmin = edge[j][0];\n\t\t\t\t\tx = j;\n\t\t\t\t}\n\t\t\t}\n\t\t\tif(deg[edge[j][1]] == 1)\n\t\t\t{\n\t\t\t\tif(min > edge[j][1])\n\t\t\t\t{\n\t\t\t\t\tmin = edge[j][1];\n\t\t\t\t\tx = j;\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\n\t\tdeg[edge[x][0]]--;\n\n\t\tdeg[edge[x][1]]--;\n\n\t\tif(deg[edge[x][0]] == 0)\n\t\t\tcout<<edge[x][1]<<\" \";\n\t\telse\n\t\t\tcout<<edge[x][0]<<\" \";\t\n\t}\n\tcout<<\"}\";\n \n\treturn 0;\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "PruferCode.java",
+          "content": "import java.util.ArrayList;\nimport java.util.Arrays;\nimport java.util.List;\n\npublic class PruferCode {\n    public static int[] pruferEncode(int n, int[][] edges) {\n        if (n <= 2) {\n            return new int[0];\n        }\n\n        List<List<Integer>> adjacency = new ArrayList<>();\n        for (int i = 0; i < n; i++) {\n            adjacency.add(new ArrayList<>());\n        }\n        int[] degree = new int[n];\n\n        for (int[] edge : edges) {\n            int u = edge[0];\n            int v = edge[1];\n            adjacency.get(u).add(v);\n            adjacency.get(v).add(u);\n            degree[u]++;\n            degree[v]++;\n        }\n\n        int[] result = new int[n - 2];\n        for (int i = 0; i < n - 2; i++) {\n            int leaf = 0;\n            while (leaf < n && degree[leaf] != 1) {\n                leaf++;\n            }\n            int neighbor = 0;\n            for (int next : adjacency.get(leaf)) {\n                if (degree[next] > 0) {\n                    neighbor = next;\n                    break;\n                }\n            }\n            result[i] = neighbor;\n            degree[leaf]--;\n            degree[neighbor]--;\n        }\n\n        return result;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "PruferCode.kt",
+          "content": "import java.util.PriorityQueue\n\nfun pruferEncode(n: Int, edges: Array<IntArray>): IntArray {\n    if (n <= 2) {\n        return intArrayOf()\n    }\n\n    val adjacency = Array(n) { mutableListOf<Int>() }\n    val degree = IntArray(n)\n\n    for (edge in edges) {\n        if (edge.size >= 2) {\n            val u = edge[0]\n            val v = edge[1]\n            adjacency[u].add(v)\n            adjacency[v].add(u)\n            degree[u]++\n            degree[v]++\n        }\n    }\n\n    val leaves = PriorityQueue<Int>()\n    for (node in 0 until n) {\n        if (degree[node] == 1) {\n            leaves.add(node)\n        }\n    }\n\n    val result = IntArray(n - 2)\n    for (index in 0 until n - 2) {\n        val leaf = leaves.poll()\n        val neighbor = adjacency[leaf].first { degree[it] > 0 }\n        result[index] = neighbor\n        degree[leaf]--\n        degree[neighbor]--\n        if (degree[neighbor] == 1) {\n            leaves.add(neighbor)\n        }\n    }\n\n    return result\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "PruferCode.swift",
+          "content": "func pruferEncode(_ n: Int, _ edges: [[Int]]) -> [Int] {\n    if n <= 2 { return [] }\n\n    var adjacency = Array(repeating: [Int](), count: n)\n    var degree = Array(repeating: 0, count: n)\n\n    for edge in edges where edge.count >= 2 {\n        let u = edge[0]\n        let v = edge[1]\n        adjacency[u].append(v)\n        adjacency[v].append(u)\n        degree[u] += 1\n        degree[v] += 1\n    }\n\n    var code: [Int] = []\n    for _ in 0..<(n - 2) {\n        var leaf = 0\n        while leaf < n && degree[leaf] != 1 {\n            leaf += 1\n        }\n        if leaf == n { break }\n\n        let neighbor = adjacency[leaf].first { degree[$0] > 0 } ?? 0\n        code.append(neighbor)\n        degree[leaf] -= 1\n        degree[neighbor] -= 1\n    }\n\n    return code\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Prufer Code\n\n## Overview\n\nA Prufer sequence (or Prufer code) is a unique sequence of n - 2 integers that encodes a labeled tree on n vertices. This encoding establishes a bijection between labeled trees on n vertices and sequences of length n - 2 with elements from {1, 2, ..., n}. The existence of this bijection provides an elegant proof of Cayley's formula: the number of labeled trees on n vertices is n^(n-2).\n\nPrufer codes are used in combinatorics, network design, and random tree generation. The encoding and decoding algorithms allow efficient conversion between tree representations and compact sequence representations.\n\n## How It Works\n\n**Encoding (tree to Prufer sequence):** Repeatedly find the leaf with the smallest label, add its neighbor to the Prufer sequence, and remove the leaf from the tree. Repeat until only two vertices remain.\n\n**Decoding (Prufer sequence to tree):** Reconstruct the tree by iterating through the sequence. For each element in the sequence, find the smallest-labeled vertex not in the remaining sequence and not yet removed, connect it to the current sequence element, and remove it.\n\n### Example\n\nGiven labeled tree on 6 vertices:\n\n```\n    1 --- 4 --- 3\n          |\n    2 --- 5 --- 6\n```\n\nEdges: {(1,4), (2,5), (3,4), (4,5), (5,6)}\n\n**Encoding (tree to Prufer sequence):**\n\n| Step | Smallest leaf | Neighbor | Prufer sequence | Remaining tree |\n|------|--------------|----------|-----------------|----------------|\n| 1 | 1 | 4 | [4] | Remove 1; leaves: {2, 3, 6} |\n| 2 | 2 | 5 | [4, 5] | Remove 2; leaves: {3, 6} |\n| 3 | 3 | 4 | [4, 5, 4] | Remove 3; leaves: {4, 6} |\n| 4 | 4 | 5 | [4, 5, 4, 5] | Remove 4; leaves: {5, 6} |\n\nPrufer sequence: `[4, 5, 4, 5]` (length n - 2 = 4)\n\n**Decoding (Prufer sequence [4, 5, 4, 5] to tree):**\n\n| Step | Sequence element | Smallest unused vertex not in remaining seq | Edge added |\n|------|-----------------|----------------------------------------------|------------|\n| 1 | 4 | 1 (not in {5,4,5}) | (1, 4) |\n| 2 | 5 | 2 (not in {4,5}) | (2, 5) |\n| 3 | 4 | 3 (not in {5}) | (3, 4) |\n| 4 | 5 | 4 (not in {}) | (4, 5) |\n| Final | - | Remaining: {5, 6} | (5, 6) |\n\nReconstructed edges: {(1,4), (2,5), (3,4), (4,5), (5,6)} -- matches the original tree.\n\n## Pseudocode\n\n```\nfunction encode(tree, n):\n    sequence = empty list\n    degree = array of node degrees\n\n    for step from 1 to n - 2:\n        // Find smallest leaf\n        leaf = smallest node with degree[node] == 1\n        // Add its neighbor to sequence\n        neighbor = the single neighbor of leaf\n        sequence.append(neighbor)\n        // Remove leaf\n        degree[leaf] = 0\n        degree[neighbor] = degree[neighbor] - 1\n\n    return sequence\n\nfunction decode(sequence, n):\n    edges = empty list\n    degree = array of size n+1, all initialized to 1\n    for each element in sequence:\n        degree[element] = degree[element] + 1\n\n    for each element in sequence:\n        // Find smallest vertex with degree 1\n        for v from 1 to n:\n            if degree[v] == 1:\n                edges.append((v, element))\n                degree[v] = degree[v] - 1\n                degree[element] = degree[element] - 1\n                break\n\n    // Connect the last two vertices with degree 1\n    last_two = [v for v from 1 to n if degree[v] == 1]\n    edges.append((last_two[0], last_two[1]))\n\n    return edges\n```\n\nThe encoding repeatedly extracts the smallest leaf, while decoding reconstructs edges by pairing sequence elements with the smallest available degree-1 vertex.\n\n## Complexity Analysis\n\n| Case    | Time       | Space |\n|---------|-----------|-------|\n| Best    | O(n log n) | O(n)  |\n| Average | O(n log n) | O(n)  |\n| Worst   | O(n log n) | O(n)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(n log n):** Finding the smallest leaf at each step can be done efficiently using a priority queue (min-heap), giving O(log n) per step and O(n log n) total. A naive implementation scanning all vertices is O(n^2).\n\n- **Average Case -- O(n log n):** With a priority queue, both encoding and decoding perform n - 2 iterations with O(log n) work per iteration.\n\n- **Worst Case -- O(n log n):** The priority queue operations dominate. Inserting and extracting from the heap is O(log n) in the worst case.\n\n- **Space -- O(n):** The algorithm stores the Prufer sequence (n - 2 elements), degree array (n elements), and priority queue (at most n elements), all O(n).\n\n## When to Use\n\n- **Random tree generation:** Generating a uniformly random labeled tree by creating a random Prufer sequence and decoding it.\n- **Proving combinatorial identities:** The Prufer sequence bijection is the standard proof of Cayley's formula.\n- **Compact tree encoding:** Representing a labeled tree as a sequence of n - 2 integers.\n- **Tree enumeration:** Systematically generating all labeled trees on n vertices.\n\n## When NOT to Use\n\n- **Unlabeled trees:** Prufer sequences only work with labeled trees (where vertex identity matters).\n- **When tree structure must be preserved during manipulation:** The encoding/decoding process destroys and rebuilds the tree.\n- **When you need rooted tree operations:** Prufer codes represent unrooted trees; rooted tree encodings differ.\n- **Large trees with frequent structural changes:** The O(n log n) encoding/decoding is too expensive for frequent use.\n\n## Comparison with Similar Algorithms\n\n| Encoding Method    | Encode Time | Decode Time | Sequence Length | Notes                           |\n|-------------------|------------|------------|----------------|----------------------------------|\n| Prufer Code        | O(n log n) | O(n log n) | n - 2          | Bijection with labeled trees      |\n| Parent Array       | O(n)       | O(n)       | n              | Stores parent of each node        |\n| Adjacency List     | O(n)       | O(n)       | 2(n-1)         | Standard graph representation     |\n| Euler Tour         | O(n)       | O(n)       | 2n - 1         | Used for subtree queries          |\n\n## Implementations\n\n| Language | File |\n|----------|------|\n| C++      | [PruferCode.cpp](cpp/PruferCode.cpp) |\n\n## References\n\n- Prufer, H. (1918). Neuer Beweis eines Satzes uber Permutationen. *Archiv fur Mathematik und Physik*, 27, 142-144.\n- Cayley, A. (1889). A theorem on trees. *Quarterly Journal of Mathematics*, 23, 376-378.\n- [Prufer Sequence -- Wikipedia](https://en.wikipedia.org/wiki/Pr%C3%BCfer_sequence)\n"
+}

@@ -1,0 +1,17 @@
+name: "Longest Common Substring"
+slug: "longest-common-substring"
+category: "dynamic-programming"
+subcategory: "strings"
+difficulty: "intermediate"
+tags: [dynamic-programming, strings, substring]
+complexity:
+  time:
+    best: "O(n*m)"
+    average: "O(n*m)"
+    worst: "O(n*m)"
+  space: "O(n*m)"
+stable: null
+in_place: null
+related: [longest-common-subsequence, edit-distance]
+implementations: [python, java, cpp, c, go, typescript, kotlin, rust, swift, scala, csharp]
+visualization: false

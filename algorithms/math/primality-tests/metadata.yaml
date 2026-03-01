@@ -1,0 +1,17 @@
+name: "Primality Tests"
+slug: "primality-tests"
+category: "math"
+subcategory: "prime-numbers"
+difficulty: "advanced"
+tags: [math, primes, fermat, miller-rabin, probabilistic]
+complexity:
+  time:
+    best: "O(k log^2 n)"
+    average: "O(k log^2 n)"
+    worst: "O(k log^2 n)"
+  space: "O(1)"
+stable: false
+in_place: true
+related: [prime-check, sieve-of-eratosthenes]
+implementations: [cpp]
+visualization: false

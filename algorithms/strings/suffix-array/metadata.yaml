@@ -1,0 +1,17 @@
+name: "Suffix Array"
+slug: "suffix-array"
+category: "strings"
+subcategory: "suffix-structures"
+difficulty: "advanced"
+tags: [strings, suffix-array, sorting, text-processing]
+complexity:
+  time:
+    best: "O(n log^2 n)"
+    average: "O(n log^2 n)"
+    worst: "O(n log^2 n)"
+  space: "O(n)"
+stable: null
+in_place: false
+related: [suffix-tree, knuth-morris-pratt, z-algorithm]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

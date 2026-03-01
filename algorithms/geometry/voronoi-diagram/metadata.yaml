@@ -1,0 +1,15 @@
+name: "Voronoi Diagram"
+slug: "voronoi-diagram"
+category: "geometry"
+subcategory: "partitioning"
+difficulty: "advanced"
+tags: [geometry, voronoi, computational-geometry, partitioning]
+complexity:
+  time:
+    best: "O(n^4)"
+    average: "O(n^4)"
+    worst: "O(n^4)"
+  space: "O(n^2)"
+related: [delaunay-triangulation, convex-hull, closest-pair-of-points]
+implementations: [python, java, cpp, c, go, typescript, kotlin, rust, swift, scala, csharp]
+visualization: false

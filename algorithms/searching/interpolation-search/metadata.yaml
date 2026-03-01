@@ -1,0 +1,21 @@
+name: "Interpolation Search"
+slug: "interpolation-search"
+category: "searching"
+subcategory: "search"
+difficulty: "intermediate"
+tags: [searching, interpolation, sorted-array]
+complexity:
+  time:
+    best: "O(1)"
+    average: "O(log log n)"
+    worst: "O(n)"
+  space: "O(1)"
+stable: null
+in_place: true
+related: [binary-search, jump-search]
+implementations: [python, java, cpp, c, go, typescript, kotlin, rust, swift, scala, csharp]
+visualization: false
+patterns:
+  - modified-binary-search
+patternDifficulty: intermediate
+practiceOrder: 6

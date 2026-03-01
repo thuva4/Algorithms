@@ -1,0 +1,39 @@
+algorithm: "disjoint-sparse-table"
+description: "Answer range sum queries in O(1) using disjoint sparse table"
+function_signature:
+  name: "disjoint_sparse_table"
+  input: "n, array, q, queries (l, r pairs, 0-indexed)"
+  output: "array of range sum values"
+input_format: "n, a1..an, q, l1, r1, ..., lq, rq"
+output_format: "q integers: sum for each range"
+test_cases:
+  - name: "single element"
+    input:
+      n: 1
+      array: [5]
+      queries: [[0, 0]]
+    expected: [5]
+  - name: "full range"
+    input:
+      n: 5
+      array: [1, 2, 3, 4, 5]
+      queries: [[0, 4]]
+    expected: [15]
+  - name: "multiple queries"
+    input:
+      n: 6
+      array: [3, 1, 4, 1, 5, 9]
+      queries: [[0, 2], [1, 4], [3, 5], [0, 5]]
+    expected: [8, 11, 15, 23]
+  - name: "single elements"
+    input:
+      n: 4
+      array: [10, 20, 30, 40]
+      queries: [[0, 0], [1, 1], [2, 2], [3, 3]]
+    expected: [10, 20, 30, 40]
+  - name: "adjacent pairs"
+    input:
+      n: 4
+      array: [1, 2, 3, 4]
+      queries: [[0, 1], [1, 2], [2, 3]]
+    expected: [3, 5, 7]

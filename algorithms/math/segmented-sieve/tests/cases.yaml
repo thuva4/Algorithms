@@ -1,0 +1,21 @@
+algorithm: "segmented-sieve"
+function_signature:
+  name: "segmented_sieve"
+  input: [low, high]
+  output: list_of_primes_in_range
+test_cases:
+  - name: "small range"
+    input: [10, 20]
+    expected: [11, 13, 17, 19]
+  - name: "range starting at 2"
+    input: [2, 10]
+    expected: [2, 3, 5, 7]
+  - name: "single prime in range"
+    input: [28, 30]
+    expected: [29]
+  - name: "no primes in range"
+    input: [14, 16]
+    expected: []
+  - name: "wider range"
+    input: [1, 30]
+    expected: [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]

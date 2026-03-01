@@ -1,0 +1,137 @@
+{
+  "name": "Power of Two Check",
+  "slug": "power-of-two-check",
+  "category": "bit-manipulation",
+  "subcategory": "checks",
+  "difficulty": "beginner",
+  "tags": [
+    "bit-manipulation",
+    "power-of-two",
+    "bitwise"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(1)",
+      "average": "O(1)",
+      "worst": "O(1)"
+    },
+    "space": "O(1)"
+  },
+  "related": [
+    "count-set-bits",
+    "hamming-distance",
+    "bit-reversal"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "power_of_two_check.c",
+          "content": "#include \"power_of_two_check.h\"\n\nint power_of_two_check(int n) {\n    if (n <= 0) return 0;\n    return (n & (n - 1)) == 0 ? 1 : 0;\n}\n"
+        },
+        {
+          "filename": "power_of_two_check.h",
+          "content": "#ifndef POWER_OF_TWO_CHECK_H\n#define POWER_OF_TWO_CHECK_H\n\nint power_of_two_check(int n);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "power_of_two_check.cpp",
+          "content": "/**\n * Power of Two Check\n *\n * Determines whether a given integer is a power of two using the\n * bitwise trick: n & (n - 1) == 0. A power of two has exactly one\n * set bit in binary, so clearing the lowest set bit yields zero.\n *\n * Returns 1 if n is a power of two, 0 otherwise.\n */\n\n#include <iostream>\n#include <cassert>\n\nint power_of_two_check(int n) {\n    if (n <= 0) return 0;\n    return (n & (n - 1)) == 0 ? 1 : 0;\n}\n\nint main() {\n    // Test cases\n    assert(power_of_two_check(1) == 1);     // 2^0\n    assert(power_of_two_check(2) == 1);     // 2^1\n    assert(power_of_two_check(3) == 0);     // not a power of two\n    assert(power_of_two_check(4) == 1);     // 2^2\n    assert(power_of_two_check(16) == 1);    // 2^4\n    assert(power_of_two_check(18) == 0);    // not a power of two\n    assert(power_of_two_check(0) == 0);     // edge case: zero\n    assert(power_of_two_check(-4) == 0);    // edge case: negative\n    assert(power_of_two_check(1024) == 1);  // 2^10\n\n    std::cout << \"All tests passed.\" << std::endl;\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "PowerOfTwoCheck.cs",
+          "content": "public class PowerOfTwoCheck\n{\n    public static int Check(int n)\n    {\n        if (n <= 0) return 0;\n        return (n & (n - 1)) == 0 ? 1 : 0;\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "power_of_two_check.go",
+          "content": "package poweroftwocheck\n\nfunc PowerOfTwoCheck(n int) int {\n\tif n <= 0 {\n\t\treturn 0\n\t}\n\tif n&(n-1) == 0 {\n\t\treturn 1\n\t}\n\treturn 0\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "PowerOfTwoCheck.java",
+          "content": "public class PowerOfTwoCheck {\n\n    public static int powerOfTwoCheck(int n) {\n        if (n <= 0) return 0;\n        return (n & (n - 1)) == 0 ? 1 : 0;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "PowerOfTwoCheck.kt",
+          "content": "/**\n * Power of Two Check\n *\n * Determines whether a given integer is a power of two using the\n * bitwise trick: n and (n - 1) == 0. A power of two has exactly one\n * set bit in binary, so clearing the lowest set bit yields zero.\n *\n * @param n The integer to check\n * @return 1 if n is a power of two, 0 otherwise\n */\nfun powerOfTwoCheck(n: Int): Int {\n    if (n <= 0) return 0\n    return if (n and (n - 1) == 0) 1 else 0\n}\n\n/**\n * Test the powerOfTwoCheck function with various inputs.\n */\nfun main() {\n    val testCases = listOf(\n        Pair(1, 1),     // 2^0\n        Pair(2, 1),     // 2^1\n        Pair(3, 0),     // not a power of two\n        Pair(4, 1),     // 2^2\n        Pair(16, 1),    // 2^4\n        Pair(18, 0),    // not a power of two\n        Pair(0, 0),     // edge case: zero\n        Pair(-4, 0),    // edge case: negative\n        Pair(1024, 1),  // 2^10\n    )\n\n    for ((value, expected) in testCases) {\n        val result = powerOfTwoCheck(value)\n        val status = if (result == expected) \"PASS\" else \"FAIL\"\n        println(\"[$status] powerOfTwoCheck($value) = $result (expected $expected)\")\n    }\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "power_of_two_check.py",
+          "content": "\"\"\"\nPower of Two Check\n\nDetermines whether a given integer is a power of two using the\nbitwise trick: n & (n - 1) == 0. A power of two has exactly one\nset bit in its binary representation, so clearing the lowest set\nbit yields zero.\n\nReturns 1 if n is a power of two, 0 otherwise.\n\"\"\"\n\n\ndef power_of_two_check(n: int) -> int:\n    \"\"\"Check if n is a power of two using bitwise AND.\n\n    Args:\n        n: The integer to check.\n\n    Returns:\n        1 if n is a power of two, 0 otherwise.\n    \"\"\"\n    if n <= 0:\n        return 0\n    return 1 if (n & (n - 1)) == 0 else 0\n\n\nif __name__ == \"__main__\":\n    test_cases = [\n        (1, 1),     # 2^0\n        (2, 1),     # 2^1\n        (3, 0),     # not a power of two\n        (4, 1),     # 2^2\n        (16, 1),    # 2^4\n        (18, 0),    # not a power of two\n        (0, 0),     # edge case: zero\n        (-4, 0),    # edge case: negative\n        (1024, 1),  # 2^10\n    ]\n    for value, expected in test_cases:\n        result = power_of_two_check(value)\n        status = \"PASS\" if result == expected else \"FAIL\"\n        print(f\"[{status}] power_of_two_check({value}) = {result} (expected {expected})\")\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "power_of_two_check.rs",
+          "content": "pub fn power_of_two_check(n: i32) -> i32 {\n    if n <= 0 {\n        return 0;\n    }\n    if n & (n - 1) == 0 { 1 } else { 0 }\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "PowerOfTwoCheck.scala",
+          "content": "object PowerOfTwoCheck {\n\n  def powerOfTwoCheck(n: Int): Int = {\n    if (n <= 0) 0\n    else if ((n & (n - 1)) == 0) 1\n    else 0\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "PowerOfTwoCheck.swift",
+          "content": "/**\n * Power of Two Check\n *\n * Determines whether a given integer is a power of two using the\n * bitwise trick: n & (n - 1) == 0. A power of two has exactly one\n * set bit in binary, so clearing the lowest set bit yields zero.\n *\n * - Parameter n: The integer to check.\n * - Returns: 1 if n is a power of two, 0 otherwise.\n */\nfunc powerOfTwoCheck(_ n: Int) -> Int {\n    if n <= 0 { return 0 }\n    return (n & (n - 1)) == 0 ? 1 : 0\n}\n\n/* Test cases */\nlet testCases: [(Int, Int)] = [\n    (1, 1),     // 2^0\n    (2, 1),     // 2^1\n    (3, 0),     // not a power of two\n    (4, 1),     // 2^2\n    (16, 1),    // 2^4\n    (18, 0),    // not a power of two\n    (0, 0),     // edge case: zero\n    (-4, 0),    // edge case: negative\n    (1024, 1),  // 2^10\n]\n\nfor (value, expected) in testCases {\n    let result = powerOfTwoCheck(value)\n    let status = result == expected ? \"PASS\" : \"FAIL\"\n    print(\"[\\(status)] powerOfTwoCheck(\\(value)) = \\(result) (expected \\(expected))\")\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "powerOfTwoCheck.ts",
+          "content": "/**\n * Power of Two Check\n *\n * Determines whether a given integer is a power of two using the\n * bitwise trick: n & (n - 1) === 0. A power of two has exactly one\n * set bit in binary, so clearing the lowest set bit yields zero.\n *\n * @param n - The integer to check\n * @returns 1 if n is a power of two, 0 otherwise\n */\nexport function powerOfTwoCheck(n: number): number {\n    if (n <= 0) return 0;\n    return (n & (n - 1)) === 0 ? 1 : 0;\n}\n\n/* Test cases */\nif (require.main === module) {\n    const testCases: [number, number][] = [\n        [1, 1],     // 2^0\n        [2, 1],     // 2^1\n        [3, 0],     // not a power of two\n        [4, 1],     // 2^2\n        [16, 1],    // 2^4\n        [18, 0],    // not a power of two\n        [0, 0],     // edge case: zero\n        [-4, 0],    // edge case: negative\n        [1024, 1],  // 2^10\n    ];\n\n    for (const [value, expected] of testCases) {\n        const result = powerOfTwoCheck(value);\n        const status = result === expected ? \"PASS\" : \"FAIL\";\n        console.log(`[${status}] powerOfTwoCheck(${value}) = ${result} (expected ${expected})`);\n    }\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "patterns": [
+    "bitwise-xor"
+  ],
+  "patternDifficulty": "beginner",
+  "practiceOrder": 4,
+  "readme": "# Power of Two Check\n\n## Overview\n\nChecking whether an integer is a power of two can be done in O(1) time using a bitwise trick. A power of two in binary has exactly one bit set (e.g., 1 = `1`, 2 = `10`, 4 = `100`, 8 = `1000`). The expression `n & (n - 1)` clears the lowest set bit, so if n is a positive power of two, this expression yields zero because there is only one set bit to clear.\n\nThis technique is one of the most commonly used bit manipulation idioms in systems programming, appearing in memory allocators, hash table implementations, and hardware drivers where power-of-two alignment is a frequent requirement.\n\n## How It Works\n\n1. Check that `n` is greater than zero. Zero and negative numbers are not powers of two.\n2. Compute `n & (n - 1)`.\n3. If the result is 0, then `n` has exactly one set bit and is therefore a power of two. Otherwise, it is not.\n\n**Why does `n & (n - 1)` work?**\n\nSubtracting 1 from a binary number flips the lowest set bit and all bits below it. For example:\n- `8` in binary is `1000`. `8 - 1 = 7` is `0111`.\n- `1000 & 0111 = 0000` -- the single set bit is cleared, confirming 8 is a power of two.\n- `12` in binary is `1100`. `12 - 1 = 11` is `1011`.\n- `1100 & 1011 = 1000` -- not zero, because 12 has more than one set bit.\n\n## Example\n\n**Checking `n = 16`:**\n```\n16 in binary:       10000\n16 - 1 = 15:        01111\n16 & 15:            00000  -->  Result is 0, so 16 IS a power of two\n```\n\n**Checking `n = 24`:**\n```\n24 in binary:       11000\n24 - 1 = 23:        10111\n24 & 23:            10000  -->  Result is not 0, so 24 is NOT a power of two\n```\n\n**Checking `n = 1`:**\n```\n1 in binary:        00001\n1 - 1 = 0:          00000\n1 & 0:              00000  -->  Result is 0, so 1 IS a power of two (2^0 = 1)\n```\n\n**Edge cases:**\n- `n = 0`: Excluded by the positivity check. 0 is not a power of two.\n- `n < 0`: Excluded by the positivity check. Negative numbers are not powers of two.\n\n## Pseudocode\n\n```\nfunction isPowerOfTwo(n):\n    if n <= 0:\n        return false\n    return (n AND (n - 1)) == 0\n```\n\n## Complexity Analysis\n\n| Case    | Time | Space |\n|---------|------|-------|\n| Best    | O(1) | O(1)  |\n| Average | O(1) | O(1)  |\n| Worst   | O(1) | O(1)  |\n\n- **Time -- O(1):** The algorithm performs exactly one comparison, one subtraction, and one bitwise AND, regardless of the input value. No loops or recursion are involved.\n- **Space -- O(1):** Only the input variable and the intermediate result are needed. No additional data structures are allocated.\n\n## When to Use\n\n- **Memory alignment checks:** Verifying that buffer sizes or memory addresses are aligned to power-of-two boundaries, which is required by many hardware interfaces and SIMD instructions.\n- **Hash table sizing:** Hash tables often require power-of-two sizes so that modular arithmetic can be replaced with a fast bitwise AND (`index = hash & (size - 1)`).\n- **Binary tree properties:** Checking if a complete binary tree has a specific structure (e.g., a perfect binary tree has 2^k - 1 nodes).\n- **Game development:** Texture dimensions in graphics APIs are often required to be powers of two.\n- **Competitive programming:** A quick utility check used in many bitwise manipulation problems.\n\n## When NOT to Use\n\n- **When you need the next power of two:** This algorithm only checks; it does not compute the nearest power of two. Use bit-shifting techniques or `ceil(log2(n))` to find the next power of two.\n- **When working with floating-point numbers:** The bitwise trick only applies to integers. For floats, examine the exponent field of the IEEE 754 representation instead.\n- **When n can be arbitrarily large (big integers):** The constant-time guarantee assumes fixed-width integers. For arbitrary-precision integers, the AND operation may take O(b) time where b is the number of digits.\n\n## Comparison with Similar Approaches\n\n| Method              | Time | Space | Notes                                        |\n|---------------------|------|-------|----------------------------------------------|\n| `n & (n - 1) == 0` | O(1) | O(1)  | Fastest; single bitwise operation            |\n| Repeated division   | O(log n) | O(1) | Divide by 2 until remainder or 1             |\n| Logarithm check     | O(1) | O(1)  | `log2(n)` is integer; floating-point errors  |\n| Popcount == 1       | O(1) | O(1)  | Uses hardware POPCNT; equally fast           |\n| Lookup table        | O(1) | O(n)  | Precomputed set; only for bounded range      |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [power_of_two_check.py](python/power_of_two_check.py) |\n| Java       | [PowerOfTwoCheck.java](java/PowerOfTwoCheck.java) |\n| C++        | [power_of_two_check.cpp](cpp/power_of_two_check.cpp) |\n| C          | [power_of_two_check.c](c/power_of_two_check.c) |\n| Go         | [power_of_two_check.go](go/power_of_two_check.go) |\n| TypeScript | [powerOfTwoCheck.ts](typescript/powerOfTwoCheck.ts) |\n| Rust       | [power_of_two_check.rs](rust/power_of_two_check.rs) |\n| Kotlin     | [PowerOfTwoCheck.kt](kotlin/PowerOfTwoCheck.kt) |\n| Swift      | [PowerOfTwoCheck.swift](swift/PowerOfTwoCheck.swift) |\n| Scala      | [PowerOfTwoCheck.scala](scala/PowerOfTwoCheck.scala) |\n| C#         | [PowerOfTwoCheck.cs](csharp/PowerOfTwoCheck.cs) |\n\n## References\n\n- Warren, H. S. (2012). *Hacker's Delight* (2nd ed.). Addison-Wesley. Chapter 2: Basics, Section 2-1.\n- Anderson, S. E. (2005). Bit Twiddling Hacks. Stanford University. https://graphics.stanford.edu/~seander/bithacks.html#DetermineIfPowerOf2\n- [Power of Two -- Wikipedia](https://en.wikipedia.org/wiki/Power_of_two)\n"
+}

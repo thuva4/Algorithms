@@ -1,0 +1,17 @@
+name: "Eulerian Path/Circuit"
+slug: "euler-path"
+category: "graph"
+subcategory: "traversal"
+difficulty: "intermediate"
+tags: [graph, euler, circuit, path, hierholzer]
+complexity:
+  time:
+    best: "O(V + E)"
+    average: "O(V + E)"
+    worst: "O(V + E)"
+  space: "O(V + E)"
+stable: null
+in_place: false
+related: [depth-first-search, hamiltonian-path]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

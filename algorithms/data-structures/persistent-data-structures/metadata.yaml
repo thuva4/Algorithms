@@ -1,0 +1,17 @@
+name: "Persistent Data Structures"
+slug: "persistent-data-structures"
+category: "data-structures"
+subcategory: "persistent"
+difficulty: "advanced"
+tags: [data-structures, persistent, segment-tree, immutable, versioning]
+complexity:
+  time:
+    best: "O(log n)"
+    average: "O(log n)"
+    worst: "O(log n)"
+  space: "O(n log n)"
+stable: false
+in_place: false
+related: [segment-tree]
+implementations: [cpp]
+visualization: false

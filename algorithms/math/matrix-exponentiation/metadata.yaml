@@ -1,0 +1,17 @@
+name: "Matrix Exponentiation"
+slug: "matrix-exponentiation"
+category: "math"
+subcategory: "linear-algebra"
+difficulty: "advanced"
+tags: [math, matrix, exponentiation, fast-power, linear-recurrence]
+complexity:
+  time:
+    best: "O(k^3 log n)"
+    average: "O(k^3 log n)"
+    worst: "O(k^3 log n)"
+  space: "O(k^2)"
+stable: false
+in_place: false
+related: []
+implementations: [cpp]
+visualization: false

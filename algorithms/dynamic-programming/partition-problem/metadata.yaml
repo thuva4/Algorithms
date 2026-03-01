@@ -1,0 +1,19 @@
+name: "Partition Problem"
+slug: "partition-problem"
+category: "dynamic-programming"
+subcategory: "subset-sum"
+difficulty: "intermediate"
+tags: [dynamic-programming, subset-sum, partition, knapsack]
+complexity:
+  time:
+    best: "O(n * S)"
+    average: "O(n * S)"
+    worst: "O(n * S)"
+  space: "O(S)"
+related: [knapsack, coin-change, longest-subset-zero-sum]
+implementations: [python, java, cpp, c, go, typescript, kotlin, rust, swift, scala, csharp]
+visualization: true
+patterns:
+  - knapsack-dp
+patternDifficulty: intermediate
+practiceOrder: 3

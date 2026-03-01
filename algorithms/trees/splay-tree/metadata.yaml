@@ -1,0 +1,17 @@
+name: "Splay Tree"
+slug: "splay-tree"
+category: "trees"
+subcategory: "self-adjusting"
+difficulty: "advanced"
+tags: [tree, bst, self-adjusting, amortized, splay]
+complexity:
+  time:
+    best: "O(log n)"
+    average: "O(log n)"
+    worst: "O(log n) amortized"
+  space: "O(n)"
+stable: null
+in_place: false
+related: [binary-search-tree, avl-tree, red-black-tree]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

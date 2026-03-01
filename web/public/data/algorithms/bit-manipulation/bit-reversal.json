@@ -1,0 +1,138 @@
+{
+  "name": "Bit Reversal",
+  "slug": "bit-reversal",
+  "category": "bit-manipulation",
+  "subcategory": "transformation",
+  "difficulty": "beginner",
+  "tags": [
+    "bit-manipulation",
+    "reversal",
+    "bitwise",
+    "32-bit"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(1)",
+      "average": "O(1)",
+      "worst": "O(1)"
+    },
+    "space": "O(1)"
+  },
+  "related": [
+    "count-set-bits",
+    "power-of-two-check",
+    "hamming-distance"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "bit_reversal.c",
+          "content": "#include \"bit_reversal.h\"\n#include <stdint.h>\n\nlong long bit_reversal(long long n) {\n    uint32_t val = (uint32_t)n;\n    uint32_t result = 0;\n    for (int i = 0; i < 32; i++) {\n        result = (result << 1) | (val & 1);\n        val >>= 1;\n    }\n    return (long long)result;\n}\n"
+        },
+        {
+          "filename": "bit_reversal.h",
+          "content": "#ifndef BIT_REVERSAL_H\n#define BIT_REVERSAL_H\n\nlong long bit_reversal(long long n);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "bit_reversal.cpp",
+          "content": "#include <cstdint>\n\nlong long bit_reversal(long long n) {\n    uint32_t val = (uint32_t)n;\n    uint32_t result = 0;\n    for (int i = 0; i < 32; i++) {\n        result = (result << 1) | (val & 1);\n        val >>= 1;\n    }\n    return (long long)result;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "BitReversal.cs",
+          "content": "public class BitReversal\n{\n    public static long Reverse(long n)\n    {\n        uint val = (uint)n;\n        uint result = 0;\n        for (int i = 0; i < 32; i++)\n        {\n            result = (result << 1) | (val & 1);\n            val >>= 1;\n        }\n        return (long)result;\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "bit_reversal.go",
+          "content": "package bitreversal\n\nfunc BitReversal(n int64) int64 {\n\tvar val uint32 = uint32(n)\n\tvar result uint32 = 0\n\tfor i := 0; i < 32; i++ {\n\t\tresult = (result << 1) | (val & 1)\n\t\tval >>= 1\n\t}\n\treturn int64(result)\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "BitReversal.java",
+          "content": "public class BitReversal {\n\n    public static long bitReversal(long n) {\n        long result = 0;\n        for (int i = 0; i < 32; i++) {\n            result = (result << 1) | (n & 1);\n            n >>= 1;\n        }\n        return result;\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "BitReversal.kt",
+          "content": "fun bitReversal(n: Long): Long {\n    var value = n.toInt().toUInt()\n    var result: UInt = 0u\n    for (i in 0 until 32) {\n        result = (result shl 1) or (value and 1u)\n        value = value shr 1\n    }\n    return result.toLong()\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "bit_reversal.py",
+          "content": "def bit_reversal(n: int) -> int:\n    result = 0\n    for _ in range(32):\n        result = (result << 1) | (n & 1)\n        n >>= 1\n    return result\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "bit_reversal.rs",
+          "content": "pub fn bit_reversal(n: i64) -> i64 {\n    let mut val = n as u32;\n    let mut result: u32 = 0;\n    for _ in 0..32 {\n        result = (result << 1) | (val & 1);\n        val >>= 1;\n    }\n    result as i64\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "BitReversal.scala",
+          "content": "object BitReversal {\n\n  def bitReversal(n: Long): Long = {\n    var value = (n & 0xFFFFFFFFL).toInt\n    var result = 0L\n    for (_ <- 0 until 32) {\n      result = (result << 1) | (value & 1)\n      value >>>= 1\n    }\n    result & 0xFFFFFFFFL\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "BitReversal.swift",
+          "content": "func bitReversal(_ n: Int) -> Int {\n    var val2 = UInt32(truncatingIfNeeded: n)\n    var result: UInt32 = 0\n    for _ in 0..<32 {\n        result = (result << 1) | (val2 & 1)\n        val2 >>= 1\n    }\n    return Int(result)\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "bitReversal.ts",
+          "content": "export function bitReversal(n: number): number {\n    let val = n >>> 0; // treat as unsigned 32-bit\n    let result = 0;\n    for (let i = 0; i < 32; i++) {\n        result = ((result << 1) | (val & 1)) >>> 0;\n        val >>>= 1;\n    }\n    return result;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "patterns": [
+    "bitwise-xor"
+  ],
+  "patternDifficulty": "intermediate",
+  "practiceOrder": 5,
+  "readme": "# Bit Reversal\n\n## Overview\n\nBit reversal reverses the order of bits in a fixed-width unsigned integer. For a 32-bit integer, the most significant bit becomes the least significant bit and vice versa. For example, the 32-bit representation of 1 is `00000000000000000000000000000001`, and its reversal is `10000000000000000000000000000000` (2,147,483,648 in decimal).\n\nBit reversal is a critical operation in the Cooley-Tukey Fast Fourier Transform (FFT) algorithm, where it determines the order in which input elements must be rearranged before the butterfly computations. It also appears in cryptographic algorithms, permutation networks, and digital signal processing.\n\n## How It Works\n\nThe simplest approach iterates through all bit positions, extracting each bit from the input and placing it in the mirror position of the result:\n\n1. Initialize `result` to 0.\n2. For each of the 32 bit positions (i = 0 to 31):\n   - Shift `result` left by 1 to make room for the next bit.\n   - OR `result` with the lowest bit of `n` (obtained via `n & 1`).\n   - Shift `n` right by 1 to expose the next bit.\n3. After 32 iterations, `result` contains the bit-reversed value.\n\nAn alternative divide-and-conquer approach swaps adjacent bits, then pairs, then nibbles, then bytes, then half-words, achieving O(log b) operations where b is the bit width.\n\n## Example\n\n**Reversing `n = 13` (32-bit):**\n\n```\n13 in binary (32-bit):  00000000 00000000 00000000 00001101\nReversed:               10110000 00000000 00000000 00000000\n```\n\nStep-by-step (showing only the relevant low bits of n and growing result):\n\n| Iteration | n (lowest bits) | Extracted bit | result (growing) |\n|-----------|----------------|---------------|------------------|\n| 1         | ...1101        | 1             | 1                |\n| 2         | ...0110        | 0             | 10               |\n| 3         | ...0011        | 1             | 101              |\n| 4         | ...0001        | 1             | 1011             |\n| 5-32      | ...0000        | 0             | 10110000...0     |\n\nDecimal result: 2,952,790,016\n\n**Reversing `n = 1`:**\n```\n1 in binary (32-bit):   00000000 00000000 00000000 00000001\nReversed:               10000000 00000000 00000000 00000000\n```\nDecimal result: 2,147,483,648\n\n**Reversing `n = 0`:**\n```\nAll bits are 0, so the reversal is also 0.\n```\n\n## Pseudocode\n\n```\nfunction reverseBits(n):\n    result = 0\n    for i from 0 to 31:\n        result = result << 1         // shift result left\n        result = result | (n & 1)    // append lowest bit of n\n        n = n >> 1                   // shift n right\n    return result\n```\n\n**Divide-and-conquer alternative (O(log b) operations):**\n```\nfunction reverseBits32(n):\n    n = ((n & 0x55555555) << 1)  | ((n >> 1)  & 0x55555555)  // swap adjacent bits\n    n = ((n & 0x33333333) << 2)  | ((n >> 2)  & 0x33333333)  // swap pairs\n    n = ((n & 0x0F0F0F0F) << 4)  | ((n >> 4)  & 0x0F0F0F0F)  // swap nibbles\n    n = ((n & 0x00FF00FF) << 8)  | ((n >> 8)  & 0x00FF00FF)  // swap bytes\n    n = ((n & 0x0000FFFF) << 16) | ((n >> 16) & 0x0000FFFF)  // swap halves\n    return n\n```\n\n## Complexity Analysis\n\n| Case    | Time | Space |\n|---------|------|-------|\n| Best    | O(1) | O(1)  |\n| Average | O(1) | O(1)  |\n| Worst   | O(1) | O(1)  |\n\n- **Time -- O(1):** The loop always runs exactly 32 times for a 32-bit integer (or 5 mask-and-shift operations in the divide-and-conquer variant). The number of operations is fixed regardless of the input value.\n- **Space -- O(1):** Only the result variable and loop counter are needed. No additional memory is allocated.\n\nNote: If the bit width b is a parameter rather than fixed, the time complexity would be O(b) for the iterative approach or O(log b) for the divide-and-conquer approach.\n\n## When to Use\n\n- **Fast Fourier Transform (FFT):** The Cooley-Tukey radix-2 FFT requires bit-reversal permutation of the input array before performing butterfly operations.\n- **Cryptographic algorithms:** Certain block ciphers and permutation-based constructions involve bit-level permutations.\n- **Digital signal processing:** Converting between natural order and bit-reversed order for efficient computation of DFT.\n- **Network permutation routing:** Bit-reversal routing is used in butterfly and hypercube interconnection networks.\n- **Competitive programming:** A common subroutine in problems involving binary representations and transforms.\n\n## When NOT to Use\n\n- **When the bit width is not fixed:** If you need to reverse only the significant bits (e.g., reverse the 4 bits of the number 13 to get 11 rather than reversing all 32 bits), this algorithm must be adapted by shifting the result right to remove leading zeros.\n- **When a lookup table is more efficient:** For high-throughput applications reversing millions of values, a precomputed byte-level lookup table (256 entries) combined with byte swapping can be faster than the loop-based approach.\n- **When hardware support exists:** Some architectures provide a dedicated bit-reverse instruction (e.g., ARM's RBIT). Using the intrinsic is always faster than a software implementation.\n\n## Comparison with Similar Approaches\n\n| Method                  | Time    | Space | Notes                                          |\n|------------------------|---------|-------|-------------------------------------------------|\n| Iterative (loop)       | O(b)    | O(1)  | Simple; processes one bit per iteration          |\n| Divide and conquer     | O(log b)| O(1)  | Five mask-and-shift steps for 32 bits            |\n| Lookup table (per byte)| O(b/8)  | O(256)| Precomputed table; fast for repeated reversals   |\n| Hardware RBIT          | O(1)    | O(1)  | Single instruction; architecture-dependent       |\n\nWhere b is the bit width (e.g., 32).\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [bit_reversal.py](python/bit_reversal.py) |\n| Java       | [BitReversal.java](java/BitReversal.java) |\n| C++        | [bit_reversal.cpp](cpp/bit_reversal.cpp) |\n| C          | [bit_reversal.c](c/bit_reversal.c) |\n| Go         | [bit_reversal.go](go/bit_reversal.go) |\n| TypeScript | [bitReversal.ts](typescript/bitReversal.ts) |\n| Rust       | [bit_reversal.rs](rust/bit_reversal.rs) |\n| Kotlin     | [BitReversal.kt](kotlin/BitReversal.kt) |\n| Swift      | [BitReversal.swift](swift/BitReversal.swift) |\n| Scala      | [BitReversal.scala](scala/BitReversal.scala) |\n| C#         | [BitReversal.cs](csharp/BitReversal.cs) |\n\n## References\n\n- Cooley, J. W., & Tukey, J. W. (1965). An algorithm for the machine calculation of complex Fourier series. *Mathematics of Computation*, 19(90), 297-301.\n- Warren, H. S. (2012). *Hacker's Delight* (2nd ed.). Addison-Wesley. Chapter 7: Rearranging Bits and Bytes.\n- Anderson, S. E. (2005). Bit Twiddling Hacks. Stanford University. https://graphics.stanford.edu/~seander/bithacks.html#BitReverseObvious\n- [Bit-reversal permutation -- Wikipedia](https://en.wikipedia.org/wiki/Bit-reversal_permutation)\n"
+}

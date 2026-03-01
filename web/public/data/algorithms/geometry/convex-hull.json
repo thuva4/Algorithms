@@ -1,0 +1,131 @@
+{
+  "name": "Convex Hull",
+  "slug": "convex-hull",
+  "category": "geometry",
+  "subcategory": "computational-geometry",
+  "difficulty": "intermediate",
+  "tags": [
+    "geometry",
+    "convex-hull",
+    "computational-geometry",
+    "graham-scan"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n log n)",
+      "average": "O(n log n)",
+      "worst": "O(n log n)"
+    },
+    "space": "O(n)"
+  },
+  "stable": null,
+  "in_place": null,
+  "related": [],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "convex_hull.c",
+          "content": "#include \"convex_hull.h\"\n\nstatic long long cross(int ox, int oy, int ax, int ay, int bx, int by) {\n    return (long long)(ax - ox) * (by - oy) - (long long)(ay - oy) * (bx - ox);\n}\n\nstatic void sort_points(int* px, int* py, int n) {\n    for (int i = 0; i < n - 1; i++) {\n        for (int j = 0; j < n - 1 - i; j++) {\n            if (px[j] > px[j+1] || (px[j] == px[j+1] && py[j] > py[j+1])) {\n                int tx = px[j]; px[j] = px[j+1]; px[j+1] = tx;\n                int ty = py[j]; py[j] = py[j+1]; py[j+1] = ty;\n            }\n        }\n    }\n}\n\nint convex_hull_count(const int* arr, int size) {\n    int n = arr[0];\n    if (n <= 2) return n;\n\n    int px[1000], py[1000];\n    int idx = 1;\n    for (int i = 0; i < n; i++) { px[i] = arr[idx++]; py[i] = arr[idx++]; }\n    sort_points(px, py, n);\n\n    int hx[2000], hy[2000];\n    int k = 0;\n\n    for (int i = 0; i < n; i++) {\n        while (k >= 2 && cross(hx[k-2], hy[k-2], hx[k-1], hy[k-1], px[i], py[i]) <= 0) k--;\n        hx[k] = px[i]; hy[k] = py[i]; k++;\n    }\n\n    int lower = k + 1;\n    for (int i = n - 2; i >= 0; i--) {\n        while (k >= lower && cross(hx[k-2], hy[k-2], hx[k-1], hy[k-1], px[i], py[i]) <= 0) k--;\n        hx[k] = px[i]; hy[k] = py[i]; k++;\n    }\n\n    return k - 1;\n}\n"
+        },
+        {
+          "filename": "convex_hull.h",
+          "content": "#ifndef CONVEX_HULL_H\n#define CONVEX_HULL_H\n\nint convex_hull_count(const int* arr, int size);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "convex_hull.cpp",
+          "content": "#include <vector>\n#include <algorithm>\n\nint convex_hull_count(std::vector<int> arr) {\n    int n = arr[0];\n    if (n <= 2) return n;\n\n    std::vector<std::pair<int, int>> points;\n    int idx = 1;\n    for (int i = 0; i < n; i++) {\n        points.push_back({arr[idx], arr[idx + 1]});\n        idx += 2;\n    }\n    std::sort(points.begin(), points.end());\n\n    auto cross = [](std::pair<int,int> o, std::pair<int,int> a, std::pair<int,int> b) -> long long {\n        return (long long)(a.first - o.first) * (b.second - o.second) - (long long)(a.second - o.second) * (b.first - o.first);\n    };\n\n    std::vector<std::pair<int,int>> hull;\n    for (auto& p : points) {\n        while (hull.size() >= 2 && cross(hull[hull.size()-2], hull[hull.size()-1], p) <= 0) hull.pop_back();\n        hull.push_back(p);\n    }\n\n    int lower = static_cast<int>(hull.size()) + 1;\n    for (int i = n - 2; i >= 0; i--) {\n        while (static_cast<int>(hull.size()) >= lower && cross(hull[hull.size()-2], hull[hull.size()-1], points[i]) <= 0) hull.pop_back();\n        hull.push_back(points[i]);\n    }\n\n    return static_cast<int>(hull.size()) - 1;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "ConvexHull.cs",
+          "content": "using System;\nusing System.Collections.Generic;\n\npublic class ConvexHull\n{\n    public static int ConvexHullCount(int[] arr)\n    {\n        int n = arr[0];\n        if (n <= 2) return n;\n\n        var points = new (int x, int y)[n];\n        int idx = 1;\n        for (int i = 0; i < n; i++) { points[i] = (arr[idx], arr[idx + 1]); idx += 2; }\n        Array.Sort(points, (a, b) => a.x != b.x ? a.x.CompareTo(b.x) : a.y.CompareTo(b.y));\n\n        long Cross((int x, int y) o, (int x, int y) a, (int x, int y) b) =>\n            (long)(a.x - o.x) * (b.y - o.y) - (long)(a.y - o.y) * (b.x - o.x);\n\n        var hull = new List<(int x, int y)>();\n        foreach (var p in points)\n        {\n            while (hull.Count >= 2 && Cross(hull[hull.Count - 2], hull[hull.Count - 1], p) <= 0) hull.RemoveAt(hull.Count - 1);\n            hull.Add(p);\n        }\n        int lower = hull.Count + 1;\n        for (int i = n - 2; i >= 0; i--)\n        {\n            while (hull.Count >= lower && Cross(hull[hull.Count - 2], hull[hull.Count - 1], points[i]) <= 0) hull.RemoveAt(hull.Count - 1);\n            hull.Add(points[i]);\n        }\n        return hull.Count - 1;\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "convex_hull.go",
+          "content": "package convexhull\n\nimport \"sort\"\n\ntype point struct{ x, y int }\n\nfunc cross(o, a, b point) int64 {\n\treturn int64(a.x-o.x)*int64(b.y-o.y) - int64(a.y-o.y)*int64(b.x-o.x)\n}\n\n// ConvexHullCount returns the number of points on the convex hull.\nfunc ConvexHullCount(arr []int) int {\n\tn := arr[0]\n\tif n <= 2 { return n }\n\n\tpoints := make([]point, n)\n\tidx := 1\n\tfor i := 0; i < n; i++ {\n\t\tpoints[i] = point{arr[idx], arr[idx+1]}\n\t\tidx += 2\n\t}\n\tsort.Slice(points, func(i, j int) bool {\n\t\tif points[i].x != points[j].x { return points[i].x < points[j].x }\n\t\treturn points[i].y < points[j].y\n\t})\n\n\thull := make([]point, 0, 2*n)\n\tfor _, p := range points {\n\t\tfor len(hull) >= 2 && cross(hull[len(hull)-2], hull[len(hull)-1], p) <= 0 { hull = hull[:len(hull)-1] }\n\t\thull = append(hull, p)\n\t}\n\tlower := len(hull) + 1\n\tfor i := n - 2; i >= 0; i-- {\n\t\tfor len(hull) >= lower && cross(hull[len(hull)-2], hull[len(hull)-1], points[i]) <= 0 { hull = hull[:len(hull)-1] }\n\t\thull = append(hull, points[i])\n\t}\n\treturn len(hull) - 1\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "ConvexHull.java",
+          "content": "import java.util.Arrays;\n\npublic class ConvexHull {\n\n    public static int convexHullCount(int[] arr) {\n        int n = arr[0];\n        if (n <= 2) return n;\n\n        int[][] points = new int[n][2];\n        int idx = 1;\n        for (int i = 0; i < n; i++) {\n            points[i][0] = arr[idx++];\n            points[i][1] = arr[idx++];\n        }\n        Arrays.sort(points, (a, b) -> a[0] != b[0] ? a[0] - b[0] : a[1] - b[1]);\n\n        int[][] hull = new int[2 * n][2];\n        int k = 0;\n\n        for (int i = 0; i < n; i++) {\n            while (k >= 2 && cross(hull[k-2], hull[k-1], points[i]) <= 0) k--;\n            hull[k++] = points[i];\n        }\n\n        int lower = k + 1;\n        for (int i = n - 2; i >= 0; i--) {\n            while (k >= lower && cross(hull[k-2], hull[k-1], points[i]) <= 0) k--;\n            hull[k++] = points[i];\n        }\n\n        return k - 1;\n    }\n\n    private static long cross(int[] o, int[] a, int[] b) {\n        return (long)(a[0] - o[0]) * (b[1] - o[1]) - (long)(a[1] - o[1]) * (b[0] - o[0]);\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "ConvexHull.kt",
+          "content": "fun convexHullCount(arr: IntArray): Int {\n    val n = arr[0]\n    if (n <= 2) return n\n\n    data class Pt(val x: Int, val y: Int) : Comparable<Pt> {\n        override fun compareTo(other: Pt) = if (x != other.x) x - other.x else y - other.y\n    }\n\n    fun cross(o: Pt, a: Pt, b: Pt): Long =\n        (a.x - o.x).toLong() * (b.y - o.y) - (a.y - o.y).toLong() * (b.x - o.x)\n\n    val points = mutableListOf<Pt>()\n    var idx = 1\n    for (i in 0 until n) { points.add(Pt(arr[idx], arr[idx + 1])); idx += 2 }\n    points.sort()\n\n    val hull = mutableListOf<Pt>()\n    for (p in points) {\n        while (hull.size >= 2 && cross(hull[hull.size - 2], hull[hull.size - 1], p) <= 0) hull.removeAt(hull.size - 1)\n        hull.add(p)\n    }\n    val lower = hull.size + 1\n    for (i in n - 2 downTo 0) {\n        while (hull.size >= lower && cross(hull[hull.size - 2], hull[hull.size - 1], points[i]) <= 0) hull.removeAt(hull.size - 1)\n        hull.add(points[i])\n    }\n    return hull.size - 1\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "convex_hull.py",
+          "content": "def convex_hull_count(arr: list[int]) -> int:\n    n = arr[0]\n    if n <= 2:\n        return n\n\n    points: list[tuple[int, int]] = []\n    idx = 1\n    for _ in range(n):\n        points.append((arr[idx], arr[idx + 1]))\n        idx += 2\n\n    points.sort()\n\n    def cross(o: tuple[int, int], a: tuple[int, int], b: tuple[int, int]) -> int:\n        return (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0])\n\n    lower: list[tuple[int, int]] = []\n    for p in points:\n        while len(lower) >= 2 and cross(lower[-2], lower[-1], p) <= 0:\n            lower.pop()\n        lower.append(p)\n\n    upper: list[tuple[int, int]] = []\n    for p in reversed(points):\n        while len(upper) >= 2 and cross(upper[-2], upper[-1], p) <= 0:\n            upper.pop()\n        upper.append(p)\n\n    hull = lower[:-1] + upper[:-1]\n    return len(hull)\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "convex_hull.rs",
+          "content": "pub fn convex_hull_count(arr: &[i32]) -> i32 {\n    let n = arr[0] as usize;\n    if n <= 2 { return n as i32; }\n\n    let mut points: Vec<(i32, i32)> = Vec::new();\n    let mut idx = 1;\n    for _ in 0..n {\n        points.push((arr[idx], arr[idx + 1]));\n        idx += 2;\n    }\n    points.sort();\n\n    fn cross(o: (i32, i32), a: (i32, i32), b: (i32, i32)) -> i64 {\n        (a.0 as i64 - o.0 as i64) * (b.1 as i64 - o.1 as i64) - (a.1 as i64 - o.1 as i64) * (b.0 as i64 - o.0 as i64)\n    }\n\n    let mut hull: Vec<(i32, i32)> = Vec::new();\n    for &p in &points {\n        while hull.len() >= 2 && cross(hull[hull.len()-2], hull[hull.len()-1], p) <= 0 { hull.pop(); }\n        hull.push(p);\n    }\n    let lower = hull.len() + 1;\n    for i in (0..n-1).rev() {\n        while hull.len() >= lower && cross(hull[hull.len()-2], hull[hull.len()-1], points[i]) <= 0 { hull.pop(); }\n        hull.push(points[i]);\n    }\n    (hull.len() - 1) as i32\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "ConvexHull.scala",
+          "content": "object ConvexHull {\n\n  def convexHullCount(arr: Array[Int]): Int = {\n    val n = arr(0)\n    if (n <= 2) return n\n\n    val points = new Array[(Int, Int)](n)\n    var idx = 1\n    for (i <- 0 until n) { points(i) = (arr(idx), arr(idx + 1)); idx += 2 }\n    val sorted = points.sorted\n\n    def cross(o: (Int, Int), a: (Int, Int), b: (Int, Int)): Long =\n      (a._1 - o._1).toLong * (b._2 - o._2) - (a._2 - o._2).toLong * (b._1 - o._1)\n\n    val hull = scala.collection.mutable.ArrayBuffer[(Int, Int)]()\n    for (p <- sorted) {\n      while (hull.size >= 2 && cross(hull(hull.size - 2), hull(hull.size - 1), p) <= 0) hull.remove(hull.size - 1)\n      hull += p\n    }\n    val lower = hull.size + 1\n    for (i <- n - 2 to 0 by -1) {\n      while (hull.size >= lower && cross(hull(hull.size - 2), hull(hull.size - 1), sorted(i)) <= 0) hull.remove(hull.size - 1)\n      hull += sorted(i)\n    }\n    hull.size - 1\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "ConvexHull.swift",
+          "content": "func convexHullCount(_ arr: [Int]) -> Int {\n    let n = arr[0]\n    if n <= 2 { return n }\n\n    var points: [(Int, Int)] = []\n    var idx = 1\n    for _ in 0..<n { points.append((arr[idx], arr[idx + 1])); idx += 2 }\n    points.sort { $0.0 != $1.0 ? $0.0 < $1.0 : $0.1 < $1.1 }\n\n    func cross(_ o: (Int, Int), _ a: (Int, Int), _ b: (Int, Int)) -> Int {\n        return (a.0 - o.0) * (b.1 - o.1) - (a.1 - o.1) * (b.0 - o.0)\n    }\n\n    var hull: [(Int, Int)] = []\n    for p in points {\n        while hull.count >= 2 && cross(hull[hull.count - 2], hull[hull.count - 1], p) <= 0 { hull.removeLast() }\n        hull.append(p)\n    }\n    let lower = hull.count + 1\n    for i in stride(from: n - 2, through: 0, by: -1) {\n        while hull.count >= lower && cross(hull[hull.count - 2], hull[hull.count - 1], points[i]) <= 0 { hull.removeLast() }\n        hull.append(points[i])\n    }\n    return hull.count - 1\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "convexHull.ts",
+          "content": "export function convexHullCount(arr: number[]): number {\n    const n = arr[0];\n    if (n <= 2) return n;\n\n    const points: [number, number][] = [];\n    let idx = 1;\n    for (let i = 0; i < n; i++) {\n        points.push([arr[idx], arr[idx + 1]]);\n        idx += 2;\n    }\n    points.sort((a, b) => a[0] !== b[0] ? a[0] - b[0] : a[1] - b[1]);\n\n    function cross(o: [number, number], a: [number, number], b: [number, number]): number {\n        return (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);\n    }\n\n    const lower: [number, number][] = [];\n    for (const p of points) {\n        while (lower.length >= 2 && cross(lower[lower.length - 2], lower[lower.length - 1], p) <= 0) lower.pop();\n        lower.push(p);\n    }\n\n    const upper: [number, number][] = [];\n    for (let i = points.length - 1; i >= 0; i--) {\n        while (upper.length >= 2 && cross(upper[upper.length - 2], upper[upper.length - 1], points[i]) <= 0) upper.pop();\n        upper.push(points[i]);\n    }\n\n    return lower.length - 1 + upper.length - 1;\n}\n"
+        }
+      ]
+    }
+  },
+  "visualization": false,
+  "readme": "# Convex Hull\n\n## Overview\n\nThe Convex Hull of a set of points is the smallest convex polygon that contains all the points. Intuitively, imagine stretching a rubber band around all the points and letting it snap tight -- the shape it forms is the convex hull.\n\nThis implementation uses Andrew's monotone chain algorithm, which builds the hull in two passes (lower and upper) after sorting the points. It is one of the most practical convex hull algorithms due to its simplicity and reliable O(n log n) performance.\n\n## How It Works\n\nAndrew's monotone chain algorithm constructs the convex hull in two halves:\n\n1. **Sort** all points lexicographically by x-coordinate, breaking ties by y-coordinate.\n2. **Build the lower hull:** Iterate through the sorted points left to right. For each point, while the last two points in the hull and the new point make a clockwise turn (or are collinear), remove the last point. Then append the new point.\n3. **Build the upper hull:** Iterate through the sorted points right to left, applying the same procedure.\n4. **Combine:** Concatenate the lower and upper hulls, removing the duplicate endpoints where they meet.\n\nThe turn direction is determined using the cross product of vectors formed by three consecutive points. If the cross product is negative (or zero for collinear), the middle point is removed to maintain convexity.\n\n## Worked Example\n\n**Input points:** (0,0), (2,0), (1,1), (0,2), (2,2), (1,3)\n\n**Step 1 -- Sort:** (0,0), (0,2), (1,1), (1,3), (2,0), (2,2)\n\n**Step 2 -- Lower hull (left to right):**\n\n| Point Added | Hull State | Cross Product Check | Action |\n|-------------|------------|---------------------|--------|\n| (0,0) | [(0,0)] | -- | Append |\n| (0,2) | [(0,0),(0,2)] | -- | Append |\n| (1,1) | [(0,0),(1,1)] | (0,2)->(1,1) is CW | Remove (0,2), append (1,1) |\n| (1,3) | [(0,0),(1,1),(1,3)] | CCW turn | Append |\n| (2,0) | [(0,0),(2,0)] | Removes (1,3),(1,1) | CW turns, append (2,0) |\n| (2,2) | [(0,0),(2,0),(2,2)] | CCW turn | Append |\n\n**Step 3 -- Upper hull (right to left):**\n\nBuilt similarly, yielding: (2,2), (1,3), (0,2), (0,0)\n\n**Result:** The convex hull has 5 vertices: (0,0), (2,0), (2,2), (1,3), (0,2). The point (1,1) is interior and excluded. Count = 5.\n\n## Pseudocode\n\n```\nfunction cross(O, A, B):\n    return (A.x - O.x) * (B.y - O.y) - (A.y - O.y) * (B.x - O.x)\n\nfunction convexHull(points):\n    n = length(points)\n    if n <= 1:\n        return n\n\n    sort points by (x, then y)\n\n    // Build lower hull\n    lower = []\n    for each point p in points (left to right):\n        while length(lower) >= 2 and cross(lower[-2], lower[-1], p) <= 0:\n            remove last element from lower\n        append p to lower\n\n    // Build upper hull\n    upper = []\n    for each point p in points (right to left):\n        while length(upper) >= 2 and cross(upper[-2], upper[-1], p) <= 0:\n            remove last element from upper\n        append p to upper\n\n    // Remove last point of each half because it is repeated\n    hull = lower[0..-2] + upper[0..-2]\n    return length(hull)\n```\n\n## Complexity Analysis\n\n| Case    | Time       | Space |\n|---------|------------|-------|\n| Best    | O(n log n) | O(n)  |\n| Average | O(n log n) | O(n)  |\n| Worst   | O(n log n) | O(n)  |\n\n- **Time -- O(n log n):** Dominated by the sorting step. The hull construction itself is O(n) because each point is added and removed from the stack at most once (amortized).\n- **Space -- O(n):** Requires storage for the sorted points and the hull arrays.\n\n## When to Use\n\n- **Computer graphics and image processing:** Computing bounding shapes for objects.\n- **Collision detection in games:** Testing if two convex objects overlap is much faster than testing arbitrary polygons.\n- **Geographic information systems:** Finding the boundary of a set of geographic coordinates.\n- **Robotics path planning:** Identifying obstacle boundaries for navigation.\n- **Pattern recognition:** Computing shape descriptors and features from point clouds.\n- **Statistics:** Computing the convex hull of data points for outlier detection or data enclosure.\n\n## When NOT to Use\n\n- **Concave boundaries needed:** If you need a shape that follows concavities in the point set (e.g., alpha shapes or concave hulls), the convex hull will lose interior detail.\n- **Dynamic point sets with frequent insertions/deletions:** The monotone chain algorithm must re-sort and rebuild on each update. Dynamic convex hull data structures are better suited for this.\n- **Very high dimensions:** The convex hull problem becomes exponentially harder in high dimensions (the number of facets can be O(n^(d/2))). Consider approximate methods instead.\n- **Only need pairwise distances or nearest neighbors:** If the downstream task does not require the hull boundary itself, computing it is unnecessary overhead.\n\n## Comparison\n\n| Algorithm | Time | Output-Sensitive? | Notes |\n|-----------|------|-------------------|-------|\n| Andrew's Monotone Chain | O(n log n) | No | Simple, practical, sorts first |\n| Graham Scan | O(n log n) | No | Similar to monotone chain, uses angular sort |\n| Jarvis March (Gift Wrapping) | O(nh) | Yes | Better when h is very small |\n| Quickhull | O(n log n) avg, O(n^2) worst | No | Fast in practice, divide-and-conquer |\n| Chan's Algorithm | O(n log h) | Yes | Optimal output-sensitive algorithm |\n\nAndrew's monotone chain and Graham scan are the most commonly used general-purpose algorithms. Jarvis march is preferred when the number of hull points h is known to be very small (h << n). Chan's algorithm achieves the theoretically optimal O(n log h) but is more complex to implement.\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| Python     | [convex_hull.py](python/convex_hull.py) |\n| Java       | [ConvexHull.java](java/ConvexHull.java) |\n| C++        | [convex_hull.cpp](cpp/convex_hull.cpp) |\n| C          | [convex_hull.c](c/convex_hull.c) |\n| Go         | [convex_hull.go](go/convex_hull.go) |\n| TypeScript | [convexHull.ts](typescript/convexHull.ts) |\n| Rust       | [convex_hull.rs](rust/convex_hull.rs) |\n| Kotlin     | [ConvexHull.kt](kotlin/ConvexHull.kt) |\n| Swift      | [ConvexHull.swift](swift/ConvexHull.swift) |\n| Scala      | [ConvexHull.scala](scala/ConvexHull.scala) |\n| C#         | [ConvexHull.cs](csharp/ConvexHull.cs) |\n\n## References\n\n- Andrew, A. M. (1979). \"Another efficient algorithm for convex hulls in two dimensions.\" *Information Processing Letters*, 9(5), 216-219.\n- de Berg, M., Cheong, O., van Kreveld, M., & Overmars, M. (2008). *Computational Geometry: Algorithms and Applications* (3rd ed.). Springer. Chapter 1.\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 33: Computational Geometry.\n- [Convex Hull -- Wikipedia](https://en.wikipedia.org/wiki/Convex_hull_algorithms)\n"
+}

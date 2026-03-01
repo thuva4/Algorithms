@@ -1,0 +1,27 @@
+algorithm: "tim-sort"
+function_signature:
+  name: "tim_sort"
+  input: [array_of_integers]
+  output: array_of_integers
+test_cases:
+  - name: "basic unsorted"
+    input: [[29, 25, 3, 49, 9, 37, 21, 43]]
+    expected: [3, 9, 21, 25, 29, 37, 43, 49]
+  - name: "single element"
+    input: [[1]]
+    expected: [1]
+  - name: "empty array"
+    input: [[]]
+    expected: []
+  - name: "all same"
+    input: [[5, 5, 5]]
+    expected: [5, 5, 5]
+  - name: "already sorted"
+    input: [[1, 2, 3, 4, 5]]
+    expected: [1, 2, 3, 4, 5]
+  - name: "reverse sorted"
+    input: [[5, 4, 3, 2, 1]]
+    expected: [1, 2, 3, 4, 5]
+  - name: "large array"
+    input: [[10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, -1, -2, -3, -4, -5]]
+    expected: [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]

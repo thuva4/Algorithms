@@ -1,0 +1,18 @@
+algorithm: "levenshtein-distance"
+function_signature:
+  name: "levenshtein_distance"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "simple edit"
+    input: [[3, 1, 2, 3, 3, 1, 2, 4]]
+    expected: 1
+  - name: "identical"
+    input: [[2, 5, 6, 2, 5, 6]]
+    expected: 0
+  - name: "completely different"
+    input: [[2, 1, 2, 2, 3, 4]]
+    expected: 2
+  - name: "empty vs non-empty"
+    input: [[0, 3, 1, 2, 3]]
+    expected: 3

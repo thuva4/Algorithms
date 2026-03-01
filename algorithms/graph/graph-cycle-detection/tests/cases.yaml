@@ -1,0 +1,24 @@
+algorithm: "graph-cycle-detection"
+function_signature:
+  name: "graph_cycle_detection"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "simple cycle"
+    input: [[3, 3, 0, 1, 1, 2, 2, 0]]
+    expected: 1
+  - name: "no cycle (chain)"
+    input: [[3, 2, 0, 1, 1, 2]]
+    expected: 0
+  - name: "self loop"
+    input: [[2, 1, 0, 0]]
+    expected: 1
+  - name: "no edges"
+    input: [[3, 0]]
+    expected: 0
+  - name: "diamond no cycle"
+    input: [[4, 4, 0, 1, 0, 2, 1, 3, 2, 3]]
+    expected: 0
+  - name: "two components one with cycle"
+    input: [[5, 4, 0, 1, 2, 3, 3, 4, 4, 2]]
+    expected: 1

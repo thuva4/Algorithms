@@ -1,0 +1,17 @@
+name: "Centroid Tree (Centroid Decomposition)"
+slug: "centroid-tree"
+category: "graph"
+subcategory: "tree-decomposition"
+difficulty: "advanced"
+tags: [graph, tree, centroid-decomposition, divide-and-conquer]
+complexity:
+  time:
+    best: "O(V log V)"
+    average: "O(V log V)"
+    worst: "O(V log V)"
+  space: "O(V)"
+stable: null
+in_place: false
+related: [centroid-decomposition, tree-diameter]
+implementations: [python, java, cpp, c, go, typescript, rust, kotlin, swift, scala, csharp]
+visualization: false

@@ -1,0 +1,130 @@
+{
+  "name": "Longest Bitonic Subsequence",
+  "slug": "longest-bitonic-subsequence",
+  "category": "dynamic-programming",
+  "subcategory": "sequences",
+  "difficulty": "advanced",
+  "tags": [
+    "dynamic-programming",
+    "sequences",
+    "bitonic",
+    "subsequence"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n log n)",
+      "average": "O(n log n)",
+      "worst": "O(n log n)"
+    },
+    "space": "O(n)"
+  },
+  "stable": null,
+  "in_place": null,
+  "related": [
+    "longest-increasing-subsequence",
+    "kadanes"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "longestbitonicsubsequence.c",
+          "content": "#include <stdio.h>\n\nint max(int a, int b) {\n    return (a > b) ? a : b;\n}\n\nint longest_bitonic_subsequence(int arr[], int n) {\n    if (n == 0) return 0;\n\n    int lis[n], lds[n];\n\n    for (int i = 0; i < n; i++) lis[i] = 1;\n    for (int i = 0; i < n; i++) lds[i] = 1;\n\n    /* Compute LIS from left to right */\n    for (int i = 1; i < n; i++) {\n        for (int j = 0; j < i; j++) {\n            if (arr[j] < arr[i] && lis[j] + 1 > lis[i]) {\n                lis[i] = lis[j] + 1;\n            }\n        }\n    }\n\n    /* Compute LDS from right to left */\n    for (int i = n - 2; i >= 0; i--) {\n        for (int j = n - 1; j > i; j--) {\n            if (arr[j] < arr[i] && lds[j] + 1 > lds[i]) {\n                lds[i] = lds[j] + 1;\n            }\n        }\n    }\n\n    int result = 0;\n    for (int i = 0; i < n; i++) {\n        int val = lis[i] + lds[i] - 1;\n        if (val > result) result = val;\n    }\n\n    return result;\n}\n\nint main() {\n    int arr[] = {1, 3, 4, 2, 6, 1};\n    int n = sizeof(arr) / sizeof(arr[0]);\n    printf(\"%d\\n\", longest_bitonic_subsequence(arr, n)); // 5\n    return 0;\n}\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "LongestBitonicSubsequence.cpp",
+          "content": "#include <algorithm>\n#include <vector>\n\nint longest_bitonic_subsequence(const std::vector<int>& values) {\n    if (values.empty()) {\n        return 0;\n    }\n\n    int size = static_cast<int>(values.size());\n    std::vector<int> inc(size, 1);\n    std::vector<int> dec(size, 1);\n\n    for (int right = 0; right < size; ++right) {\n        for (int left = 0; left < right; ++left) {\n            if (values[left] < values[right]) {\n                inc[right] = std::max(inc[right], inc[left] + 1);\n            }\n        }\n    }\n\n    for (int left = size - 1; left >= 0; --left) {\n        for (int right = size - 1; right > left; --right) {\n            if (values[right] < values[left]) {\n                dec[left] = std::max(dec[left], dec[right] + 1);\n            }\n        }\n    }\n\n    int best = 1;\n    for (int index = 0; index < size; ++index) {\n        best = std::max(best, inc[index] + dec[index] - 1);\n    }\n    return best;\n}\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "LongestBitonicSubsequence.cs",
+          "content": "using System;\n\npublic class LongestBitonicSubsequence\n{\n    public static int Solve(int[] arr)\n    {\n        int n = arr.Length;\n        if (n == 0) return 0;\n\n        int[] lis = new int[n];\n        int[] lds = new int[n];\n        for (int i = 0; i < n; i++) { lis[i] = 1; lds[i] = 1; }\n\n        for (int i = 1; i < n; i++)\n            for (int j = 0; j < i; j++)\n                if (arr[j] < arr[i] && lis[j] + 1 > lis[i])\n                    lis[i] = lis[j] + 1;\n\n        for (int i = n - 2; i >= 0; i--)\n            for (int j = n - 1; j > i; j--)\n                if (arr[j] < arr[i] && lds[j] + 1 > lds[i])\n                    lds[i] = lds[j] + 1;\n\n        int result = 0;\n        for (int i = 0; i < n; i++)\n            result = Math.Max(result, lis[i] + lds[i] - 1);\n\n        return result;\n    }\n\n    static void Main(string[] args)\n    {\n        int[] arr = { 1, 3, 4, 2, 6, 1 };\n        Console.WriteLine(Solve(arr)); // 5\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "LongestBitonicSubsequence.go",
+          "content": "package main\n\nimport \"fmt\"\n\nfunc longestBitonicSubsequence(arr []int) int {\n\tn := len(arr)\n\tif n == 0 {\n\t\treturn 0\n\t}\n\n\tlis := make([]int, n)\n\tlds := make([]int, n)\n\tfor i := range lis {\n\t\tlis[i] = 1\n\t\tlds[i] = 1\n\t}\n\n\tfor i := 1; i < n; i++ {\n\t\tfor j := 0; j < i; j++ {\n\t\t\tif arr[j] < arr[i] && lis[j]+1 > lis[i] {\n\t\t\t\tlis[i] = lis[j] + 1\n\t\t\t}\n\t\t}\n\t}\n\n\tfor i := n - 2; i >= 0; i-- {\n\t\tfor j := n - 1; j > i; j-- {\n\t\t\tif arr[j] < arr[i] && lds[j]+1 > lds[i] {\n\t\t\t\tlds[i] = lds[j] + 1\n\t\t\t}\n\t\t}\n\t}\n\n\tresult := 0\n\tfor i := 0; i < n; i++ {\n\t\tval := lis[i] + lds[i] - 1\n\t\tif val > result {\n\t\t\tresult = val\n\t\t}\n\t}\n\n\treturn result\n}\n\nfunc main() {\n\tarr := []int{1, 3, 4, 2, 6, 1}\n\tfmt.Println(longestBitonicSubsequence(arr)) // 5\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "LongestBitonicSubsequence.java",
+          "content": "import java.util.Arrays;\n\npublic class LongestBitonicSubsequence {\n\n    public static int longestBitonicSubsequence(int[] arr) {\n        int n = arr.length;\n        if (n == 0) return 0;\n\n        int[] lis = new int[n];\n        int[] lds = new int[n];\n        Arrays.fill(lis, 1);\n        Arrays.fill(lds, 1);\n\n        for (int i = 1; i < n; i++) {\n            for (int j = 0; j < i; j++) {\n                if (arr[j] < arr[i] && lis[j] + 1 > lis[i]) {\n                    lis[i] = lis[j] + 1;\n                }\n            }\n        }\n\n        for (int i = n - 2; i >= 0; i--) {\n            for (int j = n - 1; j > i; j--) {\n                if (arr[j] < arr[i] && lds[j] + 1 > lds[i]) {\n                    lds[i] = lds[j] + 1;\n                }\n            }\n        }\n\n        int result = 0;\n        for (int i = 0; i < n; i++) {\n            result = Math.max(result, lis[i] + lds[i] - 1);\n        }\n\n        return result;\n    }\n\n    public static void main(String[] args) {\n        int[] arr = {1, 3, 4, 2, 6, 1};\n        System.out.println(longestBitonicSubsequence(arr)); // 5\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "LongestBitonicSubsequence.kt",
+          "content": "fun longestBitonicSubsequence(arr: IntArray): Int {\n    val n = arr.size\n    if (n == 0) return 0\n\n    val lis = IntArray(n) { 1 }\n    val lds = IntArray(n) { 1 }\n\n    for (i in 1 until n)\n        for (j in 0 until i)\n            if (arr[j] < arr[i] && lis[j] + 1 > lis[i])\n                lis[i] = lis[j] + 1\n\n    for (i in n - 2 downTo 0)\n        for (j in n - 1 downTo i + 1)\n            if (arr[j] < arr[i] && lds[j] + 1 > lds[i])\n                lds[i] = lds[j] + 1\n\n    return (0 until n).maxOf { lis[it] + lds[it] - 1 }\n}\n\nfun main() {\n    println(longestBitonicSubsequence(intArrayOf(1, 3, 4, 2, 6, 1))) // 5\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "longest_bitonic_subsequence.py",
+          "content": "def longest_bitonic_subsequence(arr):\n    n = len(arr)\n    if n == 0:\n        return 0\n\n    lis = [1] * n\n    lds = [1] * n\n\n    # Compute LIS from left to right\n    for i in range(1, n):\n        for j in range(i):\n            if arr[j] < arr[i] and lis[j] + 1 > lis[i]:\n                lis[i] = lis[j] + 1\n\n    # Compute LDS from right to left\n    for i in range(n - 2, -1, -1):\n        for j in range(n - 1, i, -1):\n            if arr[j] < arr[i] and lds[j] + 1 > lds[i]:\n                lds[i] = lds[j] + 1\n\n    return max(lis[i] + lds[i] - 1 for i in range(n))\n\n\nif __name__ == \"__main__\":\n    arr = [1, 3, 4, 2, 6, 1]\n    print(longest_bitonic_subsequence(arr))  # 5\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "longest_bitonic_subsequence.rs",
+          "content": "use std::cmp;\n\npub fn longest_bitonic_subsequence(arr: &[i32]) -> usize {\n    let n = arr.len();\n    if n == 0 {\n        return 0;\n    }\n\n    let mut lis = vec![1usize; n];\n    let mut lds = vec![1usize; n];\n\n    for i in 1..n {\n        for j in 0..i {\n            if arr[j] < arr[i] && lis[j] + 1 > lis[i] {\n                lis[i] = lis[j] + 1;\n            }\n        }\n    }\n\n    for i in (0..n - 1).rev() {\n        for j in (i + 1..n).rev() {\n            if arr[j] < arr[i] && lds[j] + 1 > lds[i] {\n                lds[i] = lds[j] + 1;\n            }\n        }\n    }\n\n    let mut result = 0;\n    for i in 0..n {\n        result = cmp::max(result, lis[i] + lds[i] - 1);\n    }\n\n    result\n}\n\nfn main() {\n    let arr = vec![1, 3, 4, 2, 6, 1];\n    println!(\"{}\", longest_bitonic_subsequence(&arr)); // 5\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "LongestBitonicSubsequence.scala",
+          "content": "object LongestBitonicSubsequence {\n\n  def longestBitonicSubsequence(arr: Array[Int]): Int = {\n    val n = arr.length\n    if (n == 0) return 0\n\n    val lis = Array.fill(n)(1)\n    val lds = Array.fill(n)(1)\n\n    for (i <- 1 until n)\n      for (j <- 0 until i)\n        if (arr(j) < arr(i) && lis(j) + 1 > lis(i))\n          lis(i) = lis(j) + 1\n\n    for (i <- (0 until n - 1).reverse)\n      for (j <- (i + 1 until n).reverse)\n        if (arr(j) < arr(i) && lds(j) + 1 > lds(i))\n          lds(i) = lds(j) + 1\n\n    (0 until n).map(i => lis(i) + lds(i) - 1).max\n  }\n\n  def main(args: Array[String]): Unit = {\n    println(longestBitonicSubsequence(Array(1, 3, 4, 2, 6, 1))) // 5\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "LongestBitonicSubsequence.swift",
+          "content": "func longestBitonicSubsequence(_ arr: [Int]) -> Int {\n    let n = arr.count\n    if n == 0 { return 0 }\n\n    var lis = Array(repeating: 1, count: n)\n    var lds = Array(repeating: 1, count: n)\n\n    for i in 1..<n {\n        for j in 0..<i {\n            if arr[j] < arr[i] && lis[j] + 1 > lis[i] {\n                lis[i] = lis[j] + 1\n            }\n        }\n    }\n\n    for i in stride(from: n - 2, through: 0, by: -1) {\n        for j in stride(from: n - 1, through: i + 1, by: -1) {\n            if arr[j] < arr[i] && lds[j] + 1 > lds[i] {\n                lds[i] = lds[j] + 1\n            }\n        }\n    }\n\n    var result = 0\n    for i in 0..<n {\n        result = max(result, lis[i] + lds[i] - 1)\n    }\n\n    return result\n}\n\nprint(longestBitonicSubsequence([1, 3, 4, 2, 6, 1])) // 5\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "longestBitonicSubsequence.ts",
+          "content": "export function longestBitonicSubsequence(arr: number[]): number {\n    const n = arr.length;\n    if (n === 0) return 0;\n\n    const lis: number[] = new Array(n).fill(1);\n    const lds: number[] = new Array(n).fill(1);\n\n    for (let i = 1; i < n; i++) {\n        for (let j = 0; j < i; j++) {\n            if (arr[j] < arr[i] && lis[j] + 1 > lis[i]) {\n                lis[i] = lis[j] + 1;\n            }\n        }\n    }\n\n    for (let i = n - 2; i >= 0; i--) {\n        for (let j = n - 1; j > i; j--) {\n            if (arr[j] < arr[i] && lds[j] + 1 > lds[i]) {\n                lds[i] = lds[j] + 1;\n            }\n        }\n    }\n\n    let result = 0;\n    for (let i = 0; i < n; i++) {\n        result = Math.max(result, lis[i] + lds[i] - 1);\n    }\n\n    return result;\n}\n\nconsole.log(longestBitonicSubsequence([1, 3, 4, 2, 6, 1])); // 5\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "readme": "# Longest Bitonic Subsequence\n\n## Overview\n\nA bitonic subsequence is a subsequence that first increases and then decreases. The Longest Bitonic Subsequence (LBS) problem asks for the length of the longest such subsequence in a given array. For example, in the array [1, 11, 2, 10, 4, 5, 2, 1], one longest bitonic subsequence is [1, 2, 10, 4, 2, 1] with length 6. A purely increasing or purely decreasing subsequence is also considered bitonic.\n\nThis problem is an elegant extension of the Longest Increasing Subsequence (LIS) problem. It combines forward and backward LIS computations to find the peak element around which the subsequence transitions from increasing to decreasing.\n\n## How It Works\n\nThe algorithm computes two arrays: `lis[i]` stores the length of the longest increasing subsequence ending at index `i` (computed left to right), and `lds[i]` stores the length of the longest decreasing subsequence starting at index `i` (computed right to left, equivalently the LIS from the right). The length of the longest bitonic subsequence with peak at index `i` is `lis[i] + lds[i] - 1` (subtracting 1 because the peak element is counted in both). The answer is the maximum over all indices.\n\n### Example\n\nGiven input: `[1, 11, 2, 10, 4, 5, 2, 1]`\n\n**Step 1: Compute LIS (left to right):**\n\n| Index | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |\n|-------|---|---|---|---|---|---|---|---|\n| Value | 1 | 11| 2 | 10| 4 | 5 | 2 | 1 |\n| lis[] | 1 | 2 | 2 | 3 | 3 | 4 | 2 | 1 |\n\n- lis[3] = 3: subsequence [1, 2, 10]\n- lis[5] = 4: subsequence [1, 2, 4, 5]\n\n**Step 2: Compute LDS (right to left, i.e., LIS from right):**\n\n| Index | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |\n|-------|---|---|---|---|---|---|---|---|\n| Value | 1 | 11| 2 | 10| 4 | 5 | 2 | 1 |\n| lds[] | 1 | 5 | 2 | 4 | 3 | 3 | 2 | 1 |\n\n- lds[1] = 5: subsequence [11, 10, 5, 2, 1]\n- lds[3] = 4: subsequence [10, 4, 2, 1]\n\n**Step 3: Compute LBS at each position:**\n\n| Index | lis[i] | lds[i] | lis[i]+lds[i]-1 |\n|-------|--------|--------|-----------------|\n| 0 | 1 | 1 | 1 |\n| 1 | 2 | 5 | 6 |\n| 2 | 2 | 2 | 3 |\n| 3 | 3 | 4 | 6 |\n| 4 | 3 | 3 | 5 |\n| 5 | 4 | 3 | 6 |\n| 6 | 2 | 2 | 3 |\n| 7 | 1 | 1 | 1 |\n\nResult: Maximum LBS = `6` (at indices 1, 3, or 5 as peak)\n\n## Pseudocode\n\n```\nfunction longestBitonicSubsequence(arr):\n    n = length(arr)\n    lis = array of size n, all initialized to 1\n    lds = array of size n, all initialized to 1\n\n    // Compute LIS for each index (left to right)\n    for i from 1 to n - 1:\n        for j from 0 to i - 1:\n            if arr[j] < arr[i] and lis[j] + 1 > lis[i]:\n                lis[i] = lis[j] + 1\n\n    // Compute LDS for each index (right to left)\n    for i from n - 2 down to 0:\n        for j from n - 1 down to i + 1:\n            if arr[j] < arr[i] and lds[j] + 1 > lds[i]:\n                lds[i] = lds[j] + 1\n\n    // Find maximum bitonic subsequence length\n    max_len = 0\n    for i from 0 to n - 1:\n        max_len = max(max_len, lis[i] + lds[i] - 1)\n\n    return max_len\n```\n\nThe algorithm runs LIS twice (once forward, once backward) and combines the results. Using the binary search optimization for LIS, each pass can be done in O(n log n).\n\n## Complexity Analysis\n\n| Case    | Time       | Space |\n|---------|-----------|-------|\n| Best    | O(n log n) | O(n)  |\n| Average | O(n log n) | O(n)  |\n| Worst   | O(n log n) | O(n)  |\n\n**Why these complexities?**\n\n- **Best Case -- O(n log n):** Using the binary search optimization for LIS, each of the two passes (forward LIS and backward LIS) takes O(n log n). The final combination step is O(n).\n\n- **Average Case -- O(n log n):** The two LIS computations dominate. Each processes n elements with O(log n) binary search per element.\n\n- **Worst Case -- O(n log n):** The binary search approach maintains consistent O(n log n) performance regardless of input ordering. The naive O(n^2) LIS approach would give O(n^2) overall.\n\n- **Space -- O(n):** Two arrays of size n (for lis and lds values) plus the tails arrays for binary search LIS, all of which are O(n).\n\n## When to Use\n\n- **Finding mountain-shaped patterns:** When you need to find the longest subsequence that rises then falls in data.\n- **Signal processing:** Identifying the longest unimodal trend in time series data.\n- **As a building block:** The bitonic subsequence concept extends to problems involving convex hull tricks and optimization.\n- **When the input may have both increasing and decreasing trends:** LBS captures the longest combined trend.\n\n## When NOT to Use\n\n- **When you only need increasing or decreasing subsequences:** Use LIS directly for simpler and faster results.\n- **When the subsequence must be contiguous:** Use sliding window or other array-based approaches instead.\n- **When the definition of bitonic includes multiple peaks:** The standard LBS only handles single-peak sequences.\n\n## Comparison with Similar Algorithms\n\n| Algorithm                    | Time       | Space | Notes                                         |\n|-----------------------------|-----------|-------|-----------------------------------------------|\n| Longest Bitonic Subsequence  | O(n log n)| O(n)  | Combines forward and backward LIS              |\n| Longest Increasing Subseq   | O(n log n)| O(n)  | Only increasing; simpler problem               |\n| Longest Decreasing Subseq   | O(n log n)| O(n)  | Reverse of LIS                                 |\n| Kadane's Algorithm           | O(n)      | O(1)  | Maximum subarray sum; different problem         |\n\n## Implementations\n\n| Language | File |\n|----------|------|\n| C++      | [LongestBitonicSubsequence.cpp](cpp/LongestBitonicSubsequence.cpp) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 15: Dynamic Programming.\n- [Longest Bitonic Subsequence -- GeeksforGeeks](https://www.geeksforgeeks.org/longest-bitonic-subsequence-dp-15/)\n- [Bitonic Sequence -- Wikipedia](https://en.wikipedia.org/wiki/Bitonic_sorter)\n"
+}

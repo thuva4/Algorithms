@@ -1,0 +1,153 @@
+{
+  "name": "Breadth-First Search",
+  "slug": "breadth-first-search",
+  "category": "graph",
+  "subcategory": "traversal",
+  "difficulty": "beginner",
+  "tags": [
+    "graph",
+    "traversal",
+    "bfs",
+    "queue",
+    "shortest-path-unweighted"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(V+E)",
+      "average": "O(V+E)",
+      "worst": "O(V+E)"
+    },
+    "space": "O(V)"
+  },
+  "stable": null,
+  "in_place": null,
+  "related": [
+    "depth-first-search",
+    "dijkstras",
+    "a-star-search"
+  ],
+  "implementations": {
+    "c": {
+      "display": "C",
+      "files": [
+        {
+          "filename": "BFS.c",
+          "content": "#include \"bfs.h\"\n#include <stdlib.h>\n#include <stdio.h>\n#include <stdbool.h>\n\ntypedef struct Node {\n    int to;\n    struct Node* next;\n} Node;\n\ntypedef struct {\n    Node** head;\n    int n;\n} Graph;\n\nstatic Graph* create_graph(int n) {\n    Graph* g = (Graph*)malloc(sizeof(Graph));\n    g->n = n;\n    g->head = (Node**)calloc(n, sizeof(Node*));\n    return g;\n}\n\nstatic void add_edge(Graph* g, int u, int v) {\n    Node* e1 = (Node*)malloc(sizeof(Node));\n    e1->to = v;\n    e1->next = g->head[u];\n    g->head[u] = e1;\n\n    Node* e2 = (Node*)malloc(sizeof(Node));\n    e2->to = u;\n    e2->next = g->head[v];\n    g->head[v] = e2;\n}\n\nstatic void free_graph(Graph* g) {\n    for (int i = 0; i < g->n; i++) {\n        Node* curr = g->head[i];\n        while (curr) {\n            Node* temp = curr;\n            curr = curr->next;\n            free(temp);\n        }\n    }\n    free(g->head);\n    free(g);\n}\n\ntypedef struct {\n    int* data;\n    int front, rear, capacity;\n} Queue;\n\nstatic Queue* create_queue(int capacity) {\n    Queue* q = (Queue*)malloc(sizeof(Queue));\n    q->data = (int*)malloc(capacity * sizeof(int));\n    q->front = 0;\n    q->rear = 0;\n    q->capacity = capacity;\n    return q;\n}\n\nstatic void enqueue(Queue* q, int val) {\n    q->data[q->rear++] = val;\n}\n\nstatic int dequeue(Queue* q) {\n    return q->data[q->front++];\n}\n\nstatic bool is_empty(Queue* q) {\n    return q->front == q->rear;\n}\n\nstatic void free_queue(Queue* q) {\n    free(q->data);\n    free(q);\n}\n\n// Helper to sort array for deterministic output\nstatic int compare_ints(const void* a, const void* b) {\n    return (*(int*)a - *(int*)b);\n}\n\nvoid bfs(int arr[], int size, int** result, int* result_size) {\n    if (size < 2) {\n        *result_size = 0;\n        return;\n    }\n    \n    int n = arr[0];\n    int m = arr[1];\n    \n    if (size < 2 + 2 * m + 1) {\n        *result_size = 0;\n        return;\n    }\n    \n    int start = arr[2 + 2 * m];\n    if (start < 0 || start >= n) {\n        *result_size = 0;\n        return;\n    }\n    \n    Graph* g = create_graph(n);\n    for (int i = 0; i < m; i++) {\n        int u = arr[2 + 2 * i];\n        int v = arr[2 + 2 * i + 1];\n        if (u >= 0 && u < n && v >= 0 && v < n) {\n            add_edge(g, u, v);\n        }\n    }\n    \n    // Sort neighbors for deterministic traversal\n    for (int i = 0; i < n; i++) {\n        int count = 0;\n        for (Node* curr = g->head[i]; curr; curr = curr->next) count++;\n        \n        if (count > 1) {\n            int* neighbors = (int*)malloc(count * sizeof(int));\n            int idx = 0;\n            for (Node* curr = g->head[i]; curr; curr = curr->next) neighbors[idx++] = curr->to;\n            \n            qsort(neighbors, count, sizeof(int), compare_ints);\n            \n            // Rebuild list sorted\n            Node* curr = g->head[i];\n            for (int k = count - 1; k >= 0; k--) {\n                curr = g->head[i]; // Need to free existing list structure or reuse\n                // Easier to rebuild: let's just create a temporary array and rebuild linked list from scratch?\n                // Or just reuse nodes.\n                // Reusing nodes is cleaner.\n            }\n            // Wait, linked list structure. Rebuilding:\n            // Free current list nodes and re-add.\n            // But freeing is O(deg).\n            \n            // Simplest: just store sorted neighbors back.\n            Node* temp = g->head[i];\n            g->head[i] = NULL;\n            // Free old nodes\n            while(temp) {\n                Node* next = temp->next;\n                free(temp);\n                temp = next;\n            }\n            // Add new nodes in reverse order so they appear in correct order\n            for (int k = count - 1; k >= 0; k--) {\n                Node* e = (Node*)malloc(sizeof(Node));\n                e->to = neighbors[k];\n                e->next = g->head[i];\n                g->head[i] = e;\n            }\n            \n            free(neighbors);\n        }\n    }\n    \n    bool* visited = (bool*)calloc(n, sizeof(bool));\n    Queue* q = create_queue(n);\n    int* res = (int*)malloc(n * sizeof(int));\n    int res_idx = 0;\n    \n    visited[start] = true;\n    enqueue(q, start);\n    \n    while (!is_empty(q)) {\n        int u = dequeue(q);\n        res[res_idx++] = u;\n        \n        for (Node* e = g->head[u]; e; e = e->next) {\n            int v = e->to;\n            if (!visited[v]) {\n                visited[v] = true;\n                enqueue(q, v);\n            }\n        }\n    }\n    \n    free(visited);\n    free_queue(q);\n    free_graph(g);\n    \n    *result = res;\n    *result_size = res_idx;\n}\n"
+        },
+        {
+          "filename": "bfs.h",
+          "content": "#ifndef BFS_H\n#define BFS_H\n\n// Caller must free result\nvoid bfs(int arr[], int size, int** result, int* result_size);\n\n#endif\n"
+        }
+      ]
+    },
+    "cpp": {
+      "display": "C++",
+      "files": [
+        {
+          "filename": "BFS.cpp",
+          "content": "#include \"bfs.h\"\n#include <vector>\n#include <queue>\n#include <algorithm>\n\nstd::vector<int> bfs(const std::vector<int>& arr) {\n    if (arr.size() < 2) return {};\n    \n    int n = arr[0];\n    int m = arr[1];\n    \n    if (arr.size() < 2 + 2 * m + 1) return {};\n    \n    int start = arr[2 + 2 * m];\n    if (start < 0 || start >= n) return {};\n    \n    std::vector<std::vector<int>> adj(n);\n    for (int i = 0; i < m; i++) {\n        int u = arr[2 + 2 * i];\n        int v = arr[2 + 2 * i + 1];\n        if (u >= 0 && u < n && v >= 0 && v < n) {\n            adj[u].push_back(v);\n            adj[v].push_back(u);\n        }\n    }\n    \n    // Sort neighbors for deterministic output\n    for (int i = 0; i < n; i++) {\n        std::sort(adj[i].begin(), adj[i].end());\n    }\n    \n    std::vector<int> result;\n    std::vector<bool> visited(n, false);\n    std::queue<int> q;\n    \n    visited[start] = true;\n    q.push(start);\n    \n    while (!q.empty()) {\n        int u = q.front();\n        q.pop();\n        result.push_back(u);\n        \n        for (int v : adj[u]) {\n            if (!visited[v]) {\n                visited[v] = true;\n                q.push(v);\n            }\n        }\n    }\n    \n    return result;\n}\n"
+        },
+        {
+          "filename": "bfs.h",
+          "content": "#ifndef BFS_H\n#define BFS_H\n\n#include <vector>\n\nstd::vector<int> bfs(const std::vector<int>& arr);\n\n#endif\n"
+        }
+      ]
+    },
+    "csharp": {
+      "display": "C#",
+      "files": [
+        {
+          "filename": "BFS.cs",
+          "content": "using System;\nusing System.Collections.Generic;\n\nnamespace Algorithms.Graph.BreadthFirstSearch\n{\n    public class Bfs\n    {\n        public static int[] Solve(int[] arr)\n        {\n            if (arr == null || arr.Length < 2) return new int[0];\n\n            int n = arr[0];\n            int m = arr[1];\n\n            if (arr.Length < 2 + 2 * m + 1) return new int[0];\n\n            int start = arr[2 + 2 * m];\n            if (start < 0 || start >= n) return new int[0];\n\n            List<int>[] adj = new List<int>[n];\n            for (int i = 0; i < n; i++) adj[i] = new List<int>();\n\n            for (int i = 0; i < m; i++)\n            {\n                int u = arr[2 + 2 * i];\n                int v = arr[2 + 2 * i + 1];\n                if (u >= 0 && u < n && v >= 0 && v < n)\n                {\n                    adj[u].Add(v);\n                    adj[v].Add(u);\n                }\n            }\n\n            for (int i = 0; i < n; i++)\n            {\n                adj[i].Sort();\n            }\n\n            List<int> result = new List<int>();\n            bool[] visited = new bool[n];\n            Queue<int> q = new Queue<int>();\n\n            visited[start] = true;\n            q.Enqueue(start);\n\n            while (q.Count > 0)\n            {\n                int u = q.Dequeue();\n                result.Add(u);\n\n                foreach (int v in adj[u])\n                {\n                    if (!visited[v])\n                    {\n                        visited[v] = true;\n                        q.Enqueue(v);\n                    }\n                }\n            }\n\n            return result.ToArray();\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    "go": {
+      "display": "Go",
+      "files": [
+        {
+          "filename": "BFS.go",
+          "content": "package bfs\n\nimport \"sort\"\n\nfunc Bfs(arr []int) []int {\n\tif len(arr) < 2 {\n\t\treturn []int{}\n\t}\n\n\tn := arr[0]\n\tm := arr[1]\n\n\tif len(arr) < 2+2*m+1 {\n\t\treturn []int{}\n\t}\n\n\tstart := arr[2+2*m]\n\tif start < 0 || start >= n {\n\t\treturn []int{}\n\t}\n\n\tadj := make([][]int, n)\n\tfor i := 0; i < m; i++ {\n\t\tu := arr[2+2*i]\n\t\tv := arr[2+2*i+1]\n\t\tif u >= 0 && u < n && v >= 0 && v < n {\n\t\t\tadj[u] = append(adj[u], v)\n\t\t\tadj[v] = append(adj[v], u)\n\t\t}\n\t}\n\n\tfor i := 0; i < n; i++ {\n\t\tsort.Ints(adj[i])\n\t}\n\n\tresult := []int{}\n\tvisited := make([]bool, n)\n\tq := []int{start}\n\tvisited[start] = true\n\n\tfor len(q) > 0 {\n\t\tu := q[0]\n\t\tq = q[1:]\n\t\tresult = append(result, u)\n\n\t\tfor _, v := range adj[u] {\n\t\t\tif !visited[v] {\n\t\t\t\tvisited[v] = true\n\t\t\t\tq = append(q, v)\n\t\t\t}\n\t\t}\n\t}\n\n\treturn result\n}\n"
+        }
+      ]
+    },
+    "java": {
+      "display": "Java",
+      "files": [
+        {
+          "filename": "BFS.java",
+          "content": "package algorithms.graph.breadthfirstsearch;\n\nimport java.util.ArrayList;\nimport java.util.Collections;\nimport java.util.LinkedList;\nimport java.util.List;\nimport java.util.Queue;\n\npublic class BFS {\n    public static int[] bfs(int[] arr) {\n        return new BFS().solve(arr);\n    }\n\n    public int[] solve(int[] arr) {\n        if (arr == null || arr.length < 2) return new int[0];\n\n        int n = arr[0];\n        int m = arr[1];\n\n        if (arr.length < 2 + 2 * m + 1) return new int[0];\n\n        int start = arr[2 + 2 * m];\n        if (start < 0 || start >= n) return new int[0];\n\n        List<Integer>[] adj = new ArrayList[n];\n        for (int i = 0; i < n; i++) adj[i] = new ArrayList<>();\n\n        for (int i = 0; i < m; i++) {\n            int u = arr[2 + 2 * i];\n            int v = arr[2 + 2 * i + 1];\n            if (u >= 0 && u < n && v >= 0 && v < n) {\n                adj[u].add(v);\n                adj[v].add(u);\n            }\n        }\n\n        for (int i = 0; i < n; i++) {\n            Collections.sort(adj[i]);\n        }\n\n        List<Integer> result = new ArrayList<>();\n        boolean[] visited = new boolean[n];\n        Queue<Integer> q = new LinkedList<>();\n\n        visited[start] = true;\n        q.add(start);\n\n        while (!q.isEmpty()) {\n            int u = q.poll();\n            result.add(u);\n\n            for (int v : adj[u]) {\n                if (!visited[v]) {\n                    visited[v] = true;\n                    q.add(v);\n                }\n            }\n        }\n\n        return result.stream().mapToInt(i -> i).toArray();\n    }\n}\n"
+        }
+      ]
+    },
+    "kotlin": {
+      "display": "Kotlin",
+      "files": [
+        {
+          "filename": "BFS.kt",
+          "content": "package algorithms.graph.breadthfirstsearch\n\nimport java.util.LinkedList\nimport java.util.Queue\nimport java.util.Collections\n\nclass Bfs {\n    fun solve(arr: IntArray): IntArray {\n        if (arr.size < 2) return IntArray(0)\n\n        val n = arr[0]\n        val m = arr[1]\n\n        if (arr.size < 2 + 2 * m + 1) return IntArray(0)\n\n        val start = arr[2 + 2 * m]\n        if (start < 0 || start >= n) return IntArray(0)\n\n        val adj = Array(n) { ArrayList<Int>() }\n        for (i in 0 until m) {\n            val u = arr[2 + 2 * i]\n            val v = arr[2 + 2 * i + 1]\n            if (u in 0 until n && v in 0 until n) {\n                adj[u].add(v)\n                adj[v].add(u)\n            }\n        }\n\n        for (i in 0 until n) {\n            adj[i].sort()\n        }\n\n        val result = ArrayList<Int>()\n        val visited = BooleanArray(n)\n        val q: Queue<Int> = LinkedList()\n\n        visited[start] = true\n        q.add(start)\n\n        while (!q.isEmpty()) {\n            val u = q.poll()\n            result.add(u)\n\n            for (v in adj[u]) {\n                if (!visited[v]) {\n                    visited[v] = true\n                    q.add(v)\n                }\n            }\n        }\n\n        return result.toIntArray()\n    }\n}\n"
+        }
+      ]
+    },
+    "python": {
+      "display": "Python",
+      "files": [
+        {
+          "filename": "BFS.py",
+          "content": "from collections import deque\n\ndef bfs(arr):\n    if len(arr) < 2:\n        return []\n        \n    n = arr[0]\n    m = arr[1]\n    \n    if len(arr) < 2 + 2 * m + 1:\n        return []\n        \n    start = arr[2 + 2 * m]\n    if start < 0 or start >= n:\n        return []\n        \n    adj = [[] for _ in range(n)]\n    for i in range(m):\n        u = arr[2 + 2 * i]\n        v = arr[2 + 2 * i + 1]\n        if 0 <= u < n and 0 <= v < n:\n            adj[u].append(v)\n            adj[v].append(u)\n            \n    for i in range(n):\n        adj[i].sort()\n        \n    result = []\n    visited = [False] * n\n    q = deque([start])\n    visited[start] = True\n    \n    while q:\n        u = q.popleft()\n        result.append(u)\n        \n        for v in adj[u]:\n            if not visited[v]:\n                visited[v] = True\n                q.append(v)\n                \n    return result\n"
+        },
+        {
+          "filename": "BreadthFirstSearch.py",
+          "content": "class SearchNode:\n    def __init__(self, action, state, parent):\n        self.state = state\n        self.action = action\n        self.parent = parent\n    def path(self):\n        if self.parent == None:\n            return [(self.action, self.state)]\n        else:\n            return self.parent.path() + [(self.action, self.state)]\n    def inPath(self, s):\n        if s == self.state:\n            return True\n        elif self.parent == None:\n            return False\n        else:\n            return self.parent.inPath(s)\n \ndef breadthFirstSearch(initialState, goalTest, actions, successor):\n    agenda = Queue()\n    if goalTest(initialState):\n        return [(None, initialState)]\n    agenda.push(SearchNode(None, initialState, None))\n    while not agenda.isEmpty():\n        parent = agenda.pop()\n        newChildStates = []\n        for a in actions(parent.state):\n            newS = successor(parent.state, a)\n            newN = SearchNode(a, newS, parent)\n            if goalTest(newS):\n                return newN.path()\n            elif newS in newChildStates:\n                pass\n            elif parent.inPath(newS):\n                pass\n            else:\n                newChildStates.append(newS)\n                agenda.push(newN)\n    return None\n"
+        }
+      ]
+    },
+    "rust": {
+      "display": "Rust",
+      "files": [
+        {
+          "filename": "BFS.rs",
+          "content": "use std::collections::VecDeque;\n\npub fn bfs(arr: &[i32]) -> Vec<i32> {\n    if arr.len() < 2 {\n        return Vec::new();\n    }\n\n    let n = arr[0] as usize;\n    let m = arr[1] as usize;\n\n    if arr.len() < 2 + 2 * m + 1 {\n        return Vec::new();\n    }\n\n    let start = arr[2 + 2 * m] as usize;\n    if start >= n {\n        return Vec::new();\n    }\n\n    let mut adj = vec![vec![]; n];\n    for i in 0..m {\n        let u = arr[2 + 2 * i] as usize;\n        let v = arr[2 + 2 * i + 1] as usize;\n        if u < n && v < n {\n            adj[u].push(v);\n            adj[v].push(u);\n        }\n    }\n\n    for i in 0..n {\n        adj[i].sort();\n    }\n\n    let mut result = Vec::new();\n    let mut visited = vec![false; n];\n    let mut q = VecDeque::new();\n\n    visited[start] = true;\n    q.push_back(start);\n\n    while let Some(u) = q.pop_front() {\n        result.push(u as i32);\n\n        for &v in &adj[u] {\n            let v_usize = v;\n            if !visited[v_usize] {\n                visited[v_usize] = true;\n                q.push_back(v_usize);\n            }\n        }\n    }\n\n    result\n}\n"
+        }
+      ]
+    },
+    "scala": {
+      "display": "Scala",
+      "files": [
+        {
+          "filename": "BFS.scala",
+          "content": "package algorithms.graph.breadthfirstsearch\n\nimport scala.collection.mutable\nimport java.util.LinkedList\nimport java.util.Queue\n\nobject Bfs {\n  def solve(arr: Array[Int]): Array[Int] = {\n    if (arr.length < 2) return Array.emptyIntArray\n\n    val n = arr(0)\n    val m = arr(1)\n\n    if (arr.length < 2 + 2 * m + 1) return Array.emptyIntArray\n\n    val start = arr(2 + 2 * m)\n    if (start < 0 || start >= n) return Array.emptyIntArray\n\n    val adj = Array.fill(n)(new mutable.ListBuffer[Int])\n    for (i <- 0 until m) {\n      val u = arr(2 + 2 * i)\n      val v = arr(2 + 2 * i + 1)\n      if (u >= 0 && u < n && v >= 0 && v < n) {\n        adj(u).append(v)\n        adj(v).append(u)\n      }\n    }\n\n    for (i <- 0 until n) {\n      adj(i) = adj(i).sorted\n    }\n\n    val result = new mutable.ListBuffer[Int]()\n    val visited = Array.fill(n)(false)\n    val q: Queue[Int] = new LinkedList()\n\n    visited(start) = true\n    q.add(start)\n\n    while (!q.isEmpty) {\n      val u = q.poll()\n      result.append(u)\n\n      for (v <- adj(u)) {\n        if (!visited(v)) {\n          visited(v) = true\n          q.add(v)\n        }\n      }\n    }\n\n    result.toArray\n  }\n}\n"
+        }
+      ]
+    },
+    "swift": {
+      "display": "Swift",
+      "files": [
+        {
+          "filename": "BFS.swift",
+          "content": "import Foundation\n\nclass Bfs {\n    static func solve(_ arr: [Int]) -> [Int] {\n        if arr.count < 2 { return [] }\n        \n        let n = arr[0]\n        let m = arr[1]\n        \n        if arr.count < 2 + 2 * m + 1 { return [] }\n        \n        let start = arr[2 + 2 * m]\n        if start < 0 || start >= n { return [] }\n        \n        var adj = [[Int]](repeating: [], count: n)\n        for i in 0..<m {\n            let u = arr[2 + 2 * i]\n            let v = arr[2 + 2 * i + 1]\n            if u >= 0 && u < n && v >= 0 && v < n {\n                adj[u].append(v)\n                adj[v].append(u)\n            }\n        }\n        \n        for i in 0..<n {\n            adj[i].sort()\n        }\n        \n        var result = [Int]()\n        var visited = [Bool](repeating: false, count: n)\n        var q = [start]\n        visited[start] = true\n        \n        var head = 0\n        while head < q.count {\n            let u = q[head]\n            head += 1\n            result.append(u)\n            \n            for v in adj[u] {\n                if !visited[v] {\n                    visited[v] = true\n                    q.append(v)\n                }\n            }\n        }\n        \n        return result\n    }\n}\n"
+        }
+      ]
+    },
+    "typescript": {
+      "display": "TypeScript",
+      "files": [
+        {
+          "filename": "bfs.ts",
+          "content": "export function bfs(arr: number[]): number[] {\n  if (arr.length < 2) return [];\n\n  const n = arr[0];\n  const m = arr[1];\n\n  if (arr.length < 2 + 2 * m + 1) return [];\n\n  const start = arr[2 + 2 * m];\n  if (start < 0 || start >= n) return [];\n\n  const adj: number[][] = Array.from({ length: n }, () => []);\n  for (let i = 0; i < m; i++) {\n    const u = arr[2 + 2 * i];\n    const v = arr[2 + 2 * i + 1];\n    if (u >= 0 && u < n && v >= 0 && v < n) {\n      adj[u].push(v);\n      adj[v].push(u);\n    }\n  }\n\n  for (let i = 0; i < n; i++) {\n    adj[i].sort((a, b) => a - b);\n  }\n\n  const result: number[] = [];\n  const visited: boolean[] = new Array(n).fill(false);\n  const q: number[] = [start];\n  visited[start] = true;\n\n  let head = 0;\n  while (head < q.length) {\n    const u = q[head++];\n    result.push(u);\n\n    for (const v of adj[u]) {\n      if (!visited[v]) {\n        visited[v] = true;\n        q.push(v);\n      }\n    }\n  }\n\n  return result;\n}\n"
+        },
+        {
+          "filename": "index.js",
+          "content": "const bfs = (graph, source, target = -1) => {\n  // Some error handling\n  if (typeof graph.getNeighbors !== 'function') {\n    throw new Error('Graph should implement a getNeighbors function');\n  }\n  if (typeof source !== 'number') {\n    throw new Error('source should be a number');\n  }\n\n  const Q = []; // The queue that will be used\n  const order = []; // Array to hold the order of visit. Mainly for unit testing\n  const visited = {}; // Keep track of visited vertices\n\n  let found = false;\n  Q.push(source);\n  visited[source] = true;\n  while (Q.length !== 0) {\n    const currentVertex = Q.shift();\n    order.push(currentVertex);\n    const neighbors = graph.getNeighbors(currentVertex);\n    for (const neighbor of neighbors) {\n      if (!visited[neighbor]) {\n        Q.push(neighbor);\n        visited[neighbor] = true;\n        if (neighbor === target) {\n          found = true;\n        }\n      }\n    }\n  }\n  return {order, found};\n};\n\nconst GraphFactory = (() => {\n  const GraphTemplate = {\n    init() {\n      this._graph = [];\n    },\n    getNeighbors(vertex) {\n      return this._graph[vertex] || [];\n    },\n    addEdge(source, target, biDirectional = true) {\n      this._addEdge(source, target);\n      if (biDirectional) {\n        this._addEdge(target, source);\n      }\n    },\n    _addEdge(source, target) {\n      this._graph[source] = this._graph[source] || [];\n      this._graph[source].push(target);\n    },\n    printGraph() {\n      console.log(JSON.stringify(this._graph, null, 2));\n    },\n  };\n\n  return {\n    getGraph() {\n      const Graph = Object.assign({}, GraphTemplate);\n      Graph.init();\n      return Graph;\n    },\n  };\n})();\n\nmodule.exports = {GraphFactory, bfs};\n"
+        }
+      ]
+    }
+  },
+  "visualization": true,
+  "patterns": [
+    "tree-bfs"
+  ],
+  "patternDifficulty": "beginner",
+  "practiceOrder": 1,
+  "readme": "# Breadth-First Search\n\n## Overview\n\nBreadth-First Search (BFS) is a fundamental graph traversal algorithm that explores all vertices at the current depth level before moving to vertices at the next depth level. It uses a queue data structure to maintain the order of exploration, visiting nodes in a layer-by-layer fashion radiating outward from the source vertex. BFS naturally finds the shortest path (in terms of number of edges) from the source to every reachable vertex.\n\nBFS is one of the two foundational graph traversal algorithms (alongside DFS) and serves as a building block for many other graph algorithms, including shortest path in unweighted graphs, connected components, and level-order traversal.\n\n## How It Works\n\nBFS starts at a source vertex, marks it as visited, and adds it to a queue. It then repeatedly dequeues a vertex, processes it, and enqueues all of its unvisited neighbors. This ensures that vertices closer to the source are always processed before vertices farther away. The algorithm terminates when the queue is empty, meaning all reachable vertices have been visited.\n\n### Example\n\nConsider the following undirected graph:\n\n```\n    A --- B --- E\n    |     |\n    C --- D --- F\n```\n\nAdjacency list:\n```\nA: [B, C]\nB: [A, D, E]\nC: [A, D]\nD: [B, C, F]\nE: [B]\nF: [D]\n```\n\n**BFS starting from vertex `A`:**\n\n| Step | Dequeue | Process Neighbors | Queue State | Visited |\n|------|---------|-------------------|-------------|---------|\n| 1 | `A` | Enqueue B, C | `[B, C]` | {A, B, C} |\n| 2 | `B` | Enqueue D, E (A visited) | `[C, D, E]` | {A, B, C, D, E} |\n| 3 | `C` | D already visited, A visited | `[D, E]` | {A, B, C, D, E} |\n| 4 | `D` | Enqueue F (B, C visited) | `[E, F]` | {A, B, C, D, E, F} |\n| 5 | `E` | B already visited | `[F]` | {A, B, C, D, E, F} |\n| 6 | `F` | D already visited | `[]` | {A, B, C, D, E, F} |\n\nBFS traversal order: `A, B, C, D, E, F`\n\n**Levels from source A:**\n- Level 0: `A`\n- Level 1: `B, C`\n- Level 2: `D, E`\n- Level 3: `F`\n\n## Pseudocode\n\n```\nfunction BFS(graph, source):\n    visited = empty set\n    queue = empty queue\n\n    visited.add(source)\n    queue.enqueue(source)\n\n    while queue is not empty:\n        vertex = queue.dequeue()\n        process(vertex)\n\n        for each neighbor of vertex in graph:\n            if neighbor not in visited:\n                visited.add(neighbor)\n                queue.enqueue(neighbor)\n```\n\nThe key invariant is that when a vertex is enqueued, it is immediately marked as visited. This prevents the same vertex from being added to the queue multiple times.\n\n## Complexity Analysis\n\n| Case    | Time    | Space |\n|---------|---------|-------|\n| Best    | O(V+E) | O(V)  |\n| Average | O(V+E) | O(V)  |\n| Worst   | O(V+E) | O(V)  |\n\nWhere V is the number of vertices and E is the number of edges.\n\n**Why these complexities?**\n\n- **Best Case -- O(V+E):** Even in the best case, BFS must visit all reachable vertices and examine all their edges. Each vertex is enqueued and dequeued exactly once (O(V)), and each edge is examined once in a directed graph or twice in an undirected graph (O(E)).\n\n- **Average Case -- O(V+E):** The same analysis applies. BFS is consistent in its performance regardless of graph structure, as it systematically explores every reachable vertex and edge exactly once.\n\n- **Worst Case -- O(V+E):** The worst case matches the average case. The total work is proportional to the size of the graph representation (adjacency list). For an adjacency matrix, the worst case would be O(V^2).\n\n- **Space -- O(V):** The queue can hold at most O(V) vertices (in the case of a star graph where all vertices are neighbors of the source). The visited set also requires O(V) space. Together, the space complexity is O(V).\n\n## When to Use\n\n- **Shortest path in unweighted graphs:** BFS naturally finds the minimum number of edges from the source to every reachable vertex.\n- **Level-order traversal:** BFS processes nodes level by level, which is useful for tree traversal, printing levels, and computing depths.\n- **Finding connected components:** Running BFS from each unvisited vertex identifies all connected components in an undirected graph.\n- **Checking bipartiteness:** BFS can determine if a graph is bipartite by assigning alternating colors to levels.\n- **Web crawling and social network analysis:** BFS explores neighbors before distant nodes, modeling \"degrees of separation\" naturally.\n\n## When NOT to Use\n\n- **Weighted graphs:** BFS does not account for edge weights. Use Dijkstra's algorithm for shortest paths in weighted graphs.\n- **Deep, narrow graphs:** If the solution is deep in a narrow graph, DFS may find it faster with less memory.\n- **Memory-constrained environments:** BFS requires O(V) space for the queue, which can be prohibitive for very large graphs. DFS uses O(V) space too but often less in practice.\n- **When you need to explore all paths:** BFS finds shortest paths but does not enumerate all paths. Use DFS-based backtracking for that.\n\n## Comparison with Similar Algorithms\n\n| Algorithm   | Time      | Space | Finds Shortest Path | Notes                                    |\n|-------------|----------|-------|--------------------|-----------------------------------------|\n| BFS         | O(V+E)  | O(V)  | Yes (unweighted)   | Layer-by-layer exploration              |\n| DFS         | O(V+E)  | O(V)  | No                 | Deep exploration; uses stack/recursion   |\n| Dijkstra's  | O((V+E) log V) | O(V) | Yes (weighted) | Handles non-negative edge weights       |\n| A* Search   | O(E)    | O(V)  | Yes (weighted)     | Uses heuristic to guide search          |\n\n## Implementations\n\n| Language   | File |\n|------------|------|\n| C++        | [BFS.cpp](cpp/BFS.cpp) |\n| Java       | [BFS.java](java/BFS.java) |\n| Python     | [BFS.py](python/BFS.py) |\n| Python     | [BreadthFirstSearch.py](python/BreadthFirstSearch.py) |\n| TypeScript | [index.js](typescript/index.js) |\n\n## References\n\n- Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). *Introduction to Algorithms* (3rd ed.). MIT Press. Chapter 22: Elementary Graph Algorithms (Section 22.2: Breadth-First Search).\n- Knuth, D. E. (2011). *The Art of Computer Programming, Volume 4A: Combinatorial Algorithms*. Addison-Wesley.\n- [Breadth-First Search -- Wikipedia](https://en.wikipedia.org/wiki/Breadth-first_search)\n"
+}

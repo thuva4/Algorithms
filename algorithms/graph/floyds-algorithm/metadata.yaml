@@ -1,0 +1,17 @@
+name: "Floyd-Warshall Algorithm"
+slug: "floyds-algorithm"
+category: "graph"
+subcategory: "shortest-path"
+difficulty: "intermediate"
+tags: [graph, shortest-path, dynamic-programming, all-pairs, weighted]
+complexity:
+  time:
+    best: "O(V^3)"
+    average: "O(V^3)"
+    worst: "O(V^3)"
+  space: "O(V^2)"
+stable: null
+in_place: null
+related: [dijkstras, bellman-ford, johnson-algorithm]
+implementations: [c, cpp, go, java, python]
+visualization: true

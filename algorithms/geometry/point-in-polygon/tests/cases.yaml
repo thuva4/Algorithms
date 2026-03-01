@@ -1,0 +1,18 @@
+algorithm: "point-in-polygon"
+function_signature:
+  name: "point_in_polygon"
+  input: [array_of_integers]
+  output: integer
+test_cases:
+  - name: "point inside square"
+    input: [[1, 1, 4, 0, 0, 4, 0, 0, 4, 4, 4]]
+    expected: 1
+  - name: "point outside square"
+    input: [[5, 5, 4, 0, 0, 4, 0, 0, 4, 4, 4]]
+    expected: 0
+  - name: "point inside triangle"
+    input: [[2, 2, 3, 0, 0, 5, 0, 2, 5]]
+    expected: 1
+  - name: "point outside triangle"
+    input: [[10, 10, 3, 0, 0, 5, 0, 2, 5]]
+    expected: 0

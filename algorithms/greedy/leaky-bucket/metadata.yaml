@@ -1,0 +1,17 @@
+name: "Leaky Bucket"
+slug: "leaky-bucket"
+category: "greedy"
+subcategory: "rate-limiting"
+difficulty: "intermediate"
+tags: [greedy, rate-limiting, leaky-bucket, network, traffic-shaping]
+complexity:
+  time:
+    best: "O(n)"
+    average: "O(n)"
+    worst: "O(n)"
+  space: "O(1)"
+stable: false
+in_place: false
+related: []
+implementations: [c]
+visualization: true
