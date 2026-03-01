@@ -73,9 +73,9 @@ run_algo_tests() {
     fi
 
     # Find C# source files
-    local cs_files
-    cs_files=$(find "$cs_dir" -name "*.cs" 2>/dev/null | head -1)
-    if [ -z "$cs_files" ]; then
+    local -a cs_files=()
+    mapfile -t cs_files < <(find "$cs_dir" -name "*.cs" 2>/dev/null | sort)
+    if [ "${#cs_files[@]}" -eq 0 ]; then
         SKIPPED=$((SKIPPED + 1))
         echo "[SKIP] $algo_name: No .cs files found"
         return
@@ -94,6 +94,72 @@ run_algo_tests() {
 
     local num_cases
     num_cases=$(echo "$test_data" | python3 -c "import json,sys; print(len(json.loads(sys.stdin.read())['test_cases']))")
+
+    local primary_cs_file
+    primary_cs_file=$(printf '%s\n' "${cs_files[@]}" | ALGO_SLUG="${algo_name##*/}" TEST_DATA_JSON="$test_data" python3 -c "
+import json, os, re, sys
+from pathlib import Path
+
+data = json.loads(os.environ['TEST_DATA_JSON'])
+algo_slug = os.environ.get('ALGO_SLUG', '')
+func_name = data['function_signature']['name']
+files = [line.strip() for line in sys.stdin.read().splitlines() if line.strip()]
+
+def snake_to_pascal(name):
+    return ''.join(part.capitalize() for part in re.split(r'[_\\-]+', name) if part)
+
+def snake_to_camel(name):
+    pascal = snake_to_pascal(name)
+    return pascal[:1].lower() + pascal[1:] if pascal else ''
+
+def normalize_name(name):
+    return re.sub(r'[^A-Za-z0-9]', '', name).lower()
+
+preferred = []
+for candidate in (algo_slug, data.get('algorithm', ''), func_name):
+    if candidate:
+        for variant in (snake_to_pascal(candidate), snake_to_camel(candidate), candidate):
+            if variant and variant not in preferred:
+                preferred.append(variant)
+
+best_file = files[0]
+best_score = -1
+for path_str in files:
+    path = Path(path_str)
+    source = path.read_text()
+    score = 0
+    base_norm = normalize_name(path.stem)
+    class_names = re.findall(r'(?m)\\b(?:public|internal|private|protected)?\\s*(?:static\\s+|sealed\\s+|abstract\\s+)*class\\s+(\\w+)', source)
+    methods = re.findall(r'(?m)\\b(?:public|private|internal|protected)?\\s*(?:static\\s+)?[^\\s(]+\\s+(\\w+)\\s*\\(', source)
+    for index, name in enumerate(preferred):
+        norm = normalize_name(name)
+        bonus = len(preferred) - index
+        if base_norm == norm:
+            score += 1000 + bonus
+        elif base_norm.endswith(norm):
+            score += 800 + bonus
+        for class_name in class_names:
+            class_norm = normalize_name(class_name)
+            if class_norm == norm:
+                score += 1200 + bonus
+            elif class_norm.endswith(norm):
+                score += 900 + bonus
+        for method_name in methods:
+            method_norm = normalize_name(method_name)
+            if method_name == 'Main':
+                continue
+            if method_norm == norm:
+                score += 700 + bonus
+            elif method_norm.startswith(norm):
+                score += 500 + bonus
+    if 'Console.ReadLine' in source:
+        score += 25
+    if score > best_score:
+        best_score = score
+        best_file = path_str
+
+print(best_file)
+")
 
     # Create a dotnet console project in temp
     local project_dir="$TEMP_DIR/project_${algo_name##*/}"
@@ -126,12 +192,17 @@ if '<StartupObject>' not in text:
 path.write_text(text)
 "
 
+    local cs_file
+    for cs_file in "${cs_files[@]}"; do
+        cp "$cs_file" "$project_dir/alg_$(basename "$cs_file")"
+    done
+
     # Generate test harness (Program.cs)
     local harness_status=0
     set +e
     ALGO_SLUG="${algo_name##*/}" \
     TEST_DATA_JSON="$test_data" \
-    CS_SOURCE_PATH="$cs_files" \
+    PRIMARY_CS_SOURCE_PATH="$primary_cs_file" \
     CSHARP_PROGRAM_PATH="$project_dir/Program.cs" \
     python3 - <<'PY'
 import json
@@ -145,19 +216,22 @@ inputs = data["function_signature"]["input"]
 output = data["function_signature"]["output"]
 algo_slug = os.environ.get("ALGO_SLUG", "")
 sample_case = data["test_cases"][0] if data.get("test_cases") else {"input": [], "expected": None}
+input_keys = inputs if isinstance(inputs, list) else re.findall(r"[A-Za-z_][A-Za-z0-9_]*", str(inputs))
 
 
 def normalized_top_level_inputs(raw):
     if isinstance(raw, dict):
-        ordered_keys = [key for key in inputs if key in raw]
+        if len(input_keys) == 1 and input_keys[0] not in raw:
+            return [raw]
+        ordered_keys = [key for key in input_keys if key in raw]
         if not ordered_keys:
             ordered_keys = list(raw.keys())
         return [raw[key] for key in ordered_keys]
     if isinstance(raw, list):
         if (
-            len(inputs) == 1
+            len(input_keys) == 1
             and all(not isinstance(item, (list, dict)) for item in raw)
-            and any(token in str(inputs[0]) for token in ("array", "list", "matrix", "grid", "tree", "points", "interval"))
+            and any(token in str(input_keys[0]) for token in ("array", "list", "matrix", "grid", "tree", "points", "interval"))
         ):
             return [raw]
         return raw
@@ -179,7 +253,11 @@ def normalize_name(name):
 
 sample_inputs = normalized_top_level_inputs(sample_case.get("input", []))
 sample_expected = sample_case.get("expected")
-source = Path(os.environ["CS_SOURCE_PATH"]).read_text()
+source = Path(os.environ["PRIMARY_CS_SOURCE_PATH"]).read_text()
+allow_main_fallback = bool(
+    re.search(r"(?m)\b(?:public|private|internal|protected)?\s*static\s+(?:void|int)\s+Main\s*\(", source)
+    and "Console.ReadLine" in source
+)
 
 namespace_match = re.search(r"(?m)^\s*namespace\s+([A-Za-z_][A-Za-z0-9_.]*)\s*(?:;|\{)", source)
 namespace_name = namespace_match.group(1) if namespace_match else ""
@@ -273,22 +351,28 @@ preferred_name_literals = ", ".join(json.dumps(name) for name in preferred_metho
 def is_flat_list(value):
     return isinstance(value, list) and all(not isinstance(item, (list, dict)) for item in value)
 
+def classify_input_kind(value):
+    if isinstance(value, dict):
+        if all(not isinstance(item, (list, dict)) for item in value.values()):
+            return "int_map"
+        if all(is_flat_list(item) for item in value.values()):
+            return "adjacency_dict"
+        return "json_dict"
+    if is_flat_list(value):
+        return "flat_list"
+    if isinstance(value, list):
+        return "nested_list"
+    return "scalar"
 
-shape = None
+generic_input_kinds = [classify_input_kind(value) for value in sample_inputs]
+generic_input_kind_literals = ", ".join(json.dumps(kind) for kind in generic_input_kinds)
+generic_input_count = len(generic_input_kinds)
 if inputs == ["tree_values", "depth", "is_maximizing"]:
     shape = "minimax"
 elif inputs == ["tree_as_array"]:
     shape = "nullable_array"
-elif len(sample_inputs) == 1 and is_flat_list(sample_inputs[0]):
-    shape = "array"
-elif len(sample_inputs) == 2 and is_flat_list(sample_inputs[0]) and not isinstance(sample_inputs[1], (list, dict)):
-    shape = "array_and_scalar"
-elif len(sample_inputs) == 1 and not isinstance(sample_inputs[0], (list, dict)):
-    shape = "scalar"
-elif len(sample_inputs) == 2 and all(not isinstance(value, (list, dict)) for value in sample_inputs):
-    shape = "two_scalars"
 else:
-    raise SystemExit(3)
+    shape = "generic"
 
 common_block = [
     "        if (method.ReturnType == typeof(void)) {",
@@ -303,8 +387,7 @@ harness_lines = [
     "using System.Reflection;",
     "using System.Collections;",
     "using System.Collections.Generic;",
-    "",
-    source,
+    "using System.Text.Json;",
     "",
     "class TestHarnessProgram {",
     '    static string FormatScalar(object value) {',
@@ -388,6 +471,126 @@ harness_lines = [
     "        if (MatchesGenericCollection(type, typeof(int?))) return new List<int?>(values);",
     '        throw new InvalidOperationException("Unsupported nullable integer sequence parameter type");',
     "    }",
+    "    static int[][] ParseJaggedIntArray(string raw) {",
+    "        if (string.IsNullOrWhiteSpace(raw)) return Array.Empty<int[]>();",
+    "        using JsonDocument doc = JsonDocument.Parse(raw);",
+    "        return doc.RootElement.EnumerateArray()",
+    "            .Select(row => row.EnumerateArray().Select(item => item.GetInt32()).ToArray())",
+    "            .ToArray();",
+    "    }",
+    "    static int[,] ToRectangular(int[][] values) {",
+    "        int rows = values.Length;",
+    "        int cols = rows == 0 ? 0 : values.Max(row => row.Length);",
+    "        int[,] result = new int[rows, cols];",
+    "        for (int i = 0; i < rows; i++) {",
+    "            for (int j = 0; j < values[i].Length; j++) {",
+    "                result[i, j] = values[i][j];",
+    "            }",
+    "        }",
+    "        return result;",
+    "    }",
+    "    static bool IsNestedIntEnumerableType(Type type) {",
+    "        return type == typeof(int[][])",
+    "            || type == typeof(int[,])",
+    "            || MatchesGenericCollection(type, typeof(int[]))",
+    "            || MatchesGenericCollection(type, typeof(List<int>));",
+    "    }",
+    "    static object BuildNestedIntArg(Type type, string raw) {",
+    "        int[][] values = ParseJaggedIntArray(raw);",
+    "        if (type == typeof(int[][])) return values;",
+    "        if (type == typeof(int[,])) return ToRectangular(values);",
+    "        if (MatchesGenericCollection(type, typeof(int[]))) return new List<int[]>(values);",
+    "        if (MatchesGenericCollection(type, typeof(List<int>))) return values.Select(row => row.ToList()).ToList();",
+    '        throw new InvalidOperationException("Unsupported nested integer sequence parameter type");',
+    "    }",
+    "    static bool MatchesDictionaryType(Type type, Type keyType, Type valueType) {",
+    "        if (!type.IsGenericType) return false;",
+    "        Type generic = type.GetGenericTypeDefinition();",
+    "        Type[] args = type.GetGenericArguments();",
+    "        return args.Length == 2 && args[0] == keyType && args[1] == valueType",
+    "            && (generic == typeof(Dictionary<,>)",
+    "                || generic == typeof(IDictionary<,>)",
+    "                || generic == typeof(IReadOnlyDictionary<,>));",
+    "    }",
+    "    static Dictionary<int, List<int>> ParseAdjacencyDictionary(string raw) {",
+    "        var result = new Dictionary<int, List<int>>();",
+    "        if (string.IsNullOrWhiteSpace(raw)) return result;",
+    "        using JsonDocument doc = JsonDocument.Parse(raw);",
+    "        foreach (JsonProperty property in doc.RootElement.EnumerateObject()) {",
+    "            result[int.Parse(property.Name)] = property.Value.EnumerateArray().Select(item => item.GetInt32()).ToList();",
+    "        }",
+    "        return result;",
+    "    }",
+    "    static bool IsAdjacencyDictionaryType(Type type) {",
+    "        return MatchesDictionaryType(type, typeof(int), typeof(List<int>));",
+    "    }",
+    "    static bool IsAdjacencyListVectorType(Type type) {",
+    "        return MatchesGenericCollection(type, typeof(List<int>));",
+    "    }",
+    "    static object BuildAdjacencyArg(Type type, string raw) {",
+    "        Dictionary<int, List<int>> values = ParseAdjacencyDictionary(raw);",
+    "        if (IsAdjacencyDictionaryType(type)) return values;",
+    "        if (IsAdjacencyListVectorType(type)) {",
+    "            int size = values.Count == 0 ? 0 : values.Keys.Max() + 1;",
+    "            var list = Enumerable.Range(0, size).Select(_ => new List<int>()).ToList();",
+    "            foreach (var entry in values) list[entry.Key] = entry.Value;",
+    "            return list;",
+    "        }",
+    '        throw new InvalidOperationException("Unsupported adjacency parameter type");',
+    "    }",
+    "    static int DeriveNodeCount(string raw) {",
+    "        Dictionary<int, List<int>> values = ParseAdjacencyDictionary(raw);",
+    "        return values.Count == 0 ? 0 : values.Keys.Max() + 1;",
+    "    }",
+    "    static Dictionary<int, int> ParseIntMap(string raw) {",
+    "        var result = new Dictionary<int, int>();",
+    "        if (string.IsNullOrWhiteSpace(raw)) return result;",
+    "        using JsonDocument doc = JsonDocument.Parse(raw);",
+    "        foreach (JsonProperty property in doc.RootElement.EnumerateObject()) {",
+    "            result[int.Parse(property.Name)] = property.Value.GetInt32();",
+    "        }",
+    "        return result;",
+    "    }",
+    "    static bool IsIntMapType(Type type) {",
+    "        return MatchesDictionaryType(type, typeof(int), typeof(int));",
+    "    }",
+    "    static object BuildIntMapArg(Type type, string raw) {",
+    "        Dictionary<int, int> values = ParseIntMap(raw);",
+    "        if (IsIntMapType(type)) return values;",
+    "        if (type == typeof(int[])) {",
+    "            int size = values.Count == 0 ? 0 : values.Keys.Max() + 1;",
+    "            int[] arr = new int[size];",
+    "            foreach (var entry in values) arr[entry.Key] = entry.Value;",
+    "            return arr;",
+    "        }",
+    "        if (MatchesGenericCollection(type, typeof(int))) {",
+    "            int size = values.Count == 0 ? 0 : values.Keys.Max() + 1;",
+    "            var list = Enumerable.Repeat(0, size).ToList();",
+    "            foreach (var entry in values) list[entry.Key] = entry.Value;",
+    "            return list;",
+    "        }",
+    '        throw new InvalidOperationException("Unsupported integer map parameter type");',
+    "    }",
+    "    static bool IsCompatibleInputType(Type type, string kind) {",
+    "        return kind switch {",
+    "            \"scalar\" => IsSimpleScalarType(type),",
+    "            \"flat_list\" => IsFlatIntEnumerableType(type),",
+    "            \"nested_list\" => IsNestedIntEnumerableType(type),",
+    "            \"adjacency_dict\" => IsAdjacencyDictionaryType(type) || IsAdjacencyListVectorType(type),",
+    "            \"int_map\" => IsIntMapType(type) || IsFlatIntEnumerableType(type),",
+    "            _ => false,",
+    "        };",
+    "    }",
+    "    static object BuildArg(Type type, string raw, string kind) {",
+    "        return kind switch {",
+    "            \"scalar\" => ParseScalar(type, raw),",
+    "            \"flat_list\" => BuildFlatIntArg(type, ParseIntArray(raw)),",
+    "            \"nested_list\" => BuildNestedIntArg(type, raw),",
+    "            \"adjacency_dict\" => BuildAdjacencyArg(type, raw),",
+    "            \"int_map\" => BuildIntMapArg(type, raw),",
+    '            _ => throw new InvalidOperationException("Unsupported input kind"),',
+    "        };",
+    "    }",
     "    static int ScoreMethod(MethodInfo method, string[] preferredNames) {",
     "        int score = 0;",
     "        if (method.IsPublic) score += 100;",
@@ -412,6 +615,27 @@ harness_lines = [
     "            .OrderByDescending(candidate => ScoreMethod(candidate, preferredNames))",
     "            .FirstOrDefault();",
     "    }",
+    "    static MethodInfo ChooseInstanceMethod(Type targetType, string[] preferredNames, Func<MethodInfo, bool> isCompatible) {",
+    "        return targetType",
+    "            .GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)",
+    '            .Where(candidate => candidate.Name != "Main")',
+    "            .Where(isCompatible)",
+    "            .OrderByDescending(candidate => ScoreMethod(candidate, preferredNames))",
+    "            .FirstOrDefault();",
+    "    }",
+    "    static bool TryInvokeMain(Type targetType) {",
+    "        MethodInfo mainMethod = targetType",
+    "            .GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static)",
+    '            .Where(candidate => candidate.Name == "Main")',
+    "            .FirstOrDefault(candidate => {",
+    "                ParameterInfo[] parameters = candidate.GetParameters();",
+    "                return parameters.Length == 0 || (parameters.Length == 1 && parameters[0].ParameterType == typeof(string[]));",
+    "            });",
+    "        if (mainMethod == null) return false;",
+    "        object[] argsToInvoke = mainMethod.GetParameters().Length == 0 ? Array.Empty<object>() : new object[] { Array.Empty<string>() };",
+    "        mainMethod.Invoke(null, argsToInvoke);",
+    "        return true;",
+    "    }",
     "    static void Main(string[] args) {",
     f"        Type targetType = typeof({qualified_class_name});",
     f"        string[] preferredNames = new[] {{ {preferred_name_literals} }};",
@@ -424,7 +648,11 @@ if shape == "minimax":
             "            int paramCount = candidate.GetParameters().Length;",
             "            return paramCount == 3 || paramCount == 5 || paramCount == 7;",
             "        });",
-            '        if (method == null) { Console.WriteLine("__SKIP_UNSUPPORTED_CSHARP__"); return; }',
+            '        if (method == null) {',
+            f'            if ({str(allow_main_fallback).lower()} && TryInvokeMain(targetType)) return;',
+            '            Console.WriteLine("__SKIP_UNSUPPORTED_CSHARP__");',
+            "            return;",
+            "        }",
             '        int[] scores = ParseIntArray(Console.ReadLine() ?? "");',
             '        int depth = int.Parse((Console.ReadLine() ?? "0").Trim());',
             '        bool isMaximizing = bool.Parse((Console.ReadLine() ?? "false").Trim());',
@@ -450,82 +678,74 @@ elif shape == "nullable_array":
             "            ParameterInfo[] parameters = candidate.GetParameters();",
             "            return parameters.Length == 1 && IsFlatNullableIntEnumerableType(parameters[0].ParameterType);",
             "        });",
-            '        if (method == null) { Console.WriteLine("__SKIP_UNSUPPORTED_CSHARP__"); return; }',
+            '        if (method == null) {',
+            f'            if ({str(allow_main_fallback).lower()} && TryInvokeMain(targetType)) return;',
+            '            Console.WriteLine("__SKIP_UNSUPPORTED_CSHARP__");',
+            "            return;",
+            "        }",
             '        int?[] values = ParseNullableIntArray(Console.ReadLine() ?? "");',
             "        object[] argsToInvoke = new object[] { BuildNullableIntArg(method.GetParameters()[0].ParameterType, values) };",
             "        object result = method.Invoke(null, argsToInvoke);",
         ]
     )
     harness_lines.extend(common_block)
-elif shape == "array":
+elif shape == "generic":
     harness_lines.extend(
         [
-            "        MethodInfo method = ChooseMethod(targetType, preferredNames, candidate => {",
+            f"        string[] inputKinds = new[] {{ {generic_input_kind_literals} }};",
+            "        Func<MethodInfo, bool> isCompatible = candidate => {",
             "            ParameterInfo[] parameters = candidate.GetParameters();",
-            "            return parameters.Length == 1 && IsFlatIntEnumerableType(parameters[0].ParameterType);",
-            "        });",
-            '        if (method == null) { Console.WriteLine("__SKIP_UNSUPPORTED_CSHARP__"); return; }',
-            '        int[] values = ParseIntArray(Console.ReadLine() ?? "");',
-            "        object[] argsToInvoke = new object[] { BuildFlatIntArg(method.GetParameters()[0].ParameterType, values) };",
-            "        object result = method.Invoke(null, argsToInvoke);",
-        ]
-    )
-    harness_lines.extend(common_block)
-elif shape == "array_and_scalar":
-    harness_lines.extend(
-        [
-            "        MethodInfo method = ChooseMethod(targetType, preferredNames, candidate => {",
-            "            ParameterInfo[] parameters = candidate.GetParameters();",
-            "            return parameters.Length == 2",
-            "                && IsFlatIntEnumerableType(parameters[0].ParameterType)",
-            "                && IsSimpleScalarType(parameters[1].ParameterType);",
-            "        });",
-            '        if (method == null) { Console.WriteLine("__SKIP_UNSUPPORTED_CSHARP__"); return; }',
-            '        int[] values = ParseIntArray(Console.ReadLine() ?? "");',
-            '        string rawScalar = Console.ReadLine() ?? "";',
-            "        ParameterInfo[] parameters = method.GetParameters();",
-            "        object[] argsToInvoke = new object[] {",
-            "            BuildFlatIntArg(parameters[0].ParameterType, values),",
-            "            ParseScalar(parameters[1].ParameterType, rawScalar),",
+            f"            if (parameters.Length != {generic_input_count}) return false;",
+            "            for (int i = 0; i < parameters.Length; i++) {",
+            "                if (!IsCompatibleInputType(parameters[i].ParameterType, inputKinds[i])) return false;",
+            "            }",
+            "            return true;",
             "        };",
-            "        object result = method.Invoke(null, argsToInvoke);",
+            "        MethodInfo method = ChooseMethod(targetType, preferredNames, isCompatible);",
+            "        object target = null;",
+            "        bool prependDerivedNodeCount = false;",
+            "        if (method == null && targetType.GetConstructor(Type.EmptyTypes) != null) {",
+            "            method = ChooseInstanceMethod(targetType, preferredNames, isCompatible);",
+            "            if (method != null) target = Activator.CreateInstance(targetType);",
+            "        }",
+            "        if (method == null && inputKinds.Length > 0 && inputKinds[0] == \"adjacency_dict\") {",
+            "            Func<MethodInfo, bool> acceptsDerivedNodeCount = candidate => {",
+            "                ParameterInfo[] parameters = candidate.GetParameters();",
+            f"                if (parameters.Length != {generic_input_count} + 1) return false;",
+            "                if (parameters[0].ParameterType != typeof(int)) return false;",
+            "                for (int i = 1; i < parameters.Length; i++) {",
+            "                    if (!IsCompatibleInputType(parameters[i].ParameterType, inputKinds[i - 1])) return false;",
+            "                }",
+            "                return true;",
+            "            };",
+            "            method = ChooseMethod(targetType, preferredNames, acceptsDerivedNodeCount);",
+            "            if (method == null && targetType.GetConstructor(Type.EmptyTypes) != null) {",
+            "                method = ChooseInstanceMethod(targetType, preferredNames, acceptsDerivedNodeCount);",
+            "                if (method != null) target = Activator.CreateInstance(targetType);",
+            "            }",
+            "            if (method != null) prependDerivedNodeCount = true;",
+            "        }",
+            "        if (method == null) {",
+            f"            if ({str(allow_main_fallback).lower()} && TryInvokeMain(targetType)) return;",
+            '            Console.WriteLine("__SKIP_UNSUPPORTED_CSHARP__");',
+            "            return;",
+            "        }",
+            f"        string[] rawInputs = new string[{generic_input_count}];",
+            f"        for (int i = 0; i < {generic_input_count}; i++) rawInputs[i] = Console.ReadLine() ?? \"\";",
+            "        ParameterInfo[] parameters = method.GetParameters();",
+            "        object[] argsToInvoke = new object[parameters.Length];",
+            "        int sourceOffset = 0;",
+            "        if (prependDerivedNodeCount) {",
+            "            argsToInvoke[0] = DeriveNodeCount(rawInputs[0]);",
+            "            sourceOffset = 1;",
+            "        }",
+            "        for (int i = sourceOffset; i < parameters.Length; i++) {",
+            "            argsToInvoke[i] = BuildArg(parameters[i].ParameterType, rawInputs[i - sourceOffset], inputKinds[i - sourceOffset]);",
+            "        }",
+            "        object result = method.Invoke(target, argsToInvoke);",
         ]
     )
     harness_lines.extend(common_block)
-elif shape == "scalar":
-    harness_lines.extend(
-        [
-            "        MethodInfo method = ChooseMethod(targetType, preferredNames, candidate => {",
-            "            ParameterInfo[] parameters = candidate.GetParameters();",
-            "            return parameters.Length == 1 && IsSimpleScalarType(parameters[0].ParameterType);",
-            "        });",
-            '        if (method == null) { Console.WriteLine("__SKIP_UNSUPPORTED_CSHARP__"); return; }',
-            '        string rawValue = Console.ReadLine() ?? "";',
-            "        ParameterInfo parameter = method.GetParameters()[0];",
-            "        object result = method.Invoke(null, new object[] { ParseScalar(parameter.ParameterType, rawValue) });",
-            "        Console.WriteLine(FormatResult(result));",
-        ]
-    )
-elif shape == "two_scalars":
-    harness_lines.extend(
-        [
-            "        MethodInfo method = ChooseMethod(targetType, preferredNames, candidate => {",
-            "            ParameterInfo[] parameters = candidate.GetParameters();",
-            "            return parameters.Length == 2",
-            "                && IsSimpleScalarType(parameters[0].ParameterType)",
-            "                && IsSimpleScalarType(parameters[1].ParameterType);",
-            "        });",
-            '        if (method == null) { Console.WriteLine("__SKIP_UNSUPPORTED_CSHARP__"); return; }',
-            '        string rawA = Console.ReadLine() ?? "";',
-            '        string rawB = Console.ReadLine() ?? "";',
-            "        ParameterInfo[] parameters = method.GetParameters();",
-            "        object result = method.Invoke(null, new object[] {",
-            "            ParseScalar(parameters[0].ParameterType, rawA),",
-            "            ParseScalar(parameters[1].ParameterType, rawB),",
-            "        });",
-            "        Console.WriteLine(FormatResult(result));",
-        ]
-    )
 
 harness_lines.extend(["    }", "}"])
 Path(os.environ["CSHARP_PROGRAM_PATH"]).write_text("\n".join(harness_lines) + "\n")
@@ -574,10 +794,14 @@ PY
         local case_name input_str expected_str
         case_name=$(echo "$test_data" | python3 -c "import json,sys; print(json.loads(sys.stdin.read())['test_cases'][$i]['name'])")
         input_str=$(echo "$test_data" | python3 -c "
-import json, sys
+import json, re, sys
 
 def normalized_top_level_inputs(raw, ordered_keys):
+    if not isinstance(ordered_keys, list):
+        ordered_keys = re.findall(r'[A-Za-z_][A-Za-z0-9_]*', str(ordered_keys))
     if isinstance(raw, dict):
+        if isinstance(ordered_keys, list) and len(ordered_keys) == 1 and ordered_keys[0] not in raw:
+            return [raw]
         keys = [key for key in ordered_keys if key in raw]
         if not keys:
             keys = list(raw.keys())
@@ -600,8 +824,12 @@ def format_scalar(value):
     return str(value)
 
 def format_line(value):
+    if isinstance(value, dict):
+        return json.dumps(value, separators=(',', ':'))
     if isinstance(value, list):
-        return ' '.join(format_scalar(item) for item in value)
+        if all(not isinstance(item, (list, dict)) for item in value):
+            return ' '.join(format_scalar(item) for item in value)
+        return json.dumps(value, separators=(',', ':'))
     return format_scalar(value)
 
 payload = json.loads(sys.stdin.read())
@@ -653,7 +881,56 @@ else:
             return
         fi
 
-        if [ "$actual" = "$expected_str" ]; then
+        local special_match=1
+        if [ "$actual" != "$expected_str" ] && [ "$algo_name" = "graph/topological-sort" ]; then
+            if echo "$test_data" | ACTUAL="$actual" CASE_INDEX="$i" python3 -c "
+import json, os, sys
+
+def parse_order(raw):
+    raw = raw.strip()
+    if not raw:
+        return []
+    return [int(token) for token in raw.split()]
+
+data = json.loads(sys.stdin.read())
+adj = data['test_cases'][int(os.environ['CASE_INDEX'])]['input'][0]
+order = parse_order(os.environ.get('ACTUAL', ''))
+nodes = {int(key) for key in adj.keys()}
+if len(order) != len(nodes) or set(order) != nodes:
+    raise SystemExit(1)
+position = {node: index for index, node in enumerate(order)}
+for raw_u, neighbors in adj.items():
+    u = int(raw_u)
+    for v in neighbors:
+        if position[u] > position[v]:
+            raise SystemExit(1)
+" >/dev/null 2>&1; then
+                special_match=0
+            fi
+        elif [ "$actual" != "$expected_str" ] && [ "$algo_name" = "graph/strongly-connected-graph" ]; then
+            if echo "$test_data" | ACTUAL="$actual" EXPECTED="$expected_str" CASE_INDEX="$i" python3 -c "
+import json, os, re, sys
+
+def parse_groups(raw):
+    groups = []
+    for chunk in re.findall(r'\\[([^\\]]*)\\]', raw):
+        chunk = chunk.strip()
+        if not chunk:
+            groups.append(tuple())
+            continue
+        groups.append(tuple(sorted(int(token.strip()) for token in chunk.split(',') if token.strip())))
+    return sorted(groups)
+
+actual = parse_groups(os.environ.get('ACTUAL', ''))
+expected = parse_groups(os.environ.get('EXPECTED', ''))
+if actual != expected:
+    raise SystemExit(1)
+" >/dev/null 2>&1; then
+                special_match=0
+            fi
+        fi
+
+        if [ "$actual" = "$expected_str" ] || [ "$special_match" -eq 0 ]; then
             PASSED=$((PASSED + 1))
             echo "[PASS] $algo_name - $case_name: $input_str -> $expected_str"
         else

@@ -155,6 +155,7 @@ print(match.group(1) if match else '')
         main_class="$package_name.TestHarness"
     fi
 
+    local status=0
     TEST_DATA_JSON="$test_data" python3 -c "
 import json, os, sys
 
@@ -174,6 +175,13 @@ def normalized_top_level_inputs(raw):
             ordered_keys = list(raw.keys())
         return [raw[key] for key in ordered_keys]
     if isinstance(raw, list):
+        if (
+            isinstance(inputs, list)
+            and len(inputs) == 1
+            and all(not isinstance(item, (list, dict)) for item in raw)
+            and any(token in str(inputs[0]) for token in ('array', 'list', 'matrix', 'grid', 'tree', 'points', 'interval'))
+        ):
+            return [raw]
         return raw
     return [raw]
 
@@ -394,6 +402,13 @@ def normalize_inputs(raw):
             ordered_keys = list(raw.keys())
         return [raw[key] for key in ordered_keys]
     if isinstance(raw, list):
+        if (
+            isinstance(sig_inputs, list)
+            and len(sig_inputs) == 1
+            and all(not isinstance(item, (list, dict)) for item in raw)
+            and any(token in str(sig_inputs[0]) for token in ('array', 'list', 'matrix', 'grid', 'tree', 'points', 'interval'))
+        ):
+            return [raw]
         return raw
     return [raw]
 
@@ -479,7 +494,7 @@ echo "Scala Test Results"
 echo "============================================================"
 echo "  Passed:  $PASSED"
 echo "  Failed:  $FAILED"
-echo "  Skipped: $SKIPPED (no Scala implementation)"
+echo "  Skipped: $SKIPPED"
 echo "  Total:   $TOTAL"
 
 if [ -n "$ERRORS" ]; then
