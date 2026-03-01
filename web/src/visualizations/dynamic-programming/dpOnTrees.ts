@@ -66,9 +66,6 @@ export class DpOnTreesVisualization implements DPVisualizationEngine {
     });
 
     // Post-order traversal
-    const order: number[] = [];
-    const stack: number[] = [0];
-    const visited: boolean[] = new Array(n).fill(false);
     // Use iterative post-order
     const postOrder: number[] = [];
     const dfs = (node: number) => {

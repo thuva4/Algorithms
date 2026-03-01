@@ -13,12 +13,6 @@ export class ExtendedGcdApplicationsVisualization implements AlgorithmVisualizat
   private steps: VisualizationState[] = [];
   private currentStepIndex = -1;
 
-  private extGcd(a: number, b: number): [number, number, number] {
-    if (a === 0) return [b, 0, 1];
-    const [g, x1, y1] = this.extGcd(b % a, a);
-    return [g, y1 - Math.floor(b / a) * x1, x1];
-  }
-
   initialize(data: number[]): VisualizationState {
     this.steps = [];
     this.currentStepIndex = -1;

@@ -114,14 +114,6 @@ export class LowestCommonAncestorVisualization implements TreeVisualizationEngin
     return left ?? right;
   }
 
-  private getDepth(root: LCANode | null, target: number, depth: number): number {
-    if (!root) return -1;
-    if (root.value === target) return depth;
-    const l = this.getDepth(root.left, target, depth + 1);
-    if (l !== -1) return l;
-    return this.getDepth(root.right, target, depth + 1);
-  }
-
   private collectNodes(root: LCANode | null, nodes: LCANode[]): void {
     if (!root) return;
     this.collectNodes(root.left, nodes);

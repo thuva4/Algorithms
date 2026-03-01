@@ -62,8 +62,6 @@ export class MatrixExponentiationVisualization implements AlgorithmVisualization
 
     // Fast exponentiation
     let result: Mat = [[1, 0], [0, 1]]; // identity
-    let current: Mat = [...base.map((r) => [...r])];
-
     for (let i = 0; i < bits.length; i++) {
       // Square the result
       result = matMul(result, result, mod);

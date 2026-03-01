@@ -20,8 +20,6 @@ export class TimSortVisualization implements AlgorithmVisualization {
 
     const arr = [...data];
     const n = arr.length;
-    const sorted: number[] = [];
-
     this.steps.push({
       data: [...arr],
       highlights: [],

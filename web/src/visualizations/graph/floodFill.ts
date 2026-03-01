@@ -38,8 +38,6 @@ export class FloodFillVisualization implements GraphVisualizationEngine {
     const edgeColors = new Map<string, string>();
 
     const FILL_COLOR = COLORS.inPath;     // blue - the new fill color
-    const ORIGINAL_COLOR = COLORS.unvisited; // gray - original "color" of nodes
-
     this.steps.push(snapshot(positionedNodes, coloredEdges,
       `Flood fill from ${start}. Fill all connected nodes that share the original color (gray) with new color (blue).`));
 

@@ -24,11 +24,11 @@ export class MoAlgorithmVisualization implements AlgorithmVisualization {
 
     // Generate queries
     const numQueries = Math.min(6, Math.max(2, Math.floor(n / 2)));
-    const queries: { l: number; r: number; idx: number }[] = [];
+    const queries: { l: number; r: number }[] = [];
     for (let i = 0; i < numQueries; i++) {
       const l = Math.floor(Math.random() * Math.floor(n / 2));
       const r = Math.min(n - 1, l + Math.floor(Math.random() * Math.floor(n / 2)) + 1);
-      queries.push({ l, r, idx: i });
+      queries.push({ l, r });
     }
 
     this.steps.push({
@@ -86,7 +86,7 @@ export class MoAlgorithmVisualization implements AlgorithmVisualization {
     let totalOps = 0;
 
     for (let qi = 0; qi < queries.length; qi++) {
-      const { l, r, idx } = queries[qi];
+      const { l, r } = queries[qi];
 
       this.steps.push({
         data: [...arr],

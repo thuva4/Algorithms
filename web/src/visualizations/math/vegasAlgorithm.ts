@@ -82,7 +82,6 @@ export class VegasAlgorithmVisualization implements AlgorithmVisualization {
     }
 
     // Summary
-    const expectedProbes = arr.length; // expected probes for unique target = n (coupon collector variant)
     this.steps.push({
       data: [...arr],
       highlights: arr.map((v, i) => ({

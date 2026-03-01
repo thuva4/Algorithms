@@ -7,7 +7,7 @@ export class SudokuSolverVisualization implements AlgorithmVisualization {
   private steps: VisualizationState[] = [];
   private currentStepIndex = -1;
 
-  initialize(data: number[]): VisualizationState {
+  initialize(_data: number[]): VisualizationState {
     this.steps = [];
     this.currentStepIndex = -1;
     // Use a simple 4x4 Sudoku for visualization

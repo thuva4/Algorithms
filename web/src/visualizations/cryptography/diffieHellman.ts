@@ -18,7 +18,7 @@ export class DiffieHellmanVisualization implements AlgorithmVisualization {
     return result;
   }
 
-  initialize(data: number[]): VisualizationState {
+  initialize(_data: number[]): VisualizationState {
     this.steps = [];
     this.currentStepIndex = -1;
     const p = 23; // prime

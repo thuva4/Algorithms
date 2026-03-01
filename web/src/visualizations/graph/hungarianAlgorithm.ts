@@ -44,8 +44,6 @@ export class HungarianAlgorithmVisualization implements GraphVisualizationEngine
     // Partition nodes into two sets heuristically (even-index = workers, odd-index = jobs)
     const workers: string[] = [];
     const jobs: string[] = [];
-    const nodeSet = new Set(nodes.map((n) => n.id));
-
     // Try to detect bipartite partition via BFS coloring
     const colorMap = new Map<string, number>();
     const adj = new Map<string, { target: string; edgeIdx: number }[]>();

@@ -61,7 +61,7 @@ export class BitmaskDpVisualization implements DPVisualizationEngine {
     ];
 
     this.steps.push({
-      table: [cost.map((row, i) => row.map((v, j) => ({
+      table: [cost.map((row) => row.map((v) => ({
         value: v,
         color: COLORS.computed,
       })))].flat(),

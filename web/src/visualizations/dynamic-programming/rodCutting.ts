@@ -101,11 +101,9 @@ export class RodCuttingVisualization implements DPVisualizationEngine {
     let rem = len;
     while (rem > 0) {
       let bestCut = 1;
-      let bestRev = 0;
       for (let j = 0; j < rem; j++) {
         if (prices[j] + dp[rem - j - 1] === dp[rem]) {
           bestCut = j + 1;
-          bestRev = prices[j];
           break;
         }
       }

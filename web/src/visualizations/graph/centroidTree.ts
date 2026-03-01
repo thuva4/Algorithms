@@ -41,8 +41,6 @@ export class CentroidTreeVisualization implements GraphVisualizationEngine {
     const removed = new Set<string>();
     const centroidParent = new Map<string, string | null>();
     const decompositionColors = [COLORS.visited, COLORS.inPath, COLORS.frontier, COLORS.relaxing, COLORS.visiting, '#ec4899', '#06b6d4'];
-    let level = 0;
-
     // Compute subtree sizes
     const getSize = (u: string, par: string | null): number => {
       if (removed.has(u)) return 0;

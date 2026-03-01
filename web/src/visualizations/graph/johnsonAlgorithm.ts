@@ -1,5 +1,5 @@
 import type { GraphVisualizationEngine, GraphVisualizationState, GraphEdge } from '../types';
-import { layoutCircle, buildAdjacency, applyNodeColors, applyEdgeColors, snapshot, COLORS } from './bfs';
+import { layoutCircle, applyNodeColors, applyEdgeColors, snapshot, COLORS } from './bfs';
 
 /**
  * Johnson's Algorithm visualization.

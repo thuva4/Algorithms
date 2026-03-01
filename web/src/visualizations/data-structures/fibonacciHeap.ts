@@ -43,12 +43,6 @@ export class FibonacciHeapVisualization implements AlgorithmVisualization {
       return result;
     };
 
-    const getMinIndex = (): number => {
-      if (!minNode) return -1;
-      const flat = flattenHeap();
-      return flat.indexOf(minNode.key);
-    };
-
     const getRootHighlights = (): { index: number; color: string; label?: string }[] => {
       const highlights: { index: number; color: string; label?: string }[] = [];
       let idx = 0;

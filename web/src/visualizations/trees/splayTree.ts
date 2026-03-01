@@ -196,7 +196,8 @@ export class SplayTreeVisualization implements TreeVisualizationEngine {
     for (const value of values) {
       this.addStep(new Map(), [], `--- Inserting ${value} ---`);
       this.insert(value);
-      this.addStep(new Map(), [], `After inserting ${value}: root is ${this.root?.key}`);
+      const rootAfterInsert = this.root as SplayNode | null;
+      this.addStep(new Map(), [], `After inserting ${value}: root is ${rootAfterInsert ? rootAfterInsert.key : 'empty'}`);
     }
 
     // Demonstrate search (access) operation
@@ -204,19 +205,20 @@ export class SplayTreeVisualization implements TreeVisualizationEngine {
       const searchKey = values[0];
       this.addStep(new Map(), [], `--- Accessing ${searchKey} (will splay to root) ---`);
 
-      let node = this.root;
-      while (node) {
+      let node: SplayNode | null = this.root;
+      while (node !== null) {
+        const current: SplayNode = node;
         const colorMap = new Map<string, string>();
-        colorMap.set(node.id, COLORS.compared);
-        this.addStep(colorMap, [node.id], `Searching for ${searchKey}: at node ${node.key}`);
-        if (searchKey === node.key) {
-          this.splay(node);
+        colorMap.set(current.id, COLORS.compared);
+        this.addStep(colorMap, [current.id], `Searching for ${searchKey}: at node ${current.key}`);
+        if (searchKey === current.key) {
+          this.splay(current);
           this.addStep(new Map(), [], `Found ${searchKey}, splayed to root`);
           break;
-        } else if (searchKey < node.key) {
-          node = node.left;
+        } else if (searchKey < current.key) {
+          node = current.left;
         } else {
-          node = node.right;
+          node = current.right;
         }
       }
     }

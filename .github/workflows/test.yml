@@ -89,6 +89,9 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
+      - name: Install Python dependencies
+        run: pip install -r tests/runners/requirements.txt
+
       - name: Run Java test runner
         run: bash tests/runners/java_runner.sh
 
@@ -253,6 +256,21 @@ jobs:
         uses: olafurpg/setup-scala@v14
         with:
           scala-version: '3.3.1'
+
+      - name: Ensure Scala compiler is available
+        run: |
+          if ! command -v scalac >/dev/null 2>&1 || ! command -v scala >/dev/null 2>&1; then
+            if command -v cs >/dev/null 2>&1; then
+              cs install --install-dir "$HOME/.local/bin" scala scalac
+              echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+              echo "$HOME/.local/share/coursier/bin" >> "$GITHUB_PATH"
+            else
+              sudo apt-get update
+              sudo apt-get install -y scala
+            fi
+          fi
+          command -v scalac
+          command -v scala
 
       - name: Run Scala test runner
         run: bash tests/runners/scala_runner.sh

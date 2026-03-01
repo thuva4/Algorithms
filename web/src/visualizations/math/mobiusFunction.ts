@@ -82,8 +82,6 @@ export class MobiusFunctionVisualization implements AlgorithmVisualization {
 
       results.push(mu);
 
-      const color = mu === 0 ? COLORS.hasSquare : mu === 1 ? COLORS.squareFree : COLORS.result;
-
       this.steps.push({
         data: [...results],
         highlights: results.map((m, i) => ({

@@ -10,7 +10,7 @@ export class GraphCycleDetectionVisualization implements GraphVisualizationEngin
   initialize(
     nodes: { id: string; label: string }[],
     edges: { source: string; target: string; weight?: number; directed?: boolean }[],
-    startNode?: string,
+    _startNode?: string,
   ): GraphVisualizationState {
     this.steps = [];
     this.currentStepIndex = -1;
@@ -49,8 +49,6 @@ export class GraphCycleDetectionVisualization implements GraphVisualizationEngin
 
     const parent = new Map<string, string | null>();
     let cycleFound = false;
-    let cycleEdge: { from: string; to: string; edgeIdx: string } | null = null;
-
     const dfs = (u: string) => {
       if (cycleFound) return;
 
@@ -86,7 +84,6 @@ export class GraphCycleDetectionVisualization implements GraphVisualizationEngin
 
           // Found a cycle!
           cycleFound = true;
-          cycleEdge = { from: u, to: target, edgeIdx };
           edgeColors.set(edgeIdx, COLORS.relaxing);
           nodeColors.set(u, COLORS.relaxing);
           nodeColors.set(target, COLORS.relaxing);

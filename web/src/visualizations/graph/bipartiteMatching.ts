@@ -10,7 +10,7 @@ export class BipartiteMatchingVisualization implements GraphVisualizationEngine 
   initialize(
     nodes: { id: string; label: string }[],
     edges: { source: string; target: string; weight?: number; directed?: boolean }[],
-    startNode?: string,
+    _startNode?: string,
   ): GraphVisualizationState {
     this.steps = [];
     this.currentStepIndex = -1;

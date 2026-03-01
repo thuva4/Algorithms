@@ -23,6 +23,7 @@ ALGORITHMS_DIR = REPO_ROOT / "algorithms"
 CACHE_DIR = REPO_ROOT / ".cache" / "go-runner"
 GO_BUILD_CACHE = REPO_ROOT / ".cache" / "go-build"
 RUN_TIMEOUT_SECONDS = float(os.environ.get("GO_RUNNER_TIMEOUT_SECONDS", "10"))
+BUILD_TIMEOUT_SECONDS = float(os.environ.get("GO_RUNNER_BUILD_TIMEOUT_SECONDS", "60"))
 
 
 @dataclass
@@ -982,14 +983,17 @@ def compile_binary(algo_dir: Path, sources: list[Path], wrapper_source: str) -> 
         env["GOCACHE"] = str(GO_BUILD_CACHE)
 
         cmd = ["go", "build", "-o", str(tmp_dir / "runner")]
-        proc = subprocess.run(
-            cmd,
-            cwd=tmp_dir,
-            env=env,
-            text=True,
-            capture_output=True,
-            timeout=RUN_TIMEOUT_SECONDS,
-        )
+        try:
+            proc = subprocess.run(
+                cmd,
+                cwd=tmp_dir,
+                env=env,
+                text=True,
+                capture_output=True,
+                timeout=BUILD_TIMEOUT_SECONDS,
+            )
+        except subprocess.TimeoutExpired:
+            return None, f"Build timed out after {BUILD_TIMEOUT_SECONDS:.1f}s"
         if proc.returncode != 0:
             output = (proc.stdout + proc.stderr).strip()
             return None, output

@@ -156,7 +156,7 @@ export class CycleDetectionFloydVisualization implements GraphVisualizationEngin
         cycleNodes.push(runner);
         nodeColors.set(runner, COLORS.inPath);
         cycleLen++;
-        runner = getNext(runner)?.target ?? null;
+        runner = getNext(runner)?.target;
       }
 
       // Highlight cycle edges

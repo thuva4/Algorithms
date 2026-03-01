@@ -61,7 +61,7 @@ export class MinimumSpanningArborescenceVisualization implements GraphVisualizat
       let minWeight = Infinity;
       let bestEdge: { source: string; weight: number; edgeIdx: number } | null = null;
 
-      edges.forEach((e, i) => {
+      for (const [i, e] of edges.entries()) {
         if (e.target === v) {
           const w = e.weight ?? 1;
           if (w < minWeight) {
@@ -69,7 +69,7 @@ export class MinimumSpanningArborescenceVisualization implements GraphVisualizat
             bestEdge = { source: e.source, weight: w, edgeIdx: i };
           }
         }
-      });
+      }
 
       if (bestEdge) {
         minInEdge.set(v, bestEdge);
@@ -196,7 +196,7 @@ export class MinimumSpanningArborescenceVisualization implements GraphVisualizat
         let bestWeight = Infinity;
 
         for (const v of cycle) {
-          edges.forEach((e, i) => {
+          for (const [i, e] of edges.entries()) {
             if (e.target === v && !cycleSet.has(e.source)) {
               const cycleEdgeW = minInEdge.get(v)?.weight ?? 0;
               const adjusted = (e.weight ?? 1) - cycleEdgeW;
@@ -205,7 +205,7 @@ export class MinimumSpanningArborescenceVisualization implements GraphVisualizat
                 bestExtEdge = { edgeIdx: i, weight: e.weight ?? 1 };
               }
             }
-          });
+          }
         }
 
         if (bestExtEdge) {

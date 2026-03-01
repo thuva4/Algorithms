@@ -11,7 +11,6 @@ export class ElevatorAlgorithmVisualization implements AlgorithmVisualization {
     this.steps = [];
     this.currentStepIndex = -1;
     const requests = [...data].map(v => Math.abs(v) % 100);
-    const n = requests.length;
     let head = requests[0] || 50;
     const queue = requests.slice(1);
 

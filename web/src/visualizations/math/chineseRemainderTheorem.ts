@@ -92,7 +92,7 @@ export class ChineseRemainderTheoremVisualization implements AlgorithmVisualizat
       });
 
       // Find modular inverse of Mi mod m_i using extended GCD
-      const [g, inv] = this.extGcd(Mi % moduli[i], moduli[i]);
+      const [, inv] = this.extGcd(Mi % moduli[i], moduli[i]);
       const yInv = ((inv % moduli[i]) + moduli[i]) % moduli[i];
 
       this.steps.push({

@@ -145,7 +145,7 @@ export class PruferCodeVisualization implements TreeVisualizationEngine {
       const colorMap = new Map<string, string>();
       colorMap.set(`pf-${leaf}`, COLORS.removed);
       colorMap.set(`pf-${neighbor}`, COLORS.highlighted);
-      this.addStep(originalTree, colorMap, [`pf-${leaf}`, `pf-${neighbor}`],
+      this.addStep(currentTree, colorMap, [`pf-${leaf}`, `pf-${neighbor}`],
         `Remove leaf ${leaf} (neighbor ${neighbor}). Prufer sequence so far: [${pruferSeq.join(', ')}]`);
     }
 

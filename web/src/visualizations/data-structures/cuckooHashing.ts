@@ -27,7 +27,6 @@ export class CuckooHashingVisualization implements AlgorithmVisualization {
 
     const tableSize = Math.max(8, data.length * 2);
     // Table A occupies indices [0, tableSize-1], Table B occupies [tableSize, 2*tableSize-1]
-    const combined = new Array(tableSize * 2).fill(0);
     const tableA: (number | null)[] = new Array(tableSize).fill(null);
     const tableB: (number | null)[] = new Array(tableSize).fill(null);
     const maxDisplacements = 10;

@@ -35,11 +35,6 @@ export class TravellingSalesmanVisualization implements DPVisualizationEngine {
     }
 
     const total = 1 << n;
-    const popcount = (x: number): number => {
-      let c = 0; let v = x;
-      while (v) { c += v & 1; v >>= 1; }
-      return c;
-    };
     const maskStr = (mask: number): string => mask.toString(2).padStart(n, '0');
 
     // dp[mask][i] = min cost to visit cities in mask, ending at city i, starting from city 0

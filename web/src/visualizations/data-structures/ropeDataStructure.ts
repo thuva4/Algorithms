@@ -28,14 +28,6 @@ export class RopeDataStructureVisualization implements AlgorithmVisualization {
     return this.totalLength(node.left) + this.totalLength(node.right);
   }
 
-  private flatten(node: RopeNode | null): number[] {
-    if (!node) return [];
-    if (node.value !== null) {
-      return node.value.split('').map(c => c.charCodeAt(0) - 64); // A=1, B=2, etc.
-    }
-    return [...this.flatten(node.left), ...this.flatten(node.right)];
-  }
-
   private treeToArray(node: RopeNode | null): number[] {
     // BFS order of weights for visualization
     if (!node) return [];

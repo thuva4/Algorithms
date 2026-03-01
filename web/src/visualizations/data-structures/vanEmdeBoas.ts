@@ -21,7 +21,6 @@ export class VanEmdeBoasVisualization implements AlgorithmVisualization {
     this.currentStepIndex = -1;
 
     // Universe size: smallest power of 2 >= max element + 1, capped at 16 for visualization
-    const maxVal = Math.min(15, Math.max(...data.map(v => Math.abs(v) % 16)));
     const universeSize = 16; // 2^4, gives sqrt = 4
     const sqrtU = 4; // sqrt(16)
 

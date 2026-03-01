@@ -78,12 +78,6 @@ export class HeavyLightDecompositionVisualization implements TreeVisualizationEn
     }
 
     // Build visual tree nodes
-    const visualNodes: HLDNode[] = values.map((v, i) => ({
-      id: `hld-${i}`,
-      value: v,
-      children: [],
-    }));
-
     const buildVisual = (v: number, parent: number): HLDNode => {
       const node: HLDNode = { id: `hld-${v}`, value: values[v], children: [] };
       for (const u of adj[v]) {

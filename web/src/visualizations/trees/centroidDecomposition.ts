@@ -8,8 +8,6 @@ const COLORS = {
   removed: '#ef4444',
 };
 
-let nodeCounter = 0;
-
 interface CDNode {
   id: string;
   value: number;
@@ -63,8 +61,6 @@ export class CentroidDecompositionVisualization implements TreeVisualizationEngi
   initialize(values: number[]): TreeVisualizationState {
     this.steps = [];
     this.currentStepIndex = -1;
-    nodeCounter = 0;
-
     const n = values.length;
     if (n === 0) {
       this.steps.push({ root: null, highlightedNodes: [], stepDescription: 'No values provided' });

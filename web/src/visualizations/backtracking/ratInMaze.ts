@@ -7,7 +7,7 @@ export class RatInMazeVisualization implements AlgorithmVisualization {
   private steps: VisualizationState[] = [];
   private currentStepIndex = -1;
 
-  initialize(data: number[]): VisualizationState {
+  initialize(_data: number[]): VisualizationState {
     this.steps = [];
     this.currentStepIndex = -1;
     const n = 4;
