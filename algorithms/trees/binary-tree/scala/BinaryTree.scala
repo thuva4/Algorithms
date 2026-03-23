@@ -9,24 +9,25 @@ object BinaryTree {
   def buildTree(arr: Array[Option[Int]]): Option[TreeNode] = {
     if (arr.isEmpty || arr(0).isEmpty) return None
 
-    val root = new TreeNode(arr(0).get)
-    val queue = mutable.Queue[TreeNode](root)
-    var i = 1
-
-    while (queue.nonEmpty && i < arr.length) {
-      val node = queue.dequeue()
-      if (i < arr.length && arr(i).isDefined) {
-        node.left = new TreeNode(arr(i).get)
-        queue.enqueue(node.left)
+    val nodes = Array.fill[TreeNode](arr.length)(null)
+    for (i <- arr.indices) {
+      if (arr(i).isDefined) {
+        nodes(i) = new TreeNode(arr(i).get)
       }
-      i += 1
-      if (i < arr.length && arr(i).isDefined) {
-        node.right = new TreeNode(arr(i).get)
-        queue.enqueue(node.right)
-      }
-      i += 1
     }
-    Some(root)
+
+    for (i <- arr.indices if nodes(i) != null) {
+      val leftIndex = 2 * i + 1
+      val rightIndex = 2 * i + 2
+      if (leftIndex < arr.length) {
+        nodes(i).left = nodes(leftIndex)
+      }
+      if (rightIndex < arr.length) {
+        nodes(i).right = nodes(rightIndex)
+      }
+    }
+
+    Some(nodes(0))
   }
 
   def levelOrderTraversal(arr: Array[Option[Int]]): List[Int] = {

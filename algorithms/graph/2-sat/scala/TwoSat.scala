@@ -55,11 +55,13 @@ object TwoSat {
       if (low(u) == dfn(u)) {
         sccCnt += 1
         var v = -1
-        do {
+        var draining = true
+        while (draining) {
           v = stack.pop()
           inStack(v) = false
           sccId(v) = sccCnt
-        } while (u != v)
+          draining = u != v
+        }
       }
     }
 

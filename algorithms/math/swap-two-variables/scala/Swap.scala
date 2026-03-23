@@ -9,9 +9,8 @@ object Swap {
     var swapped = swap(x,y)
     x = swapped._1
     y = swapped._2
-    println(x, y)
+    println(s"$x $y")
   }
 
 }
-
 

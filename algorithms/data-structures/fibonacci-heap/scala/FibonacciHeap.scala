@@ -3,7 +3,7 @@ import scala.collection.mutable.ArrayBuffer
 
 object FibonacciHeap {
   def fibonacciHeap(operations: Array[Int]): Array[Int] = {
-    val heap = mutable.PriorityQueue.empty[Int](Ordering[Int].reverse)
+    val heap = mutable.PriorityQueue.empty[Int](using Ordering.Int.reverse)
     val results = ArrayBuffer[Int]()
     for (op <- operations) {
       if (op == 0) {

@@ -9,6 +9,9 @@ object GnomeSort {
   def sort(arr: Array[Int]): Array[Int] = {
     val result = arr.clone()
     val n = result.length
+    if (n < 2) {
+      return result
+    }
     var index = 0
 
     while (index < n) {

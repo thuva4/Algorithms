@@ -12,7 +12,7 @@ object PrimsFibonacciHeap {
     val inMst = Array.fill(n)(false)
     val key = Array.fill(n)(INF)
     key(0) = 0
-    val pq = scala.collection.mutable.PriorityQueue[(Int, Int)]()(Ordering.by[(Int, Int), Int](_._1).reverse)
+    val pq = scala.collection.mutable.PriorityQueue.empty[(Int, Int)](using Ordering.by[(Int, Int), Int](_._1).reverse)
     pq.enqueue((0, 0))
     var total = 0
 

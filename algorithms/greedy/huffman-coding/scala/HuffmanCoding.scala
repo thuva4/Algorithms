@@ -5,7 +5,7 @@ object HuffmanCoding {
   def huffmanCoding(frequencies: Array[Int]): Int = {
     if (frequencies.length <= 1) return 0
 
-    val minHeap = mutable.PriorityQueue[Int]()(Ordering[Int].reverse)
+    val minHeap = mutable.PriorityQueue.empty[Int](using Ordering.Int.reverse)
     frequencies.foreach(minHeap.enqueue(_))
 
     var totalCost = 0

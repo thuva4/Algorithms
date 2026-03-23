@@ -1,9 +1,7 @@
 package algorithms.graph.dinic
 
-import java.util.LinkedList
-import java.util.Queue
-import scala.collection.mutable.ArrayBuffer
-import scala.math.min
+import _root_.scala.collection.mutable.ArrayBuffer
+import _root_.scala.math.min
 
 object Dinic {
   case class Edge(to: Int, rev: Int, cap: Long, var flow: Long)
@@ -34,9 +32,9 @@ object Dinic {
     val ptr = new Array[Int](n)
 
     def bfs(): Boolean = {
-      java.util.Arrays.fill(level, -1)
+      _root_.java.util.Arrays.fill(level, -1)
       level(s) = 0
-      val q: Queue[Int] = new LinkedList()
+      val q: _root_.java.util.Queue[Int] = new _root_.java.util.LinkedList[Int]()
       q.add(s)
 
       while (!q.isEmpty) {
@@ -81,12 +79,14 @@ object Dinic {
 
     var flow: Long = 0
     while (bfs()) {
-      java.util.Arrays.fill(ptr, 0)
+      _root_.java.util.Arrays.fill(ptr, 0)
       var pushed: Long = 0
-      do {
+      var keepPushing = true
+      while (keepPushing) {
         pushed = dfs(s, Long.MaxValue)
         flow += pushed
-      } while (pushed != 0)
+        keepPushing = pushed != 0
+      }
     }
 
     flow.toInt

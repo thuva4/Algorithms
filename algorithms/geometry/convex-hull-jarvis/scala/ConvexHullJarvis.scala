@@ -21,7 +21,9 @@ object ConvexHullJarvis {
 
     var hullCount = 0
     var current = start
-    do {
+    var firstPass = true
+    while (firstPass || current != start) {
+      firstPass = false
       hullCount += 1
       var candidate = 0
       for (i <- 1 until n) {
@@ -37,7 +39,7 @@ object ConvexHullJarvis {
         }
       }
       current = candidate
-    } while (current != start)
+    }
 
     hullCount
   }

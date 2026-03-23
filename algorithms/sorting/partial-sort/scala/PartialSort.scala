@@ -7,6 +7,8 @@ import scala.collection.mutable.PriorityQueue
  * Returns the smallest k elements of the array in sorted order.
  */
 object PartialSort {
+  def sort(arr: Array[Int]): Array[Int] = sort(arr, arr.length)
+
   def sort(arr: Array[Int], k: Int): Array[Int] = {
     if (k <= 0) {
       return Array.empty[Int]

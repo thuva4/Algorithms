@@ -24,7 +24,7 @@ object BogoSort {
 
   private def isSorted(arr: Array[Int]): Boolean = {
     for (i <- 0 until arr.length - 1) {
-      if (arr[i] > arr[i + 1]) {
+      if (arr(i) > arr(i + 1)) {
         return false
       }
     }
@@ -32,11 +32,11 @@ object BogoSort {
   }
 
   private def shuffle(arr: Array[Int]): Unit = {
-    for (i <- arr.length - 1 to 1 by -1) {
+    for (i <- (arr.length - 1) to 1 by -1) {
       val j = random.nextInt(i + 1)
-      val temp = arr[i]
-      arr[i] = arr[j]
-      arr[j] = temp
+      val temp = arr(i)
+      arr(i) = arr(j)
+      arr(j) = temp
     }
   }
 }

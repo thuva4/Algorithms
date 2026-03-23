@@ -4,39 +4,36 @@ object DelaunayTriangulation {
     val n = arr(0)
     if (n < 3) return 0
 
-    val px = Array.tabulate(n)(i => arr(1 + 2 * i).toDouble)
-    val py = Array.tabulate(n)(i => arr(1 + 2 * i + 1).toDouble)
-
-    val eps = 1e-9
-    var count = 0
-
-    for (i <- 0 until n; j <- (i + 1) until n; k <- (j + 1) until n) {
-      val (ax, ay) = (px(i), py(i))
-      val (bx, by) = (px(j), py(j))
-      val (cx, cy) = (px(k), py(k))
-
-      val d = 2.0 * (ax * (by - cy) + bx * (cy - ay) + cx * (ay - by))
-      if (math.abs(d) >= eps) {
-        val ux = ((ax*ax + ay*ay) * (by - cy) +
-                  (bx*bx + by*by) * (cy - ay) +
-                  (cx*cx + cy*cy) * (ay - by)) / d
-        val uy = ((ax*ax + ay*ay) * (cx - bx) +
-                  (bx*bx + by*by) * (ax - cx) +
-                  (cx*cx + cy*cy) * (bx - ax)) / d
-
-        val rSq = (ux - ax) * (ux - ax) + (uy - ay) * (uy - ay)
-
-        val valid = (0 until n).forall { m =>
-          m == i || m == j || m == k || {
-            val distSq = (ux - px(m)) * (ux - px(m)) + (uy - py(m)) * (uy - py(m))
-            distSq >= rSq - eps
-          }
-        }
-
-        if (valid) count += 1
-      }
+    val points = Array.tabulate(n) { i =>
+      (arr(1 + 2 * i), arr(1 + 2 * i + 1))
     }
 
-    count
+    def cross(o: (Int, Int), a: (Int, Int), b: (Int, Int)): Long =
+      (a._1 - o._1).toLong * (b._2 - o._2) - (a._2 - o._2).toLong * (b._1 - o._1)
+
+    val base = points(0)
+    val allCollinear = points.drop(2).forall(point => cross(base, points(1), point) == 0L)
+    if (allCollinear) return 0
+
+    val sorted = points.sortBy(point => (point._1, point._2))
+
+    val lower = scala.collection.mutable.ArrayBuffer[(Int, Int)]()
+    for (point <- sorted) {
+      while (lower.length >= 2 && cross(lower(lower.length - 2), lower(lower.length - 1), point) <= 0L) {
+        lower.remove(lower.length - 1)
+      }
+      lower += point
+    }
+
+    val upper = scala.collection.mutable.ArrayBuffer[(Int, Int)]()
+    for (point <- sorted.reverse) {
+      while (upper.length >= 2 && cross(upper(upper.length - 2), upper(upper.length - 1), point) <= 0L) {
+        upper.remove(upper.length - 1)
+      }
+      upper += point
+    }
+
+    val hullVertices = lower.length + upper.length - 2
+    2 * n - 2 - hullVertices
   }
 }

@@ -28,10 +28,10 @@ object BitonicSort {
   }
 
   private def compareAndSwap(arr: Array[Int], i: Int, j: Int, ascending: Boolean): Unit = {
-    if ((ascending && arr[i] > arr[j]) || (!ascending && arr[i] < arr[j])) {
-      val temp = arr[i]
-      arr[i] = arr[j]
-      arr[j] = temp
+    if ((ascending && arr(i) > arr(j)) || (!ascending && arr(i) < arr(j))) {
+      val temp = arr(i)
+      arr(i) = arr(j)
+      arr(j) = temp
     }
   }
 

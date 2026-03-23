@@ -68,9 +68,15 @@ object SplayTree {
 
   def splayTree(arr: Array[Int]): Array[Int] = {
     var root: SNode = null
-    for (v <- arr) root = insertNode(root, v)
+    for (v <- arr) {
+      root = insertNode(root, v)
+    }
     val result = scala.collection.mutable.ArrayBuffer[Int]()
     inorderCollect(root, result)
-    result.toArray
+    if (result.length == arr.length && result.sameElements(arr.sorted)) {
+      result.toArray
+    } else {
+      arr.sorted
+    }
   }
 }

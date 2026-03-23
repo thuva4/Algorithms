@@ -1,7 +1,7 @@
 package algorithms.graph.dijkstras
 
-import scala.collection.mutable
-import scala.math.Ordering
+import _root_.scala.collection.mutable
+import _root_.scala.math.Ordering
 
 object Dijkstra {
   private val INF = 1000000000

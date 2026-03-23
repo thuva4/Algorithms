@@ -171,6 +171,10 @@ def normalized_top_level_inputs(raw):
             ordered_keys = [key for key in inputs if key in raw]
             if not ordered_keys:
                 ordered_keys = list(raw.keys())
+            elif len(ordered_keys) != len(raw):
+                for key in raw.keys():
+                    if key not in ordered_keys:
+                        ordered_keys.append(key)
         else:
             ordered_keys = list(raw.keys())
         return [raw[key] for key in ordered_keys]
@@ -201,7 +205,10 @@ def snake_to_camel(name):
 import re
 obj_match = re.search(r'object\s+(\w+)', source)
 obj_name = obj_match.group(1) if obj_match else 'Algorithm'
-declared_methods = [name for name in re.findall(r'(?m)\bdef\s+(\w+)\s*\(', source) if name != 'main']
+method_matches = re.findall(r'(?m)^\s*(private\s+)?def\s+(\w+)\s*\(', source)
+declared_methods = [name for private, name in method_matches if name != 'main' and not private]
+if not declared_methods:
+    declared_methods = [name for _, name in method_matches if name != 'main']
 
 preferred_names = []
 for candidate in (snake_to_camel(func_name), func_name):
@@ -240,55 +247,272 @@ if scala_func_name is None:
 if scala_func_name is None:
     scala_func_name = declared_methods[0] if declared_methods else snake_to_camel(func_name)
 
+signature_match = re.search(r'def\s+' + re.escape(scala_func_name) + r'\s*\(([^)]*)\)', source, re.S)
+param_types = []
+if signature_match:
+    param_types = [token.strip() for token in re.findall(r':\s*([A-Za-z0-9_.\[\]]+)', signature_match.group(1))]
+
+def scalar_reader(index):
+    param_type = param_types[index] if index < len(param_types) else ''
+    if param_type.endswith('Long'):
+        return 'scala.io.StdIn.readLine().trim.toLong'
+    if param_type.endswith('Boolean'):
+        return 'scala.io.StdIn.readLine().trim.toBoolean'
+    return 'scala.io.StdIn.readLine().trim.toInt'
+
+def flat_arg_expr(index, name):
+    param_type = param_types[index] if index < len(param_types) else ''
+    if 'Vector[Int]' in param_type:
+        return f'{name}.toVector'
+    if 'List[Int]' in param_type:
+        return f'{name}.toList'
+    if 'Seq[Int]' in param_type or 'IndexedSeq[Int]' in param_type:
+        return f'{name}.toSeq'
+    return name
+
+def nested_arg_expr(index, name):
+    param_type = param_types[index] if index < len(param_types) else ''
+    if 'List[List[Int]]' in param_type:
+        return f'{name}.map(_.toList).toList'
+    if 'Seq[Seq[Int]]' in param_type or 'IndexedSeq[IndexedSeq[Int]]' in param_type:
+        return f'{name}.map(_.toSeq).toSeq'
+    if 'List[Array[Int]]' in param_type:
+        return f'{name}.toList'
+    return name
+
+def adjacency_arg_expr(index, name):
+    param_type = param_types[index] if index < len(param_types) else ''
+    if 'Map[Int, Seq[Int]]' in param_type:
+        return f'{name}.view.mapValues(_.toSeq).toMap'
+    return name
+
+def weighted_adjacency_arg_expr(index, name):
+    param_type = param_types[index] if index < len(param_types) else ''
+    if 'Map[Int, Seq[(Int, Int)]]' in param_type:
+        return f'{name}.view.mapValues(_.toSeq).toMap'
+    return name
+
 harness = source + '\n\n'
 
 # Generate main object
 harness += 'object TestHarness {\n'
+harness += '''
+  def parseIntArray(line: String): Array[Int] = {
+    if (line == null || line.trim.isEmpty) Array.emptyIntArray
+    else line.trim.split(\" \").filter(_.nonEmpty).map(_.toInt)
+  }
+
+  def formatCollection(values: Seq[Any], wrapCollections: Boolean): String = {
+    val rendered = values.map(value => formatValue(value, true))
+    if (wrapCollections) rendered.mkString(\"[\", \", \", \"]\")
+    else rendered.mkString(\" \")
+  }
+
+  def formatValue(value: Any, wrapCollections: Boolean = false): String = value match {
+    case null => \"\"
+    case _: Unit => \"\"
+    case None => \"null\"
+    case Some(inner) => formatValue(inner, wrapCollections)
+    case b: Boolean => b.toString.toLowerCase
+    case d: Double if d.isPosInfinity => \"Infinity\"
+    case d: Double if d.isNegInfinity => \"-Infinity\"
+    case d: Double if d.isWhole => d.toLong.toString
+    case d: Double => d.toString
+    case f: Float if f.isPosInfinity => \"Infinity\"
+    case f: Float if f.isNegInfinity => \"-Infinity\"
+    case f: Float if f.isWhole => f.toLong.toString
+    case f: Float => f.toString
+    case arr: Array[?] => formatCollection(arr.toSeq.asInstanceOf[Seq[Any]], wrapCollections)
+    case seq: Iterable[?] => formatCollection(seq.toSeq.asInstanceOf[Seq[Any]], wrapCollections)
+    case p: Product => p.productIterator.map(item => formatValue(item, true)).mkString(\" \")
+    case other => other.toString
+  }
+
+  def splitTopLevel(raw: String, delimiter: Char): List[String] = {
+    val parts = _root_.scala.collection.mutable.ListBuffer[String]()
+    val current = new StringBuilder
+    var depth = 0
+    var inQuotes = false
+    var i = 0
+    while (i < raw.length) {
+      val ch = raw.charAt(i)
+      if (ch == '\"') {
+        inQuotes = !inQuotes
+      }
+      if (!inQuotes && ch == delimiter && depth == 0) {
+        parts += current.toString
+        current.clear()
+      } else {
+        current.append(ch)
+        if (!inQuotes) {
+          if (ch == '[' || ch == '{') depth += 1
+          else if (ch == ']' || ch == '}') depth -= 1
+        }
+      }
+      i += 1
+    }
+    parts += current.toString
+    parts.toList.filter(_.nonEmpty)
+  }
+
+  def parseNestedIntArray(raw: String): Array[Array[Int]] = {
+    val trimmed = Option(raw).getOrElse(\"\").trim
+    if (trimmed.isEmpty || trimmed == \"[]\") {
+      Array.empty[Array[Int]]
+    } else {
+      val inner = trimmed.stripPrefix(\"[\").stripSuffix(\"]\")
+      if (inner.trim.isEmpty) {
+        Array.empty[Array[Int]]
+      } else {
+        splitTopLevel(inner, ',').map { row =>
+          val rowInner = row.trim.stripPrefix(\"[\").stripSuffix(\"]\").trim
+          if (rowInner.isEmpty) Array.emptyIntArray
+          else rowInner.split(\",\").filter(_.nonEmpty).map(_.trim.toInt)
+        }.toArray
+      }
+    }
+  }
+
+  def parseAdjacencyMap(raw: String): Map[Int, List[Int]] = {
+    val trimmed = Option(raw).getOrElse(\"\").trim
+    if (trimmed.isEmpty || trimmed == \"{}\") {
+      Map.empty
+    } else {
+      val inner = trimmed.stripPrefix(\"{\").stripSuffix(\"}\")
+      splitTopLevel(inner, ',').map { entry =>
+        val pivot = entry.indexOf(':')
+        val key = entry.take(pivot).filter(ch => ch.isDigit || ch == '-').toInt
+        val valueRaw = entry.drop(pivot + 1).trim
+        val values =
+          if (valueRaw == \"[]\") List.empty[Int]
+          else valueRaw.stripPrefix(\"[\").stripSuffix(\"]\").split(\",\").filter(_.nonEmpty).map(_.trim.toInt).toList
+        key -> values
+      }.toMap
+    }
+  }
+
+  def parseWeightedAdjacencyMap(raw: String): Map[Int, List[(Int, Int)]] = {
+    val trimmed = Option(raw).getOrElse(\"\").trim
+    if (trimmed.isEmpty || trimmed == \"{}\") {
+      Map.empty
+    } else {
+      val inner = trimmed.stripPrefix(\"{\").stripSuffix(\"}\")
+      splitTopLevel(inner, ',').map { entry =>
+        val pivot = entry.indexOf(':')
+        val key = entry.take(pivot).filter(ch => ch.isDigit || ch == '-').toInt
+        val valueRaw = entry.drop(pivot + 1).trim
+        val values = parseNestedIntArray(valueRaw).collect {
+          case row if row.length >= 2 => (row(0), row(1))
+        }.toList
+        key -> values
+      }.toMap
+    }
+  }
+'''
 harness += '  def main(args: Array[String]): Unit = {\n'
 
 if (
-    (output == 'array_of_integers' and inputs == ['array_of_integers'])
+    len(sample_inputs) == 1
+    and isinstance(sample_inputs[0], str)
+    and not isinstance(sample_expected, list)
+):
+    harness += '''
+    val x = _root_.scala.io.StdIn.readLine()
+    val result = ''' + obj_name + '.' + scala_func_name + '''(if (x == null) \"\" else x)
+    println(result)
+'''
+elif (
+    len(sample_inputs) == 2
+    and all(isinstance(value, str) for value in sample_inputs)
+    and not isinstance(sample_expected, list)
+):
+    harness += '''
+    val a = _root_.scala.io.StdIn.readLine()
+    val b = _root_.scala.io.StdIn.readLine()
+    val result = ''' + obj_name + '.' + scala_func_name + '''(if (a == null) \"\" else a, if (b == null) \"\" else b)
+    println(result)
+'''
+elif (
+    inputs == ['tree_as_array']
     or (
         len(sample_inputs) == 1
         and isinstance(sample_inputs[0], list)
-        and isinstance(sample_expected, list)
-        and not any(isinstance(item, (list, dict)) for item in sample_expected)
+        and any(item is None for item in sample_inputs[0])
     )
 ):
     harness += '''
-    val line = scala.io.StdIn.readLine()
-    val arr = if (line == null || line.trim.isEmpty) Array.empty[Int]
-              else line.trim.split(\" \").filter(_.nonEmpty).map(_.toInt)
+    val line = _root_.scala.io.StdIn.readLine()
+    val arr = if (line == null || line.trim.isEmpty) Array.empty[Option[Int]]
+              else line.trim.split(\" \").filter(_.nonEmpty).map {
+                case token if token.equalsIgnoreCase(\"null\") || token.equalsIgnoreCase(\"none\") => None
+                case token => Some(token.toInt)
+              }
     val result = ''' + obj_name + '.' + scala_func_name + '''(arr)
-    println(result.mkString(\" \"))
+    println(formatValue(result))
+'''
+elif (
+    len(sample_inputs) == 1
+    and isinstance(sample_inputs[0], list)
+    and all(not isinstance(item, (list, dict)) for item in sample_inputs[0])
+):
+    harness += '''
+    val arr = parseIntArray(_root_.scala.io.StdIn.readLine())
+    val result: Any = ''' + obj_name + '.' + scala_func_name + '''(''' + flat_arg_expr(0, 'arr') + ''')
+    result match {
+      case _: Unit => println(formatValue(arr))
+      case other => println(formatValue(other))
+    }
+'''
+elif (
+    len(sample_inputs) == 1
+    and isinstance(sample_inputs[0], list)
+    and any(isinstance(item, list) for item in sample_inputs[0])
+):
+    harness += '''
+    val matrix = parseNestedIntArray(_root_.scala.io.StdIn.readLine())
+    val result: Any = ''' + obj_name + '.' + scala_func_name + '''(''' + nested_arg_expr(0, 'matrix') + ''')
+    println(formatValue(result))
 '''
 elif (
     (output == 'integer_index' and len(inputs) == 2)
     or (
         len(sample_inputs) == 2
         and isinstance(sample_inputs[0], list)
-        and not isinstance(sample_inputs[1], list)
+        and not isinstance(sample_inputs[1], (list, dict))
         and not isinstance(sample_expected, list)
     )
 ):
     harness += '''
-    val line = scala.io.StdIn.readLine()
+    val line = _root_.scala.io.StdIn.readLine()
     val arr = if (line == null || line.trim.isEmpty) Array.empty[Int]
               else line.trim.split(\" \").filter(_.nonEmpty).map(_.toInt)
-    val target = scala.io.StdIn.readLine().trim.toInt
+    val target = _root_.scala.io.StdIn.readLine().trim.toInt
     val result = ''' + obj_name + '.' + scala_func_name + '''(arr, target)
+    println(result)
+'''
+elif (
+    len(sample_inputs) == 2
+    and not isinstance(sample_inputs[0], (list, dict))
+    and isinstance(sample_inputs[1], list)
+    and any(isinstance(item, list) for item in sample_inputs[1])
+    and not isinstance(sample_expected, list)
+):
+    harness += '''
+    val a = ''' + scalar_reader(0).replace('scala.io.', '_root_.scala.io.') + '''
+    val matrix = parseNestedIntArray(_root_.scala.io.StdIn.readLine())
+    val result = ''' + obj_name + '.' + scala_func_name + '''(a, ''' + nested_arg_expr(1, 'matrix') + ''')
     println(result)
 '''
 elif (
     (output == 'integer' and inputs == ['integer'])
     or (
         len(sample_inputs) == 1
-        and not isinstance(sample_inputs[0], list)
+        and not isinstance(sample_inputs[0], (list, dict))
         and not isinstance(sample_expected, list)
     )
 ):
     harness += '''
-    val x = scala.io.StdIn.readLine().trim.toInt
+    val x = ''' + scalar_reader(0).replace('scala.io.', '_root_.scala.io.') + '''
     val result = ''' + obj_name + '.' + scala_func_name + '''(x)
     println(result)
 '''
@@ -296,57 +520,77 @@ elif (
     (output == 'integer' and inputs == ['integer', 'integer'])
     or (
         len(sample_inputs) == 2
-        and all(not isinstance(value, list) for value in sample_inputs)
+        and all(not isinstance(value, (list, dict)) for value in sample_inputs)
         and not isinstance(sample_expected, list)
     )
 ):
     harness += '''
-    val a = scala.io.StdIn.readLine().trim.toInt
-    val b = scala.io.StdIn.readLine().trim.toInt
+    val a = ''' + scalar_reader(0).replace('scala.io.', '_root_.scala.io.') + '''
+    val b = ''' + scalar_reader(1).replace('scala.io.', '_root_.scala.io.') + '''
     val result = ''' + obj_name + '.' + scala_func_name + '''(a, b)
     println(result)
 '''
 elif (
     len(sample_inputs) == 2
-    and all(not isinstance(value, list) for value in sample_inputs)
+    and all(not isinstance(value, (list, dict)) for value in sample_inputs)
     and isinstance(sample_expected, list)
     and not any(isinstance(item, (list, dict)) for item in sample_expected)
 ):
     harness += '''
-    val a = scala.io.StdIn.readLine().trim.toInt
-    val b = scala.io.StdIn.readLine().trim.toInt
+    val a = ''' + scalar_reader(0).replace('scala.io.', '_root_.scala.io.') + '''
+    val b = ''' + scalar_reader(1).replace('scala.io.', '_root_.scala.io.') + '''
     val result = ''' + obj_name + '.' + scala_func_name + '''(a, b)
-    result match {
-      case arr: Array[_] => println(arr.mkString(\" \"))
-      case seq: Iterable[_] => println(seq.mkString(\" \"))
-      case prod: Product => println(prod.productIterator.mkString(\" \"))
-      case other => println(other)
-    }
+    println(formatValue(result))
+'''
+elif (
+    len(sample_inputs) == 1
+    and isinstance(sample_inputs[0], dict)
+    and all(isinstance(value, list) for value in sample_inputs[0].values())
+    and all(all(not isinstance(item, list) for item in value) for value in sample_inputs[0].values())
+):
+    harness += '''
+    val adj = parseAdjacencyMap(_root_.scala.io.StdIn.readLine())
+    val result: Any = ''' + obj_name + '.' + scala_func_name + '''(''' + adjacency_arg_expr(0, 'adj') + ''')
+    println(formatValue(result))
+'''
+elif (
+    len(sample_inputs) == 2
+    and not isinstance(sample_inputs[0], (list, dict))
+    and isinstance(sample_inputs[1], dict)
+    and all(isinstance(value, list) for value in sample_inputs[1].values())
+    and all(all(isinstance(item, list) for item in value) for value in sample_inputs[1].values())
+    and not isinstance(sample_expected, list)
+):
+    harness += '''
+    val a = ''' + scalar_reader(0).replace('scala.io.', '_root_.scala.io.') + '''
+    val adj = parseWeightedAdjacencyMap(_root_.scala.io.StdIn.readLine())
+    val result = ''' + obj_name + '.' + scala_func_name + '''(a, ''' + weighted_adjacency_arg_expr(1, 'adj') + ''')
+    println(result)
 '''
 elif (
     len(sample_inputs) == 3
     and isinstance(sample_inputs[0], list)
-    and not isinstance(sample_inputs[1], list)
+    and not isinstance(sample_inputs[1], (list, dict))
     and isinstance(sample_inputs[2], bool)
     and not isinstance(sample_expected, list)
 ):
     if 'ab' in scala_func_name.lower():
         harness += '''
-    val line = scala.io.StdIn.readLine()
+    val line = _root_.scala.io.StdIn.readLine()
     val scores = if (line == null || line.trim.isEmpty) Array.empty[Int]
                  else line.trim.split(\" \").filter(_.nonEmpty).map(_.toInt)
-    val h = scala.io.StdIn.readLine().trim.toInt
-    val isMax = scala.io.StdIn.readLine().trim.toBoolean
+    val h = _root_.scala.io.StdIn.readLine().trim.toInt
+    val isMax = _root_.scala.io.StdIn.readLine().trim.toBoolean
     val result = ''' + obj_name + '.' + scala_func_name + '''(0, 0, isMax, scores, h, Int.MinValue, Int.MaxValue)
     println(result)
 '''
     else:
         harness += '''
-    val line = scala.io.StdIn.readLine()
+    val line = _root_.scala.io.StdIn.readLine()
     val scores = if (line == null || line.trim.isEmpty) Array.empty[Int]
                  else line.trim.split(\" \").filter(_.nonEmpty).map(_.toInt)
-    val h = scala.io.StdIn.readLine().trim.toInt
-    val isMax = scala.io.StdIn.readLine().trim.toBoolean
+    val h = _root_.scala.io.StdIn.readLine().trim.toInt
+    val isMax = _root_.scala.io.StdIn.readLine().trim.toBoolean
     val result = ''' + obj_name + '.' + scala_func_name + '''(0, 0, isMax, scores, h)
     println(result)
 '''
@@ -398,6 +642,10 @@ def normalize_inputs(raw):
             ordered_keys = [key for key in sig_inputs if key in raw]
             if not ordered_keys:
                 ordered_keys = list(raw.keys())
+            elif len(ordered_keys) != len(raw):
+                for key in raw.keys():
+                    if key not in ordered_keys:
+                        ordered_keys.append(key)
         else:
             ordered_keys = list(raw.keys())
         return [raw[key] for key in ordered_keys]
@@ -420,7 +668,12 @@ def render_scalar(value):
 parts = []
 for v in normalize_inputs(inp):
     if isinstance(v, list):
-        parts.append(' '.join(render_scalar(x) for x in v))
+        if all(not isinstance(item, (list, dict)) for item in v):
+            parts.append(' '.join(render_scalar(x) for x in v))
+        else:
+            parts.append(json.dumps(v, separators=(',', ':')))
+    elif isinstance(v, dict):
+        parts.append(json.dumps(v, separators=(',', ':')))
     else:
         parts.append(render_scalar(v))
 print('\n'.join(parts))
@@ -431,6 +684,8 @@ tc = json.loads(sys.stdin.read())['test_cases'][$i]
 val = tc['expected']
 if isinstance(val, list):
     print(' '.join(str(x) for x in val))
+elif isinstance(val, bool):
+    print(str(val).lower())
 else:
     print(val)
 ")
@@ -459,7 +714,60 @@ else:
         actual=$(echo "$actual" | tr -s ' ' | sed 's/^ *//;s/ *$//')
         expected_str=$(echo "$expected_str" | tr -s ' ' | sed 's/^ *//;s/ *$//')
 
-        if [ "$actual" = "$expected_str" ]; then
+        local special_match=1
+        if [ "$algo_name" = "graph/hungarian-algorithm" ]; then
+            TEST_DATA_JSON="$test_data" ACTUAL_OUTPUT="$actual" CASE_INDEX="$i" python3 -c "
+import json, os, re, sys
+data = json.loads(os.environ['TEST_DATA_JSON'])
+expected = data['test_cases'][int(os.environ['CASE_INDEX'])]['expected']
+actual = os.environ['ACTUAL_OUTPUT']
+nums = [int(token) for token in re.findall(r'-?\d+', actual)]
+assignment = expected.get('assignment', [])
+if len(nums) != len(assignment) + 1:
+    sys.exit(1)
+if nums[:-1] != assignment or nums[-1] != expected.get('total_cost'):
+    sys.exit(1)
+" || special_match=0
+        elif [ "$algo_name" = "graph/strongly-connected-graph" ]; then
+            TEST_DATA_JSON="$test_data" ACTUAL_OUTPUT="$actual" CASE_INDEX="$i" python3 -c "
+import json, os, re, sys
+data = json.loads(os.environ['TEST_DATA_JSON'])
+expected = data['test_cases'][int(os.environ['CASE_INDEX'])]['expected']
+actual = os.environ['ACTUAL_OUTPUT']
+groups = []
+for chunk in re.findall(r'\[([^\]]*)\]', actual):
+    values = [int(token) for token in re.findall(r'-?\d+', chunk)]
+    groups.append(sorted(values))
+if not groups and actual.strip():
+    values = [int(token) for token in re.findall(r'-?\d+', actual)]
+    if values:
+        groups = [sorted(values)]
+expected_groups = sorted(sorted(group) for group in expected)
+if sorted(groups) != expected_groups:
+    sys.exit(1)
+" || special_match=0
+        elif [ "$algo_name" = "graph/topological-sort" ]; then
+            TEST_DATA_JSON="$test_data" ACTUAL_OUTPUT="$actual" CASE_INDEX="$i" python3 -c "
+import json, os, re, sys
+data = json.loads(os.environ['TEST_DATA_JSON'])
+case = data['test_cases'][int(os.environ['CASE_INDEX'])]
+adj = case['input'][0]
+actual = [int(token) for token in re.findall(r'-?\d+', os.environ['ACTUAL_OUTPUT'])]
+nodes = sorted(int(key) for key in adj.keys())
+if sorted(actual) != nodes or len(actual) != len(nodes):
+    sys.exit(1)
+position = {node: idx for idx, node in enumerate(actual)}
+for src, neighbors in adj.items():
+    src_node = int(src)
+    for dest in neighbors:
+        if position[src_node] >= position[int(dest)]:
+            sys.exit(1)
+" || special_match=0
+        else
+            special_match=-1
+        fi
+
+        if [ "$actual" = "$expected_str" ] || [ "$special_match" -eq 1 ]; then
             PASSED=$((PASSED + 1))
             echo "[PASS] $algo_name - $case_name: $input_str -> $expected_str"
         else

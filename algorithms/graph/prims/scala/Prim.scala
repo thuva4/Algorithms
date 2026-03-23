@@ -11,7 +11,7 @@ object Prim {
     key(0) = 0
 
     // Priority queue: (weight, vertex)
-    val pq = mutable.PriorityQueue[(Int, Int)]()(Ordering.by[(Int, Int), Int](-_._1))
+    val pq = mutable.PriorityQueue.empty[(Int, Int)](using Ordering.by[(Int, Int), Int](-_._1))
     pq.enqueue((0, 0))
 
     var totalWeight = 0

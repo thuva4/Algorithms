@@ -41,6 +41,15 @@ public class ConvexHullTrick
         return results;
     }
 
+    public static long[] Solve(int[][] lines, int[] queries)
+    {
+        long[][] longLines = lines
+            .Select(line => line.Select(value => (long)value).ToArray())
+            .ToArray();
+        long[] longQueries = queries.Select(value => (long)value).ToArray();
+        return Solve(longLines, longQueries);
+    }
+
     public static void Main(string[] args)
     {
         var tokens = Console.ReadLine().Trim().Split();

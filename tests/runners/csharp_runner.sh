@@ -226,6 +226,10 @@ def normalized_top_level_inputs(raw):
         ordered_keys = [key for key in input_keys if key in raw]
         if not ordered_keys:
             ordered_keys = list(raw.keys())
+        elif len(ordered_keys) != len(raw):
+            for key in raw.keys():
+                if key not in ordered_keys:
+                    ordered_keys.append(key)
         return [raw[key] for key in ordered_keys]
     if isinstance(raw, list):
         if (
@@ -254,10 +258,7 @@ def normalize_name(name):
 sample_inputs = normalized_top_level_inputs(sample_case.get("input", []))
 sample_expected = sample_case.get("expected")
 source = Path(os.environ["PRIMARY_CS_SOURCE_PATH"]).read_text()
-allow_main_fallback = bool(
-    re.search(r"(?m)\b(?:public|private|internal|protected)?\s*static\s+(?:void|int)\s+Main\s*\(", source)
-    and "Console.ReadLine" in source
-)
+allow_main_fallback = False
 
 namespace_match = re.search(r"(?m)^\s*namespace\s+([A-Za-z_][A-Za-z0-9_.]*)\s*(?:;|\{)", source)
 namespace_name = namespace_match.group(1) if namespace_match else ""
@@ -387,13 +388,38 @@ harness_lines = [
     "using System.Reflection;",
     "using System.Collections;",
     "using System.Collections.Generic;",
+    "using System.Runtime.CompilerServices;",
     "using System.Text.Json;",
     "",
     "class TestHarnessProgram {",
+    "    static string FormatDictionaryKey(object value) {",
+    '        return value == null ? "\'null\'" : "\'" + (value.ToString() ?? "") + "\'";',
+    "    }",
     '    static string FormatScalar(object value) {',
     '        if (value == null) return "null";',
     '        if (value is bool boolValue) return boolValue ? "true" : "false";',
+    '        if (value is double doubleValue && double.IsPositiveInfinity(doubleValue)) return "Infinity";',
+    '        if (value is double negativeDouble && double.IsNegativeInfinity(negativeDouble)) return "-Infinity";',
+    '        if (value is float floatValue && float.IsPositiveInfinity(floatValue)) return "Infinity";',
+    '        if (value is float negativeFloat && float.IsNegativeInfinity(negativeFloat)) return "-Infinity";',
     '        if (value is string stringValue) return stringValue;',
+    '        if (value is IDictionary dictionary) {',
+    '            return "{" + string.Join(", ", dictionary.Cast<DictionaryEntry>().Select(entry => $"{FormatDictionaryKey(entry.Key)}: {FormatScalar(entry.Value)}")) + "}";',
+    "        }",
+    '        if (value is ITuple tuple) {',
+    '            return "(" + string.Join(", ", Enumerable.Range(0, tuple.Length).Select(index => FormatScalar(tuple[index]!))) + ")";',
+    "        }",
+    '        if (value is Array array && array.Rank == 2) {',
+    "            var rows = new List<string>();",
+    "            for (int i = 0; i < array.GetLength(0); i++) {",
+    "                var row = new List<string>();",
+    "                for (int j = 0; j < array.GetLength(1); j++) {",
+    "                    row.Add(FormatScalar(array.GetValue(i, j)!));",
+    "                }",
+    '                rows.Add("[" + string.Join(", ", row) + "]");',
+    "            }",
+    '            return string.Join(" ", rows);',
+    "        }",
     '        if (value is IEnumerable enumerable && value is not string) {',
     '            return "[" + string.Join(", ", enumerable.Cast<object>().Select(FormatScalar)) + "]";',
     "        }",
@@ -403,6 +429,8 @@ harness_lines = [
     '        return string.Join(" ", values.Cast<object>().Select(FormatScalar));',
     "    }",
     "    static string FormatResult(object value) {",
+    "        if (value is IDictionary || value is ITuple) return FormatScalar(value);",
+    "        if (value is Array array && array.Rank == 2) return FormatScalar(value);",
     '        if (value is IEnumerable enumerable && value is not string) return JoinEnumerable(enumerable);',
     "        return FormatScalar(value);",
     "    }",
@@ -805,6 +833,10 @@ def normalized_top_level_inputs(raw, ordered_keys):
         keys = [key for key in ordered_keys if key in raw]
         if not keys:
             keys = list(raw.keys())
+        elif len(keys) != len(raw):
+            for key in raw.keys():
+                if key not in keys:
+                    keys.append(key)
         return [raw[key] for key in keys]
     if isinstance(raw, list):
         if (
@@ -928,6 +960,26 @@ if actual != expected:
 " >/dev/null 2>&1; then
                 special_match=0
             fi
+        elif [ "$actual" != "$expected_str" ] && [ "$algo_name" = "graph/hungarian-algorithm" ]; then
+            if echo "$test_data" | ACTUAL="$actual" CASE_INDEX="$i" python3 -c "
+import json, os, re, sys
+
+data = json.loads(sys.stdin.read())
+expected = data['test_cases'][int(os.environ['CASE_INDEX'])]['expected']
+match = re.fullmatch(r'\\(\\[(.*)\\],\\s*(-?\\d+)\\)', os.environ.get('ACTUAL', '').strip())
+if not match:
+    raise SystemExit(1)
+assignment_raw, total_cost_raw = match.groups()
+assignment = []
+if assignment_raw.strip():
+    assignment = [int(token.strip()) for token in assignment_raw.split(',') if token.strip()]
+if assignment != expected.get('assignment') or int(total_cost_raw) != expected.get('total_cost'):
+    raise SystemExit(1)
+" >/dev/null 2>&1; then
+                special_match=0
+            fi
+        elif [ "$actual" != "$expected_str" ] && [ "$algo_name" = "graph/johnson-algorithm" ] && [ "$actual" = "null" ] && [ "$expected_str" = "negative_cycle" ]; then
+            special_match=0
         fi
 
         if [ "$actual" = "$expected_str" ] || [ "$special_match" -eq 0 ]; then

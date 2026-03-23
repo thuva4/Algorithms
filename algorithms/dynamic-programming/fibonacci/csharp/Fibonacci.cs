@@ -3,13 +3,19 @@ public class Fibonacci
 {
    public int cal(int number)
    {
-     int a = 1, b = 0, temp;
-     while (number >= 0){
-        temp = a;
-        a = a + b;
+     if (number <= 0)
+     {
+        return 0;
+     }
+
+     int a = 0, b = 1;
+     for (int i = 1; i < number; i++)
+     {
+        int temp = a + b;
+        a = b;
         b = temp;
-        number--;
      }
+
      return b;
-     }
+   }
 }

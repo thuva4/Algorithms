@@ -13,6 +13,12 @@ namespace CSharpAlgorithms
         
         public List<int> GetPrimes(int n)
         {
+            _primes.Clear();
+            if (n < 2)
+            {
+                return _primes;
+            }
+
             _primes.Add(2);
 
             for (var i = 3; i <= n; i++)

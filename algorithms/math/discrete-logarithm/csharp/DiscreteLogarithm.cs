@@ -18,26 +18,18 @@ public class DiscreteLogarithm
     public static int Solve(long baseVal, long target, long modulus)
     {
         if (modulus == 1) return 0;
-        int m = (int)Math.Ceiling(Math.Sqrt(modulus));
         target %= modulus;
-
-        var table = new Dictionary<long, int>();
-        long power = 1;
-        for (int j = 0; j < m; j++)
+        long value = 1 % modulus;
+        for (int exponent = 0; exponent < modulus; exponent++)
         {
-            if (power == target) return j;
-            table[power] = j;
-            power = power * baseVal % modulus;
-        }
-
-        long baseInvM = ModPow(baseVal, modulus - 1 - (m % (modulus - 1)), modulus);
-        long gamma = target;
-        for (int i = 0; i < m; i++)
-        {
-            if (table.ContainsKey(gamma)) return i * m + table[gamma];
-            gamma = gamma * baseInvM % modulus;
+            if (value == target)
+            {
+                return exponent;
+            }
+            value = value * (baseVal % modulus) % modulus;
         }
         return -1;
+
     }
 
     public static void Main(string[] args)
